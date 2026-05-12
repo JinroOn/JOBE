@@ -33,3 +33,7 @@ terraform/.terraform.lock.hcl
 # SSH Keys
 terraform/jinroon-key
 terraform/jinroon-key.pub
+
+# Application 환경별 설정 파일
+src/main/resources/application-dev.yml
+src/main/resources/application-prod.yml
