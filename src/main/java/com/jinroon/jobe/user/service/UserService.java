@@ -1,0 +1,107 @@
+package com.jinroon.jobe.user.service;
+
+import static com.jinroon.jobe.common.domain.EntityLookup.get;
+
+import com.jinroon.jobe.common.domain.EntityFormMapper;
+import com.jinroon.jobe.user.domain.EmailVerification;
+import com.jinroon.jobe.user.domain.Session;
+import com.jinroon.jobe.user.domain.User;
+import com.jinroon.jobe.user.domain.UserConsent;
+import com.jinroon.jobe.user.domain.UserFavorite;
+import com.jinroon.jobe.user.repository.EmailVerificationRepository;
+import com.jinroon.jobe.major.repository.MajorRepository;
+import com.jinroon.jobe.user.repository.SessionRepository;
+import com.jinroon.jobe.user.repository.UserConsentRepository;
+import com.jinroon.jobe.user.repository.UserFavoriteRepository;
+import com.jinroon.jobe.user.repository.UserRepository;
+import java.util.List;
+import java.util.Map;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@Transactional(readOnly = true)
+@RequiredArgsConstructor
+public class UserService {
+
+    private final UserRepository userRepository;
+    private final UserConsentRepository userConsentRepository;
+    private final UserFavoriteRepository userFavoriteRepository;
+    private final SessionRepository sessionRepository;
+    private final EmailVerificationRepository emailVerificationRepository;
+    private final MajorRepository majorRepository;
+
+    public List<User> findUsers() {
+        return userRepository.findAll();
+    }
+
+    public User getUser(Long userId) {
+        return get(userRepository, userId, "User");
+    }
+
+    public List<UserConsent> findConsents(Long userId) {
+        return userConsentRepository.findByUserId(userId);
+    }
+
+    public List<UserFavorite> findFavorites(Long userId) {
+        return userFavoriteRepository.findByUserId(userId);
+    }
+
+    public List<Session> findSessions(Long userId) {
+        return sessionRepository.findByUserId(userId);
+    }
+
+    public EmailVerification getEmailVerification(Long verificationId) {
+        return get(emailVerificationRepository, verificationId, "EmailVerification");
+    }
+
+    @Transactional
+    public User createUser(Map<String, Object> values) {
+        return userRepository.save(EntityFormMapper.create(User.class, values));
+    }
+
+    @Transactional
+    public User updateUser(Long userId, Map<String, Object> values) {
+        User user = getUser(userId);
+        EntityFormMapper.apply(user, values);
+        return user;
+    }
+
+    @Transactional
+    public void deleteUser(Long userId) {
+        userRepository.delete(getUser(userId));
+    }
+
+    @Transactional
+    public UserConsent createConsent(Map<String, Object> values) {
+        return userConsentRepository.save(EntityFormMapper.create(UserConsent.class, values));
+    }
+
+    @Transactional
+    public UserFavorite createFavorite(Map<String, Object> values) {
+        Long userId = ((Number) values.get("userId")).longValue();
+        Long majorId = ((Number) values.get("majorId")).longValue();
+        get(userRepository, userId, "User");
+        get(majorRepository, majorId, "Major");
+        if (userFavoriteRepository.existsByUserIdAndMajorId(userId, majorId)) {
+            throw new IllegalArgumentException("Favorite already exists");
+        }
+        return userFavoriteRepository.save(EntityFormMapper.create(UserFavorite.class, values));
+    }
+
+    @Transactional
+    public void deleteFavorite(Long favoriteId) {
+        userFavoriteRepository.delete(get(userFavoriteRepository, favoriteId, "UserFavorite"));
+    }
+
+    @Transactional
+    public Session createSession(Map<String, Object> values) {
+        return sessionRepository.save(EntityFormMapper.create(Session.class, values));
+    }
+
+    @Transactional
+    public EmailVerification createEmailVerification(Map<String, Object> values) {
+        return emailVerificationRepository.save(EntityFormMapper.create(EmailVerification.class, values));
+    }
+}

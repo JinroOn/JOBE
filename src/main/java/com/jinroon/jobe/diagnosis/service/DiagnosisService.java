@@ -1,0 +1,97 @@
+package com.jinroon.jobe.diagnosis.service;
+
+import static com.jinroon.jobe.common.domain.EntityLookup.get;
+
+import com.jinroon.jobe.common.domain.EntityFormMapper;
+import com.jinroon.jobe.common.error.ResourceNotFoundException;
+import com.jinroon.jobe.diagnosis.domain.*;
+import com.jinroon.jobe.diagnosis.repository.*;
+import java.util.List;
+import java.util.Map;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@Transactional(readOnly = true)
+@RequiredArgsConstructor
+public class DiagnosisService {
+
+    private final DiagnosisSessionRepository diagnosisSessionRepository;
+    private final ExamQuestionRepository examQuestionRepository;
+    private final DiagnosisExamAnswerRepository examAnswerRepository;
+    private final DiagnosisEssayAnswerRepository essayAnswerRepository;
+    private final CompetencyEvalResultRepository competencyEvalResultRepository;
+    private final TendencyEvalResultRepository tendencyEvalResultRepository;
+
+    public DiagnosisSession getSession(Long sessionId) {
+        return get(diagnosisSessionRepository, sessionId, "DiagnosisSession");
+    }
+
+    public List<DiagnosisSession> findSessionsByUser(Long userId) {
+        return diagnosisSessionRepository.findByUserId(userId);
+    }
+
+    public List<ExamQuestion> findQuestions() {
+        return examQuestionRepository.findAll();
+    }
+
+    public ExamQuestion getQuestion(Long questionId) {
+        return get(examQuestionRepository, questionId, "ExamQuestion");
+    }
+
+    public List<DiagnosisExamAnswer> findExamAnswers(Long sessionId) {
+        return examAnswerRepository.findByDiagnosisSessionId(sessionId);
+    }
+
+    public List<DiagnosisEssayAnswer> findEssayAnswers(Long sessionId) {
+        return essayAnswerRepository.findByDiagnosisSessionId(sessionId);
+    }
+
+    public CompetencyEvalResult getCompetencyResult(Long sessionId) {
+        return competencyEvalResultRepository.findByDiagnosisSessionId(sessionId)
+                .orElseThrow(() -> new ResourceNotFoundException("CompetencyEvalResult not found. diagnosisSessionId=" + sessionId));
+    }
+
+    public TendencyEvalResult getTendencyResult(Long sessionId) {
+        return tendencyEvalResultRepository.findByDiagnosisSessionId(sessionId)
+                .orElseThrow(() -> new ResourceNotFoundException("TendencyEvalResult not found. diagnosisSessionId=" + sessionId));
+    }
+
+    @Transactional
+    public DiagnosisSession createSession(Map<String, Object> values) {
+        return diagnosisSessionRepository.save(EntityFormMapper.create(DiagnosisSession.class, values));
+    }
+
+    @Transactional
+    public DiagnosisSession updateSession(Long sessionId, Map<String, Object> values) {
+        DiagnosisSession session = getSession(sessionId);
+        EntityFormMapper.apply(session, values);
+        return session;
+    }
+
+    @Transactional
+    public ExamQuestion createQuestion(Map<String, Object> values) {
+        return examQuestionRepository.save(EntityFormMapper.create(ExamQuestion.class, values));
+    }
+
+    @Transactional
+    public DiagnosisExamAnswer createExamAnswer(Map<String, Object> values) {
+        return examAnswerRepository.save(EntityFormMapper.create(DiagnosisExamAnswer.class, values));
+    }
+
+    @Transactional
+    public DiagnosisEssayAnswer createEssayAnswer(Map<String, Object> values) {
+        return essayAnswerRepository.save(EntityFormMapper.create(DiagnosisEssayAnswer.class, values));
+    }
+
+    @Transactional
+    public CompetencyEvalResult createCompetencyResult(Map<String, Object> values) {
+        return competencyEvalResultRepository.save(EntityFormMapper.create(CompetencyEvalResult.class, values));
+    }
+
+    @Transactional
+    public TendencyEvalResult createTendencyResult(Map<String, Object> values) {
+        return tendencyEvalResultRepository.save(EntityFormMapper.create(TendencyEvalResult.class, values));
+    }
+}
