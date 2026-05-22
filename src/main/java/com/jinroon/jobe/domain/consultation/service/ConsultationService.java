@@ -3,6 +3,8 @@ package com.jinroon.jobe.domain.consultation.service;
 import static com.jinroon.jobe.global.common.entity.EntityLookup.get;
 
 import com.jinroon.jobe.global.common.entity.EntityFormMapper;
+import com.jinroon.jobe.global.exception.CustomException;
+import com.jinroon.jobe.global.exception.error.ErrorCode;
 import com.jinroon.jobe.domain.consultation.entity.ConsultationLog;
 import com.jinroon.jobe.domain.consultation.entity.ConsultationSession;
 import com.jinroon.jobe.domain.consultation.repository.ConsultationLogRepository;
@@ -26,7 +28,7 @@ public class ConsultationService {
     }
 
     public ConsultationSession getSession(Long sessionId) {
-        return get(consultationSessionRepository, sessionId, "ConsultationSession");
+        return get(consultationSessionRepository, sessionId, ErrorCode.CONSULTATION_SESSION_NOT_FOUND);
     }
 
     public List<ConsultationLog> findLogs(Long sessionId) {
@@ -34,7 +36,7 @@ public class ConsultationService {
     }
 
     public ConsultationLog getLog(Long logId) {
-        return get(consultationLogRepository, logId, "ConsultationLog");
+        return get(consultationLogRepository, logId, ErrorCode.CONSULTATION_LOG_NOT_FOUND);
     }
 
     @Transactional
@@ -63,7 +65,7 @@ public class ConsultationService {
         Long sessionId = ((Number) values.get("consultationSessionId")).longValue();
         ConsultationSession session = getSession(sessionId);
         if (session.isEnded()) {
-            throw new IllegalArgumentException("Cannot add log to ended consultation session");
+            throw new CustomException(ErrorCode.CONSULTATION_SESSION_ALREADY_ENDED);
         }
         return consultationLogRepository.save(EntityFormMapper.create(ConsultationLog.class, values));
     }

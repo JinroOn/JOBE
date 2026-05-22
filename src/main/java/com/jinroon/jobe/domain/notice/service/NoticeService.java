@@ -3,6 +3,8 @@ package com.jinroon.jobe.domain.notice.service;
 import static com.jinroon.jobe.global.common.entity.EntityLookup.get;
 
 import com.jinroon.jobe.global.common.entity.EntityFormMapper;
+import com.jinroon.jobe.global.exception.CustomException;
+import com.jinroon.jobe.global.exception.error.ErrorCode;
 import com.jinroon.jobe.domain.notice.entity.Notice;
 import com.jinroon.jobe.domain.notice.repository.NoticeRepository;
 import java.time.LocalDateTime;
@@ -27,7 +29,7 @@ public class NoticeService {
     }
 
     public Notice getNotice(Long noticeId) {
-        return get(noticeRepository, noticeId, "Notice");
+        return get(noticeRepository, noticeId, ErrorCode.NOTICE_NOT_FOUND);
     }
 
     @Transactional
@@ -52,7 +54,7 @@ public class NoticeService {
 
     private void validateDisplayPeriod(Notice notice) {
         if (!notice.hasValidDisplayPeriod()) {
-            throw new IllegalArgumentException("Notice endAt must be after or equal to startAt");
+            throw new CustomException(ErrorCode.NOTICE_INVALID_PERIOD);
         }
     }
 }

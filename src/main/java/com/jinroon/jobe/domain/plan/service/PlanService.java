@@ -3,6 +3,7 @@ package com.jinroon.jobe.domain.plan.service;
 import static com.jinroon.jobe.global.common.entity.EntityLookup.get;
 
 import com.jinroon.jobe.global.common.entity.EntityFormMapper;
+import com.jinroon.jobe.global.exception.error.ErrorCode;
 import com.jinroon.jobe.domain.plan.entity.MajorWeeklyPlan;
 import com.jinroon.jobe.domain.plan.entity.MajorWeeklyPlanItem;
 import com.jinroon.jobe.domain.plan.entity.MajorWeeklyPlanRiskNote;
@@ -25,7 +26,7 @@ public class PlanService {
     private final MajorWeeklyPlanRiskNoteRepository riskNoteRepository;
 
     public MajorWeeklyPlan getPlan(Long planId) {
-        return get(planRepository, planId, "MajorWeeklyPlan");
+        return get(planRepository, planId, ErrorCode.PLAN_NOT_FOUND);
     }
 
     public List<MajorWeeklyPlan> findPlansByResult(Long resultId) {

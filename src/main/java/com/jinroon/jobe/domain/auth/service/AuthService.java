@@ -1,6 +1,7 @@
 package com.jinroon.jobe.domain.auth.service;
 
-import com.jinroon.jobe.global.exception.UnauthorizedException;
+import com.jinroon.jobe.global.exception.CustomException;
+import com.jinroon.jobe.global.exception.error.ErrorCode;
 import com.jinroon.jobe.domain.user.entity.EmailVerification;
 import com.jinroon.jobe.domain.user.entity.Session;
 import com.jinroon.jobe.domain.user.entity.User;
@@ -42,7 +43,7 @@ public class AuthService {
     @Transactional
     public UserResponse signUp(SignUpRequest request) {
         if (userRepository.existsByEmail(request.email())) {
-            throw new IllegalArgumentException("Email already exists");
+            throw new CustomException(ErrorCode.USER_EMAIL_DUPLICATE);
         }
         User user = User.registerEmailUser(
                 request.email(),
@@ -56,10 +57,10 @@ public class AuthService {
     @Transactional
     public AuthResponse login(LoginRequest request) {
         User user = userRepository.findByEmail(request.email())
-                .orElseThrow(() -> new UnauthorizedException("Invalid email or password"));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_PASSWORD_INVALID));
         requireActive(user);
         if (!passwordHasher.matches(request.password(), user.getPasswordHash())) {
-            throw new UnauthorizedException("Invalid email or password");
+            throw new CustomException(ErrorCode.USER_PASSWORD_INVALID);
         }
         user.recordLogin();
         Session session = issueSession(user, request.deviceInfo());
@@ -69,13 +70,13 @@ public class AuthService {
     @Transactional
     public AuthResponse refresh(RefreshTokenRequest request) {
         Session currentSession = sessionRepository.findByRefreshToken(request.refreshToken())
-                .orElseThrow(() -> new UnauthorizedException("Invalid refresh token"));
+                .orElseThrow(() -> new CustomException(ErrorCode.AUTH_TOKEN_INVALID));
         if (currentSession.isExpired(LocalDateTime.now())) {
             sessionRepository.delete(currentSession);
-            throw new UnauthorizedException("Expired refresh token");
+            throw new CustomException(ErrorCode.AUTH_TOKEN_EXPIRED);
         }
         User user = userRepository.findById(currentSession.getUserId())
-                .orElseThrow(() -> new UnauthorizedException("Invalid refresh token"));
+                .orElseThrow(() -> new CustomException(ErrorCode.AUTH_TOKEN_INVALID));
         requireActive(user);
         sessionRepository.delete(currentSession);
         Session newSession = issueSession(user, request.deviceInfo());
@@ -90,7 +91,7 @@ public class AuthService {
     @Transactional
     public EmailVerificationResponse issueEmailVerification(EmailVerificationIssueRequest request) {
         User user = userRepository.findByEmail(request.email())
-                .orElseThrow(() -> new IllegalArgumentException("User not found by email"));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         requireActive(user);
         LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(EMAIL_TOKEN_MINUTES);
         EmailVerification verification = emailVerificationRepository.save(
@@ -102,15 +103,15 @@ public class AuthService {
     @Transactional
     public UserResponse confirmEmailVerification(EmailVerificationConfirmRequest request) {
         EmailVerification verification = emailVerificationRepository.findByToken(request.token())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid email verification token"));
+                .orElseThrow(() -> new CustomException(ErrorCode.AUTH_EMAIL_VERIFICATION_NOT_FOUND));
         if (verification.getUsed()) {
-            throw new IllegalArgumentException("Email verification token already used");
+            throw new CustomException(ErrorCode.AUTH_EMAIL_VERIFICATION_ALREADY_USED);
         }
         if (verification.isExpired(LocalDateTime.now())) {
-            throw new IllegalArgumentException("Email verification token expired");
+            throw new CustomException(ErrorCode.AUTH_EMAIL_VERIFICATION_EXPIRED);
         }
         User user = userRepository.findByEmail(verification.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException("User not found by email"));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         requireActive(user);
         verification.markUsed();
         user.verifyEmail();
@@ -120,16 +121,16 @@ public class AuthService {
     @Transactional
     public void changePassword(ChangePasswordRequest request) {
         Session session = sessionRepository.findByRefreshToken(request.refreshToken())
-                .orElseThrow(() -> new UnauthorizedException("Invalid refresh token"));
+                .orElseThrow(() -> new CustomException(ErrorCode.AUTH_TOKEN_INVALID));
         if (session.isExpired(LocalDateTime.now())) {
             sessionRepository.delete(session);
-            throw new UnauthorizedException("Expired refresh token");
+            throw new CustomException(ErrorCode.AUTH_TOKEN_EXPIRED);
         }
         User user = userRepository.findById(session.getUserId())
-                .orElseThrow(() -> new UnauthorizedException("Invalid refresh token"));
+                .orElseThrow(() -> new CustomException(ErrorCode.AUTH_TOKEN_INVALID));
         requireActive(user);
         if (!passwordHasher.matches(request.currentPassword(), user.getPasswordHash())) {
-            throw new UnauthorizedException("Invalid current password");
+            throw new CustomException(ErrorCode.USER_PASSWORD_INVALID);
         }
         user.changePassword(passwordHasher.hash(request.newPassword()));
         sessionRepository.delete(session);
@@ -142,7 +143,7 @@ public class AuthService {
 
     private void requireActive(User user) {
         if (!user.isActive()) {
-            throw new UnauthorizedException("Inactive user");
+            throw new CustomException(ErrorCode.UNAUTHORIZED);
         }
     }
 

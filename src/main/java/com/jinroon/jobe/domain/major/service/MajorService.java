@@ -3,6 +3,7 @@ package com.jinroon.jobe.domain.major.service;
 import static com.jinroon.jobe.global.common.entity.EntityLookup.get;
 
 import com.jinroon.jobe.global.common.entity.EntityFormMapper;
+import com.jinroon.jobe.global.exception.error.ErrorCode;
 import com.jinroon.jobe.domain.major.entity.Major;
 import com.jinroon.jobe.domain.major.repository.MajorRepository;
 import java.util.List;
@@ -29,7 +30,7 @@ public class MajorService {
     }
 
     public Major getMajor(Long majorId) {
-        return get(majorRepository, majorId, "Major");
+        return get(majorRepository, majorId, ErrorCode.MAJOR_NOT_FOUND);
     }
 
     @Transactional

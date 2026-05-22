@@ -3,6 +3,8 @@ package com.jinroon.jobe.domain.user.service;
 import static com.jinroon.jobe.global.common.entity.EntityLookup.get;
 
 import com.jinroon.jobe.global.common.entity.EntityFormMapper;
+import com.jinroon.jobe.global.exception.CustomException;
+import com.jinroon.jobe.global.exception.error.ErrorCode;
 import com.jinroon.jobe.domain.user.entity.EmailVerification;
 import com.jinroon.jobe.domain.user.entity.Session;
 import com.jinroon.jobe.domain.user.entity.User;
@@ -37,7 +39,7 @@ public class UserService {
     }
 
     public User getUser(Long userId) {
-        return get(userRepository, userId, "User");
+        return get(userRepository, userId, ErrorCode.USER_NOT_FOUND);
     }
 
     public List<UserConsent> findConsents(Long userId) {
@@ -53,7 +55,7 @@ public class UserService {
     }
 
     public EmailVerification getEmailVerification(Long verificationId) {
-        return get(emailVerificationRepository, verificationId, "EmailVerification");
+        return get(emailVerificationRepository, verificationId, ErrorCode.AUTH_EMAIL_VERIFICATION_NOT_FOUND);
     }
 
     @Transactional
@@ -82,17 +84,17 @@ public class UserService {
     public UserFavorite createFavorite(Map<String, Object> values) {
         Long userId = ((Number) values.get("userId")).longValue();
         Long majorId = ((Number) values.get("majorId")).longValue();
-        get(userRepository, userId, "User");
-        get(majorRepository, majorId, "Major");
+        get(userRepository, userId, ErrorCode.USER_NOT_FOUND);
+        get(majorRepository, majorId, ErrorCode.MAJOR_NOT_FOUND);
         if (userFavoriteRepository.existsByUserIdAndMajorId(userId, majorId)) {
-            throw new IllegalArgumentException("Favorite already exists");
+            throw new CustomException(ErrorCode.MAJOR_FAVORITE_DUPLICATE);
         }
         return userFavoriteRepository.save(EntityFormMapper.create(UserFavorite.class, values));
     }
 
     @Transactional
     public void deleteFavorite(Long favoriteId) {
-        userFavoriteRepository.delete(get(userFavoriteRepository, favoriteId, "UserFavorite"));
+        userFavoriteRepository.delete(get(userFavoriteRepository, favoriteId, ErrorCode.MAJOR_FAVORITE_NOT_FOUND));
     }
 
     @Transactional

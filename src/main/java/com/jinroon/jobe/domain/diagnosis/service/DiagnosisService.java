@@ -3,7 +3,8 @@ package com.jinroon.jobe.domain.diagnosis.service;
 import static com.jinroon.jobe.global.common.entity.EntityLookup.get;
 
 import com.jinroon.jobe.global.common.entity.EntityFormMapper;
-import com.jinroon.jobe.global.exception.ResourceNotFoundException;
+import com.jinroon.jobe.global.exception.CustomException;
+import com.jinroon.jobe.global.exception.error.ErrorCode;
 import com.jinroon.jobe.domain.diagnosis.entity.*;
 import com.jinroon.jobe.domain.diagnosis.repository.*;
 import java.util.List;
@@ -25,7 +26,7 @@ public class DiagnosisService {
     private final TendencyEvalResultRepository tendencyEvalResultRepository;
 
     public DiagnosisSession getSession(Long sessionId) {
-        return get(diagnosisSessionRepository, sessionId, "DiagnosisSession");
+        return get(diagnosisSessionRepository, sessionId, ErrorCode.DIAGNOSIS_SESSION_NOT_FOUND);
     }
 
     public List<DiagnosisSession> findSessionsByUser(Long userId) {
@@ -37,7 +38,7 @@ public class DiagnosisService {
     }
 
     public ExamQuestion getQuestion(Long questionId) {
-        return get(examQuestionRepository, questionId, "ExamQuestion");
+        return get(examQuestionRepository, questionId, ErrorCode.DIAGNOSIS_QUESTION_NOT_FOUND);
     }
 
     public List<DiagnosisExamAnswer> findExamAnswers(Long sessionId) {
@@ -50,12 +51,12 @@ public class DiagnosisService {
 
     public CompetencyEvalResult getCompetencyResult(Long sessionId) {
         return competencyEvalResultRepository.findByDiagnosisSessionId(sessionId)
-                .orElseThrow(() -> new ResourceNotFoundException("CompetencyEvalResult not found. diagnosisSessionId=" + sessionId));
+                .orElseThrow(() -> new CustomException(ErrorCode.DIAGNOSIS_COMPETENCY_RESULT_NOT_FOUND));
     }
 
     public TendencyEvalResult getTendencyResult(Long sessionId) {
         return tendencyEvalResultRepository.findByDiagnosisSessionId(sessionId)
-                .orElseThrow(() -> new ResourceNotFoundException("TendencyEvalResult not found. diagnosisSessionId=" + sessionId));
+                .orElseThrow(() -> new CustomException(ErrorCode.DIAGNOSIS_TENDENCY_RESULT_NOT_FOUND));
     }
 
     @Transactional

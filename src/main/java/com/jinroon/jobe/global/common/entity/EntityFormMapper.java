@@ -1,6 +1,7 @@
 package com.jinroon.jobe.global.common.entity;
 
-import com.jinroon.jobe.global.exception.ResourceNotFoundException;
+import com.jinroon.jobe.global.exception.CustomException;
+import com.jinroon.jobe.global.exception.error.ErrorCode;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -31,7 +32,7 @@ public final class EntityFormMapper {
     private static void setField(Object target, String name, Object value) {
         Field field = findField(target.getClass(), name);
         if (field == null) {
-            throw new ResourceNotFoundException("Unknown field: " + name);
+            throw new CustomException(ErrorCode.INVALID_INPUT);
         }
         try {
             field.setAccessible(true);
