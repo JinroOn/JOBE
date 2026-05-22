@@ -1,5 +1,6 @@
 package com.jinroon.jobe.domain.result.controller;
 
+import com.jinroon.jobe.domain.result.controller.api.ResultApi;
 import com.jinroon.jobe.domain.result.entity.DiagnosisResult;
 import com.jinroon.jobe.domain.result.entity.ResultMajorScore;
 import com.jinroon.jobe.domain.result.service.ResultService;
@@ -20,41 +21,48 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/results")
-public class ResultController {
+public class ResultController implements ResultApi {
 
     private final ResultService resultService;
 
+    @Override
     @GetMapping
     public List<DiagnosisResult> findResults(@RequestParam(required = false) Long userId) {
         return resultService.findResults(userId);
     }
 
+    @Override
     @GetMapping("/{resultId}")
     public DiagnosisResult getResult(@PathVariable Long resultId) {
         return resultService.getResult(resultId);
     }
 
+    @Override
     @GetMapping("/share/{shareToken}")
     public DiagnosisResult getSharedResult(@PathVariable String shareToken) {
         return resultService.getSharedResult(shareToken);
     }
 
+    @Override
     @GetMapping("/{resultId}/major-scores")
     public List<ResultMajorScore> findMajorScores(@PathVariable Long resultId) {
         return resultService.findMajorScores(resultId);
     }
 
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public DiagnosisResult createResult(@RequestBody Map<String, Object> request) {
         return resultService.createResult(request);
     }
 
+    @Override
     @PatchMapping("/{resultId}")
     public DiagnosisResult updateResult(@PathVariable Long resultId, @RequestBody Map<String, Object> request) {
         return resultService.updateResult(resultId, request);
     }
 
+    @Override
     @PostMapping("/major-scores")
     @ResponseStatus(HttpStatus.CREATED)
     public ResultMajorScore createMajorScore(@RequestBody Map<String, Object> request) {

@@ -1,5 +1,6 @@
 package com.jinroon.jobe.domain.user.controller;
 
+import com.jinroon.jobe.domain.user.controller.api.UserApi;
 import com.jinroon.jobe.domain.user.entity.EmailVerification;
 import com.jinroon.jobe.domain.user.entity.Session;
 import com.jinroon.jobe.domain.user.entity.User;
@@ -23,81 +24,95 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
-public class UserController {
+public class UserController implements UserApi {
 
     private final UserService userService;
 
+    @Override
     @GetMapping
     public List<User> findUsers() {
         return userService.findUsers();
     }
 
+    @Override
     @GetMapping("/{userId}")
     public User getUser(@PathVariable Long userId) {
         return userService.getUser(userId);
     }
 
+    @Override
     @GetMapping("/{userId}/consents")
     public List<UserConsent> findConsents(@PathVariable Long userId) {
         return userService.findConsents(userId);
     }
 
+    @Override
     @GetMapping("/{userId}/favorites")
     public List<UserFavorite> findFavorites(@PathVariable Long userId) {
         return userService.findFavorites(userId);
     }
 
+    @Override
     @GetMapping("/{userId}/sessions")
     public List<Session> findSessions(@PathVariable Long userId) {
         return userService.findSessions(userId);
     }
 
+    @Override
     @GetMapping("/email-verifications/{verificationId}")
     public EmailVerification getEmailVerification(@PathVariable Long verificationId) {
         return userService.getEmailVerification(verificationId);
     }
 
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public User createUser(@RequestBody Map<String, Object> request) {
         return userService.createUser(request);
     }
 
+    @Override
     @PatchMapping("/{userId}")
     public User updateUser(@PathVariable Long userId, @RequestBody Map<String, Object> request) {
         return userService.updateUser(userId, request);
     }
 
+    @Override
     @DeleteMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable Long userId) {
         userService.deleteUser(userId);
     }
 
+    @Override
     @PostMapping("/consents")
     @ResponseStatus(HttpStatus.CREATED)
     public UserConsent createConsent(@RequestBody Map<String, Object> request) {
         return userService.createConsent(request);
     }
 
+    @Override
     @PostMapping("/favorites")
     @ResponseStatus(HttpStatus.CREATED)
     public UserFavorite createFavorite(@RequestBody Map<String, Object> request) {
         return userService.createFavorite(request);
     }
 
+    @Override
     @DeleteMapping("/favorites/{favoriteId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteFavorite(@PathVariable Long favoriteId) {
         userService.deleteFavorite(favoriteId);
     }
 
+    @Override
     @PostMapping("/sessions")
     @ResponseStatus(HttpStatus.CREATED)
     public Session createSession(@RequestBody Map<String, Object> request) {
         return userService.createSession(request);
     }
 
+    @Override
     @PostMapping("/email-verifications")
     @ResponseStatus(HttpStatus.CREATED)
     public EmailVerification createEmailVerification(@RequestBody Map<String, Object> request) {
