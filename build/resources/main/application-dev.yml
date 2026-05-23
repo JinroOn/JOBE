@@ -21,3 +21,6 @@ springdoc:
     path: /v3/api-docs
   default-consumes-media-type: application/json
   default-produces-media-type: application/json
+
+jwt:
+  secret: dev-secret-key-must-be-at-least-256-bits-long-for-hs256-algorithm

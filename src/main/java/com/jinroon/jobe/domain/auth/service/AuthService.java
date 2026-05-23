@@ -2,6 +2,7 @@ package com.jinroon.jobe.domain.auth.service;
 
 import com.jinroon.jobe.global.exception.CustomException;
 import com.jinroon.jobe.global.exception.error.ErrorCode;
+import com.jinroon.jobe.global.security.JwtProvider;
 import com.jinroon.jobe.domain.user.entity.EmailVerification;
 import com.jinroon.jobe.domain.user.entity.Session;
 import com.jinroon.jobe.domain.user.entity.User;
@@ -38,6 +39,7 @@ public class AuthService {
     private final SessionRepository sessionRepository;
     private final EmailVerificationRepository emailVerificationRepository;
     private final PasswordHasher passwordHasher;
+    private final JwtProvider jwtProvider;
     private final SecureRandom secureRandom = new SecureRandom();
 
     @Transactional
@@ -64,7 +66,8 @@ public class AuthService {
         }
         user.recordLogin();
         Session session = issueSession(user, request.deviceInfo());
-        return new AuthResponse(UserResponse.from(user), session.getRefreshToken(), session.getExpiresAt());
+        String accessToken = jwtProvider.createToken(user);
+        return new AuthResponse(UserResponse.from(user), accessToken, session.getRefreshToken(), session.getExpiresAt());
     }
 
     @Transactional
@@ -80,7 +83,8 @@ public class AuthService {
         requireActive(user);
         sessionRepository.delete(currentSession);
         Session newSession = issueSession(user, request.deviceInfo());
-        return new AuthResponse(UserResponse.from(user), newSession.getRefreshToken(), newSession.getExpiresAt());
+        String accessToken = jwtProvider.createToken(user);
+        return new AuthResponse(UserResponse.from(user), accessToken, newSession.getRefreshToken(), newSession.getExpiresAt());
     }
 
     @Transactional

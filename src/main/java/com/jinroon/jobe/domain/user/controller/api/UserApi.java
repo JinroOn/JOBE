@@ -1,10 +1,11 @@
 package com.jinroon.jobe.domain.user.controller.api;
 
-import com.jinroon.jobe.domain.user.entity.EmailVerification;
-import com.jinroon.jobe.domain.user.entity.Session;
+import com.jinroon.jobe.domain.auth.dto.response.EmailVerificationResponse;
+import com.jinroon.jobe.domain.user.dto.response.UserConsentResponse;
+import com.jinroon.jobe.domain.user.dto.response.UserFavoriteResponse;
+import com.jinroon.jobe.domain.user.dto.response.UserResponse;
+import com.jinroon.jobe.domain.user.dto.response.UserSessionResponse;
 import com.jinroon.jobe.domain.user.entity.User;
-import com.jinroon.jobe.domain.user.entity.UserConsent;
-import com.jinroon.jobe.domain.user.entity.UserFavorite;
 import com.jinroon.jobe.global.exception.error.ErrorDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -33,11 +34,11 @@ public interface UserApi {
     @Operation(summary = "사용자 단건 조회", description = "ID로 특정 사용자를 조회합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "조회 성공",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponse.class))),
             @ApiResponse(responseCode = "404", description = "사용자를 찾을 수 없음",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
-    User getUser(
+    UserResponse getUser(
             @Parameter(description = "사용자 ID") @PathVariable Long userId
     );
 
@@ -45,9 +46,9 @@ public interface UserApi {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "조회 성공",
                     content = @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = UserConsent.class))))
+                            array = @ArraySchema(schema = @Schema(implementation = UserConsentResponse.class))))
     })
-    List<UserConsent> findConsents(
+    List<UserConsentResponse> findConsents(
             @Parameter(description = "사용자 ID") @PathVariable Long userId
     );
 
@@ -55,9 +56,9 @@ public interface UserApi {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "조회 성공",
                     content = @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = UserFavorite.class))))
+                            array = @ArraySchema(schema = @Schema(implementation = UserFavoriteResponse.class))))
     })
-    List<UserFavorite> findFavorites(
+    List<UserFavoriteResponse> findFavorites(
             @Parameter(description = "사용자 ID") @PathVariable Long userId
     );
 
@@ -65,31 +66,31 @@ public interface UserApi {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "조회 성공",
                     content = @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = Session.class))))
+                            array = @ArraySchema(schema = @Schema(implementation = UserSessionResponse.class))))
     })
-    List<Session> findSessions(
+    List<UserSessionResponse> findSessions(
             @Parameter(description = "사용자 ID") @PathVariable Long userId
     );
 
     @Operation(summary = "이메일 인증 정보 단건 조회", description = "ID로 이메일 인증 레코드를 조회합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "조회 성공",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmailVerification.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmailVerificationResponse.class))),
             @ApiResponse(responseCode = "404", description = "인증 정보를 찾을 수 없음",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
-    EmailVerification getEmailVerification(
+    EmailVerificationResponse getEmailVerification(
             @Parameter(description = "이메일 인증 ID") @PathVariable Long verificationId
     );
 
     @Operation(summary = "사용자 생성", description = "필드값 Map으로 사용자를 직접 생성합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "생성 성공",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponse.class))),
             @ApiResponse(responseCode = "400", description = "입력값 오류",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
-    User createUser(
+    UserResponse createUser(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "사용자 필드값 Map", required = true)
             @RequestBody Map<String, Object> request
     );
@@ -97,13 +98,13 @@ public interface UserApi {
     @Operation(summary = "사용자 정보 수정", description = "사용자 ID와 변경할 필드값 Map으로 정보를 수정합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "수정 성공",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponse.class))),
             @ApiResponse(responseCode = "400", description = "입력값 오류",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))),
             @ApiResponse(responseCode = "404", description = "사용자를 찾을 수 없음",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
-    User updateUser(
+    UserResponse updateUser(
             @Parameter(description = "사용자 ID") @PathVariable Long userId,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "수정할 필드값 Map", required = true)
             @RequestBody Map<String, Object> request
@@ -122,11 +123,11 @@ public interface UserApi {
     @Operation(summary = "약관 동의 생성", description = "사용자 약관 동의 레코드를 생성합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "생성 성공",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserConsent.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserConsentResponse.class))),
             @ApiResponse(responseCode = "400", description = "입력값 오류",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
-    UserConsent createConsent(
+    UserConsentResponse createConsent(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "동의 정보 필드값 Map", required = true)
             @RequestBody Map<String, Object> request
     );
@@ -134,7 +135,7 @@ public interface UserApi {
     @Operation(summary = "즐겨찾기 전공 추가", description = "사용자의 즐겨찾기 전공을 추가합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "추가 성공",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserFavorite.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserFavoriteResponse.class))),
             @ApiResponse(responseCode = "400", description = "입력값 오류",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))),
             @ApiResponse(responseCode = "404", description = "사용자 또는 전공을 찾을 수 없음",
@@ -142,7 +143,7 @@ public interface UserApi {
             @ApiResponse(responseCode = "409", description = "이미 즐겨찾기에 추가된 전공",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
-    UserFavorite createFavorite(
+    UserFavoriteResponse createFavorite(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "즐겨찾기 정보 (userId, majorId)", required = true)
             @RequestBody Map<String, Object> request
     );
@@ -160,11 +161,11 @@ public interface UserApi {
     @Operation(summary = "세션 생성", description = "사용자 세션 레코드를 생성합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "생성 성공",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Session.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserSessionResponse.class))),
             @ApiResponse(responseCode = "400", description = "입력값 오류",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
-    Session createSession(
+    UserSessionResponse createSession(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "세션 필드값 Map", required = true)
             @RequestBody Map<String, Object> request
     );
@@ -172,11 +173,11 @@ public interface UserApi {
     @Operation(summary = "이메일 인증 레코드 생성", description = "이메일 인증 레코드를 직접 생성합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "생성 성공",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmailVerification.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmailVerificationResponse.class))),
             @ApiResponse(responseCode = "400", description = "입력값 오류",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
-    EmailVerification createEmailVerification(
+    EmailVerificationResponse createEmailVerification(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "이메일 인증 필드값 Map", required = true)
             @RequestBody Map<String, Object> request
     );
