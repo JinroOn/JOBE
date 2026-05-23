@@ -1,0 +1,14 @@
+package com.jinroon.jobe.domain.plan.repository;
+
+import com.jinroon.jobe.domain.plan.entity.*;
+
+import java.util.List;
+import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface MajorWeeklyPlanRepository extends JpaRepository<MajorWeeklyPlan, Long> {
+
+    List<MajorWeeklyPlan> findByDiagnosisResultId(Long diagnosisResultId);
+
+    Optional<MajorWeeklyPlan> findByResultMajorScoreIdAndActiveVersionTrue(Long resultMajorScoreId);
+}
