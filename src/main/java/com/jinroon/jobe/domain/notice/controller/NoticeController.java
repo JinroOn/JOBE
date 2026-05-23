@@ -1,5 +1,6 @@
 package com.jinroon.jobe.domain.notice.controller;
 
+import com.jinroon.jobe.domain.notice.controller.api.NoticeApi;
 import com.jinroon.jobe.domain.notice.entity.Notice;
 import com.jinroon.jobe.domain.notice.service.NoticeService;
 import java.util.List;
@@ -20,31 +21,36 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/notices")
-public class NoticeController {
+public class NoticeController implements NoticeApi {
 
     private final NoticeService noticeService;
 
+    @Override
     @GetMapping
     public List<Notice> findNotices(@RequestParam(defaultValue = "false") boolean activeOnly) {
         return noticeService.findNotices(activeOnly);
     }
 
+    @Override
     @GetMapping("/{noticeId}")
     public Notice getNotice(@PathVariable Long noticeId) {
         return noticeService.getNotice(noticeId);
     }
 
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Notice createNotice(@RequestBody Map<String, Object> request) {
         return noticeService.createNotice(request);
     }
 
+    @Override
     @PatchMapping("/{noticeId}")
     public Notice updateNotice(@PathVariable Long noticeId, @RequestBody Map<String, Object> request) {
         return noticeService.updateNotice(noticeId, request);
     }
 
+    @Override
     @DeleteMapping("/{noticeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteNotice(@PathVariable Long noticeId) {

@@ -1,5 +1,6 @@
 package com.jinroon.jobe.domain.major.controller;
 
+import com.jinroon.jobe.domain.major.controller.api.MajorApi;
 import com.jinroon.jobe.domain.major.entity.Major;
 import com.jinroon.jobe.domain.major.service.MajorService;
 import java.util.List;
@@ -20,10 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/majors")
-public class MajorController {
+public class MajorController implements MajorApi {
 
     private final MajorService majorService;
 
+    @Override
     @GetMapping
     public List<Major> findMajors(
             @RequestParam(required = false) String category,
@@ -32,22 +34,26 @@ public class MajorController {
         return majorService.findMajors(category, keyword);
     }
 
+    @Override
     @GetMapping("/{majorId}")
     public Major getMajor(@PathVariable Long majorId) {
         return majorService.getMajor(majorId);
     }
 
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Major createMajor(@RequestBody Map<String, Object> request) {
         return majorService.createMajor(request);
     }
 
+    @Override
     @PatchMapping("/{majorId}")
     public Major updateMajor(@PathVariable Long majorId, @RequestBody Map<String, Object> request) {
         return majorService.updateMajor(majorId, request);
     }
 
+    @Override
     @DeleteMapping("/{majorId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteMajor(@PathVariable Long majorId) {

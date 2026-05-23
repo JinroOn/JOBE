@@ -1,106 +1,139 @@
 package com.jinroon.jobe.domain.user.controller;
 
-import com.jinroon.jobe.domain.user.entity.EmailVerification;
-import com.jinroon.jobe.domain.user.entity.Session;
-import com.jinroon.jobe.domain.user.entity.User;
-import com.jinroon.jobe.domain.user.entity.UserConsent;
-import com.jinroon.jobe.domain.user.entity.UserFavorite;
+import com.jinroon.jobe.domain.auth.dto.response.EmailVerificationResponse;
+import com.jinroon.jobe.domain.user.controller.api.UserApi;
+import com.jinroon.jobe.domain.user.dto.response.UserConsentResponse;
+import com.jinroon.jobe.domain.user.dto.response.UserFavoriteResponse;
+import com.jinroon.jobe.domain.user.dto.response.UserResponse;
+import com.jinroon.jobe.domain.user.dto.response.UserSessionResponse;
 import com.jinroon.jobe.domain.user.service.UserService;
+import com.jinroon.jobe.global.security.CustomUserDetails;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
-public class UserController {
+public class UserController implements UserApi {
 
     private final UserService userService;
 
+    @Override
     @GetMapping
-    public List<User> findUsers() {
-        return userService.findUsers();
+    public List<UserResponse> findUsers(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        return userService.findUsers().stream()
+                .map(UserResponse::from)
+                .toList();
     }
 
-    @GetMapping("/{userId}")
-    public User getUser(@PathVariable Long userId) {
-        return userService.getUser(userId);
+    @Override
+    @GetMapping("/me")
+    public UserResponse getUser(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        return UserResponse.from(userService.getUser(userDetails.getUserId()));
     }
 
-    @GetMapping("/{userId}/consents")
-    public List<UserConsent> findConsents(@PathVariable Long userId) {
-        return userService.findConsents(userId);
+    @Override
+    @GetMapping("/me/consents")
+    public List<UserConsentResponse> findConsents(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        return userService.findConsents(userDetails.getUserId()).stream()
+                .map(UserConsentResponse::from)
+                .toList();
     }
 
-    @GetMapping("/{userId}/favorites")
-    public List<UserFavorite> findFavorites(@PathVariable Long userId) {
-        return userService.findFavorites(userId);
+    @Override
+    @GetMapping("/me/favorites")
+    public List<UserFavoriteResponse> findFavorites(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        return userService.findFavorites(userDetails.getUserId()).stream()
+                .map(UserFavoriteResponse::from)
+                .toList();
     }
 
-    @GetMapping("/{userId}/sessions")
-    public List<Session> findSessions(@PathVariable Long userId) {
-        return userService.findSessions(userId);
+    @Override
+    @GetMapping("/me/sessions")
+    public List<UserSessionResponse> findSessions(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        return userService.findSessions(userDetails.getUserId()).stream()
+                .map(UserSessionResponse::from)
+                .toList();
     }
 
+    @Override
     @GetMapping("/email-verifications/{verificationId}")
-    public EmailVerification getEmailVerification(@PathVariable Long verificationId) {
-        return userService.getEmailVerification(verificationId);
+    public EmailVerificationResponse getEmailVerification(@PathVariable Long verificationId) {
+        return EmailVerificationResponse.from(userService.getEmailVerification(verificationId));
     }
 
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public User createUser(@RequestBody Map<String, Object> request) {
-        return userService.createUser(request);
+    public UserResponse createUser(@RequestBody Map<String, Object> request) {
+        return UserResponse.from(userService.createUser(request));
     }
 
-    @PatchMapping("/{userId}")
-    public User updateUser(@PathVariable Long userId, @RequestBody Map<String, Object> request) {
-        return userService.updateUser(userId, request);
+    @Override
+    @PatchMapping("/me")
+    public UserResponse updateUser(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestBody Map<String, Object> request) {
+        return UserResponse.from(userService.updateUser(userDetails.getUserId(), request));
     }
 
-    @DeleteMapping("/{userId}")
+    @Override
+    @DeleteMapping("/me")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUser(@PathVariable Long userId) {
-        userService.deleteUser(userId);
+    public void deleteUser(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        userService.deleteUser(userDetails.getUserId());
     }
 
+    @Override
     @PostMapping("/consents")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserConsent createConsent(@RequestBody Map<String, Object> request) {
-        return userService.createConsent(request);
+    public UserConsentResponse createConsent(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestBody Map<String, Object> request) {
+        request.put("userId", userDetails.getUserId());
+        return UserConsentResponse.from(userService.createConsent(request));
     }
 
+    @Override
     @PostMapping("/favorites")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserFavorite createFavorite(@RequestBody Map<String, Object> request) {
-        return userService.createFavorite(request);
+    public UserFavoriteResponse createFavorite(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestBody Map<String, Object> request) {
+        request.put("userId", userDetails.getUserId());
+        return UserFavoriteResponse.from(userService.createFavorite(request));
     }
 
+    @Override
     @DeleteMapping("/favorites/{favoriteId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteFavorite(@PathVariable Long favoriteId) {
         userService.deleteFavorite(favoriteId);
     }
 
+    @Override
     @PostMapping("/sessions")
     @ResponseStatus(HttpStatus.CREATED)
-    public Session createSession(@RequestBody Map<String, Object> request) {
-        return userService.createSession(request);
+    public UserSessionResponse createSession(@RequestBody Map<String, Object> request) {
+        return UserSessionResponse.from(userService.createSession(request));
     }
 
+    @Override
     @PostMapping("/email-verifications")
     @ResponseStatus(HttpStatus.CREATED)
-    public EmailVerification createEmailVerification(@RequestBody Map<String, Object> request) {
-        return userService.createEmailVerification(request);
+    public EmailVerificationResponse createEmailVerification(@RequestBody Map<String, Object> request) {
+        return EmailVerificationResponse.from(userService.createEmailVerification(request));
     }
 }

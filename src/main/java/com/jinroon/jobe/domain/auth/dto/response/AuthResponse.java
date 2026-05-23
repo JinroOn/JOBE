@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 public record AuthResponse(
         UserResponse user,
+        String accessToken,
         String refreshToken,
         LocalDateTime expiresAt
 ) {
