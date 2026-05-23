@@ -26,8 +26,8 @@ public class JwtProvider {
         Date now = new Date();
         Date expiry = new Date(now.getTime() + ACCESS_TOKEN_EXPIRY_MS);
         return Jwts.builder()
-                .subject(String.valueOf(user.getId()))
-                .claim("email", user.getEmail())
+                .subject(user.getEmail())
+                .claim("userId", user.getId())
                 .claim("role", user.getRoleName())
                 .issuedAt(now)
                 .expiration(expiry)

@@ -1,15 +1,12 @@
 package com.jinroon.jobe.global.security;
 
-import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -17,6 +14,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtProvider jwtProvider;
+    private final CustomUserDetailsService customUserDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -25,14 +23,13 @@ public class JwtFilter extends OncePerRequestFilter {
         String token = extractToken(request);
 
         if (token != null && jwtProvider.isValid(token)) {
-            Claims claims = jwtProvider.getClaims(token);
-            Long userId = Long.valueOf(claims.getSubject());
-            String role = claims.get("role", String.class);
+            String email = jwtProvider.getClaims(token).getSubject();
+            CustomUserDetails userDetails = (CustomUserDetails) customUserDetailsService.loadUserByUsername(email);
 
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                    userId,
+                    userDetails,
                     null,
-                    List.of(new SimpleGrantedAuthority("ROLE_" + role))
+                    userDetails.getAuthorities()
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
