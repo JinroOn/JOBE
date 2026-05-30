@@ -29,16 +29,12 @@ public class EmailVerification extends BaseEntitySupport {
     @Column(name = "expires_at", nullable = false)
     private LocalDateTime expiresAt;
 
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
-
     public static EmailVerification issue(String email, String token, LocalDateTime expiresAt) {
         EmailVerification verification = new EmailVerification();
         verification.email = email;
         verification.token = token;
         verification.used = false;
         verification.expiresAt = expiresAt;
-        verification.createdAt = LocalDateTime.now();
         return verification;
     }
 

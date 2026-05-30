@@ -50,7 +50,11 @@ public interface NoticeApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     Notice createNotice(
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "공지사항 필드값 Map", required = true)
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "공지사항 생성 정보",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.notice.dto.request.NoticeRequest.class))
+            )
             @RequestBody Map<String, Object> request
     );
 
@@ -65,7 +69,11 @@ public interface NoticeApi {
     })
     Notice updateNotice(
             @Parameter(description = "공지사항 ID") @PathVariable Long noticeId,
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "수정할 필드값 Map", required = true)
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "공지사항 수정 정보",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.notice.dto.request.NoticeRequest.class))
+            )
             @RequestBody Map<String, Object> request
     );
 

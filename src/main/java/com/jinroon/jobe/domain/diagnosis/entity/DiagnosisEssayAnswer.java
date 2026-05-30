@@ -6,7 +6,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,7 +25,4 @@ public class DiagnosisEssayAnswer extends BaseEntitySupport {
     @Lob
     @Column(name = "answer_text", nullable = false, columnDefinition = "TEXT")
     private String answerText;
-
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
 }

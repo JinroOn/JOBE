@@ -6,7 +6,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,9 +41,8 @@ public class MajorWeeklyPlan extends BaseEntitySupport {
     @Column(name = "active_version", nullable = false)
     private Boolean activeVersion;
 
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
+    public void applyAiPlan(String planId, String overview) {
+        this.planId = planId;
+        this.overview = overview;
+    }
 }

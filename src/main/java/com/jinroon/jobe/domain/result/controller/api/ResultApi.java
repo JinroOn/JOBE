@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -63,7 +64,7 @@ public interface ResultApi {
             @Parameter(description = "진단 결과 ID") @PathVariable Long resultId
     );
 
-    @Operation(summary = "진단 결과 생성", description = "진단 세션의 처리 결과를 저장합니다.")
+    @Operation(summary = "진단 결과 생성", description = "진단 세션의 처리 결과를 저장합니다. AI 서버에서 추천 코멘트를 자동으로 생성합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "생성 성공",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = DiagnosisResult.class))),
@@ -71,7 +72,11 @@ public interface ResultApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     DiagnosisResult createResult(
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "진단 결과 필드값 Map", required = true)
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "진단 결과 생성 정보",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.result.dto.request.DiagnosisResultRequest.class))
+            )
             @RequestBody Map<String, Object> request
     );
 
@@ -86,7 +91,11 @@ public interface ResultApi {
     })
     DiagnosisResult updateResult(
             @Parameter(description = "진단 결과 ID") @PathVariable Long resultId,
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "수정할 필드값 Map", required = true)
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "수정할 필드값",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.result.dto.request.DiagnosisResultRequest.class))
+            )
             @RequestBody Map<String, Object> request
     );
 
@@ -98,7 +107,11 @@ public interface ResultApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     ResultMajorScore createMajorScore(
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "전공별 점수 필드값 Map", required = true)
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "전공별 점수 정보",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.result.dto.request.ResultMajorScoreRequest.class))
+            )
             @RequestBody Map<String, Object> request
     );
 }

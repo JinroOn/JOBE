@@ -18,6 +18,13 @@ public class MajorWeeklyPlanRiskNote extends BaseEntitySupport {
     @Column(name = "weekly_plan_id", nullable = false)
     private Long weeklyPlanId;
 
-    @Column(nullable = false, length = 500)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String note;
+
+    public static MajorWeeklyPlanRiskNote of(Long weeklyPlanId, String note) {
+        MajorWeeklyPlanRiskNote riskNote = new MajorWeeklyPlanRiskNote();
+        riskNote.weeklyPlanId = weeklyPlanId;
+        riskNote.note = note;
+        return riskNote;
+    }
 }

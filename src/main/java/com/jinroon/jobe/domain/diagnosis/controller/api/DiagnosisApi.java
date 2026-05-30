@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -126,7 +127,11 @@ public interface DiagnosisApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     DiagnosisSession createSession(
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "진단 세션 필드값 Map", required = true)
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "진단 세션 생성 정보",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.diagnosis.dto.request.DiagnosisSessionRequest.class))
+            )
             @RequestBody Map<String, Object> request
     );
 
@@ -141,7 +146,11 @@ public interface DiagnosisApi {
     })
     DiagnosisSession updateSession(
             @Parameter(description = "진단 세션 ID") @PathVariable Long sessionId,
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "수정할 필드값 Map", required = true)
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "수정할 세션 필드값",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.diagnosis.dto.request.DiagnosisSessionRequest.class))
+            )
             @RequestBody Map<String, Object> request
     );
 
@@ -153,7 +162,11 @@ public interface DiagnosisApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     ExamQuestion createQuestion(
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "시험 문항 필드값 Map", required = true)
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "시험 문항 정보",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.diagnosis.dto.request.ExamQuestionRequest.class))
+            )
             @RequestBody Map<String, Object> request
     );
 
@@ -165,7 +178,11 @@ public interface DiagnosisApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     DiagnosisExamAnswer createExamAnswer(
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "객관식 답변 필드값 Map", required = true)
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "객관식 답변 정보",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.diagnosis.dto.request.DiagnosisExamAnswerRequest.class))
+            )
             @RequestBody Map<String, Object> request
     );
 
@@ -177,7 +194,11 @@ public interface DiagnosisApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     DiagnosisEssayAnswer createEssayAnswer(
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "서술형 답변 필드값 Map", required = true)
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "서술형 답변 정보",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.diagnosis.dto.request.DiagnosisEssayAnswerRequest.class))
+            )
             @RequestBody Map<String, Object> request
     );
 
@@ -189,7 +210,11 @@ public interface DiagnosisApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     CompetencyEvalResult createCompetencyResult(
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "역량 평가 결과 필드값 Map", required = true)
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "역량 평가 결과 (9개 역량 점수)",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.diagnosis.dto.request.CompetencyEvalResultRequest.class))
+            )
             @RequestBody Map<String, Object> request
     );
 
@@ -201,7 +226,11 @@ public interface DiagnosisApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     TendencyEvalResult createTendencyResult(
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "성향 평가 결과 필드값 Map", required = true)
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "성향 평가 결과",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.diagnosis.dto.request.TendencyEvalResultRequest.class))
+            )
             @RequestBody Map<String, Object> request
     );
 }

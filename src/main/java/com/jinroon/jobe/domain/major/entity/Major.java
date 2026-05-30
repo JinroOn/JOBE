@@ -10,7 +10,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Index;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,68 +39,62 @@ public class Major extends BaseEntitySupport {
     private String careerPaths;
 
     @Column(name = "req_math_logic", nullable = false)
-    private Float reqMathLogic;
+    private Float reqMathLogic = 0.0f;
 
     @Column(name = "req_problem_solving", nullable = false)
-    private Float reqProblemSolving;
+    private Float reqProblemSolving = 0.0f;
 
     @Column(name = "req_info_tech", nullable = false)
-    private Float reqInfoTech;
+    private Float reqInfoTech = 0.0f;
 
     @Column(name = "req_implementation", nullable = false)
-    private Float reqImplementation;
+    private Float reqImplementation = 0.0f;
 
     @Column(name = "req_system_understanding", nullable = false)
-    private Float reqSystemUnderstanding;
+    private Float reqSystemUnderstanding = 0.0f;
 
     @Column(name = "req_data_analysis", nullable = false)
-    private Float reqDataAnalysis;
+    private Float reqDataAnalysis = 0.0f;
 
     @Column(name = "req_communication", nullable = false)
-    private Float reqCommunication;
+    private Float reqCommunication = 0.0f;
 
     @Column(name = "req_collaboration", nullable = false)
-    private Float reqCollaboration;
+    private Float reqCollaboration = 0.0f;
 
     @Column(name = "req_self_management", nullable = false)
-    private Float reqSelfManagement;
+    private Float reqSelfManagement = 0.0f;
 
     @Column(name = "tend_logical_inquiry", nullable = false)
-    private Float tendLogicalInquiry;
+    private Float tendLogicalInquiry = 0.0f;
 
     @Column(name = "tend_practical_tech", nullable = false)
-    private Float tendPracticalTech;
+    private Float tendPracticalTech = 0.0f;
 
     @Column(name = "tend_art_creative", nullable = false)
-    private Float tendArtCreative;
+    private Float tendArtCreative = 0.0f;
 
     @Column(name = "tend_social_cooperation", nullable = false)
-    private Float tendSocialCooperation;
+    private Float tendSocialCooperation = 0.0f;
 
     @Column(name = "tend_life_health", nullable = false)
-    private Float tendLifeHealth;
+    private Float tendLifeHealth = 0.0f;
 
     @Column(name = "tend_education_guide", nullable = false)
-    private Float tendEducationGuide;
+    private Float tendEducationGuide = 0.0f;
 
     @Column(name = "tend_theory_academic", nullable = false)
-    private Float tendTheoryAcademic;
+    private Float tendTheoryAcademic = 0.0f;
 
     @Column(name = "tend_data_analytics", nullable = false)
-    private Float tendDataAnalytics;
+    private Float tendDataAnalytics = 0.0f;
 
     @Column(name = "tend_system_operation", nullable = false)
-    private Float tendSystemOperation;
+    private Float tendSystemOperation = 0.0f;
 
     @Column(name = "thr_math_logic")
-    private Float thrMathLogic;
+    private Float thrMathLogic = 0.0f;
 
     @Column(name = "thr_info_tech")
-    private Float thrInfoTech;
-
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
+    private Float thrInfoTech = 0.0f;
 }
