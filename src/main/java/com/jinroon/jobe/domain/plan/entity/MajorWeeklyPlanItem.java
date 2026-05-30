@@ -39,4 +39,17 @@ public class MajorWeeklyPlanItem extends BaseEntitySupport {
     public void complete() {
         this.isCompleted = true;
     }
+
+    public static MajorWeeklyPlanItem of(Long weeklyPlanId, Integer weekNo, String goal,
+                                         String tasksJson, String resourcesJson, String checkpoint) {
+        MajorWeeklyPlanItem item = new MajorWeeklyPlanItem();
+        item.weeklyPlanId = weeklyPlanId;
+        item.weekNo = weekNo;
+        item.goal = goal;
+        item.tasksJson = tasksJson;
+        item.resourcesJson = resourcesJson;
+        item.checkpoint = checkpoint;
+        item.isCompleted = false;
+        return item;
+    }
 }

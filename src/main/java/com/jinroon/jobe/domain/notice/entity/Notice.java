@@ -40,9 +40,6 @@ public class Notice extends BaseEntitySupport {
     @Column(name = "end_at", nullable = false)
     private LocalDateTime endAt;
 
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
-
     public boolean hasValidDisplayPeriod() {
         return !endAt.isBefore(startAt);
     }

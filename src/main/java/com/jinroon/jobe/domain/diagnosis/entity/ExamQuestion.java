@@ -9,7 +9,6 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -76,7 +75,4 @@ public class ExamQuestion extends BaseEntitySupport {
 
     @Column(name = "w_self_management", nullable = false)
     private Float wSelfManagement;
-
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
 }

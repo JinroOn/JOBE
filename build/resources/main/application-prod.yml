@@ -25,3 +25,8 @@ springdoc:
 
 jwt:
   secret: iRm4t7XkZ2HDE7epcBvarQKrwKzq/0+Nb9PE5EljWdiTbViA4QhB1wMaPNRDfyps/UcRuM/AHju7CnLznfyAug==
+
+ai:
+  server:
+    url: http://ai-server-ip:8000
+    token: ${AI_SERVER_TOKEN}

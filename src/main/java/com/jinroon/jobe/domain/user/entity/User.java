@@ -53,14 +53,7 @@ public class User extends BaseEntitySupport {
     @Column(name = "last_login_at")
     private LocalDateTime lastLoginAt;
 
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
-
     public static User registerEmailUser(String email, String passwordHash, String nickname, String profileImageUrl) {
-        LocalDateTime now = LocalDateTime.now();
         User user = new User();
         user.email = email;
         user.passwordHash = passwordHash;
@@ -69,31 +62,24 @@ public class User extends BaseEntitySupport {
         user.role = UserRole.member;
         user.loginType = LoginType.email;
         user.status = UserStatus.active;
-        user.createdAt = now;
-        user.updatedAt = now;
         return user;
     }
 
     public void recordLogin() {
-        LocalDateTime now = LocalDateTime.now();
-        this.lastLoginAt = now;
-        this.updatedAt = now;
+        this.lastLoginAt = LocalDateTime.now();
     }
 
     public void verifyEmail() {
         LocalDateTime now = LocalDateTime.now();
         this.emailVerifiedAt = now;
-        this.updatedAt = now;
     }
 
     public void changePassword(String passwordHash) {
         this.passwordHash = passwordHash;
-        this.updatedAt = LocalDateTime.now();
     }
 
     public void withdraw() {
         this.status = UserStatus.withdrawn;
-        this.updatedAt = LocalDateTime.now();
     }
 
     public boolean isActive() {

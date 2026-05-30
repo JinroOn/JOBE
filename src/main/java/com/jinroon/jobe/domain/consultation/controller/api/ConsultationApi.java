@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -71,7 +72,11 @@ public interface ConsultationApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     ConsultationSession createSession(
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "상담 세션 필드값 Map", required = true)
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "상담 세션 생성 정보",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.consultation.dto.request.ConsultationSessionRequest.class))
+            )
             @RequestBody Map<String, Object> request
     );
 
@@ -86,7 +91,11 @@ public interface ConsultationApi {
     })
     ConsultationSession updateSession(
             @Parameter(description = "상담 세션 ID") @PathVariable Long sessionId,
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "수정할 필드값 Map", required = true)
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "수정할 세션 필드값",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.consultation.dto.request.ConsultationSessionRequest.class))
+            )
             @RequestBody Map<String, Object> request
     );
 
@@ -113,7 +122,11 @@ public interface ConsultationApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     ConsultationLog createLog(
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "상담 로그 필드값 Map", required = true)
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "상담 로그 정보 (role: user | advisor)",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.consultation.dto.request.ConsultationLogRequest.class))
+            )
             @RequestBody Map<String, Object> request
     );
 }

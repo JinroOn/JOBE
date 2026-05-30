@@ -36,4 +36,18 @@ public class ResultMajorScore extends BaseEntitySupport {
     @Column(name = "is_failed", nullable = false)
     private Boolean failed;
 
+    @Column(name = "strengths", columnDefinition = "TEXT")
+    private String strengths;
+
+    @Column(name = "weaknesses", columnDefinition = "TEXT")
+    private String weaknesses;
+
+    @Column(name = "recommendation_reason", columnDefinition = "TEXT")
+    private String recommendationReason;
+
+    public void applyAiComment(String strengths, String weaknesses, String recommendationReason) {
+        this.strengths = strengths;
+        this.weaknesses = weaknesses;
+        this.recommendationReason = recommendationReason;
+    }
 }
