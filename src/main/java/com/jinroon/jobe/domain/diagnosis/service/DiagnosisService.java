@@ -5,7 +5,9 @@ import static com.jinroon.jobe.global.common.entity.EntityLookup.get;
 import com.jinroon.jobe.global.common.entity.EntityFormMapper;
 import com.jinroon.jobe.global.exception.CustomException;
 import com.jinroon.jobe.global.exception.error.ErrorCode;
+import com.jinroon.jobe.domain.diagnosis.dto.response.InProgressSessionResponse;
 import com.jinroon.jobe.domain.diagnosis.entity.*;
+import com.jinroon.jobe.domain.diagnosis.enums.DiagnosisEnums.DiagnosisStatus;
 import com.jinroon.jobe.domain.diagnosis.repository.*;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +33,15 @@ public class DiagnosisService {
 
     public List<DiagnosisSession> findSessionsByUser(Long userId) {
         return diagnosisSessionRepository.findByUserId(userId);
+    }
+
+    public InProgressSessionResponse getInProgressSession(Long userId) {
+        DiagnosisSession session = diagnosisSessionRepository
+                .findByUserIdAndStatus(userId, DiagnosisStatus.in_progress)
+                .orElseThrow(() -> new CustomException(ErrorCode.DIAGNOSIS_SESSION_NOT_FOUND));
+        List<DiagnosisExamAnswer> examAnswers = examAnswerRepository.findByDiagnosisSessionId(session.getId());
+        List<DiagnosisEssayAnswer> essayAnswers = essayAnswerRepository.findByDiagnosisSessionId(session.getId());
+        return new InProgressSessionResponse(session, examAnswers, essayAnswers);
     }
 
     public List<ExamQuestion> findQuestions() {

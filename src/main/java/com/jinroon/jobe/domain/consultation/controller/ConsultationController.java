@@ -4,10 +4,12 @@ import com.jinroon.jobe.domain.consultation.controller.api.ConsultationApi;
 import com.jinroon.jobe.domain.consultation.entity.ConsultationLog;
 import com.jinroon.jobe.domain.consultation.entity.ConsultationSession;
 import com.jinroon.jobe.domain.consultation.service.ConsultationService;
+import com.jinroon.jobe.global.security.CustomUserDetails;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -25,9 +27,9 @@ public class ConsultationController implements ConsultationApi {
     private final ConsultationService consultationService;
 
     @Override
-    @GetMapping("/users/{userId}/sessions")
-    public List<ConsultationSession> findSessionsByUser(@PathVariable Long userId) {
-        return consultationService.findSessionsByUser(userId);
+    @GetMapping("/sessions/me")
+    public List<ConsultationSession> findSessionsByUser(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        return consultationService.findSessionsByUser(userDetails.getUserId());
     }
 
     @Override

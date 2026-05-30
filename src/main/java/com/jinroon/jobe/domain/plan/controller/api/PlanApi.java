@@ -12,8 +12,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import com.jinroon.jobe.global.security.CustomUserDetails;
 import java.util.List;
 import java.util.Map;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -98,6 +100,17 @@ public interface PlanApi {
     MajorWeeklyPlanItem createItem(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "학습 계획 항목 필드값 Map", required = true)
             @RequestBody Map<String, Object> request
+    );
+
+    @Operation(summary = "주차 학습 항목 완료 처리", description = "해당 주차 항목을 완료 상태로 변경합니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "완료 처리 성공", content = @Content),
+            @ApiResponse(responseCode = "404", description = "항목을 찾을 수 없음",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
+    })
+    void completeItem(
+            @Parameter(description = "학습 계획 항목 ID") @PathVariable Long id,
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails
     );
 
     @Operation(summary = "리스크 노트 생성", description = "학습 계획에 리스크 노트를 추가합니다.")

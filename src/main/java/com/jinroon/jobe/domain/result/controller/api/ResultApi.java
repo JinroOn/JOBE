@@ -3,6 +3,7 @@ package com.jinroon.jobe.domain.result.controller.api;
 import com.jinroon.jobe.domain.result.entity.DiagnosisResult;
 import com.jinroon.jobe.domain.result.entity.ResultMajorScore;
 import com.jinroon.jobe.global.exception.error.ErrorDto;
+import com.jinroon.jobe.global.security.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -13,21 +14,21 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.Map;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Tag(name = "진단 결과 API", description = "진단 결과 및 전공별 점수 관리 API")
 public interface ResultApi {
 
-    @Operation(summary = "진단 결과 목록 조회", description = "userId 파라미터가 있으면 특정 사용자의 결과만, 없으면 전체를 반환합니다.")
+    @Operation(summary = "내 진단 결과 목록 조회", description = "현재 로그인한 사용자의 진단 결과 목록을 반환합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "조회 성공",
                     content = @Content(mediaType = "application/json",
                             array = @ArraySchema(schema = @Schema(implementation = DiagnosisResult.class))))
     })
     List<DiagnosisResult> findResults(
-            @Parameter(description = "사용자 ID (선택)") @RequestParam(required = false) Long userId
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails
     );
 
     @Operation(summary = "진단 결과 단건 조회", description = "결과 ID로 특정 진단 결과를 조회합니다.")

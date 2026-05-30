@@ -11,6 +11,7 @@ import com.jinroon.jobe.domain.result.repository.DiagnosisResultRepository;
 import com.jinroon.jobe.domain.result.repository.ResultMajorScoreRepository;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +43,8 @@ public class ResultService {
 
     @Transactional
     public DiagnosisResult createResult(Map<String, Object> values) {
+        String shareToken = UUID.randomUUID().toString().replace("-", "");
+        values.put("shareToken", shareToken);
         return diagnosisResultRepository.save(EntityFormMapper.create(DiagnosisResult.class, values));
     }
 
