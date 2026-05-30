@@ -1,5 +1,6 @@
 package com.jinroon.jobe.domain.diagnosis.controller.api;
 
+import com.jinroon.jobe.domain.diagnosis.dto.response.InProgressSessionResponse;
 import com.jinroon.jobe.domain.diagnosis.entity.CompetencyEvalResult;
 import com.jinroon.jobe.domain.diagnosis.entity.DiagnosisEssayAnswer;
 import com.jinroon.jobe.domain.diagnosis.entity.DiagnosisExamAnswer;
@@ -7,6 +8,7 @@ import com.jinroon.jobe.domain.diagnosis.entity.DiagnosisSession;
 import com.jinroon.jobe.domain.diagnosis.entity.ExamQuestion;
 import com.jinroon.jobe.domain.diagnosis.entity.TendencyEvalResult;
 import com.jinroon.jobe.global.exception.error.ErrorDto;
+import com.jinroon.jobe.global.security.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -17,11 +19,22 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.Map;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Tag(name = "진단 API", description = "역량 진단 세션, 문항, 답변, 평가 결과 관리 API")
 public interface DiagnosisApi {
+
+    @Operation(summary = "진행 중인 진단 세션 조회", description = "현재 로그인한 사용자의 진행 중인 진단 세션과 저장된 답변을 반환합니다. 없으면 404.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "진행 중인 세션 반환",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = InProgressSessionResponse.class))),
+            @ApiResponse(responseCode = "404", description = "진행 중인 세션 없음", content = @Content)
+    })
+    InProgressSessionResponse getInProgressSession(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails
+    );
 
     @Operation(summary = "진단 세션 단건 조회", description = "세션 ID로 진단 세션 정보를 조회합니다.")
     @ApiResponses({
@@ -34,14 +47,14 @@ public interface DiagnosisApi {
             @Parameter(description = "진단 세션 ID") @PathVariable Long sessionId
     );
 
-    @Operation(summary = "사용자별 진단 세션 목록 조회", description = "특정 사용자의 진단 세션 목록을 반환합니다.")
+    @Operation(summary = "내 진단 세션 목록 조회", description = "현재 로그인한 사용자의 진단 세션 목록을 반환합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "조회 성공",
                     content = @Content(mediaType = "application/json",
                             array = @ArraySchema(schema = @Schema(implementation = DiagnosisSession.class))))
     })
     List<DiagnosisSession> findSessionsByUser(
-            @Parameter(description = "사용자 ID") @PathVariable Long userId
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails
     );
 
     @Operation(summary = "전체 시험 문항 조회", description = "등록된 모든 역량 시험 문항을 반환합니다.")

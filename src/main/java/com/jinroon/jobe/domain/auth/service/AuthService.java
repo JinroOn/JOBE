@@ -16,8 +16,10 @@ import com.jinroon.jobe.domain.auth.dto.request.LogoutRequest;
 import com.jinroon.jobe.domain.auth.dto.request.RefreshTokenRequest;
 import com.jinroon.jobe.domain.auth.dto.request.SignUpRequest;
 import com.jinroon.jobe.domain.user.dto.response.UserResponse;
+import com.jinroon.jobe.domain.user.entity.UserConsent;
 import com.jinroon.jobe.domain.user.repository.EmailVerificationRepository;
 import com.jinroon.jobe.domain.user.repository.SessionRepository;
+import com.jinroon.jobe.domain.user.repository.UserConsentRepository;
 import com.jinroon.jobe.domain.user.repository.UserRepository;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
@@ -36,6 +38,7 @@ public class AuthService {
     private static final int EMAIL_TOKEN_MINUTES = 30;
 
     private final UserRepository userRepository;
+    private final UserConsentRepository userConsentRepository;
     private final SessionRepository sessionRepository;
     private final EmailVerificationRepository emailVerificationRepository;
     private final PasswordHasher passwordHasher;
@@ -53,7 +56,9 @@ public class AuthService {
                 request.nickname(),
                 request.profileImageUrl()
         );
-        return UserResponse.from(userRepository.save(user));
+        userRepository.save(user);
+        userConsentRepository.save(UserConsent.of(user.getId(), request.termsAgreed(), request.privacyAgreed(), request.marketingAgreed()));
+        return UserResponse.from(user);
     }
 
     @Transactional

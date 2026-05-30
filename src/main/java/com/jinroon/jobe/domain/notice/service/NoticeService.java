@@ -8,8 +8,9 @@ import com.jinroon.jobe.global.exception.error.ErrorCode;
 import com.jinroon.jobe.domain.notice.entity.Notice;
 import com.jinroon.jobe.domain.notice.repository.NoticeRepository;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,11 +22,11 @@ public class NoticeService {
 
     private final NoticeRepository noticeRepository;
 
-    public List<Notice> findNotices(boolean activeOnly) {
+    public Page<Notice> findNotices(boolean activeOnly, Pageable pageable) {
         LocalDateTime now = LocalDateTime.now();
         return activeOnly
-                ? noticeRepository.findByStartAtLessThanEqualAndEndAtGreaterThanEqual(now, now)
-                : noticeRepository.findAll();
+                ? noticeRepository.findByStartAtLessThanEqualAndEndAtGreaterThanEqual(now, now, pageable)
+                : noticeRepository.findAll(pageable);
     }
 
     public Notice getNotice(Long noticeId) {

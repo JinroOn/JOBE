@@ -32,4 +32,11 @@ public class MajorWeeklyPlanItem extends BaseEntitySupport {
 
     @Column(length = 300)
     private String checkpoint;
+
+    @Column(name = "is_completed", nullable = false)
+    private Boolean isCompleted = false;
+
+    public void complete() {
+        this.isCompleted = true;
+    }
 }

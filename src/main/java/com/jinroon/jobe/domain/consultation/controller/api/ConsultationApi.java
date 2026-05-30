@@ -3,6 +3,7 @@ package com.jinroon.jobe.domain.consultation.controller.api;
 import com.jinroon.jobe.domain.consultation.entity.ConsultationLog;
 import com.jinroon.jobe.domain.consultation.entity.ConsultationSession;
 import com.jinroon.jobe.global.exception.error.ErrorDto;
+import com.jinroon.jobe.global.security.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -13,20 +14,21 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.Map;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Tag(name = "상담 API", description = "AI 상담 세션 및 로그 관리 API")
 public interface ConsultationApi {
 
-    @Operation(summary = "사용자별 상담 세션 목록 조회", description = "특정 사용자의 상담 세션 목록을 반환합니다.")
+    @Operation(summary = "내 상담 세션 목록 조회", description = "현재 로그인한 사용자의 상담 세션 목록을 반환합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "조회 성공",
                     content = @Content(mediaType = "application/json",
                             array = @ArraySchema(schema = @Schema(implementation = ConsultationSession.class))))
     })
     List<ConsultationSession> findSessionsByUser(
-            @Parameter(description = "사용자 ID") @PathVariable Long userId
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails
     );
 
     @Operation(summary = "상담 세션 단건 조회", description = "세션 ID로 상담 세션 정보를 조회합니다.")

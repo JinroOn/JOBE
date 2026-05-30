@@ -59,6 +59,12 @@ public class PlanService {
     }
 
     @Transactional
+    public void completeItem(Long itemId) {
+        MajorWeeklyPlanItem item = get(planItemRepository, itemId, ErrorCode.PLAN_ITEM_NOT_FOUND);
+        item.complete();
+    }
+
+    @Transactional
     public MajorWeeklyPlanRiskNote createRiskNote(Map<String, Object> values) {
         return riskNoteRepository.save(EntityFormMapper.create(MajorWeeklyPlanRiskNote.class, values));
     }

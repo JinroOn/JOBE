@@ -1,12 +1,15 @@
 package com.jinroon.jobe.domain.diagnosis.controller;
 
 import com.jinroon.jobe.domain.diagnosis.controller.api.DiagnosisApi;
+import com.jinroon.jobe.domain.diagnosis.dto.response.InProgressSessionResponse;
 import com.jinroon.jobe.domain.diagnosis.entity.*;
 import com.jinroon.jobe.domain.diagnosis.service.DiagnosisService;
+import com.jinroon.jobe.global.security.CustomUserDetails;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/diagnoses")
@@ -24,15 +28,21 @@ public class DiagnosisController implements DiagnosisApi {
     private final DiagnosisService diagnosisService;
 
     @Override
+    @GetMapping("/sessions/me/in-progress")
+    public InProgressSessionResponse getInProgressSession(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        return diagnosisService.getInProgressSession(userDetails.getUserId());
+    }
+
+    @Override
     @GetMapping("/sessions/{sessionId}")
     public DiagnosisSession getSession(@PathVariable Long sessionId) {
         return diagnosisService.getSession(sessionId);
     }
 
     @Override
-    @GetMapping("/users/{userId}/sessions")
-    public List<DiagnosisSession> findSessionsByUser(@PathVariable Long userId) {
-        return diagnosisService.findSessionsByUser(userId);
+    @GetMapping("/sessions/me")
+    public List<DiagnosisSession> findSessionsByUser(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        return diagnosisService.findSessionsByUser(userDetails.getUserId());
     }
 
     @Override

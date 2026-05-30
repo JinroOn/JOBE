@@ -5,10 +5,12 @@ import com.jinroon.jobe.domain.plan.entity.MajorWeeklyPlan;
 import com.jinroon.jobe.domain.plan.entity.MajorWeeklyPlanItem;
 import com.jinroon.jobe.domain.plan.entity.MajorWeeklyPlanRiskNote;
 import com.jinroon.jobe.domain.plan.service.PlanService;
+import com.jinroon.jobe.global.security.CustomUserDetails;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -67,6 +69,15 @@ public class PlanController implements PlanApi {
     @ResponseStatus(HttpStatus.CREATED)
     public MajorWeeklyPlanItem createItem(@RequestBody Map<String, Object> request) {
         return planService.createItem(request);
+    }
+
+    @Override
+    @PatchMapping("/items/{id}/complete")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void completeItem(
+            @PathVariable Long id,
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
+        planService.completeItem(id);
     }
 
     @Override
