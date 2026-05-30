@@ -162,6 +162,7 @@ public interface UserApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     void deleteFavorite(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "즐겨찾기 ID") @PathVariable Long favoriteId
     );
 

@@ -119,8 +119,10 @@ public class UserController implements UserApi {
     @Override
     @DeleteMapping("/favorites/{favoriteId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteFavorite(@PathVariable Long favoriteId) {
-        userService.deleteFavorite(favoriteId);
+    public void deleteFavorite(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long favoriteId) {
+        userService.deleteFavoriteForUser(favoriteId, userDetails.getUserId());
     }
 
     @Override

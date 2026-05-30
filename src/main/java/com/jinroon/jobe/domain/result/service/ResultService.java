@@ -27,8 +27,21 @@ public class ResultService {
         return userId == null ? diagnosisResultRepository.findAll() : diagnosisResultRepository.findByUserId(userId);
     }
 
+    public List<DiagnosisResult> findResultsForUser(Long requestedUserId, Long currentUserId) {
+        if (requestedUserId != null) {
+            requireOwner(requestedUserId, currentUserId);
+        }
+        return diagnosisResultRepository.findByUserId(currentUserId);
+    }
+
     public DiagnosisResult getResult(Long resultId) {
         return get(diagnosisResultRepository, resultId, ErrorCode.RESULT_NOT_FOUND);
+    }
+
+    public DiagnosisResult getResultForUser(Long resultId, Long userId) {
+        DiagnosisResult result = getResult(resultId);
+        requireOwner(result.getUserId(), userId);
+        return result;
     }
 
     public DiagnosisResult getSharedResult(String shareToken) {
@@ -40,9 +53,20 @@ public class ResultService {
         return resultMajorScoreRepository.findByDiagnosisResultIdOrderByRankAsc(resultId);
     }
 
+    public List<ResultMajorScore> findMajorScoresForUser(Long resultId, Long userId) {
+        getResultForUser(resultId, userId);
+        return findMajorScores(resultId);
+    }
+
     @Transactional
     public DiagnosisResult createResult(Map<String, Object> values) {
         return diagnosisResultRepository.save(EntityFormMapper.create(DiagnosisResult.class, values));
+    }
+
+    @Transactional
+    public DiagnosisResult createResultForUser(Map<String, Object> values, Long userId) {
+        values.put("userId", userId);
+        return createResult(values);
     }
 
     @Transactional
@@ -53,7 +77,27 @@ public class ResultService {
     }
 
     @Transactional
+    public DiagnosisResult updateResultForUser(Long resultId, Long userId, Map<String, Object> values) {
+        DiagnosisResult result = getResultForUser(resultId, userId);
+        EntityFormMapper.apply(result, values);
+        return result;
+    }
+
+    @Transactional
     public ResultMajorScore createMajorScore(Map<String, Object> values) {
         return resultMajorScoreRepository.save(EntityFormMapper.create(ResultMajorScore.class, values));
+    }
+
+    @Transactional
+    public ResultMajorScore createMajorScoreForUser(Map<String, Object> values, Long userId) {
+        Long resultId = ((Number) values.get("diagnosisResultId")).longValue();
+        getResultForUser(resultId, userId);
+        return createMajorScore(values);
+    }
+
+    private void requireOwner(Long ownerId, Long userId) {
+        if (!ownerId.equals(userId)) {
+            throw new CustomException(ErrorCode.FORBIDDEN);
+        }
     }
 }

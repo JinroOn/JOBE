@@ -3,6 +3,7 @@ package com.jinroon.jobe.domain.consultation.controller.api;
 import com.jinroon.jobe.domain.consultation.entity.ConsultationLog;
 import com.jinroon.jobe.domain.consultation.entity.ConsultationSession;
 import com.jinroon.jobe.global.exception.error.ErrorDto;
+import com.jinroon.jobe.global.security.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -13,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.Map;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -26,6 +28,7 @@ public interface ConsultationApi {
                             array = @ArraySchema(schema = @Schema(implementation = ConsultationSession.class))))
     })
     List<ConsultationSession> findSessionsByUser(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "사용자 ID") @PathVariable Long userId
     );
 
@@ -37,6 +40,7 @@ public interface ConsultationApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     ConsultationSession getSession(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "상담 세션 ID") @PathVariable Long sessionId
     );
 
@@ -47,6 +51,7 @@ public interface ConsultationApi {
                             array = @ArraySchema(schema = @Schema(implementation = ConsultationLog.class))))
     })
     List<ConsultationLog> findLogs(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "상담 세션 ID") @PathVariable Long sessionId
     );
 
@@ -58,6 +63,7 @@ public interface ConsultationApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     ConsultationLog getLog(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "상담 로그 ID") @PathVariable Long logId
     );
 
@@ -69,6 +75,7 @@ public interface ConsultationApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     ConsultationSession createSession(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "상담 세션 필드값 Map", required = true)
             @RequestBody Map<String, Object> request
     );
@@ -83,6 +90,7 @@ public interface ConsultationApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     ConsultationSession updateSession(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "상담 세션 ID") @PathVariable Long sessionId,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "수정할 필드값 Map", required = true)
             @RequestBody Map<String, Object> request
@@ -98,6 +106,7 @@ public interface ConsultationApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     ConsultationSession endSession(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "상담 세션 ID") @PathVariable Long sessionId
     );
 
@@ -111,6 +120,7 @@ public interface ConsultationApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     ConsultationLog createLog(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "상담 로그 필드값 Map", required = true)
             @RequestBody Map<String, Object> request
     );

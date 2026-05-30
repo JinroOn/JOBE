@@ -98,6 +98,13 @@ public class UserService {
     }
 
     @Transactional
+    public void deleteFavoriteForUser(Long favoriteId, Long userId) {
+        UserFavorite favorite = get(userFavoriteRepository, favoriteId, ErrorCode.MAJOR_FAVORITE_NOT_FOUND);
+        requireOwner(favorite.getUserId(), userId);
+        userFavoriteRepository.delete(favorite);
+    }
+
+    @Transactional
     public Session createSession(Map<String, Object> values) {
         return sessionRepository.save(EntityFormMapper.create(Session.class, values));
     }
@@ -105,5 +112,11 @@ public class UserService {
     @Transactional
     public EmailVerification createEmailVerification(Map<String, Object> values) {
         return emailVerificationRepository.save(EntityFormMapper.create(EmailVerification.class, values));
+    }
+
+    private void requireOwner(Long ownerId, Long userId) {
+        if (!ownerId.equals(userId)) {
+            throw new CustomException(ErrorCode.FORBIDDEN);
+        }
     }
 }

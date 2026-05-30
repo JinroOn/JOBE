@@ -3,6 +3,7 @@ package com.jinroon.jobe.domain.result.controller.api;
 import com.jinroon.jobe.domain.result.entity.DiagnosisResult;
 import com.jinroon.jobe.domain.result.entity.ResultMajorScore;
 import com.jinroon.jobe.global.exception.error.ErrorDto;
+import com.jinroon.jobe.global.security.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -13,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.Map;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +29,7 @@ public interface ResultApi {
                             array = @ArraySchema(schema = @Schema(implementation = DiagnosisResult.class))))
     })
     List<DiagnosisResult> findResults(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "사용자 ID (선택)") @RequestParam(required = false) Long userId
     );
 
@@ -38,6 +41,7 @@ public interface ResultApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     DiagnosisResult getResult(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "진단 결과 ID") @PathVariable Long resultId
     );
 
@@ -59,6 +63,7 @@ public interface ResultApi {
                             array = @ArraySchema(schema = @Schema(implementation = ResultMajorScore.class))))
     })
     List<ResultMajorScore> findMajorScores(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "진단 결과 ID") @PathVariable Long resultId
     );
 
@@ -70,6 +75,7 @@ public interface ResultApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     DiagnosisResult createResult(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "진단 결과 필드값 Map", required = true)
             @RequestBody Map<String, Object> request
     );
@@ -84,6 +90,7 @@ public interface ResultApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     DiagnosisResult updateResult(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "진단 결과 ID") @PathVariable Long resultId,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "수정할 필드값 Map", required = true)
             @RequestBody Map<String, Object> request
@@ -97,6 +104,7 @@ public interface ResultApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     ResultMajorScore createMajorScore(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "전공별 점수 필드값 Map", required = true)
             @RequestBody Map<String, Object> request
     );

@@ -7,6 +7,7 @@ import com.jinroon.jobe.domain.diagnosis.entity.DiagnosisSession;
 import com.jinroon.jobe.domain.diagnosis.entity.ExamQuestion;
 import com.jinroon.jobe.domain.diagnosis.entity.TendencyEvalResult;
 import com.jinroon.jobe.global.exception.error.ErrorDto;
+import com.jinroon.jobe.global.security.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -17,6 +18,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.Map;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -31,6 +33,7 @@ public interface DiagnosisApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     DiagnosisSession getSession(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "진단 세션 ID") @PathVariable Long sessionId
     );
 
@@ -41,6 +44,7 @@ public interface DiagnosisApi {
                             array = @ArraySchema(schema = @Schema(implementation = DiagnosisSession.class))))
     })
     List<DiagnosisSession> findSessionsByUser(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "사용자 ID") @PathVariable Long userId
     );
 
@@ -70,6 +74,7 @@ public interface DiagnosisApi {
                             array = @ArraySchema(schema = @Schema(implementation = DiagnosisExamAnswer.class))))
     })
     List<DiagnosisExamAnswer> findExamAnswers(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "진단 세션 ID") @PathVariable Long sessionId
     );
 
@@ -80,6 +85,7 @@ public interface DiagnosisApi {
                             array = @ArraySchema(schema = @Schema(implementation = DiagnosisEssayAnswer.class))))
     })
     List<DiagnosisEssayAnswer> findEssayAnswers(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "진단 세션 ID") @PathVariable Long sessionId
     );
 
@@ -91,6 +97,7 @@ public interface DiagnosisApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     CompetencyEvalResult getCompetencyResult(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "진단 세션 ID") @PathVariable Long sessionId
     );
 
@@ -102,6 +109,7 @@ public interface DiagnosisApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     TendencyEvalResult getTendencyResult(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "진단 세션 ID") @PathVariable Long sessionId
     );
 
@@ -113,6 +121,7 @@ public interface DiagnosisApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     DiagnosisSession createSession(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "진단 세션 필드값 Map", required = true)
             @RequestBody Map<String, Object> request
     );
@@ -127,6 +136,7 @@ public interface DiagnosisApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     DiagnosisSession updateSession(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "진단 세션 ID") @PathVariable Long sessionId,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "수정할 필드값 Map", required = true)
             @RequestBody Map<String, Object> request
@@ -152,6 +162,7 @@ public interface DiagnosisApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     DiagnosisExamAnswer createExamAnswer(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "객관식 답변 필드값 Map", required = true)
             @RequestBody Map<String, Object> request
     );
@@ -164,6 +175,7 @@ public interface DiagnosisApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     DiagnosisEssayAnswer createEssayAnswer(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "서술형 답변 필드값 Map", required = true)
             @RequestBody Map<String, Object> request
     );
@@ -176,6 +188,7 @@ public interface DiagnosisApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     CompetencyEvalResult createCompetencyResult(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "역량 평가 결과 필드값 Map", required = true)
             @RequestBody Map<String, Object> request
     );
@@ -188,6 +201,7 @@ public interface DiagnosisApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     TendencyEvalResult createTendencyResult(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "성향 평가 결과 필드값 Map", required = true)
             @RequestBody Map<String, Object> request
     );
