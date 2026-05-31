@@ -1,6 +1,7 @@
 package com.jinroon.jobe.domain.major.controller.api;
 
 import com.jinroon.jobe.domain.major.entity.Major;
+import com.jinroon.jobe.domain.major.dto.request.MajorRequest;
 import com.jinroon.jobe.global.exception.error.ErrorDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -12,7 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
-import java.util.Map;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,7 +56,7 @@ public interface MajorApi {
                     required = true,
                     content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.major.dto.request.MajorRequest.class))
             )
-            @RequestBody Map<String, Object> request
+            @Valid @RequestBody MajorRequest request
     );
 
     @Operation(summary = "전공 수정", description = "전공 ID와 변경할 필드값으로 전공 정보를 수정합니다.")
@@ -74,7 +75,7 @@ public interface MajorApi {
                     required = true,
                     content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.major.dto.request.MajorRequest.class))
             )
-            @RequestBody Map<String, Object> request
+            @Valid @RequestBody MajorRequest request
     );
 
     @Operation(summary = "전공 삭제", description = "전공 ID로 전공을 삭제합니다.")

@@ -1,9 +1,11 @@
 package com.jinroon.jobe.domain.notice.controller;
 
 import com.jinroon.jobe.domain.notice.controller.api.NoticeApi;
+import com.jinroon.jobe.domain.notice.dto.request.NoticeRequest;
 import com.jinroon.jobe.domain.notice.entity.Notice;
 import com.jinroon.jobe.domain.notice.service.NoticeService;
-import java.util.Map;
+import com.jinroon.jobe.global.common.dto.RequestMapMapper;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -45,14 +47,14 @@ public class NoticeController implements NoticeApi {
     @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Notice createNotice(@RequestBody Map<String, Object> request) {
-        return noticeService.createNotice(request);
+    public Notice createNotice(@Valid @RequestBody NoticeRequest request) {
+        return noticeService.createNotice(RequestMapMapper.toMap(request));
     }
 
     @Override
     @PatchMapping("/{noticeId}")
-    public Notice updateNotice(@PathVariable Long noticeId, @RequestBody Map<String, Object> request) {
-        return noticeService.updateNotice(noticeId, request);
+    public Notice updateNotice(@PathVariable Long noticeId, @Valid @RequestBody NoticeRequest request) {
+        return noticeService.updateNotice(noticeId, RequestMapMapper.toMap(request));
     }
 
     @Override

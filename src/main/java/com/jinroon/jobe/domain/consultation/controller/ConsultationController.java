@@ -1,12 +1,15 @@
 package com.jinroon.jobe.domain.consultation.controller;
 
 import com.jinroon.jobe.domain.consultation.controller.api.ConsultationApi;
+import com.jinroon.jobe.domain.consultation.dto.request.ConsultationLogRequest;
+import com.jinroon.jobe.domain.consultation.dto.request.ConsultationSessionRequest;
 import com.jinroon.jobe.domain.consultation.entity.ConsultationLog;
 import com.jinroon.jobe.domain.consultation.entity.ConsultationSession;
 import com.jinroon.jobe.domain.consultation.service.ConsultationService;
+import com.jinroon.jobe.global.common.dto.RequestMapMapper;
 import com.jinroon.jobe.global.security.CustomUserDetails;
+import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -61,8 +64,8 @@ public class ConsultationController implements ConsultationApi {
     @ResponseStatus(HttpStatus.CREATED)
     public ConsultationSession createSession(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestBody Map<String, Object> request) {
-        return consultationService.createSessionForUser(request, userDetails.getUserId());
+            @Valid @RequestBody ConsultationSessionRequest request) {
+        return consultationService.createSessionForUser(RequestMapMapper.toMap(request), userDetails.getUserId());
     }
 
     @Override
@@ -70,8 +73,8 @@ public class ConsultationController implements ConsultationApi {
     public ConsultationSession updateSession(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @PathVariable Long sessionId,
-            @RequestBody Map<String, Object> request) {
-        return consultationService.updateSessionForUser(sessionId, request, userDetails.getUserId());
+            @Valid @RequestBody ConsultationSessionRequest request) {
+        return consultationService.updateSessionForUser(sessionId, RequestMapMapper.toMap(request), userDetails.getUserId());
     }
 
     @Override
@@ -87,7 +90,7 @@ public class ConsultationController implements ConsultationApi {
     @ResponseStatus(HttpStatus.CREATED)
     public ConsultationLog createLog(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestBody Map<String, Object> request) {
-        return consultationService.createLogForUser(request, userDetails.getUserId());
+            @Valid @RequestBody ConsultationLogRequest request) {
+        return consultationService.createLogForUser(RequestMapMapper.toMap(request), userDetails.getUserId());
     }
 }

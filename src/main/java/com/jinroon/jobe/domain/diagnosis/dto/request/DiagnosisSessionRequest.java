@@ -1,6 +1,7 @@
 package com.jinroon.jobe.domain.diagnosis.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Min;
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +18,7 @@ public class DiagnosisSessionRequest {
     private String status;
 
     @Schema(description = "현재 단계", example = "1")
+    @Min(1)
     private Integer currentStep;
 
     @Schema(description = "시작 일시", example = "2026-05-30T15:00:00")

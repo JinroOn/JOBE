@@ -1,6 +1,9 @@
 package com.jinroon.jobe.domain.diagnosis.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +18,15 @@ public class DiagnosisExamAnswerRequest {
     @Schema(description = "시험 문항 ID", example = "1")
     private Long examQuestionId;
 
-    @Schema(description = "선택한 옵션 번호", example = "1")
-    private Integer selectedOption;
+    @Schema(description = "선택한 답", example = "A")
+    @Pattern(regexp = "[ABCD]")
+    private String selectedAnswer;
+
+    @Schema(description = "정답 여부", example = "true")
+    private Boolean correct;
+
+    @Schema(description = "응답 시간(초)", example = "12")
+    @Min(0)
+    @Max(3600)
+    private Integer responseSec;
 }

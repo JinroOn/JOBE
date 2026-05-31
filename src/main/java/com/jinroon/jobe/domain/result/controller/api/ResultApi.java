@@ -2,6 +2,8 @@ package com.jinroon.jobe.domain.result.controller.api;
 
 import com.jinroon.jobe.domain.result.entity.DiagnosisResult;
 import com.jinroon.jobe.domain.result.entity.ResultMajorScore;
+import com.jinroon.jobe.domain.result.dto.request.DiagnosisResultRequest;
+import com.jinroon.jobe.domain.result.dto.request.ResultMajorScoreRequest;
 import com.jinroon.jobe.global.exception.error.ErrorDto;
 import com.jinroon.jobe.global.security.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,8 +15,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Map;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -80,7 +82,7 @@ public interface ResultApi {
                     required = true,
                     content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.result.dto.request.DiagnosisResultRequest.class))
             )
-            @RequestBody Map<String, Object> request
+            @Valid @RequestBody DiagnosisResultRequest request
     );
 
     @Operation(summary = "진단 결과 수정", description = "진단 결과 ID와 변경할 필드값으로 결과를 수정합니다.")
@@ -100,7 +102,7 @@ public interface ResultApi {
                     required = true,
                     content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.result.dto.request.DiagnosisResultRequest.class))
             )
-            @RequestBody Map<String, Object> request
+            @Valid @RequestBody DiagnosisResultRequest request
     );
 
     @Operation(summary = "전공별 점수 생성", description = "진단 결과의 전공별 점수를 저장합니다.")
@@ -117,6 +119,6 @@ public interface ResultApi {
                     required = true,
                     content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.result.dto.request.ResultMajorScoreRequest.class))
             )
-            @RequestBody Map<String, Object> request
+            @Valid @RequestBody ResultMajorScoreRequest request
     );
 }

@@ -1,12 +1,15 @@
 package com.jinroon.jobe.domain.result.controller;
 
 import com.jinroon.jobe.domain.result.controller.api.ResultApi;
+import com.jinroon.jobe.domain.result.dto.request.DiagnosisResultRequest;
+import com.jinroon.jobe.domain.result.dto.request.ResultMajorScoreRequest;
 import com.jinroon.jobe.domain.result.entity.DiagnosisResult;
 import com.jinroon.jobe.domain.result.entity.ResultMajorScore;
 import com.jinroon.jobe.domain.result.service.ResultService;
+import com.jinroon.jobe.global.common.dto.RequestMapMapper;
 import com.jinroon.jobe.global.security.CustomUserDetails;
+import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -59,8 +62,8 @@ public class ResultController implements ResultApi {
     @ResponseStatus(HttpStatus.CREATED)
     public DiagnosisResult createResult(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestBody Map<String, Object> request) {
-        return resultService.createResultForUser(request, userDetails.getUserId());
+            @Valid @RequestBody DiagnosisResultRequest request) {
+        return resultService.createResultForUser(RequestMapMapper.toMap(request), userDetails.getUserId());
     }
 
     @Override
@@ -68,8 +71,8 @@ public class ResultController implements ResultApi {
     public DiagnosisResult updateResult(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @PathVariable Long resultId,
-            @RequestBody Map<String, Object> request) {
-        return resultService.updateResultForUser(resultId, request, userDetails.getUserId());
+            @Valid @RequestBody DiagnosisResultRequest request) {
+        return resultService.updateResultForUser(resultId, RequestMapMapper.toMap(request), userDetails.getUserId());
     }
 
     @Override
@@ -77,7 +80,7 @@ public class ResultController implements ResultApi {
     @ResponseStatus(HttpStatus.CREATED)
     public ResultMajorScore createMajorScore(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestBody Map<String, Object> request) {
-        return resultService.createMajorScoreForUser(request, userDetails.getUserId());
+            @Valid @RequestBody ResultMajorScoreRequest request) {
+        return resultService.createMajorScoreForUser(RequestMapMapper.toMap(request), userDetails.getUserId());
     }
 }

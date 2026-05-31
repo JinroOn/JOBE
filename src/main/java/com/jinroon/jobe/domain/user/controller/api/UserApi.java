@@ -5,6 +5,11 @@ import com.jinroon.jobe.domain.user.dto.response.UserConsentResponse;
 import com.jinroon.jobe.domain.user.dto.response.UserFavoriteResponse;
 import com.jinroon.jobe.domain.user.dto.response.UserResponse;
 import com.jinroon.jobe.domain.user.dto.response.UserSessionResponse;
+import com.jinroon.jobe.domain.user.dto.request.EmailVerificationRequest;
+import com.jinroon.jobe.domain.user.dto.request.SessionRequest;
+import com.jinroon.jobe.domain.user.dto.request.UserConsentRequest;
+import com.jinroon.jobe.domain.user.dto.request.UserFavoriteRequest;
+import com.jinroon.jobe.domain.user.dto.request.UserRequest;
 import com.jinroon.jobe.global.exception.error.ErrorDto;
 import com.jinroon.jobe.global.security.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,8 +21,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Map;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -103,7 +108,7 @@ public interface UserApi {
                     required = true,
                     content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.user.dto.request.UserRequest.class))
             )
-            @RequestBody Map<String, Object> request
+            @Valid @RequestBody UserRequest request
     );
 
     @Operation(summary = "내 정보 수정", description = "현재 로그인한 사용자의 정보를 수정합니다.")
@@ -122,7 +127,7 @@ public interface UserApi {
                     required = true,
                     content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.user.dto.request.UserRequest.class))
             )
-            @RequestBody Map<String, Object> request
+            @Valid @RequestBody UserRequest request
     );
 
     @Operation(summary = "회원 탈퇴", description = "현재 로그인한 사용자를 삭제합니다.")
@@ -149,7 +154,7 @@ public interface UserApi {
                     required = true,
                     content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.user.dto.request.UserConsentRequest.class))
             )
-            @RequestBody Map<String, Object> request
+            @Valid @RequestBody UserConsentRequest request
     );
 
     @Operation(summary = "즐겨찾기 전공 추가", description = "현재 로그인한 사용자의 즐겨찾기 전공을 추가합니다.")
@@ -170,7 +175,7 @@ public interface UserApi {
                     required = true,
                     content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.user.dto.request.UserFavoriteRequest.class))
             )
-            @RequestBody Map<String, Object> request
+            @Valid @RequestBody UserFavoriteRequest request
     );
 
     @Operation(summary = "즐겨찾기 전공 삭제", description = "즐겨찾기 ID로 즐겨찾기를 삭제합니다.")
@@ -198,7 +203,7 @@ public interface UserApi {
                     required = true,
                     content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.user.dto.request.SessionRequest.class))
             )
-            @RequestBody Map<String, Object> request
+            @Valid @RequestBody SessionRequest request
     );
 
     @Operation(summary = "이메일 인증 레코드 생성", description = "이메일 인증 레코드를 직접 생성합니다.")
@@ -214,6 +219,6 @@ public interface UserApi {
                     required = true,
                     content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.user.dto.request.EmailVerificationRequest.class))
             )
-            @RequestBody Map<String, Object> request
+            @Valid @RequestBody EmailVerificationRequest request
     );
 }
