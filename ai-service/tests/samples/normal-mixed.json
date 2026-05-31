@@ -1,0 +1,49 @@
+{
+  "sessionId": 102,
+  "profile": {
+    "mathLogicalScore": 72,
+    "problemSolvingScore": 68,
+    "infoTechUtilizationScore": 79,
+    "softwareImplementationScore": 70,
+    "systemUnderstandingScore": 61,
+    "dataAnalysisScore": 83,
+    "communicationScore": 58,
+    "collaborationScore": 64,
+    "selfManagementScore": 74
+  },
+  "topMajors": [
+    {
+      "majorName": "경영학과",
+      "rankingOrder": 1,
+      "fitScore": 82.0,
+      "strengths": "데이터분석, 정보활용",
+      "weaknesses": "의사소통, 시스템이해"
+    },
+    {
+      "majorName": "전자공학과",
+      "rankingOrder": 2,
+      "fitScore": 79.4,
+      "strengths": "수리논리, 정보활용",
+      "weaknesses": "시스템이해"
+    },
+    {
+      "majorName": "미디어학과",
+      "rankingOrder": 3,
+      "fitScore": 77.9,
+      "strengths": "정보활용, 구현",
+      "weaknesses": "의사소통"
+    }
+  ],
+  "userContext": {
+    "grade": "고1",
+    "careerField": "콘텐츠",
+    "preferredSubject": "정보",
+    "studyHours": 14,
+    "learningStyle": "실습중심",
+    "theoryPreference": 40,
+    "practicePreference": 60,
+    "mathAchievement": 70,
+    "scienceAchievement": 66,
+    "problemSolvingStyle": "시행착오형"
+  }
+}

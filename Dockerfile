@@ -23,7 +23,4 @@ RUN mkdir -p /app/logs
 EXPOSE 8080
 
 # 실행
-ENTRYPOINT ["java", \
-  "-Djava.security.egd=file:/dev/./urandom", \
-  "-jar", \
-  "app.jar"]
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "app.jar"]

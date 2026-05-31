@@ -24,8 +24,3 @@ springdoc:
 
 jwt:
   secret: dev-secret-key-must-be-at-least-256-bits-long-for-hs256-algorithm
-
-ai:
-  server:
-    url: http://localhost:8000
-    token: dev-internal-token
