@@ -35,8 +35,10 @@ public class DiagnosisController implements DiagnosisApi {
 
     @Override
     @GetMapping("/sessions/{sessionId}")
-    public DiagnosisSession getSession(@PathVariable Long sessionId) {
-        return diagnosisService.getSession(sessionId);
+    public DiagnosisSession getSession(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long sessionId) {
+        return diagnosisService.getSessionForUser(sessionId, userDetails.getUserId());
     }
 
     @Override
@@ -59,39 +61,52 @@ public class DiagnosisController implements DiagnosisApi {
 
     @Override
     @GetMapping("/sessions/{sessionId}/exam-answers")
-    public List<DiagnosisExamAnswer> findExamAnswers(@PathVariable Long sessionId) {
-        return diagnosisService.findExamAnswers(sessionId);
+    public List<DiagnosisExamAnswer> findExamAnswers(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long sessionId) {
+        return diagnosisService.findExamAnswersForUser(sessionId, userDetails.getUserId());
     }
 
     @Override
     @GetMapping("/sessions/{sessionId}/essay-answers")
-    public List<DiagnosisEssayAnswer> findEssayAnswers(@PathVariable Long sessionId) {
-        return diagnosisService.findEssayAnswers(sessionId);
+    public List<DiagnosisEssayAnswer> findEssayAnswers(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long sessionId) {
+        return diagnosisService.findEssayAnswersForUser(sessionId, userDetails.getUserId());
     }
 
     @Override
     @GetMapping("/sessions/{sessionId}/competency-result")
-    public CompetencyEvalResult getCompetencyResult(@PathVariable Long sessionId) {
-        return diagnosisService.getCompetencyResult(sessionId);
+    public CompetencyEvalResult getCompetencyResult(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long sessionId) {
+        return diagnosisService.getCompetencyResultForUser(sessionId, userDetails.getUserId());
     }
 
     @Override
     @GetMapping("/sessions/{sessionId}/tendency-result")
-    public TendencyEvalResult getTendencyResult(@PathVariable Long sessionId) {
-        return diagnosisService.getTendencyResult(sessionId);
+    public TendencyEvalResult getTendencyResult(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long sessionId) {
+        return diagnosisService.getTendencyResultForUser(sessionId, userDetails.getUserId());
     }
 
     @Override
     @PostMapping("/sessions")
     @ResponseStatus(HttpStatus.CREATED)
-    public DiagnosisSession createSession(@RequestBody Map<String, Object> request) {
-        return diagnosisService.createSession(request);
+    public DiagnosisSession createSession(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestBody Map<String, Object> request) {
+        return diagnosisService.createSessionForUser(request, userDetails.getUserId());
     }
 
     @Override
     @PatchMapping("/sessions/{sessionId}")
-    public DiagnosisSession updateSession(@PathVariable Long sessionId, @RequestBody Map<String, Object> request) {
-        return diagnosisService.updateSession(sessionId, request);
+    public DiagnosisSession updateSession(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long sessionId,
+            @RequestBody Map<String, Object> request) {
+        return diagnosisService.updateSessionForUser(sessionId, request, userDetails.getUserId());
     }
 
     @Override
@@ -104,28 +119,36 @@ public class DiagnosisController implements DiagnosisApi {
     @Override
     @PostMapping("/exam-answers")
     @ResponseStatus(HttpStatus.CREATED)
-    public DiagnosisExamAnswer createExamAnswer(@RequestBody Map<String, Object> request) {
-        return diagnosisService.createExamAnswer(request);
+    public DiagnosisExamAnswer createExamAnswer(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestBody Map<String, Object> request) {
+        return diagnosisService.createExamAnswerForUser(request, userDetails.getUserId());
     }
 
     @Override
     @PostMapping("/essay-answers")
     @ResponseStatus(HttpStatus.CREATED)
-    public DiagnosisEssayAnswer createEssayAnswer(@RequestBody Map<String, Object> request) {
-        return diagnosisService.createEssayAnswer(request);
+    public DiagnosisEssayAnswer createEssayAnswer(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestBody Map<String, Object> request) {
+        return diagnosisService.createEssayAnswerForUser(request, userDetails.getUserId());
     }
 
     @Override
     @PostMapping("/competency-results")
     @ResponseStatus(HttpStatus.CREATED)
-    public CompetencyEvalResult createCompetencyResult(@RequestBody Map<String, Object> request) {
-        return diagnosisService.createCompetencyResult(request);
+    public CompetencyEvalResult createCompetencyResult(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestBody Map<String, Object> request) {
+        return diagnosisService.createCompetencyResultForUser(request, userDetails.getUserId());
     }
 
     @Override
     @PostMapping("/tendency-results")
     @ResponseStatus(HttpStatus.CREATED)
-    public TendencyEvalResult createTendencyResult(@RequestBody Map<String, Object> request) {
-        return diagnosisService.createTendencyResult(request);
+    public TendencyEvalResult createTendencyResult(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestBody Map<String, Object> request) {
+        return diagnosisService.createTendencyResultForUser(request, userDetails.getUserId());
     }
 }

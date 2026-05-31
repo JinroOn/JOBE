@@ -29,61 +29,78 @@ public class PlanController implements PlanApi {
 
     @Override
     @GetMapping("/{planId}")
-    public MajorWeeklyPlan getPlan(@PathVariable Long planId) {
-        return planService.getPlan(planId);
+    public MajorWeeklyPlan getPlan(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long planId) {
+        return planService.getPlanForUser(planId, userDetails.getUserId());
     }
 
     @Override
     @GetMapping("/results/{resultId}")
-    public List<MajorWeeklyPlan> findPlansByResult(@PathVariable Long resultId) {
-        return planService.findPlansByResult(resultId);
+    public List<MajorWeeklyPlan> findPlansByResult(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long resultId) {
+        return planService.findPlansByResultForUser(resultId, userDetails.getUserId());
     }
 
     @Override
     @GetMapping("/{planId}/items")
-    public List<MajorWeeklyPlanItem> findItems(@PathVariable Long planId) {
-        return planService.findItems(planId);
+    public List<MajorWeeklyPlanItem> findItems(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long planId) {
+        return planService.findItemsForUser(planId, userDetails.getUserId());
     }
 
     @Override
     @GetMapping("/{planId}/risk-notes")
-    public List<MajorWeeklyPlanRiskNote> findRiskNotes(@PathVariable Long planId) {
-        return planService.findRiskNotes(planId);
+    public List<MajorWeeklyPlanRiskNote> findRiskNotes(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long planId) {
+        return planService.findRiskNotesForUser(planId, userDetails.getUserId());
     }
 
     @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public MajorWeeklyPlan createPlan(@RequestBody Map<String, Object> request) {
-        return planService.createPlan(request);
+    public MajorWeeklyPlan createPlan(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestBody Map<String, Object> request) {
+        return planService.createPlanForUser(request, userDetails.getUserId());
     }
 
     @Override
     @PatchMapping("/{planId}")
-    public MajorWeeklyPlan updatePlan(@PathVariable Long planId, @RequestBody Map<String, Object> request) {
-        return planService.updatePlan(planId, request);
+    public MajorWeeklyPlan updatePlan(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long planId,
+            @RequestBody Map<String, Object> request) {
+        return planService.updatePlanForUser(planId, request, userDetails.getUserId());
     }
 
     @Override
     @PostMapping("/items")
     @ResponseStatus(HttpStatus.CREATED)
-    public MajorWeeklyPlanItem createItem(@RequestBody Map<String, Object> request) {
-        return planService.createItem(request);
+    public MajorWeeklyPlanItem createItem(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestBody Map<String, Object> request) {
+        return planService.createItemForUser(request, userDetails.getUserId());
     }
 
     @Override
     @PatchMapping("/items/{id}/complete")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void completeItem(
-            @PathVariable Long id,
-            @AuthenticationPrincipal CustomUserDetails userDetails) {
-        planService.completeItem(id);
+        @PathVariable Long id,
+        @AuthenticationPrincipal CustomUserDetails userDetails) {
+        planService.completeItemForUser(id, userDetails.getUserId());
     }
 
     @Override
     @PostMapping("/risk-notes")
     @ResponseStatus(HttpStatus.CREATED)
-    public MajorWeeklyPlanRiskNote createRiskNote(@RequestBody Map<String, Object> request) {
-        return planService.createRiskNote(request);
+    public MajorWeeklyPlanRiskNote createRiskNote(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestBody Map<String, Object> request) {
+        return planService.createRiskNoteForUser(request, userDetails.getUserId());
     }
 }

@@ -40,6 +40,7 @@ public interface ConsultationApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     ConsultationSession getSession(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "상담 세션 ID") @PathVariable Long sessionId
     );
 
@@ -50,6 +51,7 @@ public interface ConsultationApi {
                             array = @ArraySchema(schema = @Schema(implementation = ConsultationLog.class))))
     })
     List<ConsultationLog> findLogs(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "상담 세션 ID") @PathVariable Long sessionId
     );
 
@@ -61,6 +63,7 @@ public interface ConsultationApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     ConsultationLog getLog(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "상담 로그 ID") @PathVariable Long logId
     );
 
@@ -72,6 +75,7 @@ public interface ConsultationApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     ConsultationSession createSession(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "상담 세션 생성 정보",
                     required = true,
@@ -90,6 +94,7 @@ public interface ConsultationApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     ConsultationSession updateSession(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "상담 세션 ID") @PathVariable Long sessionId,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "수정할 세션 필드값",
@@ -109,6 +114,7 @@ public interface ConsultationApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     ConsultationSession endSession(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "상담 세션 ID") @PathVariable Long sessionId
     );
 
@@ -122,6 +128,7 @@ public interface ConsultationApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     ConsultationLog createLog(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "상담 로그 정보 (role: user | advisor)",
                     required = true,

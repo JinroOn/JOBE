@@ -31,6 +31,7 @@ public interface PlanApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     MajorWeeklyPlan getPlan(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "학습 계획 ID") @PathVariable Long planId
     );
 
@@ -41,6 +42,7 @@ public interface PlanApi {
                             array = @ArraySchema(schema = @Schema(implementation = MajorWeeklyPlan.class))))
     })
     List<MajorWeeklyPlan> findPlansByResult(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "진단 결과 ID") @PathVariable Long resultId
     );
 
@@ -51,6 +53,7 @@ public interface PlanApi {
                             array = @ArraySchema(schema = @Schema(implementation = MajorWeeklyPlanItem.class))))
     })
     List<MajorWeeklyPlanItem> findItems(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "학습 계획 ID") @PathVariable Long planId
     );
 
@@ -61,6 +64,7 @@ public interface PlanApi {
                             array = @ArraySchema(schema = @Schema(implementation = MajorWeeklyPlanRiskNote.class))))
     })
     List<MajorWeeklyPlanRiskNote> findRiskNotes(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "학습 계획 ID") @PathVariable Long planId
     );
 
@@ -72,6 +76,7 @@ public interface PlanApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     MajorWeeklyPlan createPlan(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "학습 계획 생성 정보",
                     required = true,
@@ -90,6 +95,7 @@ public interface PlanApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     MajorWeeklyPlan updatePlan(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "학습 계획 ID") @PathVariable Long planId,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "수정할 필드값",
@@ -107,6 +113,7 @@ public interface PlanApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     MajorWeeklyPlanItem createItem(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "주차별 학습 항목 정보",
                     required = true,
@@ -134,6 +141,7 @@ public interface PlanApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     MajorWeeklyPlanRiskNote createRiskNote(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "리스크 노트 정보",
                     required = true,

@@ -70,8 +70,11 @@ public class UserController implements UserApi {
 
     @Override
     @GetMapping("/email-verifications/{verificationId}")
-    public EmailVerificationResponse getEmailVerification(@PathVariable Long verificationId) {
-        return EmailVerificationResponse.from(userService.getEmailVerification(verificationId));
+    public EmailVerificationResponse getEmailVerification(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long verificationId) {
+        return EmailVerificationResponse.from(
+                userService.getEmailVerificationForUser(verificationId, userDetails.getUserId()));
     }
 
     @Override
@@ -119,15 +122,19 @@ public class UserController implements UserApi {
     @Override
     @DeleteMapping("/favorites/{favoriteId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteFavorite(@PathVariable Long favoriteId) {
-        userService.deleteFavorite(favoriteId);
+    public void deleteFavorite(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long favoriteId) {
+        userService.deleteFavoriteForUser(favoriteId, userDetails.getUserId());
     }
 
     @Override
     @PostMapping("/sessions")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserSessionResponse createSession(@RequestBody Map<String, Object> request) {
-        return UserSessionResponse.from(userService.createSession(request));
+    public UserSessionResponse createSession(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestBody Map<String, Object> request) {
+        return UserSessionResponse.from(userService.createSessionForUser(request, userDetails.getUserId()));
     }
 
     @Override

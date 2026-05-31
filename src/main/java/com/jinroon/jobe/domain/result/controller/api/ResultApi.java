@@ -40,6 +40,7 @@ public interface ResultApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     DiagnosisResult getResult(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "진단 결과 ID") @PathVariable Long resultId
     );
 
@@ -61,6 +62,7 @@ public interface ResultApi {
                             array = @ArraySchema(schema = @Schema(implementation = ResultMajorScore.class))))
     })
     List<ResultMajorScore> findMajorScores(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "진단 결과 ID") @PathVariable Long resultId
     );
 
@@ -72,6 +74,7 @@ public interface ResultApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     DiagnosisResult createResult(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "진단 결과 생성 정보",
                     required = true,
@@ -90,6 +93,7 @@ public interface ResultApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     DiagnosisResult updateResult(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "진단 결과 ID") @PathVariable Long resultId,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "수정할 필드값",
@@ -107,6 +111,7 @@ public interface ResultApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     ResultMajorScore createMajorScore(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "전공별 점수 정보",
                     required = true,

@@ -45,6 +45,7 @@ public interface DiagnosisApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     DiagnosisSession getSession(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "진단 세션 ID") @PathVariable Long sessionId
     );
 
@@ -84,6 +85,7 @@ public interface DiagnosisApi {
                             array = @ArraySchema(schema = @Schema(implementation = DiagnosisExamAnswer.class))))
     })
     List<DiagnosisExamAnswer> findExamAnswers(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "진단 세션 ID") @PathVariable Long sessionId
     );
 
@@ -94,6 +96,7 @@ public interface DiagnosisApi {
                             array = @ArraySchema(schema = @Schema(implementation = DiagnosisEssayAnswer.class))))
     })
     List<DiagnosisEssayAnswer> findEssayAnswers(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "진단 세션 ID") @PathVariable Long sessionId
     );
 
@@ -105,6 +108,7 @@ public interface DiagnosisApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     CompetencyEvalResult getCompetencyResult(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "진단 세션 ID") @PathVariable Long sessionId
     );
 
@@ -116,6 +120,7 @@ public interface DiagnosisApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     TendencyEvalResult getTendencyResult(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "진단 세션 ID") @PathVariable Long sessionId
     );
 
@@ -127,6 +132,7 @@ public interface DiagnosisApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     DiagnosisSession createSession(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "진단 세션 생성 정보",
                     required = true,
@@ -145,6 +151,7 @@ public interface DiagnosisApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     DiagnosisSession updateSession(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "진단 세션 ID") @PathVariable Long sessionId,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "수정할 세션 필드값",
@@ -178,6 +185,7 @@ public interface DiagnosisApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     DiagnosisExamAnswer createExamAnswer(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "객관식 답변 정보",
                     required = true,
@@ -194,6 +202,7 @@ public interface DiagnosisApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     DiagnosisEssayAnswer createEssayAnswer(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "서술형 답변 정보",
                     required = true,
@@ -210,6 +219,7 @@ public interface DiagnosisApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     CompetencyEvalResult createCompetencyResult(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "역량 평가 결과 (9개 역량 점수)",
                     required = true,
@@ -226,6 +236,7 @@ public interface DiagnosisApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     TendencyEvalResult createTendencyResult(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "성향 평가 결과",
                     required = true,

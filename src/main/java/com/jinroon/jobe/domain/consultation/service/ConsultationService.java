@@ -11,6 +11,7 @@ import com.jinroon.jobe.domain.consultation.repository.ConsultationLogRepository
 import com.jinroon.jobe.domain.consultation.repository.ConsultationSessionRepository;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,12 +32,29 @@ public class ConsultationService {
         return get(consultationSessionRepository, sessionId, ErrorCode.CONSULTATION_SESSION_NOT_FOUND);
     }
 
+    public ConsultationSession getSessionForUser(Long sessionId, Long userId) {
+        ConsultationSession session = getSession(sessionId);
+        requireOwner(session.getUserId(), userId);
+        return session;
+    }
+
     public List<ConsultationLog> findLogs(Long sessionId) {
         return consultationLogRepository.findByConsultationSessionIdOrderByCreatedAtAsc(sessionId);
     }
 
+    public List<ConsultationLog> findLogsForUser(Long sessionId, Long userId) {
+        getSessionForUser(sessionId, userId);
+        return findLogs(sessionId);
+    }
+
     public ConsultationLog getLog(Long logId) {
         return get(consultationLogRepository, logId, ErrorCode.CONSULTATION_LOG_NOT_FOUND);
+    }
+
+    public ConsultationLog getLogForUser(Long logId, Long userId) {
+        ConsultationLog log = getLog(logId);
+        getSessionForUser(log.getConsultationSessionId(), userId);
+        return log;
     }
 
     @Transactional
@@ -45,8 +63,22 @@ public class ConsultationService {
     }
 
     @Transactional
+    public ConsultationSession createSessionForUser(Map<String, Object> values, Long userId) {
+        values.put("userId", userId);
+        return createSession(values);
+    }
+
+    @Transactional
     public ConsultationSession updateSession(Long sessionId, Map<String, Object> values) {
         ConsultationSession session = getSession(sessionId);
+        EntityFormMapper.apply(session, values);
+        return session;
+    }
+
+    @Transactional
+    public ConsultationSession updateSessionForUser(Long sessionId, Map<String, Object> values, Long userId) {
+        ConsultationSession session = getSessionForUser(sessionId, userId);
+        values.remove("userId");
         EntityFormMapper.apply(session, values);
         return session;
     }
@@ -61,6 +93,12 @@ public class ConsultationService {
     }
 
     @Transactional
+    public ConsultationSession endSessionForUser(Long sessionId, Long userId) {
+        getSessionForUser(sessionId, userId);
+        return endSession(sessionId);
+    }
+
+    @Transactional
     public ConsultationLog createLog(Map<String, Object> values) {
         Long sessionId = ((Number) values.get("consultationSessionId")).longValue();
         ConsultationSession session = getSession(sessionId);
@@ -68,5 +106,18 @@ public class ConsultationService {
             throw new CustomException(ErrorCode.CONSULTATION_SESSION_ALREADY_ENDED);
         }
         return consultationLogRepository.save(EntityFormMapper.create(ConsultationLog.class, values));
+    }
+
+    @Transactional
+    public ConsultationLog createLogForUser(Map<String, Object> values, Long userId) {
+        Long sessionId = ((Number) values.get("consultationSessionId")).longValue();
+        getSessionForUser(sessionId, userId);
+        return createLog(values);
+    }
+
+    private static void requireOwner(Long ownerId, Long userId) {
+        if (!Objects.equals(ownerId, userId)) {
+            throw new CustomException(ErrorCode.FORBIDDEN);
+        }
     }
 }

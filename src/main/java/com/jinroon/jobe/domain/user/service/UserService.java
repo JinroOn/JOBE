@@ -18,6 +18,7 @@ import com.jinroon.jobe.domain.user.repository.UserFavoriteRepository;
 import com.jinroon.jobe.domain.user.repository.UserRepository;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,6 +57,13 @@ public class UserService {
 
     public EmailVerification getEmailVerification(Long verificationId) {
         return get(emailVerificationRepository, verificationId, ErrorCode.AUTH_EMAIL_VERIFICATION_NOT_FOUND);
+    }
+
+    public EmailVerification getEmailVerificationForUser(Long verificationId, Long userId) {
+        EmailVerification verification = getEmailVerification(verificationId);
+        User user = getUser(userId);
+        requireOwner(user.getEmail(), verification.getEmail());
+        return verification;
     }
 
     @Transactional
@@ -98,12 +106,37 @@ public class UserService {
     }
 
     @Transactional
+    public void deleteFavoriteForUser(Long favoriteId, Long userId) {
+        UserFavorite favorite = get(userFavoriteRepository, favoriteId, ErrorCode.MAJOR_FAVORITE_NOT_FOUND);
+        requireOwner(favorite.getUserId(), userId);
+        userFavoriteRepository.delete(favorite);
+    }
+
+    @Transactional
     public Session createSession(Map<String, Object> values) {
         return sessionRepository.save(EntityFormMapper.create(Session.class, values));
     }
 
     @Transactional
+    public Session createSessionForUser(Map<String, Object> values, Long userId) {
+        values.put("userId", userId);
+        return createSession(values);
+    }
+
+    @Transactional
     public EmailVerification createEmailVerification(Map<String, Object> values) {
         return emailVerificationRepository.save(EntityFormMapper.create(EmailVerification.class, values));
+    }
+
+    private static void requireOwner(Long ownerId, Long userId) {
+        if (!Objects.equals(ownerId, userId)) {
+            throw new CustomException(ErrorCode.FORBIDDEN);
+        }
+    }
+
+    private static void requireOwner(String ownerEmail, String email) {
+        if (!Objects.equals(ownerEmail, email)) {
+            throw new CustomException(ErrorCode.FORBIDDEN);
+        }
     }
 }

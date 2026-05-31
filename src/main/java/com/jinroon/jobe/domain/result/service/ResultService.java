@@ -10,7 +10,9 @@ import com.jinroon.jobe.global.common.entity.EntityFormMapper;
 import com.jinroon.jobe.global.exception.CustomException;
 import com.jinroon.jobe.global.exception.error.ErrorCode;
 import com.jinroon.jobe.domain.diagnosis.entity.CompetencyEvalResult;
+import com.jinroon.jobe.domain.diagnosis.entity.DiagnosisSession;
 import com.jinroon.jobe.domain.diagnosis.repository.CompetencyEvalResultRepository;
+import com.jinroon.jobe.domain.diagnosis.repository.DiagnosisSessionRepository;
 import com.jinroon.jobe.domain.major.entity.Major;
 import com.jinroon.jobe.domain.major.repository.MajorRepository;
 import com.jinroon.jobe.domain.result.entity.DiagnosisResult;
@@ -19,6 +21,7 @@ import com.jinroon.jobe.domain.result.repository.DiagnosisResultRepository;
 import com.jinroon.jobe.domain.result.repository.ResultMajorScoreRepository;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -35,6 +38,7 @@ public class ResultService {
 
     private final DiagnosisResultRepository diagnosisResultRepository;
     private final ResultMajorScoreRepository resultMajorScoreRepository;
+    private final DiagnosisSessionRepository diagnosisSessionRepository;
     private final CompetencyEvalResultRepository competencyEvalResultRepository;
     private final MajorRepository majorRepository;
     private final AiServiceClient aiServiceClient;
@@ -47,6 +51,12 @@ public class ResultService {
         return get(diagnosisResultRepository, resultId, ErrorCode.RESULT_NOT_FOUND);
     }
 
+    public DiagnosisResult getResultForUser(Long resultId, Long userId) {
+        DiagnosisResult result = getResult(resultId);
+        requireOwner(result.getUserId(), userId);
+        return result;
+    }
+
     public DiagnosisResult getSharedResult(String shareToken) {
         return diagnosisResultRepository.findByShareToken(shareToken)
                 .orElseThrow(() -> new CustomException(ErrorCode.RESULT_SHARE_TOKEN_NOT_FOUND));
@@ -54,6 +64,11 @@ public class ResultService {
 
     public List<ResultMajorScore> findMajorScores(Long resultId) {
         return resultMajorScoreRepository.findByDiagnosisResultIdOrderByRankAsc(resultId);
+    }
+
+    public List<ResultMajorScore> findMajorScoresForUser(Long resultId, Long userId) {
+        getResultForUser(resultId, userId);
+        return findMajorScores(resultId);
     }
 
     @Transactional
@@ -73,6 +88,15 @@ public class ResultService {
     }
 
     @Transactional
+    public DiagnosisResult createResultForUser(Map<String, Object> values, Long userId) {
+        Long sessionId = ((Number) values.get("diagnosisSessionId")).longValue();
+        DiagnosisSession session = get(diagnosisSessionRepository, sessionId, ErrorCode.DIAGNOSIS_SESSION_NOT_FOUND);
+        requireOwner(session.getUserId(), userId);
+        values.put("userId", userId);
+        return createResult(values);
+    }
+
+    @Transactional
     public DiagnosisResult updateResult(Long resultId, Map<String, Object> values) {
         DiagnosisResult result = getResult(resultId);
         EntityFormMapper.apply(result, values);
@@ -80,8 +104,29 @@ public class ResultService {
     }
 
     @Transactional
+    public DiagnosisResult updateResultForUser(Long resultId, Map<String, Object> values, Long userId) {
+        DiagnosisResult result = getResultForUser(resultId, userId);
+        values.remove("userId");
+        EntityFormMapper.apply(result, values);
+        return result;
+    }
+
+    @Transactional
     public ResultMajorScore createMajorScore(Map<String, Object> values) {
         return resultMajorScoreRepository.save(EntityFormMapper.create(ResultMajorScore.class, values));
+    }
+
+    @Transactional
+    public ResultMajorScore createMajorScoreForUser(Map<String, Object> values, Long userId) {
+        Long resultId = ((Number) values.get("diagnosisResultId")).longValue();
+        getResultForUser(resultId, userId);
+        return createMajorScore(values);
+    }
+
+    private static void requireOwner(Long ownerId, Long userId) {
+        if (!Objects.equals(ownerId, userId)) {
+            throw new CustomException(ErrorCode.FORBIDDEN);
+        }
     }
 
     private void applyAiRecommendation(DiagnosisResult result) {
