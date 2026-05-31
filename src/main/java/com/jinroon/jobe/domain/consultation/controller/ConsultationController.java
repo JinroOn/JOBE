@@ -34,45 +34,60 @@ public class ConsultationController implements ConsultationApi {
 
     @Override
     @GetMapping("/sessions/{sessionId}")
-    public ConsultationSession getSession(@PathVariable Long sessionId) {
-        return consultationService.getSession(sessionId);
+    public ConsultationSession getSession(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long sessionId) {
+        return consultationService.getSessionForUser(sessionId, userDetails.getUserId());
     }
 
     @Override
     @GetMapping("/sessions/{sessionId}/logs")
-    public List<ConsultationLog> findLogs(@PathVariable Long sessionId) {
-        return consultationService.findLogs(sessionId);
+    public List<ConsultationLog> findLogs(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long sessionId) {
+        return consultationService.findLogsForUser(sessionId, userDetails.getUserId());
     }
 
     @Override
     @GetMapping("/logs/{logId}")
-    public ConsultationLog getLog(@PathVariable Long logId) {
-        return consultationService.getLog(logId);
+    public ConsultationLog getLog(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long logId) {
+        return consultationService.getLogForUser(logId, userDetails.getUserId());
     }
 
     @Override
     @PostMapping("/sessions")
     @ResponseStatus(HttpStatus.CREATED)
-    public ConsultationSession createSession(@RequestBody Map<String, Object> request) {
-        return consultationService.createSession(request);
+    public ConsultationSession createSession(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestBody Map<String, Object> request) {
+        return consultationService.createSessionForUser(request, userDetails.getUserId());
     }
 
     @Override
     @PatchMapping("/sessions/{sessionId}")
-    public ConsultationSession updateSession(@PathVariable Long sessionId, @RequestBody Map<String, Object> request) {
-        return consultationService.updateSession(sessionId, request);
+    public ConsultationSession updateSession(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long sessionId,
+            @RequestBody Map<String, Object> request) {
+        return consultationService.updateSessionForUser(sessionId, request, userDetails.getUserId());
     }
 
     @Override
     @PostMapping("/sessions/{sessionId}/end")
-    public ConsultationSession endSession(@PathVariable Long sessionId) {
-        return consultationService.endSession(sessionId);
+    public ConsultationSession endSession(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long sessionId) {
+        return consultationService.endSessionForUser(sessionId, userDetails.getUserId());
     }
 
     @Override
     @PostMapping("/logs")
     @ResponseStatus(HttpStatus.CREATED)
-    public ConsultationLog createLog(@RequestBody Map<String, Object> request) {
-        return consultationService.createLog(request);
+    public ConsultationLog createLog(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestBody Map<String, Object> request) {
+        return consultationService.createLogForUser(request, userDetails.getUserId());
     }
 }

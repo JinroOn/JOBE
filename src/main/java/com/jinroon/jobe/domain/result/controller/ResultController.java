@@ -34,8 +34,10 @@ public class ResultController implements ResultApi {
 
     @Override
     @GetMapping("/{resultId}")
-    public DiagnosisResult getResult(@PathVariable Long resultId) {
-        return resultService.getResult(resultId);
+    public DiagnosisResult getResult(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long resultId) {
+        return resultService.getResultForUser(resultId, userDetails.getUserId());
     }
 
     @Override
@@ -46,27 +48,36 @@ public class ResultController implements ResultApi {
 
     @Override
     @GetMapping("/{resultId}/major-scores")
-    public List<ResultMajorScore> findMajorScores(@PathVariable Long resultId) {
-        return resultService.findMajorScores(resultId);
+    public List<ResultMajorScore> findMajorScores(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long resultId) {
+        return resultService.findMajorScoresForUser(resultId, userDetails.getUserId());
     }
 
     @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public DiagnosisResult createResult(@RequestBody Map<String, Object> request) {
-        return resultService.createResult(request);
+    public DiagnosisResult createResult(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestBody Map<String, Object> request) {
+        return resultService.createResultForUser(request, userDetails.getUserId());
     }
 
     @Override
     @PatchMapping("/{resultId}")
-    public DiagnosisResult updateResult(@PathVariable Long resultId, @RequestBody Map<String, Object> request) {
-        return resultService.updateResult(resultId, request);
+    public DiagnosisResult updateResult(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long resultId,
+            @RequestBody Map<String, Object> request) {
+        return resultService.updateResultForUser(resultId, request, userDetails.getUserId());
     }
 
     @Override
     @PostMapping("/major-scores")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResultMajorScore createMajorScore(@RequestBody Map<String, Object> request) {
-        return resultService.createMajorScore(request);
+    public ResultMajorScore createMajorScore(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestBody Map<String, Object> request) {
+        return resultService.createMajorScoreForUser(request, userDetails.getUserId());
     }
 }

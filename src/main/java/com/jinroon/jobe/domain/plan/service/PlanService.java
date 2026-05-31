@@ -8,6 +8,7 @@ import com.jinroon.jobe.global.client.dto.request.WeeklyPlanRequest.Constraints;
 import com.jinroon.jobe.global.client.dto.request.WeeklyPlanRequest.TargetMajor;
 import com.jinroon.jobe.global.client.dto.response.WeeklyPlanResponse;
 import com.jinroon.jobe.global.common.entity.EntityFormMapper;
+import com.jinroon.jobe.global.exception.CustomException;
 import com.jinroon.jobe.global.exception.error.ErrorCode;
 import com.jinroon.jobe.domain.diagnosis.entity.CompetencyEvalResult;
 import com.jinroon.jobe.domain.diagnosis.repository.CompetencyEvalResultRepository;
@@ -26,6 +27,7 @@ import com.jinroon.jobe.domain.result.repository.ResultMajorScoreRepository;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -52,16 +54,37 @@ public class PlanService {
         return get(planRepository, planId, ErrorCode.PLAN_NOT_FOUND);
     }
 
+    public MajorWeeklyPlan getPlanForUser(Long planId, Long userId) {
+        MajorWeeklyPlan plan = getPlan(planId);
+        requireResultOwner(plan.getDiagnosisResultId(), userId);
+        return plan;
+    }
+
     public List<MajorWeeklyPlan> findPlansByResult(Long resultId) {
         return planRepository.findByDiagnosisResultId(resultId);
+    }
+
+    public List<MajorWeeklyPlan> findPlansByResultForUser(Long resultId, Long userId) {
+        requireResultOwner(resultId, userId);
+        return findPlansByResult(resultId);
     }
 
     public List<MajorWeeklyPlanItem> findItems(Long planId) {
         return planItemRepository.findByWeeklyPlanIdOrderByWeekNoAsc(planId);
     }
 
+    public List<MajorWeeklyPlanItem> findItemsForUser(Long planId, Long userId) {
+        getPlanForUser(planId, userId);
+        return findItems(planId);
+    }
+
     public List<MajorWeeklyPlanRiskNote> findRiskNotes(Long planId) {
         return riskNoteRepository.findByWeeklyPlanId(planId);
+    }
+
+    public List<MajorWeeklyPlanRiskNote> findRiskNotesForUser(Long planId, Long userId) {
+        getPlanForUser(planId, userId);
+        return findRiskNotes(planId);
     }
 
     @Transactional
@@ -78,8 +101,23 @@ public class PlanService {
     }
 
     @Transactional
+    public MajorWeeklyPlan createPlanForUser(Map<String, Object> values, Long userId) {
+        Long resultId = ((Number) values.get("diagnosisResultId")).longValue();
+        requireResultOwner(resultId, userId);
+        return createPlan(values);
+    }
+
+    @Transactional
     public MajorWeeklyPlan updatePlan(Long planId, Map<String, Object> values) {
         MajorWeeklyPlan plan = getPlan(planId);
+        EntityFormMapper.apply(plan, values);
+        return plan;
+    }
+
+    @Transactional
+    public MajorWeeklyPlan updatePlanForUser(Long planId, Map<String, Object> values, Long userId) {
+        MajorWeeklyPlan plan = getPlanForUser(planId, userId);
+        values.remove("diagnosisResultId");
         EntityFormMapper.apply(plan, values);
         return plan;
     }
@@ -90,14 +128,42 @@ public class PlanService {
     }
 
     @Transactional
+    public MajorWeeklyPlanItem createItemForUser(Map<String, Object> values, Long userId) {
+        Long planId = ((Number) values.get("weeklyPlanId")).longValue();
+        getPlanForUser(planId, userId);
+        return createItem(values);
+    }
+
+    @Transactional
     public MajorWeeklyPlanRiskNote createRiskNote(Map<String, Object> values) {
         return riskNoteRepository.save(EntityFormMapper.create(MajorWeeklyPlanRiskNote.class, values));
+    }
+
+    @Transactional
+    public MajorWeeklyPlanRiskNote createRiskNoteForUser(Map<String, Object> values, Long userId) {
+        Long planId = ((Number) values.get("weeklyPlanId")).longValue();
+        getPlanForUser(planId, userId);
+        return createRiskNote(values);
     }
 
     @Transactional
     public void completeItem(Long itemId) {
         MajorWeeklyPlanItem item = get(planItemRepository, itemId, ErrorCode.PLAN_ITEM_NOT_FOUND);
         item.complete();
+    }
+
+    @Transactional
+    public void completeItemForUser(Long itemId, Long userId) {
+        MajorWeeklyPlanItem item = get(planItemRepository, itemId, ErrorCode.PLAN_ITEM_NOT_FOUND);
+        getPlanForUser(item.getWeeklyPlanId(), userId);
+        item.complete();
+    }
+
+    private void requireResultOwner(Long resultId, Long userId) {
+        DiagnosisResult result = get(diagnosisResultRepository, resultId, ErrorCode.RESULT_NOT_FOUND);
+        if (!Objects.equals(result.getUserId(), userId)) {
+            throw new CustomException(ErrorCode.FORBIDDEN);
+        }
     }
 
     private void applyAiWeeklyPlan(MajorWeeklyPlan plan) {

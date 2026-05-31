@@ -86,6 +86,7 @@ public interface UserApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     EmailVerificationResponse getEmailVerification(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "이메일 인증 ID") @PathVariable Long verificationId
     );
 
@@ -179,6 +180,7 @@ public interface UserApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     void deleteFavorite(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "즐겨찾기 ID") @PathVariable Long favoriteId
     );
 
@@ -190,6 +192,7 @@ public interface UserApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     UserSessionResponse createSession(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "세션 필드값 Map", 
                     required = true,

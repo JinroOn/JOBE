@@ -11,6 +11,7 @@ import com.jinroon.jobe.domain.diagnosis.enums.DiagnosisEnums.DiagnosisStatus;
 import com.jinroon.jobe.domain.diagnosis.repository.*;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +30,12 @@ public class DiagnosisService {
 
     public DiagnosisSession getSession(Long sessionId) {
         return get(diagnosisSessionRepository, sessionId, ErrorCode.DIAGNOSIS_SESSION_NOT_FOUND);
+    }
+
+    public DiagnosisSession getSessionForUser(Long sessionId, Long userId) {
+        DiagnosisSession session = getSession(sessionId);
+        requireOwner(session.getUserId(), userId);
+        return session;
     }
 
     public List<DiagnosisSession> findSessionsByUser(Long userId) {
@@ -56,8 +63,18 @@ public class DiagnosisService {
         return examAnswerRepository.findByDiagnosisSessionId(sessionId);
     }
 
+    public List<DiagnosisExamAnswer> findExamAnswersForUser(Long sessionId, Long userId) {
+        getSessionForUser(sessionId, userId);
+        return findExamAnswers(sessionId);
+    }
+
     public List<DiagnosisEssayAnswer> findEssayAnswers(Long sessionId) {
         return essayAnswerRepository.findByDiagnosisSessionId(sessionId);
+    }
+
+    public List<DiagnosisEssayAnswer> findEssayAnswersForUser(Long sessionId, Long userId) {
+        getSessionForUser(sessionId, userId);
+        return findEssayAnswers(sessionId);
     }
 
     public CompetencyEvalResult getCompetencyResult(Long sessionId) {
@@ -65,9 +82,19 @@ public class DiagnosisService {
                 .orElseThrow(() -> new CustomException(ErrorCode.DIAGNOSIS_COMPETENCY_RESULT_NOT_FOUND));
     }
 
+    public CompetencyEvalResult getCompetencyResultForUser(Long sessionId, Long userId) {
+        getSessionForUser(sessionId, userId);
+        return getCompetencyResult(sessionId);
+    }
+
     public TendencyEvalResult getTendencyResult(Long sessionId) {
         return tendencyEvalResultRepository.findByDiagnosisSessionId(sessionId)
                 .orElseThrow(() -> new CustomException(ErrorCode.DIAGNOSIS_TENDENCY_RESULT_NOT_FOUND));
+    }
+
+    public TendencyEvalResult getTendencyResultForUser(Long sessionId, Long userId) {
+        getSessionForUser(sessionId, userId);
+        return getTendencyResult(sessionId);
     }
 
     @Transactional
@@ -76,8 +103,22 @@ public class DiagnosisService {
     }
 
     @Transactional
+    public DiagnosisSession createSessionForUser(Map<String, Object> values, Long userId) {
+        values.put("userId", userId);
+        return createSession(values);
+    }
+
+    @Transactional
     public DiagnosisSession updateSession(Long sessionId, Map<String, Object> values) {
         DiagnosisSession session = getSession(sessionId);
+        EntityFormMapper.apply(session, values);
+        return session;
+    }
+
+    @Transactional
+    public DiagnosisSession updateSessionForUser(Long sessionId, Map<String, Object> values, Long userId) {
+        DiagnosisSession session = getSessionForUser(sessionId, userId);
+        values.remove("userId");
         EntityFormMapper.apply(session, values);
         return session;
     }
@@ -93,8 +134,22 @@ public class DiagnosisService {
     }
 
     @Transactional
+    public DiagnosisExamAnswer createExamAnswerForUser(Map<String, Object> values, Long userId) {
+        Long sessionId = ((Number) values.get("diagnosisSessionId")).longValue();
+        getSessionForUser(sessionId, userId);
+        return createExamAnswer(values);
+    }
+
+    @Transactional
     public DiagnosisEssayAnswer createEssayAnswer(Map<String, Object> values) {
         return essayAnswerRepository.save(EntityFormMapper.create(DiagnosisEssayAnswer.class, values));
+    }
+
+    @Transactional
+    public DiagnosisEssayAnswer createEssayAnswerForUser(Map<String, Object> values, Long userId) {
+        Long sessionId = ((Number) values.get("diagnosisSessionId")).longValue();
+        getSessionForUser(sessionId, userId);
+        return createEssayAnswer(values);
     }
 
     @Transactional
@@ -103,7 +158,27 @@ public class DiagnosisService {
     }
 
     @Transactional
+    public CompetencyEvalResult createCompetencyResultForUser(Map<String, Object> values, Long userId) {
+        Long sessionId = ((Number) values.get("diagnosisSessionId")).longValue();
+        getSessionForUser(sessionId, userId);
+        return createCompetencyResult(values);
+    }
+
+    @Transactional
     public TendencyEvalResult createTendencyResult(Map<String, Object> values) {
         return tendencyEvalResultRepository.save(EntityFormMapper.create(TendencyEvalResult.class, values));
+    }
+
+    @Transactional
+    public TendencyEvalResult createTendencyResultForUser(Map<String, Object> values, Long userId) {
+        Long sessionId = ((Number) values.get("diagnosisSessionId")).longValue();
+        getSessionForUser(sessionId, userId);
+        return createTendencyResult(values);
+    }
+
+    private static void requireOwner(Long ownerId, Long userId) {
+        if (!Objects.equals(ownerId, userId)) {
+            throw new CustomException(ErrorCode.FORBIDDEN);
+        }
     }
 }
