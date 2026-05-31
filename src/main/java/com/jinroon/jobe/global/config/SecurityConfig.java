@@ -50,6 +50,13 @@ public class SecurityConfig {
                                 "/actuator/health"
                         ).permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/users").hasRole("admin")
+                        .requestMatchers(HttpMethod.POST, "/api/majors").hasRole("admin")
+                        .requestMatchers(HttpMethod.PATCH, "/api/majors/**").hasRole("admin")
+                        .requestMatchers(HttpMethod.DELETE, "/api/majors/**").hasRole("admin")
+                        .requestMatchers(HttpMethod.POST, "/api/diagnoses/questions").hasRole("admin")
+                        .requestMatchers(HttpMethod.POST, "/api/notices").hasRole("admin")
+                        .requestMatchers(HttpMethod.PATCH, "/api/notices/**").hasRole("admin")
+                        .requestMatchers(HttpMethod.DELETE, "/api/notices/**").hasRole("admin")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JwtFilter(jwtProvider, customUserDetailsService), UsernamePasswordAuthenticationFilter.class)
