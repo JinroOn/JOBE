@@ -6,10 +6,16 @@ import com.jinroon.jobe.domain.user.dto.response.UserConsentResponse;
 import com.jinroon.jobe.domain.user.dto.response.UserFavoriteResponse;
 import com.jinroon.jobe.domain.user.dto.response.UserResponse;
 import com.jinroon.jobe.domain.user.dto.response.UserSessionResponse;
+import com.jinroon.jobe.domain.user.dto.request.EmailVerificationRequest;
+import com.jinroon.jobe.domain.user.dto.request.SessionRequest;
+import com.jinroon.jobe.domain.user.dto.request.UserConsentRequest;
+import com.jinroon.jobe.domain.user.dto.request.UserFavoriteRequest;
+import com.jinroon.jobe.domain.user.dto.request.UserRequest;
 import com.jinroon.jobe.domain.user.service.UserService;
+import com.jinroon.jobe.global.common.dto.RequestMapMapper;
 import com.jinroon.jobe.global.security.CustomUserDetails;
+import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -80,16 +86,16 @@ public class UserController implements UserApi {
     @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserResponse createUser(@RequestBody Map<String, Object> request) {
-        return UserResponse.from(userService.createUser(request));
+    public UserResponse createUser(@Valid @RequestBody UserRequest request) {
+        return UserResponse.from(userService.createUser(RequestMapMapper.toMap(request)));
     }
 
     @Override
     @PatchMapping("/me")
     public UserResponse updateUser(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestBody Map<String, Object> request) {
-        return UserResponse.from(userService.updateUser(userDetails.getUserId(), request));
+            @Valid @RequestBody UserRequest request) {
+        return UserResponse.from(userService.updateUser(userDetails.getUserId(), RequestMapMapper.toMap(request)));
     }
 
     @Override
@@ -104,9 +110,10 @@ public class UserController implements UserApi {
     @ResponseStatus(HttpStatus.CREATED)
     public UserConsentResponse createConsent(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestBody Map<String, Object> request) {
-        request.put("userId", userDetails.getUserId());
-        return UserConsentResponse.from(userService.createConsent(request));
+            @Valid @RequestBody UserConsentRequest request) {
+        var values = RequestMapMapper.toMap(request);
+        values.put("userId", userDetails.getUserId());
+        return UserConsentResponse.from(userService.createConsent(values));
     }
 
     @Override
@@ -114,9 +121,10 @@ public class UserController implements UserApi {
     @ResponseStatus(HttpStatus.CREATED)
     public UserFavoriteResponse createFavorite(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestBody Map<String, Object> request) {
-        request.put("userId", userDetails.getUserId());
-        return UserFavoriteResponse.from(userService.createFavorite(request));
+            @Valid @RequestBody UserFavoriteRequest request) {
+        var values = RequestMapMapper.toMap(request);
+        values.put("userId", userDetails.getUserId());
+        return UserFavoriteResponse.from(userService.createFavorite(values));
     }
 
     @Override
@@ -133,14 +141,15 @@ public class UserController implements UserApi {
     @ResponseStatus(HttpStatus.CREATED)
     public UserSessionResponse createSession(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestBody Map<String, Object> request) {
-        return UserSessionResponse.from(userService.createSessionForUser(request, userDetails.getUserId()));
+            @Valid @RequestBody SessionRequest request) {
+        return UserSessionResponse.from(
+                userService.createSessionForUser(RequestMapMapper.toMap(request), userDetails.getUserId()));
     }
 
     @Override
     @PostMapping("/email-verifications")
     @ResponseStatus(HttpStatus.CREATED)
-    public EmailVerificationResponse createEmailVerification(@RequestBody Map<String, Object> request) {
-        return EmailVerificationResponse.from(userService.createEmailVerification(request));
+    public EmailVerificationResponse createEmailVerification(@Valid @RequestBody EmailVerificationRequest request) {
+        return EmailVerificationResponse.from(userService.createEmailVerification(RequestMapMapper.toMap(request)));
     }
 }

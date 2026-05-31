@@ -2,6 +2,8 @@ package com.jinroon.jobe.domain.consultation.controller.api;
 
 import com.jinroon.jobe.domain.consultation.entity.ConsultationLog;
 import com.jinroon.jobe.domain.consultation.entity.ConsultationSession;
+import com.jinroon.jobe.domain.consultation.dto.request.ConsultationLogRequest;
+import com.jinroon.jobe.domain.consultation.dto.request.ConsultationSessionRequest;
 import com.jinroon.jobe.global.exception.error.ErrorDto;
 import com.jinroon.jobe.global.security.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,8 +15,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Map;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -81,7 +83,7 @@ public interface ConsultationApi {
                     required = true,
                     content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.consultation.dto.request.ConsultationSessionRequest.class))
             )
-            @RequestBody Map<String, Object> request
+            @Valid @RequestBody ConsultationSessionRequest request
     );
 
     @Operation(summary = "상담 세션 수정", description = "상담 세션 정보를 수정합니다.")
@@ -101,7 +103,7 @@ public interface ConsultationApi {
                     required = true,
                     content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.consultation.dto.request.ConsultationSessionRequest.class))
             )
-            @RequestBody Map<String, Object> request
+            @Valid @RequestBody ConsultationSessionRequest request
     );
 
     @Operation(summary = "상담 세션 종료", description = "진행 중인 상담 세션을 종료합니다.")
@@ -134,6 +136,6 @@ public interface ConsultationApi {
                     required = true,
                     content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.consultation.dto.request.ConsultationLogRequest.class))
             )
-            @RequestBody Map<String, Object> request
+            @Valid @RequestBody ConsultationLogRequest request
     );
 }

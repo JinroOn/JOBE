@@ -1,6 +1,7 @@
 package com.jinroon.jobe.domain.notice.controller.api;
 
 import com.jinroon.jobe.domain.notice.entity.Notice;
+import com.jinroon.jobe.domain.notice.dto.request.NoticeRequest;
 import com.jinroon.jobe.global.exception.error.ErrorDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -9,7 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.util.Map;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -55,7 +56,7 @@ public interface NoticeApi {
                     required = true,
                     content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.notice.dto.request.NoticeRequest.class))
             )
-            @RequestBody Map<String, Object> request
+            @Valid @RequestBody NoticeRequest request
     );
 
     @Operation(summary = "공지사항 수정", description = "공지사항 ID와 변경할 필드값으로 공지사항을 수정합니다.")
@@ -74,7 +75,7 @@ public interface NoticeApi {
                     required = true,
                     content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.notice.dto.request.NoticeRequest.class))
             )
-            @RequestBody Map<String, Object> request
+            @Valid @RequestBody NoticeRequest request
     );
 
     @Operation(summary = "공지사항 삭제", description = "공지사항 ID로 공지사항을 삭제합니다.")

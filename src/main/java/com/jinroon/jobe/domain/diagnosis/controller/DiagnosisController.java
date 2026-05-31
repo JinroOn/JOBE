@@ -1,12 +1,19 @@
 package com.jinroon.jobe.domain.diagnosis.controller;
 
 import com.jinroon.jobe.domain.diagnosis.controller.api.DiagnosisApi;
+import com.jinroon.jobe.domain.diagnosis.dto.request.CompetencyEvalResultRequest;
+import com.jinroon.jobe.domain.diagnosis.dto.request.DiagnosisEssayAnswerRequest;
+import com.jinroon.jobe.domain.diagnosis.dto.request.DiagnosisExamAnswerRequest;
+import com.jinroon.jobe.domain.diagnosis.dto.request.DiagnosisSessionRequest;
+import com.jinroon.jobe.domain.diagnosis.dto.request.ExamQuestionRequest;
+import com.jinroon.jobe.domain.diagnosis.dto.request.TendencyEvalResultRequest;
 import com.jinroon.jobe.domain.diagnosis.dto.response.InProgressSessionResponse;
 import com.jinroon.jobe.domain.diagnosis.entity.*;
 import com.jinroon.jobe.domain.diagnosis.service.DiagnosisService;
+import com.jinroon.jobe.global.common.dto.RequestMapMapper;
 import com.jinroon.jobe.global.security.CustomUserDetails;
+import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -96,8 +103,8 @@ public class DiagnosisController implements DiagnosisApi {
     @ResponseStatus(HttpStatus.CREATED)
     public DiagnosisSession createSession(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestBody Map<String, Object> request) {
-        return diagnosisService.createSessionForUser(request, userDetails.getUserId());
+            @Valid @RequestBody DiagnosisSessionRequest request) {
+        return diagnosisService.createSessionForUser(RequestMapMapper.toMap(request), userDetails.getUserId());
     }
 
     @Override
@@ -105,15 +112,15 @@ public class DiagnosisController implements DiagnosisApi {
     public DiagnosisSession updateSession(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @PathVariable Long sessionId,
-            @RequestBody Map<String, Object> request) {
-        return diagnosisService.updateSessionForUser(sessionId, request, userDetails.getUserId());
+            @Valid @RequestBody DiagnosisSessionRequest request) {
+        return diagnosisService.updateSessionForUser(sessionId, RequestMapMapper.toMap(request), userDetails.getUserId());
     }
 
     @Override
     @PostMapping("/questions")
     @ResponseStatus(HttpStatus.CREATED)
-    public ExamQuestion createQuestion(@RequestBody Map<String, Object> request) {
-        return diagnosisService.createQuestion(request);
+    public ExamQuestion createQuestion(@Valid @RequestBody ExamQuestionRequest request) {
+        return diagnosisService.createQuestion(RequestMapMapper.toMap(request));
     }
 
     @Override
@@ -121,8 +128,8 @@ public class DiagnosisController implements DiagnosisApi {
     @ResponseStatus(HttpStatus.CREATED)
     public DiagnosisExamAnswer createExamAnswer(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestBody Map<String, Object> request) {
-        return diagnosisService.createExamAnswerForUser(request, userDetails.getUserId());
+            @Valid @RequestBody DiagnosisExamAnswerRequest request) {
+        return diagnosisService.createExamAnswerForUser(RequestMapMapper.toMap(request), userDetails.getUserId());
     }
 
     @Override
@@ -130,8 +137,8 @@ public class DiagnosisController implements DiagnosisApi {
     @ResponseStatus(HttpStatus.CREATED)
     public DiagnosisEssayAnswer createEssayAnswer(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestBody Map<String, Object> request) {
-        return diagnosisService.createEssayAnswerForUser(request, userDetails.getUserId());
+            @Valid @RequestBody DiagnosisEssayAnswerRequest request) {
+        return diagnosisService.createEssayAnswerForUser(RequestMapMapper.toMap(request), userDetails.getUserId());
     }
 
     @Override
@@ -139,8 +146,8 @@ public class DiagnosisController implements DiagnosisApi {
     @ResponseStatus(HttpStatus.CREATED)
     public CompetencyEvalResult createCompetencyResult(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestBody Map<String, Object> request) {
-        return diagnosisService.createCompetencyResultForUser(request, userDetails.getUserId());
+            @Valid @RequestBody CompetencyEvalResultRequest request) {
+        return diagnosisService.createCompetencyResultForUser(RequestMapMapper.toMap(request), userDetails.getUserId());
     }
 
     @Override
@@ -148,7 +155,7 @@ public class DiagnosisController implements DiagnosisApi {
     @ResponseStatus(HttpStatus.CREATED)
     public TendencyEvalResult createTendencyResult(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestBody Map<String, Object> request) {
-        return diagnosisService.createTendencyResultForUser(request, userDetails.getUserId());
+            @Valid @RequestBody TendencyEvalResultRequest request) {
+        return diagnosisService.createTendencyResultForUser(RequestMapMapper.toMap(request), userDetails.getUserId());
     }
 }

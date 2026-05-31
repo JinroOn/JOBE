@@ -1,6 +1,7 @@
 package com.jinroon.jobe.domain.user.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,5 +11,6 @@ import lombok.Setter;
 public class UserFavoriteRequest {
 
     @Schema(description = "추가할 전공 ID", example = "1")
+    @NotNull
     private Long majorId;
 }

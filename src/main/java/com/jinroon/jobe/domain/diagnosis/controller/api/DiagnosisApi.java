@@ -1,6 +1,12 @@
 package com.jinroon.jobe.domain.diagnosis.controller.api;
 
 import com.jinroon.jobe.domain.diagnosis.dto.response.InProgressSessionResponse;
+import com.jinroon.jobe.domain.diagnosis.dto.request.CompetencyEvalResultRequest;
+import com.jinroon.jobe.domain.diagnosis.dto.request.DiagnosisEssayAnswerRequest;
+import com.jinroon.jobe.domain.diagnosis.dto.request.DiagnosisExamAnswerRequest;
+import com.jinroon.jobe.domain.diagnosis.dto.request.DiagnosisSessionRequest;
+import com.jinroon.jobe.domain.diagnosis.dto.request.ExamQuestionRequest;
+import com.jinroon.jobe.domain.diagnosis.dto.request.TendencyEvalResultRequest;
 import com.jinroon.jobe.domain.diagnosis.entity.CompetencyEvalResult;
 import com.jinroon.jobe.domain.diagnosis.entity.DiagnosisEssayAnswer;
 import com.jinroon.jobe.domain.diagnosis.entity.DiagnosisExamAnswer;
@@ -18,8 +24,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Map;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -138,7 +144,7 @@ public interface DiagnosisApi {
                     required = true,
                     content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.diagnosis.dto.request.DiagnosisSessionRequest.class))
             )
-            @RequestBody Map<String, Object> request
+            @Valid @RequestBody DiagnosisSessionRequest request
     );
 
     @Operation(summary = "진단 세션 수정", description = "진단 세션 정보(상태, 현재 단계 등)를 수정합니다.")
@@ -158,7 +164,7 @@ public interface DiagnosisApi {
                     required = true,
                     content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.diagnosis.dto.request.DiagnosisSessionRequest.class))
             )
-            @RequestBody Map<String, Object> request
+            @Valid @RequestBody DiagnosisSessionRequest request
     );
 
     @Operation(summary = "시험 문항 생성", description = "새로운 역량 시험 문항을 등록합니다.")
@@ -174,7 +180,7 @@ public interface DiagnosisApi {
                     required = true,
                     content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.diagnosis.dto.request.ExamQuestionRequest.class))
             )
-            @RequestBody Map<String, Object> request
+            @Valid @RequestBody ExamQuestionRequest request
     );
 
     @Operation(summary = "객관식 답변 등록", description = "진단 세션에 객관식 문항 답변을 등록합니다.")
@@ -191,7 +197,7 @@ public interface DiagnosisApi {
                     required = true,
                     content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.diagnosis.dto.request.DiagnosisExamAnswerRequest.class))
             )
-            @RequestBody Map<String, Object> request
+            @Valid @RequestBody DiagnosisExamAnswerRequest request
     );
 
     @Operation(summary = "서술형 답변 등록", description = "진단 세션에 서술형 답변을 등록합니다.")
@@ -208,7 +214,7 @@ public interface DiagnosisApi {
                     required = true,
                     content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.diagnosis.dto.request.DiagnosisEssayAnswerRequest.class))
             )
-            @RequestBody Map<String, Object> request
+            @Valid @RequestBody DiagnosisEssayAnswerRequest request
     );
 
     @Operation(summary = "역량 평가 결과 등록", description = "진단 세션의 역량 평가 결과를 저장합니다.")
@@ -225,7 +231,7 @@ public interface DiagnosisApi {
                     required = true,
                     content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.diagnosis.dto.request.CompetencyEvalResultRequest.class))
             )
-            @RequestBody Map<String, Object> request
+            @Valid @RequestBody CompetencyEvalResultRequest request
     );
 
     @Operation(summary = "성향 평가 결과 등록", description = "진단 세션의 성향 평가 결과를 저장합니다.")
@@ -242,6 +248,6 @@ public interface DiagnosisApi {
                     required = true,
                     content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.diagnosis.dto.request.TendencyEvalResultRequest.class))
             )
-            @RequestBody Map<String, Object> request
+            @Valid @RequestBody TendencyEvalResultRequest request
     );
 }

@@ -1,6 +1,9 @@
 package com.jinroon.jobe.domain.result.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,15 +19,22 @@ public class ResultMajorScoreRequest {
     private Long majorId;
 
     @Schema(description = "성향 적합도 점수", example = "85.0")
+    @DecimalMin("0.0")
+    @DecimalMax("100.0")
     private Float tendencyScore;
 
     @Schema(description = "역량 적합도 점수", example = "90.0")
+    @DecimalMin("0.0")
+    @DecimalMax("100.0")
     private Float competencyScore;
 
     @Schema(description = "최종 산출 점수", example = "87.5")
+    @DecimalMin("0.0")
+    @DecimalMax("100.0")
     private Float finalScore;
 
     @Schema(description = "순위", example = "1")
+    @Min(1)
     private Integer rank;
 
     @Schema(description = "불합격 여부(과락)", example = "false")

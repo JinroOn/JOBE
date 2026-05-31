@@ -1,13 +1,17 @@
 package com.jinroon.jobe.domain.plan.controller;
 
 import com.jinroon.jobe.domain.plan.controller.api.PlanApi;
+import com.jinroon.jobe.domain.plan.dto.request.MajorWeeklyPlanItemRequest;
+import com.jinroon.jobe.domain.plan.dto.request.MajorWeeklyPlanRequest;
+import com.jinroon.jobe.domain.plan.dto.request.MajorWeeklyPlanRiskNoteRequest;
 import com.jinroon.jobe.domain.plan.entity.MajorWeeklyPlan;
 import com.jinroon.jobe.domain.plan.entity.MajorWeeklyPlanItem;
 import com.jinroon.jobe.domain.plan.entity.MajorWeeklyPlanRiskNote;
 import com.jinroon.jobe.domain.plan.service.PlanService;
+import com.jinroon.jobe.global.common.dto.RequestMapMapper;
 import com.jinroon.jobe.global.security.CustomUserDetails;
+import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -64,8 +68,8 @@ public class PlanController implements PlanApi {
     @ResponseStatus(HttpStatus.CREATED)
     public MajorWeeklyPlan createPlan(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestBody Map<String, Object> request) {
-        return planService.createPlanForUser(request, userDetails.getUserId());
+            @Valid @RequestBody MajorWeeklyPlanRequest request) {
+        return planService.createPlanForUser(RequestMapMapper.toMap(request), userDetails.getUserId());
     }
 
     @Override
@@ -73,8 +77,8 @@ public class PlanController implements PlanApi {
     public MajorWeeklyPlan updatePlan(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @PathVariable Long planId,
-            @RequestBody Map<String, Object> request) {
-        return planService.updatePlanForUser(planId, request, userDetails.getUserId());
+            @Valid @RequestBody MajorWeeklyPlanRequest request) {
+        return planService.updatePlanForUser(planId, RequestMapMapper.toMap(request), userDetails.getUserId());
     }
 
     @Override
@@ -82,8 +86,8 @@ public class PlanController implements PlanApi {
     @ResponseStatus(HttpStatus.CREATED)
     public MajorWeeklyPlanItem createItem(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestBody Map<String, Object> request) {
-        return planService.createItemForUser(request, userDetails.getUserId());
+            @Valid @RequestBody MajorWeeklyPlanItemRequest request) {
+        return planService.createItemForUser(RequestMapMapper.toMap(request), userDetails.getUserId());
     }
 
     @Override
@@ -100,7 +104,7 @@ public class PlanController implements PlanApi {
     @ResponseStatus(HttpStatus.CREATED)
     public MajorWeeklyPlanRiskNote createRiskNote(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestBody Map<String, Object> request) {
-        return planService.createRiskNoteForUser(request, userDetails.getUserId());
+            @Valid @RequestBody MajorWeeklyPlanRiskNoteRequest request) {
+        return planService.createRiskNoteForUser(RequestMapMapper.toMap(request), userDetails.getUserId());
     }
 }

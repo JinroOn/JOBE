@@ -1,6 +1,7 @@
 package com.jinroon.jobe.domain.consultation.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,5 +17,6 @@ public class ConsultationLogRequest {
     private String role;
 
     @Schema(description = "대화 내용", example = "비전공자인데 데이터 분석가로 전직할 수 있을까요?")
+    @Size(max = 10000)
     private String content;
 }
