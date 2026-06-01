@@ -68,7 +68,21 @@ public interface ResultApi {
             @Parameter(description = "진단 결과 ID") @PathVariable Long resultId
     );
 
-    @Operation(summary = "진단 결과 생성", description = "진단 세션의 처리 결과를 저장합니다. AI 서버에서 추천 코멘트를 자동으로 생성합니다.")
+    @Operation(summary = "AI 추천 설명 생성", description = "진단 결과와 전공별 점수를 기반으로 AI 추천 설명을 생성하고 저장합니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "AI 추천 설명 생성 성공",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = DiagnosisResult.class))),
+            @ApiResponse(responseCode = "403", description = "본인 진단 결과가 아님",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))),
+            @ApiResponse(responseCode = "404", description = "진단 결과 또는 전공별 점수를 찾을 수 없음",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
+    })
+    DiagnosisResult generateAiComment(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
+            @Parameter(description = "진단 결과 ID") @PathVariable Long resultId
+    );
+
+    @Operation(summary = "진단 결과 생성", description = "진단 세션의 처리 결과를 저장합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "생성 성공",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = DiagnosisResult.class))),

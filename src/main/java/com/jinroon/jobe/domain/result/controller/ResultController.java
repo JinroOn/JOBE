@@ -58,6 +58,14 @@ public class ResultController implements ResultApi {
     }
 
     @Override
+    @PostMapping("/{resultId}/ai-comment")
+    public DiagnosisResult generateAiComment(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long resultId) {
+        return resultService.generateAiCommentForUser(resultId, userDetails.getUserId());
+    }
+
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public DiagnosisResult createResult(

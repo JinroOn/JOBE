@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.jinroon.jobe.domain.result.service.ResultServiceTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-06-01T10:41:01.228Z" hostname="DESKTOP-FLIU7FT" time="0.506">
+  <properties/>
+  <testcase name="generateAiCommentDoesNotCallAiWhenMajorScoresAreMissing()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.487"/>
+  <testcase name="generateAiCommentForUserStoresResultAndMajorComments()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.011"/>
+  <testcase name="generateAiCommentReturnsResultWhenAiServiceReturnsNull()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.004"/>
+  <testcase name="generateAiCommentForUserRejectsOtherUsersResult()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.002"/>
+  <system-out><![CDATA[2026-06-01T19:41:01.725+09:00  INFO 23568 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 적용 완료 (resultId=1, requestId=request-1, majorCount=1)
+2026-06-01T19:41:01.732+09:00  WARN 23568 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 응답 없음 (resultId=1, majorCount=1)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
