@@ -56,6 +56,7 @@ public enum ErrorCode {
 
     // Result
     RESULT_NOT_FOUND(404, "존재하지 않는 진단 결과입니다."),
+    RESULT_MAJOR_SCORE_NOT_FOUND(404, "전공별 점수를 찾을 수 없습니다."),
     RESULT_SHARE_TOKEN_NOT_FOUND(404, "유효하지 않은 공유 토큰입니다.");
 
     private final int status;

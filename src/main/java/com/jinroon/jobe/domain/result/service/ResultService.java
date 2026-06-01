@@ -76,16 +76,7 @@ public class ResultService {
     public DiagnosisResult createResult(Map<String, Object> values) {
         String shareToken = UUID.randomUUID().toString().replace("-", "");
         values.put("shareToken", shareToken);
-        DiagnosisResult result = diagnosisResultRepository.save(
-                EntityFormMapper.create(DiagnosisResult.class, values));
-
-        try {
-            applyAiRecommendation(result);
-        } catch (Exception e) {
-            log.warn("AI 추천 코멘트 적용 실패 (resultId={}): {}", result.getId(), e.getMessage());
-        }
-
-        return result;
+        return diagnosisResultRepository.save(EntityFormMapper.create(DiagnosisResult.class, values));
     }
 
     @Transactional
@@ -124,24 +115,33 @@ public class ResultService {
         return createMajorScore(values);
     }
 
+    @Transactional
+    public DiagnosisResult generateAiCommentForUser(Long resultId, Long userId) {
+        DiagnosisResult result = getResultForUser(resultId, userId);
+        return applyAiRecommendation(result);
+    }
+
+    @Transactional
+    public DiagnosisResult generateAiComment(Long resultId) {
+        DiagnosisResult result = getResult(resultId);
+        return applyAiRecommendation(result);
+    }
+
     private static void requireOwner(Long ownerId, Long userId) {
         if (!Objects.equals(ownerId, userId)) {
             throw new CustomException(ErrorCode.FORBIDDEN);
         }
     }
 
-    private void applyAiRecommendation(DiagnosisResult result) {
-        Optional<CompetencyEvalResult> competencyOpt =
-                competencyEvalResultRepository.findByDiagnosisSessionId(result.getDiagnosisSessionId());
-        if (competencyOpt.isEmpty()) {
-            return;
-        }
-        CompetencyEvalResult competency = competencyOpt.get();
+    private DiagnosisResult applyAiRecommendation(DiagnosisResult result) {
+        CompetencyEvalResult competency = competencyEvalResultRepository
+                .findByDiagnosisSessionId(result.getDiagnosisSessionId())
+                .orElseThrow(() -> new CustomException(ErrorCode.DIAGNOSIS_COMPETENCY_RESULT_NOT_FOUND));
 
         List<ResultMajorScore> majorScores =
                 resultMajorScoreRepository.findByDiagnosisResultIdOrderByRankAsc(result.getId());
         if (majorScores.isEmpty()) {
-            return;
+            throw new CustomException(ErrorCode.RESULT_MAJOR_SCORE_NOT_FOUND);
         }
 
         Profile profile = new Profile(
@@ -176,7 +176,8 @@ public class ResultService {
 
         RecommendationCommentResponse response = aiServiceClient.getRecommendationComment(request);
         if (response == null) {
-            return;
+            log.warn("AI 추천 코멘트 응답 없음 (resultId={}, majorCount={})", result.getId(), topMajors.size());
+            return result;
         }
 
         result.applyAiComment(
@@ -185,24 +186,50 @@ public class ResultService {
         );
 
         if (response.majorComments() == null || response.majorComments().isEmpty()) {
-            return;
+            log.warn("AI 추천 코멘트 전공별 응답 없음 (resultId={}, requestId={})", result.getId(), response.requestId());
+            return result;
         }
 
+        Map<String, RecommendationCommentResponse.MajorComment> commentByNameAndRank = response.majorComments()
+                .stream()
+                .collect(Collectors.toMap(
+                        c -> commentKey(c.majorName(), c.rankingOrder()),
+                        c -> c,
+                        (first, ignored) -> first
+                ));
         Map<String, RecommendationCommentResponse.MajorComment> commentByName = response.majorComments()
                 .stream()
-                .collect(Collectors.toMap(RecommendationCommentResponse.MajorComment::majorName, c -> c));
+                .collect(Collectors.toMap(
+                        RecommendationCommentResponse.MajorComment::majorName,
+                        c -> c,
+                        (first, ignored) -> first
+                ));
 
         for (ResultMajorScore score : majorScores) {
             String majorName = majorNameMap.get(score.getMajorId());
             if (majorName == null) {
                 continue;
             }
-            RecommendationCommentResponse.MajorComment comment = commentByName.get(majorName);
+            RecommendationCommentResponse.MajorComment comment =
+                    commentByNameAndRank.get(commentKey(majorName, score.getRank()));
             if (comment == null) {
+                comment = commentByName.get(majorName);
+            }
+            if (comment == null) {
+                log.warn("AI 추천 코멘트 전공 매칭 실패 (resultId={}, majorName={}, rank={})",
+                        result.getId(), majorName, score.getRank());
                 continue;
             }
             score.applyAiComment(comment.strengths(), comment.weaknesses(), comment.recommendationReason());
         }
+
+        log.info("AI 추천 코멘트 적용 완료 (resultId={}, requestId={}, majorCount={})",
+                result.getId(), response.requestId(), response.majorComments().size());
+        return result;
+    }
+
+    private static String commentKey(String majorName, Integer rankingOrder) {
+        return majorName + "#" + rankingOrder;
     }
 
     private static int safeInt(Float value) {
