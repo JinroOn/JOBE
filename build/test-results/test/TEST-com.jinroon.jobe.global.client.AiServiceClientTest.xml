@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.jinroon.jobe.global.client.AiServiceClientTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-06-01T06:24:55.558Z" hostname="DESKTOP-4AOC5KN" time="0.593">
+  <properties/>
+  <testcase name="recommendationCommentRequestAddsAuthAndRequestIdHeaders()" classname="com.jinroon.jobe.global.client.AiServiceClientTest" time="0.278"/>
+  <testcase name="weeklyPlanRequestReturnsNullWhenAiServiceCallFails()" classname="com.jinroon.jobe.global.client.AiServiceClientTest" time="0.011"/>
+  <system-out><![CDATA[2026-06-01T15:24:55.977+09:00  INFO 13660 --- [    Test worker] c.j.jobe.global.client.AiServiceClient   : AI request success endpoint=/v1/recommendation/comment requestId=0369b35c-96ca-467a-890a-bc2fd5046268 status=200
+2026-06-01T15:24:56.152+09:00  WARN 13660 --- [    Test worker] c.j.jobe.global.client.AiServiceClient   : AI request failed endpoint=/v1/plan/weekly requestId=83fc4ed1-7e45-42cc-a3ae-16d415bae1f1 errorType=ResourceAccessException message=connection refused
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
