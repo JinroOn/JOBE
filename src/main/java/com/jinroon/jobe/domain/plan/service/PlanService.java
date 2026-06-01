@@ -25,6 +25,8 @@ import com.jinroon.jobe.domain.result.entity.DiagnosisResult;
 import com.jinroon.jobe.domain.result.entity.ResultMajorScore;
 import com.jinroon.jobe.domain.result.repository.DiagnosisResultRepository;
 import com.jinroon.jobe.domain.result.repository.ResultMajorScoreRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +52,7 @@ public class PlanService {
     private final CompetencyEvalResultRepository competencyEvalResultRepository;
     private final MajorRepository majorRepository;
     private final AiServiceClient aiServiceClient;
+    private final ObjectMapper objectMapper;
 
     public MajorWeeklyPlan getPlan(Long planId) {
         return get(planRepository, planId, ErrorCode.PLAN_NOT_FOUND);
@@ -229,8 +232,8 @@ public class PlanService {
                         plan.getId(),
                         wp.week(),
                         wp.goal(),
-                        wp.tasks() != null ? String.join(",", wp.tasks()) : null,
-                        wp.recommendedResources() != null ? String.join(",", wp.recommendedResources()) : null,
+                        toJsonArray(wp.tasks()),
+                        toJsonArray(wp.recommendedResources()),
                         wp.checkpoint()
                 ))
                 .collect(Collectors.toList());
@@ -309,6 +312,15 @@ public class PlanService {
             return 0;
         }
         return Math.max(0, Math.min(100, Math.round(value)));
+    }
+
+    private String toJsonArray(List<String> values) {
+        try {
+            return objectMapper.writeValueAsString(values == null ? List.of() : values);
+        } catch (JsonProcessingException e) {
+            log.warn("AI 주간 계획 JSON 배열 변환 실패: {}", e.getMessage());
+            return "[]";
+        }
     }
 
     private record WeaknessField(String name, int score) {
