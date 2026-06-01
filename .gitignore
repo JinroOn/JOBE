@@ -40,3 +40,21 @@ src/main/resources/application-prod.yml
 
 # macOS
 .DS_Store
+
+# AI 환경 설정 파일
+ai-service/.env
+ai-service/.env.*
+
+#Python 가상 환경 설정 파일
+ai-service/.venv/
+ai-service/venv/
+
+#Python 캐시
+ai-service/__pycache__/
+ai-service/**/__pycache__/
+ai-service/.pytest_cache/
+ai-service/**/*.pyc
+
+#local logs
+ai-service/*.log
+ai-service/logs/

@@ -1,0 +1,42 @@
+{
+  "sessionId": 104,
+  "profile": {
+    "mathLogicalScore": 80,
+    "problemSolvingScore": 77,
+    "infoTechUtilizationScore": 82,
+    "softwareImplementationScore": 79,
+    "systemUnderstandingScore": 68,
+    "dataAnalysisScore": 75,
+    "communicationScore": 61,
+    "collaborationScore": 66,
+    "selfManagementScore": 78
+  },
+  "topMajors": [
+    {
+      "majorName": "컴퓨터공학과",
+      "rankingOrder": 1,
+      "fitScore": 87.3,
+      "strengths": "수리논리, 구현",
+      "weaknesses": "의사소통"
+    },
+    {
+      "majorName": "산업공학과",
+      "rankingOrder": 2,
+      "fitScore": 84.1,
+      "strengths": "문제해결, 데이터분석",
+      "weaknesses": "의사소통, 협업"
+    }
+  ],
+  "userContext": {
+    "grade": "고2",
+    "careerField": "공학",
+    "preferredSubject": "수학",
+    "studyHours": 16,
+    "learningStyle": "문제풀이중심",
+    "theoryPreference": 50,
+    "practicePreference": 50,
+    "mathAchievement": 82,
+    "scienceAchievement": 78,
+    "problemSolvingStyle": "순차형"
+  }
+}
