@@ -5,6 +5,7 @@ import static com.jinroon.jobe.global.common.entity.EntityLookup.get;
 import com.jinroon.jobe.global.client.AiServiceClient;
 import com.jinroon.jobe.global.client.dto.request.WeeklyPlanRequest;
 import com.jinroon.jobe.global.client.dto.request.WeeklyPlanRequest.Constraints;
+import com.jinroon.jobe.global.client.dto.request.WeeklyPlanRequest.Profile;
 import com.jinroon.jobe.global.client.dto.request.WeeklyPlanRequest.TargetMajor;
 import com.jinroon.jobe.global.client.dto.response.WeeklyPlanResponse;
 import com.jinroon.jobe.global.common.entity.EntityFormMapper;
@@ -194,17 +195,7 @@ public class PlanService {
         }
         String majorName = majorOpt.get().getName();
 
-        Map<String, Double> profile = Map.of(
-                "math_logic", competency.getMathLogic().doubleValue(),
-                "problem_solving", competency.getProblemSolving().doubleValue(),
-                "info_tech", competency.getInfoTech().doubleValue(),
-                "implementation", competency.getImplementation().doubleValue(),
-                "system_understanding", competency.getSystemUnderstanding().doubleValue(),
-                "data_analysis", competency.getDataAnalysis().doubleValue(),
-                "communication", competency.getCommunication().doubleValue(),
-                "collaboration", competency.getCollaboration().doubleValue(),
-                "self_management", competency.getSelfManagement().doubleValue()
-        );
+        Profile profile = profileFrom(competency);
 
         List<String> weaknessFocus = (result.getWeaknessFocus() != null && !result.getWeaknessFocus().isBlank())
                 ? Arrays.asList(result.getWeaknessFocus().split(","))
@@ -212,10 +203,14 @@ public class PlanService {
 
         WeeklyPlanRequest request = new WeeklyPlanRequest(
                 result.getDiagnosisSessionId(),
-                new TargetMajor(majorName, null),
-                weaknessFocus,
+                new TargetMajor(
+                        majorName,
+                        score.getFinalScore() != null ? score.getFinalScore().doubleValue() : 0.0,
+                        null
+                ),
+                normalizeWeaknessFocus(weaknessFocus, competency),
                 profile,
-                new Constraints(12, null)
+                new Constraints(12, 8, "practice-first")
         );
 
         WeeklyPlanResponse response = aiServiceClient.getWeeklyPlan(request);
@@ -224,6 +219,10 @@ public class PlanService {
         }
 
         plan.applyAiPlan(response.planId(), response.overview());
+
+        if (response.weeklyPlan() == null || response.weeklyPlan().isEmpty()) {
+            return;
+        }
 
         List<MajorWeeklyPlanItem> items = response.weeklyPlan().stream()
                 .map(wp -> MajorWeeklyPlanItem.of(
@@ -237,8 +236,81 @@ public class PlanService {
                 .collect(Collectors.toList());
         planItemRepository.saveAll(items);
 
-        if (response.riskNotes() != null && !response.riskNotes().isBlank()) {
-            riskNoteRepository.save(MajorWeeklyPlanRiskNote.of(plan.getId(), response.riskNotes()));
+        if (response.riskNotes() != null) {
+            response.riskNotes().stream()
+                    .filter(note -> note != null && !note.isBlank())
+                    .forEach(note -> riskNoteRepository.save(MajorWeeklyPlanRiskNote.of(plan.getId(), note)));
         }
+    }
+
+    private Profile profileFrom(CompetencyEvalResult competency) {
+        return new Profile(
+                safeInt(competency.getMathLogic()),
+                safeInt(competency.getProblemSolving()),
+                safeInt(competency.getInfoTech()),
+                safeInt(competency.getImplementation()),
+                safeInt(competency.getSystemUnderstanding()),
+                safeInt(competency.getDataAnalysis()),
+                safeInt(competency.getCommunication()),
+                safeInt(competency.getCollaboration()),
+                safeInt(competency.getSelfManagement())
+        );
+    }
+
+    private List<String> normalizeWeaknessFocus(List<String> weaknessFocus, CompetencyEvalResult competency) {
+        List<String> normalized = weaknessFocus == null ? List.of() : weaknessFocus.stream()
+                .map(String::trim)
+                .filter(this::isValidWeaknessField)
+                .distinct()
+                .limit(2)
+                .toList();
+        if (!normalized.isEmpty()) {
+            return normalized;
+        }
+        return weakestFields(competency);
+    }
+
+    private boolean isValidWeaknessField(String field) {
+        return switch (field) {
+            case "mathLogicalScore",
+                 "problemSolvingScore",
+                 "infoTechUtilizationScore",
+                 "softwareImplementationScore",
+                 "systemUnderstandingScore",
+                 "dataAnalysisScore",
+                 "communicationScore",
+                 "collaborationScore",
+                 "selfManagementScore" -> true;
+            default -> false;
+        };
+    }
+
+    private List<String> weakestFields(CompetencyEvalResult competency) {
+        return List.of(
+                        new WeaknessField("mathLogicalScore", safeInt(competency.getMathLogic())),
+                        new WeaknessField("problemSolvingScore", safeInt(competency.getProblemSolving())),
+                        new WeaknessField("infoTechUtilizationScore", safeInt(competency.getInfoTech())),
+                        new WeaknessField("softwareImplementationScore", safeInt(competency.getImplementation())),
+                        new WeaknessField("systemUnderstandingScore", safeInt(competency.getSystemUnderstanding())),
+                        new WeaknessField("dataAnalysisScore", safeInt(competency.getDataAnalysis())),
+                        new WeaknessField("communicationScore", safeInt(competency.getCommunication())),
+                        new WeaknessField("collaborationScore", safeInt(competency.getCollaboration())),
+                        new WeaknessField("selfManagementScore", safeInt(competency.getSelfManagement()))
+                )
+                .stream()
+                .sorted(java.util.Comparator.comparingInt(WeaknessField::score))
+                .limit(2)
+                .map(WeaknessField::name)
+                .toList();
+    }
+
+    private static int safeInt(Float value) {
+        if (value == null) {
+            return 0;
+        }
+        return Math.max(0, Math.min(100, Math.round(value)));
+    }
+
+    private record WeaknessField(String name, int score) {
     }
 }

@@ -6,7 +6,7 @@ public record WeeklyPlanResponse(
         String planId,
         String overview,
         List<WeeklyPlan> weeklyPlan,
-        String riskNotes,
+        List<String> riskNotes,
         String version,
         String requestId
 ) {

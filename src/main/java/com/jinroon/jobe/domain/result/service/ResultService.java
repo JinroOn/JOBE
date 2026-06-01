@@ -4,7 +4,8 @@ import static com.jinroon.jobe.global.common.entity.EntityLookup.get;
 
 import com.jinroon.jobe.global.client.AiServiceClient;
 import com.jinroon.jobe.global.client.dto.request.RecommendationCommentRequest;
-import com.jinroon.jobe.global.client.dto.request.RecommendationCommentRequest.MajorInfo;
+import com.jinroon.jobe.global.client.dto.request.RecommendationCommentRequest.Profile;
+import com.jinroon.jobe.global.client.dto.request.RecommendationCommentRequest.TopMajor;
 import com.jinroon.jobe.global.client.dto.response.RecommendationCommentResponse;
 import com.jinroon.jobe.global.common.entity.EntityFormMapper;
 import com.jinroon.jobe.global.exception.CustomException;
@@ -143,34 +144,35 @@ public class ResultService {
             return;
         }
 
-        Map<String, Double> profile = Map.of(
-                "math_logic", competency.getMathLogic().doubleValue(),
-                "problem_solving", competency.getProblemSolving().doubleValue(),
-                "info_tech", competency.getInfoTech().doubleValue(),
-                "implementation", competency.getImplementation().doubleValue(),
-                "system_understanding", competency.getSystemUnderstanding().doubleValue(),
-                "data_analysis", competency.getDataAnalysis().doubleValue(),
-                "communication", competency.getCommunication().doubleValue(),
-                "collaboration", competency.getCollaboration().doubleValue(),
-                "self_management", competency.getSelfManagement().doubleValue()
+        Profile profile = new Profile(
+                safeInt(competency.getMathLogic()),
+                safeInt(competency.getProblemSolving()),
+                safeInt(competency.getInfoTech()),
+                safeInt(competency.getImplementation()),
+                safeInt(competency.getSystemUnderstanding()),
+                safeInt(competency.getDataAnalysis()),
+                safeInt(competency.getCommunication()),
+                safeInt(competency.getCollaboration()),
+                safeInt(competency.getSelfManagement())
         );
 
         List<Long> majorIds = majorScores.stream().map(ResultMajorScore::getMajorId).toList();
         Map<Long, String> majorNameMap = majorRepository.findAllById(majorIds).stream()
                 .collect(Collectors.toMap(Major::getId, Major::getName));
 
-        List<MajorInfo> topMajors = majorScores.stream()
-                .map(score -> new MajorInfo(
+        List<TopMajor> topMajors = majorScores.stream()
+                .map(score -> new TopMajor(
                         majorNameMap.getOrDefault(score.getMajorId(), "Unknown"),
                         score.getRank(),
                         score.getFinalScore() != null ? score.getFinalScore().doubleValue() : 0.0,
+                        null,
                         null,
                         null
                 ))
                 .toList();
 
         RecommendationCommentRequest request = new RecommendationCommentRequest(
-                result.getDiagnosisSessionId(), profile, topMajors, null);
+                result.getDiagnosisSessionId(), profile, topMajors, List.of(), null);
 
         RecommendationCommentResponse response = aiServiceClient.getRecommendationComment(request);
         if (response == null) {
@@ -179,8 +181,12 @@ public class ResultService {
 
         result.applyAiComment(
                 response.summaryComment(),
-                String.join(",", response.weaknessFocus())
+                String.join(",", response.weaknessFocus() != null ? response.weaknessFocus() : List.of())
         );
+
+        if (response.majorComments() == null || response.majorComments().isEmpty()) {
+            return;
+        }
 
         Map<String, RecommendationCommentResponse.MajorComment> commentByName = response.majorComments()
                 .stream()
@@ -197,5 +203,12 @@ public class ResultService {
             }
             score.applyAiComment(comment.strengths(), comment.weaknesses(), comment.recommendationReason());
         }
+    }
+
+    private static int safeInt(Float value) {
+        if (value == null) {
+            return 0;
+        }
+        return Math.max(0, Math.min(100, Math.round(value)));
     }
 }
