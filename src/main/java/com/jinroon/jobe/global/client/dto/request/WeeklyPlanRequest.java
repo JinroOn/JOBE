@@ -1,24 +1,47 @@
 package com.jinroon.jobe.global.client.dto.request;
 
 import java.util.List;
-import java.util.Map;
 
 public record WeeklyPlanRequest(
         Long sessionId,
         TargetMajor targetMajor,
         List<String> weaknessFocus,
-        Map<String, Double> profile,
+        Profile profile,
         Constraints constraints
 ) {
     public record TargetMajor(
             String majorName,
-            String majorCode
+            Double fitScore,
+            MajorContext majorContext
+    ) {
+    }
+
+    public record MajorContext(
+            String category,
+            String description,
+            String sourceSummary,
+            List<String> relatedJobs,
+            List<String> ragSnippets
+    ) {
+    }
+
+    public record Profile(
+            Integer mathLogicalScore,
+            Integer problemSolvingScore,
+            Integer infoTechUtilizationScore,
+            Integer softwareImplementationScore,
+            Integer systemUnderstandingScore,
+            Integer dataAnalysisScore,
+            Integer communicationScore,
+            Integer collaborationScore,
+            Integer selfManagementScore
     ) {
     }
 
     public record Constraints(
-            Integer weekCount,
-            Double weeklyHours
+            Integer weeks,
+            Integer studyHoursPerWeek,
+            String preferredStyle
     ) {
     }
 }
