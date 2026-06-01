@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.jinroon.jobe.domain.plan.service.PlanServiceTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-06-01T12:45:56.824Z" hostname="DESKTOP-FLIU7FT" time="0.589">
+<testsuite name="com.jinroon.jobe.domain.plan.service.PlanServiceTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-06-01T13:08:36.408Z" hostname="DESKTOP-FLIU7FT" time="0.498">
   <properties/>
-  <testcase name="createPlanReturnsPlanWithoutItemsWhenAiServiceReturnsNull()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.538"/>
-  <testcase name="createPlanForUserRejectsOtherUsersResult()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.01"/>
+  <testcase name="createPlanReturnsPlanWithoutItemsWhenAiServiceReturnsNull()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.442"/>
+  <testcase name="createPlanForUserRejectsOtherUsersResult()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.015"/>
   <testcase name="createPlanStoresAiWeeklyPlanItemsAsJsonArrays()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.039"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

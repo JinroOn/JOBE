@@ -26,6 +26,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -151,6 +152,67 @@ class ResultServiceTest {
         assertThat(score.getRecommendationReason()).isNull();
     }
 
+    @Test
+    void generateAiCommentRequestContainsRecommendationGroups() {
+        DiagnosisResult result = diagnosisResult(1L, 10L, 7L);
+        CompetencyEvalResult competency = competencyResult(10L);
+        ResultMajorScore firstScore = resultMajorScore(11L, 1L, 100L, 1, 87.5f);
+        ResultMajorScore secondScore = resultMajorScore(12L, 1L, 101L, 2, 82.0f);
+        Major computerScience = major(100L, "컴퓨터공학과", "공학", 90.0f, 85.0f, 50.0f);
+        Major dataScience = major(101L, "데이터사이언스학과", "공학", 70.0f, 60.0f, 95.0f);
+        RecommendationCommentResponse response = new RecommendationCommentResponse(
+                "AI 요약",
+                List.of(
+                        new RecommendationCommentResponse.MajorComment(
+                                "컴퓨터공학과",
+                                1,
+                                87.5,
+                                "구현력",
+                                "의사소통",
+                                "구현력이 강해 잘 맞습니다."
+                        ),
+                        new RecommendationCommentResponse.MajorComment(
+                                "데이터사이언스학과",
+                                2,
+                                82.0,
+                                "데이터분석",
+                                "협업",
+                                "데이터 분석 역량을 활용할 수 있습니다."
+                        )
+                ),
+                List.of("communicationScore"),
+                "rec-comment-v1.2.0",
+                "request-1"
+        );
+
+        when(diagnosisResultRepository.findById(1L)).thenReturn(Optional.of(result));
+        when(competencyEvalResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.of(competency));
+        when(resultMajorScoreRepository.findByDiagnosisResultIdOrderByRankAsc(1L))
+                .thenReturn(List.of(firstScore, secondScore));
+        when(majorRepository.findAllById(List.of(100L, 101L))).thenReturn(List.of(computerScience, dataScience));
+        when(aiServiceClient.getRecommendationComment(any(RecommendationCommentRequest.class))).thenReturn(response);
+
+        resultService.generateAiCommentForUser(1L, 7L);
+
+        ArgumentCaptor<RecommendationCommentRequest> requestCaptor =
+                ArgumentCaptor.forClass(RecommendationCommentRequest.class);
+        verify(aiServiceClient).getRecommendationComment(requestCaptor.capture());
+        RecommendationCommentRequest request = requestCaptor.getValue();
+
+        assertThat(request.recommendationGroups()).hasSize(1);
+        RecommendationCommentRequest.RecommendationGroup group = request.recommendationGroups().get(0);
+        assertThat(group.groupOrder()).isEqualTo(1);
+        assertThat(group.representativeMajorName()).isEqualTo("컴퓨터공학과");
+        assertThat(group.representativeRankingOrder()).isEqualTo(1);
+        assertThat(group.similarMajorNames()).containsExactly("데이터사이언스학과");
+        assertThat(group.commonFitAxes()).contains("softwareImplementationScore", "mathLogicalScore");
+        assertThat(group.differencePoints()).hasSize(2);
+        assertThat(group.differencePoints())
+                .extracting(RecommendationCommentRequest.DifferencePoint::majorName)
+                .containsExactly("컴퓨터공학과", "데이터사이언스학과");
+        assertThat(group.differencePoints().get(0).description()).contains("컴퓨터공학과", "구현력", "시스템이해");
+    }
+
     private DiagnosisResult diagnosisResult(Long id, Long sessionId, Long userId) {
         DiagnosisResult result = newEntity(DiagnosisResult.class);
         ReflectionTestUtils.setField(result, "id", id);
@@ -191,6 +253,16 @@ class ResultServiceTest {
         Major major = newEntity(Major.class);
         ReflectionTestUtils.setField(major, "id", id);
         ReflectionTestUtils.setField(major, "name", name);
+        return major;
+    }
+
+    private Major major(Long id, String name, String category, Float implementation, Float systemUnderstanding,
+                        Float dataAnalysis) {
+        Major major = major(id, name);
+        ReflectionTestUtils.setField(major, "category", category);
+        ReflectionTestUtils.setField(major, "reqImplementation", implementation);
+        ReflectionTestUtils.setField(major, "reqSystemUnderstanding", systemUnderstanding);
+        ReflectionTestUtils.setField(major, "reqDataAnalysis", dataAnalysis);
         return major;
     }
 

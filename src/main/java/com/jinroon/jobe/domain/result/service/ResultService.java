@@ -4,7 +4,9 @@ import static com.jinroon.jobe.global.common.entity.EntityLookup.get;
 
 import com.jinroon.jobe.global.client.AiServiceClient;
 import com.jinroon.jobe.global.client.dto.request.RecommendationCommentRequest;
+import com.jinroon.jobe.global.client.dto.request.RecommendationCommentRequest.DifferencePoint;
 import com.jinroon.jobe.global.client.dto.request.RecommendationCommentRequest.Profile;
+import com.jinroon.jobe.global.client.dto.request.RecommendationCommentRequest.RecommendationGroup;
 import com.jinroon.jobe.global.client.dto.request.RecommendationCommentRequest.TopMajor;
 import com.jinroon.jobe.global.client.dto.response.RecommendationCommentResponse;
 import com.jinroon.jobe.global.common.entity.EntityFormMapper;
@@ -20,6 +22,7 @@ import com.jinroon.jobe.domain.result.entity.DiagnosisResult;
 import com.jinroon.jobe.domain.result.entity.ResultMajorScore;
 import com.jinroon.jobe.domain.result.repository.DiagnosisResultRepository;
 import com.jinroon.jobe.domain.result.repository.ResultMajorScoreRepository;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -157,7 +160,9 @@ public class ResultService {
         );
 
         List<Long> majorIds = majorScores.stream().map(ResultMajorScore::getMajorId).toList();
-        Map<Long, String> majorNameMap = majorRepository.findAllById(majorIds).stream()
+        Map<Long, Major> majorMap = majorRepository.findAllById(majorIds).stream()
+                .collect(Collectors.toMap(Major::getId, major -> major));
+        Map<Long, String> majorNameMap = majorMap.values().stream()
                 .collect(Collectors.toMap(Major::getId, Major::getName));
 
         List<TopMajor> topMajors = majorScores.stream()
@@ -171,8 +176,10 @@ public class ResultService {
                 ))
                 .toList();
 
+        List<RecommendationGroup> recommendationGroups = buildRecommendationGroups(majorScores, majorMap, competency);
+
         RecommendationCommentRequest request = new RecommendationCommentRequest(
-                result.getDiagnosisSessionId(), profile, topMajors, List.of(), null);
+                result.getDiagnosisSessionId(), profile, topMajors, recommendationGroups, null);
 
         RecommendationCommentResponse response = aiServiceClient.getRecommendationComment(request);
         if (response == null) {
@@ -232,10 +239,118 @@ public class ResultService {
         return majorName + "#" + rankingOrder;
     }
 
+    private List<RecommendationGroup> buildRecommendationGroups(
+            List<ResultMajorScore> majorScores,
+            Map<Long, Major> majorMap,
+            CompetencyEvalResult competency
+    ) {
+        if (majorScores.isEmpty()) {
+            return List.of();
+        }
+
+        List<ResultMajorScore> sortedScores = majorScores.stream()
+                .sorted(Comparator.comparingInt(score -> safeRank(score.getRank())))
+                .toList();
+        ResultMajorScore representative = sortedScores.get(0);
+        String representativeName = majorName(representative, majorMap);
+
+        List<String> similarMajorNames = sortedScores.stream()
+                .skip(1)
+                .map(score -> majorName(score, majorMap))
+                .toList();
+        List<DifferencePoint> differencePoints = sortedScores.stream()
+                .map(score -> new DifferencePoint(
+                        majorName(score, majorMap),
+                        differenceDescription(score, majorMap.get(score.getMajorId()))
+                ))
+                .toList();
+
+        return List.of(new RecommendationGroup(
+                1,
+                representativeName,
+                safeRank(representative.getRank()),
+                similarMajorNames,
+                commonFitAxes(competency),
+                differencePoints
+        ));
+    }
+
+    private String majorName(ResultMajorScore score, Map<Long, Major> majorMap) {
+        Major major = majorMap.get(score.getMajorId());
+        return major != null && major.getName() != null ? major.getName() : "Unknown";
+    }
+
+    private String differenceDescription(ResultMajorScore score, Major major) {
+        String majorName = major != null && major.getName() != null ? major.getName() : "해당 전공";
+        List<AxisScore> requirementAxes = major == null ? List.of() : majorRequirementAxes(major);
+        String axisText = requirementAxes.stream()
+                .limit(2)
+                .map(AxisScore::label)
+                .collect(Collectors.joining("과 "));
+        String categoryText = major != null && major.getCategory() != null && !major.getCategory().isBlank()
+                ? major.getCategory() + " 분야에서 "
+                : "";
+
+        if (!axisText.isBlank()) {
+            return "%s은 %s%s 역량을 중심으로 적합도를 보이는 전공입니다."
+                    .formatted(majorName, categoryText, axisText);
+        }
+
+        double fitScore = score.getFinalScore() != null ? score.getFinalScore().doubleValue() : 0.0;
+        return "%s은 추천 점수 %.1f점을 기준으로 사용자의 역량 프로필과 비교된 전공입니다."
+                .formatted(majorName, fitScore);
+    }
+
+    private List<String> commonFitAxes(CompetencyEvalResult competency) {
+        return competencyAxes(competency).stream()
+                .sorted(Comparator.comparingInt(AxisScore::score).reversed())
+                .limit(3)
+                .map(AxisScore::fieldName)
+                .toList();
+    }
+
+    private List<AxisScore> competencyAxes(CompetencyEvalResult competency) {
+        return List.of(
+                new AxisScore("mathLogicalScore", "수리논리", safeInt(competency.getMathLogic())),
+                new AxisScore("problemSolvingScore", "문제해결", safeInt(competency.getProblemSolving())),
+                new AxisScore("infoTechUtilizationScore", "정보기술", safeInt(competency.getInfoTech())),
+                new AxisScore("softwareImplementationScore", "구현력", safeInt(competency.getImplementation())),
+                new AxisScore("systemUnderstandingScore", "시스템이해", safeInt(competency.getSystemUnderstanding())),
+                new AxisScore("dataAnalysisScore", "데이터분석", safeInt(competency.getDataAnalysis())),
+                new AxisScore("communicationScore", "의사소통", safeInt(competency.getCommunication())),
+                new AxisScore("collaborationScore", "협업", safeInt(competency.getCollaboration())),
+                new AxisScore("selfManagementScore", "자기관리", safeInt(competency.getSelfManagement()))
+        );
+    }
+
+    private List<AxisScore> majorRequirementAxes(Major major) {
+        return List.of(
+                new AxisScore("mathLogicalScore", "수리논리", safeInt(major.getReqMathLogic())),
+                new AxisScore("problemSolvingScore", "문제해결", safeInt(major.getReqProblemSolving())),
+                new AxisScore("infoTechUtilizationScore", "정보기술", safeInt(major.getReqInfoTech())),
+                new AxisScore("softwareImplementationScore", "구현력", safeInt(major.getReqImplementation())),
+                new AxisScore("systemUnderstandingScore", "시스템이해", safeInt(major.getReqSystemUnderstanding())),
+                new AxisScore("dataAnalysisScore", "데이터분석", safeInt(major.getReqDataAnalysis())),
+                new AxisScore("communicationScore", "의사소통", safeInt(major.getReqCommunication())),
+                new AxisScore("collaborationScore", "협업", safeInt(major.getReqCollaboration())),
+                new AxisScore("selfManagementScore", "자기관리", safeInt(major.getReqSelfManagement()))
+        ).stream()
+                .filter(axis -> axis.score() > 0)
+                .sorted(Comparator.comparingInt(AxisScore::score).reversed())
+                .toList();
+    }
+
+    private static int safeRank(Integer rank) {
+        return rank == null ? 1 : rank;
+    }
+
     private static int safeInt(Float value) {
         if (value == null) {
             return 0;
         }
         return Math.max(0, Math.min(100, Math.round(value)));
+    }
+
+    private record AxisScore(String fieldName, String label, int score) {
     }
 }
