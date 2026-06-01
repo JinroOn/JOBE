@@ -1,0 +1,168 @@
+{
+  "majorName": "일어일문학과",
+  "standardMajorName": "일어일문학과",
+  "category": "인문계열",
+  "excelRowNumber": 12,
+  "usableForRecommendation": true,
+  "selectedWeightSource": "baseExcelWeights",
+  "weightSelectionPolicy": {
+    "reason": "여러 세션 간 데이터셋 유사성을 보장하기 위해 서비스 기준값은 엑셀 전공 행의 baseExcelWeights로 고정한다.",
+    "baseExcelAvailable": true,
+    "externalSourcesUsedForScoring": false,
+    "finalWeightsUsed": false,
+    "selectionWarnings": []
+  },
+  "serviceCompetencyScores": {
+    "mathLogicalScore": 5,
+    "problemSolvingScore": 13,
+    "infoTechUtilizationScore": 2,
+    "softwareImplementationScore": 2,
+    "systemUnderstandingScore": 6,
+    "dataAnalysisScore": 6,
+    "communicationScore": 33,
+    "collaborationScore": 13,
+    "selfManagementScore": 20
+  },
+  "serviceTendencyScores": {
+    "logicalInquiryScore": 22,
+    "practicalTechnicalScore": 0,
+    "artCreativeScore": 13,
+    "socialCooperationScore": 11,
+    "bioHealthScore": 1,
+    "educationGuidanceScore": 12,
+    "theoryAcademicScore": 34,
+    "dataAnalysisTypeScore": 4,
+    "systemOperationScore": 2
+  },
+  "coreAxes": {
+    "competencyTopAxes": [
+      {
+        "axis": "communicationScore",
+        "label": "의사소통",
+        "score": 33
+      },
+      {
+        "axis": "selfManagementScore",
+        "label": "자기관리",
+        "score": 20
+      },
+      {
+        "axis": "problemSolvingScore",
+        "label": "문제해결",
+        "score": 13
+      }
+    ],
+    "tendencyTopAxes": [
+      {
+        "axis": "theoryAcademicScore",
+        "label": "이론학구형",
+        "score": 34
+      },
+      {
+        "axis": "logicalInquiryScore",
+        "label": "논리탐구형",
+        "score": 22
+      },
+      {
+        "axis": "artCreativeScore",
+        "label": "예술창의형",
+        "score": 13
+      }
+    ],
+    "competencyLowAxes": [
+      {
+        "axis": "infoTechUtilizationScore",
+        "label": "정보기술",
+        "score": 2
+      },
+      {
+        "axis": "softwareImplementationScore",
+        "label": "구현력",
+        "score": 2
+      }
+    ],
+    "tendencyLowAxes": [
+      {
+        "axis": "practicalTechnicalScore",
+        "label": "실용기술형",
+        "score": 0
+      },
+      {
+        "axis": "bioHealthScore",
+        "label": "생명보건형",
+        "score": 1
+      }
+    ]
+  },
+  "differentiation": {
+    "focusKeywords": [
+      "일어일문",
+      "의사소통",
+      "자기관리",
+      "문제해결",
+      "문화 해석"
+    ],
+    "comparisonNote": "일어일문학과는 인문계열 안에서도 일어일문 분야와 의사소통을 중심으로 자기관리 역량을 연결하는 방향이 강하다.",
+    "bestFor": "일어일문 분야의 활동을 깊게 탐구하고 의사소통 관점으로 문제를 풀어보고 싶은 학생",
+    "lessCentralThanSimilarMajors": [
+      "공학 설계",
+      "임상 실습",
+      "회계 처리"
+    ]
+  },
+  "scoringPolicy": {
+    "competencyWeight": 0.6,
+    "tendencyWeight": 0.4,
+    "useCompetencyOnlyWhenTendencyMissing": true,
+    "fitCalculationNote": "When tendency scores are missing, use competencyFit only. When both exist, finalFit = competencyFit * 0.6 + tendencyFit * 0.4."
+  },
+  "relatedOccupations": [
+    {
+      "occupationName": "번역가",
+      "relatedMajor": "일어일문학과",
+      "excelRowNumber": 34
+    }
+  ],
+  "occupationDatasetRecommended": true,
+  "dbSeed": {
+    "major_name": "일어일문학과",
+    "category": "인문계열",
+    "req_math_logical": 5,
+    "req_problem_solving": 13,
+    "req_info_tech_utilization": 2,
+    "req_software_implementation": 2,
+    "req_system_understanding": 6,
+    "req_data_analysis": 6,
+    "req_communication": 33,
+    "req_collaboration": 13,
+    "req_self_management": 20,
+    "tendency_logical_inquiry": 22,
+    "tendency_practical_technical": 0,
+    "tendency_art_creative": 13,
+    "tendency_social_cooperation": 11,
+    "tendency_bio_health": 1,
+    "tendency_education_guidance": 12,
+    "tendency_theory_academic": 34,
+    "tendency_data_analysis_type": 4,
+    "tendency_system_operation": 2,
+    "dataset_version": "major-service-excel-v1",
+    "data_quality_status": "approved"
+  },
+  "sourceSummary": {
+    "sourceType": "excel_only",
+    "sourceFile": "docs/Intensity and competency for majors and occupations 9 axis weights.xlsx",
+    "sourceMajorDataset": "datasets/majors/major-row-12-일어일문학과.quantitative.json",
+    "externalSourcesUsedForScoring": false
+  },
+  "validation": {
+    "dataQualityStatus": "approved",
+    "validationErrors": [],
+    "reviewWarnings": []
+  },
+  "metadata": {
+    "datasetVersion": "major-service-excel-v1",
+    "createdAt": "",
+    "lastUpdated": "",
+    "dataType": "service_ready_quantitative_excel_only"
+  }
+}

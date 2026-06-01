@@ -16,6 +16,9 @@ WORKDIR /app
 # 빌드된 jar 복사 (경로는 프로젝트에 맞게 수정)
 COPY build/libs/*.jar app.jar
 
+# 파일 기반 전공/RAG 데이터셋 복사
+COPY datasets ./datasets
+
 # 로그 디렉토리 생성
 RUN mkdir -p /app/logs
 

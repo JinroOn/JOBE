@@ -1,0 +1,173 @@
+{
+  "majorName": "의학과",
+  "standardMajorName": "의학과",
+  "category": "의약계열",
+  "excelRowNumber": 207,
+  "usableForRecommendation": true,
+  "selectedWeightSource": "baseExcelWeights",
+  "weightSelectionPolicy": {
+    "reason": "여러 세션 간 데이터셋 유사성을 보장하기 위해 서비스 기준값은 엑셀 전공 행의 baseExcelWeights로 고정한다.",
+    "baseExcelAvailable": true,
+    "externalSourcesUsedForScoring": false,
+    "finalWeightsUsed": false,
+    "selectionWarnings": []
+  },
+  "serviceCompetencyScores": {
+    "mathLogicalScore": 9,
+    "problemSolvingScore": 12,
+    "infoTechUtilizationScore": 4,
+    "softwareImplementationScore": 3,
+    "systemUnderstandingScore": 8,
+    "dataAnalysisScore": 9,
+    "communicationScore": 16,
+    "collaborationScore": 19,
+    "selfManagementScore": 19
+  },
+  "serviceTendencyScores": {
+    "logicalInquiryScore": 11,
+    "practicalTechnicalScore": 3,
+    "artCreativeScore": 0,
+    "socialCooperationScore": 20,
+    "bioHealthScore": 27,
+    "educationGuidanceScore": 15,
+    "theoryAcademicScore": 9,
+    "dataAnalysisTypeScore": 9,
+    "systemOperationScore": 6
+  },
+  "coreAxes": {
+    "competencyTopAxes": [
+      {
+        "axis": "collaboration",
+        "label": "협업윤리",
+        "score": 19
+      },
+      {
+        "axis": "selfManagement",
+        "label": "자기관리",
+        "score": 19
+      },
+      {
+        "axis": "communication",
+        "label": "의사소통",
+        "score": 16
+      }
+    ],
+    "tendencyTopAxes": [
+      {
+        "axis": "bioHealth",
+        "label": "생명보건형",
+        "score": 27
+      },
+      {
+        "axis": "socialCooperation",
+        "label": "사회협력형",
+        "score": 20
+      },
+      {
+        "axis": "educationGuidance",
+        "label": "교육지도형",
+        "score": 15
+      }
+    ],
+    "competencyLowAxes": [
+      {
+        "axis": "softwareImplementation",
+        "label": "구현력",
+        "score": 3
+      },
+      {
+        "axis": "infoTechUtilization",
+        "label": "정보기술",
+        "score": 4
+      }
+    ],
+    "tendencyLowAxes": [
+      {
+        "axis": "artCreative",
+        "label": "예술창의형",
+        "score": 0
+      },
+      {
+        "axis": "practicalTechnical",
+        "label": "실용기술형",
+        "score": 3
+      }
+    ]
+  },
+  "differentiation": {
+    "focusKeywords": [
+      "의학",
+      "협업윤리",
+      "자기관리",
+      "의사소통",
+      "건강"
+    ],
+    "comparisonNote": "의학과는 의약계열 안에서도 의학 분야와 협업윤리를 중심으로 자기관리 역량을 연결하는 방향이 강하다.",
+    "bestFor": "의학 분야의 활동을 깊게 탐구하고 협업윤리 관점으로 문제를 풀어보고 싶은 학생",
+    "lessCentralThanSimilarMajors": [
+      "시장 분석",
+      "순수 창작",
+      "공학 구조 설계"
+    ]
+  },
+  "scoringPolicy": {
+    "competencyWeight": 0.6,
+    "tendencyWeight": 0.4,
+    "useCompetencyOnlyWhenTendencyMissing": true,
+    "fitCalculationNote": "When tendency scores are missing, use competencyFit only. When both exist, finalFit = competencyFit * 0.6 + tendencyFit * 0.4."
+  },
+  "relatedOccupations": [
+    {
+      "occupationName": "공중보건연구원",
+      "relatedMajor": "의학과",
+      "excelRowNumber": 226
+    },
+    {
+      "occupationName": "의사",
+      "relatedMajor": "의학과",
+      "excelRowNumber": 227
+    }
+  ],
+  "occupationDatasetRecommended": true,
+  "dbSeed": {
+    "major_name": "의학과",
+    "category": "의약계열",
+    "req_math_logical": 9,
+    "req_problem_solving": 12,
+    "req_info_tech_utilization": 4,
+    "req_software_implementation": 3,
+    "req_system_understanding": 8,
+    "req_data_analysis": 9,
+    "req_communication": 16,
+    "req_collaboration": 19,
+    "req_self_management": 19,
+    "tendency_logical_inquiry": 11,
+    "tendency_practical_technical": 3,
+    "tendency_art_creative": 0,
+    "tendency_social_cooperation": 20,
+    "tendency_bio_health": 27,
+    "tendency_education_guidance": 15,
+    "tendency_theory_academic": 9,
+    "tendency_data_analysis_type": 9,
+    "tendency_system_operation": 6,
+    "dataset_version": "major-service-excel-v1",
+    "data_quality_status": "approved"
+  },
+  "sourceSummary": {
+    "sourceType": "excel_only",
+    "sourceFile": "docs/Intensity and competency for majors and occupations 9 axis weights.xlsx",
+    "sourceMajorDataset": "datasets/majors/major-row-207-의학과.quantitative.json",
+    "externalSourcesUsedForScoring": false
+  },
+  "validation": {
+    "dataQualityStatus": "approved",
+    "validationErrors": [],
+    "reviewWarnings": []
+  },
+  "metadata": {
+    "datasetVersion": "major-service-excel-v1",
+    "createdAt": "2026-05-23T12:05:07Z",
+    "lastUpdated": "2026-05-23T12:05:07Z",
+    "dataType": "service_ready_quantitative_excel_only"
+  }
+}

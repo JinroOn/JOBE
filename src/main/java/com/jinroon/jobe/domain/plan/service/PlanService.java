@@ -15,6 +15,7 @@ import com.jinroon.jobe.domain.diagnosis.entity.CompetencyEvalResult;
 import com.jinroon.jobe.domain.diagnosis.repository.CompetencyEvalResultRepository;
 import com.jinroon.jobe.domain.major.entity.Major;
 import com.jinroon.jobe.domain.major.repository.MajorRepository;
+import com.jinroon.jobe.domain.major.service.MajorDatasetContextService;
 import com.jinroon.jobe.domain.plan.entity.MajorWeeklyPlan;
 import com.jinroon.jobe.domain.plan.entity.MajorWeeklyPlanItem;
 import com.jinroon.jobe.domain.plan.entity.MajorWeeklyPlanRiskNote;
@@ -53,6 +54,7 @@ public class PlanService {
     private final MajorRepository majorRepository;
     private final AiServiceClient aiServiceClient;
     private final ObjectMapper objectMapper;
+    private final MajorDatasetContextService majorDatasetContextService;
 
     public MajorWeeklyPlan getPlan(Long planId) {
         return get(planRepository, planId, ErrorCode.PLAN_NOT_FOUND);
@@ -196,7 +198,8 @@ public class PlanService {
         if (majorOpt.isEmpty()) {
             return;
         }
-        String majorName = majorOpt.get().getName();
+        Major major = majorOpt.get();
+        String majorName = major.getName();
 
         Profile profile = profileFrom(competency);
 
@@ -209,7 +212,7 @@ public class PlanService {
                 new TargetMajor(
                         majorName,
                         score.getFinalScore() != null ? score.getFinalScore().doubleValue() : 0.0,
-                        null
+                        majorDatasetContextService.toWeeklyPlanMajorContext(major)
                 ),
                 normalizeWeaknessFocus(weaknessFocus, competency),
                 profile,

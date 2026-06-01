@@ -12,6 +12,7 @@ import com.jinroon.jobe.domain.diagnosis.repository.CompetencyEvalResultReposito
 import com.jinroon.jobe.domain.diagnosis.repository.DiagnosisSessionRepository;
 import com.jinroon.jobe.domain.major.entity.Major;
 import com.jinroon.jobe.domain.major.repository.MajorRepository;
+import com.jinroon.jobe.domain.major.service.MajorDatasetContextService;
 import com.jinroon.jobe.domain.result.entity.DiagnosisResult;
 import com.jinroon.jobe.domain.result.entity.ResultMajorScore;
 import com.jinroon.jobe.domain.result.repository.DiagnosisResultRepository;
@@ -52,6 +53,9 @@ class ResultServiceTest {
     @Mock
     private AiServiceClient aiServiceClient;
 
+    @Mock
+    private MajorDatasetContextService majorDatasetContextService;
+
     private ResultService resultService;
 
     @BeforeEach
@@ -62,7 +66,8 @@ class ResultServiceTest {
                 diagnosisSessionRepository,
                 competencyEvalResultRepository,
                 majorRepository,
-                aiServiceClient
+                aiServiceClient,
+                majorDatasetContextService
         );
     }
 
@@ -190,6 +195,22 @@ class ResultServiceTest {
         when(resultMajorScoreRepository.findByDiagnosisResultIdOrderByRankAsc(1L))
                 .thenReturn(List.of(firstScore, secondScore));
         when(majorRepository.findAllById(List.of(100L, 101L))).thenReturn(List.of(computerScience, dataScience));
+        when(majorDatasetContextService.toRecommendationMajorContext(computerScience))
+                .thenReturn(new RecommendationCommentRequest.MajorContext(
+                        "공학",
+                        "컴퓨터공학과 설명",
+                        "컴퓨터공학과 근거",
+                        List.of("소프트웨어 개발자"),
+                        List.of("컴퓨터공학과 RAG snippet")
+                ));
+        when(majorDatasetContextService.toRecommendationMajorContext(dataScience))
+                .thenReturn(new RecommendationCommentRequest.MajorContext(
+                        "공학",
+                        "데이터사이언스학과 설명",
+                        "데이터사이언스학과 근거",
+                        List.of("데이터 분석가"),
+                        List.of("데이터사이언스학과 RAG snippet")
+                ));
         when(aiServiceClient.getRecommendationComment(any(RecommendationCommentRequest.class))).thenReturn(response);
 
         resultService.generateAiCommentForUser(1L, 7L);
@@ -211,6 +232,8 @@ class ResultServiceTest {
                 .extracting(RecommendationCommentRequest.DifferencePoint::majorName)
                 .containsExactly("컴퓨터공학과", "데이터사이언스학과");
         assertThat(group.differencePoints().get(0).description()).contains("컴퓨터공학과", "구현력", "시스템이해");
+        assertThat(request.topMajors().get(0).majorContext()).isNotNull();
+        assertThat(request.topMajors().get(0).majorContext().ragSnippets()).containsExactly("컴퓨터공학과 RAG snippet");
     }
 
     private DiagnosisResult diagnosisResult(Long id, Long sessionId, Long userId) {
