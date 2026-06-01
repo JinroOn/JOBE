@@ -18,6 +18,7 @@ import com.jinroon.jobe.domain.diagnosis.repository.CompetencyEvalResultReposito
 import com.jinroon.jobe.domain.diagnosis.repository.DiagnosisSessionRepository;
 import com.jinroon.jobe.domain.major.entity.Major;
 import com.jinroon.jobe.domain.major.repository.MajorRepository;
+import com.jinroon.jobe.domain.major.service.MajorDatasetContextService;
 import com.jinroon.jobe.domain.result.entity.DiagnosisResult;
 import com.jinroon.jobe.domain.result.entity.ResultMajorScore;
 import com.jinroon.jobe.domain.result.repository.DiagnosisResultRepository;
@@ -46,6 +47,7 @@ public class ResultService {
     private final CompetencyEvalResultRepository competencyEvalResultRepository;
     private final MajorRepository majorRepository;
     private final AiServiceClient aiServiceClient;
+    private final MajorDatasetContextService majorDatasetContextService;
 
     public List<DiagnosisResult> findResults(Long userId) {
         return userId == null ? diagnosisResultRepository.findAll() : diagnosisResultRepository.findByUserId(userId);
@@ -172,7 +174,7 @@ public class ResultService {
                         score.getFinalScore() != null ? score.getFinalScore().doubleValue() : 0.0,
                         null,
                         null,
-                        null
+                        recommendationMajorContext(majorMap.get(score.getMajorId()))
                 ))
                 .toList();
 
@@ -237,6 +239,10 @@ public class ResultService {
 
     private static String commentKey(String majorName, Integer rankingOrder) {
         return majorName + "#" + rankingOrder;
+    }
+
+    private RecommendationCommentRequest.MajorContext recommendationMajorContext(Major major) {
+        return major == null ? null : majorDatasetContextService.toRecommendationMajorContext(major);
     }
 
     private List<RecommendationGroup> buildRecommendationGroups(

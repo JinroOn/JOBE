@@ -12,6 +12,7 @@ import com.jinroon.jobe.domain.diagnosis.entity.CompetencyEvalResult;
 import com.jinroon.jobe.domain.diagnosis.repository.CompetencyEvalResultRepository;
 import com.jinroon.jobe.domain.major.entity.Major;
 import com.jinroon.jobe.domain.major.repository.MajorRepository;
+import com.jinroon.jobe.domain.major.service.MajorDatasetContextService;
 import com.jinroon.jobe.domain.plan.entity.MajorWeeklyPlan;
 import com.jinroon.jobe.domain.plan.entity.MajorWeeklyPlanItem;
 import com.jinroon.jobe.domain.plan.entity.MajorWeeklyPlanRiskNote;
@@ -65,6 +66,9 @@ class PlanServiceTest {
     @Mock
     private AiServiceClient aiServiceClient;
 
+    @Mock
+    private MajorDatasetContextService majorDatasetContextService;
+
     private PlanService planService;
 
     @BeforeEach
@@ -78,7 +82,8 @@ class PlanServiceTest {
                 competencyEvalResultRepository,
                 majorRepository,
                 aiServiceClient,
-                new ObjectMapper()
+                new ObjectMapper(),
+                majorDatasetContextService
         );
     }
 
@@ -115,6 +120,14 @@ class PlanServiceTest {
         when(competencyEvalResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.of(competency));
         when(resultMajorScoreRepository.findById(11L)).thenReturn(Optional.of(score));
         when(majorRepository.findById(100L)).thenReturn(Optional.of(major));
+        when(majorDatasetContextService.toWeeklyPlanMajorContext(major))
+                .thenReturn(new WeeklyPlanRequest.MajorContext(
+                        "공학",
+                        "컴퓨터공학과 설명",
+                        "컴퓨터공학과 근거",
+                        List.of("소프트웨어 개발자"),
+                        List.of("컴퓨터공학과 RAG snippet")
+                ));
         when(aiServiceClient.getWeeklyPlan(any(WeeklyPlanRequest.class))).thenReturn(response);
 
         MajorWeeklyPlan plan = planService.createPlanForUser(planValues(), 7L);
@@ -133,6 +146,12 @@ class PlanServiceTest {
                 ArgumentCaptor.forClass(MajorWeeklyPlanRiskNote.class);
         verify(riskNoteRepository).save(riskNoteCaptor.capture());
         assertThat(riskNoteCaptor.getValue().getNote()).isEqualTo("학습 시간이 부족하면 범위를 줄인다.");
+
+        ArgumentCaptor<WeeklyPlanRequest> requestCaptor = ArgumentCaptor.forClass(WeeklyPlanRequest.class);
+        verify(aiServiceClient).getWeeklyPlan(requestCaptor.capture());
+        assertThat(requestCaptor.getValue().targetMajor().majorContext()).isNotNull();
+        assertThat(requestCaptor.getValue().targetMajor().majorContext().ragSnippets())
+                .containsExactly("컴퓨터공학과 RAG snippet");
     }
 
     @Test

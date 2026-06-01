@@ -1,0 +1,163 @@
+{
+  "majorName": "반도체공학과",
+  "standardMajorName": "반도체공학과",
+  "category": "공학계열",
+  "excelRowNumber": 127,
+  "usableForRecommendation": true,
+  "selectedWeightSource": "baseExcelWeights",
+  "weightSelectionPolicy": {
+    "reason": "여러 세션 간 데이터셋 유사성을 보장하기 위해 서비스 기준값은 엑셀 전공 행의 baseExcelWeights로 고정한다.",
+    "baseExcelAvailable": true,
+    "externalSourcesUsedForScoring": false,
+    "finalWeightsUsed": false,
+    "selectionWarnings": []
+  },
+  "serviceCompetencyScores": {
+    "mathLogicalScore": 13,
+    "problemSolvingScore": 14,
+    "infoTechUtilizationScore": 17,
+    "softwareImplementationScore": 16,
+    "systemUnderstandingScore": 16,
+    "dataAnalysisScore": 8,
+    "communicationScore": 3,
+    "collaborationScore": 6,
+    "selfManagementScore": 9
+  },
+  "serviceTendencyScores": {
+    "logicalInquiryScore": 14,
+    "practicalTechnicalScore": 25,
+    "artCreativeScore": 3,
+    "socialCooperationScore": 4,
+    "bioHealthScore": 1,
+    "educationGuidanceScore": 2,
+    "theoryAcademicScore": 9,
+    "dataAnalysisTypeScore": 16,
+    "systemOperationScore": 25
+  },
+  "coreAxes": {
+    "competencyTopAxes": [
+      {
+        "axis": "infoTechUtilizationScore",
+        "axisKoreanName": "정보기술",
+        "score": 17
+      },
+      {
+        "axis": "softwareImplementationScore",
+        "axisKoreanName": "구현력",
+        "score": 16
+      },
+      {
+        "axis": "systemUnderstandingScore",
+        "axisKoreanName": "시스템이해",
+        "score": 16
+      }
+    ],
+    "tendencyTopAxes": [
+      {
+        "axis": "practicalTechnicalScore",
+        "axisKoreanName": "실용기술형",
+        "score": 25
+      },
+      {
+        "axis": "systemOperationScore",
+        "axisKoreanName": "시스템운용형",
+        "score": 25
+      },
+      {
+        "axis": "dataAnalysisTypeScore",
+        "axisKoreanName": "데이터분석형",
+        "score": 16
+      }
+    ],
+    "competencyLowAxes": [
+      {
+        "axis": "communicationScore",
+        "axisKoreanName": "의사소통",
+        "score": 3
+      },
+      {
+        "axis": "collaborationScore",
+        "axisKoreanName": "협업윤리",
+        "score": 6
+      }
+    ],
+    "tendencyLowAxes": [
+      {
+        "axis": "bioHealthScore",
+        "axisKoreanName": "생명보건형",
+        "score": 1
+      },
+      {
+        "axis": "educationGuidanceScore",
+        "axisKoreanName": "교육지도형",
+        "score": 2
+      }
+    ]
+  },
+  "differentiation": {
+    "focusKeywords": ["반도체 소자", "공정", "집적회로", "재료와 장비"],
+    "comparisonNote": "전자공학 중에서도 반도체 소자와 제조 공정, 집적회로 기술에 초점이 더 뚜렷하다.",
+    "bestFor": "미세 공정, 칩 설계/제조, 소재와 장비 기반 기술에 관심이 큰 학생",
+    "lessCentralThanSimilarMajors": ["범용 소프트웨어 개발", "네트워크 운영", "로봇 제어 응용"]
+  },
+  "scoringPolicy": {
+    "competencyWeight": 0.6,
+    "tendencyWeight": 0.4,
+    "useCompetencyOnlyWhenTendencyMissing": true,
+    "fitCalculationNote": "When tendency scores are missing, use competencyFit only. When both exist, finalFit = competencyFit * 0.6 + tendencyFit * 0.4."
+  },
+  "relatedOccupations": [
+    {
+      "occupationName": "공정기술자",
+      "relatedMajorName": "반도체공학과",
+      "excelRowNumber": 144
+    },
+    {
+      "occupationName": "반도체공학기술자",
+      "relatedMajorName": "반도체공학과",
+      "excelRowNumber": 145
+    }
+  ],
+  "occupationDatasetRecommended": true,
+  "dbSeed": {
+    "major_name": "반도체공학과",
+    "category": "공학계열",
+    "req_math_logical": 13,
+    "req_problem_solving": 14,
+    "req_info_tech_utilization": 17,
+    "req_software_implementation": 16,
+    "req_system_understanding": 16,
+    "req_data_analysis": 8,
+    "req_communication": 3,
+    "req_collaboration": 6,
+    "req_self_management": 9,
+    "tendency_logical_inquiry": 14,
+    "tendency_practical_technical": 25,
+    "tendency_art_creative": 3,
+    "tendency_social_cooperation": 4,
+    "tendency_bio_health": 1,
+    "tendency_education_guidance": 2,
+    "tendency_theory_academic": 9,
+    "tendency_data_analysis_type": 16,
+    "tendency_system_operation": 25,
+    "dataset_version": "major-service-excel-v1",
+    "data_quality_status": "approved"
+  },
+  "sourceSummary": {
+    "sourceType": "excel_only",
+    "sourceFile": "docs/Intensity and competency for majors and occupations 9 axis weights.xlsx",
+    "sourceMajorDataset": "datasets/majors/major-row-127-반도체공학과.quantitative.json",
+    "externalSourcesUsedForScoring": false
+  },
+  "validation": {
+    "dataQualityStatus": "approved",
+    "validationErrors": [],
+    "reviewWarnings": []
+  },
+  "metadata": {
+    "datasetVersion": "major-service-excel-v1",
+    "createdAt": "",
+    "lastUpdated": "",
+    "dataType": "service_ready_quantitative_excel_only"
+  }
+}

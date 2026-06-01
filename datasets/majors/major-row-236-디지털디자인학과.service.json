@@ -1,0 +1,172 @@
+{
+  "majorName": "디지털디자인학과",
+  "standardMajorName": "디지털디자인학과",
+  "category": "예체능계열",
+  "excelRowNumber": 236,
+  "usableForRecommendation": true,
+  "selectedWeightSource": "baseExcelWeights",
+  "weightSelectionPolicy": {
+    "reason": "예체능 계열의 창작과 표현 중심 특성을 반영해 기본 엑셀 가중치인 baseExcelWeights를 사용했다.",
+    "baseExcelAvailable": true,
+    "externalSourcesUsedForScoring": false,
+    "finalWeightsUsed": false,
+    "selectionWarnings": []
+  },
+  "serviceCompetencyScores": {
+    "mathLogicalScore": 1,
+    "problemSolvingScore": 10,
+    "infoTechUtilizationScore": 14,
+    "softwareImplementationScore": 25,
+    "systemUnderstandingScore": 9,
+    "dataAnalysisScore": 2,
+    "communicationScore": 13,
+    "collaborationScore": 12,
+    "selfManagementScore": 14
+  },
+  "serviceTendencyScores": {
+    "logicalInquiryScore": 4,
+    "practicalTechnicalScore": 19,
+    "artCreativeScore": 37,
+    "socialCooperationScore": 14,
+    "bioHealthScore": 1,
+    "educationGuidanceScore": 5,
+    "theoryAcademicScore": 6,
+    "dataAnalysisTypeScore": 3,
+    "systemOperationScore": 11
+  },
+  "coreAxes": {
+    "competencyTopAxes": [
+      {
+        "axisKey": "softwareImplementation",
+        "axisName": "구현력",
+        "score": 25
+      },
+      {
+        "axisKey": "infoTechUtilization",
+        "axisName": "정보기술",
+        "score": 14
+      },
+      {
+        "axisKey": "selfManagement",
+        "axisName": "자기관리",
+        "score": 14
+      }
+    ],
+    "tendencyTopAxes": [
+      {
+        "axisKey": "artCreative",
+        "axisName": "예술창의형",
+        "score": 37
+      },
+      {
+        "axisKey": "practicalTechnical",
+        "axisName": "실용기술형",
+        "score": 19
+      },
+      {
+        "axisKey": "socialCooperation",
+        "axisName": "사회협력형",
+        "score": 14
+      }
+    ],
+    "competencyLowAxes": [
+      {
+        "axisKey": "mathLogical",
+        "axisName": "수리논리",
+        "score": 1
+      },
+      {
+        "axisKey": "dataAnalysis",
+        "axisName": "데이터분석",
+        "score": 2
+      }
+    ],
+    "tendencyLowAxes": [
+      {
+        "axisKey": "bioHealth",
+        "axisName": "생명보건형",
+        "score": 1
+      },
+      {
+        "axisKey": "dataAnalysisType",
+        "axisName": "데이터분석형",
+        "score": 3
+      }
+    ]
+  },
+  "differentiation": {
+    "focusKeywords": [
+      "디지털디자인",
+      "표현",
+      "제작",
+      "실기"
+    ],
+    "comparisonNote": "디지털디자인학과는 예체능계열 안에서도 디지털디자인 분야와 표현을 중심으로 제작 역량을 연결하는 방향이 강하다.",
+    "bestFor": "디지털디자인 분야의 활동을 깊게 탐구하고 표현 관점으로 문제를 풀어보고 싶은 학생",
+    "lessCentralThanSimilarMajors": [
+      "법 제도 분석",
+      "실험 데이터 처리",
+      "의료 진단"
+    ]
+  },
+  "scoringPolicy": {
+    "competencyWeight": 0.6,
+    "tendencyWeight": 0.4,
+    "useCompetencyOnlyWhenTendencyMissing": true,
+    "fitCalculationNote": "When tendency scores are missing, use competencyFit only. When both exist, finalFit = competencyFit * 0.6 + tendencyFit * 0.4."
+  },
+  "relatedOccupations": [
+    {
+      "occupationName": "멀티미디어디자이너",
+      "relatedMajor": "디지털디자인학과",
+      "excelRowNumber": 248
+    },
+    {
+      "occupationName": "웹디자이너",
+      "relatedMajor": "디지털디자인학과",
+      "excelRowNumber": 249
+    }
+  ],
+  "occupationDatasetRecommended": true,
+  "dbSeed": {
+    "major_name": "디지털디자인학과",
+    "category": "예체능계열",
+    "req_math_logical": 1,
+    "req_problem_solving": 10,
+    "req_info_tech_utilization": 14,
+    "req_software_implementation": 25,
+    "req_system_understanding": 9,
+    "req_data_analysis": 2,
+    "req_communication": 13,
+    "req_collaboration": 12,
+    "req_self_management": 14,
+    "tendency_logical_inquiry": 4,
+    "tendency_practical_technical": 19,
+    "tendency_art_creative": 37,
+    "tendency_social_cooperation": 14,
+    "tendency_bio_health": 1,
+    "tendency_education_guidance": 5,
+    "tendency_theory_academic": 6,
+    "tendency_data_analysis_type": 3,
+    "tendency_system_operation": 11,
+    "dataset_version": "major-service-excel-v1",
+    "data_quality_status": "approved"
+  },
+  "sourceSummary": {
+    "sourceType": "excel_only",
+    "sourceFile": "docs/Intensity and competency for majors and occupations 9 axis weights.xlsx",
+    "sourceMajorDataset": "datasets/majors/major-row-236-디지털디자인학과.quantitative.json",
+    "externalSourcesUsedForScoring": false
+  },
+  "validation": {
+    "dataQualityStatus": "approved",
+    "validationErrors": [],
+    "reviewWarnings": []
+  },
+  "metadata": {
+    "datasetVersion": "major-service-excel-v1",
+    "createdAt": "2026-05-23",
+    "lastUpdated": "2026-05-23",
+    "dataType": "service_ready_quantitative_excel_only"
+  }
+}
