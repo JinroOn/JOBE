@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.jinroon.jobe.JobeApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-06-01T12:45:52.317Z" hostname="DESKTOP-FLIU7FT" time="4.503">
+<testsuite name="com.jinroon.jobe.JobeApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-06-01T13:08:31.908Z" hostname="DESKTOP-FLIU7FT" time="4.496">
   <properties/>
-  <testcase name="contextLoads()" classname="com.jinroon.jobe.JobeApplicationTests" time="0.238"/>
-  <system-out><![CDATA[21:45:52.426 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.jinroon.jobe.JobeApplicationTests]: JobeApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-21:45:52.506 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.jinroon.jobe.JobeApplication for test class com.jinroon.jobe.JobeApplicationTests
-21:45:52.559 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.jinroon.jobe.JobeApplicationTests]: JobeApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-21:45:52.559 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.jinroon.jobe.JobeApplication for test class com.jinroon.jobe.JobeApplicationTests
+  <testcase name="contextLoads()" classname="com.jinroon.jobe.JobeApplicationTests" time="0.212"/>
+  <system-out><![CDATA[22:08:32.022 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.jinroon.jobe.JobeApplicationTests]: JobeApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+22:08:32.098 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.jinroon.jobe.JobeApplication for test class com.jinroon.jobe.JobeApplicationTests
+22:08:32.145 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.jinroon.jobe.JobeApplicationTests]: JobeApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+22:08:32.146 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.jinroon.jobe.JobeApplication for test class com.jinroon.jobe.JobeApplicationTests
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -16,17 +16,17 @@
 
  :: Spring Boot ::                (v4.0.6)
 
-2026-06-01T21:45:52.782+09:00  INFO 1052 --- [    Test worker] com.jinroon.jobe.JobeApplicationTests    : Starting JobeApplicationTests using Java 17.0.19 with PID 1052 (started by KJY in C:\proj\JOBE\JOBE\JOBE-develop)
-2026-06-01T21:45:52.783+09:00  INFO 1052 --- [    Test worker] com.jinroon.jobe.JobeApplicationTests    : The following 1 profile is active: "dev"
-2026-06-01T21:45:53.412+09:00  INFO 1052 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2026-06-01T21:45:53.493+09:00  INFO 1052 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 75 ms. Found 20 JPA repository interfaces.
-2026-06-01T21:45:53.904+09:00  INFO 1052 --- [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
-2026-06-01T21:45:53.946+09:00  INFO 1052 --- [    Test worker] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.12.Final
-2026-06-01T21:45:54.237+09:00  INFO 1052 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2026-06-01T21:45:54.257+09:00  INFO 1052 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2026-06-01T21:45:54.421+09:00  INFO 1052 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@99948fe
-2026-06-01T21:45:54.423+09:00  INFO 1052 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2026-06-01T21:45:54.484+09:00  INFO 1052 --- [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+2026-06-01T22:08:32.369+09:00  INFO 22068 --- [    Test worker] com.jinroon.jobe.JobeApplicationTests    : Starting JobeApplicationTests using Java 17.0.19 with PID 22068 (started by KJY in C:\proj\JOBE\JOBE\JOBE-develop)
+2026-06-01T22:08:32.370+09:00  INFO 22068 --- [    Test worker] com.jinroon.jobe.JobeApplicationTests    : The following 1 profile is active: "dev"
+2026-06-01T22:08:32.996+09:00  INFO 22068 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-01T22:08:33.083+09:00  INFO 22068 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 79 ms. Found 20 JPA repository interfaces.
+2026-06-01T22:08:33.512+09:00  INFO 22068 --- [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-01T22:08:33.548+09:00  INFO 22068 --- [    Test worker] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.12.Final
+2026-06-01T22:08:33.874+09:00  INFO 22068 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-01T22:08:33.893+09:00  INFO 22068 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-06-01T22:08:34.054+09:00  INFO 22068 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4c31b6c2
+2026-06-01T22:08:34.056+09:00  INFO 22068 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-06-01T22:08:34.109+09:00  INFO 22068 --- [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
 	Database JDBC URL [jdbc:mysql://localhost:3307/jobe]
 	Database driver: MySQL Connector/J
 	Database dialect: MySQLDialect
@@ -38,7 +38,7 @@
 	Pool: DataSourceConnectionProvider
 	Minimum pool size: undefined/unknown
 	Maximum pool size: undefined/unknown
-2026-06-01T21:45:55.182+09:00  INFO 1052 --- [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-01T22:08:34.815+09:00  INFO 22068 --- [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 Hibernate: alter table consultation_logs modify column role enum ('assistant','user') not null
 Hibernate: alter table diagnosis_sessions modify column status enum ('abandoned','completed','in_progress') not null
 Hibernate: alter table exam_questions modify column competency_category enum ('collaboration','communication','data_analysis','implementation','info_tech','math_logic','problem_solving','self_management','system_understanding') not null
@@ -47,12 +47,12 @@ Hibernate: alter table notices modify column display_type enum ('banner','popup'
 Hibernate: alter table users modify column login_type enum ('email','google') not null
 Hibernate: alter table users modify column role enum ('admin','member') not null
 Hibernate: alter table users modify column status enum ('active','suspended','withdrawn') not null
-2026-06-01T21:45:55.428+09:00  INFO 1052 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2026-06-01T21:45:55.476+09:00  INFO 1052 --- [    Test worker] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
-2026-06-01T21:45:55.925+09:00  WARN 1052 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2026-06-01T21:45:56.010+09:00  INFO 1052 --- [    Test worker] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
-2026-06-01T21:45:56.510+09:00  INFO 1052 --- [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
-2026-06-01T21:45:56.549+09:00  INFO 1052 --- [    Test worker] com.jinroon.jobe.JobeApplicationTests    : Started JobeApplicationTests in 3.956 seconds (process running for 4.768)
+2026-06-01T22:08:35.042+09:00  INFO 22068 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-01T22:08:35.089+09:00  INFO 22068 --- [    Test worker] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-01T22:08:35.535+09:00  WARN 22068 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-01T22:08:35.619+09:00  INFO 22068 --- [    Test worker] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-06-01T22:08:36.119+09:00  INFO 22068 --- [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-06-01T22:08:36.157+09:00  INFO 22068 --- [    Test worker] com.jinroon.jobe.JobeApplicationTests    : Started JobeApplicationTests in 3.976 seconds (process running for 4.779)
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
