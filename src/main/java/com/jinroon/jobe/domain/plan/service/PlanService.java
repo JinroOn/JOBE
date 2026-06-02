@@ -100,7 +100,14 @@ public class PlanService {
         try {
             applyAiWeeklyPlan(plan);
         } catch (Exception e) {
-            log.warn("AI 주간 계획 적용 실패 (planId={}): {}", plan.getId(), e.getMessage());
+            log.warn(
+                    "AI weekly plan apply failed planId={} diagnosisResultId={} resultMajorScoreId={} errorType={} message={}",
+                    plan.getId(),
+                    plan.getDiagnosisResultId(),
+                    plan.getResultMajorScoreId(),
+                    e.getClass().getSimpleName(),
+                    e.getMessage()
+            );
         }
 
         return plan;
@@ -176,6 +183,8 @@ public class PlanService {
         Optional<DiagnosisResult> resultOpt =
                 diagnosisResultRepository.findById(plan.getDiagnosisResultId());
         if (resultOpt.isEmpty()) {
+            log.warn("AI weekly plan skipped: result not found planId={} diagnosisResultId={}",
+                    plan.getId(), plan.getDiagnosisResultId());
             return;
         }
         DiagnosisResult result = resultOpt.get();
@@ -183,6 +192,8 @@ public class PlanService {
         Optional<CompetencyEvalResult> competencyOpt =
                 competencyEvalResultRepository.findByDiagnosisSessionId(result.getDiagnosisSessionId());
         if (competencyOpt.isEmpty()) {
+            log.warn("AI weekly plan skipped: competency result not found planId={} diagnosisResultId={} diagnosisSessionId={}",
+                    plan.getId(), result.getId(), result.getDiagnosisSessionId());
             return;
         }
         CompetencyEvalResult competency = competencyOpt.get();
@@ -190,12 +201,21 @@ public class PlanService {
         Optional<ResultMajorScore> scoreOpt =
                 resultMajorScoreRepository.findById(plan.getResultMajorScoreId());
         if (scoreOpt.isEmpty()) {
+            log.warn("AI weekly plan skipped: major score not found planId={} diagnosisResultId={} resultMajorScoreId={}",
+                    plan.getId(), result.getId(), plan.getResultMajorScoreId());
             return;
         }
         ResultMajorScore score = scoreOpt.get();
+        if (!Objects.equals(score.getDiagnosisResultId(), result.getId())) {
+            log.warn("AI weekly plan skipped: major score result mismatch planId={} diagnosisResultId={} resultMajorScoreId={} scoreDiagnosisResultId={}",
+                    plan.getId(), result.getId(), score.getId(), score.getDiagnosisResultId());
+            return;
+        }
 
         Optional<Major> majorOpt = majorRepository.findById(score.getMajorId());
         if (majorOpt.isEmpty()) {
+            log.warn("AI weekly plan skipped: major not found planId={} diagnosisResultId={} resultMajorScoreId={} majorId={}",
+                    plan.getId(), result.getId(), score.getId(), score.getMajorId());
             return;
         }
         Major major = majorOpt.get();
@@ -221,12 +241,16 @@ public class PlanService {
 
         WeeklyPlanResponse response = aiServiceClient.getWeeklyPlan(request);
         if (response == null) {
+            log.warn("AI weekly plan response empty planId={} diagnosisResultId={} resultMajorScoreId={} majorId={}",
+                    plan.getId(), result.getId(), score.getId(), major.getId());
             return;
         }
 
         plan.applyAiPlan(response.planId(), response.overview());
 
         if (response.weeklyPlan() == null || response.weeklyPlan().isEmpty()) {
+            log.warn("AI weekly plan response has no weekly items planId={} diagnosisResultId={} responsePlanId={}",
+                    plan.getId(), result.getId(), response.planId());
             return;
         }
 
@@ -321,7 +345,8 @@ public class PlanService {
         try {
             return objectMapper.writeValueAsString(values == null ? List.of() : values);
         } catch (JsonProcessingException e) {
-            log.warn("AI 주간 계획 JSON 배열 변환 실패: {}", e.getMessage());
+            log.warn("AI weekly plan JSON array conversion failed errorType={} message={}",
+                    e.getClass().getSimpleName(), e.getMessage());
             return "[]";
         }
     }

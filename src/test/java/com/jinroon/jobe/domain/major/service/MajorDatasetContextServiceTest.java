@@ -74,6 +74,46 @@ class MajorDatasetContextServiceTest {
         assertThat(context.ragSnippets()).isEmpty();
     }
 
+    @Test
+    void matchesExactSupplementedDatasetByMajorName() throws Exception {
+        Files.writeString(majorsDir.resolve("major-row-1001-소프트웨어학과.service.json"), """
+                {
+                  "majorName": "소프트웨어학과",
+                  "standardMajorName": "소프트웨어학과",
+                  "category": "공학계열",
+                  "description": "서비스 구현과 응용 개발 프로젝트를 중심으로 배우는 전공",
+                  "sourceSummary": "소프트웨어 구현력과 문제해결 역량을 중심으로 구성한 보강 데이터셋",
+                  "relatedJobs": ["소프트웨어개발자", "백엔드개발자", "앱개발자"]
+                }
+                """);
+        Files.writeString(ragDir.resolve("major-row-1001-소프트웨어학과.rag.jsonl"), """
+                {"content":"소프트웨어학과 snippet 1"}
+                {"content":"소프트웨어학과 snippet 2"}
+                {"content":"소프트웨어학과 snippet 3"}
+                {"content":"소프트웨어학과 snippet 4"}
+                {"content":"소프트웨어학과 snippet 5"}
+                {"content":"소프트웨어학과 snippet 6"}
+                {"content":"소프트웨어학과 snippet 7"}
+                """);
+
+        RecommendationCommentRequest.MajorContext context =
+                service.toRecommendationMajorContext(major("소프트웨어학과", "기본분류", "기본설명", null));
+
+        assertThat(context.category()).isEqualTo("공학계열");
+        assertThat(context.description()).contains("서비스 구현");
+        assertThat(context.sourceSummary()).contains("소프트웨어 구현력");
+        assertThat(context.relatedJobs()).containsExactly("소프트웨어개발자", "백엔드개발자", "앱개발자");
+        assertThat(context.ragSnippets()).hasSize(6);
+        assertThat(context.ragSnippets()).containsExactly(
+                "소프트웨어학과 snippet 1",
+                "소프트웨어학과 snippet 2",
+                "소프트웨어학과 snippet 3",
+                "소프트웨어학과 snippet 4",
+                "소프트웨어학과 snippet 5",
+                "소프트웨어학과 snippet 6"
+        );
+    }
+
     private Major major(String name, String category, String description, String careerPaths) {
         Major major = newEntity(Major.class);
         ReflectionTestUtils.setField(major, "name", name);
