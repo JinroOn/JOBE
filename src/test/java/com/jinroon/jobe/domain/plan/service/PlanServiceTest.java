@@ -180,6 +180,32 @@ class PlanServiceTest {
     }
 
     @Test
+    void createPlanDoesNotCallAiWhenMajorScoreBelongsToDifferentResult() {
+        DiagnosisResult result = diagnosisResult(1L, 10L, 7L, null);
+        CompetencyEvalResult competency = competencyResult(10L);
+        ResultMajorScore score = resultMajorScore(100L, 87.5f);
+        ReflectionTestUtils.setField(score, "diagnosisResultId", 99L);
+
+        when(diagnosisResultRepository.findById(1L)).thenReturn(Optional.of(result));
+        when(planRepository.save(any(MajorWeeklyPlan.class))).thenAnswer(invocation -> {
+            MajorWeeklyPlan plan = invocation.getArgument(0);
+            ReflectionTestUtils.setField(plan, "id", 20L);
+            return plan;
+        });
+        when(competencyEvalResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.of(competency));
+        when(resultMajorScoreRepository.findById(11L)).thenReturn(Optional.of(score));
+
+        MajorWeeklyPlan plan = planService.createPlanForUser(planValues(), 7L);
+
+        assertThat(plan.getPlanId()).isNull();
+        assertThat(plan.getOverview()).isNull();
+        verify(majorRepository, never()).findById(any());
+        verify(aiServiceClient, never()).getWeeklyPlan(any());
+        verify(planItemRepository, never()).saveAll(any());
+        verify(riskNoteRepository, never()).save(any());
+    }
+
+    @Test
     void createPlanForUserRejectsOtherUsersResult() {
         DiagnosisResult result = diagnosisResult(1L, 10L, 7L, null);
         when(diagnosisResultRepository.findById(1L)).thenReturn(Optional.of(result));

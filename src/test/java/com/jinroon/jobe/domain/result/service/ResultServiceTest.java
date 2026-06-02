@@ -158,6 +158,49 @@ class ResultServiceTest {
     }
 
     @Test
+    void generateAiCommentStoresMatchedMajorCommentsAndSkipsUnmatchedComments() {
+        DiagnosisResult result = diagnosisResult(1L, 10L, 7L);
+        CompetencyEvalResult competency = competencyResult(10L);
+        ResultMajorScore firstScore = resultMajorScore(11L, 1L, 100L, 1, 87.5f);
+        ResultMajorScore secondScore = resultMajorScore(12L, 1L, 101L, 2, 82.0f);
+        Major firstMajor = major(100L, "Major A");
+        Major secondMajor = major(101L, "Major B");
+        RecommendationCommentResponse response = new RecommendationCommentResponse(
+                "summary",
+                List.of(new RecommendationCommentResponse.MajorComment(
+                        "Major A",
+                        1,
+                        87.5,
+                        "strength-a",
+                        "weakness-a",
+                        "reason-a"
+                )),
+                List.of("communicationScore"),
+                "rec-comment-v1.2.0",
+                "request-partial"
+        );
+
+        when(diagnosisResultRepository.findById(1L)).thenReturn(Optional.of(result));
+        when(competencyEvalResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.of(competency));
+        when(resultMajorScoreRepository.findByDiagnosisResultIdOrderByRankAsc(1L))
+                .thenReturn(List.of(firstScore, secondScore));
+        when(majorRepository.findAllById(List.of(100L, 101L))).thenReturn(List.of(firstMajor, secondMajor));
+        when(aiServiceClient.getRecommendationComment(any(RecommendationCommentRequest.class))).thenReturn(response);
+
+        DiagnosisResult actual = resultService.generateAiCommentForUser(1L, 7L);
+
+        assertThat(actual).isSameAs(result);
+        assertThat(result.getAiComment()).isEqualTo("summary");
+        assertThat(result.getWeaknessFocus()).isEqualTo("communicationScore");
+        assertThat(firstScore.getStrengths()).isEqualTo("strength-a");
+        assertThat(firstScore.getWeaknesses()).isEqualTo("weakness-a");
+        assertThat(firstScore.getRecommendationReason()).isEqualTo("reason-a");
+        assertThat(secondScore.getStrengths()).isNull();
+        assertThat(secondScore.getWeaknesses()).isNull();
+        assertThat(secondScore.getRecommendationReason()).isNull();
+    }
+
+    @Test
     void generateAiCommentRequestContainsRecommendationGroups() {
         DiagnosisResult result = diagnosisResult(1L, 10L, 7L);
         CompetencyEvalResult competency = competencyResult(10L);

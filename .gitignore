@@ -58,3 +58,5 @@ ai-service/**/*.pyc
 #local logs
 ai-service/*.log
 ai-service/logs/
+
+docs/

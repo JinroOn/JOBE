@@ -52,6 +52,7 @@ services:
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_SHOW_SQL: "true"
       AI_SERVER_URL: http://ai-service:8001
+      AI_SERVER_READ_TIMEOUT_MS: 60000
       JWT_SECRET: dev-secret-key-must-be-at-least-256-bits-long-for-hs256-algorithm
     ports:
       - "8080:8080"

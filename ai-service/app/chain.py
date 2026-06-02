@@ -27,6 +27,17 @@ WEAKNESS_KEYS = {
     "selfManagementScore",
 }
 BANNED_ASSERTIVE_WORDS = ("반드시", "무조건")
+INTERNAL_TERM_REPLACEMENTS = (
+    (re.compile(r"ragSnippets", re.IGNORECASE), "전공 근거"),
+    (re.compile(r"majorContext", re.IGNORECASE), "전공 정보"),
+    (re.compile(r"rag\s*데이터", re.IGNORECASE), "전공 근거"),
+    (re.compile(r"snippet", re.IGNORECASE), "전공 근거"),
+    (re.compile(r"rag", re.IGNORECASE), "전공 근거"),
+    (re.compile(r"스니펫"), "전공 근거"),
+    (re.compile(r"검색\s*조각"), "전공 근거"),
+    (re.compile(r"내부\s*데이터"), "전공 근거"),
+    (re.compile(r"프롬프트"), "응답 기준"),
+)
 ACTION_KEYWORDS = ("추천", "권장", "연습", "보완", "개선", "훈련", "시도")
 DIFFERENTIATION_MARKERS = (
     "반면",
@@ -345,8 +356,8 @@ class RecommendationChain:
                 .replace(".", "")
             )
             sentences.append(f"{weak}을 보완하기 위해 {action}을 권장합니다.")
-        if len(sentences) > 4:
-            sentences = sentences[:4]
+        if len(sentences) > 3:
+            sentences = sentences[:3]
 
         sentences = [self._ensure_period(s) for s in sentences]
         merged = self._replace_banned_words(" ".join(sentences))
@@ -356,7 +367,8 @@ class RecommendationChain:
         if not any(marker in merged for marker in DIFFERENTIATION_MARKERS):
             comparison_names = [name for name in comparison_majors or [] if name and name != major_name]
             if differentiation_hint:
-                merged += f" 다른 추천 전공과 비교하면, {major_name}은 {differentiation_hint}"
+                hint = self._sanitize_text(str(differentiation_hint))
+                merged += f" 다른 추천 전공과 비교하면, {major_name}은 {hint}"
                 if merged[-1] not in ".!?":
                     merged += "."
             elif comparison_names:
@@ -367,6 +379,23 @@ class RecommendationChain:
                 )
             else:
                 merged += f" 이 전공은 특히 {focus}에 중심을 두고 적합도를 확인하면 좋습니다."
+
+        sentences = self._split_sentences(merged)
+        if len(sentences) > 3:
+            last_sentence = sentences[-1]
+            if any(marker in last_sentence for marker in DIFFERENTIATION_MARKERS):
+                action_sentence = next(
+                    (
+                        sentence
+                        for sentence in sentences[1:-1]
+                        if any(keyword in sentence for keyword in ACTION_KEYWORDS)
+                    ),
+                    sentences[1],
+                )
+                sentences = [sentences[0], action_sentence, last_sentence]
+            else:
+                sentences = sentences[:3]
+            merged = " ".join(self._ensure_period(sentence) for sentence in sentences)
 
         if not self._is_mostly_korean(merged):
             merged = (
@@ -430,6 +459,7 @@ class RecommendationChain:
         cleaned = text.replace("\n", " ").replace("\r", " ").strip()
         cleaned = re.sub(r"[#*_`>{}\[\]|~]", " ", cleaned)
         cleaned = re.sub(r"[!@\$%\^&\+=]{2,}", " ", cleaned)
+        cleaned = self._replace_internal_terms(cleaned)
         cleaned = re.sub(r"\s+", " ", cleaned).strip()
         return cleaned
 
@@ -449,6 +479,12 @@ class RecommendationChain:
         out = text
         for banned in BANNED_ASSERTIVE_WORDS:
             out = out.replace(banned, "권장")
+        return out
+
+    def _replace_internal_terms(self, text: str) -> str:
+        out = text
+        for pattern, replacement in INTERNAL_TERM_REPLACEMENTS:
+            out = pattern.sub(replacement, out)
         return out
 
     def _is_mostly_korean(self, text: str) -> bool:
@@ -524,5 +560,6 @@ class RecommendationChain:
         return (
             "당신은 진로 코칭 시스템입니다. "
             "출력은 JSON 구조만 따르고 markdown은 사용하지 마세요. "
-            "recommendationReason은 2~4문장, summaryComment는 3~5문장으로 작성하세요."
+            "recommendationReason은 2~3문장, summaryComment는 3~5문장으로 작성하세요. "
+            "RAG, snippet, 내부 데이터 같은 내부 용어는 최종 응답에 쓰지 마세요."
         )

@@ -17,6 +17,17 @@ from .models import WeeklyPlanItem, WeeklyPlanRequest, WeeklyPlanResponse
 PLAN_PROMPT_VERSION = os.getenv("PLAN_PROMPT_VERSION", "plan-v1.0.0")
 PLAN_PROMPT_FILE = os.getenv("PLAN_PROMPT_FILE", "plan_v1_0.txt")
 BANNED_ASSERTIVE_WORDS = ("반드시", "무조건")
+INTERNAL_TERM_REPLACEMENTS = (
+    (re.compile(r"ragSnippets", re.IGNORECASE), "전공 근거"),
+    (re.compile(r"majorContext", re.IGNORECASE), "전공 정보"),
+    (re.compile(r"rag\s*데이터", re.IGNORECASE), "전공 근거"),
+    (re.compile(r"snippet", re.IGNORECASE), "전공 근거"),
+    (re.compile(r"rag", re.IGNORECASE), "전공 근거"),
+    (re.compile(r"스니펫"), "전공 근거"),
+    (re.compile(r"검색\s*조각"), "전공 근거"),
+    (re.compile(r"내부\s*데이터"), "전공 근거"),
+    (re.compile(r"프롬프트"), "응답 기준"),
+)
 
 
 class GeneratedWeeklyPlanItem(BaseModel):
@@ -143,14 +154,14 @@ class WeeklyPlanChain:
             if len(tasks) < 2:
                 fallback_reasons.append("insufficient_tasks")
                 tasks.extend(self._fallback_tasks(request=request, week_num=week_num))
-            tasks = [self._trim(self._replace_banned_words(task), 180) for task in tasks[:8]]
+            tasks = [self._trim(self._replace_banned_words(task), 140) for task in tasks[:4]]
 
             resources = [self._sanitize_text(res) for res in (item.recommendedResources if item else [])]
             resources = [res for res in resources if res]
             if len(resources) < 1:
                 fallback_reasons.append("insufficient_resources")
                 resources.extend(self._fallback_resources(request=request, week_num=week_num))
-            resources = [self._trim(self._replace_banned_words(res), 180) for res in resources[:8]]
+            resources = [self._trim(self._replace_banned_words(res), 120) for res in resources[:3]]
 
             checkpoint = self._sanitize_text(item.checkpoint if item else "")
             if not checkpoint:
@@ -169,7 +180,7 @@ class WeeklyPlanChain:
 
         overview = self._normalize_overview(generated.overview, request=request)
         risk_notes = [self._sanitize_text(note) for note in generated.riskNotes]
-        risk_notes = [self._trim(self._replace_banned_words(note), 200) for note in risk_notes if note][:10]
+        risk_notes = [self._trim(self._replace_banned_words(note), 200) for note in risk_notes if note][:3]
 
         response = WeeklyPlanResponse(
             planId=f"plan-{request.sessionId}-{uuid.uuid4().hex[:8]}",
@@ -214,6 +225,7 @@ class WeeklyPlanChain:
         cleaned = text.replace("\n", " ").replace("\r", " ").strip()
         cleaned = re.sub(r"[#*_`>{}\[\]|~]", " ", cleaned)
         cleaned = re.sub(r"[!@\$%\^&\+=]{2,}", " ", cleaned)
+        cleaned = self._replace_internal_terms(cleaned)
         cleaned = re.sub(r"\s+", " ", cleaned).strip()
         return cleaned
 
@@ -233,6 +245,12 @@ class WeeklyPlanChain:
         out = text
         for banned in BANNED_ASSERTIVE_WORDS:
             out = out.replace(banned, "권장")
+        return out
+
+    def _replace_internal_terms(self, text: str) -> str:
+        out = text
+        for pattern, replacement in INTERNAL_TERM_REPLACEMENTS:
+            out = pattern.sub(replacement, out)
         return out
 
     def _trim(self, text: str, max_len: int) -> str:
@@ -268,5 +286,6 @@ class WeeklyPlanChain:
         if prompt_path.exists():
             return prompt_path.read_text(encoding="utf-8")
         return (
-            "당신은 학습 코치 시스템입니다. 입력 JSON을 기반으로 4~12주 학습 플랜을 JSON 형식으로 작성하세요."
+            "당신은 학습 코치 시스템입니다. 입력 JSON을 기반으로 4~12주 학습 플랜을 JSON 형식으로 작성하세요. "
+            "RAG, snippet, 내부 데이터 같은 내부 용어는 최종 응답에 쓰지 마세요."
         )

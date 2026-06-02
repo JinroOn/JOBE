@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.jinroon.jobe.domain.plan.service.PlanServiceTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-06-01T13:31:42.053Z" hostname="DESKTOP-FLIU7FT" time="0.441">
+<testsuite name="com.jinroon.jobe.domain.plan.service.PlanServiceTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-06-02T23:31:00.607Z" hostname="DESKTOP-FLIU7FT" time="1.095">
   <properties/>
-  <testcase name="createPlanReturnsPlanWithoutItemsWhenAiServiceReturnsNull()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.402"/>
-  <testcase name="createPlanForUserRejectsOtherUsersResult()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.01"/>
-  <testcase name="createPlanStoresAiWeeklyPlanItemsAsJsonArrays()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.028"/>
-  <system-out><![CDATA[]]></system-out>
+  <testcase name="createPlanReturnsPlanWithoutItemsWhenAiServiceReturnsNull()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="1.033"/>
+  <testcase name="createPlanForUserRejectsOtherUsersResult()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.011"/>
+  <testcase name="createPlanStoresAiWeeklyPlanItemsAsJsonArrays()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.035"/>
+  <testcase name="createPlanDoesNotCallAiWhenMajorScoreBelongsToDifferentResult()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.004"/>
+  <system-out><![CDATA[08:31:01.596 [Test worker] WARN com.jinroon.jobe.domain.plan.service.PlanService -- AI weekly plan response empty planId=20 diagnosisResultId=1 resultMajorScoreId=11 majorId=100
+08:31:01.702 [Test worker] WARN com.jinroon.jobe.domain.plan.service.PlanService -- AI weekly plan skipped: major score result mismatch planId=20 diagnosisResultId=1 resultMajorScoreId=11 scoreDiagnosisResultId=99
+]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

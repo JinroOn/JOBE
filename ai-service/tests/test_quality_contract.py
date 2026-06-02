@@ -9,6 +9,18 @@ from app.models import RecommendationCommentRequest
 
 SAMPLES_DIR = Path(__file__).resolve().parent / "samples"
 BANNED_WORDS = ("반드시", "무조건")
+INTERNAL_TERMS = (
+    "RAG",
+    "rag",
+    "rag 데이터",
+    "snippet",
+    "스니펫",
+    "검색 조각",
+    "내부 데이터",
+    "프롬프트",
+    "majorContext",
+    "ragSnippets",
+)
 DIFFERENTIATION_MARKERS = (
     "반면",
     "다른 추천 전공과 비교하면",
@@ -18,7 +30,7 @@ DIFFERENTIATION_MARKERS = (
     "중심",
 )
 SUMMARY_MARKERS = ("공통", "선택", "기준", "비교")
-ACTION_MARKERS = ("보완", "연습", "훈련", "개선", "시도", "정리", "학습", "프로젝트")
+ACTION_MARKERS = ("보완", "연습", "훈련", "개선", "시도", "정리", "학습", "프로젝트", "활동")
 
 
 def load_request(name: str) -> RecommendationCommentRequest:
@@ -65,6 +77,7 @@ def assert_quality(response) -> None:
     assert len(response.summaryComment) <= 1200
     assert korean_ratio(response.summaryComment) >= 0.30
     assert not any(b in response.summaryComment for b in BANNED_WORDS)
+    assert not any(term in response.summaryComment for term in INTERNAL_TERMS)
     assert any(marker in response.summaryComment for marker in SUMMARY_MARKERS)
     assert not response.summaryComment.strip().endswith("추천합니다.")
 
@@ -74,10 +87,11 @@ def assert_quality(response) -> None:
     remedial_actions: set[str] = set()
     for comment in response.majorComments:
         assert comment.recommendationReason
-        assert 2 <= sentence_count(comment.recommendationReason) <= 4
+        assert 2 <= sentence_count(comment.recommendationReason) <= 3
         assert len(comment.recommendationReason) <= 800
         assert korean_ratio(comment.recommendationReason) >= 0.30
         assert not any(b in comment.recommendationReason for b in BANNED_WORDS)
+        assert not any(term in comment.recommendationReason for term in INTERNAL_TERMS)
         assert any(marker in comment.recommendationReason for marker in DIFFERENTIATION_MARKERS)
         normalized_reasons.append(normalize_for_similarity(comment.recommendationReason, major_names))
         remedial_actions.update(action_sentences(comment.recommendationReason))
@@ -85,10 +99,12 @@ def assert_quality(response) -> None:
         assert comment.strengths is not None and comment.strengths.strip()
         assert len(comment.strengths) <= 500
         assert sentence_count(comment.strengths) >= 1
+        assert not any(term in comment.strengths for term in INTERNAL_TERMS)
 
         assert comment.weaknesses is not None and comment.weaknesses.strip()
         assert len(comment.weaknesses) <= 500
         assert sentence_count(comment.weaknesses) >= 1
+        assert not any(term in comment.weaknesses for term in INTERNAL_TERMS)
 
     for i, left in enumerate(normalized_reasons):
         for right in normalized_reasons[i + 1 :]:
@@ -163,6 +179,37 @@ def test_noisy_text_is_sanitized() -> None:
     assert_quality(response)
 
 
+def test_internal_terms_are_removed_from_generated_recommendation() -> None:
+    chain = RecommendationChain()
+    req = load_request("normal-high")
+    generated = GeneratedRecommendation(
+        summaryComment="rag 데이터와 snippet을 보면 공통 기준이 있습니다. 내부 데이터가 좋습니다. 선택 기준을 확인하세요.",
+        majorComments=[
+            GeneratedMajorComment(
+                majorName=item.majorName,
+                rankingOrder=item.rankingOrder,
+                fitScore=item.fitScore,
+                strengths="RAG 기준 강점입니다.",
+                weaknesses="스니펫 기준 보완점입니다.",
+                recommendationReason=(
+                    f"{item.majorName}은 majorContext 근거와 잘 맞습니다. "
+                    "다른 추천 전공과 비교하면 ragSnippets 내용이 차이를 보여줍니다."
+                ),
+            )
+            for item in req.topMajors
+        ],
+        weaknessFocus=["communicationScore"],
+    )
+
+    response, _ = chain._normalize_generated(  # noqa: SLF001
+        request=req,
+        generated=generated,
+        request_id="internal-term-test",
+    )
+
+    assert_quality(response)
+
+
 def test_reason_without_difference_marker_is_completed_with_comparison() -> None:
     chain = RecommendationChain()
     req = load_request("normal-high")
@@ -230,3 +277,6 @@ def test_prompt_requires_common_basis_and_major_differences() -> None:
     assert "전공별 차별점" in chain.prompt_text
     assert "선택 기준" in chain.prompt_text
     assert "전공 이름만 바꾼 반복 문장" in chain.prompt_text
+    assert "내부 용어 노출 금지" in chain.prompt_text
+    assert "RAG" in chain.prompt_text
+    assert "snippet" in chain.prompt_text
