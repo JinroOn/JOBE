@@ -8,6 +8,7 @@ import com.jinroon.jobe.global.client.dto.request.WeeklyPlanRequest.Constraints;
 import com.jinroon.jobe.global.client.dto.request.WeeklyPlanRequest.Profile;
 import com.jinroon.jobe.global.client.dto.request.WeeklyPlanRequest.TargetMajor;
 import com.jinroon.jobe.global.client.dto.response.WeeklyPlanResponse;
+import com.jinroon.jobe.global.common.ai.AiGenerationStatus;
 import com.jinroon.jobe.global.common.entity.EntityFormMapper;
 import com.jinroon.jobe.global.exception.CustomException;
 import com.jinroon.jobe.global.exception.error.ErrorCode;
@@ -95,11 +96,15 @@ public class PlanService {
 
     @Transactional
     public MajorWeeklyPlan createPlan(Map<String, Object> values) {
+        Long resultMajorScoreId = ((Number) values.get("resultMajorScoreId")).longValue();
+        requireNoActiveGeneratingOrSucceededPlan(resultMajorScoreId);
+
         MajorWeeklyPlan plan = planRepository.save(EntityFormMapper.create(MajorWeeklyPlan.class, values));
 
         try {
             applyAiWeeklyPlan(plan);
         } catch (Exception e) {
+            plan.markAiPlanFailed("AI weekly plan apply failed: " + e.getClass().getSimpleName());
             log.warn(
                     "AI weekly plan apply failed planId={} diagnosisResultId={} resultMajorScoreId={} errorType={} message={}",
                     plan.getId(),
@@ -179,10 +184,23 @@ public class PlanService {
         }
     }
 
+    private void requireNoActiveGeneratingOrSucceededPlan(Long resultMajorScoreId) {
+        planRepository.findByResultMajorScoreIdAndActiveVersionTrue(resultMajorScoreId)
+                .filter(plan -> plan.getAiPlanStatus() == AiGenerationStatus.PENDING
+                        || plan.getAiPlanStatus() == AiGenerationStatus.SUCCEEDED)
+                .ifPresent(plan -> {
+                    log.warn("AI weekly plan duplicate creation blocked resultMajorScoreId={} existingPlanId={} status={}",
+                            resultMajorScoreId, plan.getId(), plan.getAiPlanStatus());
+                    throw new CustomException(ErrorCode.AI_PLAN_ALREADY_EXISTS);
+                });
+    }
+
     private void applyAiWeeklyPlan(MajorWeeklyPlan plan) {
+        plan.markAiPlanPending();
         Optional<DiagnosisResult> resultOpt =
                 diagnosisResultRepository.findById(plan.getDiagnosisResultId());
         if (resultOpt.isEmpty()) {
+            plan.markAiPlanSkipped("diagnosis result not found");
             log.warn("AI weekly plan skipped: result not found planId={} diagnosisResultId={}",
                     plan.getId(), plan.getDiagnosisResultId());
             return;
@@ -192,6 +210,7 @@ public class PlanService {
         Optional<CompetencyEvalResult> competencyOpt =
                 competencyEvalResultRepository.findByDiagnosisSessionId(result.getDiagnosisSessionId());
         if (competencyOpt.isEmpty()) {
+            plan.markAiPlanSkipped("competency result not found");
             log.warn("AI weekly plan skipped: competency result not found planId={} diagnosisResultId={} diagnosisSessionId={}",
                     plan.getId(), result.getId(), result.getDiagnosisSessionId());
             return;
@@ -201,12 +220,14 @@ public class PlanService {
         Optional<ResultMajorScore> scoreOpt =
                 resultMajorScoreRepository.findById(plan.getResultMajorScoreId());
         if (scoreOpt.isEmpty()) {
+            plan.markAiPlanSkipped("result major score not found");
             log.warn("AI weekly plan skipped: major score not found planId={} diagnosisResultId={} resultMajorScoreId={}",
                     plan.getId(), result.getId(), plan.getResultMajorScoreId());
             return;
         }
         ResultMajorScore score = scoreOpt.get();
         if (!Objects.equals(score.getDiagnosisResultId(), result.getId())) {
+            plan.markAiPlanSkipped("result major score does not belong to diagnosis result");
             log.warn("AI weekly plan skipped: major score result mismatch planId={} diagnosisResultId={} resultMajorScoreId={} scoreDiagnosisResultId={}",
                     plan.getId(), result.getId(), score.getId(), score.getDiagnosisResultId());
             return;
@@ -214,6 +235,7 @@ public class PlanService {
 
         Optional<Major> majorOpt = majorRepository.findById(score.getMajorId());
         if (majorOpt.isEmpty()) {
+            plan.markAiPlanSkipped("major not found");
             log.warn("AI weekly plan skipped: major not found planId={} diagnosisResultId={} resultMajorScoreId={} majorId={}",
                     plan.getId(), result.getId(), score.getId(), score.getMajorId());
             return;
@@ -241,6 +263,7 @@ public class PlanService {
 
         WeeklyPlanResponse response = aiServiceClient.getWeeklyPlan(request);
         if (response == null) {
+            plan.markAiPlanFailed("ai-service weekly plan response is null");
             log.warn("AI weekly plan response empty planId={} diagnosisResultId={} resultMajorScoreId={} majorId={}",
                     plan.getId(), result.getId(), score.getId(), major.getId());
             return;
@@ -249,6 +272,7 @@ public class PlanService {
         plan.applyAiPlan(response.planId(), response.overview());
 
         if (response.weeklyPlan() == null || response.weeklyPlan().isEmpty()) {
+            plan.markAiPlanFailed("ai-service weekly plan response has no weekly items");
             log.warn("AI weekly plan response has no weekly items planId={} diagnosisResultId={} responsePlanId={}",
                     plan.getId(), result.getId(), response.planId());
             return;
@@ -271,6 +295,7 @@ public class PlanService {
                     .filter(note -> note != null && !note.isBlank())
                     .forEach(note -> riskNoteRepository.save(MajorWeeklyPlanRiskNote.of(plan.getId(), note)));
         }
+        plan.markAiPlanSucceeded();
     }
 
     private Profile profileFrom(CompetencyEvalResult competency) {

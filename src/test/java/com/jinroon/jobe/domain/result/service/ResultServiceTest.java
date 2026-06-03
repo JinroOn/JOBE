@@ -20,6 +20,7 @@ import com.jinroon.jobe.domain.result.repository.ResultMajorScoreRepository;
 import com.jinroon.jobe.global.client.AiServiceClient;
 import com.jinroon.jobe.global.client.dto.request.RecommendationCommentRequest;
 import com.jinroon.jobe.global.client.dto.response.RecommendationCommentResponse;
+import com.jinroon.jobe.global.common.ai.AiGenerationStatus;
 import com.jinroon.jobe.global.exception.CustomException;
 import com.jinroon.jobe.global.exception.error.ErrorCode;
 import java.util.List;
@@ -106,6 +107,10 @@ class ResultServiceTest {
         assertThat(score.getStrengths()).isEqualTo("구현력");
         assertThat(score.getWeaknesses()).isEqualTo("의사소통");
         assertThat(score.getRecommendationReason()).isEqualTo("구현력이 강해 잘 맞습니다.");
+        assertThat(result.getAiCommentStatus()).isEqualTo(AiGenerationStatus.SUCCEEDED);
+        assertThat(result.getAiCommentErrorMessage()).isNull();
+        assertThat(result.getAiCommentRequestedAt()).isNotNull();
+        assertThat(result.getAiCommentCompletedAt()).isNotNull();
     }
 
     @Test
@@ -134,6 +139,7 @@ class ResultServiceTest {
                 .extracting("errorCode")
                 .isEqualTo(ErrorCode.RESULT_MAJOR_SCORE_NOT_FOUND);
 
+        assertThat(result.getAiCommentStatus()).isEqualTo(AiGenerationStatus.NOT_REQUESTED);
         verify(aiServiceClient, never()).getRecommendationComment(any());
     }
 
@@ -154,6 +160,40 @@ class ResultServiceTest {
 
         assertThat(actual).isSameAs(result);
         assertThat(result.getAiComment()).isNull();
+        assertThat(score.getRecommendationReason()).isNull();
+        assertThat(result.getAiCommentStatus()).isEqualTo(AiGenerationStatus.FAILED);
+        assertThat(result.getAiCommentErrorMessage()).isEqualTo("ai-service recommendation response is null");
+        assertThat(result.getAiCommentRequestedAt()).isNotNull();
+        assertThat(result.getAiCommentCompletedAt()).isNotNull();
+    }
+
+    @Test
+    void generateAiCommentMarksFailedWhenMajorCommentsAreEmpty() {
+        DiagnosisResult result = diagnosisResult(1L, 10L, 7L);
+        CompetencyEvalResult competency = competencyResult(10L);
+        ResultMajorScore score = resultMajorScore(11L, 1L, 100L, 1, 87.5f);
+        Major major = major(100L, "컴퓨터공학과");
+        RecommendationCommentResponse response = new RecommendationCommentResponse(
+                "AI 요약",
+                List.of(),
+                List.of("communicationScore"),
+                "rec-comment-v1.2.0",
+                "request-empty"
+        );
+
+        when(diagnosisResultRepository.findById(1L)).thenReturn(Optional.of(result));
+        when(competencyEvalResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.of(competency));
+        when(resultMajorScoreRepository.findByDiagnosisResultIdOrderByRankAsc(1L)).thenReturn(List.of(score));
+        when(majorRepository.findAllById(List.of(100L))).thenReturn(List.of(major));
+        when(aiServiceClient.getRecommendationComment(any(RecommendationCommentRequest.class))).thenReturn(response);
+
+        DiagnosisResult actual = resultService.generateAiCommentForUser(1L, 7L);
+
+        assertThat(actual).isSameAs(result);
+        assertThat(result.getAiComment()).isEqualTo("AI 요약");
+        assertThat(result.getAiCommentStatus()).isEqualTo(AiGenerationStatus.FAILED);
+        assertThat(result.getAiCommentErrorMessage())
+                .isEqualTo("ai-service recommendation response has no major comments");
         assertThat(score.getRecommendationReason()).isNull();
     }
 
@@ -198,6 +238,7 @@ class ResultServiceTest {
         assertThat(secondScore.getStrengths()).isNull();
         assertThat(secondScore.getWeaknesses()).isNull();
         assertThat(secondScore.getRecommendationReason()).isNull();
+        assertThat(result.getAiCommentStatus()).isEqualTo(AiGenerationStatus.SUCCEEDED);
     }
 
     @Test
@@ -277,6 +318,112 @@ class ResultServiceTest {
         assertThat(group.differencePoints().get(0).description()).contains("컴퓨터공학과", "구현력", "시스템이해");
         assertThat(request.topMajors().get(0).majorContext()).isNotNull();
         assertThat(request.topMajors().get(0).majorContext().ragSnippets()).containsExactly("컴퓨터공학과 RAG snippet");
+    }
+
+    @Test
+    void generateAiCommentBlocksDuplicateCallWhenStatusIsPending() {
+        DiagnosisResult result = diagnosisResult(1L, 10L, 7L);
+        result.markAiCommentPending();
+        when(diagnosisResultRepository.findById(1L)).thenReturn(Optional.of(result));
+
+        assertThatThrownBy(() -> resultService.generateAiCommentForUser(1L, 7L))
+                .isInstanceOf(CustomException.class)
+                .extracting("errorCode")
+                .isEqualTo(ErrorCode.AI_GENERATION_IN_PROGRESS);
+
+        verify(competencyEvalResultRepository, never()).findByDiagnosisSessionId(any());
+        verify(aiServiceClient, never()).getRecommendationComment(any());
+    }
+
+    @Test
+    void generateAiCommentSkipsSucceededResultWithoutForce() {
+        DiagnosisResult result = diagnosisResult(1L, 10L, 7L);
+        result.applyAiComment("existing comment", "communicationScore");
+        result.markAiCommentSucceeded();
+        when(diagnosisResultRepository.findById(1L)).thenReturn(Optional.of(result));
+
+        DiagnosisResult actual = resultService.generateAiCommentForUser(1L, 7L);
+
+        assertThat(actual).isSameAs(result);
+        assertThat(result.getAiComment()).isEqualTo("existing comment");
+        assertThat(result.getAiCommentStatus()).isEqualTo(AiGenerationStatus.SUCCEEDED);
+        verify(competencyEvalResultRepository, never()).findByDiagnosisSessionId(any());
+        verify(aiServiceClient, never()).getRecommendationComment(any());
+    }
+
+    @Test
+    void generateAiCommentRetriesFailedResult() {
+        DiagnosisResult result = diagnosisResult(1L, 10L, 7L);
+        result.markAiCommentFailed("previous failure");
+        CompetencyEvalResult competency = competencyResult(10L);
+        ResultMajorScore score = resultMajorScore(11L, 1L, 100L, 1, 87.5f);
+        Major major = major(100L, "Major A");
+        RecommendationCommentResponse response = new RecommendationCommentResponse(
+                "retried summary",
+                List.of(new RecommendationCommentResponse.MajorComment(
+                        "Major A",
+                        1,
+                        87.5,
+                        "strength-a",
+                        "weakness-a",
+                        "reason-a"
+                )),
+                List.of("communicationScore"),
+                "rec-comment-v1.2.0",
+                "request-retry"
+        );
+
+        when(diagnosisResultRepository.findById(1L)).thenReturn(Optional.of(result));
+        when(competencyEvalResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.of(competency));
+        when(resultMajorScoreRepository.findByDiagnosisResultIdOrderByRankAsc(1L)).thenReturn(List.of(score));
+        when(majorRepository.findAllById(List.of(100L))).thenReturn(List.of(major));
+        when(aiServiceClient.getRecommendationComment(any(RecommendationCommentRequest.class))).thenReturn(response);
+
+        DiagnosisResult actual = resultService.generateAiCommentForUser(1L, 7L);
+
+        assertThat(actual).isSameAs(result);
+        assertThat(result.getAiComment()).isEqualTo("retried summary");
+        assertThat(result.getAiCommentStatus()).isEqualTo(AiGenerationStatus.SUCCEEDED);
+        assertThat(result.getAiCommentErrorMessage()).isNull();
+        assertThat(score.getRecommendationReason()).isEqualTo("reason-a");
+    }
+
+    @Test
+    void generateAiCommentForceRegeneratesSucceededResult() {
+        DiagnosisResult result = diagnosisResult(1L, 10L, 7L);
+        result.applyAiComment("existing comment", "communicationScore");
+        result.markAiCommentSucceeded();
+        CompetencyEvalResult competency = competencyResult(10L);
+        ResultMajorScore score = resultMajorScore(11L, 1L, 100L, 1, 87.5f);
+        Major major = major(100L, "Major A");
+        RecommendationCommentResponse response = new RecommendationCommentResponse(
+                "forced summary",
+                List.of(new RecommendationCommentResponse.MajorComment(
+                        "Major A",
+                        1,
+                        87.5,
+                        "strength-a",
+                        "weakness-a",
+                        "reason-a"
+                )),
+                List.of("dataAnalysisScore"),
+                "rec-comment-v1.2.0",
+                "request-force"
+        );
+
+        when(diagnosisResultRepository.findById(1L)).thenReturn(Optional.of(result));
+        when(competencyEvalResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.of(competency));
+        when(resultMajorScoreRepository.findByDiagnosisResultIdOrderByRankAsc(1L)).thenReturn(List.of(score));
+        when(majorRepository.findAllById(List.of(100L))).thenReturn(List.of(major));
+        when(aiServiceClient.getRecommendationComment(any(RecommendationCommentRequest.class))).thenReturn(response);
+
+        DiagnosisResult actual = resultService.generateAiCommentForUser(1L, 7L, true);
+
+        assertThat(actual).isSameAs(result);
+        assertThat(result.getAiComment()).isEqualTo("forced summary");
+        assertThat(result.getWeaknessFocus()).isEqualTo("dataAnalysisScore");
+        assertThat(result.getAiCommentStatus()).isEqualTo(AiGenerationStatus.SUCCEEDED);
+        assertThat(score.getRecommendationReason()).isEqualTo("reason-a");
     }
 
     private DiagnosisResult diagnosisResult(Long id, Long sessionId, Long userId) {

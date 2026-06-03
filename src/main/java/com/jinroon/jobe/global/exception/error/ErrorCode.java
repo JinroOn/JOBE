@@ -54,6 +54,10 @@ public enum ErrorCode {
     PLAN_ITEM_NOT_FOUND(404, "존재하지 않는 학습 계획 항목입니다."),
     PLAN_RISK_NOTE_NOT_FOUND(404, "존재하지 않는 리스크 노트입니다."),
 
+    // AI
+    AI_GENERATION_IN_PROGRESS(409, "AI generation is already in progress."),
+    AI_PLAN_ALREADY_EXISTS(409, "An active AI plan already exists."),
+
     // Result
     RESULT_NOT_FOUND(404, "존재하지 않는 진단 결과입니다."),
     RESULT_MAJOR_SCORE_NOT_FOUND(404, "전공별 점수를 찾을 수 없습니다."),
