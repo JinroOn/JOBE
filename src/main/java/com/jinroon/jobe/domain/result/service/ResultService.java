@@ -9,6 +9,7 @@ import com.jinroon.jobe.global.client.dto.request.RecommendationCommentRequest.P
 import com.jinroon.jobe.global.client.dto.request.RecommendationCommentRequest.RecommendationGroup;
 import com.jinroon.jobe.global.client.dto.request.RecommendationCommentRequest.TopMajor;
 import com.jinroon.jobe.global.client.dto.response.RecommendationCommentResponse;
+import com.jinroon.jobe.global.common.ai.AiGenerationStatus;
 import com.jinroon.jobe.global.common.entity.EntityFormMapper;
 import com.jinroon.jobe.global.exception.CustomException;
 import com.jinroon.jobe.global.exception.error.ErrorCode;
@@ -122,14 +123,24 @@ public class ResultService {
 
     @Transactional
     public DiagnosisResult generateAiCommentForUser(Long resultId, Long userId) {
+        return generateAiCommentForUser(resultId, userId, false);
+    }
+
+    @Transactional
+    public DiagnosisResult generateAiCommentForUser(Long resultId, Long userId, boolean force) {
         DiagnosisResult result = getResultForUser(resultId, userId);
-        return applyAiRecommendation(result);
+        return applyAiRecommendation(result, force);
     }
 
     @Transactional
     public DiagnosisResult generateAiComment(Long resultId) {
+        return generateAiComment(resultId, false);
+    }
+
+    @Transactional
+    public DiagnosisResult generateAiComment(Long resultId, boolean force) {
         DiagnosisResult result = getResult(resultId);
-        return applyAiRecommendation(result);
+        return applyAiRecommendation(result, force);
     }
 
     private static void requireOwner(Long ownerId, Long userId) {
@@ -138,7 +149,16 @@ public class ResultService {
         }
     }
 
-    private DiagnosisResult applyAiRecommendation(DiagnosisResult result) {
+    private DiagnosisResult applyAiRecommendation(DiagnosisResult result, boolean force) {
+        if (result.getAiCommentStatus() == AiGenerationStatus.PENDING) {
+            throw new CustomException(ErrorCode.AI_GENERATION_IN_PROGRESS);
+        }
+        if (result.getAiCommentStatus() == AiGenerationStatus.SUCCEEDED && !force) {
+            log.info("AI recommendation comment regeneration skipped resultId={} status={} force={}",
+                    result.getId(), result.getAiCommentStatus(), force);
+            return result;
+        }
+
         CompetencyEvalResult competency = competencyEvalResultRepository
                 .findByDiagnosisSessionId(result.getDiagnosisSessionId())
                 .orElseThrow(() -> new CustomException(ErrorCode.DIAGNOSIS_COMPETENCY_RESULT_NOT_FOUND));
@@ -183,8 +203,10 @@ public class ResultService {
         RecommendationCommentRequest request = new RecommendationCommentRequest(
                 result.getDiagnosisSessionId(), profile, topMajors, recommendationGroups, null);
 
+        result.markAiCommentPending();
         RecommendationCommentResponse response = aiServiceClient.getRecommendationComment(request);
         if (response == null) {
+            result.markAiCommentFailed("ai-service recommendation response is null");
             log.warn("AI 추천 코멘트 응답 없음 (resultId={}, majorCount={})", result.getId(), topMajors.size());
             return result;
         }
@@ -195,6 +217,7 @@ public class ResultService {
         );
 
         if (response.majorComments() == null || response.majorComments().isEmpty()) {
+            result.markAiCommentFailed("ai-service recommendation response has no major comments");
             log.warn("AI 추천 코멘트 전공별 응답 없음 (resultId={}, requestId={})", result.getId(), response.requestId());
             return result;
         }
@@ -232,6 +255,7 @@ public class ResultService {
             score.applyAiComment(comment.strengths(), comment.weaknesses(), comment.recommendationReason());
         }
 
+        result.markAiCommentSucceeded();
         log.info("AI 추천 코멘트 적용 완료 (resultId={}, requestId={}, majorCount={})",
                 result.getId(), response.requestId(), response.majorComments().size());
         return result;

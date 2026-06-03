@@ -26,6 +26,7 @@ import com.jinroon.jobe.domain.result.repository.ResultMajorScoreRepository;
 import com.jinroon.jobe.global.client.AiServiceClient;
 import com.jinroon.jobe.global.client.dto.request.WeeklyPlanRequest;
 import com.jinroon.jobe.global.client.dto.response.WeeklyPlanResponse;
+import com.jinroon.jobe.global.common.ai.AiGenerationStatus;
 import com.jinroon.jobe.global.exception.CustomException;
 import com.jinroon.jobe.global.exception.error.ErrorCode;
 import java.util.List;
@@ -134,6 +135,10 @@ class PlanServiceTest {
 
         assertThat(plan.getPlanId()).isEqualTo("plan-ai-1");
         assertThat(plan.getOverview()).isEqualTo("AI 주간 학습 계획 개요");
+        assertThat(plan.getAiPlanStatus()).isEqualTo(AiGenerationStatus.SUCCEEDED);
+        assertThat(plan.getAiPlanErrorMessage()).isNull();
+        assertThat(plan.getAiPlanRequestedAt()).isNotNull();
+        assertThat(plan.getAiPlanCompletedAt()).isNotNull();
 
         ArgumentCaptor<List<MajorWeeklyPlanItem>> itemCaptor = ArgumentCaptor.forClass(List.class);
         verify(planItemRepository).saveAll(itemCaptor.capture());
@@ -175,6 +180,46 @@ class PlanServiceTest {
         MajorWeeklyPlan plan = planService.createPlanForUser(planValues(), 7L);
 
         assertThat(plan.getPlanId()).isNull();
+        assertThat(plan.getAiPlanStatus()).isEqualTo(AiGenerationStatus.FAILED);
+        assertThat(plan.getAiPlanErrorMessage()).isEqualTo("ai-service weekly plan response is null");
+        assertThat(plan.getAiPlanRequestedAt()).isNotNull();
+        assertThat(plan.getAiPlanCompletedAt()).isNotNull();
+        verify(planItemRepository, never()).saveAll(any());
+        verify(riskNoteRepository, never()).save(any());
+    }
+
+    @Test
+    void createPlanMarksFailedWhenAiResponseHasNoWeeklyItems() {
+        DiagnosisResult result = diagnosisResult(1L, 10L, 7L, null);
+        CompetencyEvalResult competency = competencyResult(10L);
+        ResultMajorScore score = resultMajorScore(100L, 87.5f);
+        Major major = major(100L, "컴퓨터공학과");
+        WeeklyPlanResponse response = new WeeklyPlanResponse(
+                "plan-ai-empty",
+                "overview only",
+                List.of(),
+                List.of(),
+                "plan-v1.0.0",
+                "request-plan-empty"
+        );
+
+        when(diagnosisResultRepository.findById(1L)).thenReturn(Optional.of(result));
+        when(planRepository.save(any(MajorWeeklyPlan.class))).thenAnswer(invocation -> {
+            MajorWeeklyPlan plan = invocation.getArgument(0);
+            ReflectionTestUtils.setField(plan, "id", 20L);
+            return plan;
+        });
+        when(competencyEvalResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.of(competency));
+        when(resultMajorScoreRepository.findById(11L)).thenReturn(Optional.of(score));
+        when(majorRepository.findById(100L)).thenReturn(Optional.of(major));
+        when(aiServiceClient.getWeeklyPlan(any(WeeklyPlanRequest.class))).thenReturn(response);
+
+        MajorWeeklyPlan plan = planService.createPlanForUser(planValues(), 7L);
+
+        assertThat(plan.getPlanId()).isEqualTo("plan-ai-empty");
+        assertThat(plan.getOverview()).isEqualTo("overview only");
+        assertThat(plan.getAiPlanStatus()).isEqualTo(AiGenerationStatus.FAILED);
+        assertThat(plan.getAiPlanErrorMessage()).isEqualTo("ai-service weekly plan response has no weekly items");
         verify(planItemRepository, never()).saveAll(any());
         verify(riskNoteRepository, never()).save(any());
     }
@@ -199,6 +244,10 @@ class PlanServiceTest {
 
         assertThat(plan.getPlanId()).isNull();
         assertThat(plan.getOverview()).isNull();
+        assertThat(plan.getAiPlanStatus()).isEqualTo(AiGenerationStatus.SKIPPED);
+        assertThat(plan.getAiPlanErrorMessage()).isEqualTo("result major score does not belong to diagnosis result");
+        assertThat(plan.getAiPlanRequestedAt()).isNotNull();
+        assertThat(plan.getAiPlanCompletedAt()).isNotNull();
         verify(majorRepository, never()).findById(any());
         verify(aiServiceClient, never()).getWeeklyPlan(any());
         verify(planItemRepository, never()).saveAll(any());
@@ -217,6 +266,88 @@ class PlanServiceTest {
 
         verify(planRepository, never()).save(any());
         verify(aiServiceClient, never()).getWeeklyPlan(any());
+    }
+
+    @Test
+    void createPlanBlocksDuplicateWhenActiveSucceededPlanExists() {
+        DiagnosisResult result = diagnosisResult(1L, 10L, 7L, null);
+        MajorWeeklyPlan existingPlan = weeklyPlan(20L, 1L, 11L);
+        existingPlan.markAiPlanSucceeded();
+
+        when(diagnosisResultRepository.findById(1L)).thenReturn(Optional.of(result));
+        when(planRepository.findByResultMajorScoreIdAndActiveVersionTrue(11L)).thenReturn(Optional.of(existingPlan));
+
+        assertThatThrownBy(() -> planService.createPlanForUser(planValues(), 7L))
+                .isInstanceOf(CustomException.class)
+                .extracting("errorCode")
+                .isEqualTo(ErrorCode.AI_PLAN_ALREADY_EXISTS);
+
+        verify(planRepository, never()).save(any());
+        verify(aiServiceClient, never()).getWeeklyPlan(any());
+    }
+
+    @Test
+    void createPlanBlocksDuplicateWhenActivePlanIsPending() {
+        DiagnosisResult result = diagnosisResult(1L, 10L, 7L, null);
+        MajorWeeklyPlan existingPlan = weeklyPlan(20L, 1L, 11L);
+        existingPlan.markAiPlanPending();
+
+        when(diagnosisResultRepository.findById(1L)).thenReturn(Optional.of(result));
+        when(planRepository.findByResultMajorScoreIdAndActiveVersionTrue(11L)).thenReturn(Optional.of(existingPlan));
+
+        assertThatThrownBy(() -> planService.createPlanForUser(planValues(), 7L))
+                .isInstanceOf(CustomException.class)
+                .extracting("errorCode")
+                .isEqualTo(ErrorCode.AI_PLAN_ALREADY_EXISTS);
+
+        verify(planRepository, never()).save(any());
+        verify(aiServiceClient, never()).getWeeklyPlan(any());
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void createPlanAllowsRetryWhenActivePlanFailed() {
+        DiagnosisResult result = diagnosisResult(1L, 10L, 7L, null);
+        CompetencyEvalResult competency = competencyResult(10L);
+        ResultMajorScore score = resultMajorScore(100L, 87.5f);
+        Major major = major(100L, "Major A");
+        MajorWeeklyPlan failedPlan = weeklyPlan(20L, 1L, 11L);
+        failedPlan.markAiPlanFailed("previous failure");
+        WeeklyPlanResponse response = new WeeklyPlanResponse(
+                "plan-ai-retry",
+                "retried overview",
+                List.of(new WeeklyPlanResponse.WeeklyPlan(
+                        1,
+                        "goal",
+                        List.of("task"),
+                        List.of("resource"),
+                        "checkpoint"
+                )),
+                List.of("risk"),
+                "plan-v1.0.0",
+                "request-plan-retry"
+        );
+
+        when(diagnosisResultRepository.findById(1L)).thenReturn(Optional.of(result));
+        when(planRepository.findByResultMajorScoreIdAndActiveVersionTrue(11L)).thenReturn(Optional.of(failedPlan));
+        when(planRepository.save(any(MajorWeeklyPlan.class))).thenAnswer(invocation -> {
+            MajorWeeklyPlan plan = invocation.getArgument(0);
+            ReflectionTestUtils.setField(plan, "id", 21L);
+            return plan;
+        });
+        when(competencyEvalResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.of(competency));
+        when(resultMajorScoreRepository.findById(11L)).thenReturn(Optional.of(score));
+        when(majorRepository.findById(100L)).thenReturn(Optional.of(major));
+        when(aiServiceClient.getWeeklyPlan(any(WeeklyPlanRequest.class))).thenReturn(response);
+
+        MajorWeeklyPlan retriedPlan = planService.createPlanForUser(planValues(), 7L);
+
+        assertThat(retriedPlan.getId()).isEqualTo(21L);
+        assertThat(retriedPlan.getPlanId()).isEqualTo("plan-ai-retry");
+        assertThat(retriedPlan.getAiPlanStatus()).isEqualTo(AiGenerationStatus.SUCCEEDED);
+        ArgumentCaptor<List<MajorWeeklyPlanItem>> itemCaptor = ArgumentCaptor.forClass(List.class);
+        verify(planItemRepository).saveAll(itemCaptor.capture());
+        assertThat(itemCaptor.getValue()).hasSize(1);
     }
 
     private Map<String, Object> planValues() {
@@ -271,6 +402,17 @@ class PlanServiceTest {
         ReflectionTestUtils.setField(major, "id", id);
         ReflectionTestUtils.setField(major, "name", name);
         return major;
+    }
+
+    private MajorWeeklyPlan weeklyPlan(Long id, Long resultId, Long resultMajorScoreId) {
+        MajorWeeklyPlan plan = newEntity(MajorWeeklyPlan.class);
+        ReflectionTestUtils.setField(plan, "id", id);
+        ReflectionTestUtils.setField(plan, "diagnosisResultId", resultId);
+        ReflectionTestUtils.setField(plan, "resultMajorScoreId", resultMajorScoreId);
+        ReflectionTestUtils.setField(plan, "versionNo", 1);
+        ReflectionTestUtils.setField(plan, "fallback", false);
+        ReflectionTestUtils.setField(plan, "activeVersion", true);
+        return plan;
     }
 
     private <T> T newEntity(Class<T> type) {
