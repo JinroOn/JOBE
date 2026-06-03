@@ -11,4 +11,6 @@ public interface MajorWeeklyPlanRepository extends JpaRepository<MajorWeeklyPlan
     List<MajorWeeklyPlan> findByDiagnosisResultId(Long diagnosisResultId);
 
     Optional<MajorWeeklyPlan> findByResultMajorScoreIdAndActiveVersionTrue(Long resultMajorScoreId);
+
+    Optional<MajorWeeklyPlan> findTopByResultMajorScoreIdOrderByVersionNoDesc(Long resultMajorScoreId);
 }

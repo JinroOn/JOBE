@@ -64,6 +64,16 @@ public class MajorWeeklyPlan extends BaseEntitySupport {
         this.overview = overview;
     }
 
+    public void prepareVersion(Integer versionNo, Long parentPlanId) {
+        this.versionNo = versionNo;
+        this.parentPlanId = parentPlanId;
+        this.activeVersion = true;
+    }
+
+    public void deactivate() {
+        this.activeVersion = false;
+    }
+
     public void markAiPlanPending() {
         this.aiPlanStatus = AiGenerationStatus.PENDING;
         this.aiPlanErrorMessage = null;
