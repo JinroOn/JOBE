@@ -30,6 +30,7 @@ import com.jinroon.jobe.domain.result.repository.ResultMajorScoreRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -97,9 +98,20 @@ public class PlanService {
     @Transactional
     public MajorWeeklyPlan createPlan(Map<String, Object> values) {
         Long resultMajorScoreId = ((Number) values.get("resultMajorScoreId")).longValue();
-        requireNoActiveGeneratingOrSucceededPlan(resultMajorScoreId);
+        PlanVersionContext versionContext = prepareNextVersion(resultMajorScoreId);
 
-        MajorWeeklyPlan plan = planRepository.save(EntityFormMapper.create(MajorWeeklyPlan.class, values));
+        Map<String, Object> planValues = new HashMap<>(values);
+        planValues.put("versionNo", versionContext.versionNo());
+        planValues.put("parentPlanId", versionContext.parentPlanId());
+        planValues.put("activeVersion", true);
+        if (planValues.get("fallback") == null) {
+            planValues.put("fallback", false);
+        }
+
+        MajorWeeklyPlan plan = EntityFormMapper.create(MajorWeeklyPlan.class, planValues);
+        plan.prepareVersion(versionContext.versionNo(), versionContext.parentPlanId());
+        versionContext.activePlan().ifPresent(MajorWeeklyPlan::deactivate);
+        plan = planRepository.save(plan);
 
         try {
             applyAiWeeklyPlan(plan);
@@ -184,15 +196,28 @@ public class PlanService {
         }
     }
 
-    private void requireNoActiveGeneratingOrSucceededPlan(Long resultMajorScoreId) {
-        planRepository.findByResultMajorScoreIdAndActiveVersionTrue(resultMajorScoreId)
-                .filter(plan -> plan.getAiPlanStatus() == AiGenerationStatus.PENDING
-                        || plan.getAiPlanStatus() == AiGenerationStatus.SUCCEEDED)
+    private PlanVersionContext prepareNextVersion(Long resultMajorScoreId) {
+        Optional<MajorWeeklyPlan> activePlan = Optional
+                .ofNullable(planRepository.findByResultMajorScoreIdAndActiveVersionTrue(resultMajorScoreId))
+                .orElse(Optional.empty());
+        activePlan
+                .filter(plan -> plan.getAiPlanStatus() == AiGenerationStatus.PENDING)
                 .ifPresent(plan -> {
                     log.warn("AI weekly plan duplicate creation blocked resultMajorScoreId={} existingPlanId={} status={}",
                             resultMajorScoreId, plan.getId(), plan.getAiPlanStatus());
                     throw new CustomException(ErrorCode.AI_PLAN_ALREADY_EXISTS);
                 });
+
+        Optional<MajorWeeklyPlan> latestPlan = Optional
+                .ofNullable(planRepository.findTopByResultMajorScoreIdOrderByVersionNoDesc(resultMajorScoreId))
+                .orElse(Optional.empty());
+        int nextVersionNo = latestPlan
+                .map(MajorWeeklyPlan::getVersionNo)
+                .filter(Objects::nonNull)
+                .map(versionNo -> versionNo + 1)
+                .orElse(1);
+        Long parentPlanId = latestPlan.map(MajorWeeklyPlan::getId).orElse(null);
+        return new PlanVersionContext(nextVersionNo, parentPlanId, activePlan);
     }
 
     private void applyAiWeeklyPlan(MajorWeeklyPlan plan) {
@@ -377,5 +402,12 @@ public class PlanService {
     }
 
     private record WeaknessField(String name, int score) {
+    }
+
+    private record PlanVersionContext(
+            Integer versionNo,
+            Long parentPlanId,
+            Optional<MajorWeeklyPlan> activePlan
+    ) {
     }
 }

@@ -135,6 +135,9 @@ class PlanServiceTest {
 
         assertThat(plan.getPlanId()).isEqualTo("plan-ai-1");
         assertThat(plan.getOverview()).isEqualTo("AI 주간 학습 계획 개요");
+        assertThat(plan.getVersionNo()).isEqualTo(1);
+        assertThat(plan.getParentPlanId()).isNull();
+        assertThat(plan.getActiveVersion()).isTrue();
         assertThat(plan.getAiPlanStatus()).isEqualTo(AiGenerationStatus.SUCCEEDED);
         assertThat(plan.getAiPlanErrorMessage()).isNull();
         assertThat(plan.getAiPlanRequestedAt()).isNotNull();
@@ -180,6 +183,9 @@ class PlanServiceTest {
         MajorWeeklyPlan plan = planService.createPlanForUser(planValues(), 7L);
 
         assertThat(plan.getPlanId()).isNull();
+        assertThat(plan.getVersionNo()).isEqualTo(1);
+        assertThat(plan.getParentPlanId()).isNull();
+        assertThat(plan.getActiveVersion()).isTrue();
         assertThat(plan.getAiPlanStatus()).isEqualTo(AiGenerationStatus.FAILED);
         assertThat(plan.getAiPlanErrorMessage()).isEqualTo("ai-service weekly plan response is null");
         assertThat(plan.getAiPlanRequestedAt()).isNotNull();
@@ -269,21 +275,53 @@ class PlanServiceTest {
     }
 
     @Test
-    void createPlanBlocksDuplicateWhenActiveSucceededPlanExists() {
+    @SuppressWarnings("unchecked")
+    void createPlanCreatesNextVersionWhenActiveSucceededPlanExists() {
         DiagnosisResult result = diagnosisResult(1L, 10L, 7L, null);
+        CompetencyEvalResult competency = competencyResult(10L);
+        ResultMajorScore score = resultMajorScore(100L, 87.5f);
+        Major major = major(100L, "Major A");
         MajorWeeklyPlan existingPlan = weeklyPlan(20L, 1L, 11L);
         existingPlan.markAiPlanSucceeded();
+        WeeklyPlanResponse response = new WeeklyPlanResponse(
+                "plan-ai-v2",
+                "version 2 overview",
+                List.of(new WeeklyPlanResponse.WeeklyPlan(
+                        1,
+                        "goal",
+                        List.of("task"),
+                        List.of("resource"),
+                        "checkpoint"
+                )),
+                List.of("risk"),
+                "plan-v1.0.0",
+                "request-plan-v2"
+        );
 
         when(diagnosisResultRepository.findById(1L)).thenReturn(Optional.of(result));
         when(planRepository.findByResultMajorScoreIdAndActiveVersionTrue(11L)).thenReturn(Optional.of(existingPlan));
+        when(planRepository.findTopByResultMajorScoreIdOrderByVersionNoDesc(11L)).thenReturn(Optional.of(existingPlan));
+        when(planRepository.save(any(MajorWeeklyPlan.class))).thenAnswer(invocation -> {
+            MajorWeeklyPlan plan = invocation.getArgument(0);
+            ReflectionTestUtils.setField(plan, "id", 21L);
+            return plan;
+        });
+        when(competencyEvalResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.of(competency));
+        when(resultMajorScoreRepository.findById(11L)).thenReturn(Optional.of(score));
+        when(majorRepository.findById(100L)).thenReturn(Optional.of(major));
+        when(aiServiceClient.getWeeklyPlan(any(WeeklyPlanRequest.class))).thenReturn(response);
 
-        assertThatThrownBy(() -> planService.createPlanForUser(planValues(), 7L))
-                .isInstanceOf(CustomException.class)
-                .extracting("errorCode")
-                .isEqualTo(ErrorCode.AI_PLAN_ALREADY_EXISTS);
+        MajorWeeklyPlan newPlan = planService.createPlanForUser(planValues(), 7L);
 
-        verify(planRepository, never()).save(any());
-        verify(aiServiceClient, never()).getWeeklyPlan(any());
+        assertThat(existingPlan.getActiveVersion()).isFalse();
+        assertThat(newPlan.getId()).isEqualTo(21L);
+        assertThat(newPlan.getVersionNo()).isEqualTo(2);
+        assertThat(newPlan.getParentPlanId()).isEqualTo(20L);
+        assertThat(newPlan.getActiveVersion()).isTrue();
+        assertThat(newPlan.getAiPlanStatus()).isEqualTo(AiGenerationStatus.SUCCEEDED);
+        ArgumentCaptor<List<MajorWeeklyPlanItem>> itemCaptor = ArgumentCaptor.forClass(List.class);
+        verify(planItemRepository).saveAll(itemCaptor.capture());
+        assertThat(itemCaptor.getValue()).hasSize(1);
     }
 
     @Test
@@ -330,6 +368,7 @@ class PlanServiceTest {
 
         when(diagnosisResultRepository.findById(1L)).thenReturn(Optional.of(result));
         when(planRepository.findByResultMajorScoreIdAndActiveVersionTrue(11L)).thenReturn(Optional.of(failedPlan));
+        when(planRepository.findTopByResultMajorScoreIdOrderByVersionNoDesc(11L)).thenReturn(Optional.of(failedPlan));
         when(planRepository.save(any(MajorWeeklyPlan.class))).thenAnswer(invocation -> {
             MajorWeeklyPlan plan = invocation.getArgument(0);
             ReflectionTestUtils.setField(plan, "id", 21L);
@@ -343,6 +382,10 @@ class PlanServiceTest {
         MajorWeeklyPlan retriedPlan = planService.createPlanForUser(planValues(), 7L);
 
         assertThat(retriedPlan.getId()).isEqualTo(21L);
+        assertThat(failedPlan.getActiveVersion()).isFalse();
+        assertThat(retriedPlan.getVersionNo()).isEqualTo(2);
+        assertThat(retriedPlan.getParentPlanId()).isEqualTo(20L);
+        assertThat(retriedPlan.getActiveVersion()).isTrue();
         assertThat(retriedPlan.getPlanId()).isEqualTo("plan-ai-retry");
         assertThat(retriedPlan.getAiPlanStatus()).isEqualTo(AiGenerationStatus.SUCCEEDED);
         ArgumentCaptor<List<MajorWeeklyPlanItem>> itemCaptor = ArgumentCaptor.forClass(List.class);
