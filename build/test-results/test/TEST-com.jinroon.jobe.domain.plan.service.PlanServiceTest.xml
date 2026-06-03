@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.jinroon.jobe.domain.plan.service.PlanServiceTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-06-03T08:01:35.379Z" hostname="DESKTOP-FLIU7FT" time="0.509">
+<testsuite name="com.jinroon.jobe.domain.plan.service.PlanServiceTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-06-03T08:35:30.172Z" hostname="DESKTOP-FLIU7FT" time="0.28">
   <properties/>
-  <testcase name="createPlanReturnsPlanWithoutItemsWhenAiServiceReturnsNull()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.44"/>
-  <testcase name="createPlanMarksFailedWhenAiResponseHasNoWeeklyItems()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.005"/>
-  <testcase name="createPlanForUserRejectsOtherUsersResult()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.009"/>
-  <testcase name="createPlanBlocksDuplicateWhenActivePlanIsPending()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.004"/>
-  <testcase name="createPlanCreatesNextVersionWhenActiveSucceededPlanExists()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.034"/>
+  <testcase name="createPlanReturnsPlanWithoutItemsWhenAiServiceReturnsNull()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.225"/>
+  <testcase name="createPlanMarksFailedWhenAiResponseHasNoWeeklyItems()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.006"/>
+  <testcase name="createPlanForUserRejectsOtherUsersResult()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.002"/>
+  <testcase name="createPlanBlocksDuplicateWhenActivePlanIsPending()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.003"/>
+  <testcase name="createPlanCreatesNextVersionWhenActiveSucceededPlanExists()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.032"/>
   <testcase name="createPlanAllowsRetryWhenActivePlanFailed()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.004"/>
   <testcase name="createPlanStoresAiWeeklyPlanItemsAsJsonArrays()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.004"/>
   <testcase name="createPlanDoesNotCallAiWhenMajorScoreBelongsToDifferentResult()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.003"/>
-  <system-out><![CDATA[2026-06-03T17:01:35.805+09:00  WARN 21816 --- [    Test worker] c.j.j.domain.plan.service.PlanService    : AI weekly plan response empty planId=20 diagnosisResultId=1 resultMajorScoreId=11 majorId=100
-2026-06-03T17:01:35.825+09:00  WARN 21816 --- [    Test worker] c.j.j.domain.plan.service.PlanService    : AI weekly plan response has no weekly items planId=20 diagnosisResultId=1 responsePlanId=plan-ai-empty
-2026-06-03T17:01:35.839+09:00  WARN 21816 --- [    Test worker] c.j.j.domain.plan.service.PlanService    : AI weekly plan duplicate creation blocked resultMajorScoreId=11 existingPlanId=20 status=PENDING
-2026-06-03T17:01:35.888+09:00  WARN 21816 --- [    Test worker] c.j.j.domain.plan.service.PlanService    : AI weekly plan skipped: major score result mismatch planId=20 diagnosisResultId=1 resultMajorScoreId=11 scoreDiagnosisResultId=99
+  <system-out><![CDATA[2026-06-03T17:35:30.394+09:00  WARN 6736 --- [    Test worker] c.j.j.domain.plan.service.PlanService    : AI weekly plan response empty planId=20 diagnosisResultId=1 resultMajorScoreId=11 majorId=100
+2026-06-03T17:35:30.404+09:00  WARN 6736 --- [    Test worker] c.j.j.domain.plan.service.PlanService    : AI weekly plan response has no weekly items planId=20 diagnosisResultId=1 responsePlanId=plan-ai-empty
+2026-06-03T17:35:30.409+09:00  WARN 6736 --- [    Test worker] c.j.j.domain.plan.service.PlanService    : AI weekly plan duplicate creation blocked resultMajorScoreId=11 existingPlanId=20 status=PENDING
+2026-06-03T17:35:30.452+09:00  WARN 6736 --- [    Test worker] c.j.j.domain.plan.service.PlanService    : AI weekly plan skipped: major score result mismatch planId=20 diagnosisResultId=1 resultMajorScoreId=11 scoreDiagnosisResultId=99
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

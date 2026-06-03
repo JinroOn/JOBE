@@ -33,6 +33,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Tag(name = "진단 API", description = "역량 진단 세션, 문항, 답변, 평가 결과 관리 API")
 public interface DiagnosisApi {
 
+    @Operation(summary = "역량 점수 자동 산출", description = "저장된 객관식 답안을 서버 기준으로 채점하고 역량 평가 결과를 저장합니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "자동 채점 성공",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = CompetencyEvalResult.class))),
+            @ApiResponse(responseCode = "403", description = "본인 세션이 아님",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))),
+            @ApiResponse(responseCode = "404", description = "진단 세션, 답안 또는 문항을 찾을 수 없음",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
+    })
+    CompetencyEvalResult scoreCompetency(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
+            @Parameter(description = "진단 세션 ID") @PathVariable Long sessionId
+    );
+
     @Operation(summary = "진행 중인 진단 세션 조회", description = "현재 로그인한 사용자의 진행 중인 진단 세션과 저장된 답변을 반환합니다. 없으면 404.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "진행 중인 세션 반환",

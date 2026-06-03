@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.jinroon.jobe.domain.result.service.ResultServiceTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2026-06-03T08:01:35.889Z" hostname="DESKTOP-FLIU7FT" time="0.064">
+<testsuite name="com.jinroon.jobe.domain.result.service.ResultServiceTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2026-06-03T08:35:30.453Z" hostname="DESKTOP-FLIU7FT" time="0.03">
   <properties/>
-  <testcase name="generateAiCommentDoesNotCallAiWhenMajorScoresAreMissing()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.034"/>
-  <testcase name="generateAiCommentBlocksDuplicateCallWhenStatusIsPending()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.002"/>
+  <testcase name="generateAiCommentDoesNotCallAiWhenMajorScoresAreMissing()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.003"/>
+  <testcase name="generateAiCommentBlocksDuplicateCallWhenStatusIsPending()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.001"/>
   <testcase name="generateAiCommentForUserStoresResultAndMajorComments()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.007"/>
-  <testcase name="generateAiCommentForceRegeneratesSucceededResult()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.003"/>
+  <testcase name="generateAiCommentForceRegeneratesSucceededResult()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.001"/>
   <testcase name="generateAiCommentStoresMatchedMajorCommentsAndSkipsUnmatchedComments()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.002"/>
-  <testcase name="generateAiCommentRequestContainsRecommendationGroups()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.004"/>
+  <testcase name="generateAiCommentRequestContainsRecommendationGroups()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.003"/>
   <testcase name="generateAiCommentRetriesFailedResult()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.002"/>
   <testcase name="generateAiCommentSkipsSucceededResultWithoutForce()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.001"/>
-  <testcase name="generateAiCommentReturnsResultWhenAiServiceReturnsNull()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.002"/>
+  <testcase name="generateAiCommentReturnsResultWhenAiServiceReturnsNull()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.001"/>
   <testcase name="generateAiCommentForUserRejectsOtherUsersResult()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.002"/>
   <testcase name="generateAiCommentMarksFailedWhenMajorCommentsAreEmpty()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.002"/>
-  <system-out><![CDATA[2026-06-03T17:01:35.934+09:00  INFO 21816 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 적용 완료 (resultId=1, requestId=request-1, majorCount=1)
-2026-06-03T17:01:35.937+09:00  INFO 21816 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 적용 완료 (resultId=1, requestId=request-force, majorCount=1)
-2026-06-03T17:01:35.939+09:00  WARN 21816 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 전공 매칭 실패 (resultId=1, majorName=Major B, rank=2)
-2026-06-03T17:01:35.939+09:00  INFO 21816 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 적용 완료 (resultId=1, requestId=request-partial, majorCount=1)
-2026-06-03T17:01:35.941+09:00  INFO 21816 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 적용 완료 (resultId=1, requestId=request-1, majorCount=2)
-2026-06-03T17:01:35.945+09:00  INFO 21816 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 적용 완료 (resultId=1, requestId=request-retry, majorCount=1)
-2026-06-03T17:01:35.947+09:00  INFO 21816 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI recommendation comment regeneration skipped resultId=1 status=SUCCEEDED force=false
-2026-06-03T17:01:35.949+09:00  WARN 21816 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 응답 없음 (resultId=1, majorCount=1)
-2026-06-03T17:01:35.953+09:00  WARN 21816 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 전공별 응답 없음 (resultId=1, requestId=request-empty)
+  <system-out><![CDATA[2026-06-03T17:35:30.466+09:00  INFO 6736 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 적용 완료 (resultId=1, requestId=request-1, majorCount=1)
+2026-06-03T17:35:30.468+09:00  INFO 6736 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 적용 완료 (resultId=1, requestId=request-force, majorCount=1)
+2026-06-03T17:35:30.471+09:00  WARN 6736 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 전공 매칭 실패 (resultId=1, majorName=Major B, rank=2)
+2026-06-03T17:35:30.471+09:00  INFO 6736 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 적용 완료 (resultId=1, requestId=request-partial, majorCount=1)
+2026-06-03T17:35:30.473+09:00  INFO 6736 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 적용 완료 (resultId=1, requestId=request-1, majorCount=2)
+2026-06-03T17:35:30.477+09:00  INFO 6736 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 적용 완료 (resultId=1, requestId=request-retry, majorCount=1)
+2026-06-03T17:35:30.478+09:00  INFO 6736 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI recommendation comment regeneration skipped resultId=1 status=SUCCEEDED force=false
+2026-06-03T17:35:30.480+09:00  WARN 6736 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 응답 없음 (resultId=1, majorCount=1)
+2026-06-03T17:35:30.483+09:00  WARN 6736 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 전공별 응답 없음 (resultId=1, requestId=request-empty)
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

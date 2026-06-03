@@ -49,6 +49,9 @@ public class ExamQuestion extends BaseEntitySupport {
     @Column(name = "time_limit_sec", nullable = false)
     private Integer timeLimitSec;
 
+    @Column(name = "difficulty")
+    private Integer difficulty;
+
     @Column(name = "w_math_logic", nullable = false)
     private Float wMathLogic;
 

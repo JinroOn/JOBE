@@ -29,4 +29,8 @@ public class DiagnosisExamAnswer extends BaseEntitySupport {
 
     @Column(name = "response_sec")
     private Integer responseSec;
+
+    public void markCorrect(Boolean correct) {
+        this.correct = correct;
+    }
 }

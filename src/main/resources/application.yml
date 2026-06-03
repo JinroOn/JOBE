@@ -38,3 +38,10 @@ major:
   dataset:
     majors-path: ${MAJOR_DATASET_MAJORS_PATH:datasets/majors}
     rag-path: ${MAJOR_DATASET_RAG_PATH:datasets/rag/per-major}
+
+diagnosis:
+  questions:
+    seed:
+      enabled: ${DIAGNOSIS_QUESTIONS_SEED_ENABLED:true}
+      path: ${DIAGNOSIS_QUESTIONS_SEED_PATH:classpath:data/evaluation-questions-separated-60.json}
+      default-time-limit-sec: ${DIAGNOSIS_QUESTIONS_DEFAULT_TIME_LIMIT_SEC:60}
