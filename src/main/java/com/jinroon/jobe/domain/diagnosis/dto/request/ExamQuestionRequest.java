@@ -45,6 +45,10 @@ public class ExamQuestionRequest {
     @Min(1)
     private Integer timeLimitSec;
 
+    @Schema(description = "난이도(1~5)", example = "3")
+    @Min(1)
+    private Integer difficulty;
+
     @Schema(description = "수리논리 가중치", example = "1.0")
     @DecimalMin("0.0")
     @DecimalMax("100.0")

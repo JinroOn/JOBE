@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.jinroon.jobe.global.client.AiServiceClientTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-06-03T08:01:35.953Z" hostname="DESKTOP-FLIU7FT" time="0.084">
+<testsuite name="com.jinroon.jobe.global.client.AiServiceClientTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-06-03T08:35:30.483Z" hostname="DESKTOP-FLIU7FT" time="0.073">
   <properties/>
-  <testcase name="recommendationCommentRequestAddsAuthAndRequestIdHeaders()" classname="com.jinroon.jobe.global.client.AiServiceClientTest" time="0.01"/>
-  <testcase name="weeklyPlanRequestReturnsNullWhenAiServiceCallFails()" classname="com.jinroon.jobe.global.client.AiServiceClientTest" time="0.002"/>
-  <system-out><![CDATA[2026-06-03T17:01:36.033+09:00  INFO 21816 --- [    Test worker] c.j.jobe.global.client.AiServiceClient   : AI request success endpoint=/v1/recommendation/comment requestId=b10635ee-834e-4f99-8c15-7a5b091cab37 status=200
-2026-06-03T17:01:36.037+09:00  WARN 21816 --- [    Test worker] c.j.jobe.global.client.AiServiceClient   : AI request failed endpoint=/v1/plan/weekly requestId=852188a1-eb33-41f3-aa32-7f78d8c2202f errorType=ResourceAccessException message=connection refused
+  <testcase name="recommendationCommentRequestAddsAuthAndRequestIdHeaders()" classname="com.jinroon.jobe.global.client.AiServiceClientTest" time="0.009"/>
+  <testcase name="weeklyPlanRequestReturnsNullWhenAiServiceCallFails()" classname="com.jinroon.jobe.global.client.AiServiceClientTest" time="0.003"/>
+  <system-out><![CDATA[2026-06-03T17:35:30.552+09:00  INFO 6736 --- [    Test worker] c.j.jobe.global.client.AiServiceClient   : AI request success endpoint=/v1/recommendation/comment requestId=f468f1b1-5972-4542-9f28-c8776e9d8808 status=200
+2026-06-03T17:35:30.556+09:00  WARN 6736 --- [    Test worker] c.j.jobe.global.client.AiServiceClient   : AI request failed endpoint=/v1/plan/weekly requestId=64cbeb28-7447-460c-9ee5-f833b4111920 errorType=ResourceAccessException message=connection refused
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

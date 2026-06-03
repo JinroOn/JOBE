@@ -44,4 +44,26 @@ public class CompetencyEvalResult extends BaseEntitySupport {
 
     @Column(name = "self_management", nullable = false)
     private Float selfManagement;
+
+    public void applyScores(
+            Float mathLogic,
+            Float problemSolving,
+            Float infoTech,
+            Float implementation,
+            Float systemUnderstanding,
+            Float dataAnalysis,
+            Float communication,
+            Float collaboration,
+            Float selfManagement
+    ) {
+        this.mathLogic = mathLogic;
+        this.problemSolving = problemSolving;
+        this.infoTech = infoTech;
+        this.implementation = implementation;
+        this.systemUnderstanding = systemUnderstanding;
+        this.dataAnalysis = dataAnalysis;
+        this.communication = communication;
+        this.collaboration = collaboration;
+        this.selfManagement = selfManagement;
+    }
 }

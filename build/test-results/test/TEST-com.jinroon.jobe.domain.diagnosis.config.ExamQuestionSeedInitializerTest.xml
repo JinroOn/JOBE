@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.jinroon.jobe.domain.diagnosis.config.ExamQuestionSeedInitializerTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-06-03T08:35:29.686Z" hostname="DESKTOP-FLIU7FT" time="0.317">
+  <properties/>
+  <testcase name="importsEvaluationQuestionsWhenTableIsEmpty()" classname="com.jinroon.jobe.domain.diagnosis.config.ExamQuestionSeedInitializerTest" time="0.314"/>
+  <testcase name="skipsImportWhenQuestionsAlreadyExist()" classname="com.jinroon.jobe.domain.diagnosis.config.ExamQuestionSeedInitializerTest" time="0.002"/>
+  <system-out><![CDATA[2026-06-03T17:35:29.935+09:00  INFO 6736 --- [    Test worker] c.j.j.d.d.c.ExamQuestionSeedInitializer  : Exam question seed imported count=60 path=classpath:data/evaluation-questions-separated-60.json
+2026-06-03T17:35:30.003+09:00  INFO 6736 --- [    Test worker] c.j.j.d.d.c.ExamQuestionSeedInitializer  : Exam question seed skipped because exam_questions already has data.
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

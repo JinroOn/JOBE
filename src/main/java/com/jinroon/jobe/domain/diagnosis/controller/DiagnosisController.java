@@ -9,6 +9,7 @@ import com.jinroon.jobe.domain.diagnosis.dto.request.ExamQuestionRequest;
 import com.jinroon.jobe.domain.diagnosis.dto.request.TendencyEvalResultRequest;
 import com.jinroon.jobe.domain.diagnosis.dto.response.InProgressSessionResponse;
 import com.jinroon.jobe.domain.diagnosis.entity.*;
+import com.jinroon.jobe.domain.diagnosis.service.DiagnosisScoringService;
 import com.jinroon.jobe.domain.diagnosis.service.DiagnosisService;
 import com.jinroon.jobe.global.common.dto.RequestMapMapper;
 import com.jinroon.jobe.global.security.CustomUserDetails;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DiagnosisController implements DiagnosisApi {
 
     private final DiagnosisService diagnosisService;
+    private final DiagnosisScoringService diagnosisScoringService;
 
     @Override
     @GetMapping("/sessions/me/in-progress")
@@ -88,6 +90,14 @@ public class DiagnosisController implements DiagnosisApi {
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @PathVariable Long sessionId) {
         return diagnosisService.getCompetencyResultForUser(sessionId, userDetails.getUserId());
+    }
+
+    @Override
+    @PostMapping("/sessions/{sessionId}/score")
+    public CompetencyEvalResult scoreCompetency(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long sessionId) {
+        return diagnosisScoringService.scoreCompetencyForUser(sessionId, userDetails.getUserId());
     }
 
     @Override
