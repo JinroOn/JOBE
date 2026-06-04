@@ -1,7 +1,21 @@
 {
   "majorName": "국제통상학과",
-  "standardMajorName": "",
+  "standardMajorName": "국제통상학과",
   "category": "사회계열",
+  "description": "국제통상학과는 국제통상과 관련된 핵심 개념과 방법을 배우고, 이를 실제 사례와 문제 해결에 적용하는 전공이다. 주요 학습 내용은 국제경영학, 국제무역론, 상사중재론 등이며, 학생은 전공 지식을 개념 이해에 그치지 않고 분석, 실습, 사례 해석으로 연결한다. 전공 탐색 과정에서는 경제신문 구독, 국제통상 관련 이슈 탐색 등의 활동을 통해 자료를 다루고 현장 감각을 넓힐 수 있다. 의사소통, 데이터분석, 문제해결을 기르는 태도가 중요하며, 사회 현상과 제도, 사람들의 행동을 분석하고 싶은 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=70",
+      "retrievedAt": "2026-06-04",
+      "query": "국제통상학과",
+      "matchedMajorName": "국제통상학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
   "excelRowNumber": 43,
   "usableForRecommendation": true,
   "selectedWeightSource": "baseExcelWeights",
@@ -38,63 +52,73 @@
     "competencyTopAxes": [
       {
         "axis": "communicationScore",
+        "label": "의사소통",
         "score": 20
       },
       {
         "axis": "dataAnalysisScore",
+        "label": "데이터분석",
         "score": 15
       },
       {
         "axis": "problemSolvingScore",
+        "label": "문제해결",
         "score": 14
       }
     ],
     "tendencyTopAxes": [
       {
         "axis": "socialCooperationScore",
+        "label": "사회협력형",
         "score": 29
       },
       {
         "axis": "dataAnalysisTypeScore",
+        "label": "데이터분석형",
         "score": 18
       },
       {
         "axis": "logicalInquiryScore",
+        "label": "논리탐구형",
         "score": 11
       }
     ],
     "competencyLowAxes": [
       {
         "axis": "softwareImplementationScore",
+        "label": "구현력",
         "score": 2
       },
       {
         "axis": "infoTechUtilizationScore",
+        "label": "정보기술",
         "score": 5
       }
     ],
     "tendencyLowAxes": [
       {
         "axis": "bioHealthScore",
+        "label": "생명보건형",
         "score": 2
       },
       {
         "axis": "artCreativeScore",
+        "label": "예술창의형",
         "score": 4
       }
     ]
   },
   "differentiation": {
     "focusKeywords": [
-      "국제통상",
-      "제도 분석",
-      "자료 해석",
-      "의사결정"
+      "국제 무역",
+      "통상 정책",
+      "글로벌 시장",
+      "무역 실무"
     ],
-    "comparisonNote": "국제통상학과는 사회계열 안에서도 국제통상 분야와 제도 분석을 중심으로 자료 해석 역량을 연결하는 방향이 강하다.",
-    "bestFor": "국제통상 분야의 활동을 깊게 탐구하고 제도 분석 관점으로 문제를 풀어보고 싶은 학생",
+    "comparisonNote": "유사 전공과 비교하면 국제 무역, 통상 정책, 글로벌 시장을 함께 다루며 무역 실무까지 연결하는 점이 두드러진다.",
+    "bestFor": "국제 무역, 통상 정책 같은 주제에 관심이 있고 사람과 조직, 사회 문제를 자료와 사례로 이해하고 현실적인 해결 방향을 고민하는 활동에 끌리는 학생",
     "lessCentralThanSimilarMajors": [
-      "실험실 연구",
+      "실험실 기초 연구",
       "순수 예술 실기",
       "공학 장치 제작"
     ]
@@ -155,8 +179,8 @@
   },
   "metadata": {
     "datasetVersion": "major-service-excel-v1",
-    "createdAt": "",
-    "lastUpdated": "",
+    "createdAt": "2026-06-04",
+    "lastUpdated": "2026-06-04",
     "dataType": "service_ready_quantitative_excel_only"
   }
 }

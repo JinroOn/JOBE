@@ -2,6 +2,20 @@
   "majorName": "로봇공학과",
   "standardMajorName": "로봇공학과",
   "category": "공학계열",
+  "description": "로봇공학과는 로봇공과 관련된 핵심 개념과 방법을 배우고, 이를 실제 사례와 문제 해결에 적용하는 전공이다. 주요 학습 내용은 제어로봇공학, 공학설계, 전자회로 등이며, 학생은 전공 지식을 개념 이해에 그치지 않고 분석, 실습, 사례 해석으로 연결한다. 전공 탐색 과정에서는 코딩로봇조립, 코딩실습 등의 활동을 통해 자료를 다루고 현장 감각을 넓힐 수 있다. 정보기술, 구현력, 시스템이해를 기르는 태도가 중요하며, 로봇공 관련 시스템을 설계하거나 개선해보고 싶은 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=10116",
+      "retrievedAt": "2026-06-04",
+      "query": "로봇공학과",
+      "matchedMajorName": "로봇공학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
   "excelRowNumber": 126,
   "usableForRecommendation": true,
   "selectedWeightSource": "baseExcelWeights",
@@ -38,16 +52,19 @@
     "competencyTopAxes": [
       {
         "axis": "infoTechUtilizationScore",
+        "label": "정보기술",
         "axisKoreanName": "정보기술",
         "score": 17
       },
       {
         "axis": "softwareImplementationScore",
+        "label": "구현력",
         "axisKoreanName": "구현력",
         "score": 16
       },
       {
         "axis": "systemUnderstandingScore",
+        "label": "시스템이해",
         "axisKoreanName": "시스템이해",
         "score": 16
       }
@@ -55,16 +72,19 @@
     "tendencyTopAxes": [
       {
         "axis": "practicalTechnicalScore",
+        "label": "실용기술형",
         "axisKoreanName": "실용기술형",
         "score": 26
       },
       {
         "axis": "systemOperationScore",
+        "label": "시스템운용형",
         "axisKoreanName": "시스템운용형",
         "score": 25
       },
       {
         "axis": "dataAnalysisTypeScore",
+        "label": "데이터분석형",
         "axisKoreanName": "데이터분석형",
         "score": 16
       }
@@ -72,11 +92,13 @@
     "competencyLowAxes": [
       {
         "axis": "communicationScore",
+        "label": "의사소통",
         "axisKoreanName": "의사소통",
         "score": 2
       },
       {
         "axis": "collaborationScore",
+        "label": "협업윤리",
         "axisKoreanName": "협업윤리",
         "score": 6
       }
@@ -84,21 +106,32 @@
     "tendencyLowAxes": [
       {
         "axis": "bioHealthScore",
+        "label": "생명보건형",
         "axisKoreanName": "생명보건형",
         "score": 1
       },
       {
         "axis": "educationGuidanceScore",
+        "label": "교육지도형",
         "axisKoreanName": "교육지도형",
         "score": 2
       }
     ]
   },
   "differentiation": {
-    "focusKeywords": ["로봇 제어", "센서와 구동기", "임베디드 시스템", "자율주행"],
-    "comparisonNote": "소프트웨어 구현을 실제 기계 장치의 움직임과 제어로 연결하는 방향이 강하다.",
-    "bestFor": "코드가 물리 장치를 움직이는 과정과 자동화 시스템 제작에 끌리는 학생",
-    "lessCentralThanSimilarMajors": ["웹 서비스 개발", "순수 알고리즘 연구", "반도체 공정"]
+    "focusKeywords": [
+      "로봇 제어",
+      "센서와 구동기",
+      "임베디드 시스템",
+      "자동화"
+    ],
+    "comparisonNote": "소프트웨어와 전자·기계 요소를 결합해 실제 장치가 인식하고 움직이도록 만드는 데 초점이 있다.",
+    "bestFor": "코드가 센서, 모터, 기계 구조와 연결되어 실제 움직임을 만드는 과정에 강한 흥미가 있는 학생",
+    "lessCentralThanSimilarMajors": [
+      "범용 웹 서비스 개발",
+      "반도체 소자 공정",
+      "통신망 운영 정책"
+    ]
   },
   "scoringPolicy": {
     "competencyWeight": 0.6,
@@ -156,8 +189,8 @@
   },
   "metadata": {
     "datasetVersion": "major-service-excel-v1",
-    "createdAt": "",
-    "lastUpdated": "",
+    "createdAt": "2026-06-04",
+    "lastUpdated": "2026-06-04",
     "dataType": "service_ready_quantitative_excel_only"
   }
 }

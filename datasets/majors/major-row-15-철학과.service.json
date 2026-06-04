@@ -2,6 +2,20 @@
   "majorName": "철학과",
   "standardMajorName": "철학과",
   "category": "인문계열",
+  "description": "철학과는 철과 관련된 핵심 개념과 방법을 배우고, 이를 실제 사례와 문제 해결에 적용하는 전공이다. 주요 학습 내용은 존재론과 형이상학, 철학적 논리학, 한국철학사 등이며, 학생은 전공 지식을 개념 이해에 그치지 않고 분석, 실습, 사례 해석으로 연결한다. 전공 탐색 과정에서는 철학 관련 서적 독서 등의 활동을 통해 자료를 다루고 현장 감각을 넓힐 수 있다. 의사소통, 자기관리, 문제해결을 기르는 태도가 중요하며, 언어, 역사, 문화, 인간의 생각을 깊이 읽고 해석하고 싶은 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=548",
+      "retrievedAt": "2026-06-04",
+      "query": "철학과",
+      "matchedMajorName": "철학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
   "excelRowNumber": 15,
   "usableForRecommendation": true,
   "selectedWeightSource": "baseExcelWeights",
@@ -95,10 +109,19 @@
     ]
   },
   "differentiation": {
-    "focusKeywords": ["논증", "윤리", "존재와 인식", "개념 분석"],
-    "comparisonNote": "역사적 사건보다 개념과 주장 자체를 분석하고 논리적으로 따지는 방향이 강하다.",
-    "bestFor": "정답보다 근거와 개념을 따져 묻고 글로 논증하는 활동을 선호하는 학생",
-    "lessCentralThanSimilarMajors": ["유물 복원 실습", "연대기적 사건 정리", "종교 의례 현장 분석"]
+    "focusKeywords": [
+      "존재론",
+      "논리학",
+      "윤리",
+      "비판적 사고"
+    ],
+    "comparisonNote": "특정 시대나 문화 자료보다 인간, 세계, 지식, 가치에 대한 근본 질문을 논리적으로 따지는 데 초점이 있다.",
+    "bestFor": "존재론, 논리학 같은 주제에 관심이 있고 자료와 텍스트를 꾸준히 읽고 그 안의 의미와 맥락을 해석하는 활동에 끌리는 학생",
+    "lessCentralThanSimilarMajors": [
+      "공학 장치 제작",
+      "임상 보건 실습",
+      "기업 재무 처리"
+    ]
   },
   "scoringPolicy": {
     "competencyWeight": 0.6,
@@ -156,8 +179,8 @@
   },
   "metadata": {
     "datasetVersion": "major-service-excel-v1",
-    "createdAt": "",
-    "lastUpdated": "",
+    "createdAt": "2026-06-04",
+    "lastUpdated": "2026-06-04",
     "dataType": "service_ready_quantitative_excel_only"
   }
 }

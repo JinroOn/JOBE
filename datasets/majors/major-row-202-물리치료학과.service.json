@@ -2,6 +2,20 @@
   "majorName": "물리치료학과",
   "standardMajorName": "물리치료학과",
   "category": "의약계열",
+  "description": "물리치료학과는 물리치료와 관련된 핵심 개념과 방법을 배우고, 이를 실제 사례와 문제 해결에 적용하는 전공이다. 주요 학습 내용은 물리치료학개론, 신체진단학 및 실습, 응용운동치료학 등이며, 학생은 전공 지식을 개념 이해에 그치지 않고 분석, 실습, 사례 해석으로 연결한다. 전공 탐색 과정에서는 의료봉사활동, 의료 박람회 참석 등의 활동을 통해 자료를 다루고 현장 감각을 넓힐 수 있다. 협업윤리, 자기관리, 데이터분석을 기르는 태도가 중요하며, 사람의 건강과 안전을 세심하게 다루는 일에 관심이 있는 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=176",
+      "retrievedAt": "2026-06-04",
+      "query": "물리치료학과",
+      "matchedMajorName": "물리치료학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
   "excelRowNumber": 202,
   "usableForRecommendation": true,
   "selectedWeightSource": "baseExcelWeights",
@@ -96,17 +110,16 @@
   },
   "differentiation": {
     "focusKeywords": [
-      "물리치료",
-      "협업윤리",
-      "자기관리",
-      "데이터분석",
-      "건강"
+      "운동 기능",
+      "재활",
+      "신체 평가",
+      "치료 운동"
     ],
-    "comparisonNote": "물리치료학과는 의약계열 안에서도 물리치료 분야와 협업윤리를 중심으로 자기관리 역량을 연결하는 방향이 강하다.",
-    "bestFor": "물리치료 분야의 활동을 깊게 탐구하고 협업윤리 관점으로 문제를 풀어보고 싶은 학생",
+    "comparisonNote": "유사 전공과 비교하면 운동 기능, 재활, 신체 평가을 함께 다루며 치료 운동까지 연결하는 점이 두드러진다.",
+    "bestFor": "운동 기능, 재활 같은 주제에 관심이 있고 사람의 건강과 안전을 세심하게 살피고 전문 지식으로 돕는 활동에 끌리는 학생",
     "lessCentralThanSimilarMajors": [
-      "시장 분석",
-      "순수 창작",
+      "시장 전략 수립",
+      "순수 창작 활동",
       "공학 구조 설계"
     ]
   },

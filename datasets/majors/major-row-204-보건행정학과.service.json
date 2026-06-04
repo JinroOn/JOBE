@@ -2,6 +2,20 @@
   "majorName": "보건행정학과",
   "standardMajorName": "보건행정학과",
   "category": "의약계열",
+  "description": "보건행정학과는 보건행정과 관련된 핵심 개념과 방법을 배우고, 이를 실제 사례와 문제 해결에 적용하는 전공이다. 주요 학습 내용은 병원재무관리론, 의료관계법규, 의무기록관리학 등이며, 학생은 전공 지식을 개념 이해에 그치지 않고 분석, 실습, 사례 해석으로 연결한다. 전공 탐색 과정에서는 보건행정학 관련 이슈 탐색, 보건행정학 체험 활동 등의 활동을 통해 자료를 다루고 현장 감각을 넓힐 수 있다. 의사소통, 협업윤리, 자기관리를 기르는 태도가 중요하며, 사람의 건강과 안전을 세심하게 다루는 일에 관심이 있는 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=214",
+      "retrievedAt": "2026-06-04",
+      "query": "보건행정학과",
+      "matchedMajorName": "보건행정학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact_cross_category"
+    }
+  ],
   "excelRowNumber": 204,
   "usableForRecommendation": true,
   "selectedWeightSource": "baseExcelWeights",
@@ -96,17 +110,16 @@
   },
   "differentiation": {
     "focusKeywords": [
-      "보건행정",
-      "의사소통",
-      "협업윤리",
-      "자기관리",
-      "건강"
+      "보건 정책",
+      "병원 행정",
+      "의료 정보",
+      "보건 서비스"
     ],
-    "comparisonNote": "보건행정학과는 의약계열 안에서도 보건행정 분야와 의사소통을 중심으로 협업윤리 역량을 연결하는 방향이 강하다.",
-    "bestFor": "보건행정 분야의 활동을 깊게 탐구하고 의사소통 관점으로 문제를 풀어보고 싶은 학생",
+    "comparisonNote": "유사 전공과 비교하면 보건 정책, 병원 행정, 의료 정보을 함께 다루며 보건 서비스까지 연결하는 점이 두드러진다.",
+    "bestFor": "보건 정책, 병원 행정 같은 주제에 관심이 있고 사람의 건강과 안전을 세심하게 살피고 전문 지식으로 돕는 활동에 끌리는 학생",
     "lessCentralThanSimilarMajors": [
-      "시장 분석",
-      "순수 창작",
+      "시장 전략 수립",
+      "순수 창작 활동",
       "공학 구조 설계"
     ]
   },

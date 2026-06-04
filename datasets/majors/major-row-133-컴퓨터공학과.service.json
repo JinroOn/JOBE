@@ -2,6 +2,20 @@
   "majorName": "컴퓨터공학과",
   "standardMajorName": "컴퓨터공학과",
   "category": "공학계열",
+  "description": "컴퓨터공학과는 소프트웨어, 알고리즘, 데이터 처리, 운영체제, 네트워크 등 컴퓨팅 시스템 전반을 배우는 전공이다. 학생은 자료구조, 소프트웨어공학, 운영체제, 데이터베이스, 프로그래밍 실습 등을 통해 문제를 컴퓨터가 처리할 수 있는 구조로 바꾸는 방법을 익힌다. 단순히 코드를 작성하는 데 그치지 않고 요구사항을 분석하고 효율적인 설계와 구현, 테스트까지 연결하는 활동이 많다. 논리적으로 사고하고 새로운 기술을 직접 만들어보는 일에 흥미가 있는 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=569",
+      "retrievedAt": "2026-06-04",
+      "query": "컴퓨터공학과",
+      "matchedMajorName": "컴퓨터공학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
   "excelRowNumber": 133,
   "usableForRecommendation": true,
   "selectedWeightSource": "baseExcelWeights",
@@ -38,16 +52,19 @@
     "competencyTopAxes": [
       {
         "axis": "infoTechUtilizationScore",
+        "label": "정보기술",
         "axisKoreanName": "정보기술",
         "score": 17
       },
       {
         "axis": "softwareImplementationScore",
+        "label": "구현력",
         "axisKoreanName": "구현력",
         "score": 16
       },
       {
         "axis": "problemSolvingScore",
+        "label": "문제해결",
         "axisKoreanName": "문제해결",
         "score": 15
       }
@@ -55,16 +72,19 @@
     "tendencyTopAxes": [
       {
         "axis": "practicalTechnicalScore",
+        "label": "실용기술형",
         "axisKoreanName": "실용기술형",
         "score": 26
       },
       {
         "axis": "systemOperationScore",
+        "label": "시스템운용형",
         "axisKoreanName": "시스템운용형",
         "score": 26
       },
       {
         "axis": "dataAnalysisTypeScore",
+        "label": "데이터분석형",
         "axisKoreanName": "데이터분석형",
         "score": 17
       }
@@ -72,11 +92,13 @@
     "competencyLowAxes": [
       {
         "axis": "communicationScore",
+        "label": "의사소통",
         "axisKoreanName": "의사소통",
         "score": 2
       },
       {
         "axis": "collaborationScore",
+        "label": "협업윤리",
         "axisKoreanName": "협업윤리",
         "score": 6
       }
@@ -84,21 +106,32 @@
     "tendencyLowAxes": [
       {
         "axis": "bioHealthScore",
+        "label": "생명보건형",
         "axisKoreanName": "생명보건형",
         "score": 0
       },
       {
         "axis": "educationGuidanceScore",
+        "label": "교육지도형",
         "axisKoreanName": "교육지도형",
         "score": 2
       }
     ]
   },
   "differentiation": {
-    "focusKeywords": ["소프트웨어", "컴퓨팅 시스템", "알고리즘", "서비스 구현"],
-    "comparisonNote": "소프트웨어와 컴퓨팅 시스템 전반을 설계하고 구현하는 방향이 강하다.",
-    "bestFor": "프로그래밍, 시스템 설계, 문제 자동화에 끌리는 학생",
-    "lessCentralThanSimilarMajors": ["하드웨어 회로", "반도체 공정", "물리 장치 제작"]
+    "focusKeywords": [
+      "소프트웨어",
+      "알고리즘",
+      "운영체제",
+      "데이터베이스"
+    ],
+    "comparisonNote": "하드웨어 장치보다 문제를 컴퓨터가 처리할 수 있는 구조로 바꾸고 소프트웨어로 구현하는 데 초점이 있다.",
+    "bestFor": "논리적인 절차를 설계하고 프로그래밍을 통해 실제 서비스를 만들거나 개선하는 활동에 끌리는 학생",
+    "lessCentralThanSimilarMajors": [
+      "전자회로 제작",
+      "통신망 장비 운용",
+      "로봇 기구 제어"
+    ]
   },
   "scoringPolicy": {
     "competencyWeight": 0.6,
@@ -156,8 +189,8 @@
   },
   "metadata": {
     "datasetVersion": "major-service-excel-v1",
-    "createdAt": "",
-    "lastUpdated": "",
+    "createdAt": "2026-06-04",
+    "lastUpdated": "2026-06-04",
     "dataType": "service_ready_quantitative_excel_only"
   }
 }

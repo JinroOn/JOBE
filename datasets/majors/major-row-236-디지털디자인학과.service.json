@@ -2,6 +2,20 @@
   "majorName": "디지털디자인학과",
   "standardMajorName": "디지털디자인학과",
   "category": "예체능계열",
+  "description": "디지털디자인학과는 디지털디자인과 관련된 핵심 개념과 방법을 배우고, 이를 실제 사례와 문제 해결에 적용하는 전공이다. 주요 학습 내용은 컴퓨터그래픽스, 모바일디자인, 디지털편집디자인 등이며, 학생은 전공 지식을 개념 이해에 그치지 않고 분석, 실습, 사례 해석으로 연결한다. 전공 탐색 과정에서는 디자인 툴 배우기, 포스터 만들기 등의 활동을 통해 자료를 다루고 현장 감각을 넓힐 수 있다. 전공 문제를 분석하고 해결하는 역량을 기르는 태도가 중요하며, 표현과 제작 활동을 통해 자신의 아이디어를 구체화하고 싶은 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=10150",
+      "retrievedAt": "2026-06-04",
+      "query": "디지털디자인학과",
+      "matchedMajorName": "디지털디자인학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
   "excelRowNumber": 236,
   "usableForRecommendation": true,
   "selectedWeightSource": "baseExcelWeights",
@@ -38,16 +52,19 @@
     "competencyTopAxes": [
       {
         "axisKey": "softwareImplementation",
+        "label": "구현력",
         "axisName": "구현력",
         "score": 25
       },
       {
         "axisKey": "infoTechUtilization",
+        "label": "정보기술",
         "axisName": "정보기술",
         "score": 14
       },
       {
         "axisKey": "selfManagement",
+        "label": "자기관리",
         "axisName": "자기관리",
         "score": 14
       }
@@ -55,16 +72,19 @@
     "tendencyTopAxes": [
       {
         "axisKey": "artCreative",
+        "label": "예술창의형",
         "axisName": "예술창의형",
         "score": 37
       },
       {
         "axisKey": "practicalTechnical",
+        "label": "실용기술형",
         "axisName": "실용기술형",
         "score": 19
       },
       {
         "axisKey": "socialCooperation",
+        "label": "사회협력형",
         "axisName": "사회협력형",
         "score": 14
       }
@@ -72,11 +92,13 @@
     "competencyLowAxes": [
       {
         "axisKey": "mathLogical",
+        "label": "수리논리",
         "axisName": "수리논리",
         "score": 1
       },
       {
         "axisKey": "dataAnalysis",
+        "label": "데이터분석",
         "axisName": "데이터분석",
         "score": 2
       }
@@ -84,11 +106,13 @@
     "tendencyLowAxes": [
       {
         "axisKey": "bioHealth",
+        "label": "생명보건형",
         "axisName": "생명보건형",
         "score": 1
       },
       {
         "axisKey": "dataAnalysisType",
+        "label": "데이터분석형",
         "axisName": "데이터분석형",
         "score": 3
       }
@@ -96,15 +120,15 @@
   },
   "differentiation": {
     "focusKeywords": [
-      "디지털디자인",
-      "표현",
-      "제작",
-      "실기"
+      "디지털 콘텐츠",
+      "사용자 경험",
+      "인터랙션",
+      "시각 표현"
     ],
-    "comparisonNote": "디지털디자인학과는 예체능계열 안에서도 디지털디자인 분야와 표현을 중심으로 제작 역량을 연결하는 방향이 강하다.",
-    "bestFor": "디지털디자인 분야의 활동을 깊게 탐구하고 표현 관점으로 문제를 풀어보고 싶은 학생",
+    "comparisonNote": "유사 전공과 비교하면 디지털 콘텐츠, 사용자 경험, 인터랙션을 함께 다루며 시각 표현까지 연결하는 점이 두드러진다.",
+    "bestFor": "디지털 콘텐츠, 사용자 경험 같은 주제에 관심이 있고 감각과 아이디어를 구체적인 작품, 공연, 디자인 결과물로 표현하는 활동에 끌리는 학생",
     "lessCentralThanSimilarMajors": [
-      "법 제도 분석",
+      "법률 판단",
       "실험 데이터 처리",
       "의료 진단"
     ]

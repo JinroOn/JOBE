@@ -2,6 +2,20 @@
   "majorName": "반도체공학과",
   "standardMajorName": "반도체공학과",
   "category": "공학계열",
+  "description": "반도체공학과는 반도체공과 관련된 핵심 개념과 방법을 배우고, 이를 실제 사례와 문제 해결에 적용하는 전공이다. 주요 학습 내용은 반도체공학, 반도체물리학, 전자회로설계 등이며, 학생은 전공 지식을 개념 이해에 그치지 않고 분석, 실습, 사례 해석으로 연결한다. 전공 탐색 과정에서는 전자키트조립, 웹진보기 등의 활동을 통해 자료를 다루고 현장 감각을 넓힐 수 있다. 정보기술, 구현력, 시스템이해를 기르는 태도가 중요하며, 반도체공 관련 시스템을 설계하거나 개선해보고 싶은 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=195",
+      "retrievedAt": "2026-06-04",
+      "query": "반도체학과",
+      "matchedMajorName": "반도체학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "alias"
+    }
+  ],
   "excelRowNumber": 127,
   "usableForRecommendation": true,
   "selectedWeightSource": "baseExcelWeights",
@@ -38,16 +52,19 @@
     "competencyTopAxes": [
       {
         "axis": "infoTechUtilizationScore",
+        "label": "정보기술",
         "axisKoreanName": "정보기술",
         "score": 17
       },
       {
         "axis": "softwareImplementationScore",
+        "label": "구현력",
         "axisKoreanName": "구현력",
         "score": 16
       },
       {
         "axis": "systemUnderstandingScore",
+        "label": "시스템이해",
         "axisKoreanName": "시스템이해",
         "score": 16
       }
@@ -55,16 +72,19 @@
     "tendencyTopAxes": [
       {
         "axis": "practicalTechnicalScore",
+        "label": "실용기술형",
         "axisKoreanName": "실용기술형",
         "score": 25
       },
       {
         "axis": "systemOperationScore",
+        "label": "시스템운용형",
         "axisKoreanName": "시스템운용형",
         "score": 25
       },
       {
         "axis": "dataAnalysisTypeScore",
+        "label": "데이터분석형",
         "axisKoreanName": "데이터분석형",
         "score": 16
       }
@@ -72,11 +92,13 @@
     "competencyLowAxes": [
       {
         "axis": "communicationScore",
+        "label": "의사소통",
         "axisKoreanName": "의사소통",
         "score": 3
       },
       {
         "axis": "collaborationScore",
+        "label": "협업윤리",
         "axisKoreanName": "협업윤리",
         "score": 6
       }
@@ -84,21 +106,32 @@
     "tendencyLowAxes": [
       {
         "axis": "bioHealthScore",
+        "label": "생명보건형",
         "axisKoreanName": "생명보건형",
         "score": 1
       },
       {
         "axis": "educationGuidanceScore",
+        "label": "교육지도형",
         "axisKoreanName": "교육지도형",
         "score": 2
       }
     ]
   },
   "differentiation": {
-    "focusKeywords": ["반도체 소자", "공정", "집적회로", "재료와 장비"],
-    "comparisonNote": "전자공학 중에서도 반도체 소자와 제조 공정, 집적회로 기술에 초점이 더 뚜렷하다.",
-    "bestFor": "미세 공정, 칩 설계/제조, 소재와 장비 기반 기술에 관심이 큰 학생",
-    "lessCentralThanSimilarMajors": ["범용 소프트웨어 개발", "네트워크 운영", "로봇 제어 응용"]
+    "focusKeywords": [
+      "반도체 소자",
+      "전자회로",
+      "반도체 물리",
+      "공정 이해"
+    ],
+    "comparisonNote": "전자 시스템 전반보다 칩과 소자의 물리적 원리, 회로, 제조 과정에 더 좁고 깊게 집중한다.",
+    "bestFor": "반도체 소자, 전자회로 같은 주제에 관심이 있고 원리와 구조를 이해한 뒤 실제 시스템이나 장치로 구현하고 개선하는 활동에 끌리는 학생",
+    "lessCentralThanSimilarMajors": [
+      "로봇 동작 제어",
+      "네트워크 서비스 구축",
+      "대형 기계 구조 설계"
+    ]
   },
   "scoringPolicy": {
     "competencyWeight": 0.6,
@@ -156,8 +189,8 @@
   },
   "metadata": {
     "datasetVersion": "major-service-excel-v1",
-    "createdAt": "",
-    "lastUpdated": "",
+    "createdAt": "2026-06-04",
+    "lastUpdated": "2026-06-04",
     "dataType": "service_ready_quantitative_excel_only"
   }
 }

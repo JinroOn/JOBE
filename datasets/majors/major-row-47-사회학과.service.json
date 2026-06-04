@@ -1,7 +1,21 @@
 {
   "majorName": "사회학과",
-  "standardMajorName": "",
+  "standardMajorName": "사회학과",
   "category": "사회계열",
+  "description": "사회학과는 사회와 관련된 핵심 개념과 방법을 배우고, 이를 실제 사례와 문제 해결에 적용하는 전공이다. 주요 학습 내용은 경제사회학, 노동사회학, 문화사회학 등이며, 학생은 전공 지식을 개념 이해에 그치지 않고 분석, 실습, 사례 해석으로 연결한다. 전공 탐색 과정에서는 사회학 관련 이슈 탐색, 사회학 체험 활동 등의 활동을 통해 자료를 다루고 현장 감각을 넓힐 수 있다. 의사소통, 협업윤리, 문제해결을 기르는 태도가 중요하며, 사회 현상과 제도, 사람들의 행동을 분석하고 싶은 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=243",
+      "retrievedAt": "2026-06-04",
+      "query": "사회학과",
+      "matchedMajorName": "사회학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
   "excelRowNumber": 47,
   "usableForRecommendation": true,
   "selectedWeightSource": "baseExcelWeights",
@@ -38,65 +52,75 @@
     "competencyTopAxes": [
       {
         "axis": "communicationScore",
+        "label": "의사소통",
         "score": 21
       },
       {
         "axis": "collaborationScore",
+        "label": "협업윤리",
         "score": 17
       },
       {
         "axis": "problemSolvingScore",
+        "label": "문제해결",
         "score": 15
       }
     ],
     "tendencyTopAxes": [
       {
         "axis": "socialCooperationScore",
+        "label": "사회협력형",
         "score": 30
       },
       {
         "axis": "dataAnalysisTypeScore",
+        "label": "데이터분석형",
         "score": 16
       },
       {
         "axis": "educationGuidanceScore",
+        "label": "교육지도형",
         "score": 13
       }
     ],
     "competencyLowAxes": [
       {
         "axis": "softwareImplementationScore",
+        "label": "구현력",
         "score": 1
       },
       {
         "axis": "infoTechUtilizationScore",
+        "label": "정보기술",
         "score": 5
       }
     ],
     "tendencyLowAxes": [
       {
         "axis": "bioHealthScore",
+        "label": "생명보건형",
         "score": 2
       },
       {
         "axis": "practicalTechnicalScore",
+        "label": "실용기술형",
         "score": 4
       }
     ]
   },
   "differentiation": {
     "focusKeywords": [
-      "사회",
-      "제도 분석",
-      "자료 해석",
-      "의사결정"
+      "사회 구조",
+      "문화와 집단",
+      "노동과 계층",
+      "사회 조사"
     ],
-    "comparisonNote": "사회학과는 사회계열 안에서도 사회 분야와 제도 분석을 중심으로 자료 해석 역량을 연결하는 방향이 강하다.",
-    "bestFor": "사회 분야의 활동을 깊게 탐구하고 제도 분석 관점으로 문제를 풀어보고 싶은 학생",
+    "comparisonNote": "개인 상담이나 정책 집행보다 집단, 문화, 제도, 불평등이 사회를 어떻게 움직이는지 설명하는 데 초점이 있다.",
+    "bestFor": "사회 구조, 문화와 집단 같은 주제에 관심이 있고 사람과 조직, 사회 문제를 자료와 사례로 이해하고 현실적인 해결 방향을 고민하는 활동에 끌리는 학생",
     "lessCentralThanSimilarMajors": [
-      "실험실 연구",
-      "순수 예술 실기",
-      "공학 장치 제작"
+      "심리 검사 해석",
+      "복지 서비스 제공",
+      "행정 절차 관리"
     ]
   },
   "scoringPolicy": {
@@ -155,8 +179,8 @@
   },
   "metadata": {
     "datasetVersion": "major-service-excel-v1",
-    "createdAt": "",
-    "lastUpdated": "",
+    "createdAt": "2026-06-04",
+    "lastUpdated": "2026-06-04",
     "dataType": "service_ready_quantitative_excel_only"
   }
 }

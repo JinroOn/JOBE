@@ -2,6 +2,20 @@
   "majorName": "컴퓨터교육과",
   "standardMajorName": "컴퓨터교육과",
   "category": "교육계열",
+  "description": "컴퓨터교육과는 컴퓨터 과학 지식과 교육 방법을 함께 배워 학습자가 정보 기술을 이해하고 활용하도록 돕는 전공이다. 학생은 컴퓨터 네트워크, 정보공학, 프로그래밍, 멀티미디어 교육, 컴퓨터교육론 등을 통해 기술 내용과 수업 설계 방법을 함께 익힌다. 복잡한 컴퓨팅 개념을 학습자의 수준에 맞게 설명하고 실습 활동으로 연결하는 능력이 중요하다. 소프트웨어와 정보 기술을 좋아하면서 이를 다른 사람에게 체계적으로 가르치는 일에 관심이 있는 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=571",
+      "retrievedAt": "2026-06-04",
+      "query": "컴퓨터교육과",
+      "matchedMajorName": "컴퓨터교육과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
   "excelRowNumber": 97,
   "usableForRecommendation": true,
   "selectedWeightSource": "baseExcelWeights",
@@ -38,16 +52,19 @@
     "competencyTopAxes": [
       {
         "axis": "collaborationScore",
+        "label": "협업윤리",
         "axisKoreanName": "협업윤리",
         "score": 23
       },
       {
         "axis": "communicationScore",
+        "label": "의사소통",
         "axisKoreanName": "의사소통",
         "score": 21
       },
       {
         "axis": "selfManagementScore",
+        "label": "자기관리",
         "axisKoreanName": "자기관리",
         "score": 17
       }
@@ -55,16 +72,19 @@
     "tendencyTopAxes": [
       {
         "axis": "socialCooperationScore",
+        "label": "사회협력형",
         "axisKoreanName": "사회협력형",
         "score": 27
       },
       {
         "axis": "educationGuidanceScore",
+        "label": "교육지도형",
         "axisKoreanName": "교육지도형",
         "score": 27
       },
       {
         "axis": "theoryAcademicScore",
+        "label": "이론학구형",
         "axisKoreanName": "이론학구형",
         "score": 9
       }
@@ -72,11 +92,13 @@
     "competencyLowAxes": [
       {
         "axis": "softwareImplementationScore",
+        "label": "구현력",
         "axisKoreanName": "구현력",
         "score": 4
       },
       {
         "axis": "dataAnalysisScore",
+        "label": "데이터분석",
         "axisKoreanName": "데이터분석",
         "score": 5
       }
@@ -84,11 +106,13 @@
     "tendencyLowAxes": [
       {
         "axis": "artCreativeScore",
+        "label": "예술창의형",
         "axisKoreanName": "예술창의형",
         "score": 4
       },
       {
         "axis": "practicalTechnicalScore",
+        "label": "실용기술형",
         "axisKoreanName": "실용기술형",
         "score": 6
       }
@@ -96,18 +120,17 @@
   },
   "differentiation": {
     "focusKeywords": [
-      "컴퓨터교육",
-      "협업윤리",
-      "의사소통",
-      "자기관리",
-      "학습 지도"
+      "컴퓨터 과학",
+      "프로그래밍 교육",
+      "정보 수업",
+      "디지털 학습"
     ],
-    "comparisonNote": "컴퓨터교육과는 교육계열 안에서도 컴퓨터교육 분야와 협업윤리를 중심으로 의사소통 역량을 연결하는 방향이 강하다.",
-    "bestFor": "컴퓨터교육 분야의 활동을 깊게 탐구하고 협업윤리 관점으로 문제를 풀어보고 싶은 학생",
+    "comparisonNote": "소프트웨어 개발 자체보다 학습자가 컴퓨터 과학 개념과 정보 기술을 이해하도록 가르치는 데 초점이 있다.",
+    "bestFor": "컴퓨터 과학, 프로그래밍 교육 같은 주제에 관심이 있고 학습자의 눈높이에 맞게 설명하고 성장 과정을 돕는 활동에 끌리는 학생",
     "lessCentralThanSimilarMajors": [
-      "전문 연구만 수행",
-      "기업 재무 처리",
-      "임상 진료"
+      "전문 소프트웨어 개발",
+      "일반 교육학 이론",
+      "수학 수업 설계"
     ]
   },
   "scoringPolicy": {
@@ -166,8 +189,8 @@
   },
   "metadata": {
     "datasetVersion": "major-service-excel-v1",
-    "createdAt": "",
-    "lastUpdated": "",
+    "createdAt": "2026-06-04",
+    "lastUpdated": "2026-06-04",
     "dataType": "service_ready_quantitative_excel_only"
   }
 }

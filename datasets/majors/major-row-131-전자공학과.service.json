@@ -2,6 +2,20 @@
   "majorName": "전자공학과",
   "standardMajorName": "전자공학과",
   "category": "공학계열",
+  "description": "전자공학과는 회로, 반도체, 신호, 통신, 전자부품을 통해 정보가 처리되고 전달되는 원리를 배우는 전공이다. 학생은 디지털 통신, 물리전자공학, 신호 및 시스템, 전자회로, 마이크로프로세서 같은 주제를 통해 전자 시스템의 구조와 동작을 이해한다. 전자키트 조립, 회로 분석, 신호 처리처럼 원리를 실제 장치로 확인하는 활동이 많아 정보기술 활용, 구현력, 시스템 이해가 중요하다. 전자기기와 통신 장치의 작동 원리를 탐구하고 싶은 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=469",
+      "retrievedAt": "2026-06-04",
+      "query": "전자공학과",
+      "matchedMajorName": "전자공학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
   "excelRowNumber": 131,
   "usableForRecommendation": true,
   "selectedWeightSource": "baseExcelWeights",
@@ -38,16 +52,19 @@
     "competencyTopAxes": [
       {
         "axis": "infoTechUtilizationScore",
+        "label": "정보기술",
         "axisKoreanName": "정보기술",
         "score": 17
       },
       {
         "axis": "softwareImplementationScore",
+        "label": "구현력",
         "axisKoreanName": "구현력",
         "score": 16
       },
       {
         "axis": "systemUnderstandingScore",
+        "label": "시스템이해",
         "axisKoreanName": "시스템이해",
         "score": 16
       }
@@ -55,16 +72,19 @@
     "tendencyTopAxes": [
       {
         "axis": "practicalTechnicalScore",
+        "label": "실용기술형",
         "axisKoreanName": "실용기술형",
         "score": 26
       },
       {
         "axis": "systemOperationScore",
+        "label": "시스템운용형",
         "axisKoreanName": "시스템운용형",
         "score": 25
       },
       {
         "axis": "dataAnalysisTypeScore",
+        "label": "데이터분석형",
         "axisKoreanName": "데이터분석형",
         "score": 17
       }
@@ -72,11 +92,13 @@
     "competencyLowAxes": [
       {
         "axis": "communicationScore",
+        "label": "의사소통",
         "axisKoreanName": "의사소통",
         "score": 2
       },
       {
         "axis": "collaborationScore",
+        "label": "협업윤리",
         "axisKoreanName": "협업윤리",
         "score": 6
       }
@@ -84,21 +106,32 @@
     "tendencyLowAxes": [
       {
         "axis": "bioHealthScore",
+        "label": "생명보건형",
         "axisKoreanName": "생명보건형",
         "score": 0
       },
       {
         "axis": "educationGuidanceScore",
+        "label": "교육지도형",
         "axisKoreanName": "교육지도형",
         "score": 2
       }
     ]
   },
   "differentiation": {
-    "focusKeywords": ["회로", "신호 처리", "임베디드 하드웨어", "전자 시스템"],
-    "comparisonNote": "디지털 기술을 회로와 신호, 전자 장치의 동작 원리까지 내려가 이해하는 방향이 강하다.",
-    "bestFor": "장치 내부의 전기적 원리와 회로 설계, 계측 활동에 끌리는 학생",
-    "lessCentralThanSimilarMajors": ["웹/앱 서비스 기획", "순수 소프트웨어 아키텍처", "데이터 서비스 분석"]
+    "focusKeywords": [
+      "전자회로",
+      "신호와 시스템",
+      "디지털 통신",
+      "물리전자"
+    ],
+    "comparisonNote": "전력 공급보다 회로, 신호, 통신, 전자부품을 통해 정보가 처리되는 원리를 다루는 방향이 강하다.",
+    "bestFor": "전자회로, 신호와 시스템 같은 주제에 관심이 있고 원리와 구조를 이해한 뒤 실제 시스템이나 장치로 구현하고 개선하는 활동에 끌리는 학생",
+    "lessCentralThanSimilarMajors": [
+      "문학 작품 해석",
+      "상담과 복지 실천",
+      "순수 예술 표현"
+    ]
   },
   "scoringPolicy": {
     "competencyWeight": 0.6,
@@ -156,8 +189,8 @@
   },
   "metadata": {
     "datasetVersion": "major-service-excel-v1",
-    "createdAt": "",
-    "lastUpdated": "",
+    "createdAt": "2026-06-04",
+    "lastUpdated": "2026-06-04",
     "dataType": "service_ready_quantitative_excel_only"
   }
 }

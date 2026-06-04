@@ -2,6 +2,20 @@
   "majorName": "통계학과",
   "standardMajorName": "통계학과",
   "category": "자연계열",
+  "description": "통계학과는 통계와 관련된 핵심 개념과 방법을 배우고, 이를 실제 사례와 문제 해결에 적용하는 전공이다. 주요 학습 내용은 다변량자료분석 및 실습, 확률론, SPSS입문 등이며, 학생은 전공 지식을 개념 이해에 그치지 않고 분석, 실습, 사례 해석으로 연결한다. 전공 탐색 과정에서는 생활 속 통계표 만들기, 통계 관련 기관 진로체험 참여 등의 활동을 통해 자료를 다루고 현장 감각을 넓힐 수 있다. 수리논리, 데이터분석, 문제해결을 기르는 태도가 중요하며, 자연 현상과 데이터를 관찰하고 원리를 탐구하고 싶은 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=591",
+      "retrievedAt": "2026-06-04",
+      "query": "통계학과",
+      "matchedMajorName": "통계학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
   "excelRowNumber": 174,
   "usableForRecommendation": true,
   "selectedWeightSource": "baseExcelWeights",
@@ -38,16 +52,19 @@
     "competencyTopAxes": [
       {
         "axis": "mathLogicalScore",
+        "label": "수리논리",
         "axisKoreanName": "수리논리",
         "score": 23
       },
       {
         "axis": "dataAnalysisScore",
+        "label": "데이터분석",
         "axisKoreanName": "데이터분석",
         "score": 20
       },
       {
         "axis": "problemSolvingScore",
+        "label": "문제해결",
         "axisKoreanName": "문제해결",
         "score": 15
       }
@@ -55,16 +72,19 @@
     "tendencyTopAxes": [
       {
         "axis": "logicalInquiryScore",
+        "label": "논리탐구형",
         "axisKoreanName": "논리탐구형",
         "score": 29
       },
       {
         "axis": "theoryAcademicScore",
+        "label": "이론학구형",
         "axisKoreanName": "이론학구형",
         "score": 25
       },
       {
         "axis": "dataAnalysisTypeScore",
+        "label": "데이터분석형",
         "axisKoreanName": "데이터분석형",
         "score": 24
       }
@@ -72,11 +92,13 @@
     "competencyLowAxes": [
       {
         "axis": "communicationScore",
+        "label": "의사소통",
         "axisKoreanName": "의사소통",
         "score": 4
       },
       {
         "axis": "softwareImplementationScore",
+        "label": "구현력",
         "axisKoreanName": "구현력",
         "score": 5
       }
@@ -84,21 +106,32 @@
     "tendencyLowAxes": [
       {
         "axis": "artCreativeScore",
+        "label": "예술창의형",
         "axisKoreanName": "예술창의형",
         "score": 1
       },
       {
         "axis": "socialCooperationScore",
+        "label": "사회협력형",
         "axisKoreanName": "사회협력형",
         "score": 2
       }
     ]
   },
   "differentiation": {
-    "focusKeywords": ["확률 모델", "데이터 추론", "실험 설계", "예측 분석"],
-    "comparisonNote": "특정 자연 대상보다 자료를 수학적으로 모델링하고 불확실성을 해석하는 방법 자체에 초점이 강하다.",
-    "bestFor": "숫자 자료에서 패턴을 찾고 근거 있는 예측과 검정을 설계하는 학생",
-    "lessCentralThanSimilarMajors": ["생물 실험", "식품 가공 실습", "환경 현장 조사"]
+    "focusKeywords": [
+      "확률",
+      "통계 모델",
+      "데이터 해석",
+      "추론"
+    ],
+    "comparisonNote": "수학 이론 자체보다 불확실한 데이터를 모형화하고 근거 있는 판단을 이끌어내는 데 초점이 있다.",
+    "bestFor": "확률, 통계 모델 같은 주제에 관심이 있고 자연 현상을 관찰하고 자료와 실험을 통해 원리를 설명하는 활동에 끌리는 학생",
+    "lessCentralThanSimilarMajors": [
+      "정책 집행 관리",
+      "디자인 제작 실무",
+      "임상 처치"
+    ]
   },
   "scoringPolicy": {
     "competencyWeight": 0.6,
@@ -156,8 +189,8 @@
   },
   "metadata": {
     "datasetVersion": "major-service-excel-v1",
-    "createdAt": "",
-    "lastUpdated": "",
+    "createdAt": "2026-06-04",
+    "lastUpdated": "2026-06-04",
     "dataType": "service_ready_quantitative_excel_only"
   }
 }
