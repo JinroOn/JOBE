@@ -16,12 +16,38 @@ services:
       retries: 10
       start_period: 30s
 
+  ai-postgres:
+    image: pgvector/pgvector:pg16
+    container_name: jobe-ai-postgres
+    environment:
+      POSTGRES_DB: jobe_ai
+      POSTGRES_USER: jobe_ai
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5433:5432"
+    volumes:
+      - ai-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U jobe_ai -d jobe_ai"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
   ai-service:
     build:
       context: ./ai-service
     container_name: jobe-ai-service
     env_file:
       - ./ai-service/.env
+    environment:
+      AI_DB_HOST: ai-postgres
+      AI_DB_PORT: 5432
+      AI_DB_NAME: jobe_ai
+      AI_DB_USER: jobe_ai
+      AI_DB_PASSWORD: root
+      AI_DB_ENABLE_VECTOR: "true"
+      AI_DB_HEALTHCHECK_ENABLED: "false"
     ports:
       - "8001:8001"
     healthcheck:
@@ -64,3 +90,4 @@ services:
 
 volumes:
   mysql-data:
+  ai-postgres-data:

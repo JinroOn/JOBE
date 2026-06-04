@@ -13,6 +13,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from .errors import RequestTimeoutError, UpstreamUnavailableError
 from .models import WeeklyPlanItem, WeeklyPlanRequest, WeeklyPlanResponse
+from .rag.context import enrich_weekly_plan_request_with_rag
 
 PLAN_PROMPT_VERSION = os.getenv("PLAN_PROMPT_VERSION", "plan-v1.0.0")
 PLAN_PROMPT_FILE = os.getenv("PLAN_PROMPT_FILE", "plan_v1_0.txt")
@@ -104,19 +105,24 @@ class WeeklyPlanChain:
                 ]
             )
             chain = prompt | structured
-            payload_json = request.model_dump_json()
+            enriched_request, rag_fallback_reasons = enrich_weekly_plan_request_with_rag(
+                request,
+                request_id=request_id,
+            )
+            payload_json = enriched_request.model_dump_json()
             generated = await asyncio.wait_for(
                 chain.ainvoke({"input_json": payload_json}),
                 timeout=self.timeout_seconds,
             )
             response, fallback_reasons = self._normalize_generated(
-                request=request,
+                request=enriched_request,
                 generated=generated,
                 request_id=request_id,
             )
+            fallback_reasons.extend(rag_fallback_reasons)
             return PlanChainResult(
                 response=response,
-                fallback_reasons=fallback_reasons,
+                fallback_reasons=sorted(set(fallback_reasons)),
                 prompt_version=self.prompt_version,
                 model=self.model,
             )

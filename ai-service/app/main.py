@@ -19,6 +19,7 @@ load_dotenv(dotenv_path=Path(__file__).resolve().parents[1] / ".env")
 
 from .chain import RecommendationChain
 from .chain_plan import WeeklyPlanChain
+from .db import check_ai_db_health, is_ai_db_healthcheck_enabled
 from .errors import AppError, RateLimitError, UnauthorizedError, build_error_response
 from .models import (
     RecommendationCommentRequest,
@@ -199,7 +200,10 @@ async def generate_recommendation_comment(
 
 @app.get("/health")
 async def health() -> dict[str, str]:
-    return {"status": "ok"}
+    response = {"status": "ok"}
+    if is_ai_db_healthcheck_enabled():
+        response["aiDb"] = check_ai_db_health()
+    return response
 
 
 @app.post("/v1/plan/weekly", response_model=WeeklyPlanResponse)
