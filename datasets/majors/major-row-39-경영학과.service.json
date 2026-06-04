@@ -2,6 +2,20 @@
   "majorName": "경영학과",
   "standardMajorName": "경영학과",
   "category": "사회계열",
+  "description": "경영학과는 기업과 조직이 목표를 달성하기 위해 사람, 자원, 정보, 시장을 어떻게 분석하고 운영하는지 배우는 전공이다. 학생은 인사관리, 마케팅, 재무, 회계, 생산운영, 경영전략 같은 주제를 통해 조직의 의사결정 과정과 시장 환경을 이해한다. 사례 분석, 자료 해석, 발표와 토론을 통해 문제를 진단하고 실행 가능한 대안을 제안하는 활동이 많다. 숫자와 데이터를 해석하는 능력뿐 아니라 사람과 조직을 이해하고 설득하는 의사소통 능력에 관심이 있는 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=23",
+      "retrievedAt": "2026-06-04",
+      "query": "경영학과",
+      "matchedMajorName": "경영학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
   "excelRowNumber": 39,
   "usableForRecommendation": true,
   "selectedWeightSource": "baseExcelWeights",
@@ -96,16 +110,15 @@
   },
   "differentiation": {
     "focusKeywords": [
-      "경영",
-      "의사소통",
-      "데이터분석",
-      "문제해결",
-      "제도 분석"
+      "조직 운영",
+      "마케팅",
+      "재무",
+      "경영전략"
     ],
-    "comparisonNote": "경영학과는 사회계열 안에서도 경영 분야와 의사소통을 중심으로 데이터분석 역량을 연결하는 방향이 강하다.",
-    "bestFor": "경영 분야의 활동을 깊게 탐구하고 의사소통 관점으로 문제를 풀어보고 싶은 학생",
+    "comparisonNote": "유사 전공과 비교하면 조직 운영, 마케팅, 재무을 함께 다루며 경영전략까지 연결하는 점이 두드러진다.",
+    "bestFor": "조직 운영, 마케팅 같은 주제에 관심이 있고 사람과 조직, 사회 문제를 자료와 사례로 이해하고 현실적인 해결 방향을 고민하는 활동에 끌리는 학생",
     "lessCentralThanSimilarMajors": [
-      "실험실 연구",
+      "실험실 기초 연구",
       "순수 예술 실기",
       "공학 장치 제작"
     ]
@@ -166,8 +179,8 @@
   },
   "metadata": {
     "datasetVersion": "major-service-excel-v1",
-    "createdAt": "",
-    "lastUpdated": "",
+    "createdAt": "2026-06-04",
+    "lastUpdated": "2026-06-04",
     "dataType": "service_ready_quantitative_excel_only"
   }
 }

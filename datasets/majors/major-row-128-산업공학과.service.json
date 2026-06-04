@@ -2,6 +2,20 @@
   "majorName": "산업공학과",
   "standardMajorName": "산업공학과",
   "category": "공학계열",
+  "description": "산업공학과는 사람, 설비, 정보, 물류가 함께 움직이는 시스템을 분석하고 더 효율적으로 설계하는 전공이다. 학생은 기계 제작법, 기술경영, 물류공학, 품질관리, 생산관리 같은 주제를 통해 산업 현장의 흐름을 데이터와 공정 관점에서 이해한다. 작업 과정과 자원 배분을 개선하고 비용, 시간, 품질의 균형을 찾는 활동이 많아 문제 해결력, 시스템 이해, 자료 분석력이 중요하다. 생산과 서비스 운영을 더 합리적으로 만들고 싶은 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=250",
+      "retrievedAt": "2026-06-04",
+      "query": "산업공학과",
+      "matchedMajorName": "산업공학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
   "excelRowNumber": 128,
   "usableForRecommendation": true,
   "selectedWeightSource": "baseExcelWeights",
@@ -38,16 +52,19 @@
     "competencyTopAxes": [
       {
         "axis": "problemSolvingScore",
+        "label": "문제해결",
         "axisKoreanName": "문제해결",
         "score": 16
       },
       {
         "axis": "systemUnderstandingScore",
+        "label": "시스템이해",
         "axisKoreanName": "시스템이해",
         "score": 16
       },
       {
         "axis": "softwareImplementationScore",
+        "label": "구현력",
         "axisKoreanName": "구현력",
         "score": 15
       }
@@ -55,16 +72,19 @@
     "tendencyTopAxes": [
       {
         "axis": "practicalTechnicalScore",
+        "label": "실용기술형",
         "axisKoreanName": "실용기술형",
         "score": 26
       },
       {
         "axis": "systemOperationScore",
+        "label": "시스템운용형",
         "axisKoreanName": "시스템운용형",
         "score": 26
       },
       {
         "axis": "logicalInquiryScore",
+        "label": "논리탐구형",
         "axisKoreanName": "논리탐구형",
         "score": 16
       }
@@ -72,11 +92,13 @@
     "competencyLowAxes": [
       {
         "axis": "communicationScore",
+        "label": "의사소통",
         "axisKoreanName": "의사소통",
         "score": 3
       },
       {
         "axis": "collaborationScore",
+        "label": "협업윤리",
         "axisKoreanName": "협업윤리",
         "score": 6
       }
@@ -84,11 +106,13 @@
     "tendencyLowAxes": [
       {
         "axis": "bioHealthScore",
+        "label": "생명보건형",
         "axisKoreanName": "생명보건형",
         "score": 0
       },
       {
         "axis": "educationGuidanceScore",
+        "label": "교육지도형",
         "axisKoreanName": "교육지도형",
         "score": 2
       }
@@ -96,17 +120,16 @@
   },
   "differentiation": {
     "focusKeywords": [
-      "산업공",
-      "문제해결",
-      "시스템이해",
-      "구현력",
-      "시스템 설계"
+      "시스템 최적화",
+      "물류와 생산",
+      "기술경영",
+      "프로세스 개선"
     ],
-    "comparisonNote": "산업공학과는 공학계열 안에서도 산업공 분야와 문제해결을 중심으로 시스템이해 역량을 연결하는 방향이 강하다.",
-    "bestFor": "산업공 분야의 활동을 깊게 탐구하고 문제해결 관점으로 문제를 풀어보고 싶은 학생",
+    "comparisonNote": "개별 장치 제작보다 사람, 자원, 설비, 정보가 함께 움직이는 전체 운영 시스템을 개선하는 데 초점이 있다.",
+    "bestFor": "시스템 최적화, 물류와 생산 같은 주제에 관심이 있고 원리와 구조를 이해한 뒤 실제 시스템이나 장치로 구현하고 개선하는 활동에 끌리는 학생",
     "lessCentralThanSimilarMajors": [
-      "문학 비평",
-      "상담 실천",
+      "문학 작품 해석",
+      "상담과 복지 실천",
       "순수 예술 표현"
     ]
   },
@@ -166,8 +189,8 @@
   },
   "metadata": {
     "datasetVersion": "major-service-excel-v1",
-    "createdAt": "",
-    "lastUpdated": "",
+    "createdAt": "2026-06-04",
+    "lastUpdated": "2026-06-04",
     "dataType": "service_ready_quantitative_excel_only"
   }
 }

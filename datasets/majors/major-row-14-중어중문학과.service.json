@@ -2,6 +2,20 @@
   "majorName": "중어중문학과",
   "standardMajorName": "중어중문학과",
   "category": "인문계열",
+  "description": "중어중문학과는 중어중문과 관련된 핵심 개념과 방법을 배우고, 이를 실제 사례와 문제 해결에 적용하는 전공이다. 주요 학습 내용은 경전강독, 제자백가선독, 중국문학사 등이며, 학생은 전공 지식을 개념 이해에 그치지 않고 분석, 실습, 사례 해석으로 연결한다. 전공 탐색 과정에서는 중국 드라마 감상, 중국어능력시험 준비 등의 활동을 통해 자료를 다루고 현장 감각을 넓힐 수 있다. 의사소통, 자기관리, 문제해결을 기르는 태도가 중요하며, 언어, 역사, 문화, 인간의 생각을 깊이 읽고 해석하고 싶은 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=520",
+      "retrievedAt": "2026-06-04",
+      "query": "중어중문학과",
+      "matchedMajorName": "중어중문학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
   "excelRowNumber": 14,
   "usableForRecommendation": true,
   "selectedWeightSource": "baseExcelWeights",
@@ -96,18 +110,17 @@
   },
   "differentiation": {
     "focusKeywords": [
-      "중어중문",
-      "의사소통",
-      "자기관리",
-      "문제해결",
-      "문화 해석"
+      "중국어",
+      "중국문학",
+      "고전과 현대",
+      "중국 문화"
     ],
-    "comparisonNote": "중어중문학과는 인문계열 안에서도 중어중문 분야와 의사소통을 중심으로 자기관리 역량을 연결하는 방향이 강하다.",
-    "bestFor": "중어중문 분야의 활동을 깊게 탐구하고 의사소통 관점으로 문제를 풀어보고 싶은 학생",
+    "comparisonNote": "유사 전공과 비교하면 중국어, 중국문학, 고전과 현대을 함께 다루며 중국 문화까지 연결하는 점이 두드러진다.",
+    "bestFor": "중국어, 중국문학 같은 주제에 관심이 있고 자료와 텍스트를 꾸준히 읽고 그 안의 의미와 맥락을 해석하는 활동에 끌리는 학생",
     "lessCentralThanSimilarMajors": [
-      "공학 설계",
-      "임상 실습",
-      "회계 처리"
+      "공학 장치 제작",
+      "임상 보건 실습",
+      "기업 재무 처리"
     ]
   },
   "scoringPolicy": {
@@ -161,8 +174,8 @@
   },
   "metadata": {
     "datasetVersion": "major-service-excel-v1",
-    "createdAt": "",
-    "lastUpdated": "",
+    "createdAt": "2026-06-04",
+    "lastUpdated": "2026-06-04",
     "dataType": "service_ready_quantitative_excel_only"
   }
 }

@@ -2,6 +2,20 @@
   "majorName": "환경과학과",
   "standardMajorName": "환경과학과",
   "category": "자연계열",
+  "description": "환경과학과는 환경과와 관련된 핵심 개념과 방법을 배우고, 이를 실제 사례와 문제 해결에 적용하는 전공이다. 주요 학습 내용은 환경과학개론, 환경기초화학, 기초환경통계학 등이며, 학생은 전공 지식을 개념 이해에 그치지 않고 분석, 실습, 사례 해석으로 연결한다. 전공 탐색 과정에서는 환경분야 공모전, 오염 관련 지수 확인 등의 활동을 통해 자료를 다루고 현장 감각을 넓힐 수 있다. 수리논리, 데이터분석, 문제해결을 기르는 태도가 중요하며, 자연 현상과 데이터를 관찰하고 원리를 탐구하고 싶은 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=654",
+      "retrievedAt": "2026-06-04",
+      "query": "환경과학과",
+      "matchedMajorName": "환경과학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
   "excelRowNumber": 177,
   "usableForRecommendation": true,
   "selectedWeightSource": "baseExcelWeights",
@@ -38,16 +52,19 @@
     "competencyTopAxes": [
       {
         "axis": "mathLogicalScore",
+        "label": "수리논리",
         "axisKoreanName": "수리논리",
         "score": 23
       },
       {
         "axis": "dataAnalysisScore",
+        "label": "데이터분석",
         "axisKoreanName": "데이터분석",
         "score": 18
       },
       {
         "axis": "problemSolvingScore",
+        "label": "문제해결",
         "axisKoreanName": "문제해결",
         "score": 15
       }
@@ -55,16 +72,19 @@
     "tendencyTopAxes": [
       {
         "axis": "logicalInquiryScore",
+        "label": "논리탐구형",
         "axisKoreanName": "논리탐구형",
         "score": 30
       },
       {
         "axis": "theoryAcademicScore",
+        "label": "이론학구형",
         "axisKoreanName": "이론학구형",
         "score": 21
       },
       {
         "axis": "dataAnalysisTypeScore",
+        "label": "데이터분석형",
         "axisKoreanName": "데이터분석형",
         "score": 20
       }
@@ -72,11 +92,13 @@
     "competencyLowAxes": [
       {
         "axis": "communicationScore",
+        "label": "의사소통",
         "axisKoreanName": "의사소통",
         "score": 2
       },
       {
         "axis": "softwareImplementationScore",
+        "label": "구현력",
         "axisKoreanName": "구현력",
         "score": 5
       }
@@ -84,21 +106,32 @@
     "tendencyLowAxes": [
       {
         "axis": "artCreativeScore",
+        "label": "예술창의형",
         "axisKoreanName": "예술창의형",
         "score": 1
       },
       {
         "axis": "socialCooperationScore",
+        "label": "사회협력형",
         "axisKoreanName": "사회협력형",
         "score": 2
       }
     ]
   },
   "differentiation": {
-    "focusKeywords": ["환경 시스템", "오염 분석", "생태와 기후", "현장 데이터"],
-    "comparisonNote": "자연 현상을 환경 문제와 생태 시스템, 오염/기후 데이터의 관점에서 통합 분석하는 방향이 강하다.",
-    "bestFor": "기후, 생태, 오염 문제를 데이터와 현장 관찰로 해결하고 싶은 학생",
-    "lessCentralThanSimilarMajors": ["식품 품질 관리", "분자생물 실험", "순수 통계 방법론"]
+    "focusKeywords": [
+      "환경 변화",
+      "생태와 오염",
+      "환경 자료",
+      "자연 시스템"
+    ],
+    "comparisonNote": "공학적 처리 시설보다 환경 현상의 원인과 변화 양상을 과학적으로 관찰하고 해석하는 데 초점이 있다.",
+    "bestFor": "환경 변화, 생태와 오염 같은 주제에 관심이 있고 자연 현상을 관찰하고 자료와 실험을 통해 원리를 설명하는 활동에 끌리는 학생",
+    "lessCentralThanSimilarMajors": [
+      "오염 처리 공정 설계",
+      "화학 제품 생산",
+      "토목 시설 시공"
+    ]
   },
   "scoringPolicy": {
     "competencyWeight": 0.6,
@@ -156,8 +189,8 @@
   },
   "metadata": {
     "datasetVersion": "major-service-excel-v1",
-    "createdAt": "",
-    "lastUpdated": "",
+    "createdAt": "2026-06-04",
+    "lastUpdated": "2026-06-04",
     "dataType": "service_ready_quantitative_excel_only"
   }
 }

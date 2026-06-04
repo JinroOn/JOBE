@@ -1,7 +1,21 @@
 {
   "majorName": "경찰행정학과",
-  "standardMajorName": "",
+  "standardMajorName": "경찰행정학과",
   "category": "사회계열",
+  "description": "경찰행정학과는 범죄 예방과 치안 유지, 수사와 형사사법 제도, 경찰 조직 운영을 배우는 전공이다. 학생은 경찰학개론, 형사법, 범죄학, 수사 관련 과목, 체포술 등을 통해 법과 제도가 현장에서 어떻게 적용되는지 이해한다. 사회 안전과 공공질서를 다루는 전공인 만큼 법적 판단력, 윤리 의식, 위기 상황에서의 침착함, 사람들과 협력하는 태도가 중요하다. 공동체의 안전 문제에 관심이 있고 규칙과 책임을 바탕으로 현장 문제를 해결하고 싶은 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=27",
+      "retrievedAt": "2026-06-04",
+      "query": "경찰행정학과",
+      "matchedMajorName": "경찰행정학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
   "excelRowNumber": 41,
   "usableForRecommendation": true,
   "selectedWeightSource": "baseExcelWeights",
@@ -38,63 +52,73 @@
     "competencyTopAxes": [
       {
         "axis": "communicationScore",
+        "label": "의사소통",
         "score": 21
       },
       {
         "axis": "collaborationScore",
+        "label": "협업윤리",
         "score": 16
       },
       {
         "axis": "problemSolvingScore",
+        "label": "문제해결",
         "score": 15
       }
     ],
     "tendencyTopAxes": [
       {
         "axis": "socialCooperationScore",
+        "label": "사회협력형",
         "score": 29
       },
       {
         "axis": "dataAnalysisTypeScore",
+        "label": "데이터분석형",
         "score": 16
       },
       {
         "axis": "educationGuidanceScore",
+        "label": "교육지도형",
         "score": 13
       }
     ],
     "competencyLowAxes": [
       {
         "axis": "softwareImplementationScore",
+        "label": "구현력",
         "score": 2
       },
       {
         "axis": "infoTechUtilizationScore",
+        "label": "정보기술",
         "score": 5
       }
     ],
     "tendencyLowAxes": [
       {
         "axis": "bioHealthScore",
+        "label": "생명보건형",
         "score": 2
       },
       {
         "axis": "practicalTechnicalScore",
+        "label": "실용기술형",
         "score": 4
       }
     ]
   },
   "differentiation": {
     "focusKeywords": [
-      "경찰행정",
-      "제도 분석",
-      "자료 해석",
-      "의사결정"
+      "치안 행정",
+      "범죄 예방",
+      "공공 안전",
+      "법 집행"
     ],
-    "comparisonNote": "경찰행정학과는 사회계열 안에서도 경찰행정 분야와 제도 분석을 중심으로 자료 해석 역량을 연결하는 방향이 강하다.",
-    "bestFor": "경찰행정 분야의 활동을 깊게 탐구하고 제도 분석 관점으로 문제를 풀어보고 싶은 학생",
+    "comparisonNote": "유사 전공과 비교하면 치안 행정, 범죄 예방, 공공 안전을 함께 다루며 법 집행까지 연결하는 점이 두드러진다.",
+    "bestFor": "치안 행정, 범죄 예방 같은 주제에 관심이 있고 사람과 조직, 사회 문제를 자료와 사례로 이해하고 현실적인 해결 방향을 고민하는 활동에 끌리는 학생",
     "lessCentralThanSimilarMajors": [
-      "실험실 연구",
+      "실험실 기초 연구",
       "순수 예술 실기",
       "공학 장치 제작"
     ]
@@ -160,8 +184,8 @@
   },
   "metadata": {
     "datasetVersion": "major-service-excel-v1",
-    "createdAt": "",
-    "lastUpdated": "",
+    "createdAt": "2026-06-04",
+    "lastUpdated": "2026-06-04",
     "dataType": "service_ready_quantitative_excel_only"
   }
 }

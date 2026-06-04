@@ -2,6 +2,20 @@
   "majorName": "간호학과",
   "standardMajorName": "간호학과",
   "category": "의약계열",
+  "description": "간호학과는 개인과 가족, 지역사회의 건강을 유지하고 회복하도록 돕는 간호 지식과 실무를 배우는 전공이다. 학생은 기본간호학, 성인간호학, 아동간호학, 지역사회간호학 등을 통해 대상자의 상태를 관찰하고 필요한 간호 과정을 계획하는 방법을 익힌다. 병원과 지역사회 현장에서 환자와 보호자, 의료진이 함께 움직이는 상황을 다루기 때문에 책임감, 공감 능력, 의사소통 능력, 윤리 의식이 중요하다. 사람의 건강 문제를 세심하게 살피고 실제 돌봄 활동을 통해 문제를 해결하고 싶은 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=10",
+      "retrievedAt": "2026-06-04",
+      "query": "간호학과",
+      "matchedMajorName": "간호학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
   "excelRowNumber": 201,
   "usableForRecommendation": true,
   "selectedWeightSource": "baseExcelWeights",
@@ -96,17 +110,16 @@
   },
   "differentiation": {
     "focusKeywords": [
-      "간호",
-      "협업윤리",
-      "자기관리",
-      "의사소통",
-      "건강"
+      "환자 돌봄",
+      "건강 사정",
+      "임상 판단",
+      "간호 윤리"
     ],
-    "comparisonNote": "간호학과는 의약계열 안에서도 간호 분야와 협업윤리를 중심으로 자기관리 역량을 연결하는 방향이 강하다.",
-    "bestFor": "간호 분야의 활동을 깊게 탐구하고 협업윤리 관점으로 문제를 풀어보고 싶은 학생",
+    "comparisonNote": "유사 전공과 비교하면 환자 돌봄, 건강 사정, 임상 판단을 함께 다루며 간호 윤리까지 연결하는 점이 두드러진다.",
+    "bestFor": "사람의 건강 상태를 세심하게 살피고 의료진과 협력해 환자를 돕는 일에 책임감을 느끼는 학생",
     "lessCentralThanSimilarMajors": [
-      "시장 분석",
-      "순수 창작",
+      "시장 전략 수립",
+      "순수 창작 활동",
       "공학 구조 설계"
     ]
   },

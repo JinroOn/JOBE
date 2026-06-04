@@ -2,6 +2,20 @@
   "majorName": "한의예과",
   "standardMajorName": "한의예과",
   "category": "의약계열",
+  "description": "한의예과는 한의학을 본격적으로 배우기 전에 인체, 생명 현상, 한의학의 기초 이론을 이해하는 과정이다. 학생은 한의학개론, 의철학, 예방의학, 생명과학과 기초 의학 관련 주제를 통해 사람의 몸과 건강을 통합적으로 바라보는 관점을 익힌다. 이후 한의학 전문 학습과 임상 교육으로 이어지기 때문에 꾸준한 학습 태도, 세밀한 관찰력, 윤리 의식과 환자 중심의 소통 능력이 중요하다. 전통 의학과 현대적 건강 관리에 관심이 있고 사람의 몸과 생활 습관을 함께 이해하고 싶은 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=619",
+      "retrievedAt": "2026-06-04",
+      "query": "한의예과",
+      "matchedMajorName": "한의예과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
   "excelRowNumber": 212,
   "usableForRecommendation": true,
   "selectedWeightSource": "baseExcelWeights",
@@ -96,17 +110,16 @@
   },
   "differentiation": {
     "focusKeywords": [
-      "한의예",
-      "협업윤리",
-      "자기관리",
-      "의사소통",
-      "건강"
+      "한의학 이론",
+      "인체 균형",
+      "진단과 처방",
+      "전통 의학"
     ],
-    "comparisonNote": "한의예과는 의약계열 안에서도 한의예 분야와 협업윤리를 중심으로 자기관리 역량을 연결하는 방향이 강하다.",
-    "bestFor": "한의예 분야의 활동을 깊게 탐구하고 협업윤리 관점으로 문제를 풀어보고 싶은 학생",
+    "comparisonNote": "유사 전공과 비교하면 한의학 이론, 인체 균형, 진단과 처방을 함께 다루며 전통 의학까지 연결하는 점이 두드러진다.",
+    "bestFor": "한의학 이론, 인체 균형 같은 주제에 관심이 있고 사람의 건강과 안전을 세심하게 살피고 전문 지식으로 돕는 활동에 끌리는 학생",
     "lessCentralThanSimilarMajors": [
-      "시장 분석",
-      "순수 창작",
+      "시장 전략 수립",
+      "순수 창작 활동",
       "공학 구조 설계"
     ]
   },

@@ -1,7 +1,21 @@
 {
   "majorName": "미디어커뮤니케이션학과",
-  "standardMajorName": "",
+  "standardMajorName": "미디어커뮤니케이션학과",
   "category": "사회계열",
+  "description": "미디어커뮤니케이션학과는 신문, 방송, 인터넷, 모바일, 뉴미디어 등 다양한 매체를 통해 정보가 생산되고 전달되는 과정과 미디어가 사회에 미치는 영향을 배우는 전공이다. 학생은 디지털미디어, 미디어와 사회, 방송콘텐츠 기획, 미디어 글쓰기, 미디어 리터러시, 조사방법론 같은 주제를 통해 메시지를 분석하고 효과적으로 전달하는 방법을 익힌다. 콘텐츠를 기획하고 자료를 조사하며 사회 현상과 수용자의 반응을 해석하는 활동이 많아 분석력, 표현력, 창의적 사고, 협업 태도가 중요하다. 미디어 환경 변화와 사회적 소통 방식에 관심이 있고, 사람들에게 정보를 설득력 있게 전달하는 일에 흥미가 있는 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=181",
+      "retrievedAt": "2026-06-04",
+      "query": "미디어학과",
+      "matchedMajorName": "미디어학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "broad_alias"
+    }
+  ],
   "excelRowNumber": 44,
   "usableForRecommendation": true,
   "selectedWeightSource": "baseExcelWeights",
@@ -38,65 +52,75 @@
     "competencyTopAxes": [
       {
         "axis": "communicationScore",
+        "label": "의사소통",
         "score": 21
       },
       {
         "axis": "problemSolvingScore",
+        "label": "문제해결",
         "score": 15
       },
       {
         "axis": "collaborationScore",
+        "label": "협업윤리",
         "score": 15
       }
     ],
     "tendencyTopAxes": [
       {
         "axis": "socialCooperationScore",
+        "label": "사회협력형",
         "score": 30
       },
       {
         "axis": "dataAnalysisTypeScore",
+        "label": "데이터분석형",
         "score": 15
       },
       {
         "axis": "educationGuidanceScore",
+        "label": "교육지도형",
         "score": 13
       }
     ],
     "competencyLowAxes": [
       {
         "axis": "softwareImplementationScore",
+        "label": "구현력",
         "score": 2
       },
       {
         "axis": "infoTechUtilizationScore",
+        "label": "정보기술",
         "score": 5
       }
     ],
     "tendencyLowAxes": [
       {
         "axis": "bioHealthScore",
+        "label": "생명보건형",
         "score": 2
       },
       {
         "axis": "practicalTechnicalScore",
+        "label": "실용기술형",
         "score": 4
       }
     ]
   },
   "differentiation": {
     "focusKeywords": [
-      "미디어커뮤니케이션",
-      "제도 분석",
-      "자료 해석",
-      "의사결정"
+      "미디어 리터러시",
+      "콘텐츠 기획",
+      "사회적 소통",
+      "수용자 분석"
     ],
-    "comparisonNote": "미디어커뮤니케이션학과는 사회계열 안에서도 미디어커뮤니케이션 분야와 제도 분석을 중심으로 자료 해석 역량을 연결하는 방향이 강하다.",
-    "bestFor": "미디어커뮤니케이션 분야의 활동을 깊게 탐구하고 제도 분석 관점으로 문제를 풀어보고 싶은 학생",
+    "comparisonNote": "신문·방송뿐 아니라 디지털 미디어, 뉴미디어 콘텐츠, 수용자 반응 분석까지 넓게 다루는 방향이 강하다.",
+    "bestFor": "미디어 환경 변화와 사회적 소통 방식에 관심이 있고 콘텐츠를 분석하거나 기획해 메시지를 전달하는 활동에 끌리는 학생",
     "lessCentralThanSimilarMajors": [
-      "실험실 연구",
-      "순수 예술 실기",
-      "공학 장치 제작"
+      "순수 문예 창작",
+      "하드웨어 제작",
+      "임상 보건 실습"
     ]
   },
   "scoringPolicy": {
@@ -155,8 +179,8 @@
   },
   "metadata": {
     "datasetVersion": "major-service-excel-v1",
-    "createdAt": "",
-    "lastUpdated": "",
+    "createdAt": "2026-06-04",
+    "lastUpdated": "2026-06-04",
     "dataType": "service_ready_quantitative_excel_only"
   }
 }

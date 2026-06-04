@@ -2,6 +2,20 @@
   "majorName": "토목공학과",
   "standardMajorName": "토목공학과",
   "category": "공학계열",
+  "description": "토목공학과는 도로, 교량, 터널, 댐, 상하수도 같은 사회 기반 시설을 계획하고 설계하며 유지하는 방법을 배우는 전공이다. 학생은 측량학, 구조역학, 토질과 기초, 수리학, 교량공학 등을 통해 자연환경과 구조물이 상호작용하는 원리를 이해한다. 현장 조건을 분석하고 안전성과 경제성, 지속 가능성을 고려해 설계하는 활동이 많아 수리적 사고와 공간 이해, 책임감이 중요하다. 도시와 지역을 지탱하는 기반 시설을 만들고 공공의 안전에 기여하고 싶은 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=588",
+      "retrievedAt": "2026-06-04",
+      "query": "토목공학과",
+      "matchedMajorName": "토목공학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
   "excelRowNumber": 134,
   "usableForRecommendation": true,
   "selectedWeightSource": "baseExcelWeights",
@@ -38,16 +52,19 @@
     "competencyTopAxes": [
       {
         "axis": "systemUnderstandingScore",
+        "label": "시스템이해",
         "axisKoreanName": "시스템이해",
         "score": 17
       },
       {
         "axis": "softwareImplementationScore",
+        "label": "구현력",
         "axisKoreanName": "구현력",
         "score": 16
       },
       {
         "axis": "problemSolvingScore",
+        "label": "문제해결",
         "axisKoreanName": "문제해결",
         "score": 15
       }
@@ -55,16 +72,19 @@
     "tendencyTopAxes": [
       {
         "axis": "practicalTechnicalScore",
+        "label": "실용기술형",
         "axisKoreanName": "실용기술형",
         "score": 27
       },
       {
         "axis": "systemOperationScore",
+        "label": "시스템운용형",
         "axisKoreanName": "시스템운용형",
         "score": 27
       },
       {
         "axis": "logicalInquiryScore",
+        "label": "논리탐구형",
         "axisKoreanName": "논리탐구형",
         "score": 15
       }
@@ -72,11 +92,13 @@
     "competencyLowAxes": [
       {
         "axis": "communicationScore",
+        "label": "의사소통",
         "axisKoreanName": "의사소통",
         "score": 3
       },
       {
         "axis": "collaborationScore",
+        "label": "협업윤리",
         "axisKoreanName": "협업윤리",
         "score": 6
       }
@@ -84,11 +106,13 @@
     "tendencyLowAxes": [
       {
         "axis": "bioHealthScore",
+        "label": "생명보건형",
         "axisKoreanName": "생명보건형",
         "score": 1
       },
       {
         "axis": "educationGuidanceScore",
+        "label": "교육지도형",
         "axisKoreanName": "교육지도형",
         "score": 2
       }
@@ -96,17 +120,16 @@
   },
   "differentiation": {
     "focusKeywords": [
-      "토목공",
-      "시스템이해",
-      "구현력",
-      "문제해결",
-      "시스템 설계"
+      "사회 기반 시설",
+      "구조역학",
+      "측량",
+      "안전 설계"
     ],
-    "comparisonNote": "토목공학과는 공학계열 안에서도 토목공 분야와 시스템이해를 중심으로 구현력 역량을 연결하는 방향이 강하다.",
-    "bestFor": "토목공 분야의 활동을 깊게 탐구하고 시스템이해 관점으로 문제를 풀어보고 싶은 학생",
+    "comparisonNote": "유사 전공과 비교하면 사회 기반 시설, 구조역학, 측량을 함께 다루며 안전 설계까지 연결하는 점이 두드러진다.",
+    "bestFor": "사회 기반 시설, 구조역학 같은 주제에 관심이 있고 원리와 구조를 이해한 뒤 실제 시스템이나 장치로 구현하고 개선하는 활동에 끌리는 학생",
     "lessCentralThanSimilarMajors": [
-      "문학 비평",
-      "상담 실천",
+      "문학 작품 해석",
+      "상담과 복지 실천",
       "순수 예술 표현"
     ]
   },
@@ -166,8 +189,8 @@
   },
   "metadata": {
     "datasetVersion": "major-service-excel-v1",
-    "createdAt": "",
-    "lastUpdated": "",
+    "createdAt": "2026-06-04",
+    "lastUpdated": "2026-06-04",
     "dataType": "service_ready_quantitative_excel_only"
   }
 }

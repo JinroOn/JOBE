@@ -2,6 +2,20 @@
   "majorName": "미생물학과",
   "standardMajorName": "미생물학과",
   "category": "자연계열",
+  "description": "미생물학과는 미생물과 관련된 핵심 개념과 방법을 배우고, 이를 실제 사례와 문제 해결에 적용하는 전공이다. 주요 학습 내용은 바이오다양성, 병원미생물학, 세균학 등이며, 학생은 전공 지식을 개념 이해에 그치지 않고 분석, 실습, 사례 해석으로 연결한다. 전공 탐색 과정에서는 미생물 관찰 프로그램 참여, 식빵 곰팡이 실험 등의 활동을 통해 자료를 다루고 현장 감각을 넓힐 수 있다. 수리논리, 데이터분석, 문제해결을 기르는 태도가 중요하며, 자연 현상과 데이터를 관찰하고 원리를 탐구하고 싶은 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=21010",
+      "retrievedAt": "2026-06-04",
+      "query": "미생물학과",
+      "matchedMajorName": "미생물학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
   "excelRowNumber": 167,
   "usableForRecommendation": true,
   "selectedWeightSource": "baseExcelWeights",
@@ -38,16 +52,19 @@
     "competencyTopAxes": [
       {
         "axis": "mathLogicalScore",
+        "label": "수리논리",
         "axisKoreanName": "수리논리",
         "score": 22
       },
       {
         "axis": "dataAnalysisScore",
+        "label": "데이터분석",
         "axisKoreanName": "데이터분석",
         "score": 18
       },
       {
         "axis": "problemSolvingScore",
+        "label": "문제해결",
         "axisKoreanName": "문제해결",
         "score": 15
       }
@@ -55,16 +72,19 @@
     "tendencyTopAxes": [
       {
         "axis": "logicalInquiryScore",
+        "label": "논리탐구형",
         "axisKoreanName": "논리탐구형",
         "score": 27
       },
       {
         "axis": "theoryAcademicScore",
+        "label": "이론학구형",
         "axisKoreanName": "이론학구형",
         "score": 22
       },
       {
         "axis": "dataAnalysisTypeScore",
+        "label": "데이터분석형",
         "axisKoreanName": "데이터분석형",
         "score": 18
       }
@@ -72,11 +92,13 @@
     "competencyLowAxes": [
       {
         "axis": "communicationScore",
+        "label": "의사소통",
         "axisKoreanName": "의사소통",
         "score": 3
       },
       {
         "axis": "softwareImplementationScore",
+        "label": "구현력",
         "axisKoreanName": "구현력",
         "score": 5
       }
@@ -84,11 +106,13 @@
     "tendencyLowAxes": [
       {
         "axis": "artCreativeScore",
+        "label": "예술창의형",
         "axisKoreanName": "예술창의형",
         "score": 0
       },
       {
         "axis": "educationGuidanceScore",
+        "label": "교육지도형",
         "axisKoreanName": "교육지도형",
         "score": 3
       }
@@ -97,16 +121,15 @@
   "differentiation": {
     "focusKeywords": [
       "미생물",
-      "수리논리",
-      "데이터분석",
-      "문제해결",
-      "자연 현상"
+      "세균학",
+      "병원미생물",
+      "바이오 다양성"
     ],
-    "comparisonNote": "미생물학과는 자연계열 안에서도 미생물 분야와 수리논리를 중심으로 데이터분석 역량을 연결하는 방향이 강하다.",
-    "bestFor": "미생물 분야의 활동을 깊게 탐구하고 수리논리 관점으로 문제를 풀어보고 싶은 학생",
+    "comparisonNote": "생명현상 전반보다 세균과 미생물의 구조, 생장, 병원성, 활용 가능성에 더 좁게 집중한다.",
+    "bestFor": "미생물, 세균학 같은 주제에 관심이 있고 자연 현상을 관찰하고 자료와 실험을 통해 원리를 설명하는 활동에 끌리는 학생",
     "lessCentralThanSimilarMajors": [
-      "정책 행정",
-      "디자인 제작",
+      "정책 집행 관리",
+      "디자인 제작 실무",
       "임상 처치"
     ]
   },
@@ -166,8 +189,8 @@
   },
   "metadata": {
     "datasetVersion": "major-service-excel-v1",
-    "createdAt": "",
-    "lastUpdated": "",
+    "createdAt": "2026-06-04",
+    "lastUpdated": "2026-06-04",
     "dataType": "service_ready_quantitative_excel_only"
   }
 }

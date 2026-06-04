@@ -2,6 +2,20 @@
   "majorName": "생명과학과",
   "standardMajorName": "생명과학과",
   "category": "자연계열",
+  "description": "생명과학과는 생명과와 관련된 핵심 개념과 방법을 배우고, 이를 실제 사례와 문제 해결에 적용하는 전공이다. 주요 학습 내용은 세포생물학, 식물분류학 및 실험, 유전학 등이며, 학생은 전공 지식을 개념 이해에 그치지 않고 분석, 실습, 사례 해석으로 연결한다. 전공 탐색 과정에서는 생명ㆍ생물 분야 진로체험, 생명ㆍ생물 관련 과학교실, 과학캠프 등의 활동을 통해 자료를 다루고 현장 감각을 넓힐 수 있다. 수리논리, 데이터분석, 문제해결을 기르는 태도가 중요하며, 자연 현상과 데이터를 관찰하고 원리를 탐구하고 싶은 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=261",
+      "retrievedAt": "2026-06-04",
+      "query": "생명과학과",
+      "matchedMajorName": "생명과학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
   "excelRowNumber": 168,
   "usableForRecommendation": true,
   "selectedWeightSource": "baseExcelWeights",
@@ -38,16 +52,19 @@
     "competencyTopAxes": [
       {
         "axis": "mathLogicalScore",
+        "label": "수리논리",
         "axisKoreanName": "수리논리",
         "score": 22
       },
       {
         "axis": "dataAnalysisScore",
+        "label": "데이터분석",
         "axisKoreanName": "데이터분석",
         "score": 19
       },
       {
         "axis": "problemSolvingScore",
+        "label": "문제해결",
         "axisKoreanName": "문제해결",
         "score": 16
       }
@@ -55,16 +72,19 @@
     "tendencyTopAxes": [
       {
         "axis": "logicalInquiryScore",
+        "label": "논리탐구형",
         "axisKoreanName": "논리탐구형",
         "score": 27
       },
       {
         "axis": "theoryAcademicScore",
+        "label": "이론학구형",
         "axisKoreanName": "이론학구형",
         "score": 21
       },
       {
         "axis": "dataAnalysisTypeScore",
+        "label": "데이터분석형",
         "axisKoreanName": "데이터분석형",
         "score": 17
       }
@@ -72,11 +92,13 @@
     "competencyLowAxes": [
       {
         "axis": "communicationScore",
+        "label": "의사소통",
         "axisKoreanName": "의사소통",
         "score": 2
       },
       {
         "axis": "softwareImplementationScore",
+        "label": "구현력",
         "axisKoreanName": "구현력",
         "score": 5
       }
@@ -84,21 +106,32 @@
     "tendencyLowAxes": [
       {
         "axis": "artCreativeScore",
+        "label": "예술창의형",
         "axisKoreanName": "예술창의형",
         "score": 0
       },
       {
         "axis": "educationGuidanceScore",
+        "label": "교육지도형",
         "axisKoreanName": "교육지도형",
         "score": 3
       }
     ]
   },
   "differentiation": {
-    "focusKeywords": ["세포와 유전", "생명 현상", "실험 연구", "분자 생물"],
-    "comparisonNote": "환경이나 식품 응용보다 세포, 유전, 생명 현상의 원리를 실험으로 탐구하는 방향이 강하다.",
-    "bestFor": "생명체가 작동하는 원리를 실험과 관찰로 깊게 파고드는 학생",
-    "lessCentralThanSimilarMajors": ["식품 제조 공정", "환경 정책/오염 관리", "통계 방법론 자체"]
+    "focusKeywords": [
+      "세포생물학",
+      "유전학",
+      "생명 현상",
+      "분자와 개체"
+    ],
+    "comparisonNote": "특정 생물군보다 세포, 유전, 생리, 생태를 아우르며 생명현상의 원리를 폭넓게 탐구한다.",
+    "bestFor": "세포생물학, 유전학 같은 주제에 관심이 있고 자연 현상을 관찰하고 자료와 실험을 통해 원리를 설명하는 활동에 끌리는 학생",
+    "lessCentralThanSimilarMajors": [
+      "정책 집행 관리",
+      "디자인 제작 실무",
+      "임상 처치"
+    ]
   },
   "scoringPolicy": {
     "competencyWeight": 0.6,
@@ -156,8 +189,8 @@
   },
   "metadata": {
     "datasetVersion": "major-service-excel-v1",
-    "createdAt": "",
-    "lastUpdated": "",
+    "createdAt": "2026-06-04",
+    "lastUpdated": "2026-06-04",
     "dataType": "service_ready_quantitative_excel_only"
   }
 }

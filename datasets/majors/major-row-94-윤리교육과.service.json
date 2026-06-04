@@ -2,6 +2,20 @@
   "majorName": "윤리교육과",
   "standardMajorName": "윤리교육과",
   "category": "교육계열",
+  "description": "윤리교육과는 윤리교육과 관련된 핵심 개념과 방법을 배우고, 이를 실제 사례와 문제 해결에 적용하는 전공이다. 주요 학습 내용은 도덕적 사고와 윤리교육, 인간과 윤리, 인성교육론 등이며, 학생은 전공 지식을 개념 이해에 그치지 않고 분석, 실습, 사례 해석으로 연결한다. 전공 탐색 과정에서는 윤리학 관련 서적 탐독, 동ㆍ서양 윤리학에 대한 관심과 학업능력을 제시할 수 있는 윤리, 한문, 영어 교과활동 등의 활동을 통해 자료를 다루고 현장 감각을 넓힐 수 있다. 의사소통, 협업윤리, 자기관리를 기르는 태도가 중요하며, 학생의 성장과 학습을 돕는 일에 관심이 있는 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=63",
+      "retrievedAt": "2026-06-04",
+      "query": "윤리교육과",
+      "matchedMajorName": "윤리교육과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
   "excelRowNumber": 94,
   "usableForRecommendation": true,
   "selectedWeightSource": "baseExcelWeights",
@@ -38,16 +52,19 @@
     "competencyTopAxes": [
       {
         "axis": "communicationScore",
+        "label": "의사소통",
         "axisKoreanName": "의사소통",
         "score": 25
       },
       {
         "axis": "collaborationScore",
+        "label": "협업윤리",
         "axisKoreanName": "협업윤리",
         "score": 23
       },
       {
         "axis": "selfManagementScore",
+        "label": "자기관리",
         "axisKoreanName": "자기관리",
         "score": 18
       }
@@ -55,16 +72,19 @@
     "tendencyTopAxes": [
       {
         "axis": "socialCooperationScore",
+        "label": "사회협력형",
         "axisKoreanName": "사회협력형",
         "score": 30
       },
       {
         "axis": "educationGuidanceScore",
+        "label": "교육지도형",
         "axisKoreanName": "교육지도형",
         "score": 30
       },
       {
         "axis": "bioHealthScore",
+        "label": "생명보건형",
         "axisKoreanName": "생명보건형",
         "score": 9
       }
@@ -72,11 +92,13 @@
     "competencyLowAxes": [
       {
         "axis": "softwareImplementationScore",
+        "label": "구현력",
         "axisKoreanName": "구현력",
         "score": 2
       },
       {
         "axis": "infoTechUtilizationScore",
+        "label": "정보기술",
         "axisKoreanName": "정보기술",
         "score": 4
       }
@@ -84,11 +106,13 @@
     "tendencyLowAxes": [
       {
         "axis": "practicalTechnicalScore",
+        "label": "실용기술형",
         "axisKoreanName": "실용기술형",
         "score": 4
       },
       {
         "axis": "artCreativeScore",
+        "label": "예술창의형",
         "axisKoreanName": "예술창의형",
         "score": 4
       }
@@ -96,14 +120,13 @@
   },
   "differentiation": {
     "focusKeywords": [
-      "윤리교육",
-      "의사소통",
-      "협업윤리",
-      "자기관리",
-      "학습 지도"
+      "도덕 교육",
+      "윤리 사상",
+      "인성교육",
+      "토론 지도"
     ],
-    "comparisonNote": "윤리교육과는 교육계열 안에서도 윤리교육 분야와 의사소통을 중심으로 협업윤리 역량을 연결하는 방향이 강하다.",
-    "bestFor": "윤리교육 분야의 활동을 깊게 탐구하고 의사소통 관점으로 문제를 풀어보고 싶은 학생",
+    "comparisonNote": "철학 이론 자체보다 학생이 도덕적 사고와 공동체 책임을 배우도록 지도하는 데 초점이 있다.",
+    "bestFor": "도덕 교육, 윤리 사상 같은 주제에 관심이 있고 학습자의 눈높이에 맞게 설명하고 성장 과정을 돕는 활동에 끌리는 학생",
     "lessCentralThanSimilarMajors": [
       "전문 연구만 수행",
       "기업 재무 처리",
@@ -161,8 +184,8 @@
   },
   "metadata": {
     "datasetVersion": "major-service-excel-v1",
-    "createdAt": "",
-    "lastUpdated": "",
+    "createdAt": "2026-06-04",
+    "lastUpdated": "2026-06-04",
     "dataType": "service_ready_quantitative_excel_only"
   }
 }

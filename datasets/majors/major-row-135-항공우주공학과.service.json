@@ -2,6 +2,20 @@
   "majorName": "항공우주공학과",
   "standardMajorName": "항공우주공학과",
   "category": "공학계열",
+  "description": "항공우주공학과는 항공기와 우주 비행체가 안전하게 날고 작동하도록 설계하고 해석하는 방법을 배우는 전공이다. 학생은 항공우주학 개론, 비행역학, 추진기관, 구조와 제어, 항공우주시스템설계 등을 통해 비행체의 운동과 시스템 구성을 이해한다. 높은 안전성과 정밀성이 요구되는 분야라 수학과 물리 기반의 분석력, 시스템 사고, 실험과 검증을 반복하는 태도가 중요하다. 하늘과 우주를 향한 기술에 관심이 있고 복잡한 공학 시스템을 설계해보고 싶은 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=624",
+      "retrievedAt": "2026-06-04",
+      "query": "항공우주공학과",
+      "matchedMajorName": "항공우주공학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
   "excelRowNumber": 135,
   "usableForRecommendation": true,
   "selectedWeightSource": "baseExcelWeights",
@@ -38,16 +52,19 @@
     "competencyTopAxes": [
       {
         "axis": "softwareImplementationScore",
+        "label": "구현력",
         "axisKoreanName": "구현력",
         "score": 16
       },
       {
         "axis": "systemUnderstandingScore",
+        "label": "시스템이해",
         "axisKoreanName": "시스템이해",
         "score": 16
       },
       {
         "axis": "problemSolvingScore",
+        "label": "문제해결",
         "axisKoreanName": "문제해결",
         "score": 15
       }
@@ -55,16 +72,19 @@
     "tendencyTopAxes": [
       {
         "axis": "practicalTechnicalScore",
+        "label": "실용기술형",
         "axisKoreanName": "실용기술형",
         "score": 26
       },
       {
         "axis": "systemOperationScore",
+        "label": "시스템운용형",
         "axisKoreanName": "시스템운용형",
         "score": 26
       },
       {
         "axis": "logicalInquiryScore",
+        "label": "논리탐구형",
         "axisKoreanName": "논리탐구형",
         "score": 16
       }
@@ -72,11 +92,13 @@
     "competencyLowAxes": [
       {
         "axis": "communicationScore",
+        "label": "의사소통",
         "axisKoreanName": "의사소통",
         "score": 2
       },
       {
         "axis": "collaborationScore",
+        "label": "협업윤리",
         "axisKoreanName": "협업윤리",
         "score": 6
       }
@@ -84,11 +106,13 @@
     "tendencyLowAxes": [
       {
         "axis": "bioHealthScore",
+        "label": "생명보건형",
         "axisKoreanName": "생명보건형",
         "score": 0
       },
       {
         "axis": "educationGuidanceScore",
+        "label": "교육지도형",
         "axisKoreanName": "교육지도형",
         "score": 2
       }
@@ -96,17 +120,16 @@
   },
   "differentiation": {
     "focusKeywords": [
-      "항공우주공",
-      "구현력",
-      "시스템이해",
-      "문제해결",
-      "시스템 설계"
+      "비행역학",
+      "추진기관",
+      "비행체 구조",
+      "항공우주 시스템"
     ],
-    "comparisonNote": "항공우주공학과는 공학계열 안에서도 항공우주공 분야와 구현력을 중심으로 시스템이해 역량을 연결하는 방향이 강하다.",
-    "bestFor": "항공우주공 분야의 활동을 깊게 탐구하고 구현력 관점으로 문제를 풀어보고 싶은 학생",
+    "comparisonNote": "유사 전공과 비교하면 비행역학, 추진기관, 비행체 구조을 함께 다루며 항공우주 시스템까지 연결하는 점이 두드러진다.",
+    "bestFor": "비행역학, 추진기관 같은 주제에 관심이 있고 원리와 구조를 이해한 뒤 실제 시스템이나 장치로 구현하고 개선하는 활동에 끌리는 학생",
     "lessCentralThanSimilarMajors": [
-      "문학 비평",
-      "상담 실천",
+      "문학 작품 해석",
+      "상담과 복지 실천",
       "순수 예술 표현"
     ]
   },
@@ -166,8 +189,8 @@
   },
   "metadata": {
     "datasetVersion": "major-service-excel-v1",
-    "createdAt": "",
-    "lastUpdated": "",
+    "createdAt": "2026-06-04",
+    "lastUpdated": "2026-06-04",
     "dataType": "service_ready_quantitative_excel_only"
   }
 }

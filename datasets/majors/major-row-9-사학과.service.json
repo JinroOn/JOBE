@@ -2,6 +2,20 @@
   "majorName": "사학과",
   "standardMajorName": "사학과",
   "category": "인문계열",
+  "description": "사학과는 사와 관련된 핵심 개념과 방법을 배우고, 이를 실제 사례와 문제 해결에 적용하는 전공이다. 주요 학습 내용은 동양고대사, 동양근대사, 동양중세사 등이며, 학생은 전공 지식을 개념 이해에 그치지 않고 분석, 실습, 사례 해석으로 연결한다. 전공 탐색 과정에서는 동양사, 서양사 사료 읽기 등의 활동을 통해 자료를 다루고 현장 감각을 넓힐 수 있다. 의사소통, 자기관리, 문제해결을 기르는 태도가 중요하며, 언어, 역사, 문화, 인간의 생각을 깊이 읽고 해석하고 싶은 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=236",
+      "retrievedAt": "2026-06-04",
+      "query": "사학과",
+      "matchedMajorName": "사학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
   "excelRowNumber": 9,
   "usableForRecommendation": true,
   "selectedWeightSource": "baseExcelWeights",
@@ -95,10 +109,19 @@
     ]
   },
   "differentiation": {
-    "focusKeywords": ["역사 자료", "시대 맥락", "사료 해석", "역사 서술"],
-    "comparisonNote": "과거의 기록과 사건을 근거로 시대 변화와 사회 맥락을 재구성하는 방향이 강하다.",
-    "bestFor": "사료를 읽고 원인과 흐름을 따져 역사적 설명을 만드는 활동에 끌리는 학생",
-    "lessCentralThanSimilarMajors": ["보존 처리 실습", "종교 의례 분석", "순수 철학 논증"]
+    "focusKeywords": [
+      "역사 사료",
+      "동서양사",
+      "시대 맥락",
+      "비판적 해석"
+    ],
+    "comparisonNote": "한국사에 한정되기보다 여러 지역과 시대의 사료를 통해 역사 변화를 폭넓게 해석하는 데 초점이 있다.",
+    "bestFor": "역사 사료, 동서양사 같은 주제에 관심이 있고 자료와 텍스트를 꾸준히 읽고 그 안의 의미와 맥락을 해석하는 활동에 끌리는 학생",
+    "lessCentralThanSimilarMajors": [
+      "한국사 특화",
+      "유물 발굴 현장",
+      "문화재 복원 실습"
+    ]
   },
   "scoringPolicy": {
     "competencyWeight": 0.6,
@@ -156,8 +179,8 @@
   },
   "metadata": {
     "datasetVersion": "major-service-excel-v1",
-    "createdAt": "",
-    "lastUpdated": "",
+    "createdAt": "2026-06-04",
+    "lastUpdated": "2026-06-04",
     "dataType": "service_ready_quantitative_excel_only"
   }
 }

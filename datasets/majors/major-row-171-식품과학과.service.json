@@ -2,6 +2,20 @@
   "majorName": "식품과학과",
   "standardMajorName": "식품과학과",
   "category": "자연계열",
+  "description": "식품과학과는 식품과와 관련된 핵심 개념과 방법을 배우고, 이를 실제 사례와 문제 해결에 적용하는 전공이다. 주요 학습 내용은 식품분석화학, 식품재료학, 유기화학 등이며, 학생은 전공 지식을 개념 이해에 그치지 않고 분석, 실습, 사례 해석으로 연결한다. 전공 탐색 과정에서는 가공 식품 정보 파악, 식품 산업 및 제조 분야 견학 등의 활동을 통해 자료를 다루고 현장 감각을 넓힐 수 있다. 수리논리, 데이터분석, 문제해결을 기르는 태도가 중요하며, 자연 현상과 데이터를 관찰하고 원리를 탐구하고 싶은 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=314",
+      "retrievedAt": "2026-06-04",
+      "query": "식품공학과",
+      "matchedMajorName": "식품공학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "alias"
+    }
+  ],
   "excelRowNumber": 171,
   "usableForRecommendation": true,
   "selectedWeightSource": "baseExcelWeights",
@@ -38,16 +52,19 @@
     "competencyTopAxes": [
       {
         "axis": "mathLogicalScore",
+        "label": "수리논리",
         "axisKoreanName": "수리논리",
         "score": 23
       },
       {
         "axis": "dataAnalysisScore",
+        "label": "데이터분석",
         "axisKoreanName": "데이터분석",
         "score": 18
       },
       {
         "axis": "problemSolvingScore",
+        "label": "문제해결",
         "axisKoreanName": "문제해결",
         "score": 16
       }
@@ -55,16 +72,19 @@
     "tendencyTopAxes": [
       {
         "axis": "logicalInquiryScore",
+        "label": "논리탐구형",
         "axisKoreanName": "논리탐구형",
         "score": 30
       },
       {
         "axis": "theoryAcademicScore",
+        "label": "이론학구형",
         "axisKoreanName": "이론학구형",
         "score": 22
       },
       {
         "axis": "dataAnalysisTypeScore",
+        "label": "데이터분석형",
         "axisKoreanName": "데이터분석형",
         "score": 20
       }
@@ -72,11 +92,13 @@
     "competencyLowAxes": [
       {
         "axis": "communicationScore",
+        "label": "의사소통",
         "axisKoreanName": "의사소통",
         "score": 2
       },
       {
         "axis": "softwareImplementationScore",
+        "label": "구현력",
         "axisKoreanName": "구현력",
         "score": 5
       }
@@ -84,21 +106,32 @@
     "tendencyLowAxes": [
       {
         "axis": "artCreativeScore",
+        "label": "예술창의형",
         "axisKoreanName": "예술창의형",
         "score": 1
       },
       {
         "axis": "socialCooperationScore",
+        "label": "사회협력형",
         "axisKoreanName": "사회협력형",
         "score": 2
       }
     ]
   },
   "differentiation": {
-    "focusKeywords": ["식품 성분", "품질 관리", "가공 공정", "안전성 평가"],
-    "comparisonNote": "생명/화학 지식을 식품의 품질, 안전, 가공 공정 개선에 적용하는 방향이 강하다.",
-    "bestFor": "먹거리의 성분, 위생, 가공 기술과 제품 품질 개선에 관심이 큰 학생",
-    "lessCentralThanSimilarMajors": ["기후·생태 현장 조사", "생명 현상 기초 연구", "추상 통계 모델 연구"]
+    "focusKeywords": [
+      "식품 분석",
+      "식품 재료",
+      "가공과 안전",
+      "유기화학"
+    ],
+    "comparisonNote": "유사 전공과 비교하면 식품 분석, 식품 재료, 가공과 안전을 함께 다루며 유기화학까지 연결하는 점이 두드러진다.",
+    "bestFor": "식품 분석, 식품 재료 같은 주제에 관심이 있고 자연 현상을 관찰하고 자료와 실험을 통해 원리를 설명하는 활동에 끌리는 학생",
+    "lessCentralThanSimilarMajors": [
+      "정책 집행 관리",
+      "디자인 제작 실무",
+      "임상 처치"
+    ]
   },
   "scoringPolicy": {
     "competencyWeight": 0.6,
@@ -156,8 +189,8 @@
   },
   "metadata": {
     "datasetVersion": "major-service-excel-v1",
-    "createdAt": "",
-    "lastUpdated": "",
+    "createdAt": "2026-06-04",
+    "lastUpdated": "2026-06-04",
     "dataType": "service_ready_quantitative_excel_only"
   }
 }

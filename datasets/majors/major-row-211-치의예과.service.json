@@ -2,6 +2,20 @@
   "majorName": "치의예과",
   "standardMajorName": "치의예과",
   "category": "의약계열",
+  "description": "치의예과는 치의학을 본격적으로 배우기 전에 인체와 구강 건강을 이해하기 위한 기초 의학 지식을 쌓는 과정이다. 학생은 생리학, 생화학, 조직학, 구강 관련 기초 과목 등을 통해 치아와 구강 조직, 인체 기능의 기본 원리를 배운다. 이후 치의학 학습과 임상 실습으로 이어지기 때문에 정밀한 관찰력, 과학적 사고, 책임감, 환자와 소통하는 태도가 중요하다. 구강 건강과 의료 분야에 관심이 있고 장기간의 전문 학습을 성실히 이어갈 수 있는 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=564",
+      "retrievedAt": "2026-06-04",
+      "query": "치의예과",
+      "matchedMajorName": "치의예과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
   "excelRowNumber": 211,
   "usableForRecommendation": true,
   "selectedWeightSource": "baseExcelWeights",
@@ -96,17 +110,16 @@
   },
   "differentiation": {
     "focusKeywords": [
-      "치의예",
-      "협업윤리",
-      "자기관리",
-      "의사소통",
-      "건강"
+      "구강 진료",
+      "치아 구조",
+      "치과 치료",
+      "정밀 시술"
     ],
-    "comparisonNote": "치의예과는 의약계열 안에서도 치의예 분야와 협업윤리를 중심으로 자기관리 역량을 연결하는 방향이 강하다.",
-    "bestFor": "치의예 분야의 활동을 깊게 탐구하고 협업윤리 관점으로 문제를 풀어보고 싶은 학생",
+    "comparisonNote": "유사 전공과 비교하면 구강 진료, 치아 구조, 치과 치료을 함께 다루며 정밀 시술까지 연결하는 점이 두드러진다.",
+    "bestFor": "구강 진료, 치아 구조 같은 주제에 관심이 있고 사람의 건강과 안전을 세심하게 살피고 전문 지식으로 돕는 활동에 끌리는 학생",
     "lessCentralThanSimilarMajors": [
-      "시장 분석",
-      "순수 창작",
+      "시장 전략 수립",
+      "순수 창작 활동",
       "공학 구조 설계"
     ]
   },
