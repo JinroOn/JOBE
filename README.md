@@ -3,6 +3,7 @@
 ## 로컬 개발 환경 세팅
 
 ### 실행 전 준비
+> .env, application-dev.yml 파일은 노션 환경 변수란에 저장되어 있습니다.
 
 **1. ai-service/.env 파일 생성**
 
