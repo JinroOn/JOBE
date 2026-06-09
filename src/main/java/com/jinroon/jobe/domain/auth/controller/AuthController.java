@@ -10,6 +10,9 @@ import com.jinroon.jobe.domain.auth.dto.request.LoginRequest;
 import com.jinroon.jobe.domain.auth.dto.request.LogoutRequest;
 import com.jinroon.jobe.domain.auth.dto.request.RefreshTokenRequest;
 import com.jinroon.jobe.domain.auth.dto.request.SignUpRequest;
+import com.jinroon.jobe.domain.auth.dto.request.PasswordResetConfirmRequest;
+import com.jinroon.jobe.domain.auth.dto.request.PasswordResetIssueRequest;
+import com.jinroon.jobe.domain.auth.dto.response.PasswordResetResponse;
 import com.jinroon.jobe.domain.user.dto.response.UserResponse;
 import com.jinroon.jobe.domain.auth.service.AuthService;
 import jakarta.validation.Valid;
@@ -72,5 +75,19 @@ public class AuthController implements AuthApi {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void changePassword(@Valid @RequestBody ChangePasswordRequest request) {
         authService.changePassword(request);
+    }
+
+    @Override
+    @PostMapping("/password-resets")
+    @ResponseStatus(HttpStatus.CREATED)
+    public PasswordResetResponse issuePasswordReset(@Valid @RequestBody PasswordResetIssueRequest request) {
+        return authService.issuePasswordReset(request);
+    }
+
+    @Override
+    @PostMapping("/password-resets/confirm")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void confirmPasswordReset(@Valid @RequestBody PasswordResetConfirmRequest request) {
+        authService.confirmPasswordReset(request);
     }
 }

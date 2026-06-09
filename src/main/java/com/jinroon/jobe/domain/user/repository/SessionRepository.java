@@ -13,4 +13,6 @@ public interface SessionRepository extends JpaRepository<Session, Long> {
     Optional<Session> findByRefreshToken(String refreshToken);
 
     void deleteByRefreshToken(String refreshToken);
+
+    void deleteByUserId(Long userId);
 }

@@ -5,10 +5,13 @@ import com.jinroon.jobe.domain.auth.dto.request.EmailVerificationConfirmRequest;
 import com.jinroon.jobe.domain.auth.dto.request.EmailVerificationIssueRequest;
 import com.jinroon.jobe.domain.auth.dto.request.LoginRequest;
 import com.jinroon.jobe.domain.auth.dto.request.LogoutRequest;
+import com.jinroon.jobe.domain.auth.dto.request.PasswordResetConfirmRequest;
+import com.jinroon.jobe.domain.auth.dto.request.PasswordResetIssueRequest;
 import com.jinroon.jobe.domain.auth.dto.request.RefreshTokenRequest;
 import com.jinroon.jobe.domain.auth.dto.request.SignUpRequest;
 import com.jinroon.jobe.domain.auth.dto.response.AuthResponse;
 import com.jinroon.jobe.domain.auth.dto.response.EmailVerificationResponse;
+import com.jinroon.jobe.domain.auth.dto.response.PasswordResetResponse;
 import com.jinroon.jobe.domain.user.dto.response.UserResponse;
 import com.jinroon.jobe.global.exception.error.ErrorDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -76,9 +79,9 @@ public interface AuthApi {
             @RequestBody @Valid LogoutRequest request
     );
 
-    @Operation(summary = "이메일 인증 토큰 발급", description = "이메일로 인증 토큰을 발급합니다. (30분 유효)")
+    @Operation(summary = "이메일 인증번호 발급", description = "이메일로 숫자 6자리 인증번호를 발급합니다. (30분 유효)")
     @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "인증 토큰 발급 성공",
+            @ApiResponse(responseCode = "201", description = "인증번호 발급 성공",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmailVerificationResponse.class))),
             @ApiResponse(responseCode = "400", description = "입력값 유효성 오류",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))),
@@ -90,11 +93,11 @@ public interface AuthApi {
             @RequestBody @Valid EmailVerificationIssueRequest request
     );
 
-    @Operation(summary = "이메일 인증 확인", description = "발급된 토큰으로 이메일 인증을 완료합니다.")
+    @Operation(summary = "이메일 인증 확인", description = "이메일과 발급된 숫자 6자리 인증번호로 이메일 인증을 완료합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "이메일 인증 완료",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponse.class))),
-            @ApiResponse(responseCode = "400", description = "만료되거나 이미 사용된 토큰",
+            @ApiResponse(responseCode = "400", description = "만료되거나 이미 사용된 인증번호",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))),
             @ApiResponse(responseCode = "404", description = "인증 정보 또는 사용자를 찾을 수 없음",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
@@ -115,5 +118,32 @@ public interface AuthApi {
     void changePassword(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "비밀번호 변경 요청", required = true)
             @RequestBody @Valid ChangePasswordRequest request
+    );
+
+    @Operation(summary = "비밀번호 재설정 인증번호 발급", description = "가입된 이메일로 숫자 6자리 비밀번호 재설정 인증번호를 발급합니다. (30분 유효)")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "재설정 인증번호 발급 성공",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = PasswordResetResponse.class))),
+            @ApiResponse(responseCode = "400", description = "입력값 유효성 오류",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))),
+            @ApiResponse(responseCode = "404", description = "존재하지 않는 사용자",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
+    })
+    PasswordResetResponse issuePasswordReset(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "비밀번호 재설정 인증번호 발급 요청", required = true)
+            @RequestBody @Valid PasswordResetIssueRequest request
+    );
+
+    @Operation(summary = "비밀번호 재설정", description = "이메일과 유효한 숫자 6자리 인증번호로 새 비밀번호를 설정하고 기존 로그인 세션을 종료합니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "비밀번호 재설정 성공", content = @Content),
+            @ApiResponse(responseCode = "400", description = "입력값 오류 또는 만료/사용된 인증번호",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))),
+            @ApiResponse(responseCode = "404", description = "재설정 인증번호 또는 사용자를 찾을 수 없음",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
+    })
+    void confirmPasswordReset(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "비밀번호 재설정 확인 요청", required = true)
+            @RequestBody @Valid PasswordResetConfirmRequest request
     );
 }

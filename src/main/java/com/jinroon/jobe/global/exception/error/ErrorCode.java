@@ -13,6 +13,7 @@ public enum ErrorCode {
     UNAUTHORIZED(401, "인증이 필요합니다."),
     FORBIDDEN(403, "접근 권한이 없습니다."),
     NOT_FOUND(404, "리소스를 찾을 수 없습니다."),
+    MAIL_SEND_FAILED(500, "이메일 발송에 실패했습니다."),
 
     // User
     USER_NOT_FOUND(404, "존재하지 않는 사용자입니다."),
@@ -25,6 +26,9 @@ public enum ErrorCode {
     AUTH_EMAIL_VERIFICATION_NOT_FOUND(404, "이메일 인증 정보를 찾을 수 없습니다."),
     AUTH_EMAIL_VERIFICATION_EXPIRED(400, "만료된 이메일 인증입니다."),
     AUTH_EMAIL_VERIFICATION_ALREADY_USED(400, "이미 사용된 이메일 인증입니다."),
+    AUTH_PASSWORD_RESET_NOT_FOUND(404, "비밀번호 재설정 정보를 찾을 수 없습니다."),
+    AUTH_PASSWORD_RESET_EXPIRED(400, "만료된 비밀번호 재설정 요청입니다."),
+    AUTH_PASSWORD_RESET_ALREADY_USED(400, "이미 사용된 비밀번호 재설정 요청입니다."),
     AUTH_SESSION_NOT_FOUND(404, "세션을 찾을 수 없습니다."),
     AUTH_SESSION_EXPIRED(401, "만료된 세션입니다."),
 
