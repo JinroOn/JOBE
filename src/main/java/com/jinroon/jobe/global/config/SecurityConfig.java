@@ -42,7 +42,9 @@ public class SecurityConfig {
                                 "/api/auth/login",
                                 "/api/auth/refresh",
                                 "/api/auth/email-verifications",
-                                "/api/auth/email-verifications/confirm"
+                                "/api/auth/email-verifications/confirm",
+                                "/api/auth/password-resets",
+                                "/api/auth/password-resets/confirm"
                         ).permitAll()
                         .requestMatchers(
                                 "/swagger-ui/**",
@@ -50,6 +52,8 @@ public class SecurityConfig {
                                 "/actuator/health"
                         ).permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/users").hasRole("admin")
+                        .requestMatchers(HttpMethod.POST, "/api/users").hasRole("admin")
+                        .requestMatchers(HttpMethod.POST, "/api/users/email-verifications").hasRole("admin")
                         .requestMatchers(HttpMethod.POST, "/api/majors").hasRole("admin")
                         .requestMatchers(HttpMethod.PATCH, "/api/majors/**").hasRole("admin")
                         .requestMatchers(HttpMethod.DELETE, "/api/majors/**").hasRole("admin")

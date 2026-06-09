@@ -2,6 +2,7 @@ package com.jinroon.jobe.domain.auth.service;
 
 import com.jinroon.jobe.global.exception.CustomException;
 import com.jinroon.jobe.global.exception.error.ErrorCode;
+import com.jinroon.jobe.global.mail.MailService;
 import com.jinroon.jobe.global.security.JwtProvider;
 import com.jinroon.jobe.domain.user.entity.EmailVerification;
 import com.jinroon.jobe.domain.user.entity.Session;
@@ -15,6 +16,11 @@ import com.jinroon.jobe.domain.auth.dto.request.LoginRequest;
 import com.jinroon.jobe.domain.auth.dto.request.LogoutRequest;
 import com.jinroon.jobe.domain.auth.dto.request.RefreshTokenRequest;
 import com.jinroon.jobe.domain.auth.dto.request.SignUpRequest;
+import com.jinroon.jobe.domain.auth.dto.request.PasswordResetConfirmRequest;
+import com.jinroon.jobe.domain.auth.dto.request.PasswordResetIssueRequest;
+import com.jinroon.jobe.domain.auth.dto.response.PasswordResetResponse;
+import com.jinroon.jobe.domain.auth.entity.PasswordResetToken;
+import com.jinroon.jobe.domain.auth.repository.PasswordResetTokenRepository;
 import com.jinroon.jobe.domain.user.dto.response.UserResponse;
 import com.jinroon.jobe.domain.user.entity.UserConsent;
 import com.jinroon.jobe.domain.user.repository.EmailVerificationRepository;
@@ -33,16 +39,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
 
     private static final int REFRESH_TOKEN_BYTES = 48;
-    private static final int EMAIL_TOKEN_BYTES = 32;
+    private static final int EMAIL_VERIFICATION_CODE_BOUND = 1_000_000;
     private static final int REFRESH_TOKEN_DAYS = 14;
     private static final int EMAIL_TOKEN_MINUTES = 30;
+    private static final int PASSWORD_RESET_TOKEN_MINUTES = 30;
 
     private final UserRepository userRepository;
     private final UserConsentRepository userConsentRepository;
     private final SessionRepository sessionRepository;
     private final EmailVerificationRepository emailVerificationRepository;
+    private final PasswordResetTokenRepository passwordResetTokenRepository;
     private final PasswordHasher passwordHasher;
     private final JwtProvider jwtProvider;
+    private final MailService mailService;
     private final SecureRandom secureRandom = new SecureRandom();
 
     @Transactional
@@ -102,16 +111,21 @@ public class AuthService {
         User user = userRepository.findByEmail(request.email())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         requireActive(user);
+        emailVerificationRepository.deleteByEmailAndUsedFalse(user.getEmail());
         LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(EMAIL_TOKEN_MINUTES);
         EmailVerification verification = emailVerificationRepository.save(
-                EmailVerification.issue(user.getEmail(), issueToken(EMAIL_TOKEN_BYTES), expiresAt)
+                EmailVerification.issue(user.getEmail(), issueEmailVerificationCode(), expiresAt)
         );
-        return new EmailVerificationResponse(verification.getEmail(), verification.getToken(), verification.getExpiresAt());
+        mailService.sendEmailVerification(verification.getEmail(), verification.getToken());
+        return EmailVerificationResponse.from(verification);
     }
 
     @Transactional
     public UserResponse confirmEmailVerification(EmailVerificationConfirmRequest request) {
-        EmailVerification verification = emailVerificationRepository.findByToken(request.token())
+        EmailVerification verification = emailVerificationRepository.findByEmailAndToken(
+                        request.email(),
+                        request.token()
+                )
                 .orElseThrow(() -> new CustomException(ErrorCode.AUTH_EMAIL_VERIFICATION_NOT_FOUND));
         if (verification.getUsed()) {
             throw new CustomException(ErrorCode.AUTH_EMAIL_VERIFICATION_ALREADY_USED);
@@ -145,6 +159,46 @@ public class AuthService {
         sessionRepository.delete(session);
     }
 
+    @Transactional
+    public PasswordResetResponse issuePasswordReset(PasswordResetIssueRequest request) {
+        User user = userRepository.findByEmail(request.email())
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+        requireActive(user);
+
+        passwordResetTokenRepository.deleteByEmailAndUsedFalse(user.getEmail());
+        PasswordResetToken resetToken = passwordResetTokenRepository.save(
+                PasswordResetToken.issue(
+                        user.getEmail(),
+                        issueUniquePasswordResetCode(),
+                        LocalDateTime.now().plusMinutes(PASSWORD_RESET_TOKEN_MINUTES)
+                )
+        );
+        mailService.sendPasswordReset(resetToken.getEmail(), resetToken.getToken());
+        return PasswordResetResponse.from(resetToken);
+    }
+
+    @Transactional
+    public void confirmPasswordReset(PasswordResetConfirmRequest request) {
+        PasswordResetToken resetToken = passwordResetTokenRepository.findByEmailAndToken(
+                        request.email(),
+                        request.code()
+                )
+                .orElseThrow(() -> new CustomException(ErrorCode.AUTH_PASSWORD_RESET_NOT_FOUND));
+        if (resetToken.getUsed()) {
+            throw new CustomException(ErrorCode.AUTH_PASSWORD_RESET_ALREADY_USED);
+        }
+        if (resetToken.isExpired(LocalDateTime.now())) {
+            throw new CustomException(ErrorCode.AUTH_PASSWORD_RESET_EXPIRED);
+        }
+
+        User user = userRepository.findByEmail(resetToken.getEmail())
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+        requireActive(user);
+        user.changePassword(passwordHasher.hash(request.newPassword()));
+        resetToken.markUsed();
+        sessionRepository.deleteByUserId(user.getId());
+    }
+
     private Session issueSession(User user, String deviceInfo) {
         LocalDateTime expiresAt = LocalDateTime.now().plusDays(REFRESH_TOKEN_DAYS);
         return sessionRepository.save(Session.issue(user.getId(), issueToken(REFRESH_TOKEN_BYTES), deviceInfo, expiresAt));
@@ -160,5 +214,21 @@ public class AuthService {
         byte[] bytes = new byte[byteSize];
         secureRandom.nextBytes(bytes);
         return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
+    }
+
+    private String issueEmailVerificationCode() {
+        return issueSixDigitCode();
+    }
+
+    private String issueSixDigitCode() {
+        return "%06d".formatted(secureRandom.nextInt(EMAIL_VERIFICATION_CODE_BOUND));
+    }
+
+    private String issueUniquePasswordResetCode() {
+        String code;
+        do {
+            code = issueSixDigitCode();
+        } while (passwordResetTokenRepository.existsByToken(code));
+        return code;
     }
 }

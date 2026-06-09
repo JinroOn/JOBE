@@ -7,7 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface EmailVerificationRepository extends JpaRepository<EmailVerification, Long> {
 
-    Optional<EmailVerification> findByToken(String token);
+    Optional<EmailVerification> findByEmailAndToken(String email, String token);
 
     Optional<EmailVerification> findFirstByEmailOrderByCreatedAtDesc(String email);
+
+    void deleteByEmailAndUsedFalse(String email);
 }

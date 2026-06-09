@@ -5,13 +5,11 @@ import java.time.LocalDateTime;
 
 public record EmailVerificationResponse(
         String email,
-        String token,
         LocalDateTime expiresAt
 ) {
     public static EmailVerificationResponse from(EmailVerification verification) {
         return new EmailVerificationResponse(
                 verification.getEmail(),
-                verification.getToken(),
                 verification.getExpiresAt()
         );
     }
