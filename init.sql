@@ -27,9 +27,10 @@ CREATE TABLE IF NOT EXISTS users (
 INSERT INTO users
     (email, password_hash, nickname, profile_image_url, role, login_type, status, email_verified_at, created_at, updated_at)
 VALUES
-    ('admin@jinroon.com',  'pbkdf2$120000$c2FsdA==$dGVzdA==', '관리자',    NULL, 'admin',  'email', 'active', NOW(6), NOW(6), NOW(6)),
-    ('user1@jinroon.com',  'pbkdf2$120000$c2FsdA==$dGVzdA==', '테스트유저1', NULL, 'member', 'email', 'active', NOW(6), NOW(6), NOW(6)),
-    ('user2@jinroon.com',  'pbkdf2$120000$c2FsdA==$dGVzdA==', '테스트유저2', NULL, 'member', 'email', 'active', NOW(6), NOW(6), NOW(6));
+    -- Local development password for seeded users: test1234!
+    ('admin@jinroon.com',  'pbkdf2$120000$Sk9CRS1ERVYtU0FMVC0wMQ==$CbeuSma+EkNrZkUQOSbtJ7Uq4gAJ+K+Q7f1YJNwyMuI=', '관리자',    NULL, 'admin',  'email', 'active', NOW(6), NOW(6), NOW(6)),
+    ('user1@jinroon.com',  'pbkdf2$120000$Sk9CRS1ERVYtU0FMVC0wMQ==$CbeuSma+EkNrZkUQOSbtJ7Uq4gAJ+K+Q7f1YJNwyMuI=', '테스트유저1', NULL, 'member', 'email', 'active', NOW(6), NOW(6), NOW(6)),
+    ('user2@jinroon.com',  'pbkdf2$120000$Sk9CRS1ERVYtU0FMVC0wMQ==$CbeuSma+EkNrZkUQOSbtJ7Uq4gAJ+K+Q7f1YJNwyMuI=', '테스트유저2', NULL, 'member', 'email', 'active', NOW(6), NOW(6), NOW(6));
 
 -- ============================================================
 -- majors
