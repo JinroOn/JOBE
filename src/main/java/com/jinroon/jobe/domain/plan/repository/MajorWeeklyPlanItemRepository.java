@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface MajorWeeklyPlanItemRepository extends JpaRepository<MajorWeeklyPlanItem, Long> {
 
     List<MajorWeeklyPlanItem> findByWeeklyPlanIdOrderByWeekNoAsc(Long weeklyPlanId);
+
+    void deleteAllByWeeklyPlanIdIn(List<Long> weeklyPlanIds);
 }

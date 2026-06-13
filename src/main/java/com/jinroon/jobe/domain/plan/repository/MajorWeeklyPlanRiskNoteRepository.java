@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface MajorWeeklyPlanRiskNoteRepository extends JpaRepository<MajorWeeklyPlanRiskNote, Long> {
 
     List<MajorWeeklyPlanRiskNote> findByWeeklyPlanId(Long weeklyPlanId);
+
+    void deleteAllByWeeklyPlanIdIn(List<Long> weeklyPlanIds);
 }

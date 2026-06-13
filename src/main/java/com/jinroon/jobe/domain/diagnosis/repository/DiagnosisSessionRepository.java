@@ -12,4 +12,6 @@ public interface DiagnosisSessionRepository extends JpaRepository<DiagnosisSessi
     List<DiagnosisSession> findByUserId(Long userId);
 
     Optional<DiagnosisSession> findByUserIdAndStatus(Long userId, DiagnosisStatus status);
+
+    Optional<DiagnosisSession> findFirstByUserIdAndStatusOrderByIdDesc(Long userId, DiagnosisStatus status);
 }

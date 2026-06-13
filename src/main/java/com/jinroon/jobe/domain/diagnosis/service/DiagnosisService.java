@@ -8,10 +8,18 @@ import com.jinroon.jobe.global.exception.error.ErrorCode;
 import com.jinroon.jobe.domain.diagnosis.dto.response.InProgressSessionResponse;
 import com.jinroon.jobe.domain.diagnosis.entity.*;
 import com.jinroon.jobe.domain.diagnosis.enums.DiagnosisEnums.DiagnosisStatus;
+import com.jinroon.jobe.domain.consultation.repository.ConsultationLogRepository;
+import com.jinroon.jobe.domain.consultation.repository.ConsultationSessionRepository;
 import com.jinroon.jobe.domain.diagnosis.repository.*;
+import com.jinroon.jobe.domain.result.repository.DiagnosisResultRepository;
+import com.jinroon.jobe.domain.result.repository.ResultMajorScoreRepository;
+import com.jinroon.jobe.domain.plan.repository.MajorWeeklyPlanItemRepository;
+import com.jinroon.jobe.domain.plan.repository.MajorWeeklyPlanRepository;
+import com.jinroon.jobe.domain.plan.repository.MajorWeeklyPlanRiskNoteRepository;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +35,13 @@ public class DiagnosisService {
     private final DiagnosisEssayAnswerRepository essayAnswerRepository;
     private final CompetencyEvalResultRepository competencyEvalResultRepository;
     private final TendencyEvalResultRepository tendencyEvalResultRepository;
+    private final DiagnosisResultRepository diagnosisResultRepository;
+    private final ResultMajorScoreRepository resultMajorScoreRepository;
+    private final MajorWeeklyPlanRepository majorWeeklyPlanRepository;
+    private final MajorWeeklyPlanItemRepository majorWeeklyPlanItemRepository;
+    private final MajorWeeklyPlanRiskNoteRepository majorWeeklyPlanRiskNoteRepository;
+    private final ConsultationSessionRepository consultationSessionRepository;
+    private final ConsultationLogRepository consultationLogRepository;
 
     public DiagnosisSession getSession(Long sessionId) {
         return get(diagnosisSessionRepository, sessionId, ErrorCode.DIAGNOSIS_SESSION_NOT_FOUND);
@@ -43,12 +58,50 @@ public class DiagnosisService {
     }
 
     public InProgressSessionResponse getInProgressSession(Long userId) {
-        DiagnosisSession session = diagnosisSessionRepository
-                .findByUserIdAndStatus(userId, DiagnosisStatus.in_progress)
-                .orElseThrow(() -> new CustomException(ErrorCode.DIAGNOSIS_SESSION_NOT_FOUND));
+        Optional<DiagnosisSession> sessionOpt = diagnosisSessionRepository
+                .findFirstByUserIdAndStatusOrderByIdDesc(userId, DiagnosisStatus.in_progress);
+        if (sessionOpt.isEmpty()) return null;
+        DiagnosisSession session = sessionOpt.get();
         List<DiagnosisExamAnswer> examAnswers = examAnswerRepository.findByDiagnosisSessionId(session.getId());
         List<DiagnosisEssayAnswer> essayAnswers = essayAnswerRepository.findByDiagnosisSessionId(session.getId());
         return new InProgressSessionResponse(session, examAnswers, essayAnswers);
+    }
+
+    @Transactional
+    public void deleteSessionForUser(Long sessionId, Long userId) {
+        getSessionForUser(sessionId, userId);
+
+        // diagnosis_results 하위 전체 cascade 삭제
+        diagnosisResultRepository.findByDiagnosisSessionId(sessionId).ifPresent(result -> {
+            Long resultId = result.getId();
+
+            // consultation_sessions → consultation_logs 삭제 (diagnosis_result_id FK)
+            List<Long> consultationSessionIds = consultationSessionRepository
+                    .findByDiagnosisResultId(resultId)
+                    .stream().map(s -> s.getId()).toList();
+            if (!consultationSessionIds.isEmpty()) {
+                consultationLogRepository.deleteAllByConsultationSessionIdIn(consultationSessionIds);
+                consultationSessionRepository.deleteAllById(consultationSessionIds);
+            }
+
+            List<Long> planIds = majorWeeklyPlanRepository.findByDiagnosisResultId(resultId)
+                    .stream().map(p -> p.getId()).toList();
+            if (!planIds.isEmpty()) {
+                majorWeeklyPlanItemRepository.deleteAllByWeeklyPlanIdIn(planIds);
+                majorWeeklyPlanRiskNoteRepository.deleteAllByWeeklyPlanIdIn(planIds);
+                majorWeeklyPlanRepository.deleteAllById(planIds);
+            }
+
+            resultMajorScoreRepository.deleteAllByDiagnosisResultId(resultId);
+            diagnosisResultRepository.delete(result);
+        });
+
+        // diagnosis_sessions 직속 하위 테이블 삭제
+        examAnswerRepository.deleteAllByDiagnosisSessionId(sessionId);
+        essayAnswerRepository.deleteAllByDiagnosisSessionId(sessionId);
+        competencyEvalResultRepository.deleteByDiagnosisSessionId(sessionId);
+        tendencyEvalResultRepository.deleteByDiagnosisSessionId(sessionId);
+        diagnosisSessionRepository.deleteById(sessionId);
     }
 
     public List<ExamQuestion> findQuestions() {
