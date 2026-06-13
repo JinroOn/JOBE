@@ -26,6 +26,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,14 +48,27 @@ public interface DiagnosisApi {
             @Parameter(description = "진단 세션 ID") @PathVariable Long sessionId
     );
 
-    @Operation(summary = "진행 중인 진단 세션 조회", description = "현재 로그인한 사용자의 진행 중인 진단 세션과 저장된 답변을 반환합니다. 없으면 404.")
+    @Operation(summary = "진행 중인 진단 세션 조회", description = "현재 로그인한 사용자의 진행 중인 진단 세션과 저장된 답변을 반환합니다. 없으면 204.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "진행 중인 세션 반환",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = InProgressSessionResponse.class))),
-            @ApiResponse(responseCode = "404", description = "진행 중인 세션 없음", content = @Content)
+            @ApiResponse(responseCode = "204", description = "진행 중인 세션 없음", content = @Content)
     })
-    InProgressSessionResponse getInProgressSession(
+    ResponseEntity<InProgressSessionResponse> getInProgressSession(
             @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails
+    );
+
+    @Operation(summary = "진단 세션 삭제", description = "진단 세션과 관련 답변 및 결과를 모두 삭제합니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "삭제 성공", content = @Content),
+            @ApiResponse(responseCode = "403", description = "본인 세션이 아님",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))),
+            @ApiResponse(responseCode = "404", description = "진단 세션을 찾을 수 없음",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
+    })
+    void deleteSession(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
+            @Parameter(description = "진단 세션 ID") @PathVariable Long sessionId
     );
 
     @Operation(summary = "진단 세션 단건 조회", description = "세션 ID로 진단 세션 정보를 조회합니다.")

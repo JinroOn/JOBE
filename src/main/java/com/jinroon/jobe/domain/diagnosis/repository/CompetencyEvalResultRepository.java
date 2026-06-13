@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface CompetencyEvalResultRepository extends JpaRepository<CompetencyEvalResult, Long> {
 
     Optional<CompetencyEvalResult> findByDiagnosisSessionId(Long diagnosisSessionId);
+
+    void deleteByDiagnosisSessionId(Long diagnosisSessionId);
 }

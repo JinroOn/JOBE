@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface DiagnosisEssayAnswerRepository extends JpaRepository<DiagnosisEssayAnswer, Long> {
 
     List<DiagnosisEssayAnswer> findByDiagnosisSessionId(Long diagnosisSessionId);
+
+    void deleteAllByDiagnosisSessionId(Long diagnosisSessionId);
 }

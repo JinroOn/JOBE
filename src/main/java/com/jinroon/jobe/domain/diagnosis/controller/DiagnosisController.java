@@ -17,7 +17,9 @@ import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -38,8 +40,21 @@ public class DiagnosisController implements DiagnosisApi {
 
     @Override
     @GetMapping("/sessions/me/in-progress")
-    public InProgressSessionResponse getInProgressSession(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        return diagnosisService.getInProgressSession(userDetails.getUserId());
+    public ResponseEntity<InProgressSessionResponse> getInProgressSession(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        InProgressSessionResponse response = diagnosisService.getInProgressSession(userDetails.getUserId());
+        if (response == null) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(response);
+    }
+
+    @Override
+    @DeleteMapping("/sessions/{sessionId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteSession(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long sessionId) {
+        diagnosisService.deleteSessionForUser(sessionId, userDetails.getUserId());
     }
 
     @Override
