@@ -6,19 +6,20 @@ from app.chain_consultation import ConsultationChain
 from app.models import ConsultationChatRequest
 
 
-def test_consultation_chat_mock_asks_for_context_when_context_is_missing(monkeypatch) -> None:
+def test_consultation_chat_mock_recommends_jinroon_diagnosis_when_context_is_missing(monkeypatch) -> None:
     monkeypatch.setenv("MOCK_MODE", "true")
     chain = ConsultationChain()
     request = ConsultationChatRequest(
         sessionId=1,
         userId=7,
-        userMessage="내가 따면 좋을 자격증을 추천해줘",
+        userMessage="내가 따면 좋을 자격증 추천해줘",
         history=[
             {
                 "role": "user",
-                "content": "내가 따면 좋을 자격증을 추천해줘",
+                "content": "내가 따면 좋을 자격증 추천해줘",
             }
         ],
+        hasDiagnosisContext=False,
         diagnosisContext=None,
     )
 
@@ -26,8 +27,10 @@ def test_consultation_chat_mock_asks_for_context_when_context_is_missing(monkeyp
 
     assert result.response.requestId == "consultation-test-1"
     assert result.response.version == "consultation-chat-v1.0.0"
-    assert "관심 전공" in result.response.content
-    assert "목표 직무" in result.response.content
+    assert "진로온" in result.response.content
+    assert "전공 추천" in result.response.content
+    assert "진단" in result.response.content
+    assert "개인 맞춤" in result.response.content
 
 
 def test_consultation_chat_mock_uses_existing_diagnosis_context(monkeypatch) -> None:
@@ -37,11 +40,12 @@ def test_consultation_chat_mock_uses_existing_diagnosis_context(monkeypatch) -> 
         {
             "sessionId": 1,
             "userId": 7,
-            "userMessage": "내가 따면 좋을 자격증을 추천해줘",
+            "userMessage": "내가 따면 좋을 자격증 추천해줘",
             "history": [
                 {"role": "user", "content": "컴퓨터공학과 쪽으로 준비하고 싶어"},
-                {"role": "user", "content": "내가 따면 좋을 자격증을 추천해줘"},
+                {"role": "user", "content": "내가 따면 좋을 자격증 추천해줘"},
             ],
+            "hasDiagnosisContext": True,
             "diagnosisContext": {
                 "diagnosisResultId": 5,
                 "usedLatestDiagnosisResult": True,
@@ -76,5 +80,7 @@ def test_consultation_chat_mock_uses_existing_diagnosis_context(monkeypatch) -> 
 
     result = asyncio.run(chain.generate_with_meta(request=request, request_id="consultation-test-2"))
 
+    assert result.response.requestId == "consultation-test-2"
     assert "컴퓨터공학과" in result.response.content
     assert "구체적인 강의나 자격증 목록 데이터" in result.response.content
+

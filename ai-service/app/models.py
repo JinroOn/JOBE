@@ -260,7 +260,14 @@ class ConsultationChatRequest(BaseModel):
     userId: int = Field(ge=1)
     userMessage: str = Field(min_length=1, max_length=10000)
     history: list[ConsultationHistoryMessage] = Field(default_factory=list, max_length=20)
+    hasDiagnosisContext: bool = False
     diagnosisContext: ConsultationDiagnosisContext | None = None
+
+    @model_validator(mode="after")
+    def normalize_context_flags(self) -> "ConsultationChatRequest":
+        if self.diagnosisContext is not None:
+            self.hasDiagnosisContext = True
+        return self
 
 
 class ConsultationChatResponse(BaseModel):
