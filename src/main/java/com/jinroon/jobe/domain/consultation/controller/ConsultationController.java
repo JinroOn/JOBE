@@ -2,7 +2,9 @@ package com.jinroon.jobe.domain.consultation.controller;
 
 import com.jinroon.jobe.domain.consultation.controller.api.ConsultationApi;
 import com.jinroon.jobe.domain.consultation.dto.request.ConsultationLogRequest;
+import com.jinroon.jobe.domain.consultation.dto.request.ConsultationMessageRequest;
 import com.jinroon.jobe.domain.consultation.dto.request.ConsultationSessionRequest;
+import com.jinroon.jobe.domain.consultation.dto.response.ConsultationMessageResponse;
 import com.jinroon.jobe.domain.consultation.entity.ConsultationLog;
 import com.jinroon.jobe.domain.consultation.entity.ConsultationSession;
 import com.jinroon.jobe.domain.consultation.service.ConsultationService;
@@ -92,5 +94,14 @@ public class ConsultationController implements ConsultationApi {
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @Valid @RequestBody ConsultationLogRequest request) {
         return consultationService.createLogForUser(RequestMapMapper.toMap(request), userDetails.getUserId());
+    }
+
+    @Override
+    @PostMapping("/sessions/{sessionId}/messages")
+    public ConsultationMessageResponse createMessage(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long sessionId,
+            @Valid @RequestBody ConsultationMessageRequest request) {
+        return consultationService.createMessageWithAiReplyForUser(sessionId, request, userDetails.getUserId());
     }
 }

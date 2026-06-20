@@ -18,10 +18,13 @@ from dotenv import load_dotenv
 load_dotenv(dotenv_path=Path(__file__).resolve().parents[1] / ".env")
 
 from .chain import RecommendationChain
+from .chain_consultation import ConsultationChain
 from .chain_plan import WeeklyPlanChain
 from .db import check_ai_db_health, is_ai_db_healthcheck_enabled
 from .errors import AppError, RateLimitError, UnauthorizedError, build_error_response
 from .models import (
+    ConsultationChatRequest,
+    ConsultationChatResponse,
     RecommendationCommentRequest,
     RecommendationCommentResponse,
     WeeklyPlanRequest,
@@ -61,6 +64,7 @@ class InMemoryRateLimiter:
 
 chain = RecommendationChain()
 plan_chain = WeeklyPlanChain()
+consultation_chain = ConsultationChain()
 rate_limiter = InMemoryRateLimiter(
     RateLimitConfig(
         requests_per_minute=int(os.getenv("RATE_LIMIT_RPM", "60")),
@@ -231,6 +235,36 @@ async def generate_weekly_plan(
         chain_result.model,
         elapsed_ms,
         payload.constraints.weeks,
+        fallback_reason,
+    )
+    return response
+
+
+@app.post("/v1/consultation/chat", response_model=ConsultationChatResponse)
+async def generate_consultation_chat(
+    payload: ConsultationChatRequest,
+    request: Request,
+    x_request_id: str | None = Header(default=None, alias="X-Request-Id"),
+    _auth: None = Depends(require_internal_auth),
+) -> ConsultationChatResponse:
+    start = getattr(request.state, "started_at", time.perf_counter())
+    request_id = getattr(request.state, "request_id", resolve_request_id(x_request_id))
+    request.state.request_id = request_id
+
+    rate_limiter.check()
+
+    chain_result = await consultation_chain.generate_with_meta(payload, request_id=request_id)
+    response = chain_result.response
+    elapsed_ms = round((time.perf_counter() - start) * 1000, 2)
+    fallback_reason = ",".join(chain_result.fallback_reasons) if chain_result.fallback_reasons else "-"
+    logger.info(
+        "requestId=%s sessionId=%s status=200 promptVersion=%s model=%s latencyMs=%s historyCount=%s fallback_reason=%s",
+        request_id,
+        payload.sessionId,
+        chain_result.prompt_version,
+        chain_result.model,
+        elapsed_ms,
+        len(payload.history),
         fallback_reason,
     )
     return response

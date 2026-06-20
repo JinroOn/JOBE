@@ -10,6 +10,8 @@ public interface DiagnosisResultRepository extends JpaRepository<DiagnosisResult
 
     List<DiagnosisResult> findByUserId(Long userId);
 
+    Optional<DiagnosisResult> findTopByUserIdOrderByCreatedAtDesc(Long userId);
+
     Optional<DiagnosisResult> findByDiagnosisSessionId(Long diagnosisSessionId);
 
     Optional<DiagnosisResult> findByShareToken(String shareToken);

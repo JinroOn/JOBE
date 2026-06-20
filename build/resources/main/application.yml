@@ -1,6 +1,7 @@
 spring:
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:dev}
+  jackson: {}
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3307/jobe}
     username: ${SPRING_DATASOURCE_USERNAME:root}
@@ -13,6 +14,21 @@ spring:
   security:
     user:
       password: ${SPRING_SECURITY_USER_PASSWORD:temp1234}
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_APP_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
 
 springdoc:
   swagger-ui:
@@ -45,3 +61,7 @@ diagnosis:
       enabled: ${DIAGNOSIS_QUESTIONS_SEED_ENABLED:true}
       path: ${DIAGNOSIS_QUESTIONS_SEED_PATH:classpath:data/evaluation-questions-separated-60.json}
       default-time-limit-sec: ${DIAGNOSIS_QUESTIONS_DEFAULT_TIME_LIMIT_SEC:60}
+
+app:
+  mail:
+    from-name: ${MAIL_FROM_NAME:JOBE}

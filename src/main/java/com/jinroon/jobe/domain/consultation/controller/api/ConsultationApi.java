@@ -3,7 +3,9 @@ package com.jinroon.jobe.domain.consultation.controller.api;
 import com.jinroon.jobe.domain.consultation.entity.ConsultationLog;
 import com.jinroon.jobe.domain.consultation.entity.ConsultationSession;
 import com.jinroon.jobe.domain.consultation.dto.request.ConsultationLogRequest;
+import com.jinroon.jobe.domain.consultation.dto.request.ConsultationMessageRequest;
 import com.jinroon.jobe.domain.consultation.dto.request.ConsultationSessionRequest;
+import com.jinroon.jobe.domain.consultation.dto.response.ConsultationMessageResponse;
 import com.jinroon.jobe.global.exception.error.ErrorDto;
 import com.jinroon.jobe.global.security.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
@@ -137,5 +139,30 @@ public interface ConsultationApi {
                     content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.consultation.dto.request.ConsultationLogRequest.class))
             )
             @Valid @RequestBody ConsultationLogRequest request
+    );
+
+    @Operation(summary = "AI consultation message", description = "Stores a user message, generates an AI reply, stores the reply as an assistant log, and returns both logs.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "AI reply generated",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ConsultationMessageResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))),
+            @ApiResponse(responseCode = "403", description = "Forbidden session",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))),
+            @ApiResponse(responseCode = "409", description = "Session already ended",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
+    })
+    ConsultationMessageResponse createMessage(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
+            @Parameter(description = "Consultation session ID") @PathVariable Long sessionId,
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "User message for AI consultation",
+                    required = true,
+                    content = @Content(
+                            schema = @Schema(implementation = ConsultationMessageRequest.class),
+                            examples = @ExampleObject(value = "{\"content\":\"내가 따면 좋을 자격증을 추천해줘\"}")
+                    )
+            )
+            @Valid @RequestBody ConsultationMessageRequest request
     );
 }
