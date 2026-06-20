@@ -97,7 +97,10 @@ public class PlanService {
 
     @Transactional
     public MajorWeeklyPlan createPlan(Map<String, Object> values) {
+        Long diagnosisResultId = ((Number) values.get("diagnosisResultId")).longValue();
         Long resultMajorScoreId = ((Number) values.get("resultMajorScoreId")).longValue();
+        List<MajorWeeklyPlan> activePlansByResult = activePlansByDiagnosisResult(diagnosisResultId);
+        blockIfPendingActivePlanExists(diagnosisResultId, activePlansByResult);
         PlanVersionContext versionContext = prepareNextVersion(resultMajorScoreId);
 
         Map<String, Object> planValues = new HashMap<>(values);
@@ -110,6 +113,7 @@ public class PlanService {
 
         MajorWeeklyPlan plan = EntityFormMapper.create(MajorWeeklyPlan.class, planValues);
         plan.prepareVersion(versionContext.versionNo(), versionContext.parentPlanId());
+        activePlansByResult.forEach(MajorWeeklyPlan::deactivate);
         versionContext.activePlan().ifPresent(MajorWeeklyPlan::deactivate);
         plan = planRepository.save(plan);
 
@@ -125,6 +129,9 @@ public class PlanService {
                     e.getClass().getSimpleName(),
                     e.getMessage()
             );
+        }
+        if (plan.getAiPlanStatus() != AiGenerationStatus.SUCCEEDED) {
+            plan.deactivate();
         }
 
         return plan;
@@ -218,6 +225,22 @@ public class PlanService {
                 .orElse(1);
         Long parentPlanId = latestPlan.map(MajorWeeklyPlan::getId).orElse(null);
         return new PlanVersionContext(nextVersionNo, parentPlanId, activePlan);
+    }
+
+    private List<MajorWeeklyPlan> activePlansByDiagnosisResult(Long diagnosisResultId) {
+        List<MajorWeeklyPlan> activePlans = planRepository.findByDiagnosisResultIdAndActiveVersionTrue(diagnosisResultId);
+        return activePlans != null ? activePlans : List.of();
+    }
+
+    private void blockIfPendingActivePlanExists(Long diagnosisResultId, List<MajorWeeklyPlan> activePlans) {
+        activePlans.stream()
+                .filter(plan -> plan.getAiPlanStatus() == AiGenerationStatus.PENDING)
+                .findFirst()
+                .ifPresent(plan -> {
+                    log.warn("AI weekly plan duplicate creation blocked diagnosisResultId={} existingPlanId={} status={}",
+                            diagnosisResultId, plan.getId(), plan.getAiPlanStatus());
+                    throw new CustomException(ErrorCode.AI_PLAN_ALREADY_EXISTS);
+                });
     }
 
     private void applyAiWeeklyPlan(MajorWeeklyPlan plan) {
