@@ -185,3 +185,87 @@ class WeeklyPlanResponse(BaseModel):
     weeklyPlan: list[WeeklyPlanItem] = Field(min_length=4, max_length=12)
     riskNotes: list[str] = Field(default_factory=list, max_length=10)
     requestId: str = Field(min_length=1, max_length=100)
+
+
+class ConsultationHistoryMessage(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    role: Literal["user", "assistant"]
+    content: str = Field(min_length=1, max_length=10000)
+
+
+class ConsultationMajorContext(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    category: str | None = Field(default=None, max_length=50)
+    description: str | None = Field(default=None, max_length=2000)
+    careerPaths: str | None = Field(default=None, max_length=2000)
+    requiredCompetencies: dict[str, float] = Field(default_factory=dict)
+
+
+class ConsultationTopMajor(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    majorId: int | None = None
+    majorName: str | None = Field(default=None, max_length=100)
+    rank: int | None = Field(default=None, ge=1, le=20)
+    finalScore: float | None = Field(default=None, ge=0, le=100)
+    competencyScore: float | None = Field(default=None, ge=0, le=100)
+    tendencyScore: float | None = Field(default=None, ge=0, le=100)
+    failed: bool | None = None
+    strengths: str | None = Field(default=None, max_length=1000)
+    weaknesses: str | None = Field(default=None, max_length=1000)
+    recommendationReason: str | None = Field(default=None, max_length=1500)
+    majorContext: ConsultationMajorContext | None = None
+
+
+class ConsultationPlanItem(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    weekNo: int | None = Field(default=None, ge=1, le=52)
+    goal: str | None = Field(default=None, max_length=500)
+    tasksJson: str | None = Field(default=None, max_length=3000)
+    resourcesJson: str | None = Field(default=None, max_length=3000)
+    checkpoint: str | None = Field(default=None, max_length=500)
+    completed: bool | None = None
+
+
+class ConsultationPlanContext(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    planId: int | None = None
+    resultMajorScoreId: int | None = None
+    overview: str | None = Field(default=None, max_length=1200)
+    activeVersion: bool | None = None
+    items: list[ConsultationPlanItem] = Field(default_factory=list, max_length=12)
+
+
+class ConsultationDiagnosisContext(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    diagnosisResultId: int
+    usedLatestDiagnosisResult: bool = False
+    competencyVector: str | None = Field(default=None, max_length=5000)
+    tendencyVector: str | None = Field(default=None, max_length=5000)
+    aiComment: str | None = Field(default=None, max_length=3000)
+    weaknessFocus: list[str] = Field(default_factory=list, max_length=9)
+    topMajors: list[ConsultationTopMajor] = Field(default_factory=list, max_length=5)
+    plans: list[ConsultationPlanContext] = Field(default_factory=list, max_length=3)
+
+
+class ConsultationChatRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    sessionId: int = Field(ge=1)
+    userId: int = Field(ge=1)
+    userMessage: str = Field(min_length=1, max_length=10000)
+    history: list[ConsultationHistoryMessage] = Field(default_factory=list, max_length=20)
+    diagnosisContext: ConsultationDiagnosisContext | None = None
+
+
+class ConsultationChatResponse(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    content: str = Field(min_length=1, max_length=2000)
+    version: str = Field(min_length=1, max_length=40)
+    requestId: str = Field(min_length=1, max_length=100)

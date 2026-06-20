@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta http-equiv="x-ua-compatible" content="IE=edge"/>
-<title>Test results - com.jinroon.jobe.global.client.AiServiceClientTest</title>
+<title>Test results - com.jinroon.jobe.domain.consultation.service.ConsultationServiceTest</title>
 <link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
 <link href="../css/style.css" rel="stylesheet" type="text/css"/>
 <script src="../js/report.js" type="text/javascript"></script>
@@ -12,7 +12,7 @@
 <div id="content">
 <div class="breadcrumbs">
 <a class="breadcrumb" href="../index.html">all</a> &gt; 
-<span class="breadcrumb">com.jinroon.jobe.global.client.AiServiceClientTest</span>
+<span class="breadcrumb">com.jinroon.jobe.domain.consultation.service.ConsultationServiceTest</span>
 </div>
 <div class="tab-container">
 <ul class="tabLinks">
@@ -22,7 +22,7 @@
 </ul>
 <div class="tab">
 <h2>Gradle Test Run :test</h2>
-<h1>AiServiceClientTest</h1>
+<h1>ConsultationServiceTest</h1>
 <div class="tab-container">
 <ul class="tabLinks">
 <li>
@@ -41,7 +41,7 @@
 <tr>
 <td>
 <div class="infoBox">
-<div class="counter">3</div>
+<div class="counter">4</div>
 <p>tests</p>
 </div>
 </td>
@@ -59,7 +59,7 @@
 </td>
 <td>
 <div class="infoBox duration">
-<div class="counter">0.108s</div>
+<div class="counter">0.921s</div>
 <p>duration</p>
 </div>
 </td>
@@ -89,36 +89,39 @@
 </tr>
 </thead>
 <tr>
-<td class="success">
-<a href="_BlClzgWp10.html">consultationChatRequestAddsAuthAndRequestIdHeaders()</a>
-</td>
-<td class="path" hidden="">consultationChatRequestAddsAuthAndRequestIdHeaders()</td>
+<td class="success">createMessageRejectsEndedSession()</td>
+<td class="path" hidden="">createMessageRejectsEndedSession()</td>
 <td>1</td>
 <td>0</td>
 <td>0</td>
-<td>0.002s</td>
+<td>0.884s</td>
 <td class="success">100%</td>
 </tr>
 <tr>
-<td class="success">
-<a href="6P0nwVVT_B0.html">recommendationCommentRequestAddsAuthAndRequestIdHeaders()</a>
-</td>
-<td class="path" hidden="">recommendationCommentRequestAddsAuthAndRequestIdHeaders()</td>
+<td class="success">createMessageRejectsOtherUsersSession()</td>
+<td class="path" hidden="">createMessageRejectsOtherUsersSession()</td>
 <td>1</td>
 <td>0</td>
 <td>0</td>
-<td>0.021s</td>
+<td>0.003s</td>
 <td class="success">100%</td>
 </tr>
 <tr>
-<td class="success">
-<a href="ohVxp4cn8DI.html">weeklyPlanRequestReturnsNullWhenAiServiceCallFails()</a>
-</td>
-<td class="path" hidden="">weeklyPlanRequestReturnsNullWhenAiServiceCallFails()</td>
+<td class="success">createMessageStoresFallbackAssistantLogWhenAiServiceReturnsNull()</td>
+<td class="path" hidden="">createMessageStoresFallbackAssistantLogWhenAiServiceReturnsNull()</td>
 <td>1</td>
 <td>0</td>
 <td>0</td>
-<td>0.005s</td>
+<td>0.004s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">createMessageWithAiReplyStoresUserAndAssistantLogs()</td>
+<td class="path" hidden="">createMessageWithAiReplyStoresUserAndAssistantLogs()</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0.017s</td>
 <td class="success">100%</td>
 </tr>
 </table>

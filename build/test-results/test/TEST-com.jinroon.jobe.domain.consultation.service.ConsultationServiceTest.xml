@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.jinroon.jobe.domain.consultation.service.ConsultationServiceTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-06-20T06:43:08.039Z" hostname="DESKTOP-FLIU7FT" time="0.92">
+  <properties/>
+  <testcase name="createMessageRejectsEndedSession()" classname="com.jinroon.jobe.domain.consultation.service.ConsultationServiceTest" time="0.884"/>
+  <testcase name="createMessageWithAiReplyStoresUserAndAssistantLogs()" classname="com.jinroon.jobe.domain.consultation.service.ConsultationServiceTest" time="0.017"/>
+  <testcase name="createMessageRejectsOtherUsersSession()" classname="com.jinroon.jobe.domain.consultation.service.ConsultationServiceTest" time="0.003"/>
+  <testcase name="createMessageStoresFallbackAssistantLogWhenAiServiceReturnsNull()" classname="com.jinroon.jobe.domain.consultation.service.ConsultationServiceTest" time="0.004"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

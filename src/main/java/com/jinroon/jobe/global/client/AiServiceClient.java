@@ -1,7 +1,9 @@
 package com.jinroon.jobe.global.client;
 
 import com.jinroon.jobe.global.client.dto.request.RecommendationCommentRequest;
+import com.jinroon.jobe.global.client.dto.request.ConsultationChatRequest;
 import com.jinroon.jobe.global.client.dto.request.WeeklyPlanRequest;
+import com.jinroon.jobe.global.client.dto.response.ConsultationChatResponse;
 import com.jinroon.jobe.global.client.dto.response.RecommendationCommentResponse;
 import com.jinroon.jobe.global.client.dto.response.WeeklyPlanResponse;
 import java.util.UUID;
@@ -24,6 +26,7 @@ import org.springframework.web.client.RestTemplate;
 public class AiServiceClient {
     private static final String RECOMMENDATION_COMMENT_ENDPOINT = "/v1/recommendation/comment";
     private static final String WEEKLY_PLAN_ENDPOINT = "/v1/plan/weekly";
+    private static final String CONSULTATION_CHAT_ENDPOINT = "/v1/consultation/chat";
     private static final String REQUEST_ID_HEADER = "X-Request-Id";
 
     private final RestTemplate restTemplate;
@@ -40,6 +43,10 @@ public class AiServiceClient {
 
     public WeeklyPlanResponse getWeeklyPlan(WeeklyPlanRequest request) {
         return post(WEEKLY_PLAN_ENDPOINT, request, WeeklyPlanResponse.class);
+    }
+
+    public ConsultationChatResponse getConsultationChat(ConsultationChatRequest request) {
+        return post(CONSULTATION_CHAT_ENDPOINT, request, ConsultationChatResponse.class);
     }
 
     private <T, R> R post(String endpoint, T body, Class<R> responseType) {

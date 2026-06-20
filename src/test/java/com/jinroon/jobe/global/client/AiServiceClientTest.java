@@ -7,7 +7,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.jinroon.jobe.global.client.dto.request.RecommendationCommentRequest;
+import com.jinroon.jobe.global.client.dto.request.ConsultationChatRequest;
 import com.jinroon.jobe.global.client.dto.request.WeeklyPlanRequest;
+import com.jinroon.jobe.global.client.dto.response.ConsultationChatResponse;
 import com.jinroon.jobe.global.client.dto.response.RecommendationCommentResponse;
 import com.jinroon.jobe.global.client.dto.response.WeeklyPlanResponse;
 import java.util.List;
@@ -80,6 +82,36 @@ class AiServiceClientTest {
         assertThat(actual).isNull();
     }
 
+    @Test
+    void consultationChatRequestAddsAuthAndRequestIdHeaders() {
+        configureClient();
+        ConsultationChatResponse response = new ConsultationChatResponse(
+                "answer",
+                "consultation-chat-v1.0.0",
+                "response-request-id"
+        );
+        when(restTemplate.exchange(
+                eq("http://ai.local/v1/consultation/chat"),
+                eq(HttpMethod.POST),
+                any(HttpEntity.class),
+                eq(ConsultationChatResponse.class)
+        )).thenReturn(ResponseEntity.ok(response));
+
+        ConsultationChatResponse actual = client.getConsultationChat(consultationChatRequest());
+
+        assertThat(actual).isSameAs(response);
+        ArgumentCaptor<HttpEntity> entityCaptor = ArgumentCaptor.forClass(HttpEntity.class);
+        verify(restTemplate).exchange(
+                eq("http://ai.local/v1/consultation/chat"),
+                eq(HttpMethod.POST),
+                entityCaptor.capture(),
+                eq(ConsultationChatResponse.class)
+        );
+        HttpHeaders headers = entityCaptor.getValue().getHeaders();
+        assertThat(headers.getFirst(HttpHeaders.AUTHORIZATION)).isEqualTo("Bearer internal-token");
+        assertThat(headers.getFirst("X-Request-Id")).isNotBlank();
+    }
+
     private void configureClient() {
         ReflectionTestUtils.setField(client, "aiServerUrl", "http://ai.local/");
         ReflectionTestUtils.setField(client, "aiServerToken", "internal-token");
@@ -119,6 +151,16 @@ class AiServiceClientTest {
                         72
                 ),
                 new WeeklyPlanRequest.Constraints(12, 8, "practice-first")
+        );
+    }
+
+    private ConsultationChatRequest consultationChatRequest() {
+        return new ConsultationChatRequest(
+                1L,
+                7L,
+                "question",
+                List.of(new ConsultationChatRequest.HistoryMessage("user", "question")),
+                null
         );
     }
 
