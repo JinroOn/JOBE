@@ -13,6 +13,12 @@ from .models import ConsultationChatRequest, ConsultationChatResponse
 
 PROMPT_VERSION = os.getenv("CONSULTATION_PROMPT_VERSION", "consultation-chat-v1.0.0")
 
+MISSING_CONTEXT_GUIDANCE = (
+    "아직 진로온 전공 추천 결과가 없어 개인 맞춤형 답변을 바로 드리기는 어렵습니다. "
+    "먼저 진로온의 전공 추천 진단을 진행하면, 추천 전공과 강점/보완점을 바탕으로 더 적합한 방향을 안내해드릴 수 있어요. "
+    "진단 전이라면 관심 분야, 목표 직무, 현재 고민 중 하나를 알려주세요."
+)
+
 
 class GeneratedConsultationAnswer(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -98,11 +104,8 @@ class ConsultationChain:
             raise UpstreamUnavailableError("LLM provider request failed") from exc
 
     def _mock_response(self, *, request: ConsultationChatRequest, request_id: str) -> ConsultationChatResponse:
-        if request.diagnosisContext is None and len(request.history) <= 1:
-            content = (
-                "아직 참고할 진단 결과나 충분한 상담 기록이 없습니다. "
-                "관심 전공, 목표 직무, 좋아하는 과목, 현재 고민을 알려주면 그 내용을 바탕으로 더 정확히 상담해드릴 수 있습니다."
-            )
+        if self._needs_jinroon_diagnosis_guidance(request):
+            content = MISSING_CONTEXT_GUIDANCE
         else:
             major_names = [
                 item.majorName
@@ -127,17 +130,25 @@ class ConsultationChain:
         text = " ".join((content or "").split())
         if not text:
             return self._mock_response(request=request, request_id="fallback").content
-        if request.diagnosisContext is None and len(request.history) <= 1:
+        if self._needs_jinroon_diagnosis_guidance(request):
             risky_markers = ("추천합니다", "취득하세요", "강의 리스트")
-            if any(marker in text for marker in risky_markers):
+            required_markers = ("진로온", "전공 추천", "진단")
+            if any(marker in text for marker in risky_markers) or not all(marker in text for marker in required_markers):
                 return self._mock_response(request=request, request_id="fallback").content
         return text[:2000]
 
+    def _needs_jinroon_diagnosis_guidance(self, request: ConsultationChatRequest) -> bool:
+        has_diagnosis_context = request.hasDiagnosisContext or request.diagnosisContext is not None
+        return not has_diagnosis_context and len(request.history) <= 1
+
     def _system_prompt(self) -> str:
         return (
-            "You are JinroOn's AI career consultation assistant. "
-            "Answer in Korean. Use only the provided consultation history and diagnosis context as evidence. "
-            "If diagnosis context and meaningful history are missing, ask focused follow-up questions first. "
+            "You are Jinroon's AI career and major consultation assistant, not a generic chatbot. "
+            "Answer in Korean and keep the response aware of Jinroon's service flow. "
+            "Use only the provided consultation history and diagnosis context as evidence. "
+            "If diagnosis context and meaningful history are missing, first explain that personalized guidance needs Jinroon's major recommendation diagnosis result. "
+            "Then recommend using Jinroon's major recommendation/diagnosis feature before asking at most 2 or 3 focused follow-up questions. "
+            "If no diagnosis result exists but meaningful consultation history exists, say the answer is based on the conversation so far and still recommend Jinroon diagnosis for stronger personalization. "
             "Do not invent exact in-app course lists, official certificate lists, external links, or database-backed resources. "
             "For course or certificate questions, recommend candidate directions, learning resource types, and preparation priorities only when the provided context supports them. "
             "Avoid guaranteeing admission, employment, certification, or other high-stakes outcomes. "

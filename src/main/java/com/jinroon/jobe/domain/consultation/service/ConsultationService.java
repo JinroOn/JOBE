@@ -160,7 +160,7 @@ public class ConsultationService {
 
         String assistantContent = aiResponse != null && aiResponse.content() != null && !aiResponse.content().isBlank()
                 ? aiResponse.content()
-                : fallbackAssistantMessage(context);
+                : jinroonFallbackAssistantMessage(context);
         ConsultationLog assistantLog = saveLog(sessionId, "assistant", assistantContent);
 
         return new ConsultationMessageResponse(
@@ -207,6 +207,7 @@ public class ConsultationService {
                                 log.getContent()
                         ))
                         .toList(),
+                context.diagnosisContext() != null,
                 context.diagnosisContext()
         );
     }
@@ -347,6 +348,16 @@ public class ConsultationService {
             return "아직 참고할 진단 결과나 충분한 상담 기록이 없습니다. 관심 전공, 목표 직무, 좋아하는 과목, 현재 고민을 알려주면 그 내용을 바탕으로 상담을 이어갈 수 있습니다.";
         }
         return "AI 상담 응답을 생성하는 중 문제가 발생했습니다. 저장된 진단 결과와 상담 기록은 유지되었으니 잠시 후 다시 질문해 주세요.";
+    }
+
+    private String jinroonFallbackAssistantMessage(ConsultationContext context) {
+        if (context.diagnosisResultId() == null && context.topMajorNames().isEmpty()) {
+            return "아직 진로온 전공 추천 결과가 없어 개인 맞춤형 답변을 바로 드리기는 어렵습니다. "
+                    + "먼저 진로온의 전공 추천 진단을 진행하면, 추천 전공과 강점/보완점을 바탕으로 더 적합한 방향을 안내해드릴 수 있어요. "
+                    + "진단 전이라면 관심 분야, 목표 직무, 현재 고민 중 하나를 알려주세요.";
+        }
+        return "AI 상담 응답을 생성하는 중 문제가 발생했습니다. "
+                + "저장된 진로온 진단 결과와 상담 기록은 유지되어 있으니, 질문을 다시 보내주시면 해당 맥락을 기준으로 답변하겠습니다.";
     }
 
     private record ConsultationContext(

@@ -8,6 +8,7 @@ public record ConsultationChatRequest(
         Long userId,
         String userMessage,
         List<HistoryMessage> history,
+        boolean hasDiagnosisContext,
         DiagnosisContext diagnosisContext
 ) {
     public record HistoryMessage(

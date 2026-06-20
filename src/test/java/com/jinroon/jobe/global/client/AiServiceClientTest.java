@@ -160,6 +160,7 @@ class AiServiceClientTest {
                 7L,
                 "question",
                 List.of(new ConsultationChatRequest.HistoryMessage("user", "question")),
+                false,
                 null
         );
     }
