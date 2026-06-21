@@ -79,13 +79,13 @@ public interface AuthApi {
             @RequestBody @Valid LogoutRequest request
     );
 
-    @Operation(summary = "이메일 인증번호 발급", description = "이메일로 숫자 6자리 인증번호를 발급합니다. (30분 유효)")
+    @Operation(summary = "이메일 인증번호 발급", description = "회원가입 전에 사용할 숫자 6자리 인증번호를 이메일로 발급합니다. (30분 유효)")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "인증번호 발급 성공",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmailVerificationResponse.class))),
             @ApiResponse(responseCode = "400", description = "입력값 유효성 오류",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))),
-            @ApiResponse(responseCode = "404", description = "존재하지 않는 사용자",
+            @ApiResponse(responseCode = "409", description = "이미 사용 중인 이메일",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     EmailVerificationResponse issueEmailVerification(
@@ -93,16 +93,16 @@ public interface AuthApi {
             @RequestBody @Valid EmailVerificationIssueRequest request
     );
 
-    @Operation(summary = "이메일 인증 확인", description = "이메일과 발급된 숫자 6자리 인증번호로 이메일 인증을 완료합니다.")
+    @Operation(summary = "이메일 인증 확인", description = "회원가입 전 이메일과 발급된 숫자 6자리 인증번호로 이메일 인증을 완료합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "이메일 인증 완료",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponse.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmailVerificationResponse.class))),
             @ApiResponse(responseCode = "400", description = "만료되거나 이미 사용된 인증번호",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))),
-            @ApiResponse(responseCode = "404", description = "인증 정보 또는 사용자를 찾을 수 없음",
+            @ApiResponse(responseCode = "404", description = "인증 정보를 찾을 수 없음",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
-    UserResponse confirmEmailVerification(
+    EmailVerificationResponse confirmEmailVerification(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "이메일 인증 확인 요청", required = true)
             @RequestBody @Valid EmailVerificationConfirmRequest request
     );

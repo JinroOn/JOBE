@@ -23,6 +23,7 @@ public enum ErrorCode {
     // Auth
     AUTH_TOKEN_INVALID(401, "유효하지 않은 토큰입니다."),
     AUTH_TOKEN_EXPIRED(401, "만료된 토큰입니다."),
+    AUTH_EMAIL_VERIFICATION_REQUIRED(400, "이메일 인증이 필요합니다."),
     AUTH_EMAIL_VERIFICATION_NOT_FOUND(404, "이메일 인증 정보를 찾을 수 없습니다."),
     AUTH_EMAIL_VERIFICATION_EXPIRED(400, "만료된 이메일 인증입니다."),
     AUTH_EMAIL_VERIFICATION_ALREADY_USED(400, "이미 사용된 이메일 인증입니다."),

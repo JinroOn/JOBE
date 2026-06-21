@@ -66,7 +66,7 @@ public class AuthController implements AuthApi {
 
     @Override
     @PostMapping("/email-verifications/confirm")
-    public UserResponse confirmEmailVerification(@Valid @RequestBody EmailVerificationConfirmRequest request) {
+    public EmailVerificationResponse confirmEmailVerification(@Valid @RequestBody EmailVerificationConfirmRequest request) {
         return authService.confirmEmailVerification(request);
     }
 
