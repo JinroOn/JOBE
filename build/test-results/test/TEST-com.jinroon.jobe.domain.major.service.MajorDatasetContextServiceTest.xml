@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.jinroon.jobe.domain.major.service.MajorDatasetContextServiceTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-06-04T08:11:01.816Z" hostname="DESKTOP-4AOC5KN" time="0.769">
+<testsuite name="com.jinroon.jobe.domain.major.service.MajorDatasetContextServiceTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-06-21T10:46:47.867Z" hostname="DESKTOP-FLIU7FT" time="0.057">
   <properties/>
-  <testcase name="readsServiceJsonAndRagSnippets()" classname="com.jinroon.jobe.domain.major.service.MajorDatasetContextServiceTest" time="0.703"/>
-  <testcase name="returnsFallbackContextWhenDatasetFilesAreMissing()" classname="com.jinroon.jobe.domain.major.service.MajorDatasetContextServiceTest" time="0.019"/>
-  <testcase name="matchesExactSupplementedDatasetByMajorName()" classname="com.jinroon.jobe.domain.major.service.MajorDatasetContextServiceTest" time="0.021"/>
-  <system-out><![CDATA[17:11:02.388 [Test worker] WARN com.jinroon.jobe.domain.major.service.MajorDatasetContextService -- 전공 RAG JSONL 라인 파싱 실패 file=major-row-1-컴퓨터공학과.rag.jsonl error=Unrecognized token 'not': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+  <testcase name="readsServiceJsonAndRagSnippets()" classname="com.jinroon.jobe.domain.major.service.MajorDatasetContextServiceTest" time="0.036"/>
+  <testcase name="returnsFallbackContextWhenDatasetFilesAreMissing()" classname="com.jinroon.jobe.domain.major.service.MajorDatasetContextServiceTest" time="0.006"/>
+  <testcase name="matchesExactSupplementedDatasetByMajorName()" classname="com.jinroon.jobe.domain.major.service.MajorDatasetContextServiceTest" time="0.015"/>
+  <system-out><![CDATA[2026-06-21T19:46:47.892+09:00  WARN 25728 --- [    Test worker] c.j.j.d.m.s.MajorDatasetContextService   : 전공 RAG JSONL 라인 파싱 실패 file=major-row-1-컴퓨터공학과.rag.jsonl error=Unrecognized token 'not': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
  at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 1]
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>

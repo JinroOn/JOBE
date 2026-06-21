@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.jinroon.jobe.domain.plan.service.PlanServiceTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2026-06-20T07:31:27.522Z" hostname="DESKTOP-FLIU7FT" time="1.193">
+<testsuite name="com.jinroon.jobe.domain.plan.service.PlanServiceTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2026-06-21T10:46:47.925Z" hostname="DESKTOP-FLIU7FT" time="0.104">
   <properties/>
-  <testcase name="createPlanReturnsPlanWithoutItemsWhenAiServiceReturnsNull()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="1.103"/>
-  <testcase name="createPlanMarksFailedWhenAiResponseHasNoWeeklyItems()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.005"/>
-  <testcase name="createPlanForUserRejectsOtherUsersResult()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.009"/>
-  <testcase name="createPlanBlocksDuplicateWhenActivePlanIsPending()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.003"/>
-  <testcase name="createPlanCreatesNextVersionWhenActiveSucceededPlanExists()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.041"/>
-  <testcase name="createPlanAllowsRetryWhenActivePlanFailed()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.004"/>
+  <testcase name="createPlanReturnsPlanWithoutItemsWhenAiServiceReturnsNull()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.054"/>
+  <testcase name="createPlanMarksFailedWhenAiResponseHasNoWeeklyItems()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.002"/>
+  <testcase name="createPlanForUserRejectsOtherUsersResult()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.001"/>
+  <testcase name="createPlanBlocksDuplicateWhenActivePlanIsPending()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.002"/>
+  <testcase name="createPlanCreatesNextVersionWhenActiveSucceededPlanExists()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.031"/>
+  <testcase name="createPlanAllowsRetryWhenActivePlanFailed()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.003"/>
   <testcase name="createPlanBlocksDuplicateWhenAnyActivePlanInSameDiagnosisResultIsPending()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.002"/>
-  <testcase name="createPlanStoresAiWeeklyPlanItemsAsJsonArrays()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.005"/>
-  <testcase name="createPlanDeactivatesAllActivePlansForSameDiagnosisResultWhenNewPlanSucceeds()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.004"/>
-  <testcase name="createPlanDoesNotCallAiWhenMajorScoreBelongsToDifferentResult()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.003"/>
-  <system-out><![CDATA[16:31:28.573 [Test worker] WARN com.jinroon.jobe.domain.plan.service.PlanService -- AI weekly plan response empty planId=20 diagnosisResultId=1 resultMajorScoreId=11 majorId=100
-16:31:28.642 [Test worker] WARN com.jinroon.jobe.domain.plan.service.PlanService -- AI weekly plan response has no weekly items planId=20 diagnosisResultId=1 responsePlanId=plan-ai-empty
-16:31:28.654 [Test worker] WARN com.jinroon.jobe.domain.plan.service.PlanService -- AI weekly plan duplicate creation blocked resultMajorScoreId=11 existingPlanId=20 status=PENDING
-16:31:28.703 [Test worker] WARN com.jinroon.jobe.domain.plan.service.PlanService -- AI weekly plan duplicate creation blocked diagnosisResultId=1 existingPlanId=30 status=PENDING
-16:31:28.715 [Test worker] WARN com.jinroon.jobe.domain.plan.service.PlanService -- AI weekly plan skipped: major score result mismatch planId=20 diagnosisResultId=1 resultMajorScoreId=11 scoreDiagnosisResultId=99
+  <testcase name="createPlanStoresAiWeeklyPlanItemsAsJsonArrays()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.003"/>
+  <testcase name="createPlanDeactivatesAllActivePlansForSameDiagnosisResultWhenNewPlanSucceeds()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.002"/>
+  <testcase name="createPlanDoesNotCallAiWhenMajorScoreBelongsToDifferentResult()" classname="com.jinroon.jobe.domain.plan.service.PlanServiceTest" time="0.002"/>
+  <system-out><![CDATA[2026-06-21T19:46:47.980+09:00  WARN 25728 --- [    Test worker] c.j.j.domain.plan.service.PlanService    : AI weekly plan response empty planId=20 diagnosisResultId=1 resultMajorScoreId=11 majorId=100
+2026-06-21T19:46:47.983+09:00  WARN 25728 --- [    Test worker] c.j.j.domain.plan.service.PlanService    : AI weekly plan response has no weekly items planId=20 diagnosisResultId=1 responsePlanId=plan-ai-empty
+2026-06-21T19:46:47.987+09:00  WARN 25728 --- [    Test worker] c.j.j.domain.plan.service.PlanService    : AI weekly plan duplicate creation blocked resultMajorScoreId=11 existingPlanId=20 status=PENDING
+2026-06-21T19:46:48.023+09:00  WARN 25728 --- [    Test worker] c.j.j.domain.plan.service.PlanService    : AI weekly plan duplicate creation blocked diagnosisResultId=1 existingPlanId=30 status=PENDING
+2026-06-21T19:46:48.030+09:00  WARN 25728 --- [    Test worker] c.j.j.domain.plan.service.PlanService    : AI weekly plan skipped: major score result mismatch planId=20 diagnosisResultId=1 resultMajorScoreId=11 scoreDiagnosisResultId=99
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

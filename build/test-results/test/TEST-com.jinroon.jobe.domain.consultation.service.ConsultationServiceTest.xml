@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.jinroon.jobe.domain.consultation.service.ConsultationServiceTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-06-20T07:14:25.848Z" hostname="DESKTOP-FLIU7FT" time="0.941">
+<testsuite name="com.jinroon.jobe.domain.consultation.service.ConsultationServiceTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-06-21T10:46:47.221Z" hostname="DESKTOP-FLIU7FT" time="0.479">
   <properties/>
-  <testcase name="createMessageRejectsEndedSession()" classname="com.jinroon.jobe.domain.consultation.service.ConsultationServiceTest" time="0.889"/>
+  <testcase name="createMessageRejectsEndedSession()" classname="com.jinroon.jobe.domain.consultation.service.ConsultationServiceTest" time="0.438"/>
   <testcase name="createMessageWithAiReplyStoresUserAndAssistantLogs()" classname="com.jinroon.jobe.domain.consultation.service.ConsultationServiceTest" time="0.021"/>
-  <testcase name="createMessageRejectsOtherUsersSession()" classname="com.jinroon.jobe.domain.consultation.service.ConsultationServiceTest" time="0.003"/>
-  <testcase name="createMessageIncludesDiagnosisAndTopMajorContextWhenDiagnosisExists()" classname="com.jinroon.jobe.domain.consultation.service.ConsultationServiceTest" time="0.01"/>
+  <testcase name="createMessageRejectsOtherUsersSession()" classname="com.jinroon.jobe.domain.consultation.service.ConsultationServiceTest" time="0.004"/>
+  <testcase name="createMessageIncludesDiagnosisAndTopMajorContextWhenDiagnosisExists()" classname="com.jinroon.jobe.domain.consultation.service.ConsultationServiceTest" time="0.008"/>
   <testcase name="createMessageStoresFallbackAssistantLogWhenAiServiceReturnsNull()" classname="com.jinroon.jobe.domain.consultation.service.ConsultationServiceTest" time="0.006"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.jinroon.jobe.global.client.AiServiceClientTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-06-20T07:14:26.791Z" hostname="DESKTOP-FLIU7FT" time="0.091">
+<testsuite name="com.jinroon.jobe.global.client.AiServiceClientTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-06-21T10:46:48.049Z" hostname="DESKTOP-FLIU7FT" time="0.065">
   <properties/>
-  <testcase name="recommendationCommentRequestAddsAuthAndRequestIdHeaders()" classname="com.jinroon.jobe.global.client.AiServiceClientTest" time="0.024"/>
+  <testcase name="recommendationCommentRequestAddsAuthAndRequestIdHeaders()" classname="com.jinroon.jobe.global.client.AiServiceClientTest" time="0.007"/>
   <testcase name="consultationChatRequestAddsAuthAndRequestIdHeaders()" classname="com.jinroon.jobe.global.client.AiServiceClientTest" time="0.001"/>
   <testcase name="weeklyPlanRequestReturnsNullWhenAiServiceCallFails()" classname="com.jinroon.jobe.global.client.AiServiceClientTest" time="0.003"/>
-  <system-out><![CDATA[16:14:26.873 [Test worker] INFO com.jinroon.jobe.global.client.AiServiceClient -- AI request success endpoint=/v1/recommendation/comment requestId=127d543c-449d-4d52-bb5b-8e778440c908 status=200
-16:14:26.879 [Test worker] INFO com.jinroon.jobe.global.client.AiServiceClient -- AI request success endpoint=/v1/consultation/chat requestId=7cf14cf6-88e8-4539-8faf-2f502ec13870 status=200
-16:14:26.883 [Test worker] WARN com.jinroon.jobe.global.client.AiServiceClient -- AI request failed endpoint=/v1/plan/weekly requestId=d5b85902-57ae-47bf-99c5-9bcf1fe1db71 errorType=ResourceAccessException message=connection refused
+  <system-out><![CDATA[2026-06-21T19:46:48.110+09:00  INFO 25728 --- [    Test worker] c.j.jobe.global.client.AiServiceClient   : AI request success endpoint=/v1/recommendation/comment requestId=f5658f44-fc7a-444d-bd71-7983a7d7d8c9 status=200
+2026-06-21T19:46:48.111+09:00  INFO 25728 --- [    Test worker] c.j.jobe.global.client.AiServiceClient   : AI request success endpoint=/v1/consultation/chat requestId=47e22655-9f72-4010-aef6-a61ebcb9e6cb status=200
+2026-06-21T19:46:48.114+09:00  WARN 25728 --- [    Test worker] c.j.jobe.global.client.AiServiceClient   : AI request failed endpoint=/v1/plan/weekly requestId=fdf19ba6-00c8-42e0-85d6-24fc573d1fb7 errorType=ResourceAccessException message=connection refused
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

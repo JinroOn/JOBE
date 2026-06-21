@@ -41,6 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ResultService {
+    private static final int AI_COMMENT_TARGET_MAJOR_LIMIT = 1;
 
     private final DiagnosisResultRepository diagnosisResultRepository;
     private final ResultMajorScoreRepository resultMajorScoreRepository;
@@ -181,13 +182,20 @@ public class ResultService {
                 safeInt(competency.getSelfManagement())
         );
 
-        List<Long> majorIds = majorScores.stream().map(ResultMajorScore::getMajorId).toList();
+        List<ResultMajorScore> sortedMajorScores = majorScores.stream()
+                .sorted(Comparator.comparingInt(score -> safeRank(score.getRank())))
+                .toList();
+        List<ResultMajorScore> aiTargetMajorScores = sortedMajorScores.stream()
+                .limit(AI_COMMENT_TARGET_MAJOR_LIMIT)
+                .toList();
+
+        List<Long> majorIds = aiTargetMajorScores.stream().map(ResultMajorScore::getMajorId).toList();
         Map<Long, Major> majorMap = majorRepository.findAllById(majorIds).stream()
                 .collect(Collectors.toMap(Major::getId, major -> major));
         Map<Long, String> majorNameMap = majorMap.values().stream()
                 .collect(Collectors.toMap(Major::getId, Major::getName));
 
-        List<TopMajor> topMajors = majorScores.stream()
+        List<TopMajor> topMajors = aiTargetMajorScores.stream()
                 .map(score -> new TopMajor(
                         majorNameMap.getOrDefault(score.getMajorId(), "Unknown"),
                         score.getRank(),
@@ -198,7 +206,8 @@ public class ResultService {
                 ))
                 .toList();
 
-        List<RecommendationGroup> recommendationGroups = buildRecommendationGroups(majorScores, majorMap, competency);
+        List<RecommendationGroup> recommendationGroups = List.of();
+        String targetMajorName = topMajors.isEmpty() ? "Unknown" : topMajors.get(0).majorName();
 
         RecommendationCommentRequest request = new RecommendationCommentRequest(
                 result.getDiagnosisSessionId(), profile, topMajors, recommendationGroups, null);
@@ -207,7 +216,8 @@ public class ResultService {
         RecommendationCommentResponse response = aiServiceClient.getRecommendationComment(request);
         if (response == null) {
             result.markAiCommentFailed("ai-service recommendation response is null");
-            log.warn("AI 추천 코멘트 응답 없음 (resultId={}, majorCount={})", result.getId(), topMajors.size());
+            log.warn("AI 추천 코멘트 응답 없음 (resultId={}, requestMajorCount={}, targetMajor={})",
+                    result.getId(), topMajors.size(), targetMajorName);
             return result;
         }
 
@@ -237,7 +247,7 @@ public class ResultService {
                         (first, ignored) -> first
                 ));
 
-        for (ResultMajorScore score : majorScores) {
+        for (ResultMajorScore score : aiTargetMajorScores) {
             String majorName = majorNameMap.get(score.getMajorId());
             if (majorName == null) {
                 continue;
