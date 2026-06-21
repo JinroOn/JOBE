@@ -59,12 +59,14 @@ public class AuthService {
         if (userRepository.existsByEmail(request.email())) {
             throw new CustomException(ErrorCode.USER_EMAIL_DUPLICATE);
         }
+        requireVerifiedEmail(request.email());
         User user = User.registerEmailUser(
                 request.email(),
                 passwordHasher.hash(request.password()),
                 request.nickname(),
                 request.profileImageUrl()
         );
+        user.verifyEmail();
         userRepository.save(user);
         userConsentRepository.save(UserConsent.of(user.getId(), request.termsAgreed(), request.privacyAgreed(), request.marketingAgreed()));
         return UserResponse.from(user);
@@ -108,20 +110,20 @@ public class AuthService {
 
     @Transactional
     public EmailVerificationResponse issueEmailVerification(EmailVerificationIssueRequest request) {
-        User user = userRepository.findByEmail(request.email())
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-        requireActive(user);
-        emailVerificationRepository.deleteByEmailAndUsedFalse(user.getEmail());
+        if (userRepository.existsByEmail(request.email())) {
+            throw new CustomException(ErrorCode.USER_EMAIL_DUPLICATE);
+        }
+        emailVerificationRepository.deleteByEmailAndUsedFalse(request.email());
         LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(EMAIL_TOKEN_MINUTES);
         EmailVerification verification = emailVerificationRepository.save(
-                EmailVerification.issue(user.getEmail(), issueEmailVerificationCode(), expiresAt)
+                EmailVerification.issue(request.email(), issueEmailVerificationCode(), expiresAt)
         );
         mailService.sendEmailVerification(verification.getEmail(), verification.getToken());
         return EmailVerificationResponse.from(verification);
     }
 
     @Transactional
-    public UserResponse confirmEmailVerification(EmailVerificationConfirmRequest request) {
+    public EmailVerificationResponse confirmEmailVerification(EmailVerificationConfirmRequest request) {
         EmailVerification verification = emailVerificationRepository.findByEmailAndToken(
                         request.email(),
                         request.token()
@@ -133,12 +135,11 @@ public class AuthService {
         if (verification.isExpired(LocalDateTime.now())) {
             throw new CustomException(ErrorCode.AUTH_EMAIL_VERIFICATION_EXPIRED);
         }
-        User user = userRepository.findByEmail(verification.getEmail())
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-        requireActive(user);
+        if (userRepository.existsByEmail(verification.getEmail())) {
+            throw new CustomException(ErrorCode.USER_EMAIL_DUPLICATE);
+        }
         verification.markUsed();
-        user.verifyEmail();
-        return UserResponse.from(user);
+        return EmailVerificationResponse.from(verification);
     }
 
     @Transactional
@@ -207,6 +208,14 @@ public class AuthService {
     private void requireActive(User user) {
         if (!user.isActive()) {
             throw new CustomException(ErrorCode.UNAUTHORIZED);
+        }
+    }
+
+    private void requireVerifiedEmail(String email) {
+        EmailVerification verification = emailVerificationRepository.findFirstByEmailAndUsedTrueOrderByUpdatedAtDesc(email)
+                .orElseThrow(() -> new CustomException(ErrorCode.AUTH_EMAIL_VERIFICATION_REQUIRED));
+        if (verification.isExpired(LocalDateTime.now())) {
+            throw new CustomException(ErrorCode.AUTH_EMAIL_VERIFICATION_EXPIRED);
         }
     }
 
