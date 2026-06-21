@@ -46,6 +46,8 @@ public class SecurityConfig {
                                 "/api/auth/password-resets",
                                 "/api/auth/password-resets/confirm"
                         ).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/results/share/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/notices", "/api/notices/**").permitAll()
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
