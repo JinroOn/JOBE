@@ -4,6 +4,7 @@ import com.jinroon.jobe.domain.result.entity.DiagnosisResult;
 import com.jinroon.jobe.domain.result.entity.ResultMajorScore;
 import com.jinroon.jobe.domain.result.dto.request.DiagnosisResultRequest;
 import com.jinroon.jobe.domain.result.dto.request.ResultMajorScoreRequest;
+import com.jinroon.jobe.domain.result.dto.response.SharedDiagnosisResultResponse;
 import com.jinroon.jobe.global.exception.error.ErrorDto;
 import com.jinroon.jobe.global.security.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
@@ -46,14 +47,14 @@ public interface ResultApi {
             @Parameter(description = "진단 결과 ID") @PathVariable Long resultId
     );
 
-    @Operation(summary = "공유 토큰으로 진단 결과 조회", description = "공유 토큰으로 진단 결과를 조회합니다. 로그인 없이 접근 가능한 공개 API입니다.")
+    @Operation(summary = "공유 토큰으로 진단 결과 조회", description = "공유 토큰으로 진단 결과와 작성자 닉네임을 조회합니다. 로그인 없이 접근 가능한 공개 API입니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "조회 성공",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = DiagnosisResult.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = SharedDiagnosisResultResponse.class))),
             @ApiResponse(responseCode = "404", description = "유효하지 않은 공유 토큰",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
-    DiagnosisResult getSharedResult(
+    SharedDiagnosisResultResponse getSharedResult(
             @Parameter(description = "공유 토큰") @PathVariable String shareToken
     );
 

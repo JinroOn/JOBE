@@ -3,6 +3,7 @@ package com.jinroon.jobe.domain.result.controller;
 import com.jinroon.jobe.domain.result.controller.api.ResultApi;
 import com.jinroon.jobe.domain.result.dto.request.DiagnosisResultRequest;
 import com.jinroon.jobe.domain.result.dto.request.ResultMajorScoreRequest;
+import com.jinroon.jobe.domain.result.dto.response.SharedDiagnosisResultResponse;
 import com.jinroon.jobe.domain.result.entity.DiagnosisResult;
 import com.jinroon.jobe.domain.result.entity.ResultMajorScore;
 import com.jinroon.jobe.domain.result.service.ResultService;
@@ -45,8 +46,8 @@ public class ResultController implements ResultApi {
 
     @Override
     @GetMapping("/share/{shareToken}")
-    public DiagnosisResult getSharedResult(@PathVariable String shareToken) {
-        return resultService.getSharedResult(shareToken);
+    public SharedDiagnosisResultResponse getSharedResult(@PathVariable String shareToken) {
+        return resultService.getSharedResultWithOwner(shareToken);
     }
 
     @Override
