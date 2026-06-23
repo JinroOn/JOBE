@@ -50,6 +50,12 @@ public class ResultController implements ResultApi {
     }
 
     @Override
+    @GetMapping("/share/{shareToken}/major-scores")
+    public List<ResultMajorScore> getSharedMajorScores(@PathVariable String shareToken) {
+        return resultService.findMajorScoresByShareToken(shareToken);
+    }
+
+    @Override
     @GetMapping("/{resultId}/major-scores")
     public List<ResultMajorScore> findMajorScores(
             @AuthenticationPrincipal CustomUserDetails userDetails,

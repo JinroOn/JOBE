@@ -53,6 +53,7 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/actuator/health"
                         ).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/results/share/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/users").hasRole("admin")
                         .requestMatchers(HttpMethod.POST, "/api/users").hasRole("admin")
                         .requestMatchers(HttpMethod.POST, "/api/users/email-verifications").hasRole("admin")
@@ -63,6 +64,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/notices").hasRole("admin")
                         .requestMatchers(HttpMethod.PATCH, "/api/notices/**").hasRole("admin")
                         .requestMatchers(HttpMethod.DELETE, "/api/notices/**").hasRole("admin")
+                        .requestMatchers("/api/notices", "/api/notices/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JwtFilter(jwtProvider, customUserDetailsService), UsernamePasswordAuthenticationFilter.class)

@@ -79,6 +79,11 @@ public class ResultService {
         return findMajorScores(resultId);
     }
 
+    public List<ResultMajorScore> findMajorScoresByShareToken(String shareToken) {
+        DiagnosisResult result = getSharedResult(shareToken);
+        return findMajorScores(result.getId());
+    }
+
     @Transactional
     public DiagnosisResult createResult(Map<String, Object> values) {
         String shareToken = UUID.randomUUID().toString().replace("-", "");
