@@ -57,6 +57,18 @@ public interface ResultApi {
             @Parameter(description = "공유 토큰") @PathVariable String shareToken
     );
 
+    @Operation(summary = "공유 토큰으로 전공별 점수 목록 조회", description = "공유 토큰으로 진단 결과의 전공별 점수를 순위순으로 반환합니다. 로그인 없이 접근 가능한 공개 API입니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "조회 성공",
+                    content = @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = ResultMajorScore.class)))),
+            @ApiResponse(responseCode = "404", description = "유효하지 않은 공유 토큰",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
+    })
+    List<ResultMajorScore> getSharedMajorScores(
+            @Parameter(description = "공유 토큰") @PathVariable String shareToken
+    );
+
     @Operation(summary = "전공별 점수 목록 조회", description = "진단 결과에 포함된 전공별 점수를 순위순으로 반환합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "조회 성공",
