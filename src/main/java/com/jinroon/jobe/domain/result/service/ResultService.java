@@ -20,10 +20,13 @@ import com.jinroon.jobe.domain.diagnosis.repository.DiagnosisSessionRepository;
 import com.jinroon.jobe.domain.major.entity.Major;
 import com.jinroon.jobe.domain.major.repository.MajorRepository;
 import com.jinroon.jobe.domain.major.service.MajorDatasetContextService;
+import com.jinroon.jobe.domain.result.dto.response.SharedDiagnosisResultResponse;
 import com.jinroon.jobe.domain.result.entity.DiagnosisResult;
 import com.jinroon.jobe.domain.result.entity.ResultMajorScore;
 import com.jinroon.jobe.domain.result.repository.DiagnosisResultRepository;
 import com.jinroon.jobe.domain.result.repository.ResultMajorScoreRepository;
+import com.jinroon.jobe.domain.user.entity.User;
+import com.jinroon.jobe.domain.user.repository.UserRepository;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +51,7 @@ public class ResultService {
     private final DiagnosisSessionRepository diagnosisSessionRepository;
     private final CompetencyEvalResultRepository competencyEvalResultRepository;
     private final MajorRepository majorRepository;
+    private final UserRepository userRepository;
     private final AiServiceClient aiServiceClient;
     private final MajorDatasetContextService majorDatasetContextService;
 
@@ -68,6 +72,14 @@ public class ResultService {
     public DiagnosisResult getSharedResult(String shareToken) {
         return diagnosisResultRepository.findByShareToken(shareToken)
                 .orElseThrow(() -> new CustomException(ErrorCode.RESULT_SHARE_TOKEN_NOT_FOUND));
+    }
+
+    public SharedDiagnosisResultResponse getSharedResultWithOwner(String shareToken) {
+        DiagnosisResult result = getSharedResult(shareToken);
+        String ownerNickname = userRepository.findById(result.getUserId())
+                .map(User::getNickname)
+                .orElse("알 수 없음");
+        return new SharedDiagnosisResultResponse(result, ownerNickname);
     }
 
     public List<ResultMajorScore> findMajorScores(Long resultId) {

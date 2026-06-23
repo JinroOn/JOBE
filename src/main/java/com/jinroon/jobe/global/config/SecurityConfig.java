@@ -47,13 +47,13 @@ public class SecurityConfig {
                                 "/api/auth/password-resets/confirm"
                         ).permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/results/share/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/majors", "/api/majors/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/notices", "/api/notices/**").permitAll()
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
                                 "/actuator/health"
                         ).permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/results/share/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/users").hasRole("admin")
                         .requestMatchers(HttpMethod.POST, "/api/users").hasRole("admin")
                         .requestMatchers(HttpMethod.POST, "/api/users/email-verifications").hasRole("admin")
