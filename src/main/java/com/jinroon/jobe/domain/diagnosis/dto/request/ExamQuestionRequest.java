@@ -17,6 +17,9 @@ public class ExamQuestionRequest {
     @Schema(description = "역량 카테고리", example = "math_logic")
     private String competencyCategory;
 
+    @Schema(description = "문항 타입", example = "objective", allowableValues = {"objective", "situation", "preference", "essay"})
+    private String questionType;
+
     @Schema(description = "문항 내용", example = "다음 중 ...")
     @Size(max = 10000)
     private String questionText;

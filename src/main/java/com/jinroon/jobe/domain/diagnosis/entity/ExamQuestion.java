@@ -1,7 +1,9 @@
 package com.jinroon.jobe.domain.diagnosis.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinroon.jobe.global.common.entity.BaseEntitySupport;
 import com.jinroon.jobe.domain.diagnosis.enums.DiagnosisEnums.CompetencyCategory;
+import com.jinroon.jobe.domain.diagnosis.enums.DiagnosisEnums.QuestionType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,6 +24,10 @@ public class ExamQuestion extends BaseEntitySupport {
     @Enumerated(EnumType.STRING)
     @Column(name = "competency_category", nullable = false, length = 40)
     private CompetencyCategory competencyCategory;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "question_type", length = 20)
+    private QuestionType questionType;
 
     @Lob
     @Column(name = "question_text", nullable = false, columnDefinition = "TEXT")
@@ -78,4 +84,23 @@ public class ExamQuestion extends BaseEntitySupport {
 
     @Column(name = "w_self_management", nullable = false)
     private Float wSelfManagement;
+
+    public QuestionType getQuestionType() {
+        if (questionType != null) {
+            return questionType;
+        }
+        if (isBlank(optionA) && isBlank(optionB) && isBlank(optionC) && isBlank(optionD)) {
+            return QuestionType.essay;
+        }
+        return QuestionType.objective;
+    }
+
+    @JsonIgnore
+    public boolean isEssay() {
+        return getQuestionType() == QuestionType.essay;
+    }
+
+    private static boolean isBlank(String value) {
+        return value == null || value.isBlank();
+    }
 }
