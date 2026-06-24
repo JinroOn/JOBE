@@ -7,7 +7,8 @@ public record WeeklyPlanRequest(
         TargetMajor targetMajor,
         List<String> weaknessFocus,
         Profile profile,
-        Constraints constraints
+        Constraints constraints,
+        DiagnosisProfileContext profileContext
 ) {
     public record TargetMajor(
             String majorName,

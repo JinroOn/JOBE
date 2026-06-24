@@ -21,7 +21,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Ingest JOBE major/RAG datasets into AI PostgreSQL.")
     parser.add_argument("--dataset-root", type=Path, default=ROOT.parent / "datasets")
     parser.add_argument("--dataset-version", required=True)
-    parser.add_argument("--embedding-model", default=os.getenv("EMBEDDING_MODEL") or "text-embedding-3-small")
+    parser.add_argument("--embedding-model", default=os.getenv("EMBEDDING_MODEL") or "text-embedding-3-large")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--force", action="store_true")

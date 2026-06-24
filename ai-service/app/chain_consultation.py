@@ -4,7 +4,8 @@ import asyncio
 import os
 from dataclasses import dataclass
 
-from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.messages import SystemMessage
+from langchain_core.prompts import ChatPromptTemplate, HumanMessagePromptTemplate
 from langchain_openai import ChatOpenAI
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -74,12 +75,7 @@ class ConsultationChain:
                 base_url=self.base_url or None,
             )
             structured = llm.with_structured_output(GeneratedConsultationAnswer)
-            prompt = ChatPromptTemplate.from_messages(
-                [
-                    ("system", self._system_prompt()),
-                    ("human", "Input JSON:\n{input_json}"),
-                ]
-            )
+            prompt = self._build_prompt()
             chain = prompt | structured
             generated = await asyncio.wait_for(
                 chain.ainvoke({"input_json": request.model_dump_json()}),
@@ -103,6 +99,14 @@ class ConsultationChain:
         except Exception as exc:  # noqa: BLE001
             raise UpstreamUnavailableError("LLM provider request failed") from exc
 
+    def _build_prompt(self) -> ChatPromptTemplate:
+        return ChatPromptTemplate.from_messages(
+            [
+                SystemMessage(content=self._system_prompt()),
+                HumanMessagePromptTemplate.from_template("Input JSON:\n{input_json}"),
+            ]
+        )
+
     def _mock_response(self, *, request: ConsultationChatRequest, request_id: str) -> ConsultationChatResponse:
         if self._needs_jinroon_diagnosis_guidance(request):
             content = MISSING_CONTEXT_GUIDANCE
@@ -115,9 +119,17 @@ class ConsultationChain:
             weakness = request.diagnosisContext.weaknessFocus if request.diagnosisContext else []
             major_text = ", ".join(major_names[:3]) if major_names else "상담에서 언급한 관심 분야"
             weakness_text = ", ".join(weakness[:2]) if weakness else "현재 보완이 필요한 역량"
+            dream_job = (
+                request.diagnosisContext.profileContext.dreamJob
+                if request.diagnosisContext
+                and request.diagnosisContext.profileContext
+                and request.diagnosisContext.profileContext.dreamJob
+                else None
+            )
+            dream_job_text = f" 목표 직무인 {dream_job}도 함께 고려하면" if dream_job else ""
             content = (
                 f"저장된 진단 결과와 상담 맥락을 보면 {major_text} 방향을 우선 기준으로 삼을 수 있습니다. "
-                f"다만 구체적인 강의나 자격증 목록 데이터는 현재 제공된 컨텍스트에 없으므로, {weakness_text}을 보완하는 학습 주제와 실습 중심 리소스부터 추천하는 것이 안전합니다. "
+                f"{dream_job_text} 구체적인 강의나 자격증 목록 데이터는 현재 제공된 컨텍스트에 없으므로, {weakness_text}을 보완하는 학습 주제와 실습 중심 리소스부터 추천하는 것이 안전합니다. "
                 "목표 직무나 관심 전공을 조금 더 구체적으로 알려주면 우선순위와 준비 순서를 더 좁혀드릴 수 있습니다."
             )
         return ConsultationChatResponse(

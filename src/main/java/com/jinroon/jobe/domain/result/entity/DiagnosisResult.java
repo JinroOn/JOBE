@@ -57,6 +57,39 @@ public class DiagnosisResult extends BaseEntitySupport {
     @Column(name = "ai_comment_completed_at")
     private LocalDateTime aiCommentCompletedAt;
 
+    public static DiagnosisResult create(
+            Long diagnosisSessionId,
+            Long userId,
+            String competencyVector,
+            String tendencyVector,
+            String topMajorsJson,
+            String shareToken
+    ) {
+        DiagnosisResult result = new DiagnosisResult();
+        result.diagnosisSessionId = diagnosisSessionId;
+        result.userId = userId;
+        result.competencyVector = competencyVector;
+        result.tendencyVector = tendencyVector;
+        result.topMajorsJson = topMajorsJson;
+        result.shareToken = shareToken;
+        return result;
+    }
+
+    public void updateRecommendationData(String competencyVector, String tendencyVector, String topMajorsJson) {
+        this.competencyVector = competencyVector;
+        this.tendencyVector = tendencyVector;
+        this.topMajorsJson = topMajorsJson;
+    }
+
+    public void resetAiCommentForRecommendationChange() {
+        this.aiComment = null;
+        this.weaknessFocus = null;
+        this.aiCommentStatus = AiGenerationStatus.NOT_REQUESTED;
+        this.aiCommentErrorMessage = null;
+        this.aiCommentRequestedAt = null;
+        this.aiCommentCompletedAt = null;
+    }
+
     public void applyAiComment(String aiComment, String weaknessFocus) {
         this.aiComment = aiComment;
         this.weaknessFocus = weaknessFocus;

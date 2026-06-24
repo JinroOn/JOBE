@@ -3,6 +3,7 @@ package com.jinroon.jobe.domain.diagnosis.dto.request;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +13,7 @@ import lombok.Setter;
 public class TendencyEvalResultRequest {
 
     @Schema(description = "진단 세션 ID", example = "1")
+    @NotNull
     private Long diagnosisSessionId;
 
     @Schema(description = "논리탐구 성향", example = "0.9")

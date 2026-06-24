@@ -13,6 +13,7 @@ from app.rag.ingestion import (
     create_embedding_provider,
     get_embedding_batch_size,
     get_embedding_texts_per_minute,
+    get_embedding_output_dimensions,
     ingest_dataset,
     normalize_major_key,
     parse_dataset,
@@ -158,8 +159,10 @@ def test_embedding_dimension_mismatch_is_rejected(tmp_path, monkeypatch) -> None
 def test_embedding_provider_selection_openai_compatible(monkeypatch) -> None:
     monkeypatch.setenv("EMBEDDING_PROVIDER", "openai-compatible")
     monkeypatch.setenv("EMBEDDING_API_KEY", "test-key")
+    monkeypatch.setenv("EMBEDDING_OUTPUT_DIMENSIONS", "1536")
     provider = create_embedding_provider(model="text-embedding-3-small", dimension=1536)
     assert isinstance(provider, OpenAICompatibleEmbeddingProvider)
+    assert provider.output_dimensions == 1536
 
 
 def test_embedding_provider_selection_gemini(monkeypatch) -> None:
@@ -184,6 +187,8 @@ def test_extract_gemini_vectors() -> None:
 def test_embedding_env_int_defaults_when_empty(monkeypatch) -> None:
     monkeypatch.setenv("EMBEDDING_BATCH_SIZE", "")
     monkeypatch.setenv("EMBEDDING_TEXTS_PER_MINUTE", "")
+    monkeypatch.setenv("EMBEDDING_OUTPUT_DIMENSIONS", "")
 
     assert get_embedding_batch_size() == 32
     assert get_embedding_texts_per_minute() == 90
+    assert get_embedding_output_dimensions() is None

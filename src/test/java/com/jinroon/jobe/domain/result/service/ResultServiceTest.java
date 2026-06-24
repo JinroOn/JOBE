@@ -3,28 +3,44 @@ package com.jinroon.jobe.domain.result.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyFloat;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jinroon.jobe.domain.diagnosis.entity.CompetencyEvalResult;
+import com.jinroon.jobe.domain.diagnosis.entity.DiagnosisSession;
+import com.jinroon.jobe.domain.diagnosis.entity.TendencyEvalResult;
+import com.jinroon.jobe.domain.diagnosis.dto.DiagnosisProfileAdjustment;
+import com.jinroon.jobe.domain.diagnosis.dto.DiagnosisProfileSnapshot;
 import com.jinroon.jobe.domain.diagnosis.repository.CompetencyEvalResultRepository;
 import com.jinroon.jobe.domain.diagnosis.repository.DiagnosisSessionRepository;
+import com.jinroon.jobe.domain.diagnosis.repository.TendencyEvalResultRepository;
+import com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringService;
+import com.jinroon.jobe.domain.diagnosis.enums.DiagnosisEnums.DiagnosisStatus;
 import com.jinroon.jobe.domain.major.entity.Major;
 import com.jinroon.jobe.domain.major.repository.MajorRepository;
 import com.jinroon.jobe.domain.major.service.MajorDatasetContextService;
+import com.jinroon.jobe.domain.plan.entity.MajorWeeklyPlan;
+import com.jinroon.jobe.domain.plan.service.PlanService;
 import com.jinroon.jobe.domain.result.entity.DiagnosisResult;
 import com.jinroon.jobe.domain.result.entity.ResultMajorScore;
 import com.jinroon.jobe.domain.result.repository.DiagnosisResultRepository;
 import com.jinroon.jobe.domain.result.repository.ResultMajorScoreRepository;
+import com.jinroon.jobe.domain.user.repository.UserRepository;
 import com.jinroon.jobe.global.client.AiServiceClient;
 import com.jinroon.jobe.global.client.dto.request.RecommendationCommentRequest;
 import com.jinroon.jobe.global.client.dto.response.RecommendationCommentResponse;
 import com.jinroon.jobe.global.common.ai.AiGenerationStatus;
 import com.jinroon.jobe.global.exception.CustomException;
 import com.jinroon.jobe.global.exception.error.ErrorCode;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,13 +65,25 @@ class ResultServiceTest {
     private CompetencyEvalResultRepository competencyEvalResultRepository;
 
     @Mock
+    private TendencyEvalResultRepository tendencyEvalResultRepository;
+
+    @Mock
     private MajorRepository majorRepository;
+
+    @Mock
+    private DiagnosisProfileScoringService diagnosisProfileScoringService;
+
+    @Mock
+    private UserRepository userRepository;
 
     @Mock
     private AiServiceClient aiServiceClient;
 
     @Mock
     private MajorDatasetContextService majorDatasetContextService;
+
+    @Mock
+    private PlanService planService;
 
     private ResultService resultService;
 
@@ -66,10 +94,269 @@ class ResultServiceTest {
                 resultMajorScoreRepository,
                 diagnosisSessionRepository,
                 competencyEvalResultRepository,
+                tendencyEvalResultRepository,
                 majorRepository,
+                diagnosisProfileScoringService,
+                userRepository,
                 aiServiceClient,
-                majorDatasetContextService
+                majorDatasetContextService,
+                new ObjectMapper(),
+                planService
         );
+    }
+
+    @Test
+    void createMajorScoreForUserAppliesProfileAdjustment() {
+        DiagnosisResult result = diagnosisResult(1L, 10L, 7L);
+        DiagnosisSession session = diagnosisSession(10L, 7L, "{\"selectedSubjects\":[\"정보/코딩\"]}");
+        Major major = major(100L, "컴퓨터공학과");
+        Map<String, Object> values = new HashMap<>();
+        values.put("diagnosisResultId", 1L);
+        values.put("majorId", 100L);
+        values.put("competencyScore", 80.0f);
+        values.put("tendencyScore", 70.0f);
+        values.put("finalScore", 76.0f);
+        values.put("rank", 1);
+        values.put("failed", false);
+
+        when(diagnosisResultRepository.findById(1L)).thenReturn(Optional.of(result));
+        when(diagnosisSessionRepository.findById(10L)).thenReturn(Optional.of(session));
+        when(majorRepository.findById(100L)).thenReturn(Optional.of(major));
+        when(diagnosisProfileScoringService.calculateProfileAdjustment(session, major))
+                .thenReturn(new DiagnosisProfileAdjustment(4.0f, List.of("프로필 보정 사유")));
+        when(diagnosisProfileScoringService.adjustedFinalScore(80.0f, 70.0f, 76.0f, 4.0f))
+                .thenReturn(80.0f);
+        when(resultMajorScoreRepository.save(any(ResultMajorScore.class)))
+                .thenAnswer(invocation -> invocation.getArgument(0));
+        when(resultMajorScoreRepository.findByDiagnosisResultIdOrderByRankAsc(1L)).thenReturn(List.of());
+
+        ResultMajorScore actual = resultService.createMajorScoreForUser(values, 7L);
+
+        assertThat(actual.getFinalScore()).isEqualTo(80.0f);
+        assertThat(actual.getRecommendationReason()).isEqualTo("프로필 보정 사유");
+        assertThat(values.get("finalScore")).isEqualTo(80.0f);
+    }
+
+    @Test
+    void createMajorScoreForUserReranksScoresAfterAdjustment() {
+        DiagnosisResult result = diagnosisResult(1L, 10L, 7L);
+        DiagnosisSession session = diagnosisSession(10L, 7L, "{\"selectedSubjects\":[\"정보/코딩\"]}");
+        Major major = major(100L, "컴퓨터공학과");
+        ResultMajorScore lowerScore = resultMajorScore(11L, 1L, 101L, 1, 83.0f);
+        ResultMajorScore failedHighScore = resultMajorScore(12L, 1L, 102L, 2, 99.0f);
+        ReflectionTestUtils.setField(failedHighScore, "failed", true);
+        Map<String, Object> values = new HashMap<>();
+        values.put("diagnosisResultId", 1L);
+        values.put("majorId", 100L);
+        values.put("finalScore", 86.0f);
+        values.put("rank", 3);
+        values.put("failed", false);
+        ResultMajorScore[] savedScore = new ResultMajorScore[1];
+
+        when(diagnosisResultRepository.findById(1L)).thenReturn(Optional.of(result));
+        when(diagnosisSessionRepository.findById(10L)).thenReturn(Optional.of(session));
+        when(majorRepository.findById(100L)).thenReturn(Optional.of(major));
+        when(diagnosisProfileScoringService.calculateProfileAdjustment(session, major))
+                .thenReturn(DiagnosisProfileAdjustment.neutral());
+        when(diagnosisProfileScoringService.adjustedFinalScore(null, null, 86.0f, 0.0f))
+                .thenReturn(86.0f);
+        when(resultMajorScoreRepository.save(any(ResultMajorScore.class))).thenAnswer(invocation -> {
+            ResultMajorScore saved = invocation.getArgument(0);
+            ReflectionTestUtils.setField(saved, "id", 13L);
+            savedScore[0] = saved;
+            return saved;
+        });
+        when(resultMajorScoreRepository.findByDiagnosisResultIdOrderByRankAsc(1L))
+                .thenAnswer(invocation -> List.of(lowerScore, failedHighScore, savedScore[0]));
+
+        ResultMajorScore actual = resultService.createMajorScoreForUser(values, 7L);
+
+        assertThat(actual.getRank()).isEqualTo(1);
+        assertThat(lowerScore.getRank()).isEqualTo(2);
+        assertThat(failedHighScore.getRank()).isEqualTo(3);
+    }
+
+    @Test
+    void completeDiagnosisResultForUserCreatesResultAndMajorScores() {
+        DiagnosisSession session = diagnosisSession(10L, 7L, "{}");
+        CompetencyEvalResult competency = competencyResult(10L);
+        TendencyEvalResult tendency = tendencyResult(10L);
+        Major firstMajor = scoringMajor(100L, "Software", 50.0f, 50.0f);
+        Major secondMajor = scoringMajor(101L, "Design", 60.0f, 60.0f);
+
+        stubCompleteDependencies(session, competency, tendency, List.of(firstMajor, secondMajor));
+
+        DiagnosisResult result = resultService.completeDiagnosisResultForUser(10L, 7L);
+
+        assertThat(result.getId()).isEqualTo(1L);
+        assertThat(result.getDiagnosisSessionId()).isEqualTo(10L);
+        assertThat(result.getUserId()).isEqualTo(7L);
+        assertThat(result.getShareToken()).isNotBlank();
+        assertThat(result.getCompetencyVector()).contains("mathLogic");
+        assertThat(result.getTendencyVector()).contains("tendLogicalInquiry");
+        assertThat(session.getStatus()).isEqualTo(DiagnosisStatus.completed);
+        assertThat(session.getCompletedAt()).isNotNull();
+
+        @SuppressWarnings("unchecked")
+        ArgumentCaptor<List<ResultMajorScore>> scoresCaptor = ArgumentCaptor.forClass(List.class);
+        verify(resultMajorScoreRepository).deleteAllByDiagnosisResultId(1L);
+        verify(resultMajorScoreRepository).saveAll(scoresCaptor.capture());
+        assertThat(scoresCaptor.getValue()).hasSize(2);
+        assertThat(scoresCaptor.getValue()).extracting(ResultMajorScore::getRank).containsExactly(1, 2);
+    }
+
+    @Test
+    void completeDiagnosisResultForUserReusesExistingResultAndReplacesScores() {
+        DiagnosisSession session = diagnosisSession(10L, 7L, "{}");
+        CompetencyEvalResult competency = competencyResult(10L);
+        TendencyEvalResult tendency = tendencyResult(10L);
+        DiagnosisResult existing = diagnosisResult(5L, 10L, 7L);
+        ReflectionTestUtils.setField(existing, "shareToken", "existing-share-token");
+        existing.applyAiComment("stale ai comment", "communicationScore");
+        existing.markAiCommentSucceeded();
+        Major major = scoringMajor(100L, "Software", 50.0f, 50.0f);
+
+        stubCompleteDependencies(session, competency, tendency, List.of(major));
+        when(diagnosisResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.of(existing));
+
+        DiagnosisResult result = resultService.completeDiagnosisResultForUser(10L, 7L);
+
+        assertThat(result).isSameAs(existing);
+        assertThat(result.getShareToken()).isEqualTo("existing-share-token");
+        assertThat(result.getAiComment()).isNull();
+        assertThat(result.getWeaknessFocus()).isNull();
+        assertThat(result.getAiCommentStatus()).isEqualTo(AiGenerationStatus.NOT_REQUESTED);
+        assertThat(result.getAiCommentErrorMessage()).isNull();
+        assertThat(result.getAiCommentRequestedAt()).isNull();
+        assertThat(result.getAiCommentCompletedAt()).isNull();
+        verify(resultMajorScoreRepository).deleteAllByDiagnosisResultId(5L);
+
+        @SuppressWarnings("unchecked")
+        ArgumentCaptor<List<ResultMajorScore>> scoresCaptor = ArgumentCaptor.forClass(List.class);
+        verify(resultMajorScoreRepository).saveAll(scoresCaptor.capture());
+        assertThat(scoresCaptor.getValue()).hasSize(1);
+        assertThat(scoresCaptor.getValue().get(0).getDiagnosisResultId()).isEqualTo(5L);
+    }
+
+    @Test
+    void completeDiagnosisResultForUserFailsWhenCompetencyResultIsMissing() {
+        DiagnosisSession session = diagnosisSession(10L, 7L, "{}");
+        when(diagnosisSessionRepository.findById(10L)).thenReturn(Optional.of(session));
+        when(competencyEvalResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> resultService.completeDiagnosisResultForUser(10L, 7L))
+                .isInstanceOf(CustomException.class)
+                .extracting("errorCode")
+                .isEqualTo(ErrorCode.DIAGNOSIS_COMPETENCY_RESULT_NOT_FOUND);
+    }
+
+    @Test
+    void completeDiagnosisResultForUserFailsWhenTendencyResultIsMissing() {
+        DiagnosisSession session = diagnosisSession(10L, 7L, "{}");
+        CompetencyEvalResult competency = competencyResult(10L);
+        when(diagnosisSessionRepository.findById(10L)).thenReturn(Optional.of(session));
+        when(competencyEvalResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.of(competency));
+        when(tendencyEvalResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> resultService.completeDiagnosisResultForUser(10L, 7L))
+                .isInstanceOf(CustomException.class)
+                .extracting("errorCode")
+                .isEqualTo(ErrorCode.DIAGNOSIS_TENDENCY_RESULT_NOT_FOUND);
+    }
+
+    @Test
+    void completeDiagnosisResultForUserRejectsOtherUsersSession() {
+        DiagnosisSession session = diagnosisSession(10L, 7L, "{}");
+        when(diagnosisSessionRepository.findById(10L)).thenReturn(Optional.of(session));
+
+        assertThatThrownBy(() -> resultService.completeDiagnosisResultForUser(10L, 99L))
+                .isInstanceOf(CustomException.class)
+                .extracting("errorCode")
+                .isEqualTo(ErrorCode.FORBIDDEN);
+
+        verify(competencyEvalResultRepository, never()).findByDiagnosisSessionId(any());
+    }
+
+    @Test
+    void completeDiagnosisResultForUserAppliesProfileAdjustmentToFinalScore() {
+        DiagnosisSession session = diagnosisSession(10L, 7L, "{\"dreamJob\":\"software developer\"}");
+        CompetencyEvalResult competency = competencyResult(10L);
+        TendencyEvalResult tendency = tendencyResult(10L);
+        Major major = scoringMajor(100L, "Software", 80.0f, 80.0f);
+
+        stubCompleteDependencies(session, competency, tendency, List.of(major));
+        when(diagnosisProfileScoringService.calculateProfileAdjustment(session, major))
+                .thenReturn(new DiagnosisProfileAdjustment(4.0f, List.of("profile fit")));
+
+        resultService.completeDiagnosisResultForUser(10L, 7L);
+
+        @SuppressWarnings("unchecked")
+        ArgumentCaptor<List<ResultMajorScore>> scoresCaptor = ArgumentCaptor.forClass(List.class);
+        verify(resultMajorScoreRepository).saveAll(scoresCaptor.capture());
+        ResultMajorScore score = scoresCaptor.getValue().get(0);
+
+        assertThat(score.getFinalScore()).isGreaterThan(score.getCompetencyScore() * 0.6f + score.getTendencyScore() * 0.4f);
+        assertThat(score.getRecommendationReason()).isEqualTo("profile fit");
+    }
+
+    @Test
+    void completeDiagnosisResultForUserRanksFailedMajorsAfterNonFailedMajorsAndUsesStableTieBreakers() {
+        DiagnosisSession session = diagnosisSession(10L, 7L, "{}");
+        CompetencyEvalResult competency = competencyResult(10L);
+        TendencyEvalResult tendency = tendencyResult(10L);
+        Major failedHighScore = scoringMajor(100L, "Failed", 50.0f, 50.0f);
+        ReflectionTestUtils.setField(failedHighScore, "thrMathLogic", 95.0f);
+        Major tieSecondById = scoringMajor(102L, "Tie B", 70.0f, 70.0f);
+        Major tieFirstById = scoringMajor(101L, "Tie A", 70.0f, 70.0f);
+
+        stubCompleteDependencies(session, competency, tendency, List.of(failedHighScore, tieSecondById, tieFirstById));
+
+        resultService.completeDiagnosisResultForUser(10L, 7L);
+
+        @SuppressWarnings("unchecked")
+        ArgumentCaptor<List<ResultMajorScore>> scoresCaptor = ArgumentCaptor.forClass(List.class);
+        verify(resultMajorScoreRepository).saveAll(scoresCaptor.capture());
+        List<ResultMajorScore> scores = scoresCaptor.getValue();
+
+        assertThat(scores).extracting(ResultMajorScore::getMajorId).containsExactly(101L, 102L, 100L);
+        assertThat(scores).extracting(ResultMajorScore::getRank).containsExactly(1, 2, 3);
+        assertThat(scores.get(2).getFailed()).isTrue();
+    }
+
+    @Test
+    void completeDiagnosisResultForUserCreatesInitialPlanForTopNonFailedMajor() {
+        DiagnosisSession session = diagnosisSession(10L, 7L, "{}");
+        CompetencyEvalResult competency = competencyResult(10L);
+        TendencyEvalResult tendency = tendencyResult(10L);
+        Major major = scoringMajor(100L, "Software", 50.0f, 50.0f);
+
+        stubCompleteDependencies(session, competency, tendency, List.of(major));
+
+        resultService.completeDiagnosisResultForUser(10L, 7L);
+
+        @SuppressWarnings("unchecked")
+        ArgumentCaptor<Map<String, Object>> planCaptor = ArgumentCaptor.forClass(Map.class);
+        verify(planService).createPlan(planCaptor.capture());
+        assertThat(planCaptor.getValue()).containsEntry("diagnosisResultId", 1L);
+        assertThat(planCaptor.getValue()).containsEntry("resultMajorScoreId", 10L);
+        assertThat(planCaptor.getValue()).containsEntry("activeVersion", true);
+    }
+
+    @Test
+    void completeDiagnosisResultForUserDoesNotCreateDuplicatePlanWhenActivePlanExists() {
+        DiagnosisSession session = diagnosisSession(10L, 7L, "{}");
+        CompetencyEvalResult competency = competencyResult(10L);
+        TendencyEvalResult tendency = tendencyResult(10L);
+        Major major = scoringMajor(100L, "Software", 50.0f, 50.0f);
+        MajorWeeklyPlan activePlan = activePlan(77L, 1L);
+
+        stubCompleteDependencies(session, competency, tendency, List.of(major));
+        when(planService.findPlansByResult(1L)).thenReturn(List.of(activePlan));
+
+        resultService.completeDiagnosisResultForUser(10L, 7L);
+
+        verify(planService, times(1)).findPlansByResult(1L);
+        verify(planService, never()).createPlan(any());
     }
 
     @Test
@@ -241,7 +528,7 @@ class ResultServiceTest {
     }
 
     @Test
-    void generateAiCommentRequestContainsOnlyPrimaryMajor() {
+    void generateAiCommentRequestContainsRankOneMajorWithQuizPrimaryContext() {
         DiagnosisResult result = diagnosisResult(1L, 10L, 7L);
         CompetencyEvalResult competency = competencyResult(10L);
         ResultMajorScore firstScore = resultMajorScore(11L, 1L, 100L, 1, 87.5f);
@@ -267,6 +554,19 @@ class ResultServiceTest {
         when(resultMajorScoreRepository.findByDiagnosisResultIdOrderByRankAsc(1L))
                 .thenReturn(List.of(firstScore, secondScore));
         when(majorRepository.findAllById(List.of(100L))).thenReturn(List.of(computerScience));
+        when(diagnosisSessionRepository.findById(10L))
+                .thenReturn(Optional.of(diagnosisSession(10L, 7L, "{\"dreamJob\":\"AI 데이터 사이언티스트\"}")));
+        when(diagnosisProfileScoringService.parse(any()))
+                .thenReturn(new DiagnosisProfileSnapshot(
+                        "1학년",
+                        "AI 데이터 사이언티스트",
+                        List.of("정보/코딩"),
+                        4.5,
+                        "practice",
+                        80,
+                        Map.of(),
+                        "데이터로 문제를 해결하고 싶다"
+                ));
         when(majorDatasetContextService.toRecommendationMajorContext(computerScience))
                 .thenReturn(new RecommendationCommentRequest.MajorContext(
                         "공학",
@@ -287,7 +587,26 @@ class ResultServiceTest {
         assertThat(request.topMajors()).hasSize(1);
         assertThat(request.topMajors().get(0).majorName()).isEqualTo("컴퓨터공학과");
         assertThat(request.topMajors().get(0).rankingOrder()).isEqualTo(1);
+        assertThat(request.topMajors().get(0).strengths())
+                .contains("do not mention scoring mechanics")
+                .contains("Explain concrete fit points")
+                .doesNotContain("Quiz competency is the primary diagnostic signal")
+                .doesNotContain("tendency and profile data are supporting signals only")
+                .doesNotContain("softwareImplementationScore")
+                .doesNotContain("mathLogicalScore")
+                .doesNotContain("systemUnderstandingScore");
+        assertThat(request.topMajors().get(0).strengths()).hasSizeLessThanOrEqualTo(500);
+        assertThat(request.topMajors().get(0).weaknesses())
+                .isNotBlank()
+                .doesNotContain("softwareImplementationScore")
+                .doesNotContain("mathLogicalScore")
+                .doesNotContain("systemUnderstandingScore");
+        assertThat(request.topMajors().get(0).weaknesses()).hasSizeLessThanOrEqualTo(500);
         assertThat(request.recommendationGroups()).isEmpty();
+        assertThat(request.profileContext()).isNotNull();
+        assertThat(request.profileContext().dreamJob()).isEqualTo("AI 데이터 사이언티스트");
+        assertThat(request.userContext()).isNotNull();
+        assertThat(request.userContext().careerField()).isEqualTo("AI 데이터 사이언티스트");
         assertThat(request.topMajors().get(0).majorContext()).isNotNull();
         assertThat(request.topMajors().get(0).majorContext().ragSnippets()).containsExactly("컴퓨터공학과 RAG snippet");
         assertThat(firstScore.getRecommendationReason()).isEqualTo("구현력이 강해 잘 맞습니다.");
@@ -339,7 +658,8 @@ class ResultServiceTest {
                         rankFiveScore,
                         rankEightScore
                 ));
-        when(majorRepository.findAllById(List.of(201L))).thenReturn(List.of(topMajor));
+        when(majorRepository.findAllById(List.of(201L)))
+                .thenReturn(List.of(topMajor));
         when(aiServiceClient.getRecommendationComment(any(RecommendationCommentRequest.class))).thenReturn(response);
 
         DiagnosisResult actual = resultService.generateAiCommentForUser(1L, 7L);
@@ -353,11 +673,58 @@ class ResultServiceTest {
         assertThat(request.topMajors()).hasSize(1);
         assertThat(request.topMajors().get(0).majorName()).isEqualTo("Primary Major");
         assertThat(request.topMajors().get(0).rankingOrder()).isEqualTo(1);
+        assertThat(request.topMajors()).extracting(RecommendationCommentRequest.TopMajor::majorName)
+                .containsExactly("Primary Major");
         assertThat(request.recommendationGroups()).isEmpty();
         assertThat(result.getAiComment()).isEqualTo("primary summary");
         assertThat(result.getAiCommentStatus()).isEqualTo(AiGenerationStatus.SUCCEEDED);
         assertThat(rankOneScore.getRecommendationReason()).isEqualTo("primary reason");
         assertThat(rankTwoScore.getRecommendationReason()).isNull();
+    }
+
+    @Test
+    void generateAiCommentSendsRankOneMajorEvenWhenOtherNonFailedMajorsExist() {
+        DiagnosisResult result = diagnosisResult(1L, 10L, 7L);
+        CompetencyEvalResult competency = competencyResult(10L);
+        ResultMajorScore firstScore = resultMajorScore(11L, 1L, 301L, 1, 91.0f);
+        ResultMajorScore failedSecondScore = resultMajorScore(12L, 1L, 302L, 2, 90.0f);
+        ResultMajorScore thirdScore = resultMajorScore(13L, 1L, 303L, 3, 89.0f);
+        ResultMajorScore failedFourthScore = resultMajorScore(14L, 1L, 304L, 4, 88.0f);
+        ReflectionTestUtils.setField(failedSecondScore, "failed", true);
+        ReflectionTestUtils.setField(failedFourthScore, "failed", true);
+        Major firstMajor = major(301L, "First Major");
+        RecommendationCommentResponse response = new RecommendationCommentResponse(
+                "summary",
+                List.of(new RecommendationCommentResponse.MajorComment(
+                        "First Major",
+                        1,
+                        91.0,
+                        "strength",
+                        "weakness",
+                        "reason"
+                )),
+                List.of("communicationScore"),
+                "rec-comment-v1.2.0",
+                "request-failed-fill"
+        );
+
+        when(diagnosisResultRepository.findById(1L)).thenReturn(Optional.of(result));
+        when(competencyEvalResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.of(competency));
+        when(resultMajorScoreRepository.findByDiagnosisResultIdOrderByRankAsc(1L))
+                .thenReturn(List.of(firstScore, failedSecondScore, thirdScore, failedFourthScore));
+        when(majorRepository.findAllById(List.of(301L)))
+                .thenReturn(List.of(firstMajor));
+        when(aiServiceClient.getRecommendationComment(any(RecommendationCommentRequest.class))).thenReturn(response);
+
+        resultService.generateAiCommentForUser(1L, 7L);
+
+        ArgumentCaptor<RecommendationCommentRequest> requestCaptor =
+                ArgumentCaptor.forClass(RecommendationCommentRequest.class);
+        verify(aiServiceClient).getRecommendationComment(requestCaptor.capture());
+        RecommendationCommentRequest request = requestCaptor.getValue();
+
+        assertThat(request.topMajors()).extracting(RecommendationCommentRequest.TopMajor::majorName)
+                .containsExactly("First Major");
     }
 
     @Test
@@ -466,6 +833,46 @@ class ResultServiceTest {
         assertThat(score.getRecommendationReason()).isEqualTo("reason-a");
     }
 
+    private void stubCompleteDependencies(
+            DiagnosisSession session,
+            CompetencyEvalResult competency,
+            TendencyEvalResult tendency,
+            List<Major> majors
+    ) {
+        AtomicLong resultIds = new AtomicLong(1L);
+        AtomicLong scoreIds = new AtomicLong(10L);
+        when(diagnosisSessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
+        when(competencyEvalResultRepository.findByDiagnosisSessionId(session.getId())).thenReturn(Optional.of(competency));
+        when(tendencyEvalResultRepository.findByDiagnosisSessionId(session.getId())).thenReturn(Optional.of(tendency));
+        when(majorRepository.findAll()).thenReturn(majors);
+        when(diagnosisResultRepository.findByDiagnosisSessionId(session.getId())).thenReturn(Optional.empty());
+        when(diagnosisResultRepository.save(any(DiagnosisResult.class))).thenAnswer(invocation -> {
+            DiagnosisResult result = invocation.getArgument(0);
+            if (result.getId() == null) {
+                ReflectionTestUtils.setField(result, "id", resultIds.getAndIncrement());
+            }
+            return result;
+        });
+        when(resultMajorScoreRepository.saveAll(any())).thenAnswer(invocation -> {
+            @SuppressWarnings("unchecked")
+            List<ResultMajorScore> scores = invocation.getArgument(0);
+            scores.stream()
+                    .filter(score -> score.getId() == null)
+                    .forEach(score -> ReflectionTestUtils.setField(score, "id", scoreIds.getAndIncrement()));
+            return scores;
+        });
+        when(diagnosisProfileScoringService.calculateProfileAdjustment(any(DiagnosisSession.class), any(Major.class)))
+                .thenReturn(DiagnosisProfileAdjustment.neutral());
+        when(diagnosisProfileScoringService.adjustedFinalScore(any(), any(), any(), anyFloat()))
+                .thenAnswer(invocation -> {
+                    Float competencyScore = invocation.getArgument(0);
+                    Float tendencyScore = invocation.getArgument(1);
+                    float profileBonus = invocation.getArgument(3);
+                    return Math.max(0.0f, Math.min(100.0f,
+                            Math.round((competencyScore * 0.6f + tendencyScore * 0.4f + profileBonus) * 10.0f) / 10.0f));
+                });
+    }
+
     private DiagnosisResult diagnosisResult(Long id, Long sessionId, Long userId) {
         DiagnosisResult result = newEntity(DiagnosisResult.class);
         ReflectionTestUtils.setField(result, "id", id);
@@ -474,6 +881,14 @@ class ResultServiceTest {
         ReflectionTestUtils.setField(result, "competencyVector", "{}");
         ReflectionTestUtils.setField(result, "tendencyVector", "{}");
         return result;
+    }
+
+    private DiagnosisSession diagnosisSession(Long id, Long userId, String inputSnapshot) {
+        DiagnosisSession session = newEntity(DiagnosisSession.class);
+        ReflectionTestUtils.setField(session, "id", id);
+        ReflectionTestUtils.setField(session, "userId", userId);
+        ReflectionTestUtils.setField(session, "inputSnapshot", inputSnapshot);
+        return session;
     }
 
     private CompetencyEvalResult competencyResult(Long sessionId) {
@@ -491,6 +906,21 @@ class ResultServiceTest {
         return result;
     }
 
+    private TendencyEvalResult tendencyResult(Long sessionId) {
+        TendencyEvalResult result = newEntity(TendencyEvalResult.class);
+        ReflectionTestUtils.setField(result, "diagnosisSessionId", sessionId);
+        ReflectionTestUtils.setField(result, "logicalInquiry", 70.0f);
+        ReflectionTestUtils.setField(result, "practicalTech", 75.0f);
+        ReflectionTestUtils.setField(result, "artCreative", 65.0f);
+        ReflectionTestUtils.setField(result, "socialCooperation", 60.0f);
+        ReflectionTestUtils.setField(result, "lifeHealth", 55.0f);
+        ReflectionTestUtils.setField(result, "educationGuide", 58.0f);
+        ReflectionTestUtils.setField(result, "theoryAcademic", 68.0f);
+        ReflectionTestUtils.setField(result, "dataAnalytics", 72.0f);
+        ReflectionTestUtils.setField(result, "systemOperation", 74.0f);
+        return result;
+    }
+
     private ResultMajorScore resultMajorScore(Long id, Long resultId, Long majorId, Integer rank, Float finalScore) {
         ResultMajorScore score = newEntity(ResultMajorScore.class);
         ReflectionTestUtils.setField(score, "id", id);
@@ -502,10 +932,41 @@ class ResultServiceTest {
         return score;
     }
 
+    private MajorWeeklyPlan activePlan(Long id, Long resultId) {
+        MajorWeeklyPlan plan = newEntity(MajorWeeklyPlan.class);
+        ReflectionTestUtils.setField(plan, "id", id);
+        ReflectionTestUtils.setField(plan, "diagnosisResultId", resultId);
+        ReflectionTestUtils.setField(plan, "activeVersion", true);
+        return plan;
+    }
+
     private Major major(Long id, String name) {
         Major major = newEntity(Major.class);
         ReflectionTestUtils.setField(major, "id", id);
         ReflectionTestUtils.setField(major, "name", name);
+        return major;
+    }
+
+    private Major scoringMajor(Long id, String name, Float competencyRequirement, Float tendencyRequirement) {
+        Major major = major(id, name);
+        ReflectionTestUtils.setField(major, "reqMathLogic", competencyRequirement);
+        ReflectionTestUtils.setField(major, "reqProblemSolving", competencyRequirement);
+        ReflectionTestUtils.setField(major, "reqInfoTech", competencyRequirement);
+        ReflectionTestUtils.setField(major, "reqImplementation", competencyRequirement);
+        ReflectionTestUtils.setField(major, "reqSystemUnderstanding", competencyRequirement);
+        ReflectionTestUtils.setField(major, "reqDataAnalysis", competencyRequirement);
+        ReflectionTestUtils.setField(major, "reqCommunication", competencyRequirement);
+        ReflectionTestUtils.setField(major, "reqCollaboration", competencyRequirement);
+        ReflectionTestUtils.setField(major, "reqSelfManagement", competencyRequirement);
+        ReflectionTestUtils.setField(major, "tendLogicalInquiry", tendencyRequirement);
+        ReflectionTestUtils.setField(major, "tendPracticalTech", tendencyRequirement);
+        ReflectionTestUtils.setField(major, "tendArtCreative", tendencyRequirement);
+        ReflectionTestUtils.setField(major, "tendSocialCooperation", tendencyRequirement);
+        ReflectionTestUtils.setField(major, "tendLifeHealth", tendencyRequirement);
+        ReflectionTestUtils.setField(major, "tendEducationGuide", tendencyRequirement);
+        ReflectionTestUtils.setField(major, "tendTheoryAcademic", tendencyRequirement);
+        ReflectionTestUtils.setField(major, "tendDataAnalytics", tendencyRequirement);
+        ReflectionTestUtils.setField(major, "tendSystemOperation", tendencyRequirement);
         return major;
     }
 

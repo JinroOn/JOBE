@@ -6,11 +6,12 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 
-from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.messages import SystemMessage
+from langchain_core.prompts import ChatPromptTemplate, HumanMessagePromptTemplate
 from langchain_openai import ChatOpenAI
 from pydantic import BaseModel, ConfigDict, Field
 
-from .errors import RequestTimeoutError, UpstreamUnavailableError
+from .errors import UpstreamUnavailableError
 from .models import MajorComment, RecommendationCommentRequest, RecommendationCommentResponse
 from .rag.context import enrich_recommendation_request_with_rag
 
@@ -26,6 +27,17 @@ WEAKNESS_KEYS = {
     "communicationScore",
     "collaborationScore",
     "selfManagementScore",
+}
+AXIS_DISPLAY_NAMES = {
+    "mathLogicalScore": "수리·논리",
+    "problemSolvingScore": "문제 해결",
+    "infoTechUtilizationScore": "정보기술 활용",
+    "softwareImplementationScore": "구현력",
+    "systemUnderstandingScore": "시스템 이해",
+    "dataAnalysisScore": "자료 분석",
+    "communicationScore": "의사소통",
+    "collaborationScore": "협업",
+    "selfManagementScore": "자기관리",
 }
 BANNED_ASSERTIVE_WORDS = ("반드시", "무조건")
 INTERNAL_TERM_REPLACEMENTS = (
@@ -108,7 +120,11 @@ class RecommendationChain:
             )
 
         if self.provider not in {"openai", "openai_compatible", "factchat"}:
-            raise UpstreamUnavailableError(f"Unsupported provider: {self.provider}")
+            return self._fallback_chain_result(
+                request=request,
+                request_id=request_id,
+                reason="unsupported_provider_fallback",
+            )
 
         try:
             llm = ChatOpenAI(
@@ -118,12 +134,7 @@ class RecommendationChain:
                 base_url=self.base_url or None,
             )
             structured = llm.with_structured_output(GeneratedRecommendation)
-            prompt = ChatPromptTemplate.from_messages(
-                [
-                    ("system", self.prompt_text),
-                    ("human", "Input JSON:\n{input_json}"),
-                ]
-            )
+            prompt = self._build_prompt()
             chain = prompt | structured
             enriched_request, rag_fallback_reasons = enrich_recommendation_request_with_rag(
                 request,
@@ -146,12 +157,47 @@ class RecommendationChain:
                 prompt_version=self.prompt_version,
                 model=self.model,
             )
-        except asyncio.TimeoutError as exc:
-            raise RequestTimeoutError() from exc
+        except asyncio.TimeoutError:
+            return self._fallback_chain_result(
+                request=request,
+                request_id=request_id,
+                reason="llm_timeout_fallback",
+            )
         except UpstreamUnavailableError:
-            raise
-        except Exception as exc:  # noqa: BLE001
-            raise UpstreamUnavailableError("LLM provider request failed") from exc
+            return self._fallback_chain_result(
+                request=request,
+                request_id=request_id,
+                reason="llm_unavailable_fallback",
+            )
+        except Exception:  # noqa: BLE001
+            return self._fallback_chain_result(
+                request=request,
+                request_id=request_id,
+                reason="llm_provider_fallback",
+            )
+
+    def _build_prompt(self) -> ChatPromptTemplate:
+        return ChatPromptTemplate.from_messages(
+            [
+                SystemMessage(content=self.prompt_text),
+                HumanMessagePromptTemplate.from_template("Input JSON:\n{input_json}"),
+            ]
+        )
+
+    def _fallback_chain_result(
+        self,
+        *,
+        request: RecommendationCommentRequest,
+        request_id: str,
+        reason: str,
+    ) -> ChainResult:
+        response = self._mock_response(request=request, request_id=request_id)
+        return ChainResult(
+            response=response,
+            fallback_reasons=[reason],
+            prompt_version=self.prompt_version,
+            model=self.model,
+        )
 
     def _normalize_generated(
         self,
@@ -238,6 +284,7 @@ class RecommendationChain:
             summary=generated.summaryComment,
             weakness_focus=weakness_focus,
             recommendation_groups=request.recommendationGroups,
+            top_majors=request.topMajors,
         )
 
         unique_fallbacks = sorted(set(fallback_reasons))
@@ -255,6 +302,7 @@ class RecommendationChain:
         *,
         weakness_focus: list[str],
         recommendation_groups: list | None = None,
+        top_majors: list | None = None,
     ) -> str:
         text = self._sanitize_text(summary or "")
         if not text:
@@ -263,11 +311,18 @@ class RecommendationChain:
                 "강점 역량은 유지하고 부족한 역량은 계획적으로 보완하면 진학 후 적응력이 높아집니다. "
                 "주 2회 이상 약점 영역을 집중 학습하는 루틴을 권장합니다."
             )
+        if not self._sanitize_text(summary or ""):
+            text = self._rank_one_summary_fallback(top_majors, weakness_focus)
+        if not text:
+            text = self._rank_one_summary_fallback(top_majors, weakness_focus)
+        if self._summary_is_not_rank_aligned(text, top_majors):
+            text = self._rank_one_summary_fallback(top_majors, weakness_focus)
+
         sentences = self._split_sentences(text)
         if len(sentences) < 3:
             sentences.append("강점은 유지하고 약점은 작은 단위 목표로 나눠 보완하는 접근이 효과적입니다.")
         if len(sentences) < 4:
-            hint = ", ".join(weakness_focus) if weakness_focus else "의사소통과 시스템 이해"
+            hint = self._weakness_focus_text(weakness_focus, fallback="의사소통과 시스템 이해")
             sentences.append(f"우선 보완 영역은 {hint}이며, 주간 학습 루틴으로 반복 훈련을 권장합니다.")
         group_hint = self._summary_group_hint(recommendation_groups or [])
         if group_hint and len(sentences) < 5 and not any(marker in text for marker in ("공통", "선택", "비교", "기준")):
@@ -288,7 +343,129 @@ class RecommendationChain:
                 "강점 역량은 유지하고 부족한 역량은 주간 계획으로 보완하는 것이 좋습니다. "
                 "실습 프로젝트 학습과 발표 연습을 병행하면 실전 적응력이 향상됩니다."
             )
+        if self._summary_is_not_rank_aligned(merged, top_majors):
+            merged = self._rank_one_summary_fallback(top_majors, weakness_focus)
         return merged
+
+    def _summary_is_not_rank_aligned(self, summary: str, top_majors: list | None) -> bool:
+        rank_one = self._rank_one_major(top_majors)
+        if not rank_one:
+            return False
+        if not self._contains_normalized(summary, rank_one.majorName):
+            return True
+        return self._contains_unrelated_major_family(summary, top_majors or [])
+
+    def _rank_one_major(self, top_majors: list | None):
+        if not top_majors:
+            return None
+        return sorted(top_majors, key=lambda item: item.rankingOrder)[0]
+
+    def _contains_normalized(self, text: str | None, needle: str | None) -> bool:
+        normalized_text = self._normalize_for_match(text)
+        normalized_needle = self._normalize_for_match(needle)
+        return bool(normalized_needle and normalized_needle in normalized_text)
+
+    def _normalize_for_match(self, text: str | None) -> str:
+        if not text:
+            return ""
+        return re.sub(r"[\W_]+", "", text.lower(), flags=re.UNICODE)
+
+    def _contains_unrelated_major_family(self, summary: str, top_majors: list) -> bool:
+        family_keywords = {
+            "computer_software": (
+                "컴퓨터",
+                "컴공",
+                "소프트웨어",
+                "코딩",
+                "프로그래밍",
+                "개발자",
+                "computer",
+                "software",
+                "coding",
+                "programming",
+                "developer",
+            ),
+        }
+        normalized_summary = summary.lower()
+        allowed_context = " ".join(self._major_context_text(major) for major in top_majors).lower()
+        for keywords in family_keywords.values():
+            summary_has_family = any(keyword in normalized_summary for keyword in keywords)
+            context_allows_family = any(keyword in allowed_context for keyword in keywords)
+            if summary_has_family and not context_allows_family:
+                return True
+        return False
+
+    def _major_context_text(self, major) -> str:
+        context = major.majorContext
+        parts = [major.majorName, major.strengths or "", major.weaknesses or ""]
+        if context:
+            parts.extend(
+                [
+                    context.category or "",
+                    context.description or "",
+                    context.sourceSummary or "",
+                    " ".join(context.relatedJobs or []),
+                    " ".join(context.ragSnippets or []),
+                ]
+            )
+        return " ".join(parts)
+
+    def _rank_one_summary_fallback(self, top_majors: list | None, weakness_focus: list[str]) -> str:
+        rank_one = self._rank_one_major(top_majors)
+        major_name = rank_one.majorName if rank_one else "현재 1순위 전공"
+        weakness_hint = self._weakness_focus_text(weakness_focus, fallback="기초 역량")
+        context = rank_one.majorContext if rank_one else None
+        category = context.category if context and context.category else "이 분야"
+        description = self._first_sentence(
+            context.description if context and context.description else context.sourceSummary if context else None
+        )
+        jobs = ", ".join((context.relatedJobs or [])[:2]) if context else ""
+        field_sentence = self._major_description_sentence(
+            major_name=major_name,
+            description=description,
+            category=category,
+        )
+        job_sentence = (
+            f"관련 진로로는 {jobs} 등이 있어, 사람과 현상을 이해하고 실제 문제에 적용하는 방향으로 확장할 수 있습니다. "
+            if jobs
+            else "이 전공은 전공 지식을 실제 문제 이해와 진로 탐색으로 연결해 볼 수 있다는 점에서 의미가 있습니다. "
+        )
+        return (
+            f"현재 1순위 추천 전공은 {major_name}입니다. "
+            + field_sentence
+            + job_sentence
+            + f"다만 {weakness_hint}은 {major_name}을 더 깊이 공부하기 위한 준비 과제로 보고, 전공 기초 개념과 사례 분석을 함께 보완하면 좋습니다."
+        )
+
+    def _major_description_sentence(self, *, major_name: str, description: str, category: str) -> str:
+        if description:
+            normalized = re.sub(r"이다[.!?]?$", "입니다.", description.strip())
+            normalized = self._ensure_period(normalized)
+            if major_name in normalized:
+                return normalized + " "
+            return f"{major_name}{self._topic_particle(major_name)} {normalized} "
+        return f"{major_name}{self._topic_particle(major_name)} {category} 분야의 학습 방향과 연결되는 전공입니다. "
+
+    def _topic_particle(self, text: str) -> str:
+        if not text:
+            return "은"
+        last = text[-1]
+        code = ord(last)
+        if 0xAC00 <= code <= 0xD7A3:
+            return "은" if (code - 0xAC00) % 28 else "는"
+        return "은"
+
+    def _first_sentence(self, text: str | None) -> str:
+        cleaned = self._sanitize_text(text or "")
+        if not cleaned:
+            return ""
+        sentences = self._split_sentences(cleaned)
+        return sentences[0] if sentences else cleaned
+
+    def _weakness_focus_text(self, weakness_focus: list[str], *, fallback: str) -> str:
+        labels = [AXIS_DISPLAY_NAMES.get(key, key) for key in weakness_focus[:2]]
+        labels = [label for label in labels if label]
+        return ", ".join(labels) if labels else fallback
 
     def _group_context_by_major(self, request: RecommendationCommentRequest) -> dict[str, dict[str, object]]:
         context: dict[str, dict[str, object]] = {}
@@ -491,6 +668,8 @@ class RecommendationChain:
         out = text
         for pattern, replacement in INTERNAL_TERM_REPLACEMENTS:
             out = pattern.sub(replacement, out)
+        for key, label in AXIS_DISPLAY_NAMES.items():
+            out = re.sub(re.escape(key), label, out, flags=re.IGNORECASE)
         return out
 
     def _is_mostly_korean(self, text: str) -> bool:
@@ -549,6 +728,7 @@ class RecommendationChain:
             "전체적으로 학습 잠재력이 높습니다. 강점은 유지하고 보완점은 단계적으로 개선하세요.",
             weakness_focus=weakness_focus[:2],
             recommendation_groups=request.recommendationGroups,
+            top_majors=request.topMajors,
         )
 
         return RecommendationCommentResponse(

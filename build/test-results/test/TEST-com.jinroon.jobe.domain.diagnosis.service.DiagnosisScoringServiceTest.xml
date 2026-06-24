@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.jinroon.jobe.domain.diagnosis.service.DiagnosisScoringServiceTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-06-21T10:46:47.771Z" hostname="DESKTOP-FLIU7FT" time="0.094">
+<testsuite name="com.jinroon.jobe.domain.diagnosis.service.DiagnosisScoringServiceTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2026-06-24T03:41:02Z" hostname="DESKTOP-FLIU7FT" time="0.083">
   <properties/>
-  <testcase name="rejectsOtherUsersSession()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisScoringServiceTest" time="0.08"/>
-  <testcase name="appliesDifficultyWeightWhenScoringCompetency()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisScoringServiceTest" time="0.004"/>
+  <testcase name="rejectsOtherUsersSession()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisScoringServiceTest" time="0.058"/>
+  <testcase name="appliesDifficultyWeightWhenScoringCompetency()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisScoringServiceTest" time="0.005"/>
+  <testcase name="scoresSkippedAnswerAsIncorrectAndIncludesQuestionWeight()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisScoringServiceTest" time="0.002"/>
   <testcase name="scoresCompetencyFromSavedAnswersUsingServerCorrectAnswer()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisScoringServiceTest" time="0.002"/>
   <testcase name="throwsWhenAnswersAreMissing()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisScoringServiceTest" time="0.002"/>
-  <testcase name="zeroMaxWeightAxisIsScoredAsZero()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisScoringServiceTest" time="0.002"/>
-  <testcase name="updatesExistingCompetencyResultInsteadOfCreatingDuplicate()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisScoringServiceTest" time="0.002"/>
+  <testcase name="zeroMaxWeightAxisIsScoredAsZero()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisScoringServiceTest" time="0.001"/>
+  <testcase name="fastWrongAnswerReceivesNoSpeedBonus()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisScoringServiceTest" time="0.002"/>
+  <testcase name="fastCorrectAnswerDoesNotPushAxisScoreAboveOneHundred()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisScoringServiceTest" time="0.001"/>
+  <testcase name="suspiciouslyInstantCorrectAnswerReceivesNoSpeedBonus()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisScoringServiceTest" time="0.001"/>
+  <testcase name="updatesExistingCompetencyResultInsteadOfCreatingDuplicate()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisScoringServiceTest" time="0.001"/>
+  <testcase name="fastSkippedAnswerReceivesNoSpeedBonus()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisScoringServiceTest" time="0.002"/>
+  <testcase name="fastCorrectAnswerReceivesSmallSpeedBonus()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisScoringServiceTest" time="0.001"/>
+  <testcase name="slowCorrectAnswerReceivesNoSpeedBonus()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisScoringServiceTest" time="0.002"/>
   <testcase name="throwsWhenAnsweredQuestionIsMissing()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisScoringServiceTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

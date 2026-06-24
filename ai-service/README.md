@@ -92,3 +92,44 @@ curl -X POST "http://localhost:8001/v1/plan/weekly" ^
 python -m pytest -q tests/test_quality_contract.py
 python -m pytest -q tests/test_weekly_plan_contract.py
 ```
+
+## 8. RAG Ingestion With OpenAI Large Embeddings
+
+The project can ingest major/RAG dataset chunks into PostgreSQL + pgvector.
+
+For higher-quality paid embeddings without changing the current `vector(1536)` schema, use OpenAI `text-embedding-3-large` with `dimensions=1536`.
+
+Required environment variable:
+
+- `EMBEDDING_API_KEY=<your_openai_api_key>` or `OPENAI_API_KEY=<your_openai_api_key>`
+
+The helper script sets:
+
+- `EMBEDDING_PROVIDER=openai-compatible`
+- `EMBEDDING_MODEL=text-embedding-3-large`
+- `EMBEDDING_DIMENSION=1536`
+- `EMBEDDING_OUTPUT_DIMENSIONS=1536`
+- `AI_RAG_VECTOR_SEARCH_ENABLED=true`
+
+Dry run:
+
+```powershell
+cd C:\proj\JO\JOBE\ai-service
+.\scripts\ingest_major_rag_openai_large.ps1 -DatasetVersion local-openai-large-v1 -DryRun -Limit 3
+```
+
+Actual ingestion:
+
+```powershell
+cd C:\proj\JO\JOBE\ai-service
+.\scripts\ingest_major_rag_openai_large.ps1 -DatasetVersion local-openai-large-v1 -Force
+```
+
+Search test:
+
+```powershell
+cd C:\proj\JO\JOBE\ai-service
+.\scripts\search_major_rag_openai_large.ps1 -MajorName "컴퓨터공학과" -DatasetVersion local-openai-large-v1
+```
+
+Do not commit `.env` files or API keys.

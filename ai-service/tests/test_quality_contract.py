@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import json
 import re
 from pathlib import Path
@@ -20,6 +21,10 @@ INTERNAL_TERMS = (
     "프롬프트",
     "majorContext",
     "ragSnippets",
+    "softwareImplementationScore",
+    "mathLogicalScore",
+    "systemUnderstandingScore",
+    "communicationScore",
 )
 DIFFERENTIATION_MARKERS = (
     "반면",
@@ -36,6 +41,16 @@ ACTION_MARKERS = ("보완", "연습", "훈련", "개선", "시도", "정리", "�
 def load_request(name: str) -> RecommendationCommentRequest:
     content = (SAMPLES_DIR / f"{name}.json").read_text(encoding="utf-8")
     return RecommendationCommentRequest.model_validate(json.loads(content))
+
+
+def test_recommendation_system_prompt_treats_braces_as_literal_text() -> None:
+    chain = RecommendationChain()
+    chain.prompt_text = 'Do not write "{majorName} is repeated".'
+
+    messages = chain._build_prompt().format_messages(input_json='{"ok": true}')  # noqa: SLF001
+
+    assert messages[0].content == 'Do not write "{majorName} is repeated".'
+    assert messages[1].content == 'Input JSON:\n{"ok": true}'
 
 
 def sentence_count(text: str) -> int:
@@ -119,6 +134,19 @@ def test_quality_rules_mock_samples() -> None:
         req = load_request(name)
         response = chain._mock_response(request=req, request_id=f"mock-{name}")  # noqa: SLF001
         assert_quality(response)
+
+
+def test_generate_with_meta_falls_back_when_llm_provider_is_unavailable() -> None:
+    chain = RecommendationChain()
+    chain.use_mock = False
+    chain.provider = "unsupported"
+    req = load_request("normal-high")
+
+    result = asyncio.run(chain.generate_with_meta(request=req, request_id="provider-fallback-test"))
+
+    assert result.fallback_reasons == ["unsupported_provider_fallback"]
+    assert req.topMajors[0].majorName in result.response.summaryComment
+    assert_quality(result.response)
 
 
 def test_partial_response_is_safely_completed() -> None:
@@ -270,13 +298,125 @@ def test_request_accepts_optional_recommendation_groups() -> None:
     assert_quality(response)
 
 
-def test_prompt_requires_common_basis_and_major_differences() -> None:
+def test_summary_fallback_mentions_rank_one_major_when_generated_summary_omits_it() -> None:
+    chain = RecommendationChain()
+    req = load_request("normal-high")
+    generated = GeneratedRecommendation(
+        summaryComment="공통 적합 기준은 확인됩니다. 역량 보완도 필요합니다. 선택 기준을 비교하세요.",
+        majorComments=[
+            GeneratedMajorComment(
+                majorName=req.topMajors[0].majorName,
+                rankingOrder=req.topMajors[0].rankingOrder,
+                fitScore=req.topMajors[0].fitScore,
+                strengths=req.topMajors[0].strengths,
+                weaknesses=req.topMajors[0].weaknesses,
+                recommendationReason=(
+                    f"{req.topMajors[0].majorName}은 현재 점수와 맞습니다. "
+                    "선택 기준은 조직 운영과 발표 연습을 중심으로 비교해 정리하세요."
+                ),
+            ),
+            GeneratedMajorComment(
+                majorName=req.topMajors[1].majorName,
+                rankingOrder=req.topMajors[1].rankingOrder,
+                fitScore=req.topMajors[1].fitScore,
+                strengths=req.topMajors[1].strengths,
+                weaknesses=req.topMajors[1].weaknesses,
+                recommendationReason=(
+                    f"{req.topMajors[1].majorName}은 현재 점수와 맞습니다. "
+                    "선택 기준은 자료 해석과 수리 개념 보완을 중심으로 비교해 정리하세요."
+                ),
+            ),
+        ],
+        weaknessFocus=["communicationScore"],
+    )
+
+    response, _ = chain._normalize_generated(  # noqa: SLF001
+        request=req,
+        generated=generated,
+        request_id="rank-one-summary-test",
+    )
+
+    assert req.topMajors[0].majorName in response.summaryComment
+    assert_quality(response)
+
+
+def test_summary_fallback_replaces_unrelated_computer_family_summary() -> None:
+    raw = json.loads((SAMPLES_DIR / "normal-high.json").read_text(encoding="utf-8"))
+    raw["topMajors"][0]["majorName"] = "Business Administration"
+    raw["topMajors"][1]["majorName"] = "Economics"
+    raw["topMajors"][0]["strengths"] = "management fit"
+    raw["topMajors"][1]["strengths"] = "economics fit"
+    raw["topMajors"][0]["weaknesses"] = "communication practice"
+    raw["topMajors"][1]["weaknesses"] = "presentation practice"
+    req = RecommendationCommentRequest.model_validate(raw)
+    chain = RecommendationChain()
+    generated = GeneratedRecommendation(
+        summaryComment=(
+            "Business Administration이 1순위입니다. "
+            "하지만 주요 추천 방향은 컴퓨터공학과 소프트웨어 개발입니다. "
+            "코딩 프로젝트를 중심으로 선택 기준을 정리하세요."
+        ),
+        majorComments=[
+            GeneratedMajorComment(
+                majorName=item.majorName,
+                rankingOrder=item.rankingOrder,
+                fitScore=item.fitScore,
+                strengths=item.strengths,
+                weaknesses=item.weaknesses,
+                recommendationReason=f"{item.majorName}은 현재 점수와 맞습니다. 선택 기준은 다른 전공과 비교해 정리하세요.",
+            )
+            for item in req.topMajors
+        ],
+        weaknessFocus=["communicationScore"],
+    )
+
+    response, _ = chain._normalize_generated(  # noqa: SLF001
+        request=req,
+        generated=generated,
+        request_id="unrelated-family-summary-test",
+    )
+
+    assert "Business Administration" in response.summaryComment
+    assert "소프트웨어" not in response.summaryComment
+    assert "코딩" not in response.summaryComment
+    assert "퀴즈 기반 역량 진단" not in response.summaryComment
+    assert "보조 신호" not in response.summaryComment
+    assert "communicationScore" not in response.summaryComment
+    assert 3 <= sentence_count(response.summaryComment) <= 5
+
+
+def test_rank_one_fallback_uses_complete_major_description_naturally() -> None:
+    raw = json.loads((SAMPLES_DIR / "normal-high.json").read_text(encoding="utf-8"))
+    raw["topMajors"] = [raw["topMajors"][0]]
+    raw["topMajors"][0]["majorName"] = "심리학과"
+    raw["topMajors"][0]["majorContext"] = {
+        "category": "인문사회계열",
+        "description": "심리학과는 심리와 관련된 핵심 개념과 방법을 배우고, 이를 실제 사례와 문제 해결에 적용하는 전공이다.",
+        "sourceSummary": None,
+        "relatedJobs": ["상담전문가", "연구원"],
+        "ragSnippets": [],
+    }
+    req = RecommendationCommentRequest.model_validate(raw)
     chain = RecommendationChain()
 
-    assert "공통 적합 근거" in chain.prompt_text
-    assert "전공별 차별점" in chain.prompt_text
-    assert "선택 기준" in chain.prompt_text
-    assert "전공 이름만 바꾼 반복 문장" in chain.prompt_text
-    assert "내부 용어 노출 금지" in chain.prompt_text
-    assert "RAG" in chain.prompt_text
-    assert "snippet" in chain.prompt_text
+    summary = chain._rank_one_summary_fallback(req.topMajors, ["communicationScore"])  # noqa: SLF001
+
+    assert "심리학과은" not in summary
+    assert "심리학과는 심리학과는" not in summary
+    assert "와 연결되는 전공입니다" not in summary
+    assert "심리학과는 심리와 관련된 핵심 개념과 방법을 배우고" in summary
+    assert "전공입니다" in summary
+
+
+def test_prompt_requires_rank_one_major_and_quiz_primary_context() -> None:
+    chain = RecommendationChain()
+
+    assert "topMajors[0]" in chain.prompt_text
+    assert "1순위 추천 전공" in chain.prompt_text
+    assert "채점 구조를 그대로 설명하지 않습니다" in chain.prompt_text
+    assert "어떤 점에서 이 전공과 잘 맞는지" not in chain.prompt_text
+    assert "전공의 학습 주제" in chain.prompt_text
+    assert "사용자의 현재 강점" in chain.prompt_text
+    assert "내부 필드명" in chain.prompt_text
+    assert "softwareImplementationScore" in chain.prompt_text
+    assert "TOP3" not in chain.prompt_text

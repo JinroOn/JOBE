@@ -1,27 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.jinroon.jobe.domain.result.service.ResultServiceTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2026-06-21T10:46:48.030Z" hostname="DESKTOP-FLIU7FT" time="0.019">
+<testsuite name="com.jinroon.jobe.domain.result.service.ResultServiceTest" tests="24" skipped="0" failures="0" errors="0" timestamp="2026-06-24T03:41:02.305Z" hostname="DESKTOP-FLIU7FT" time="0.153">
   <properties/>
-  <testcase name="generateAiCommentRequestContainsOnlyPrimaryMajor()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.004"/>
-  <testcase name="generateAiCommentDoesNotCallAiWhenMajorScoresAreMissing()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.001"/>
+  <testcase name="generateAiCommentSendsRankOneMajorEvenWhenOtherNonFailedMajorsExist()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.089"/>
+  <testcase name="createMajorScoreForUserReranksScoresAfterAdjustment()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.004"/>
+  <testcase name="completeDiagnosisResultForUserRejectsOtherUsersSession()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.001"/>
+  <testcase name="completeDiagnosisResultForUserCreatesResultAndMajorScores()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.014"/>
+  <testcase name="completeDiagnosisResultForUserReusesExistingResultAndReplacesScores()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.003"/>
+  <testcase name="generateAiCommentDoesNotCallAiWhenMajorScoresAreMissing()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.002"/>
   <testcase name="generateAiCommentBlocksDuplicateCallWhenStatusIsPending()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.001"/>
   <testcase name="generateAiCommentForUserStoresResultAndMajorComments()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.002"/>
-  <testcase name="generateAiCommentForceRegeneratesSucceededResult()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.001"/>
+  <testcase name="completeDiagnosisResultForUserCreatesInitialPlanForTopNonFailedMajor()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.006"/>
+  <testcase name="generateAiCommentForceRegeneratesSucceededResult()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.003"/>
+  <testcase name="createMajorScoreForUserAppliesProfileAdjustment()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.002"/>
   <testcase name="generateAiCommentStoresMatchedMajorCommentsAndSkipsUnmatchedComments()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.002"/>
+  <testcase name="completeDiagnosisResultForUserFailsWhenCompetencyResultIsMissing()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.001"/>
+  <testcase name="generateAiCommentRequestContainsRankOneMajorWithQuizPrimaryContext()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.003"/>
+  <testcase name="completeDiagnosisResultForUserFailsWhenTendencyResultIsMissing()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.001"/>
   <testcase name="generateAiCommentRetriesFailedResult()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.001"/>
+  <testcase name="completeDiagnosisResultForUserDoesNotCreateDuplicatePlanWhenActivePlanExists()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.002"/>
+  <testcase name="completeDiagnosisResultForUserAppliesProfileAdjustmentToFinalScore()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.002"/>
   <testcase name="generateAiCommentSkipsSucceededResultWithoutForce()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.001"/>
-  <testcase name="generateAiCommentReturnsResultWhenAiServiceReturnsNull()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.002"/>
+  <testcase name="generateAiCommentReturnsResultWhenAiServiceReturnsNull()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.001"/>
   <testcase name="generateAiCommentForUserRejectsOtherUsersResult()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.001"/>
   <testcase name="generateAiCommentMarksFailedWhenMajorCommentsAreEmpty()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.001"/>
-  <testcase name="generateAiCommentWithTenMajorScoresSendsOnlyRankOneMajor()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.001"/>
-  <system-out><![CDATA[2026-06-21T19:46:48.034+09:00  INFO 25728 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 적용 완료 (resultId=1, requestId=request-1, majorCount=1)
-2026-06-21T19:46:48.038+09:00  INFO 25728 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 적용 완료 (resultId=1, requestId=request-1, majorCount=1)
-2026-06-21T19:46:48.040+09:00  INFO 25728 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 적용 완료 (resultId=1, requestId=request-force, majorCount=1)
-2026-06-21T19:46:48.042+09:00  INFO 25728 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 적용 완료 (resultId=1, requestId=request-partial, majorCount=1)
-2026-06-21T19:46:48.043+09:00  INFO 25728 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 적용 완료 (resultId=1, requestId=request-retry, majorCount=1)
-2026-06-21T19:46:48.044+09:00  INFO 25728 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI recommendation comment regeneration skipped resultId=1 status=SUCCEEDED force=false
-2026-06-21T19:46:48.046+09:00  WARN 25728 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 응답 없음 (resultId=1, requestMajorCount=1, targetMajor=컴퓨터공학과)
-2026-06-21T19:46:48.048+09:00  WARN 25728 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 전공별 응답 없음 (resultId=1, requestId=request-empty)
-2026-06-21T19:46:48.050+09:00  INFO 25728 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 적용 완료 (resultId=1, requestId=request-primary, majorCount=1)
+  <testcase name="completeDiagnosisResultForUserRanksFailedMajorsAfterNonFailedMajorsAndUsesStableTieBreakers()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.003"/>
+  <testcase name="generateAiCommentWithTenMajorScoresSendsOnlyRankOneMajor()" classname="com.jinroon.jobe.domain.result.service.ResultServiceTest" time="0.002"/>
+  <system-out><![CDATA[2026-06-24T12:41:02.394+09:00  INFO 9456 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 적용 완료 (resultId=1, requestId=request-failed-fill, majorCount=1)
+2026-06-24T12:41:02.421+09:00  INFO 9456 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 적용 완료 (resultId=1, requestId=request-1, majorCount=1)
+2026-06-24T12:41:02.431+09:00  INFO 9456 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 적용 완료 (resultId=1, requestId=request-force, majorCount=1)
+2026-06-24T12:41:02.434+09:00  INFO 9456 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 적용 완료 (resultId=1, requestId=request-partial, majorCount=1)
+2026-06-24T12:41:02.438+09:00  INFO 9456 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 적용 완료 (resultId=1, requestId=request-1, majorCount=1)
+2026-06-24T12:41:02.442+09:00  INFO 9456 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 적용 완료 (resultId=1, requestId=request-retry, majorCount=1)
+2026-06-24T12:41:02.448+09:00  INFO 9456 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI recommendation comment regeneration skipped resultId=1 status=SUCCEEDED force=false
+2026-06-24T12:41:02.450+09:00  WARN 9456 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 응답 없음 (resultId=1, requestMajorCount=1, targetMajor=컴퓨터공학과)
+2026-06-24T12:41:02.452+09:00  WARN 9456 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 전공별 응답 없음 (resultId=1, requestId=request-empty)
+2026-06-24T12:41:02.457+09:00  INFO 9456 --- [    Test worker] c.j.j.d.result.service.ResultService     : AI 추천 코멘트 적용 완료 (resultId=1, requestId=request-primary, majorCount=1)
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

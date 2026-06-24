@@ -85,6 +85,18 @@ class UserContext(BaseModel):
     problemSolvingStyle: str | None = Field(default=None, max_length=100)
 
 
+class DiagnosisProfileContext(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    grade: str | None = Field(default=None, max_length=30)
+    dreamJob: str | None = Field(default=None, max_length=100)
+    studyHours: float | None = Field(default=None, ge=0, le=24)
+    aspiration: str | None = Field(default=None, max_length=2000)
+    selectedSubjects: list[str] = Field(default_factory=list, max_length=20)
+    learningStyle: str | None = Field(default=None, max_length=50)
+    exploreSpectrum: int | None = Field(default=None, ge=0, le=100)
+
+
 class RecommendationCommentRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -93,6 +105,7 @@ class RecommendationCommentRequest(BaseModel):
     topMajors: list[TopMajor] = Field(min_length=1, max_length=5)
     recommendationGroups: list[RecommendationGroup] = Field(default_factory=list, max_length=5)
     userContext: UserContext | None = None
+    profileContext: DiagnosisProfileContext | None = None
 
     @model_validator(mode="after")
     def validate_unique_ranking(self) -> "RecommendationCommentRequest":
@@ -164,6 +177,7 @@ class WeeklyPlanRequest(BaseModel):
     weaknessFocus: list[WeaknessField] = Field(min_length=1, max_length=2)
     profile: Profile
     constraints: WeeklyPlanConstraints
+    profileContext: DiagnosisProfileContext | None = None
 
 
 class WeeklyPlanItem(BaseModel):
@@ -251,6 +265,7 @@ class ConsultationDiagnosisContext(BaseModel):
     weaknessFocus: list[str] = Field(default_factory=list, max_length=9)
     topMajors: list[ConsultationTopMajor] = Field(default_factory=list, max_length=5)
     plans: list[ConsultationPlanContext] = Field(default_factory=list, max_length=3)
+    profileContext: DiagnosisProfileContext | None = None
 
 
 class ConsultationChatRequest(BaseModel):

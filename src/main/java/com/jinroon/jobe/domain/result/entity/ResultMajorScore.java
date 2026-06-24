@@ -45,9 +45,41 @@ public class ResultMajorScore extends BaseEntitySupport {
     @Column(name = "recommendation_reason", columnDefinition = "TEXT")
     private String recommendationReason;
 
+    public static ResultMajorScore of(
+            Long diagnosisResultId,
+            Long majorId,
+            Float tendencyScore,
+            Float competencyScore,
+            Float finalScore,
+            Integer rank,
+            Boolean failed,
+            String recommendationReason
+    ) {
+        ResultMajorScore score = new ResultMajorScore();
+        score.diagnosisResultId = diagnosisResultId;
+        score.majorId = majorId;
+        score.tendencyScore = tendencyScore;
+        score.competencyScore = competencyScore;
+        score.finalScore = finalScore;
+        score.rank = rank;
+        score.failed = failed;
+        score.recommendationReason = recommendationReason;
+        return score;
+    }
+
     public void applyAiComment(String strengths, String weaknesses, String recommendationReason) {
         this.strengths = strengths;
         this.weaknesses = weaknesses;
         this.recommendationReason = recommendationReason;
+    }
+
+    public void assignRank(Integer rank) {
+        this.rank = rank;
+    }
+
+    public void applyInitialRecommendationReason(String recommendationReason) {
+        if (this.recommendationReason == null || this.recommendationReason.isBlank()) {
+            this.recommendationReason = recommendationReason;
+        }
     }
 }

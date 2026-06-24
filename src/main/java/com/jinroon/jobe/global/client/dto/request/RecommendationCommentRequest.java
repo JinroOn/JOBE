@@ -7,7 +7,8 @@ public record RecommendationCommentRequest(
         Profile profile,
         List<TopMajor> topMajors,
         List<RecommendationGroup> recommendationGroups,
-        UserContext userContext
+        UserContext userContext,
+        DiagnosisProfileContext profileContext
 ) {
     public record Profile(
             Integer mathLogicalScore,

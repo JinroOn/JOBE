@@ -37,4 +37,11 @@ public class DiagnosisSession extends BaseEntitySupport {
 
     @Column(name = "completed_at")
     private LocalDateTime completedAt;
+
+    public void complete(LocalDateTime completedAt) {
+        this.status = DiagnosisStatus.completed;
+        if (this.completedAt == null) {
+            this.completedAt = completedAt;
+        }
+    }
 }

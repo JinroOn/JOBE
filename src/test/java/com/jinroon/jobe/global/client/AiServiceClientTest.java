@@ -130,6 +130,7 @@ class AiServiceClientTest {
                         null
                 )),
                 List.of(),
+                null,
                 null
         );
     }
@@ -150,7 +151,8 @@ class AiServiceClientTest {
                         65,
                         72
                 ),
-                new WeeklyPlanRequest.Constraints(12, 8, "practice-first")
+                new WeeklyPlanRequest.Constraints(12, 8, "practice-first"),
+                null
         );
     }
 

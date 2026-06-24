@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.jinroon.jobe.domain.diagnosis.service.DiagnosisServiceExamAnswerTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-06-24T03:41:02.083Z" hostname="DESKTOP-FLIU7FT" time="0.084">
+  <properties/>
+  <testcase name="rejectsOtherUsersSession()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisServiceExamAnswerTest" time="0.073"/>
+  <testcase name="savesNullSelectedAnswerForSkippedQuestion()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisServiceExamAnswerTest" time="0.002"/>
+  <testcase name="createsNewExamAnswerForUser()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisServiceExamAnswerTest" time="0.002"/>
+  <testcase name="repeatedSaveKeepsSingleRepositoryInsert()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisServiceExamAnswerTest" time="0.002"/>
+  <testcase name="updatesExistingExamAnswerForSameSessionAndQuestion()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisServiceExamAnswerTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
