@@ -52,8 +52,22 @@ services:
       AI_DB_PASSWORD: root
       AI_DB_ENABLE_VECTOR: "true"
       AI_DB_HEALTHCHECK_ENABLED: "false"
+      EMBEDDING_PROVIDER: openai-compatible
+      EMBEDDING_MODEL: text-embedding-3-large
+      EMBEDDING_DIMENSION: "1536"
+      EMBEDDING_OUTPUT_DIMENSIONS: "1536"
+      AI_RAG_RETRIEVAL_ENABLED: "true"
+      AI_RAG_VECTOR_SEARCH_ENABLED: "true"
+      AI_RAG_AUTO_INGEST_ENABLED: "true"
+      AI_RAG_AUTO_INGEST_DATASET_VERSION: local-openai-large-v1
+      AI_RAG_AUTO_INGEST_DATASET_ROOT: /datasets
+    volumes:
+      - ./datasets:/datasets:ro
     ports:
       - "8001:8001"
+    depends_on:
+      ai-postgres:
+        condition: service_healthy
     healthcheck:
       test:
         [
