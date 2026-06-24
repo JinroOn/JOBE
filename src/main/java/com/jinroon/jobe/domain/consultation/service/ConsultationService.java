@@ -29,6 +29,7 @@ import com.jinroon.jobe.domain.result.entity.DiagnosisResult;
 import com.jinroon.jobe.domain.result.entity.ResultMajorScore;
 import com.jinroon.jobe.domain.result.repository.DiagnosisResultRepository;
 import com.jinroon.jobe.domain.result.repository.ResultMajorScoreRepository;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -91,6 +92,7 @@ public class ConsultationService {
 
     @Transactional
     public ConsultationSession createSession(Map<String, Object> values) {
+        values.putIfAbsent("startedAt", LocalDateTime.now());
         return consultationSessionRepository.save(EntityFormMapper.create(ConsultationSession.class, values));
     }
 
