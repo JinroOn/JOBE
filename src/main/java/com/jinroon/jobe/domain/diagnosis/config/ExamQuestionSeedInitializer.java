@@ -76,6 +76,7 @@ public class ExamQuestionSeedInitializer implements ApplicationRunner {
 
         Map<String, Object> values = new HashMap<>();
         values.put("competencyCategory", primaryCategory);
+        values.put("questionType", questionNode.path("type").asText("objective"));
         values.put("questionText", questionNode.path("question").asText(""));
         values.put("optionA", options.getOrDefault("A", ""));
         values.put("optionB", options.getOrDefault("B", ""));

@@ -193,7 +193,10 @@ public class DiagnosisService {
         Long sessionId = ((Number) values.get("diagnosisSessionId")).longValue();
         Long questionId = ((Number) values.get("examQuestionId")).longValue();
         getSessionForUser(sessionId, userId);
-        get(examQuestionRepository, questionId, ErrorCode.DIAGNOSIS_QUESTION_NOT_FOUND);
+        ExamQuestion question = get(examQuestionRepository, questionId, ErrorCode.DIAGNOSIS_QUESTION_NOT_FOUND);
+        if (question.isEssay()) {
+            throw new CustomException(ErrorCode.INVALID_INPUT);
+        }
         return saveExamAnswer(values);
     }
 
