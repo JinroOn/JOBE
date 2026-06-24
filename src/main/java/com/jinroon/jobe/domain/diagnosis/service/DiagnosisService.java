@@ -183,14 +183,37 @@ public class DiagnosisService {
 
     @Transactional
     public DiagnosisExamAnswer createExamAnswer(Map<String, Object> values) {
+        values.put("selectedAnswer", normalizeAnswer(stringValue(values.get("selectedAnswer"))));
+        values.put("correct", false);
         return examAnswerRepository.save(EntityFormMapper.create(DiagnosisExamAnswer.class, values));
     }
 
     @Transactional
     public DiagnosisExamAnswer createExamAnswerForUser(Map<String, Object> values, Long userId) {
         Long sessionId = ((Number) values.get("diagnosisSessionId")).longValue();
+        Long questionId = ((Number) values.get("examQuestionId")).longValue();
         getSessionForUser(sessionId, userId);
-        return createExamAnswer(values);
+        get(examQuestionRepository, questionId, ErrorCode.DIAGNOSIS_QUESTION_NOT_FOUND);
+        return saveExamAnswer(values);
+    }
+
+    @Transactional
+    public DiagnosisExamAnswer saveExamAnswer(Map<String, Object> values) {
+        Long sessionId = ((Number) values.get("diagnosisSessionId")).longValue();
+        Long questionId = ((Number) values.get("examQuestionId")).longValue();
+        String selectedAnswer = normalizeAnswer(stringValue(values.get("selectedAnswer")));
+        Integer responseSec = intValue(values.get("responseSec"));
+        return examAnswerRepository.findByDiagnosisSessionIdAndExamQuestionId(sessionId, questionId)
+                .map(existing -> {
+                    existing.updateSubmission(selectedAnswer, responseSec);
+                    return existing;
+                })
+                .orElseGet(() -> {
+                    values.put("selectedAnswer", selectedAnswer);
+                    values.put("correct", false);
+                    values.put("responseSec", responseSec);
+                    return createExamAnswer(values);
+                });
     }
 
     @Transactional
@@ -226,12 +249,52 @@ public class DiagnosisService {
     public TendencyEvalResult createTendencyResultForUser(Map<String, Object> values, Long userId) {
         Long sessionId = ((Number) values.get("diagnosisSessionId")).longValue();
         getSessionForUser(sessionId, userId);
-        return createTendencyResult(values);
+        return saveTendencyResult(values);
+    }
+
+    @Transactional
+    public TendencyEvalResult saveTendencyResult(Map<String, Object> values) {
+        Long sessionId = ((Number) values.get("diagnosisSessionId")).longValue();
+        return tendencyEvalResultRepository.findByDiagnosisSessionId(sessionId)
+                .map(existing -> {
+                    existing.updateScores(
+                            floatValue(values.get("logicalInquiry")),
+                            floatValue(values.get("practicalTech")),
+                            floatValue(values.get("artCreative")),
+                            floatValue(values.get("socialCooperation")),
+                            floatValue(values.get("lifeHealth")),
+                            floatValue(values.get("educationGuide")),
+                            floatValue(values.get("theoryAcademic")),
+                            floatValue(values.get("dataAnalytics")),
+                            floatValue(values.get("systemOperation"))
+                    );
+                    return existing;
+                })
+                .orElseGet(() -> createTendencyResult(values));
     }
 
     private static void requireOwner(Long ownerId, Long userId) {
         if (!Objects.equals(ownerId, userId)) {
             throw new CustomException(ErrorCode.FORBIDDEN);
         }
+    }
+
+    private static Float floatValue(Object value) {
+        return value instanceof Number number ? number.floatValue() : null;
+    }
+
+    private static Integer intValue(Object value) {
+        return value instanceof Number number ? number.intValue() : null;
+    }
+
+    private static String stringValue(Object value) {
+        return value instanceof String string ? string : null;
+    }
+
+    private static String normalizeAnswer(String selectedAnswer) {
+        if (selectedAnswer == null || selectedAnswer.isBlank()) {
+            return null;
+        }
+        return selectedAnswer.trim().toUpperCase();
     }
 }

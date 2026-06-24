@@ -13,6 +13,9 @@ import com.jinroon.jobe.domain.consultation.entity.ConsultationLog;
 import com.jinroon.jobe.domain.consultation.entity.ConsultationSession;
 import com.jinroon.jobe.domain.consultation.repository.ConsultationLogRepository;
 import com.jinroon.jobe.domain.consultation.repository.ConsultationSessionRepository;
+import com.jinroon.jobe.domain.diagnosis.entity.DiagnosisSession;
+import com.jinroon.jobe.domain.diagnosis.repository.DiagnosisSessionRepository;
+import com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringService;
 import com.jinroon.jobe.domain.major.entity.Major;
 import com.jinroon.jobe.domain.major.repository.MajorRepository;
 import com.jinroon.jobe.domain.plan.repository.MajorWeeklyPlanItemRepository;
@@ -26,6 +29,7 @@ import com.jinroon.jobe.global.client.dto.request.ConsultationChatRequest;
 import com.jinroon.jobe.global.client.dto.response.ConsultationChatResponse;
 import com.jinroon.jobe.global.exception.CustomException;
 import com.jinroon.jobe.global.exception.error.ErrorCode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -50,6 +54,9 @@ class ConsultationServiceTest {
     private DiagnosisResultRepository diagnosisResultRepository;
 
     @Mock
+    private DiagnosisSessionRepository diagnosisSessionRepository;
+
+    @Mock
     private ResultMajorScoreRepository resultMajorScoreRepository;
 
     @Mock
@@ -61,6 +68,8 @@ class ConsultationServiceTest {
     @Mock
     private MajorWeeklyPlanItemRepository planItemRepository;
 
+    private DiagnosisProfileScoringService diagnosisProfileScoringService;
+
     @Mock
     private AiServiceClient aiServiceClient;
 
@@ -68,14 +77,17 @@ class ConsultationServiceTest {
 
     @BeforeEach
     void setUp() {
+        diagnosisProfileScoringService = new DiagnosisProfileScoringService(new ObjectMapper());
         service = new ConsultationService(
                 sessionRepository,
                 logRepository,
                 diagnosisResultRepository,
+                diagnosisSessionRepository,
                 resultMajorScoreRepository,
                 majorRepository,
                 planRepository,
                 planItemRepository,
+                diagnosisProfileScoringService,
                 aiServiceClient
         );
     }
@@ -201,6 +213,16 @@ class ConsultationServiceTest {
         when(logRepository.findByConsultationSessionIdOrderByCreatedAtAsc(1L))
                 .thenReturn(List.of(userLog));
         when(diagnosisResultRepository.findById(5L)).thenReturn(Optional.of(result));
+        when(diagnosisSessionRepository.findById(30L)).thenReturn(Optional.of(diagnosisSession("""
+                {
+                  "grade": "1학년",
+                  "dreamJob": "AI 데이터 사이언티스트",
+                  "studyHours": 4.5,
+                  "selectedSubjects": ["정보/코딩"],
+                  "learningStyle": "practice",
+                  "aspiration": "데이터로 문제를 해결하고 싶다"
+                }
+                """)));
         when(resultMajorScoreRepository.findByDiagnosisResultIdOrderByRankAsc(5L)).thenReturn(List.of(score));
         when(majorRepository.findAllById(any())).thenReturn(List.of(major));
         when(planRepository.findByDiagnosisResultId(5L)).thenReturn(List.of());
@@ -226,6 +248,8 @@ class ConsultationServiceTest {
         assertThat(request.diagnosisContext().topMajors())
                 .extracting(ConsultationChatRequest.TopMajor::majorName)
                 .containsExactly("컴퓨터공학과");
+        assertThat(request.diagnosisContext().profileContext()).isNotNull();
+        assertThat(request.diagnosisContext().profileContext().dreamJob()).isEqualTo("AI 데이터 사이언티스트");
     }
 
     private ConsultationSession session(Long id, Long userId, Long diagnosisResultId, boolean ended) {
@@ -285,6 +309,13 @@ class ConsultationServiceTest {
         ReflectionTestUtils.setField(major, "description", "컴퓨터 시스템과 소프트웨어를 학습합니다.");
         ReflectionTestUtils.setField(major, "careerPaths", "소프트웨어 개발자, 데이터 엔지니어");
         return major;
+    }
+
+    private DiagnosisSession diagnosisSession(String inputSnapshot) {
+        DiagnosisSession session = newEntity(DiagnosisSession.class);
+        ReflectionTestUtils.setField(session, "id", 30L);
+        ReflectionTestUtils.setField(session, "inputSnapshot", inputSnapshot);
+        return session;
     }
 
     private <T> T newEntity(Class<T> type) {

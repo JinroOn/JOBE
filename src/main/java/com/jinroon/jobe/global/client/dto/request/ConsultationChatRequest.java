@@ -25,7 +25,8 @@ public record ConsultationChatRequest(
             String aiComment,
             List<String> weaknessFocus,
             List<TopMajor> topMajors,
-            List<PlanContext> plans
+            List<PlanContext> plans,
+            DiagnosisProfileContext profileContext
     ) {
     }
 

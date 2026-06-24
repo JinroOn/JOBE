@@ -95,6 +95,20 @@ public interface ResultApi {
             @Parameter(description = "진단 결과 ID") @PathVariable Long resultId
     );
 
+    @Operation(summary = "Complete diagnosis result generation", description = "Completes major recommendation generation for a diagnosis session.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Result generation completed",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = DiagnosisResult.class))),
+            @ApiResponse(responseCode = "403", description = "Session does not belong to the authenticated user",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))),
+            @ApiResponse(responseCode = "404", description = "Required session or structured diagnosis result is missing",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
+    })
+    DiagnosisResult completeDiagnosisResult(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
+            @Parameter(description = "Diagnosis session ID") @PathVariable Long sessionId
+    );
+
     @Operation(summary = "진단 결과 생성", description = "진단 세션의 처리 결과를 저장합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "생성 성공",

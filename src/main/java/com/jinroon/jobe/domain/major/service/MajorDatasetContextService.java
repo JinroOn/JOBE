@@ -216,12 +216,50 @@ public class MajorDatasetContextService {
         }
         String normalizedMajorName = normalize(major.getName());
         try (Stream<Path> paths = Files.list(dir)) {
-            return paths
+            List<Path> candidates = paths
                     .filter(path -> path.getFileName().toString().endsWith(".rag.jsonl"))
-                    .filter(path -> normalize(path.getFileName().toString()).contains(normalizedMajorName))
-                    .findFirst();
+                    .toList();
+
+            for (Path path : candidates) {
+                if (!normalizedMajorName.isBlank()
+                        && normalize(path.getFileName().toString()).contains(normalizedMajorName)) {
+                    return Optional.of(path);
+                }
+            }
+            for (Path path : candidates) {
+                if (ragJsonlMajorNameMatches(path, normalizedMajorName)) {
+                    return Optional.of(path);
+                }
+            }
+            return Optional.empty();
         } catch (IOException e) {
             log.warn("전공 RAG dataset 디렉토리 조회 실패 path={} error={}", dir, e.getMessage());
+            return Optional.empty();
+        }
+    }
+
+    private boolean ragJsonlMajorNameMatches(Path path, String normalizedMajorName) {
+        if (normalizedMajorName == null || normalizedMajorName.isBlank()) {
+            return false;
+        }
+        try (Stream<String> lines = Files.lines(path, StandardCharsets.UTF_8)) {
+            return lines
+                    .map(String::trim)
+                    .filter(line -> !line.isBlank())
+                    .limit(5)
+                    .map(this::readJsonLine)
+                    .flatMap(Optional::stream)
+                    .anyMatch(node -> jsonMajorNameMatches(node, normalizedMajorName));
+        } catch (IOException e) {
+            log.warn("?꾧났 RAG JSONL 留ㅼ묶 ?ㅽ뙣 file={} error={}", path.getFileName(), e.getMessage());
+            return false;
+        }
+    }
+
+    private Optional<JsonNode> readJsonLine(String line) {
+        try {
+            return Optional.of(objectMapper.readTree(line));
+        } catch (IOException e) {
             return Optional.empty();
         }
     }

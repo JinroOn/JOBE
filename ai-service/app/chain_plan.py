@@ -7,11 +7,12 @@ import uuid
 from dataclasses import dataclass
 from pathlib import Path
 
-from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.messages import SystemMessage
+from langchain_core.prompts import ChatPromptTemplate, HumanMessagePromptTemplate
 from langchain_openai import ChatOpenAI
 from pydantic import BaseModel, ConfigDict, Field
 
-from .errors import RequestTimeoutError, UpstreamUnavailableError
+from .errors import UpstreamUnavailableError
 from .models import WeeklyPlanItem, WeeklyPlanRequest, WeeklyPlanResponse
 from .rag.context import enrich_weekly_plan_request_with_rag
 
@@ -88,7 +89,11 @@ class WeeklyPlanChain:
             )
 
         if self.provider not in {"openai", "openai_compatible", "factchat"}:
-            raise UpstreamUnavailableError(f"Unsupported provider: {self.provider}")
+            return self._fallback_chain_result(
+                request=request,
+                request_id=request_id,
+                reason="unsupported_provider_fallback",
+            )
 
         try:
             llm = ChatOpenAI(
@@ -98,12 +103,7 @@ class WeeklyPlanChain:
                 base_url=self.base_url or None,
             )
             structured = llm.with_structured_output(GeneratedWeeklyPlan)
-            prompt = ChatPromptTemplate.from_messages(
-                [
-                    ("system", self.prompt_text),
-                    ("human", "Input JSON:\n{input_json}"),
-                ]
-            )
+            prompt = self._build_prompt()
             chain = prompt | structured
             enriched_request, rag_fallback_reasons = enrich_weekly_plan_request_with_rag(
                 request,
@@ -126,12 +126,47 @@ class WeeklyPlanChain:
                 prompt_version=self.prompt_version,
                 model=self.model,
             )
-        except asyncio.TimeoutError as exc:
-            raise RequestTimeoutError() from exc
+        except asyncio.TimeoutError:
+            return self._fallback_chain_result(
+                request=request,
+                request_id=request_id,
+                reason="llm_timeout_fallback",
+            )
         except UpstreamUnavailableError:
-            raise
-        except Exception as exc:  # noqa: BLE001
-            raise UpstreamUnavailableError("LLM provider request failed") from exc
+            return self._fallback_chain_result(
+                request=request,
+                request_id=request_id,
+                reason="llm_unavailable_fallback",
+            )
+        except Exception:  # noqa: BLE001
+            return self._fallback_chain_result(
+                request=request,
+                request_id=request_id,
+                reason="llm_provider_fallback",
+            )
+
+    def _build_prompt(self) -> ChatPromptTemplate:
+        return ChatPromptTemplate.from_messages(
+            [
+                SystemMessage(content=self.prompt_text),
+                HumanMessagePromptTemplate.from_template("Input JSON:\n{input_json}"),
+            ]
+        )
+
+    def _fallback_chain_result(
+        self,
+        *,
+        request: WeeklyPlanRequest,
+        request_id: str,
+        reason: str,
+    ) -> PlanChainResult:
+        response = self._mock_response(request=request, request_id=request_id)
+        return PlanChainResult(
+            response=response,
+            fallback_reasons=[reason],
+            prompt_version=self.prompt_version,
+            model=self.model,
+        )
 
     def _normalize_generated(
         self,
@@ -201,8 +236,14 @@ class WeeklyPlanChain:
     def _normalize_overview(self, overview: str | None, *, request: WeeklyPlanRequest) -> str:
         text = self._sanitize_text(overview or "")
         if not text:
+            dream_job_hint = (
+                f" 목표 직무인 {request.profileContext.dreamJob} 방향도 함께 고려합니다."
+                if request.profileContext and request.profileContext.dreamJob
+                else ""
+            )
             text = (
                 f"{request.targetMajor.majorName} 진입을 위한 {request.constraints.weeks}주 학습 계획입니다. "
+                f"{dream_job_hint}"
                 "주차별 목표를 작게 나누어 실행하고, 주말 체크포인트로 학습 진척을 확인하세요. "
                 "취약 역량은 반복 연습과 피드백으로 단계적으로 개선하는 방식을 권장합니다."
             )
@@ -263,9 +304,15 @@ class WeeklyPlanChain:
         return text if len(text) <= max_len else text[:max_len]
 
     def _mock_response(self, *, request: WeeklyPlanRequest, request_id: str) -> WeeklyPlanResponse:
+        dream_job_hint = (
+            f" 목표 직무인 {request.profileContext.dreamJob} 방향도 함께 고려합니다."
+            if request.profileContext and request.profileContext.dreamJob
+            else ""
+        )
         generated = GeneratedWeeklyPlan(
             overview=(
                 f"{request.targetMajor.majorName} 준비를 위한 {request.constraints.weeks}주 계획입니다. "
+                f"{dream_job_hint}"
                 "주차별 목표를 분할해 학습하고, 주말 체크포인트로 진행률을 점검하세요. "
                 "취약 역량은 반복 훈련으로 개선하는 방식을 권장합니다."
             ),

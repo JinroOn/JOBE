@@ -35,7 +35,7 @@ CHUNK_TYPE_PRIORITY = {
     "keywords": 6,
 }
 
-DEFAULT_EMBEDDING_MODEL = "gemini-embedding-2"
+DEFAULT_EMBEDDING_MODEL = "text-embedding-3-large"
 
 
 @dataclass(frozen=True)

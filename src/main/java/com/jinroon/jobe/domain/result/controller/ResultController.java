@@ -73,6 +73,14 @@ public class ResultController implements ResultApi {
     }
 
     @Override
+    @PostMapping("/diagnosis-sessions/{sessionId}/complete")
+    public DiagnosisResult completeDiagnosisResult(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long sessionId) {
+        return resultService.completeDiagnosisResultForUser(sessionId, userDetails.getUserId());
+    }
+
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public DiagnosisResult createResult(

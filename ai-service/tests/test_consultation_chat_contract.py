@@ -6,6 +6,16 @@ from app.chain_consultation import ConsultationChain
 from app.models import ConsultationChatRequest
 
 
+def test_consultation_system_prompt_treats_braces_as_literal_text() -> None:
+    chain = ConsultationChain()
+    chain._system_prompt = lambda: 'Never expose "{userGoal}" as a template variable.'  # noqa: SLF001
+
+    messages = chain._build_prompt().format_messages(input_json='{"message": "hi"}')  # noqa: SLF001
+
+    assert messages[0].content == 'Never expose "{userGoal}" as a template variable.'
+    assert messages[1].content == 'Input JSON:\n{"message": "hi"}'
+
+
 def test_consultation_chat_mock_recommends_jinroon_diagnosis_when_context_is_missing(monkeypatch) -> None:
     monkeypatch.setenv("MOCK_MODE", "true")
     chain = ConsultationChain()
@@ -83,4 +93,3 @@ def test_consultation_chat_mock_uses_existing_diagnosis_context(monkeypatch) -> 
     assert result.response.requestId == "consultation-test-2"
     assert "컴퓨터공학과" in result.response.content
     assert "구체적인 강의나 자격증 목록 데이터" in result.response.content
-

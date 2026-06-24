@@ -30,7 +30,20 @@ public class DiagnosisExamAnswer extends BaseEntitySupport {
     @Column(name = "response_sec")
     private Integer responseSec;
 
+    public void updateSubmission(String selectedAnswer, Integer responseSec) {
+        this.selectedAnswer = normalizeAnswer(selectedAnswer);
+        this.responseSec = responseSec;
+        this.correct = false;
+    }
+
     public void markCorrect(Boolean correct) {
         this.correct = correct;
+    }
+
+    private static String normalizeAnswer(String selectedAnswer) {
+        if (selectedAnswer == null || selectedAnswer.isBlank()) {
+            return null;
+        }
+        return selectedAnswer.trim().toUpperCase();
     }
 }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.jinroon.jobe.domain.diagnosis.service.DiagnosisServiceTendencyResultTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-06-24T03:41:02.167Z" hostname="DESKTOP-FLIU7FT" time="0.01">
+  <properties/>
+  <testcase name="rejectsOtherUsersSession()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisServiceTendencyResultTest" time="0.001"/>
+  <testcase name="updatesExistingTendencyResultForSameSession()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisServiceTendencyResultTest" time="0.002"/>
+  <testcase name="repeatedSaveKeepsSingleRepositoryInsert()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisServiceTendencyResultTest" time="0.001"/>
+  <testcase name="createsNewTendencyResultForUser()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisServiceTendencyResultTest" time="0.002"/>
+  <testcase name="tendencyScoresAreClampedToValidRangeOnUpdate()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisServiceTendencyResultTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

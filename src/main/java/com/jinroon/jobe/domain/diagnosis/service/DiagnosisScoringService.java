@@ -66,7 +66,7 @@ public class DiagnosisScoringService {
             ExamQuestion question = questionsById.get(answer.getExamQuestionId());
             boolean correct = isCorrect(answer, question);
             answer.markCorrect(correct);
-            accumulator.add(question, correct);
+            accumulator.add(question, correct, speedBonusRate(answer, question, correct));
         }
 
         ScoreResult score = accumulator.toScoreResult();
@@ -109,6 +109,27 @@ public class DiagnosisScoringService {
         return answer.getSelectedAnswer().trim().equalsIgnoreCase(question.getCorrectAnswer().trim());
     }
 
+    private float speedBonusRate(DiagnosisExamAnswer answer, ExamQuestion question, boolean correct) {
+        if (!correct || answer.getResponseSec() == null || question.getTimeLimitSec() == null) {
+            return 0.0f;
+        }
+
+        int responseSec = answer.getResponseSec();
+        int limitSec = question.getTimeLimitSec();
+        if (responseSec < 3 || limitSec <= 0) {
+            return 0.0f;
+        }
+
+        float ratio = responseSec / (float) limitSec;
+        if (ratio <= 0.30f) {
+            return 0.05f;
+        }
+        if (ratio <= 0.50f) {
+            return 0.03f;
+        }
+        return 0.0f;
+    }
+
     private void requireOwner(Long ownerId, Long userId) {
         if (!Objects.equals(ownerId, userId)) {
             throw new CustomException(ErrorCode.FORBIDDEN);
@@ -119,11 +140,12 @@ public class DiagnosisScoringService {
         private final AxisWeights earned = new AxisWeights();
         private final AxisWeights max = new AxisWeights();
 
-        private void add(ExamQuestion question, boolean correct) {
+        private void add(ExamQuestion question, boolean correct, float speedBonusRate) {
             AxisWeights weights = AxisWeights.from(question);
             max.add(weights);
             if (correct) {
                 earned.add(weights);
+                earned.add(weights.scaled(speedBonusRate));
             }
         }
 
@@ -186,6 +208,20 @@ public class DiagnosisScoringService {
             communication += other.communication;
             collaboration += other.collaboration;
             selfManagement += other.selfManagement;
+        }
+
+        private AxisWeights scaled(float factor) {
+            AxisWeights scaled = new AxisWeights();
+            scaled.mathLogic = mathLogic * factor;
+            scaled.problemSolving = problemSolving * factor;
+            scaled.infoTech = infoTech * factor;
+            scaled.implementation = implementation * factor;
+            scaled.systemUnderstanding = systemUnderstanding * factor;
+            scaled.dataAnalysis = dataAnalysis * factor;
+            scaled.communication = communication * factor;
+            scaled.collaboration = collaboration * factor;
+            scaled.selfManagement = selfManagement * factor;
+            return scaled;
         }
 
         private static float safeWeight(Float value) {

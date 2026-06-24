@@ -9,7 +9,10 @@ import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jinroon.jobe.domain.diagnosis.entity.CompetencyEvalResult;
+import com.jinroon.jobe.domain.diagnosis.entity.DiagnosisSession;
 import com.jinroon.jobe.domain.diagnosis.repository.CompetencyEvalResultRepository;
+import com.jinroon.jobe.domain.diagnosis.repository.DiagnosisSessionRepository;
+import com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringService;
 import com.jinroon.jobe.domain.major.entity.Major;
 import com.jinroon.jobe.domain.major.repository.MajorRepository;
 import com.jinroon.jobe.domain.major.service.MajorDatasetContextService;
@@ -62,7 +65,12 @@ class PlanServiceTest {
     private CompetencyEvalResultRepository competencyEvalResultRepository;
 
     @Mock
+    private DiagnosisSessionRepository diagnosisSessionRepository;
+
+    @Mock
     private MajorRepository majorRepository;
+
+    private DiagnosisProfileScoringService diagnosisProfileScoringService;
 
     @Mock
     private AiServiceClient aiServiceClient;
@@ -74,6 +82,7 @@ class PlanServiceTest {
 
     @BeforeEach
     void setUp() {
+        diagnosisProfileScoringService = new DiagnosisProfileScoringService(new ObjectMapper());
         planService = new PlanService(
                 planRepository,
                 planItemRepository,
@@ -81,7 +90,9 @@ class PlanServiceTest {
                 diagnosisResultRepository,
                 resultMajorScoreRepository,
                 competencyEvalResultRepository,
+                diagnosisSessionRepository,
                 majorRepository,
+                diagnosisProfileScoringService,
                 aiServiceClient,
                 new ObjectMapper(),
                 majorDatasetContextService
@@ -119,6 +130,16 @@ class PlanServiceTest {
             return plan;
         });
         when(competencyEvalResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.of(competency));
+        when(diagnosisSessionRepository.findById(10L)).thenReturn(Optional.of(diagnosisSession("""
+                {
+                  "grade": "1학년",
+                  "dreamJob": "AI 데이터 사이언티스트",
+                  "studyHours": 4.5,
+                  "selectedSubjects": ["정보/코딩"],
+                  "learningStyle": "practice",
+                  "aspiration": "데이터로 문제를 해결하고 싶다"
+                }
+                """)));
         when(resultMajorScoreRepository.findById(11L)).thenReturn(Optional.of(score));
         when(majorRepository.findById(100L)).thenReturn(Optional.of(major));
         when(majorDatasetContextService.toWeeklyPlanMajorContext(major))
@@ -160,6 +181,9 @@ class PlanServiceTest {
         assertThat(requestCaptor.getValue().targetMajor().majorContext()).isNotNull();
         assertThat(requestCaptor.getValue().targetMajor().majorContext().ragSnippets())
                 .containsExactly("컴퓨터공학과 RAG snippet");
+        assertThat(requestCaptor.getValue().profileContext()).isNotNull();
+        assertThat(requestCaptor.getValue().profileContext().dreamJob()).isEqualTo("AI 데이터 사이언티스트");
+        assertThat(requestCaptor.getValue().constraints().studyHoursPerWeek()).isEqualTo(32);
     }
 
     @Test
@@ -510,6 +534,13 @@ class PlanServiceTest {
         ReflectionTestUtils.setField(score, "finalScore", finalScore);
         ReflectionTestUtils.setField(score, "failed", false);
         return score;
+    }
+
+    private DiagnosisSession diagnosisSession(String inputSnapshot) {
+        DiagnosisSession session = newEntity(DiagnosisSession.class);
+        ReflectionTestUtils.setField(session, "id", 10L);
+        ReflectionTestUtils.setField(session, "inputSnapshot", inputSnapshot);
+        return session;
     }
 
     private Major major(Long id, String name) {

@@ -4,6 +4,7 @@ import static com.jinroon.jobe.global.common.entity.EntityLookup.get;
 
 import com.jinroon.jobe.global.common.entity.EntityFormMapper;
 import com.jinroon.jobe.global.client.AiServiceClient;
+import com.jinroon.jobe.global.client.dto.request.DiagnosisProfileContext;
 import com.jinroon.jobe.global.client.dto.request.ConsultationChatRequest;
 import com.jinroon.jobe.global.client.dto.response.ConsultationChatResponse;
 import com.jinroon.jobe.global.exception.CustomException;
@@ -14,6 +15,10 @@ import com.jinroon.jobe.domain.consultation.repository.ConsultationLogRepository
 import com.jinroon.jobe.domain.consultation.repository.ConsultationSessionRepository;
 import com.jinroon.jobe.domain.consultation.dto.request.ConsultationMessageRequest;
 import com.jinroon.jobe.domain.consultation.dto.response.ConsultationMessageResponse;
+import com.jinroon.jobe.domain.diagnosis.dto.DiagnosisProfileSnapshot;
+import com.jinroon.jobe.domain.diagnosis.entity.DiagnosisSession;
+import com.jinroon.jobe.domain.diagnosis.repository.DiagnosisSessionRepository;
+import com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringService;
 import com.jinroon.jobe.domain.major.entity.Major;
 import com.jinroon.jobe.domain.major.repository.MajorRepository;
 import com.jinroon.jobe.domain.plan.entity.MajorWeeklyPlan;
@@ -43,10 +48,12 @@ public class ConsultationService {
     private final ConsultationSessionRepository consultationSessionRepository;
     private final ConsultationLogRepository consultationLogRepository;
     private final DiagnosisResultRepository diagnosisResultRepository;
+    private final DiagnosisSessionRepository diagnosisSessionRepository;
     private final ResultMajorScoreRepository resultMajorScoreRepository;
     private final MajorRepository majorRepository;
     private final MajorWeeklyPlanRepository planRepository;
     private final MajorWeeklyPlanItemRepository planItemRepository;
+    private final DiagnosisProfileScoringService diagnosisProfileScoringService;
     private final AiServiceClient aiServiceClient;
 
     public List<ConsultationSession> findSessionsByUser(Long userId) {
@@ -260,9 +267,23 @@ public class ConsultationService {
                 result.getAiComment(),
                 weaknessFocus,
                 topMajors,
-                plans
+                plans,
+                DiagnosisProfileContext.from(profileSnapshotFor(result))
         );
         return new ConsultationContext(result.getId(), usedLatest, topMajorNames, weaknessFocus, diagnosisContext);
+    }
+
+    private DiagnosisProfileSnapshot profileSnapshotFor(DiagnosisResult result) {
+        if (result.getDiagnosisSessionId() == null) {
+            return DiagnosisProfileSnapshot.empty();
+        }
+        Optional<DiagnosisSession> session =
+                Optional.ofNullable(diagnosisSessionRepository.findById(result.getDiagnosisSessionId()))
+                        .orElse(Optional.empty());
+        return session
+                .map(DiagnosisSession::getInputSnapshot)
+                .map(diagnosisProfileScoringService::parse)
+                .orElseGet(DiagnosisProfileSnapshot::empty);
     }
 
     private ConsultationChatRequest.TopMajor toTopMajor(ResultMajorScore score, Major major) {

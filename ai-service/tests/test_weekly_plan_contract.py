@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import re
 
 from app.chain_plan import GeneratedWeeklyPlan, GeneratedWeeklyPlanItem, WeeklyPlanChain
@@ -45,6 +46,16 @@ def build_request(*, weeks: int) -> WeeklyPlanRequest:
     )
 
 
+def test_weekly_plan_system_prompt_treats_braces_as_literal_text() -> None:
+    chain = WeeklyPlanChain()
+    chain.prompt_text = 'Use "{week}" only as an example, not as a template variable.'
+
+    messages = chain._build_prompt().format_messages(input_json='{"weeks": 4}')  # noqa: SLF001
+
+    assert messages[0].content == 'Use "{week}" only as an example, not as a template variable.'
+    assert messages[1].content == 'Input JSON:\n{"weeks": 4}'
+
+
 def sentence_count(text: str) -> int:
     return len([s for s in re.split(r"(?<=[.!?])\s+", text.strip()) if s.strip()])
 
@@ -77,6 +88,18 @@ def test_weekly_plan_mock_generation_6_weeks() -> None:
     request = build_request(weeks=6)
     response = chain._mock_response(request=request, request_id="plan-mock-6")  # noqa: SLF001
     assert_plan_quality(response, expected_weeks=6)
+
+
+def test_generate_with_meta_falls_back_when_llm_provider_is_unavailable() -> None:
+    chain = WeeklyPlanChain()
+    chain.use_mock = False
+    chain.provider = "unsupported"
+    request = build_request(weeks=6)
+
+    result = asyncio.run(chain.generate_with_meta(request=request, request_id="plan-provider-fallback"))
+
+    assert result.fallback_reasons == ["unsupported_provider_fallback"]
+    assert_plan_quality(result.response, expected_weeks=6)
 
 
 def test_weekly_plan_boundary_4_and_12_weeks() -> None:

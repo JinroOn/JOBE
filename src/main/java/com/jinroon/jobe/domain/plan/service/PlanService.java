@@ -3,6 +3,7 @@ package com.jinroon.jobe.domain.plan.service;
 import static com.jinroon.jobe.global.common.entity.EntityLookup.get;
 
 import com.jinroon.jobe.global.client.AiServiceClient;
+import com.jinroon.jobe.global.client.dto.request.DiagnosisProfileContext;
 import com.jinroon.jobe.global.client.dto.request.WeeklyPlanRequest;
 import com.jinroon.jobe.global.client.dto.request.WeeklyPlanRequest.Constraints;
 import com.jinroon.jobe.global.client.dto.request.WeeklyPlanRequest.Profile;
@@ -12,8 +13,12 @@ import com.jinroon.jobe.global.common.ai.AiGenerationStatus;
 import com.jinroon.jobe.global.common.entity.EntityFormMapper;
 import com.jinroon.jobe.global.exception.CustomException;
 import com.jinroon.jobe.global.exception.error.ErrorCode;
+import com.jinroon.jobe.domain.diagnosis.dto.DiagnosisProfileSnapshot;
 import com.jinroon.jobe.domain.diagnosis.entity.CompetencyEvalResult;
+import com.jinroon.jobe.domain.diagnosis.entity.DiagnosisSession;
 import com.jinroon.jobe.domain.diagnosis.repository.CompetencyEvalResultRepository;
+import com.jinroon.jobe.domain.diagnosis.repository.DiagnosisSessionRepository;
+import com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringService;
 import com.jinroon.jobe.domain.major.entity.Major;
 import com.jinroon.jobe.domain.major.repository.MajorRepository;
 import com.jinroon.jobe.domain.major.service.MajorDatasetContextService;
@@ -53,7 +58,9 @@ public class PlanService {
     private final DiagnosisResultRepository diagnosisResultRepository;
     private final ResultMajorScoreRepository resultMajorScoreRepository;
     private final CompetencyEvalResultRepository competencyEvalResultRepository;
+    private final DiagnosisSessionRepository diagnosisSessionRepository;
     private final MajorRepository majorRepository;
+    private final DiagnosisProfileScoringService diagnosisProfileScoringService;
     private final AiServiceClient aiServiceClient;
     private final ObjectMapper objectMapper;
     private final MajorDatasetContextService majorDatasetContextService;
@@ -292,6 +299,7 @@ public class PlanService {
         String majorName = major.getName();
 
         Profile profile = profileFrom(competency);
+        DiagnosisProfileSnapshot profileSnapshot = profileSnapshotFor(result);
 
         List<String> weaknessFocus = (result.getWeaknessFocus() != null && !result.getWeaknessFocus().isBlank())
                 ? Arrays.asList(result.getWeaknessFocus().split(","))
@@ -306,7 +314,8 @@ public class PlanService {
                 ),
                 normalizeWeaknessFocus(weaknessFocus, competency),
                 profile,
-                new Constraints(12, 8, "practice-first")
+                new Constraints(12, studyHoursPerWeek(profileSnapshot), preferredStyle(profileSnapshot)),
+                DiagnosisProfileContext.from(profileSnapshot)
         );
 
         WeeklyPlanResponse response = aiServiceClient.getWeeklyPlan(request);
@@ -358,6 +367,33 @@ public class PlanService {
                 safeInt(competency.getCollaboration()),
                 safeInt(competency.getSelfManagement())
         );
+    }
+
+    private DiagnosisProfileSnapshot profileSnapshotFor(DiagnosisResult result) {
+        if (result.getDiagnosisSessionId() == null) {
+            return DiagnosisProfileSnapshot.empty();
+        }
+        Optional<DiagnosisSession> session =
+                Optional.ofNullable(diagnosisSessionRepository.findById(result.getDiagnosisSessionId()))
+                        .orElse(Optional.empty());
+        return session
+                .map(DiagnosisSession::getInputSnapshot)
+                .map(diagnosisProfileScoringService::parse)
+                .orElseGet(DiagnosisProfileSnapshot::empty);
+    }
+
+    private Integer studyHoursPerWeek(DiagnosisProfileSnapshot profileSnapshot) {
+        if (profileSnapshot == null || profileSnapshot.studyHours() == null) {
+            return 8;
+        }
+        return Math.max(1, Math.min(40, (int) Math.round(profileSnapshot.studyHours() * 7.0)));
+    }
+
+    private String preferredStyle(DiagnosisProfileSnapshot profileSnapshot) {
+        if (profileSnapshot == null || profileSnapshot.learningStyle() == null) {
+            return "practice-first";
+        }
+        return profileSnapshot.learningStyle();
     }
 
     private List<String> normalizeWeaknessFocus(List<String> weaknessFocus, CompetencyEvalResult competency) {

@@ -44,4 +44,33 @@ public class TendencyEvalResult extends BaseEntitySupport {
 
     @Column(name = "system_operation", nullable = false)
     private Float systemOperation;
+
+    public void updateScores(
+            Float logicalInquiry,
+            Float practicalTech,
+            Float artCreative,
+            Float socialCooperation,
+            Float lifeHealth,
+            Float educationGuide,
+            Float theoryAcademic,
+            Float dataAnalytics,
+            Float systemOperation
+    ) {
+        this.logicalInquiry = clampScore(logicalInquiry);
+        this.practicalTech = clampScore(practicalTech);
+        this.artCreative = clampScore(artCreative);
+        this.socialCooperation = clampScore(socialCooperation);
+        this.lifeHealth = clampScore(lifeHealth);
+        this.educationGuide = clampScore(educationGuide);
+        this.theoryAcademic = clampScore(theoryAcademic);
+        this.dataAnalytics = clampScore(dataAnalytics);
+        this.systemOperation = clampScore(systemOperation);
+    }
+
+    private static Float clampScore(Float value) {
+        if (value == null) {
+            return 0.0f;
+        }
+        return Math.max(0.0f, Math.min(100.0f, value));
+    }
 }

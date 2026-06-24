@@ -411,6 +411,7 @@ class OpenAICompatibleEmbeddingProvider(EmbeddingProvider):
         self.api_key = os.getenv("EMBEDDING_API_KEY") or os.getenv("LLM_API_KEY") or os.getenv("OPENAI_API_KEY")
         self.base_url = os.getenv("EMBEDDING_BASE_URL") or os.getenv("LLM_BASE_URL") or None
         self.batch_size = get_embedding_batch_size()
+        self.output_dimensions = get_embedding_output_dimensions()
         if not self.api_key:
             raise RuntimeError("EMBEDDING_API_KEY, LLM_API_KEY, or OPENAI_API_KEY is required unless --skip-embeddings is used")
 
@@ -420,7 +421,10 @@ class OpenAICompatibleEmbeddingProvider(EmbeddingProvider):
         client = OpenAI(api_key=self.api_key, base_url=self.base_url)
         vectors: list[list[float]] = []
         for batch in _batched(texts, self.batch_size):
-            response = client.embeddings.create(model=self.model, input=batch)
+            request = {"model": self.model, "input": batch}
+            if self.output_dimensions is not None:
+                request["dimensions"] = self.output_dimensions
+            response = client.embeddings.create(**request)
             vectors.extend(list(item.embedding) for item in response.data)
         for vector in vectors:
             if len(vector) != self.dimension:
@@ -463,6 +467,13 @@ class GeminiEmbeddingProvider(EmbeddingProvider):
 
 def get_embedding_dimension() -> int:
     return int(os.getenv("EMBEDDING_DIMENSION", str(EMBEDDING_DIMENSION)))
+
+
+def get_embedding_output_dimensions() -> int | None:
+    value = os.getenv("EMBEDDING_OUTPUT_DIMENSIONS")
+    if value is None or value.strip() == "":
+        return None
+    return int(value)
 
 
 def get_embedding_batch_size() -> int:
