@@ -24,11 +24,11 @@ class ExplorationCatalogMigrationTest {
     private JdbcTemplate jdbcTemplate;
 
     @Test
-    void flywayAppliedV1() {
+    void flywayAppliedMigrations() {
         List<String> versions = jdbcTemplate.queryForList(
                 "SELECT version FROM flyway_schema_history WHERE success = 1 ORDER BY installed_rank", String.class);
 
-        assertThat(versions).contains("1");
+        assertThat(versions).contains("1", "2");
     }
 
     @Test
