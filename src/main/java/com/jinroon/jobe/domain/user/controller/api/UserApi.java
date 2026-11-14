@@ -6,7 +6,6 @@ import com.jinroon.jobe.domain.user.dto.response.UserFavoriteResponse;
 import com.jinroon.jobe.domain.user.dto.response.UserResponse;
 import com.jinroon.jobe.domain.user.dto.response.UserSessionResponse;
 import com.jinroon.jobe.domain.user.dto.request.EmailVerificationRequest;
-import com.jinroon.jobe.domain.user.dto.request.SessionRequest;
 import com.jinroon.jobe.domain.user.dto.request.UserConsentRequest;
 import com.jinroon.jobe.domain.user.dto.request.UserFavoriteRequest;
 import com.jinroon.jobe.domain.user.dto.request.UserRequest;
@@ -187,23 +186,6 @@ public interface UserApi {
     void deleteFavorite(
             @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "즐겨찾기 ID") @PathVariable Long favoriteId
-    );
-
-    @Operation(summary = "세션 생성", description = "사용자 세션 레코드를 생성합니다.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "생성 성공",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserSessionResponse.class))),
-            @ApiResponse(responseCode = "400", description = "입력값 오류",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
-    })
-    UserSessionResponse createSession(
-            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "세션 필드값 Map", 
-                    required = true,
-                    content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.user.dto.request.SessionRequest.class))
-            )
-            @Valid @RequestBody SessionRequest request
     );
 
     @Operation(summary = "이메일 인증 레코드 생성", description = "이메일 인증 레코드를 직접 생성합니다.")

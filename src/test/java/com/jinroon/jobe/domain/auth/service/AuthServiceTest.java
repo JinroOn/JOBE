@@ -47,8 +47,8 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 /**
  * 인증 서비스 단위 테스트.
- * 1단계 기준선 + 2단계(코드 시도 횟수 제한, 발급 제한, 재설정 응답 통일).
- * 비밀번호 변경 시 세션 정리 범위는 3단계에서 바뀌므로 아직 고정하지 않는다.
+ * 1단계 기준선 + 2단계(코드 시도 횟수 제한, 발급 제한, 재설정 응답 통일)
+ * + 3단계(비밀번호 변경 시 전체 세션 삭제, refresh 토큰 해시 저장).
  */
 @ExtendWith(MockitoExtension.class)
 class AuthServiceTest {
@@ -196,13 +196,18 @@ class AuthServiceTest {
         verify(sessionRepository).save(sessionCaptor.capture());
         assertThat(sessionCaptor.getValue().getUserId()).isEqualTo(1L);
         assertThat(sessionCaptor.getValue().getDeviceInfo()).isEqualTo("test-device");
+        // DB에는 원문이 아니라 해시만 저장된다.
+        assertThat(sessionCaptor.getValue().getRefreshToken())
+                .isNotEqualTo(response.refreshToken())
+                .isEqualTo(AuthService.hashRefreshToken(response.refreshToken()))
+                .hasSize(64);
     }
 
     // ---- refresh / logout ----
 
     @Test
     void refreshRejectsUnknownToken() {
-        when(sessionRepository.findByRefreshToken("unknown")).thenReturn(Optional.empty());
+        when(sessionRepository.findByRefreshToken(AuthService.hashRefreshToken("unknown"))).thenReturn(Optional.empty());
 
         assertErrorCode(() -> service.refresh(new RefreshTokenRequest("unknown", null)), ErrorCode.AUTH_TOKEN_INVALID);
     }
@@ -210,7 +215,7 @@ class AuthServiceTest {
     @Test
     void refreshDeletesExpiredSession() {
         Session expired = session(1L, "old-token", LocalDateTime.now().minusMinutes(1));
-        when(sessionRepository.findByRefreshToken("old-token")).thenReturn(Optional.of(expired));
+        when(sessionRepository.findByRefreshToken(AuthService.hashRefreshToken("old-token"))).thenReturn(Optional.of(expired));
 
         assertErrorCode(() -> service.refresh(new RefreshTokenRequest("old-token", null)), ErrorCode.AUTH_TOKEN_EXPIRED);
         verify(sessionRepository).delete(expired);
@@ -221,7 +226,7 @@ class AuthServiceTest {
         Session current = session(1L, "old-token", LocalDateTime.now().plusDays(1));
         User user = activeUser(1L);
         ReflectionTestUtils.setField(user, "status", UserStatus.withdrawn);
-        when(sessionRepository.findByRefreshToken("old-token")).thenReturn(Optional.of(current));
+        when(sessionRepository.findByRefreshToken(AuthService.hashRefreshToken("old-token"))).thenReturn(Optional.of(current));
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
         assertErrorCode(() -> service.refresh(new RefreshTokenRequest("old-token", null)), ErrorCode.UNAUTHORIZED);
@@ -231,7 +236,7 @@ class AuthServiceTest {
     @Test
     void refreshRotatesSession() {
         Session current = session(1L, "old-token", LocalDateTime.now().plusDays(1));
-        when(sessionRepository.findByRefreshToken("old-token")).thenReturn(Optional.of(current));
+        when(sessionRepository.findByRefreshToken(AuthService.hashRefreshToken("old-token"))).thenReturn(Optional.of(current));
         when(userRepository.findById(1L)).thenReturn(Optional.of(activeUser(1L)));
         when(sessionRepository.save(any(Session.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
@@ -240,13 +245,26 @@ class AuthServiceTest {
         verify(sessionRepository).delete(current);
         assertThat(response.refreshToken()).isNotEqualTo("old-token");
         assertThat(jwtProvider.isValid(response.accessToken())).isTrue();
+        ArgumentCaptor<Session> sessionCaptor = ArgumentCaptor.forClass(Session.class);
+        verify(sessionRepository).save(sessionCaptor.capture());
+        assertThat(sessionCaptor.getValue().getRefreshToken())
+                .isEqualTo(AuthService.hashRefreshToken(response.refreshToken()));
+    }
+
+    @Test
+    void refreshDoesNotAcceptStoredHashAsToken() {
+        // DB가 유출돼 해시를 알아도 그 값으로는 refresh할 수 없다.
+        String storedHash = AuthService.hashRefreshToken("old-token");
+        when(sessionRepository.findByRefreshToken(AuthService.hashRefreshToken(storedHash))).thenReturn(Optional.empty());
+
+        assertErrorCode(() -> service.refresh(new RefreshTokenRequest(storedHash, null)), ErrorCode.AUTH_TOKEN_INVALID);
     }
 
     @Test
     void logoutDeletesSessionByRefreshToken() {
         service.logout(new LogoutRequest("some-token"));
 
-        verify(sessionRepository).deleteByRefreshToken("some-token");
+        verify(sessionRepository).deleteByRefreshToken(AuthService.hashRefreshToken("some-token"));
     }
 
     // ---- 이메일 인증 ----
@@ -524,7 +542,7 @@ class AuthServiceTest {
         Session current = session(1L, "refresh", LocalDateTime.now().plusDays(1));
         User user = activeUser(1L);
         String originalHash = user.getPasswordHash();
-        when(sessionRepository.findByRefreshToken("refresh")).thenReturn(Optional.of(current));
+        when(sessionRepository.findByRefreshToken(AuthService.hashRefreshToken("refresh"))).thenReturn(Optional.of(current));
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
         assertErrorCode(
@@ -537,7 +555,7 @@ class AuthServiceTest {
     @Test
     void changePasswordRejectsExpiredSession() {
         Session expired = session(1L, "refresh", LocalDateTime.now().minusMinutes(1));
-        when(sessionRepository.findByRefreshToken("refresh")).thenReturn(Optional.of(expired));
+        when(sessionRepository.findByRefreshToken(AuthService.hashRefreshToken("refresh"))).thenReturn(Optional.of(expired));
 
         assertErrorCode(
                 () -> service.changePassword(new ChangePasswordRequest("refresh", PASSWORD, "newPassword123")),
@@ -549,12 +567,14 @@ class AuthServiceTest {
     void changePasswordUpdatesHash() {
         Session current = session(1L, "refresh", LocalDateTime.now().plusDays(1));
         User user = activeUser(1L);
-        when(sessionRepository.findByRefreshToken("refresh")).thenReturn(Optional.of(current));
+        when(sessionRepository.findByRefreshToken(AuthService.hashRefreshToken("refresh"))).thenReturn(Optional.of(current));
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
         service.changePassword(new ChangePasswordRequest("refresh", PASSWORD, "newPassword123"));
 
         assertThat(passwordHasher.matches("newPassword123", user.getPasswordHash())).isTrue();
+        verify(sessionRepository).deleteByUserId(1L);
+        verify(sessionRepository, never()).delete(any(Session.class));
     }
 
     // ---- helpers ----

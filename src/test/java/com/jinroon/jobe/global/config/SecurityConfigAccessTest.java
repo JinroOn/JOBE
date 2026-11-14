@@ -1,14 +1,19 @@
 package com.jinroon.jobe.global.config;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.jinroon.jobe.domain.user.entity.Session;
 import com.jinroon.jobe.domain.user.entity.User;
 import com.jinroon.jobe.domain.user.enums.UserEnums.UserRole;
+import com.jinroon.jobe.domain.user.enums.UserEnums.UserStatus;
+import com.jinroon.jobe.domain.user.repository.SessionRepository;
 import com.jinroon.jobe.domain.user.repository.UserRepository;
 import com.jinroon.jobe.global.security.JwtProvider;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +41,9 @@ class SecurityConfigAccessTest {
 
     @Autowired
     private JwtProvider jwtProvider;
+
+    @Autowired
+    private SessionRepository sessionRepository;
 
     // ---- 비로그인 공개 경로 ----
 
@@ -84,6 +92,64 @@ class SecurityConfigAccessTest {
         mockMvc.perform(get("/api/users/me").header("Authorization", bearer(member)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.email").value(member.getEmail()));
+    }
+
+    // ---- 3단계: 토큰의 사용자 상태 확인 ----
+
+    @Test
+    void suspendedUserTokenIsRejected() throws Exception {
+        User user = saveUser(UserRole.member);
+        String token = bearer(user);
+        ReflectionTestUtils.setField(user, "status", UserStatus.suspended);
+        userRepository.saveAndFlush(user);
+
+        mockMvc.perform(get("/api/users/me").header("Authorization", token))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void tokenForMissingUserReturns401Not500() throws Exception {
+        User ghost = User.registerEmailUser("ghost-" + UUID.randomUUID() + "@example.com", "x", "유령", null);
+        ReflectionTestUtils.setField(ghost, "id", Long.MAX_VALUE);
+
+        mockMvc.perform(get("/api/users/me").header("Authorization", bearer(ghost)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void tokenWithMismatchedUserIdIsRejected() throws Exception {
+        User user = saveUser(UserRole.member);
+        // 같은 이메일로 재가입한 다른 계정을 흉내낸다: 이메일은 같고 userId만 다른 토큰.
+        User previousAccount = User.registerEmailUser(user.getEmail(), "x", "이전 계정", null);
+        ReflectionTestUtils.setField(previousAccount, "id", user.getId() + 100_000);
+
+        mockMvc.perform(get("/api/users/me").header("Authorization", bearer(previousAccount)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void sessionCreationEndpointIsRemoved() throws Exception {
+        User member = saveUser(UserRole.member);
+        long before = sessionRepository.findByUserId(member.getId()).size();
+
+        mockMvc.perform(post("/api/users/sessions")
+                        .header("Authorization", bearer(member))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"refreshToken\":\"attacker-chosen\",\"expiresAt\":\"2099-01-01T00:00:00\"}"))
+                .andExpect(result -> assertThat(result.getResponse().getStatus()).isNotEqualTo(201));
+        assertThat(sessionRepository.findByUserId(member.getId())).hasSize((int) before);
+    }
+
+    @Test
+    void sessionListDoesNotExposeRefreshToken() throws Exception {
+        User member = saveUser(UserRole.member);
+        sessionRepository.save(Session.issue(member.getId(), "stored-hash", "test-device",
+                LocalDateTime.now().plusDays(1)));
+
+        mockMvc.perform(get("/api/users/me/sessions").header("Authorization", bearer(member)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].deviceInfo").value("test-device"))
+                .andExpect(jsonPath("$[0].refreshToken").doesNotExist());
     }
 
     // ---- 관리자 전용 경로 ----

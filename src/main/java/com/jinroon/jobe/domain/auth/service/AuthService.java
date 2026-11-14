@@ -27,10 +27,14 @@ import com.jinroon.jobe.domain.user.repository.EmailVerificationRepository;
 import com.jinroon.jobe.domain.user.repository.SessionRepository;
 import com.jinroon.jobe.domain.user.repository.UserConsentRepository;
 import com.jinroon.jobe.domain.user.repository.UserRepository;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Base64;
+import java.util.HexFormat;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,14 +90,14 @@ public class AuthService {
             throw new CustomException(ErrorCode.USER_PASSWORD_INVALID);
         }
         user.recordLogin();
-        Session session = issueSession(user, request.deviceInfo());
+        IssuedSession issued = issueSession(user, request.deviceInfo());
         String accessToken = jwtProvider.createToken(user);
-        return new AuthResponse(UserResponse.from(user), accessToken, session.getRefreshToken(), session.getExpiresAt());
+        return new AuthResponse(UserResponse.from(user), accessToken, issued.rawRefreshToken(), issued.session().getExpiresAt());
     }
 
     @Transactional
     public AuthResponse refresh(RefreshTokenRequest request) {
-        Session currentSession = sessionRepository.findByRefreshToken(request.refreshToken())
+        Session currentSession = sessionRepository.findByRefreshToken(hashRefreshToken(request.refreshToken()))
                 .orElseThrow(() -> new CustomException(ErrorCode.AUTH_TOKEN_INVALID));
         if (currentSession.isExpired(LocalDateTime.now())) {
             sessionRepository.delete(currentSession);
@@ -103,14 +107,14 @@ public class AuthService {
                 .orElseThrow(() -> new CustomException(ErrorCode.AUTH_TOKEN_INVALID));
         requireActive(user);
         sessionRepository.delete(currentSession);
-        Session newSession = issueSession(user, request.deviceInfo());
+        IssuedSession issued = issueSession(user, request.deviceInfo());
         String accessToken = jwtProvider.createToken(user);
-        return new AuthResponse(UserResponse.from(user), accessToken, newSession.getRefreshToken(), newSession.getExpiresAt());
+        return new AuthResponse(UserResponse.from(user), accessToken, issued.rawRefreshToken(), issued.session().getExpiresAt());
     }
 
     @Transactional
     public void logout(LogoutRequest request) {
-        sessionRepository.deleteByRefreshToken(request.refreshToken());
+        sessionRepository.deleteByRefreshToken(hashRefreshToken(request.refreshToken()));
     }
 
     @Transactional
@@ -166,7 +170,7 @@ public class AuthService {
 
     @Transactional
     public void changePassword(ChangePasswordRequest request) {
-        Session session = sessionRepository.findByRefreshToken(request.refreshToken())
+        Session session = sessionRepository.findByRefreshToken(hashRefreshToken(request.refreshToken()))
                 .orElseThrow(() -> new CustomException(ErrorCode.AUTH_TOKEN_INVALID));
         if (session.isExpired(LocalDateTime.now())) {
             sessionRepository.delete(session);
@@ -179,7 +183,8 @@ public class AuthService {
             throw new CustomException(ErrorCode.USER_PASSWORD_INVALID);
         }
         user.changePassword(passwordHasher.hash(request.newPassword()));
-        sessionRepository.delete(session);
+        // 다른 기기의 세션도 모두 끊는다(비밀번호 재설정과 같은 정책).
+        sessionRepository.deleteByUserId(user.getId());
     }
 
     /**
@@ -243,9 +248,28 @@ public class AuthService {
         sessionRepository.deleteByUserId(user.getId());
     }
 
-    private Session issueSession(User user, String deviceInfo) {
+    /**
+     * refresh 토큰 원문은 응답으로만 내보내고 DB에는 SHA-256 해시만 저장한다.
+     * 토큰은 48바이트 난수라 솔트 없는 단순 해시로 충분하다(비밀번호처럼 추측 공격 대상이 아님).
+     */
+    private IssuedSession issueSession(User user, String deviceInfo) {
         LocalDateTime expiresAt = LocalDateTime.now().plusDays(REFRESH_TOKEN_DAYS);
-        return sessionRepository.save(Session.issue(user.getId(), issueToken(REFRESH_TOKEN_BYTES), deviceInfo, expiresAt));
+        String rawToken = issueToken(REFRESH_TOKEN_BYTES);
+        Session session = sessionRepository.save(
+                Session.issue(user.getId(), hashRefreshToken(rawToken), deviceInfo, expiresAt));
+        return new IssuedSession(session, rawToken);
+    }
+
+    static String hashRefreshToken(String rawToken) {
+        try {
+            byte[] digest = MessageDigest.getInstance("SHA-256").digest(rawToken.getBytes(StandardCharsets.UTF_8));
+            return HexFormat.of().formatHex(digest);
+        } catch (NoSuchAlgorithmException exception) {
+            throw new IllegalStateException("SHA-256 is not available", exception);
+        }
+    }
+
+    private record IssuedSession(Session session, String rawRefreshToken) {
     }
 
     private boolean isIssueAllowed(LocalDateTime lastIssuedAt, long issuedInWindow, LocalDateTime now) {
