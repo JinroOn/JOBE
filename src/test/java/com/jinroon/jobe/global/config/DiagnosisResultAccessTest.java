@@ -11,7 +11,9 @@ import com.jinroon.jobe.domain.diagnosis.enums.DiagnosisEnums.DiagnosisStatus;
 import com.jinroon.jobe.domain.diagnosis.repository.DiagnosisSessionRepository;
 import com.jinroon.jobe.domain.diagnosis.repository.ExamQuestionRepository;
 import com.jinroon.jobe.domain.result.entity.DiagnosisResult;
+import com.jinroon.jobe.domain.result.entity.ResultMajorScore;
 import com.jinroon.jobe.domain.result.repository.DiagnosisResultRepository;
+import com.jinroon.jobe.domain.result.repository.ResultMajorScoreRepository;
 import com.jinroon.jobe.domain.user.entity.User;
 import com.jinroon.jobe.domain.user.enums.UserEnums.UserRole;
 import com.jinroon.jobe.domain.user.repository.UserRepository;
@@ -28,7 +30,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 3.2 기준선: 진단·결과·계획 API의 인증·소유권 규칙을 HTTP 수준에서 고정한다.
+ * 3.2: 진단·결과·계획 API의 인증·소유권 규칙(기준선)과 정답 숨김, 쓰기 경로 차단,
+ * 성향 서버 계산, 계획 점수 소속 확인, 공유 응답 축소를 HTTP 수준에서 확인한다.
  * 서비스 단위 테스트는 이미 있으므로 여기서는 컨트롤러·보안 설정을 거친 응답 코드만 본다.
  * 로컬 MySQL(docker compose up -d mysql)이 필요하다. 테스트 데이터는 트랜잭션 롤백으로 지운다.
  */
@@ -54,6 +57,9 @@ class DiagnosisResultAccessTest {
 
     @Autowired
     private ExamQuestionRepository examQuestionRepository;
+
+    @Autowired
+    private ResultMajorScoreRepository resultMajorScoreRepository;
 
     // ---- 진단 ----
 
@@ -254,6 +260,88 @@ class DiagnosisResultAccessTest {
                 .andExpect(jsonPath("$.ownerNickname").value(owner.getNickname()));
         mockMvc.perform(get("/api/results/share/" + result.getShareToken() + "/major-scores"))
                 .andExpect(status().isOk());
+    }
+
+    // ---- 3.2 6단계: 공유 응답 축소 (문서 4.2) ----
+
+    @Test
+    void sharedResultExposesOnlyAllowlistedFields() throws Exception {
+        User owner = saveUser(UserRole.member);
+        DiagnosisResult result = saveResult(owner);
+        resultMajorScoreRepository.save(ResultMajorScore.of(
+                result.getId(), 1L, 70.0f, 80.0f, 76.0f, 1, false, "이유"));
+
+        mockMvc.perform(get("/api/results/share/" + result.getShareToken()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.ownerNickname").exists())
+                .andExpect(jsonPath("$.competencyVector").exists())
+                .andExpect(jsonPath("$.aiCommentStatus").exists())
+                .andExpect(jsonPath("$.userId").doesNotExist())
+                .andExpect(jsonPath("$.diagnosisSessionId").doesNotExist())
+                .andExpect(jsonPath("$.shareToken").doesNotExist())
+                .andExpect(jsonPath("$.tendencyVector").doesNotExist())
+                .andExpect(jsonPath("$.aiCommentErrorMessage").doesNotExist())
+                .andExpect(jsonPath("$.id").doesNotExist());
+        mockMvc.perform(get("/api/results/share/" + result.getShareToken() + "/major-scores"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].majorId").value(1))
+                .andExpect(jsonPath("$[0].finalScore").value(76.0))
+                .andExpect(jsonPath("$[0].recommendationReason").value("이유"))
+                .andExpect(jsonPath("$[0].id").doesNotExist())
+                .andExpect(jsonPath("$[0].diagnosisResultId").doesNotExist());
+    }
+
+    // ---- 3.2 4단계: 성향 점수 서버 계산 (N03) ----
+
+    @Test
+    void tendencyResultIsComputedFromSessionAnswersNotRequestBody() throws Exception {
+        User owner = saveUser(UserRole.member);
+        DiagnosisSession session = saveSession(owner);
+        StringBuilder answers = new StringBuilder("{\"tendencyAnswers\":{");
+        for (int i = 0; i < 12; i++) {
+            answers.append(i == 0 ? "" : ",").append('"').append(i).append("\":\"A\"");
+        }
+        ReflectionTestUtils.setField(session, "inputSnapshot", answers.append("}}").toString());
+        diagnosisSessionRepository.saveAndFlush(session);
+
+        mockMvc.perform(post("/api/diagnoses/tendency-results").header("Authorization", bearer(owner))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"diagnosisSessionId\":" + session.getId() + ",\"logicalInquiry\":0,"
+                                + "\"educationGuide\":100,\"systemOperation\":100}"))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.logicalInquiry").value(100.0))
+                .andExpect(jsonPath("$.educationGuide").value(0.0))
+                .andExpect(jsonPath("$.systemOperation").value(67.0));
+    }
+
+    @Test
+    void tendencyResultRequiresAllAnswers() throws Exception {
+        User owner = saveUser(UserRole.member);
+        DiagnosisSession session = saveSession(owner);
+
+        mockMvc.perform(post("/api/diagnoses/tendency-results").header("Authorization", bearer(owner))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"diagnosisSessionId\":" + session.getId() + ",\"logicalInquiry\":100}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    // ---- 3.2 5단계: 계획의 전공 점수 소속 확인 (N06) ----
+
+    @Test
+    void planWithMajorScoreOfAnotherResultIsRejected() throws Exception {
+        User owner = saveUser(UserRole.member);
+        User other = saveUser(UserRole.member);
+        DiagnosisResult ownResult = saveResult(owner);
+        DiagnosisResult otherResult = saveResult(other);
+        ResultMajorScore otherScore = resultMajorScoreRepository.save(ResultMajorScore.of(
+                otherResult.getId(), 1L, 70.0f, 80.0f, 76.0f, 1, false, null));
+
+        mockMvc.perform(post("/api/plans")
+                        .header("Authorization", bearer(owner))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"diagnosisResultId\":" + ownResult.getId()
+                                + ",\"resultMajorScoreId\":" + otherScore.getId() + "}"))
+                .andExpect(status().isNotFound());
     }
 
     // ---- 계획 ----

@@ -17,6 +17,7 @@ import com.jinroon.jobe.domain.result.repository.ResultMajorScoreRepository;
 import com.jinroon.jobe.domain.plan.repository.MajorWeeklyPlanItemRepository;
 import com.jinroon.jobe.domain.plan.repository.MajorWeeklyPlanRepository;
 import com.jinroon.jobe.domain.plan.repository.MajorWeeklyPlanRiskNoteRepository;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -43,6 +44,7 @@ public class DiagnosisService {
     private final MajorWeeklyPlanRiskNoteRepository majorWeeklyPlanRiskNoteRepository;
     private final ConsultationSessionRepository consultationSessionRepository;
     private final ConsultationLogRepository consultationLogRepository;
+    private final TendencyScoringService tendencyScoringService;
 
     public DiagnosisSession getSession(Long sessionId) {
         return get(diagnosisSessionRepository, sessionId, ErrorCode.DIAGNOSIS_SESSION_NOT_FOUND);
@@ -256,10 +258,33 @@ public class DiagnosisService {
     }
 
     @Transactional
+    /**
+     * 성향 결과 저장. 요청 본문의 점수는 쓰지 않고, 세션 inputSnapshot.tendencyAnswers(A/B 응답)로 서버가 계산한다.
+     * 12문항을 모두 답하지 않았으면 저장하지 않는다.
+     */
     public TendencyEvalResult createTendencyResultForUser(Map<String, Object> values, Long userId) {
         Long sessionId = ((Number) values.get("diagnosisSessionId")).longValue();
-        getSessionForUser(sessionId, userId);
-        return saveTendencyResult(values);
+        DiagnosisSession session = getSessionForUser(sessionId, userId);
+        Map<Integer, String> answers = tendencyScoringService.readAnswers(session.getInputSnapshot());
+        if (!tendencyScoringService.isComplete(answers)) {
+            throw new CustomException(ErrorCode.DIAGNOSIS_TENDENCY_ANSWERS_INCOMPLETE);
+        }
+        return saveTendencyResult(tendencyValues(sessionId, tendencyScoringService.score(answers)));
+    }
+
+    private static Map<String, Object> tendencyValues(Long sessionId, Map<TendencyScoringService.Axis, Float> scores) {
+        Map<String, Object> values = new HashMap<>();
+        values.put("diagnosisSessionId", sessionId);
+        values.put("logicalInquiry", scores.get(TendencyScoringService.Axis.LOGICAL_INQUIRY));
+        values.put("practicalTech", scores.get(TendencyScoringService.Axis.PRACTICAL_TECH));
+        values.put("artCreative", scores.get(TendencyScoringService.Axis.ART_CREATIVE));
+        values.put("socialCooperation", scores.get(TendencyScoringService.Axis.SOCIAL_COOPERATION));
+        values.put("lifeHealth", scores.get(TendencyScoringService.Axis.LIFE_HEALTH));
+        values.put("educationGuide", scores.get(TendencyScoringService.Axis.EDUCATION_GUIDE));
+        values.put("theoryAcademic", scores.get(TendencyScoringService.Axis.THEORY_ACADEMIC));
+        values.put("dataAnalytics", scores.get(TendencyScoringService.Axis.DATA_ANALYTICS));
+        values.put("systemOperation", scores.get(TendencyScoringService.Axis.SYSTEM_OPERATION));
+        return values;
     }
 
     @Transactional

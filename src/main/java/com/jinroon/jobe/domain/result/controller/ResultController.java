@@ -2,6 +2,7 @@ package com.jinroon.jobe.domain.result.controller;
 
 import com.jinroon.jobe.domain.result.controller.api.ResultApi;
 import com.jinroon.jobe.domain.result.dto.response.SharedDiagnosisResultResponse;
+import com.jinroon.jobe.domain.result.dto.response.SharedMajorScoreResponse;
 import com.jinroon.jobe.domain.result.entity.DiagnosisResult;
 import com.jinroon.jobe.domain.result.entity.ResultMajorScore;
 import com.jinroon.jobe.domain.result.service.ResultService;
@@ -50,8 +51,10 @@ public class ResultController implements ResultApi {
 
     @Override
     @GetMapping("/share/{shareToken}/major-scores")
-    public List<ResultMajorScore> getSharedMajorScores(@PathVariable String shareToken) {
-        return resultService.findMajorScoresByShareToken(shareToken);
+    public List<SharedMajorScoreResponse> getSharedMajorScores(@PathVariable String shareToken) {
+        return resultService.findMajorScoresByShareToken(shareToken).stream()
+                .map(SharedMajorScoreResponse::from)
+                .toList();
     }
 
     @Override

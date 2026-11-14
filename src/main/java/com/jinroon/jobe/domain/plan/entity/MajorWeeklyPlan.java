@@ -64,6 +64,10 @@ public class MajorWeeklyPlan extends BaseEntitySupport {
         this.overview = overview;
     }
 
+    public void updateOverview(String overview) {
+        this.overview = overview;
+    }
+
     public void prepareVersion(Integer versionNo, Long parentPlanId) {
         this.versionNo = versionNo;
         this.parentPlanId = parentPlanId;

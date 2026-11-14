@@ -96,7 +96,8 @@ class DiagnosisServiceExamAnswerTest {
                 majorWeeklyPlanItemRepository,
                 majorWeeklyPlanRiskNoteRepository,
                 consultationSessionRepository,
-                consultationLogRepository
+                consultationLogRepository,
+                new TendencyScoringService(new com.fasterxml.jackson.databind.ObjectMapper())
         );
     }
 
