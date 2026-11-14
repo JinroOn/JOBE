@@ -1,0 +1,34 @@
+{
+  "version": "FIXTURE_SEMANTIC_V1_0",
+  "content_status": "REVIEWED",
+  "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+  "domain_review_status": "PENDING",
+  "groups": [
+    "HUM",
+    "ENG"
+  ],
+  "interest_axes": [
+    "INT_A",
+    "INT_B"
+  ],
+  "activity_axes": [
+    "ACT_A",
+    "ACT_B",
+    "ACT_C"
+  ],
+  "learning_sets": [
+    "LEARN_A"
+  ],
+  "module_roles": {
+    "STATE": "ROUTING",
+    "INTEREST_SCREEN": "CANDIDATE_TOPIC",
+    "ACTIVITY_BASE": "CANDIDATE_ACTIVITY",
+    "LEARNING_CONTENT": "CANDIDATE_LEARNING",
+    "MAJOR_COMPARISON": "COMPARISON_ONLY"
+  },
+  "other_module_metrics": {
+    "STATE": "STATE_PRIMARY",
+    "MAJOR_COMPARISON": "COMPARISON_FOCUS"
+  },
+  "note": "[테스트용 가짜 데이터] 실제 문항·규칙이 아니다"
+}

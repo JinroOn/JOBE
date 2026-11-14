@@ -1,0 +1,69 @@
+{
+  "description": "탐색형 진단 카탈로그 적재 입력. 원본 통합과정/업데이트준비완료 파일을 바이트 그대로 복사했다. 수정하지 말고 원본이 바뀌면 다시 복사하고 sha256을 갱신한다.",
+  "copied_at": "2026-11-14",
+  "files": [
+    {
+      "file": "questions.csv",
+      "source": "통합과정/업데이트준비완료/02_문항_마스터_187_구현후보.csv",
+      "catalog": "QUESTION_CATALOG",
+      "sha256": "d0edf7c4f10fbb12fda0e20f68895da1b329ba7932a81f977d79ed39df4a7615",
+      "bytes": 87681
+    },
+    {
+      "file": "options.csv",
+      "source": "통합과정/업데이트준비완료/03_문항_선택지_매핑_구현후보.csv",
+      "catalog": "OPTION_CATALOG",
+      "sha256": "79aca1d711a34940fcb4b7e270d2e7e9679c85f6b4a161478555ed36e935739b",
+      "bytes": 238978
+    },
+    {
+      "file": "option-variants.csv",
+      "source": "통합과정/업데이트준비완료/비교선택지_variant_매니페스트.csv",
+      "catalog": "OPTION_VARIANT",
+      "sha256": "9e954a71f31dc5ed067cf261d714ec986bbb4f290aa2ad241e23b54f9b39ab5d",
+      "bytes": 7918
+    },
+    {
+      "file": "comparison-set-codes.csv",
+      "source": "통합과정/업데이트준비완료/비교세트_코드_대응표.csv",
+      "catalog": "OPTION_VARIANT",
+      "sha256": "2012b42ed9e86c698290ddcbde86a3477edcf1912f53adcf177a2253a60195a7",
+      "bytes": 1042
+    },
+    {
+      "file": "comparison-skip-pairs.csv",
+      "source": "통합과정/업데이트준비완료/비교_비구분_19쌍.csv",
+      "catalog": "OPTION_VARIANT",
+      "sha256": "7881ee3ecabdf5a81c87c90ef4192635239f092273c467cb40635a7a6e0ccbdb",
+      "bytes": 4890
+    },
+    {
+      "file": "major-mapping.json",
+      "source": "통합과정/업데이트준비완료/08_전공_94_구현후보_매핑.json",
+      "catalog": "MAJOR_MAPPING",
+      "sha256": "4be227a11ea5aeb07a596359d574f0e05eec9a4e8948467edfc0ead405e97bf1",
+      "bytes": 253819
+    },
+    {
+      "file": "caution-tags.csv",
+      "source": "통합과정/업데이트준비완료/09_전공_94_주의태그_검토표.csv",
+      "catalog": "MAJOR_MAPPING",
+      "sha256": "05ea6000e10e1779413c53a3c65bd4aea098ddaf63cdccaad654e185a4ccb530",
+      "bytes": 197656
+    },
+    {
+      "file": "ruleset.json",
+      "source": "통합과정/업데이트준비완료/추천_분기_구현기준.json",
+      "catalog": "RULESET",
+      "sha256": "0adad4f8cb2d736d4bbaff28fd4f87b64c11cd68e1fce8ad7cf7a9076c6f3f23",
+      "bytes": 3678
+    },
+    {
+      "file": "semantic-dictionary.json",
+      "source": "통합과정/업데이트준비완료/D08_의미사전.json",
+      "catalog": "SEMANTIC_CONTRACT",
+      "sha256": "015d30567af0a1e5b786d523dda770c3051ba68d82e727221b0ab30abfcc2101",
+      "bytes": 8676
+    }
+  ]
+}
