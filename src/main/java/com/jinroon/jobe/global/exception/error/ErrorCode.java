@@ -44,6 +44,7 @@ public enum ErrorCode {
     // Diagnosis
     DIAGNOSIS_SESSION_NOT_FOUND(404, "진단 세션을 찾을 수 없습니다."),
     DIAGNOSIS_SESSION_ALREADY_COMPLETED(409, "이미 완료된 진단 세션입니다."),
+    DIAGNOSIS_TENDENCY_ANSWERS_INCOMPLETE(400, "성향 검사 문항에 모두 답해야 합니다."),
     DIAGNOSIS_QUESTION_NOT_FOUND(404, "진단 문항을 찾을 수 없습니다."),
     DIAGNOSIS_ANSWER_NOT_FOUND(404, "진단 답변을 찾을 수 없습니다."),
     DIAGNOSIS_COMPETENCY_RESULT_NOT_FOUND(404, "역량 평가 결과를 찾을 수 없습니다."),

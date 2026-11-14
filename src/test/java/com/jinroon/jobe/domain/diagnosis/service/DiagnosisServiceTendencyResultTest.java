@@ -8,6 +8,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jinroon.jobe.domain.consultation.repository.ConsultationLogRepository;
 import com.jinroon.jobe.domain.consultation.repository.ConsultationSessionRepository;
 import com.jinroon.jobe.domain.diagnosis.entity.DiagnosisSession;
@@ -95,48 +96,52 @@ class DiagnosisServiceTendencyResultTest {
                 majorWeeklyPlanItemRepository,
                 majorWeeklyPlanRiskNoteRepository,
                 consultationSessionRepository,
-                consultationLogRepository
+                consultationLogRepository,
+                new TendencyScoringService(new ObjectMapper())
         );
     }
 
     @Test
-    void createsNewTendencyResultForUser() {
-        DiagnosisSession session = session(10L, 7L);
-        Map<String, Object> values = tendencyValues(10L, 80.0f);
+    void createsTendencyResultFromSessionAnswersIgnoringPostedScores() {
+        DiagnosisSession session = session(10L, 7L, allAnswers("A"));
 
         when(diagnosisSessionRepository.findById(10L)).thenReturn(Optional.of(session));
         when(tendencyEvalResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.empty());
         when(tendencyEvalResultRepository.save(any(TendencyEvalResult.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
-        TendencyEvalResult result = diagnosisService.createTendencyResultForUser(values, 7L);
+        // 요청 본문은 전부 80점이지만 서버는 A/B 응답으로 다시 계산한다.
+        TendencyEvalResult result = diagnosisService.createTendencyResultForUser(tendencyValues(10L, 80.0f), 7L);
 
         assertThat(result.getDiagnosisSessionId()).isEqualTo(10L);
-        assertThat(result.getLogicalInquiry()).isEqualTo(80.0f);
-        assertThat(result.getSystemOperation()).isEqualTo(80.0f);
+        assertThat(result.getLogicalInquiry()).isEqualTo(100.0f);
+        assertThat(result.getTheoryAcademic()).isEqualTo(100.0f);
+        assertThat(result.getSystemOperation()).isEqualTo(67.0f);
+        assertThat(result.getLifeHealth()).isEqualTo(50.0f);
+        assertThat(result.getPracticalTech()).isEqualTo(33.0f);
+        assertThat(result.getEducationGuide()).isEqualTo(0.0f);
         verify(tendencyEvalResultRepository).save(any(TendencyEvalResult.class));
     }
 
     @Test
     void updatesExistingTendencyResultForSameSession() {
-        DiagnosisSession session = session(10L, 7L);
+        DiagnosisSession session = session(10L, 7L, allAnswers("B"));
         TendencyEvalResult existing = tendencyResult(55L, 10L, 20.0f);
-        Map<String, Object> values = tendencyValues(10L, 90.0f);
 
         when(diagnosisSessionRepository.findById(10L)).thenReturn(Optional.of(session));
         when(tendencyEvalResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.of(existing));
 
-        TendencyEvalResult result = diagnosisService.createTendencyResultForUser(values, 7L);
+        TendencyEvalResult result = diagnosisService.createTendencyResultForUser(tendencyValues(10L, 90.0f), 7L);
 
         assertThat(result).isSameAs(existing);
-        assertThat(result.getLogicalInquiry()).isEqualTo(90.0f);
-        assertThat(result.getPracticalTech()).isEqualTo(90.0f);
+        assertThat(result.getEducationGuide()).isEqualTo(100.0f);
+        assertThat(result.getLogicalInquiry()).isEqualTo(0.0f);
         verify(tendencyEvalResultRepository, never()).save(any());
     }
 
     @Test
     void rejectsOtherUsersSession() {
-        DiagnosisSession session = session(10L, 7L);
+        DiagnosisSession session = session(10L, 7L, allAnswers("A"));
         when(diagnosisSessionRepository.findById(10L)).thenReturn(Optional.of(session));
 
         assertThatThrownBy(() -> diagnosisService.createTendencyResultForUser(tendencyValues(10L, 80.0f), 99L))
@@ -149,8 +154,32 @@ class DiagnosisServiceTendencyResultTest {
     }
 
     @Test
+    void rejectsIncompleteAnswers() {
+        String elevenAnswers = allAnswers("A").replace(",\"11\":\"A\"", "");
+        DiagnosisSession session = session(10L, 7L, elevenAnswers);
+        when(diagnosisSessionRepository.findById(10L)).thenReturn(Optional.of(session));
+
+        assertThatThrownBy(() -> diagnosisService.createTendencyResultForUser(tendencyValues(10L, 80.0f), 7L))
+                .isInstanceOf(CustomException.class)
+                .extracting("errorCode")
+                .isEqualTo(ErrorCode.DIAGNOSIS_TENDENCY_ANSWERS_INCOMPLETE);
+        verify(tendencyEvalResultRepository, never()).save(any());
+    }
+
+    @Test
+    void rejectsSessionWithoutAnswers() {
+        DiagnosisSession session = session(10L, 7L, null);
+        when(diagnosisSessionRepository.findById(10L)).thenReturn(Optional.of(session));
+
+        assertThatThrownBy(() -> diagnosisService.createTendencyResultForUser(tendencyValues(10L, 80.0f), 7L))
+                .isInstanceOf(CustomException.class)
+                .extracting("errorCode")
+                .isEqualTo(ErrorCode.DIAGNOSIS_TENDENCY_ANSWERS_INCOMPLETE);
+    }
+
+    @Test
     void repeatedSaveKeepsSingleRepositoryInsert() {
-        DiagnosisSession session = session(10L, 7L);
+        DiagnosisSession session = session(10L, 7L, allAnswers("A"));
         TendencyEvalResult existing = tendencyResult(55L, 10L, 40.0f);
 
         when(diagnosisSessionRepository.findById(10L)).thenReturn(Optional.of(session));
@@ -167,28 +196,22 @@ class DiagnosisServiceTendencyResultTest {
         TendencyEvalResult second = diagnosisService.createTendencyResultForUser(tendencyValues(10L, 70.0f), 7L);
 
         assertThat(second).isSameAs(existing);
-        assertThat(second.getLogicalInquiry()).isEqualTo(70.0f);
+        assertThat(second.getLogicalInquiry()).isEqualTo(100.0f);
         verify(tendencyEvalResultRepository).save(any(TendencyEvalResult.class));
     }
 
-    @Test
-    void tendencyScoresAreClampedToValidRangeOnUpdate() {
-        DiagnosisSession session = session(10L, 7L);
-        TendencyEvalResult existing = tendencyResult(55L, 10L, 40.0f);
-        Map<String, Object> values = tendencyValues(10L, 50.0f);
-        values.put("logicalInquiry", -10.0f);
-        values.put("practicalTech", 150.0f);
-
-        when(diagnosisSessionRepository.findById(10L)).thenReturn(Optional.of(session));
-        when(tendencyEvalResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.of(existing));
-
-        TendencyEvalResult result = diagnosisService.createTendencyResultForUser(values, 7L);
-
-        assertThat(result.getLogicalInquiry()).isEqualTo(0.0f);
-        assertThat(result.getPracticalTech()).isEqualTo(100.0f);
+    private String allAnswers(String choice) {
+        StringBuilder json = new StringBuilder("{\"tendencyAnswers\":{");
+        for (int i = 0; i < TendencyScoringService.QUESTION_COUNT; i++) {
+            if (i > 0) {
+                json.append(',');
+            }
+            json.append('"').append(i).append("\":\"").append(choice).append('"');
+        }
+        return json.append("}}").toString();
     }
 
-    private DiagnosisSession session(Long id, Long userId) {
+    private DiagnosisSession session(Long id, Long userId, String inputSnapshot) {
         DiagnosisSession session = EntityFormMapper.create(
                 DiagnosisSession.class,
                 Map.of(
@@ -198,6 +221,7 @@ class DiagnosisServiceTendencyResultTest {
                         "startedAt", "2026-06-03T00:00:00"
                 )
         );
+        ReflectionTestUtils.setField(session, "inputSnapshot", inputSnapshot);
         ReflectionTestUtils.setField(session, "id", id);
         return session;
     }

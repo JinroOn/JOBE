@@ -3,6 +3,7 @@ package com.jinroon.jobe.domain.result.controller.api;
 import com.jinroon.jobe.domain.result.entity.DiagnosisResult;
 import com.jinroon.jobe.domain.result.entity.ResultMajorScore;
 import com.jinroon.jobe.domain.result.dto.response.SharedDiagnosisResultResponse;
+import com.jinroon.jobe.domain.result.dto.response.SharedMajorScoreResponse;
 import com.jinroon.jobe.global.exception.error.ErrorDto;
 import com.jinroon.jobe.global.security.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
@@ -60,11 +61,11 @@ public interface ResultApi {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "조회 성공",
                     content = @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = ResultMajorScore.class)))),
+                            array = @ArraySchema(schema = @Schema(implementation = SharedMajorScoreResponse.class)))),
             @ApiResponse(responseCode = "404", description = "유효하지 않은 공유 토큰",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
-    List<ResultMajorScore> getSharedMajorScores(
+    List<SharedMajorScoreResponse> getSharedMajorScores(
             @Parameter(description = "공유 토큰") @PathVariable String shareToken
     );
 

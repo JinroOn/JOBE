@@ -256,6 +256,35 @@ class PlanServiceTest {
     }
 
     @Test
+    void createPlanForUserRejectsMajorScoreOfDifferentResult() {
+        DiagnosisResult result = diagnosisResult(1L, 10L, 7L, null);
+        ResultMajorScore score = resultMajorScore(100L, 87.5f);
+        ReflectionTestUtils.setField(score, "diagnosisResultId", 99L);
+
+        when(diagnosisResultRepository.findById(1L)).thenReturn(Optional.of(result));
+        when(resultMajorScoreRepository.findById(11L)).thenReturn(Optional.of(score));
+
+        assertThatThrownBy(() -> planService.createPlanForUser(planValues(), 7L))
+                .isInstanceOf(CustomException.class)
+                .extracting("errorCode")
+                .isEqualTo(ErrorCode.RESULT_MAJOR_SCORE_NOT_FOUND);
+        verify(planRepository, never()).save(any());
+        verify(aiServiceClient, never()).getWeeklyPlan(any());
+    }
+
+    @Test
+    void createPlanForUserRejectsMissingMajorScore() {
+        when(diagnosisResultRepository.findById(1L)).thenReturn(Optional.of(diagnosisResult(1L, 10L, 7L, null)));
+        when(resultMajorScoreRepository.findById(11L)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> planService.createPlanForUser(planValues(), 7L))
+                .isInstanceOf(CustomException.class)
+                .extracting("errorCode")
+                .isEqualTo(ErrorCode.RESULT_MAJOR_SCORE_NOT_FOUND);
+        verify(planRepository, never()).save(any());
+    }
+
+    @Test
     void createPlanDoesNotCallAiWhenMajorScoreBelongsToDifferentResult() {
         DiagnosisResult result = diagnosisResult(1L, 10L, 7L, null);
         CompetencyEvalResult competency = competencyResult(10L);
@@ -271,7 +300,7 @@ class PlanServiceTest {
         when(competencyEvalResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.of(competency));
         when(resultMajorScoreRepository.findById(11L)).thenReturn(Optional.of(score));
 
-        MajorWeeklyPlan plan = planService.createPlanForUser(planValues(), 7L);
+        MajorWeeklyPlan plan = planService.createPlan(new java.util.HashMap<>(planValues()));
 
         assertThat(plan.getPlanId()).isNull();
         assertThat(plan.getOverview()).isNull();
@@ -409,6 +438,7 @@ class PlanServiceTest {
         existingPlan.markAiPlanPending();
 
         when(diagnosisResultRepository.findById(1L)).thenReturn(Optional.of(result));
+        when(resultMajorScoreRepository.findById(11L)).thenReturn(Optional.of(resultMajorScore(100L, 87.5f)));
         when(planRepository.findByResultMajorScoreIdAndActiveVersionTrue(11L)).thenReturn(Optional.of(existingPlan));
 
         assertThatThrownBy(() -> planService.createPlanForUser(planValues(), 7L))
@@ -427,6 +457,7 @@ class PlanServiceTest {
         pendingPlan.markAiPlanPending();
 
         when(diagnosisResultRepository.findById(1L)).thenReturn(Optional.of(result));
+        when(resultMajorScoreRepository.findById(11L)).thenReturn(Optional.of(resultMajorScore(100L, 87.5f)));
         when(planRepository.findByDiagnosisResultIdAndActiveVersionTrue(1L)).thenReturn(List.of(pendingPlan));
 
         assertThatThrownBy(() -> planService.createPlanForUser(planValues(), 7L))

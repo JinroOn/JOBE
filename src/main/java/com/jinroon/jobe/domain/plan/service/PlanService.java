@@ -145,10 +145,32 @@ public class PlanService {
     }
 
     @Transactional
+    /**
+     * 사용자 계획 생성. 결과 소유자와 전공 점수의 소속(같은 결과의 점수인지)을 먼저 확인한다.
+     * 버전·활성 여부·개요 등은 서버가 정하므로 요청에서 두 ID 외의 값은 쓰지 않는다.
+     */
     public MajorWeeklyPlan createPlanForUser(Map<String, Object> values, Long userId) {
-        Long resultId = ((Number) values.get("diagnosisResultId")).longValue();
+        Long resultId = requiredLong(values, "diagnosisResultId");
+        Long resultMajorScoreId = requiredLong(values, "resultMajorScoreId");
         requireResultOwner(resultId, userId);
-        return createPlan(values);
+        ResultMajorScore score = resultMajorScoreRepository.findById(resultMajorScoreId)
+                .orElseThrow(() -> new CustomException(ErrorCode.RESULT_MAJOR_SCORE_NOT_FOUND));
+        if (!Objects.equals(score.getDiagnosisResultId(), resultId)) {
+            // 다른 결과(다른 사용자일 수 있음)의 전공 점수는 존재 여부를 드러내지 않는다.
+            throw new CustomException(ErrorCode.RESULT_MAJOR_SCORE_NOT_FOUND);
+        }
+        Map<String, Object> planValues = new HashMap<>();
+        planValues.put("diagnosisResultId", resultId);
+        planValues.put("resultMajorScoreId", resultMajorScoreId);
+        return createPlan(planValues);
+    }
+
+    private static Long requiredLong(Map<String, Object> values, String key) {
+        Object value = values.get(key);
+        if (!(value instanceof Number number)) {
+            throw new CustomException(ErrorCode.INVALID_INPUT);
+        }
+        return number.longValue();
     }
 
     @Transactional
@@ -159,10 +181,16 @@ public class PlanService {
     }
 
     @Transactional
+    /**
+     * 사용자 계획 수정은 개요(overview)만 바꿀 수 있다.
+     * 결과·전공 점수 연결, 버전, 활성 여부, AI 생성 상태는 서버가 관리한다.
+     */
     public MajorWeeklyPlan updatePlanForUser(Long planId, Map<String, Object> values, Long userId) {
         MajorWeeklyPlan plan = getPlanForUser(planId, userId);
-        values.remove("diagnosisResultId");
-        EntityFormMapper.apply(plan, values);
+        Object overview = values.get("overview");
+        if (overview instanceof String text) {
+            plan.updateOverview(text);
+        }
         return plan;
     }
 

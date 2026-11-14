@@ -19,6 +19,7 @@ import com.jinroon.jobe.domain.diagnosis.repository.CompetencyEvalResultReposito
 import com.jinroon.jobe.domain.diagnosis.repository.DiagnosisSessionRepository;
 import com.jinroon.jobe.domain.diagnosis.repository.TendencyEvalResultRepository;
 import com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringService;
+import com.jinroon.jobe.domain.diagnosis.service.TendencyScoringService;
 import com.jinroon.jobe.domain.diagnosis.enums.DiagnosisEnums.DiagnosisStatus;
 import com.jinroon.jobe.domain.major.entity.Major;
 import com.jinroon.jobe.domain.major.repository.MajorRepository;
@@ -101,11 +102,43 @@ class ResultServiceTest {
                 aiServiceClient,
                 majorDatasetContextService,
                 new ObjectMapper(),
-                planService
+                planService,
+                new TendencyScoringService(new ObjectMapper())
         );
     }
 
 
+
+    @Test
+    void completeDiagnosisResultForUserRecomputesTendencyFromSessionAnswers() {
+        StringBuilder answers = new StringBuilder("{\"tendencyAnswers\":{");
+        for (int i = 0; i < TendencyScoringService.QUESTION_COUNT; i++) {
+            answers.append(i == 0 ? "" : ",").append('"').append(i).append("\":\"A\"");
+        }
+        DiagnosisSession session = diagnosisSession(10L, 7L, answers.append("}}").toString());
+        TendencyEvalResult tendency = tendencyResult(10L);
+        stubCompleteDependencies(session, competencyResult(10L), tendency,
+                List.of(scoringMajor(100L, "Software", 50.0f, 50.0f)));
+
+        DiagnosisResult result = resultService.completeDiagnosisResultForUser(10L, 7L);
+
+        // 저장돼 있던 70점이 아니라 A/B 응답(전부 A)으로 다시 계산한 값이 쓰인다.
+        assertThat(tendency.getLogicalInquiry()).isEqualTo(100.0f);
+        assertThat(tendency.getEducationGuide()).isEqualTo(0.0f);
+        assertThat(result.getTendencyVector()).contains("\"tendLogicalInquiry\":100.0");
+    }
+
+    @Test
+    void completeDiagnosisResultForUserKeepsStoredTendencyWhenAnswersAreMissing() {
+        DiagnosisSession session = diagnosisSession(10L, 7L, "{}");
+        TendencyEvalResult tendency = tendencyResult(10L);
+        stubCompleteDependencies(session, competencyResult(10L), tendency,
+                List.of(scoringMajor(100L, "Software", 50.0f, 50.0f)));
+
+        resultService.completeDiagnosisResultForUser(10L, 7L);
+
+        assertThat(tendency.getLogicalInquiry()).isEqualTo(70.0f);
+    }
 
     @Test
     void completeDiagnosisResultForUserCreatesResultAndMajorScores() {

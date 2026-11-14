@@ -25,6 +25,7 @@ import com.jinroon.jobe.domain.diagnosis.repository.CompetencyEvalResultReposito
 import com.jinroon.jobe.domain.diagnosis.repository.DiagnosisSessionRepository;
 import com.jinroon.jobe.domain.diagnosis.repository.TendencyEvalResultRepository;
 import com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringService;
+import com.jinroon.jobe.domain.diagnosis.service.TendencyScoringService;
 import com.jinroon.jobe.domain.major.entity.Major;
 import com.jinroon.jobe.domain.major.repository.MajorRepository;
 import com.jinroon.jobe.domain.major.service.MajorDatasetContextService;
@@ -74,6 +75,7 @@ public class ResultService {
     private final MajorDatasetContextService majorDatasetContextService;
     private final ObjectMapper objectMapper;
     private final PlanService planService;
+    private final TendencyScoringService tendencyScoringService;
 
     public List<DiagnosisResult> findResults(Long userId) {
         return userId == null ? diagnosisResultRepository.findAll() : diagnosisResultRepository.findByUserId(userId);
@@ -99,7 +101,7 @@ public class ResultService {
         String ownerNickname = userRepository.findById(result.getUserId())
                 .map(User::getNickname)
                 .orElse("알 수 없음");
-        return new SharedDiagnosisResultResponse(result, ownerNickname);
+        return SharedDiagnosisResultResponse.from(result, ownerNickname);
     }
 
     public List<ResultMajorScore> findMajorScores(Long resultId) {
@@ -131,6 +133,7 @@ public class ResultService {
                 .orElseThrow(() -> new CustomException(ErrorCode.DIAGNOSIS_COMPETENCY_RESULT_NOT_FOUND));
         TendencyEvalResult tendency = tendencyEvalResultRepository.findByDiagnosisSessionId(sessionId)
                 .orElseThrow(() -> new CustomException(ErrorCode.DIAGNOSIS_TENDENCY_RESULT_NOT_FOUND));
+        recomputeTendencyFromAnswers(session, tendency);
 
         List<Major> majors = majorRepository.findAll();
         List<MajorScoreDraft> drafts = majors.stream()
@@ -200,6 +203,29 @@ public class ResultService {
     public DiagnosisResult generateAiComment(Long resultId, boolean force) {
         DiagnosisResult result = getResult(resultId);
         return applyAiRecommendation(result, force);
+    }
+
+    /**
+     * 세션에 성향 응답(A/B 12문항)이 모두 있으면 저장된 성향 점수를 서버 계산값으로 덮어쓴다.
+     * 응답이 없거나 불완전한 이전 회차는 저장된 값을 그대로 쓴다.
+     */
+    private void recomputeTendencyFromAnswers(DiagnosisSession session, TendencyEvalResult tendency) {
+        Map<Integer, String> answers = tendencyScoringService.readAnswers(session.getInputSnapshot());
+        if (!tendencyScoringService.isComplete(answers)) {
+            return;
+        }
+        Map<TendencyScoringService.Axis, Float> scores = tendencyScoringService.score(answers);
+        tendency.updateScores(
+                scores.get(TendencyScoringService.Axis.LOGICAL_INQUIRY),
+                scores.get(TendencyScoringService.Axis.PRACTICAL_TECH),
+                scores.get(TendencyScoringService.Axis.ART_CREATIVE),
+                scores.get(TendencyScoringService.Axis.SOCIAL_COOPERATION),
+                scores.get(TendencyScoringService.Axis.LIFE_HEALTH),
+                scores.get(TendencyScoringService.Axis.EDUCATION_GUIDE),
+                scores.get(TendencyScoringService.Axis.THEORY_ACADEMIC),
+                scores.get(TendencyScoringService.Axis.DATA_ANALYTICS),
+                scores.get(TendencyScoringService.Axis.SYSTEM_OPERATION)
+        );
     }
 
     private static void requireOwner(Long ownerId, Long userId) {
