@@ -13,6 +13,7 @@ public enum ErrorCode {
     UNAUTHORIZED(401, "인증이 필요합니다."),
     FORBIDDEN(403, "접근 권한이 없습니다."),
     NOT_FOUND(404, "리소스를 찾을 수 없습니다."),
+    METHOD_NOT_ALLOWED(405, "지원하지 않는 요청 방식입니다."),
     MAIL_SEND_FAILED(500, "이메일 발송에 실패했습니다."),
 
     // User
@@ -42,6 +43,7 @@ public enum ErrorCode {
 
     // Diagnosis
     DIAGNOSIS_SESSION_NOT_FOUND(404, "진단 세션을 찾을 수 없습니다."),
+    DIAGNOSIS_SESSION_ALREADY_COMPLETED(409, "이미 완료된 진단 세션입니다."),
     DIAGNOSIS_QUESTION_NOT_FOUND(404, "진단 문항을 찾을 수 없습니다."),
     DIAGNOSIS_ANSWER_NOT_FOUND(404, "진단 답변을 찾을 수 없습니다."),
     DIAGNOSIS_COMPETENCY_RESULT_NOT_FOUND(404, "역량 평가 결과를 찾을 수 없습니다."),

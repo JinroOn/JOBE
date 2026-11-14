@@ -2,6 +2,7 @@ package com.jinroon.jobe.domain.diagnosis.entity;
 
 import com.jinroon.jobe.global.common.entity.BaseEntitySupport;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -24,6 +25,8 @@ public class DiagnosisExamAnswer extends BaseEntitySupport {
     @Column(name = "selected_answer", length = 1)
     private String selectedAnswer;
 
+    // 채점 후 정오가 응답에 노출되면 다음 회차에서 정답을 알 수 있으므로 내려보내지 않는다.
+    @JsonIgnore
     @Column(name = "is_correct", nullable = false)
     private Boolean correct;
 

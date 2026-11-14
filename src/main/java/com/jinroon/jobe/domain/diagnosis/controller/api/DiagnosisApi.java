@@ -1,7 +1,6 @@
 package com.jinroon.jobe.domain.diagnosis.controller.api;
 
 import com.jinroon.jobe.domain.diagnosis.dto.response.InProgressSessionResponse;
-import com.jinroon.jobe.domain.diagnosis.dto.request.CompetencyEvalResultRequest;
 import com.jinroon.jobe.domain.diagnosis.dto.request.DiagnosisEssayAnswerRequest;
 import com.jinroon.jobe.domain.diagnosis.dto.request.DiagnosisExamAnswerRequest;
 import com.jinroon.jobe.domain.diagnosis.dto.request.DiagnosisSessionRequest;
@@ -11,6 +10,7 @@ import com.jinroon.jobe.domain.diagnosis.entity.CompetencyEvalResult;
 import com.jinroon.jobe.domain.diagnosis.entity.DiagnosisEssayAnswer;
 import com.jinroon.jobe.domain.diagnosis.entity.DiagnosisExamAnswer;
 import com.jinroon.jobe.domain.diagnosis.entity.DiagnosisSession;
+import com.jinroon.jobe.domain.diagnosis.dto.response.ExamQuestionResponse;
 import com.jinroon.jobe.domain.diagnosis.entity.ExamQuestion;
 import com.jinroon.jobe.domain.diagnosis.entity.TendencyEvalResult;
 import com.jinroon.jobe.global.exception.error.ErrorDto;
@@ -93,22 +93,22 @@ public interface DiagnosisApi {
             @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails
     );
 
-    @Operation(summary = "전체 시험 문항 조회", description = "등록된 모든 역량 시험 문항을 반환합니다.")
+    @Operation(summary = "전체 시험 문항 조회", description = "등록된 모든 역량 시험 문항을 반환합니다. 정답과 채점 가중치는 포함하지 않습니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "조회 성공",
                     content = @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = ExamQuestion.class))))
+                            array = @ArraySchema(schema = @Schema(implementation = ExamQuestionResponse.class))))
     })
-    List<ExamQuestion> findQuestions();
+    List<ExamQuestionResponse> findQuestions();
 
-    @Operation(summary = "시험 문항 단건 조회", description = "문항 ID로 특정 시험 문항을 조회합니다.")
+    @Operation(summary = "시험 문항 단건 조회", description = "문항 ID로 특정 시험 문항을 조회합니다. 정답과 채점 가중치는 포함하지 않습니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "조회 성공",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExamQuestion.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExamQuestionResponse.class))),
             @ApiResponse(responseCode = "404", description = "문항을 찾을 수 없음",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
-    ExamQuestion getQuestion(
+    ExamQuestionResponse getQuestion(
             @Parameter(description = "시험 문항 ID") @PathVariable Long questionId
     );
 
@@ -245,22 +245,6 @@ public interface DiagnosisApi {
             @Valid @RequestBody DiagnosisEssayAnswerRequest request
     );
 
-    @Operation(summary = "역량 평가 결과 등록", description = "진단 세션의 역량 평가 결과를 저장합니다.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "등록 성공",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = CompetencyEvalResult.class))),
-            @ApiResponse(responseCode = "400", description = "입력값 오류",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
-    })
-    CompetencyEvalResult createCompetencyResult(
-            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "역량 평가 결과 (9개 역량 점수)",
-                    required = true,
-                    content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.diagnosis.dto.request.CompetencyEvalResultRequest.class))
-            )
-            @Valid @RequestBody CompetencyEvalResultRequest request
-    );
 
     @Operation(summary = "성향 평가 결과 등록", description = "진단 세션의 성향 평가 결과를 저장합니다.")
     @ApiResponses({

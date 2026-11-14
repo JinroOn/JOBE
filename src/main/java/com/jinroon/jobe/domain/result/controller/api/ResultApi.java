@@ -2,8 +2,6 @@ package com.jinroon.jobe.domain.result.controller.api;
 
 import com.jinroon.jobe.domain.result.entity.DiagnosisResult;
 import com.jinroon.jobe.domain.result.entity.ResultMajorScore;
-import com.jinroon.jobe.domain.result.dto.request.DiagnosisResultRequest;
-import com.jinroon.jobe.domain.result.dto.request.ResultMajorScoreRequest;
 import com.jinroon.jobe.domain.result.dto.response.SharedDiagnosisResultResponse;
 import com.jinroon.jobe.global.exception.error.ErrorDto;
 import com.jinroon.jobe.global.security.CustomUserDetails;
@@ -109,57 +107,6 @@ public interface ResultApi {
             @Parameter(description = "Diagnosis session ID") @PathVariable Long sessionId
     );
 
-    @Operation(summary = "진단 결과 생성", description = "진단 세션의 처리 결과를 저장합니다.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "생성 성공",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = DiagnosisResult.class))),
-            @ApiResponse(responseCode = "400", description = "입력값 오류",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
-    })
-    DiagnosisResult createResult(
-            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "진단 결과 생성 정보",
-                    required = true,
-                    content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.result.dto.request.DiagnosisResultRequest.class))
-            )
-            @Valid @RequestBody DiagnosisResultRequest request
-    );
 
-    @Operation(summary = "진단 결과 수정", description = "진단 결과 ID와 변경할 필드값으로 결과를 수정합니다.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "수정 성공",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = DiagnosisResult.class))),
-            @ApiResponse(responseCode = "400", description = "입력값 오류",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))),
-            @ApiResponse(responseCode = "404", description = "진단 결과를 찾을 수 없음",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
-    })
-    DiagnosisResult updateResult(
-            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
-            @Parameter(description = "진단 결과 ID") @PathVariable Long resultId,
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "수정할 필드값",
-                    required = true,
-                    content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.result.dto.request.DiagnosisResultRequest.class))
-            )
-            @Valid @RequestBody DiagnosisResultRequest request
-    );
 
-    @Operation(summary = "전공별 점수 생성", description = "진단 결과의 전공별 점수를 저장합니다.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "생성 성공",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResultMajorScore.class))),
-            @ApiResponse(responseCode = "400", description = "입력값 오류",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
-    })
-    ResultMajorScore createMajorScore(
-            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "전공별 점수 정보",
-                    required = true,
-                    content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.result.dto.request.ResultMajorScoreRequest.class))
-            )
-            @Valid @RequestBody ResultMajorScoreRequest request
-    );
 }
