@@ -14,6 +14,15 @@ spring:
   security:
     user:
       password: ${SPRING_SECURITY_USER_PASSWORD:temp1234}
+  flyway:
+    # 탐색형 진단 테이블부터 Flyway로 관리한다. 기존(레거시) 테이블은 당분간 ddl-auto가 관리한다.
+    enabled: ${SPRING_FLYWAY_ENABLED:true}
+    # DB 종류별 폴더(db/migration/mysql 등). MySQL 전용 문법(생성 열·JSON)이 다른 DB에서 실행되지 않게 한다.
+    locations: classpath:db/migration/{vendor}
+    # 이미 레거시 테이블이 있는 DB는 버전 0을 기준점으로 잡고 V1부터 적용한다.
+    baseline-on-migrate: true
+    baseline-version: 0
+    baseline-description: legacy schema managed by hibernate ddl-auto
   mail:
     host: ${MAIL_HOST:smtp.gmail.com}
     port: ${MAIL_PORT:587}
