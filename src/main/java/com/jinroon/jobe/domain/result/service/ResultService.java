@@ -116,51 +116,11 @@ public class ResultService {
         return findMajorScores(result.getId());
     }
 
-    @Transactional
-    public DiagnosisResult createResult(Map<String, Object> values) {
-        String shareToken = UUID.randomUUID().toString().replace("-", "");
-        values.put("shareToken", shareToken);
-        return diagnosisResultRepository.save(EntityFormMapper.create(DiagnosisResult.class, values));
-    }
 
-    @Transactional
-    public DiagnosisResult createResultForUser(Map<String, Object> values, Long userId) {
-        Long sessionId = ((Number) values.get("diagnosisSessionId")).longValue();
-        DiagnosisSession session = get(diagnosisSessionRepository, sessionId, ErrorCode.DIAGNOSIS_SESSION_NOT_FOUND);
-        requireOwner(session.getUserId(), userId);
-        values.put("userId", userId);
-        return createResult(values);
-    }
 
-    @Transactional
-    public DiagnosisResult updateResult(Long resultId, Map<String, Object> values) {
-        DiagnosisResult result = getResult(resultId);
-        EntityFormMapper.apply(result, values);
-        return result;
-    }
 
-    @Transactional
-    public DiagnosisResult updateResultForUser(Long resultId, Map<String, Object> values, Long userId) {
-        DiagnosisResult result = getResultForUser(resultId, userId);
-        values.remove("userId");
-        EntityFormMapper.apply(result, values);
-        return result;
-    }
 
-    @Transactional
-    public ResultMajorScore createMajorScore(Map<String, Object> values) {
-        return resultMajorScoreRepository.save(EntityFormMapper.create(ResultMajorScore.class, values));
-    }
 
-    @Transactional
-    public ResultMajorScore createMajorScoreForUser(Map<String, Object> values, Long userId) {
-        Long resultId = ((Number) values.get("diagnosisResultId")).longValue();
-        DiagnosisResult result = getResultForUser(resultId, userId);
-        applyProfileAdjustment(values, result);
-        ResultMajorScore score = createMajorScore(values);
-        rerankMajorScores(resultId, score);
-        return score;
-    }
 
     @Transactional
     public DiagnosisResult completeDiagnosisResultForUser(Long sessionId, Long userId) {
@@ -248,57 +208,7 @@ public class ResultService {
         }
     }
 
-    private void applyProfileAdjustment(Map<String, Object> values, DiagnosisResult result) {
-        Long majorId = longValue(values.get("majorId"));
-        if (majorId == null || result.getDiagnosisSessionId() == null) {
-            return;
-        }
 
-        Optional<DiagnosisSession> session = diagnosisSessionRepository.findById(result.getDiagnosisSessionId());
-        Optional<Major> major = majorRepository.findById(majorId);
-        if (session.isEmpty() || major.isEmpty()) {
-            return;
-        }
-
-        DiagnosisProfileAdjustment adjustment =
-                diagnosisProfileScoringService.calculateProfileAdjustment(session.get(), major.get());
-        float adjustedFinalScore = diagnosisProfileScoringService.adjustedFinalScore(
-                floatValue(values.get("competencyScore")),
-                floatValue(values.get("tendencyScore")),
-                floatValue(values.get("finalScore")),
-                adjustment.bonus()
-        );
-        values.put("finalScore", adjustedFinalScore);
-        if (isBlank(values.get("recommendationReason"))) {
-            String conciseReason = adjustment.conciseReason();
-            if (conciseReason != null && !conciseReason.isBlank()) {
-                values.put("recommendationReason", conciseReason);
-            }
-        }
-        log.debug("profile adjustment calculated resultId={} majorId={} bonus={} reasonCount={}",
-                result.getId(), majorId, adjustment.bonus(), adjustment.reasons().size());
-    }
-
-    private void rerankMajorScores(Long resultId, ResultMajorScore savedScore) {
-        List<ResultMajorScore> scores = resultMajorScoreRepository.findByDiagnosisResultIdOrderByRankAsc(resultId);
-        if (savedScore != null && scores.stream().noneMatch(score -> Objects.equals(score.getId(), savedScore.getId()))) {
-            scores = new java.util.ArrayList<>(scores);
-            scores.add(savedScore);
-        }
-
-        List<ResultMajorScore> reranked = scores.stream()
-                .sorted(Comparator
-                        .comparing((ResultMajorScore score) -> Boolean.TRUE.equals(score.getFailed()))
-                        .thenComparing(ResultService::safeFinalScore, Comparator.reverseOrder())
-                        .thenComparingInt(score -> safeRank(score.getRank()))
-                        .thenComparing(score -> score.getId(), Comparator.nullsLast(Long::compareTo))
-                        .thenComparing(score -> score.getMajorId(), Comparator.nullsLast(Long::compareTo)))
-                .toList();
-
-        for (int i = 0; i < reranked.size(); i++) {
-            reranked.get(i).assignRank(i + 1);
-        }
-    }
 
     private MajorScoreDraft scoreMajor(
             DiagnosisSession session,

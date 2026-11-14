@@ -105,76 +105,7 @@ class ResultServiceTest {
         );
     }
 
-    @Test
-    void createMajorScoreForUserAppliesProfileAdjustment() {
-        DiagnosisResult result = diagnosisResult(1L, 10L, 7L);
-        DiagnosisSession session = diagnosisSession(10L, 7L, "{\"selectedSubjects\":[\"정보/코딩\"]}");
-        Major major = major(100L, "컴퓨터공학과");
-        Map<String, Object> values = new HashMap<>();
-        values.put("diagnosisResultId", 1L);
-        values.put("majorId", 100L);
-        values.put("competencyScore", 80.0f);
-        values.put("tendencyScore", 70.0f);
-        values.put("finalScore", 76.0f);
-        values.put("rank", 1);
-        values.put("failed", false);
 
-        when(diagnosisResultRepository.findById(1L)).thenReturn(Optional.of(result));
-        when(diagnosisSessionRepository.findById(10L)).thenReturn(Optional.of(session));
-        when(majorRepository.findById(100L)).thenReturn(Optional.of(major));
-        when(diagnosisProfileScoringService.calculateProfileAdjustment(session, major))
-                .thenReturn(new DiagnosisProfileAdjustment(4.0f, List.of("프로필 보정 사유")));
-        when(diagnosisProfileScoringService.adjustedFinalScore(80.0f, 70.0f, 76.0f, 4.0f))
-                .thenReturn(80.0f);
-        when(resultMajorScoreRepository.save(any(ResultMajorScore.class)))
-                .thenAnswer(invocation -> invocation.getArgument(0));
-        when(resultMajorScoreRepository.findByDiagnosisResultIdOrderByRankAsc(1L)).thenReturn(List.of());
-
-        ResultMajorScore actual = resultService.createMajorScoreForUser(values, 7L);
-
-        assertThat(actual.getFinalScore()).isEqualTo(80.0f);
-        assertThat(actual.getRecommendationReason()).isEqualTo("프로필 보정 사유");
-        assertThat(values.get("finalScore")).isEqualTo(80.0f);
-    }
-
-    @Test
-    void createMajorScoreForUserReranksScoresAfterAdjustment() {
-        DiagnosisResult result = diagnosisResult(1L, 10L, 7L);
-        DiagnosisSession session = diagnosisSession(10L, 7L, "{\"selectedSubjects\":[\"정보/코딩\"]}");
-        Major major = major(100L, "컴퓨터공학과");
-        ResultMajorScore lowerScore = resultMajorScore(11L, 1L, 101L, 1, 83.0f);
-        ResultMajorScore failedHighScore = resultMajorScore(12L, 1L, 102L, 2, 99.0f);
-        ReflectionTestUtils.setField(failedHighScore, "failed", true);
-        Map<String, Object> values = new HashMap<>();
-        values.put("diagnosisResultId", 1L);
-        values.put("majorId", 100L);
-        values.put("finalScore", 86.0f);
-        values.put("rank", 3);
-        values.put("failed", false);
-        ResultMajorScore[] savedScore = new ResultMajorScore[1];
-
-        when(diagnosisResultRepository.findById(1L)).thenReturn(Optional.of(result));
-        when(diagnosisSessionRepository.findById(10L)).thenReturn(Optional.of(session));
-        when(majorRepository.findById(100L)).thenReturn(Optional.of(major));
-        when(diagnosisProfileScoringService.calculateProfileAdjustment(session, major))
-                .thenReturn(DiagnosisProfileAdjustment.neutral());
-        when(diagnosisProfileScoringService.adjustedFinalScore(null, null, 86.0f, 0.0f))
-                .thenReturn(86.0f);
-        when(resultMajorScoreRepository.save(any(ResultMajorScore.class))).thenAnswer(invocation -> {
-            ResultMajorScore saved = invocation.getArgument(0);
-            ReflectionTestUtils.setField(saved, "id", 13L);
-            savedScore[0] = saved;
-            return saved;
-        });
-        when(resultMajorScoreRepository.findByDiagnosisResultIdOrderByRankAsc(1L))
-                .thenAnswer(invocation -> List.of(lowerScore, failedHighScore, savedScore[0]));
-
-        ResultMajorScore actual = resultService.createMajorScoreForUser(values, 7L);
-
-        assertThat(actual.getRank()).isEqualTo(1);
-        assertThat(lowerScore.getRank()).isEqualTo(2);
-        assertThat(failedHighScore.getRank()).isEqualTo(3);
-    }
 
     @Test
     void completeDiagnosisResultForUserCreatesResultAndMajorScores() {

@@ -1,8 +1,6 @@
 package com.jinroon.jobe.domain.result.controller;
 
 import com.jinroon.jobe.domain.result.controller.api.ResultApi;
-import com.jinroon.jobe.domain.result.dto.request.DiagnosisResultRequest;
-import com.jinroon.jobe.domain.result.dto.request.ResultMajorScoreRequest;
 import com.jinroon.jobe.domain.result.dto.response.SharedDiagnosisResultResponse;
 import com.jinroon.jobe.domain.result.entity.DiagnosisResult;
 import com.jinroon.jobe.domain.result.entity.ResultMajorScore;
@@ -80,30 +78,6 @@ public class ResultController implements ResultApi {
         return resultService.completeDiagnosisResultForUser(sessionId, userDetails.getUserId());
     }
 
-    @Override
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public DiagnosisResult createResult(
-            @AuthenticationPrincipal CustomUserDetails userDetails,
-            @Valid @RequestBody DiagnosisResultRequest request) {
-        return resultService.createResultForUser(RequestMapMapper.toMap(request), userDetails.getUserId());
-    }
 
-    @Override
-    @PatchMapping("/{resultId}")
-    public DiagnosisResult updateResult(
-            @AuthenticationPrincipal CustomUserDetails userDetails,
-            @PathVariable Long resultId,
-            @Valid @RequestBody DiagnosisResultRequest request) {
-        return resultService.updateResultForUser(resultId, RequestMapMapper.toMap(request), userDetails.getUserId());
-    }
 
-    @Override
-    @PostMapping("/major-scores")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResultMajorScore createMajorScore(
-            @AuthenticationPrincipal CustomUserDetails userDetails,
-            @Valid @RequestBody ResultMajorScoreRequest request) {
-        return resultService.createMajorScoreForUser(RequestMapMapper.toMap(request), userDetails.getUserId());
-    }
 }

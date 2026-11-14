@@ -5,6 +5,7 @@ import static com.jinroon.jobe.global.common.entity.EntityLookup.get;
 import com.jinroon.jobe.global.common.entity.EntityFormMapper;
 import com.jinroon.jobe.global.exception.CustomException;
 import com.jinroon.jobe.global.exception.error.ErrorCode;
+import com.jinroon.jobe.domain.diagnosis.dto.request.DiagnosisSessionRequest;
 import com.jinroon.jobe.domain.diagnosis.dto.response.InProgressSessionResponse;
 import com.jinroon.jobe.domain.diagnosis.entity.*;
 import com.jinroon.jobe.domain.diagnosis.enums.DiagnosisEnums.DiagnosisStatus;
@@ -150,30 +151,46 @@ public class DiagnosisService {
         return getTendencyResult(sessionId);
     }
 
+    /**
+     * 새 회차는 항상 in_progress로 시작한다. 요청의 userId·startedAt·completedAt은 쓰지 않는다.
+     */
     @Transactional
-    public DiagnosisSession createSession(Map<String, Object> values) {
-        return diagnosisSessionRepository.save(EntityFormMapper.create(DiagnosisSession.class, values));
+    public DiagnosisSession createSessionForUser(DiagnosisSessionRequest request, Long userId) {
+        DiagnosisStatus status = parseStatus(request.getStatus());
+        if (status != null && status != DiagnosisStatus.in_progress) {
+            throw new CustomException(ErrorCode.INVALID_INPUT);
+        }
+        return diagnosisSessionRepository.save(
+                DiagnosisSession.start(userId, request.getCurrentStep(), request.getInputSnapshot()));
     }
 
+    /**
+     * 진행 중 회차의 단계·입력값과 상태(in_progress, abandoned)만 바꿀 수 있다.
+     * 완료된 회차는 입력값(성향 응답 등)을 바꿀 수 없다.
+     */
     @Transactional
-    public DiagnosisSession createSessionForUser(Map<String, Object> values, Long userId) {
-        values.put("userId", userId);
-        return createSession(values);
-    }
-
-    @Transactional
-    public DiagnosisSession updateSession(Long sessionId, Map<String, Object> values) {
-        DiagnosisSession session = getSession(sessionId);
-        EntityFormMapper.apply(session, values);
-        return session;
-    }
-
-    @Transactional
-    public DiagnosisSession updateSessionForUser(Long sessionId, Map<String, Object> values, Long userId) {
+    public DiagnosisSession updateSessionForUser(Long sessionId, DiagnosisSessionRequest request, Long userId) {
         DiagnosisSession session = getSessionForUser(sessionId, userId);
-        values.remove("userId");
-        EntityFormMapper.apply(session, values);
+        if (session.isCompleted()) {
+            throw new CustomException(ErrorCode.DIAGNOSIS_SESSION_ALREADY_COMPLETED);
+        }
+        DiagnosisStatus status = parseStatus(request.getStatus());
+        if (status == DiagnosisStatus.completed) {
+            throw new CustomException(ErrorCode.INVALID_INPUT);
+        }
+        session.updateProgress(request.getCurrentStep(), request.getInputSnapshot(), status);
         return session;
+    }
+
+    private static DiagnosisStatus parseStatus(String value) {
+        if (value == null || value.isBlank()) {
+            return null;
+        }
+        try {
+            return DiagnosisStatus.valueOf(value);
+        } catch (IllegalArgumentException exception) {
+            throw new CustomException(ErrorCode.INVALID_INPUT);
+        }
     }
 
     @Transactional
@@ -231,17 +248,7 @@ public class DiagnosisService {
         return createEssayAnswer(values);
     }
 
-    @Transactional
-    public CompetencyEvalResult createCompetencyResult(Map<String, Object> values) {
-        return competencyEvalResultRepository.save(EntityFormMapper.create(CompetencyEvalResult.class, values));
-    }
 
-    @Transactional
-    public CompetencyEvalResult createCompetencyResultForUser(Map<String, Object> values, Long userId) {
-        Long sessionId = ((Number) values.get("diagnosisSessionId")).longValue();
-        getSessionForUser(sessionId, userId);
-        return createCompetencyResult(values);
-    }
 
     @Transactional
     public TendencyEvalResult createTendencyResult(Map<String, Object> values) {
