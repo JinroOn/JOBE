@@ -17,8 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 실제 카탈로그(datasets/exploration)를 명세 수량으로 검증·적재한다.
- * 문항·규칙 원본은 비공개라 저장소에 없으므로, 원본을 받아 둔 PC에서만 실행되고 CI에서는 건너뛴다.
- * 로컬 MySQL(docker compose up -d mysql)이 필요하다. 적재한 데이터는 테스트 트랜잭션 롤백으로 지운다.
+ * 원본은 저장소에 함께 커밋돼 있어 CI에서도 실행된다. 원본 폴더를 제외한 checkout에서는 건너뛴다.
+ * MySQL(로컬은 docker compose up -d mysql)이 필요하다. 적재한 데이터는 테스트 트랜잭션 롤백으로 지운다.
  */
 @SpringBootTest
 @Transactional
