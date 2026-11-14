@@ -11,7 +11,8 @@ import lombok.Setter;
 @Schema(description = "공지사항 생성 및 수정 요청 데이터")
 public class NoticeRequest {
 
-    @Schema(description = "작성자 ID", example = "1")
+    // 하위 호환용으로 받기만 하고 쓰지 않는다. 작성자는 로그인한 관리자 ID로 기록된다.
+    @Schema(description = "(무시됨) 작성자는 로그인한 관리자로 기록됩니다.", example = "1", deprecated = true)
     private Long createdBy;
 
     @Schema(description = "공지사항 제목", example = "시스템 점검 안내")

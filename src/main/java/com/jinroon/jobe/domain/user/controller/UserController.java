@@ -9,9 +9,9 @@ import com.jinroon.jobe.domain.user.dto.response.UserSessionResponse;
 import com.jinroon.jobe.domain.user.dto.request.EmailVerificationRequest;
 import com.jinroon.jobe.domain.user.dto.request.UserConsentRequest;
 import com.jinroon.jobe.domain.user.dto.request.UserFavoriteRequest;
+import com.jinroon.jobe.domain.user.dto.request.UserProfileUpdateRequest;
 import com.jinroon.jobe.domain.user.dto.request.UserRequest;
 import com.jinroon.jobe.domain.user.service.UserService;
-import com.jinroon.jobe.global.common.dto.RequestMapMapper;
 import com.jinroon.jobe.global.security.CustomUserDetails;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -86,15 +86,15 @@ public class UserController implements UserApi {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponse createUser(@Valid @RequestBody UserRequest request) {
-        return UserResponse.from(userService.createUser(RequestMapMapper.toMap(request)));
+        return UserResponse.from(userService.createUser(request));
     }
 
     @Override
     @PatchMapping("/me")
     public UserResponse updateUser(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @Valid @RequestBody UserRequest request) {
-        return UserResponse.from(userService.updateUser(userDetails.getUserId(), RequestMapMapper.toMap(request)));
+            @Valid @RequestBody UserProfileUpdateRequest request) {
+        return UserResponse.from(userService.updateProfile(userDetails.getUserId(), request));
     }
 
     @Override
@@ -110,9 +110,7 @@ public class UserController implements UserApi {
     public UserConsentResponse createConsent(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @Valid @RequestBody UserConsentRequest request) {
-        var values = RequestMapMapper.toMap(request);
-        values.put("userId", userDetails.getUserId());
-        return UserConsentResponse.from(userService.createConsent(values));
+        return UserConsentResponse.from(userService.createConsent(userDetails.getUserId(), request));
     }
 
     @Override
@@ -121,9 +119,7 @@ public class UserController implements UserApi {
     public UserFavoriteResponse createFavorite(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @Valid @RequestBody UserFavoriteRequest request) {
-        var values = RequestMapMapper.toMap(request);
-        values.put("userId", userDetails.getUserId());
-        return UserFavoriteResponse.from(userService.createFavorite(values));
+        return UserFavoriteResponse.from(userService.createFavorite(userDetails.getUserId(), request.getMajorId()));
     }
 
     @Override
@@ -139,6 +135,6 @@ public class UserController implements UserApi {
     @PostMapping("/email-verifications")
     @ResponseStatus(HttpStatus.CREATED)
     public EmailVerificationResponse createEmailVerification(@Valid @RequestBody EmailVerificationRequest request) {
-        return EmailVerificationResponse.from(userService.createEmailVerification(RequestMapMapper.toMap(request)));
+        return EmailVerificationResponse.from(userService.createEmailVerification(request));
     }
 }

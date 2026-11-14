@@ -36,6 +36,7 @@ import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.HexFormat;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -76,7 +77,13 @@ public class AuthService {
                 request.profileImageUrl()
         );
         user.verifyEmail();
-        userRepository.save(user);
+        try {
+            // IDENTITY 전략이라 save 시점에 INSERT가 실행되어 유일 제약 위반이 여기서 드러난다.
+            userRepository.save(user);
+        } catch (DataIntegrityViolationException exception) {
+            // existsByEmail 확인 뒤 같은 이메일이 동시에 가입된 경우(uk_users_email 위반)
+            throw new CustomException(ErrorCode.USER_EMAIL_DUPLICATE);
+        }
         userConsentRepository.save(UserConsent.of(user.getId(), request.termsAgreed(), request.privacyAgreed(), request.marketingAgreed()));
         return UserResponse.from(user);
     }
