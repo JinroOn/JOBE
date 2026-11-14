@@ -8,6 +8,7 @@ import com.jinroon.jobe.domain.user.dto.response.UserSessionResponse;
 import com.jinroon.jobe.domain.user.dto.request.EmailVerificationRequest;
 import com.jinroon.jobe.domain.user.dto.request.UserConsentRequest;
 import com.jinroon.jobe.domain.user.dto.request.UserFavoriteRequest;
+import com.jinroon.jobe.domain.user.dto.request.UserProfileUpdateRequest;
 import com.jinroon.jobe.domain.user.dto.request.UserRequest;
 import com.jinroon.jobe.global.exception.error.ErrorDto;
 import com.jinroon.jobe.global.security.CustomUserDetails;
@@ -110,7 +111,7 @@ public interface UserApi {
             @Valid @RequestBody UserRequest request
     );
 
-    @Operation(summary = "내 정보 수정", description = "현재 로그인한 사용자의 정보를 수정합니다.")
+    @Operation(summary = "내 정보 수정", description = "현재 로그인한 사용자의 닉네임·프로필 이미지를 수정합니다. 그 외 필드는 바꿀 수 없습니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "수정 성공",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponse.class))),
@@ -122,11 +123,11 @@ public interface UserApi {
     UserResponse updateUser(
             @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "수정할 필드값 Map", 
+                    description = "수정할 프로필 필드",
                     required = true,
-                    content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.user.dto.request.UserRequest.class))
+                    content = @Content(schema = @Schema(implementation = UserProfileUpdateRequest.class))
             )
-            @Valid @RequestBody UserRequest request
+            @Valid @RequestBody UserProfileUpdateRequest request
     );
 
     @Operation(summary = "회원 탈퇴", description = "현재 로그인한 사용자를 삭제합니다.")

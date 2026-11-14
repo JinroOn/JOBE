@@ -124,6 +124,18 @@ class AuthServiceTest {
     }
 
     @Test
+    void signUpConvertsConcurrentUniqueViolationToDuplicate() {
+        when(userRepository.existsByEmail(EMAIL)).thenReturn(false);
+        when(emailVerificationRepository.findFirstByEmailAndUsedTrueOrderByUpdatedAtDesc(EMAIL))
+                .thenReturn(Optional.of(verification("123456", true, LocalDateTime.now().plusMinutes(10))));
+        when(userRepository.save(any(User.class)))
+                .thenThrow(new org.springframework.dao.DataIntegrityViolationException("uk_users_email"));
+
+        assertErrorCode(() -> service.signUp(signUpRequest()), ErrorCode.USER_EMAIL_DUPLICATE);
+        verify(userConsentRepository, never()).save(any());
+    }
+
+    @Test
     void signUpCreatesActiveMemberWithHashedPasswordAndConsent() {
         when(userRepository.existsByEmail(EMAIL)).thenReturn(false);
         when(emailVerificationRepository.findFirstByEmailAndUsedTrueOrderByUpdatedAtDesc(EMAIL))

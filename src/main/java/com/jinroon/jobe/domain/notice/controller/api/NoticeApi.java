@@ -3,6 +3,7 @@ package com.jinroon.jobe.domain.notice.controller.api;
 import com.jinroon.jobe.domain.notice.entity.Notice;
 import com.jinroon.jobe.domain.notice.dto.request.NoticeRequest;
 import com.jinroon.jobe.global.exception.error.ErrorDto;
+import com.jinroon.jobe.global.security.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,17 +24,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Tag(name = "공지사항 API", description = "공지사항 조회 및 관리 API")
 public interface NoticeApi {
 
-    @Operation(summary = "공지사항 목록 조회", description = "공지사항 목록을 페이지 단위로 반환합니다. activeOnly=true 시 현재 노출 기간에 해당하는 공지만 반환합니다.")
+    @Operation(summary = "공지사항 목록 조회", description = "공지사항 목록을 페이지 단위로 반환합니다. activeOnly=true 시 현재 노출 기간에 해당하는 공지만 반환합니다. 관리자가 아니면 게시 시작 전(예약) 공지는 제외됩니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "조회 성공",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Notice.class)))
     })
     Page<Notice> findNotices(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "활성 공지사항만 조회 여부 (기본값: false)") @RequestParam(defaultValue = "false") boolean activeOnly,
             @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable
     );
 
-    @Operation(summary = "공지사항 단건 조회", description = "공지사항 ID로 특정 공지사항을 조회합니다.")
+    @Operation(summary = "공지사항 단건 조회", description = "공지사항 ID로 특정 공지사항을 조회합니다. 관리자가 아니면 게시 시작 전 공지는 404입니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "조회 성공",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Notice.class))),
@@ -40,10 +43,11 @@ public interface NoticeApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     Notice getNotice(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "공지사항 ID") @PathVariable Long noticeId
     );
 
-    @Operation(summary = "공지사항 생성", description = "새로운 공지사항을 등록합니다.")
+    @Operation(summary = "공지사항 생성", description = "새로운 공지사항을 등록합니다. 작성자는 로그인한 관리자로 기록되며 요청의 createdBy는 무시합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "생성 성공",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Notice.class))),
@@ -51,6 +55,7 @@ public interface NoticeApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     Notice createNotice(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "공지사항 생성 정보",
                     required = true,

@@ -10,4 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface NoticeRepository extends JpaRepository<Notice, Long> {
 
     Page<Notice> findByStartAtLessThanEqualAndEndAtGreaterThanEqual(LocalDateTime startAt, LocalDateTime endAt, Pageable pageable);
+
+    Page<Notice> findByStartAtLessThanEqual(LocalDateTime startAt, Pageable pageable);
 }

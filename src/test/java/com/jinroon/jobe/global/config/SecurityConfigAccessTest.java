@@ -2,10 +2,14 @@ package com.jinroon.jobe.global.config;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.jinroon.jobe.domain.notice.entity.Notice;
+import com.jinroon.jobe.domain.notice.enums.NoticeEnums.NoticeDisplayType;
+import com.jinroon.jobe.domain.notice.repository.NoticeRepository;
 import com.jinroon.jobe.domain.user.entity.Session;
 import com.jinroon.jobe.domain.user.entity.User;
 import com.jinroon.jobe.domain.user.enums.UserEnums.UserRole;
@@ -44,6 +48,9 @@ class SecurityConfigAccessTest {
 
     @Autowired
     private SessionRepository sessionRepository;
+
+    @Autowired
+    private NoticeRepository noticeRepository;
 
     // ---- 비로그인 공개 경로 ----
 
@@ -150,6 +157,64 @@ class SecurityConfigAccessTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].deviceInfo").value("test-device"))
                 .andExpect(jsonPath("$[0].refreshToken").doesNotExist());
+    }
+
+    // ---- 5단계: 본인 프로필 수정 필드 제한 (문서 4.1) ----
+
+    @Test
+    void memberCannotPromoteSelfViaProfileUpdate() throws Exception {
+        User member = saveUser(UserRole.member);
+
+        mockMvc.perform(patch("/api/users/me")
+                        .header("Authorization", bearer(member))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"nickname\":\"바뀐닉네임\",\"role\":\"admin\",\"status\":\"active\","
+                                + "\"email\":\"other@example.com\",\"passwordHash\":\"x\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nickname").value("바뀐닉네임"))
+                .andExpect(jsonPath("$.role").value("member"))
+                .andExpect(jsonPath("$.email").value(member.getEmail()));
+
+        User reloaded = userRepository.findById(member.getId()).orElseThrow();
+        assertThat(reloaded.getRoleName()).isEqualTo("member");
+        assertThat(reloaded.getPasswordHash()).isNotEqualTo("x");
+    }
+
+    // ---- 5단계: 공지 노출 범위 ----
+
+    @Test
+    void anonymousCannotSeeScheduledNotice() throws Exception {
+        Notice scheduled = noticeRepository.save(Notice.create(1L, "예약 공지", "내용", NoticeDisplayType.banner,
+                LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(7)));
+
+        mockMvc.perform(get("/api/notices/" + scheduled.getId()))
+                .andExpect(status().isNotFound());
+        mockMvc.perform(get("/api/notices").param("size", "100"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[?(@.id == " + scheduled.getId() + ")]").isEmpty());
+    }
+
+    @Test
+    void adminCanSeeScheduledNotice() throws Exception {
+        User admin = saveUser(UserRole.admin);
+        Notice scheduled = noticeRepository.save(Notice.create(admin.getId(), "예약 공지", "내용",
+                NoticeDisplayType.banner, LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(7)));
+
+        mockMvc.perform(get("/api/notices/" + scheduled.getId()).header("Authorization", bearer(admin)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void noticeAuthorIsAuthenticatedAdmin() throws Exception {
+        User admin = saveUser(UserRole.admin);
+
+        mockMvc.perform(post("/api/notices")
+                        .header("Authorization", bearer(admin))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"createdBy\":999999,\"title\":\"점검\",\"content\":\"내용\",\"displayType\":\"banner\","
+                                + "\"startAt\":\"2026-11-01T00:00:00\",\"endAt\":\"2026-11-08T00:00:00\"}"))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.createdBy").value(admin.getId()));
     }
 
     // ---- 관리자 전용 경로 ----
