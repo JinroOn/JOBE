@@ -116,6 +116,7 @@ jobs:
               -p 8080:8080 \
               -v /home/ubuntu/app/logs:/app/logs \
               -e SPRING_PROFILES_ACTIVE=prod \
+              -e CORS_ALLOWED_ORIGINS=https://jinro-on.vercel.app \
               ${{ secrets.ECR_REGISTRY }}/jinroon-backend:latest
 
             # 오래된 이미지 정리
