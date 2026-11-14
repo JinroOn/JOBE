@@ -1,0 +1,99 @@
+{
+  "ruleset_version": "RULESET_V1_4_IMPLEMENTATION_CANDIDATE",
+  "semantic_contract_version": "SEMANTIC_CONTRACT_V1_0",
+  "content_status": "REVIEWED",
+  "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+  "domain_review_status": "PENDING",
+  "catalog_versions": {
+    "question": "QUESTION_CATALOG_V1_1",
+    "option": "OPTION_CATALOG_V1_0",
+    "major_mapping": "MAJOR_MAPPING_V1_1_IMPLEMENTATION_CANDIDATE",
+    "comparison_option_variant": "OPTION_VARIANT_V1_0"
+  },
+  "score_scale": [0, 25, 50, 75, 100],
+  "null_options": ["UNKNOWN", "NO_EXPERIENCE"],
+  "score_roles": ["CANDIDATE_TOPIC", "CANDIDATE_ACTIVITY", "CANDIDATE_LEARNING"],
+  "excluded_score_roles": ["ROUTING", "PRESENTATION_ONLY", "COMPARISON_ONLY", "CAUTION_INPUT", "CAUTION_ONLY", "ACTION_SUBSTITUTION", "EXPLORATION_SUPPORT", "POST_RESULT_ONLY"],
+  "weights": {
+    "primary_interest": [0.70, 0.30],
+    "hybrid_interest": [0.55, 0.45],
+    "activity": [0.50, 0.30, 0.20],
+    "without_learning": {"interest": 0.72, "activity": 0.28},
+    "with_learning": {"interest": 0.62, "activity": 0.28, "learning": 0.10},
+    "renormalize_missing_components": true
+  },
+  "activity_scoring": {
+    "axis_aggregation": "MEAN_OF_VALID_RESPONSES_PER_METRIC",
+    "axis_order": "MAJOR_ACTIVITY_AXES_ORDER",
+    "required_distinct_axes": 3,
+    "sort_by_response_score": false,
+    "min_valid_distinct_axes": 2,
+    "missing_policy": "DROP_MISSING_KEEP_ORIGINAL_POSITION_WEIGHTS_RENORMALIZE",
+    "missing_sources": ["UNKNOWN", "NO_EXPERIENCE", "NOT_ISSUED"],
+    "zero_is_valid": true,
+    "insufficient_axes_result": null,
+    "round_intermediate": false
+  },
+  "thresholds": {
+    "screen_valid_min": 12,
+    "axis_inconsistent_gap_gte": 50,
+    "low_differentiation_range_lt": 15,
+    "top_interest_axes": 3,
+    "interest_tie_gap_lte": 5,
+    "group_tie_gap_lte": 7,
+    "third_group_tie_gap_lte": 5,
+    "major_tie_gap_lte": 5,
+    "early_exit_group_gap_gt": 12,
+    "low_confidence_lte": 25,
+    "positive_topic_gte": 50
+  },
+  "caps": {
+    "stage1": 42,
+    "stage2": 24,
+    "stage3": 12,
+    "pre_result": 78,
+    "post_result": 8,
+    "interest_confirmation": 6,
+    "activity_block": 9,
+    "learning": 12,
+    "comparison_total": 3,
+    "caution_sets": 2,
+    "shown_groups": 3,
+    "shown_majors": 7
+  },
+  "stage1": {
+    "state_core_ids": ["STATE-01", "STATE-03", "STATE-06"],
+    "state_followup_ids": ["STATE-02", "STATE-04", "STATE-05"],
+    "confirmation_priority": ["TOP_AXIS", "TIE_AXIS", "MISSING_AXIS", "METRIC_CODE"]
+  },
+  "stage2": {
+    "path_priority": {
+      "BROAD": ["ACTIVITY", "OPENNESS", "LEARNING", "ENVIRONMENT", "COMPARISON"],
+      "COMPARE": ["COMPARISON", "LEARNING", "ACTIVITY", "ENVIRONMENT", "OPENNESS"],
+      "REVIEW": ["COMPARISON", "LEARNING", "ACTIVITY", "ENVIRONMENT", "OPENNESS"]
+    },
+    "conditional_activity_inside_activity_cap": true,
+    "comparison_activation": "CANDIDATES_GTE_2_AND_DISTINCT_DIRECTION_MEMBERSHIP",
+    "comparison_score_effect": "NONE"
+  },
+  "stage3": {
+    "approved_tags_only": true,
+    "actual_max": 11,
+    "recommendation_score_effect": "NONE"
+  },
+  "post_result": {
+    "recommendation_recalculation": false,
+    "value_rank_effect": "NONE"
+  },
+  "history_policy": {
+    "preserve_excluded_answers": true,
+    "answer_current_semantics": "LATEST_REVISION_PER_ISSUED",
+    "excluded_issued_effective": false,
+    "preserve_latest_answer_on_branch_exclusion": true,
+    "calculation_requires": ["ANSWER_IS_CURRENT", "ISSUED_IS_EFFECTIVE"],
+    "shown_questions_count_toward_budget": true,
+    "recalculate_old_results": false
+  },
+  "tie_breaker": "MAJOR_CODE_ASC",
+  "deterministic_same_input_and_version": true
+}

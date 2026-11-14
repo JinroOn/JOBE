@@ -1,0 +1,4 @@
+"major_code","major_name","caution_tag","proposed","approved","legacy_review_status","evidence","score_effect","usage","review_note","proposal_status","content_status","implementation_review_status","domain_review_status"
+"FIX_MAJOR_1","가짜전공1","CAUTION_X","TRUE","TRUE","APPROVED_FROM_INTERNAL_MAPPING","[테스트용 가짜 데이터] 실제 문항·규칙이 아니다","NONE","EXPLANATION","[테스트용 가짜 데이터] 실제 문항·규칙이 아니다","PROPOSED","REVIEWED","APPROVED_FOR_IMPLEMENTATION","PENDING"
+"FIX_MAJOR_1","가짜전공1","CAUTION_Y","TRUE","FALSE","PENDING_EXTERNAL_REVIEW","[테스트용 가짜 데이터] 실제 문항·규칙이 아니다","NONE","NONE_UNTIL_APPROVED","[테스트용 가짜 데이터] 실제 문항·규칙이 아니다","PROPOSED","DRAFT","PENDING","PENDING"
+"FIX_MAJOR_2","가짜전공2","CAUTION_X","FALSE","FALSE","NOT_PROPOSED","","NONE","NONE_UNTIL_APPROVED","[테스트용 가짜 데이터] 실제 문항·규칙이 아니다","NOT_PROPOSED","DRAFT","NOT_APPLICABLE","NOT_APPLICABLE"

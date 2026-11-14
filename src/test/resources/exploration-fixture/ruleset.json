@@ -1,0 +1,19 @@
+{
+  "ruleset_version": "FIXTURE_RULESET_V1_0",
+  "semantic_contract_version": "FIXTURE_SEMANTIC_V1_0",
+  "content_status": "REVIEWED",
+  "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+  "domain_review_status": "PENDING",
+  "catalog_versions": {
+    "question": "FIXTURE_QUESTION_CATALOG_V1_0",
+    "option": "FIXTURE_OPTION_CATALOG_V1_0",
+    "major_mapping": "FIXTURE_MAJOR_MAPPING_V1_0",
+    "comparison_option_variant": "FIXTURE_OPTION_VARIANT_V1_0"
+  },
+  "score_roles": [
+    "CANDIDATE_TOPIC",
+    "CANDIDATE_ACTIVITY",
+    "CANDIDATE_LEARNING"
+  ],
+  "note": "[테스트용 가짜 데이터] 실제 문항·규칙이 아니다"
+}
