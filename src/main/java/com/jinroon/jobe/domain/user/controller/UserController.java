@@ -7,7 +7,6 @@ import com.jinroon.jobe.domain.user.dto.response.UserFavoriteResponse;
 import com.jinroon.jobe.domain.user.dto.response.UserResponse;
 import com.jinroon.jobe.domain.user.dto.response.UserSessionResponse;
 import com.jinroon.jobe.domain.user.dto.request.EmailVerificationRequest;
-import com.jinroon.jobe.domain.user.dto.request.SessionRequest;
 import com.jinroon.jobe.domain.user.dto.request.UserConsentRequest;
 import com.jinroon.jobe.domain.user.dto.request.UserFavoriteRequest;
 import com.jinroon.jobe.domain.user.dto.request.UserRequest;
@@ -134,16 +133,6 @@ public class UserController implements UserApi {
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @PathVariable Long favoriteId) {
         userService.deleteFavoriteForUser(favoriteId, userDetails.getUserId());
-    }
-
-    @Override
-    @PostMapping("/sessions")
-    @ResponseStatus(HttpStatus.CREATED)
-    public UserSessionResponse createSession(
-            @AuthenticationPrincipal CustomUserDetails userDetails,
-            @Valid @RequestBody SessionRequest request) {
-        return UserSessionResponse.from(
-                userService.createSessionForUser(RequestMapMapper.toMap(request), userDetails.getUserId()));
     }
 
     @Override

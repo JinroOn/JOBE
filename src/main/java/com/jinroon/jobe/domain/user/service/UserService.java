@@ -113,17 +113,6 @@ public class UserService {
     }
 
     @Transactional
-    public Session createSession(Map<String, Object> values) {
-        return sessionRepository.save(EntityFormMapper.create(Session.class, values));
-    }
-
-    @Transactional
-    public Session createSessionForUser(Map<String, Object> values, Long userId) {
-        values.put("userId", userId);
-        return createSession(values);
-    }
-
-    @Transactional
     public EmailVerification createEmailVerification(Map<String, Object> values) {
         return emailVerificationRepository.save(EntityFormMapper.create(EmailVerification.class, values));
     }

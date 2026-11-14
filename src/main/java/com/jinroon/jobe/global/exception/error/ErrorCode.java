@@ -32,6 +32,8 @@ public enum ErrorCode {
     AUTH_PASSWORD_RESET_ALREADY_USED(400, "이미 사용된 비밀번호 재설정 요청입니다."),
     AUTH_SESSION_NOT_FOUND(404, "세션을 찾을 수 없습니다."),
     AUTH_SESSION_EXPIRED(401, "만료된 세션입니다."),
+    AUTH_TOO_MANY_REQUESTS(429, "인증번호 요청이 너무 많습니다. 잠시 후 다시 시도해 주세요."),
+    AUTH_TOO_MANY_ATTEMPTS(429, "인증번호 입력 횟수를 초과했습니다. 인증번호를 다시 요청해 주세요."),
 
     // Consultation
     CONSULTATION_SESSION_NOT_FOUND(404, "상담 세션을 찾을 수 없습니다."),
