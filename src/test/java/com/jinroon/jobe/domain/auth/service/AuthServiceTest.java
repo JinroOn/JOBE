@@ -46,8 +46,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
 /**
- * 3.1 이식 전 기준선 테스트. 수정 후에도 유지해야 하는 인증 동작을 고정한다.
- * 이후 단계에서 바뀔 동작(재설정 요청의 미가입 이메일 응답, 비밀번호 변경 시 세션 정리 범위)은 여기서 고정하지 않는다.
+ * 인증 서비스 단위 테스트.
+ * 1단계 기준선 + 2단계(코드 시도 횟수 제한, 발급 제한, 재설정 응답 통일).
+ * 비밀번호 변경 시 세션 정리 범위는 3단계에서 바뀌므로 아직 고정하지 않는다.
  */
 @ExtendWith(MockitoExtension.class)
 class AuthServiceTest {
@@ -262,14 +263,14 @@ class AuthServiceTest {
     }
 
     @Test
-    void issueEmailVerificationReplacesUnusedCodeAndSendsSixDigitCode() {
+    void issueEmailVerificationSendsSixDigitCodeWithoutDeletingPreviousCodes() {
         when(userRepository.existsByEmail(EMAIL)).thenReturn(false);
         when(emailVerificationRepository.save(any(EmailVerification.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
         var response = service.issueEmailVerification(new EmailVerificationIssueRequest(EMAIL));
 
-        verify(emailVerificationRepository).deleteByEmailAndUsedFalse(EMAIL);
+        verify(emailVerificationRepository, never()).deleteByEmailAndUsedFalse(anyString());
         ArgumentCaptor<String> codeCaptor = ArgumentCaptor.forClass(String.class);
         verify(mailService).sendEmailVerification(eq(EMAIL), codeCaptor.capture());
         assertThat(codeCaptor.getValue()).matches("\\d{6}");
@@ -278,8 +279,38 @@ class AuthServiceTest {
     }
 
     @Test
-    void confirmEmailVerificationRejectsUnknownCode() {
-        when(emailVerificationRepository.findByEmailAndToken(EMAIL, "000000")).thenReturn(Optional.empty());
+    void issueEmailVerificationRejectsResendWithinCooldown() {
+        EmailVerification recent = verification("123456", false, LocalDateTime.now().plusMinutes(30));
+        ReflectionTestUtils.setField(recent, "createdAt", LocalDateTime.now().minusSeconds(10));
+        when(userRepository.existsByEmail(EMAIL)).thenReturn(false);
+        when(emailVerificationRepository.findFirstByEmailOrderByIdDesc(EMAIL)).thenReturn(Optional.of(recent));
+
+        assertErrorCode(
+                () -> service.issueEmailVerification(new EmailVerificationIssueRequest(EMAIL)),
+                ErrorCode.AUTH_TOO_MANY_REQUESTS
+        );
+        verify(mailService, never()).sendEmailVerification(anyString(), anyString());
+    }
+
+    @Test
+    void issueEmailVerificationRejectsTooManyIssuesInWindow() {
+        EmailVerification old = verification("123456", false, LocalDateTime.now().plusMinutes(30));
+        ReflectionTestUtils.setField(old, "createdAt", LocalDateTime.now().minusMinutes(5));
+        when(userRepository.existsByEmail(EMAIL)).thenReturn(false);
+        when(emailVerificationRepository.findFirstByEmailOrderByIdDesc(EMAIL)).thenReturn(Optional.of(old));
+        when(emailVerificationRepository.countByEmailAndCreatedAtAfter(eq(EMAIL), any()))
+                .thenReturn((long) AuthService.MAX_ISSUES_PER_WINDOW);
+
+        assertErrorCode(
+                () -> service.issueEmailVerification(new EmailVerificationIssueRequest(EMAIL)),
+                ErrorCode.AUTH_TOO_MANY_REQUESTS
+        );
+        verify(emailVerificationRepository, never()).save(any());
+    }
+
+    @Test
+    void confirmEmailVerificationRejectsWhenNoCodeIssued() {
+        when(emailVerificationRepository.findFirstByEmailOrderByIdDesc(EMAIL)).thenReturn(Optional.empty());
 
         assertErrorCode(
                 () -> service.confirmEmailVerification(new EmailVerificationConfirmRequest(EMAIL, "000000")),
@@ -288,8 +319,34 @@ class AuthServiceTest {
     }
 
     @Test
+    void confirmEmailVerificationCountsWrongCode() {
+        EmailVerification verification = verification("123456", false, LocalDateTime.now().plusMinutes(10));
+        when(emailVerificationRepository.findFirstByEmailOrderByIdDesc(EMAIL)).thenReturn(Optional.of(verification));
+
+        assertErrorCode(
+                () -> service.confirmEmailVerification(new EmailVerificationConfirmRequest(EMAIL, "000000")),
+                ErrorCode.AUTH_EMAIL_VERIFICATION_NOT_FOUND
+        );
+        assertThat(verification.getFailedAttemptCount()).isEqualTo(1);
+        assertThat(verification.getUsed()).isFalse();
+    }
+
+    @Test
+    void confirmEmailVerificationLocksAfterMaxAttemptsEvenWithCorrectCode() {
+        EmailVerification verification = verification("123456", false, LocalDateTime.now().plusMinutes(10));
+        ReflectionTestUtils.setField(verification, "failedAttempts", AuthService.MAX_CODE_ATTEMPTS);
+        when(emailVerificationRepository.findFirstByEmailOrderByIdDesc(EMAIL)).thenReturn(Optional.of(verification));
+
+        assertErrorCode(
+                () -> service.confirmEmailVerification(new EmailVerificationConfirmRequest(EMAIL, "123456")),
+                ErrorCode.AUTH_TOO_MANY_ATTEMPTS
+        );
+        assertThat(verification.getUsed()).isFalse();
+    }
+
+    @Test
     void confirmEmailVerificationRejectsUsedCode() {
-        when(emailVerificationRepository.findByEmailAndToken(EMAIL, "123456"))
+        when(emailVerificationRepository.findFirstByEmailOrderByIdDesc(EMAIL))
                 .thenReturn(Optional.of(verification("123456", true, LocalDateTime.now().plusMinutes(10))));
 
         assertErrorCode(
@@ -300,7 +357,7 @@ class AuthServiceTest {
 
     @Test
     void confirmEmailVerificationRejectsExpiredCode() {
-        when(emailVerificationRepository.findByEmailAndToken(EMAIL, "123456"))
+        when(emailVerificationRepository.findFirstByEmailOrderByIdDesc(EMAIL))
                 .thenReturn(Optional.of(verification("123456", false, LocalDateTime.now().minusMinutes(1))));
 
         assertErrorCode(
@@ -312,7 +369,7 @@ class AuthServiceTest {
     @Test
     void confirmEmailVerificationMarksCodeUsed() {
         EmailVerification verification = verification("123456", false, LocalDateTime.now().plusMinutes(10));
-        when(emailVerificationRepository.findByEmailAndToken(EMAIL, "123456")).thenReturn(Optional.of(verification));
+        when(emailVerificationRepository.findFirstByEmailOrderByIdDesc(EMAIL)).thenReturn(Optional.of(verification));
         when(userRepository.existsByEmail(EMAIL)).thenReturn(false);
 
         service.confirmEmailVerification(new EmailVerificationConfirmRequest(EMAIL, "123456"));
@@ -331,15 +388,53 @@ class AuthServiceTest {
 
         service.issuePasswordReset(new PasswordResetIssueRequest(EMAIL));
 
-        verify(passwordResetTokenRepository).deleteByEmailAndUsedFalse(EMAIL);
+        verify(passwordResetTokenRepository, never()).deleteByEmailAndUsedFalse(anyString());
         ArgumentCaptor<String> codeCaptor = ArgumentCaptor.forClass(String.class);
         verify(mailService).sendPasswordReset(eq(EMAIL), codeCaptor.capture());
         assertThat(codeCaptor.getValue()).matches("\\d{6}");
     }
 
     @Test
-    void confirmPasswordResetRejectsUnknownCode() {
-        when(passwordResetTokenRepository.findByEmailAndToken(EMAIL, "000000")).thenReturn(Optional.empty());
+    void issuePasswordResetAnswersSameForUnknownEmailWithoutSending() {
+        when(userRepository.findByEmail(EMAIL)).thenReturn(Optional.empty());
+
+        var response = service.issuePasswordReset(new PasswordResetIssueRequest(EMAIL));
+
+        assertThat(response.email()).isEqualTo(EMAIL);
+        assertThat(response.expiresAt()).isAfter(LocalDateTime.now().plusMinutes(29));
+        verify(passwordResetTokenRepository, never()).save(any());
+        verify(mailService, never()).sendPasswordReset(anyString(), anyString());
+    }
+
+    @Test
+    void issuePasswordResetAnswersSameForInactiveUserWithoutSending() {
+        User user = activeUser(1L);
+        ReflectionTestUtils.setField(user, "status", UserStatus.withdrawn);
+        when(userRepository.findByEmail(EMAIL)).thenReturn(Optional.of(user));
+
+        var response = service.issuePasswordReset(new PasswordResetIssueRequest(EMAIL));
+
+        assertThat(response.email()).isEqualTo(EMAIL);
+        verify(mailService, never()).sendPasswordReset(anyString(), anyString());
+    }
+
+    @Test
+    void issuePasswordResetSilentlySkipsResendWithinCooldown() {
+        PasswordResetToken recent = resetToken("123456", false, LocalDateTime.now().plusMinutes(30));
+        ReflectionTestUtils.setField(recent, "createdAt", LocalDateTime.now().minusSeconds(10));
+        when(userRepository.findByEmail(EMAIL)).thenReturn(Optional.of(activeUser(1L)));
+        when(passwordResetTokenRepository.findFirstByEmailOrderByIdDesc(EMAIL)).thenReturn(Optional.of(recent));
+
+        var response = service.issuePasswordReset(new PasswordResetIssueRequest(EMAIL));
+
+        assertThat(response.email()).isEqualTo(EMAIL);
+        verify(passwordResetTokenRepository, never()).save(any());
+        verify(mailService, never()).sendPasswordReset(anyString(), anyString());
+    }
+
+    @Test
+    void confirmPasswordResetRejectsWhenNoCodeIssued() {
+        when(passwordResetTokenRepository.findFirstByEmailOrderByIdDesc(EMAIL)).thenReturn(Optional.empty());
 
         assertErrorCode(
                 () -> service.confirmPasswordReset(new PasswordResetConfirmRequest(EMAIL, "000000", "newPassword123")),
@@ -348,8 +443,48 @@ class AuthServiceTest {
     }
 
     @Test
+    void confirmPasswordResetCountsWrongCodeAndKeepsPassword() {
+        PasswordResetToken token = resetToken("123456", false, LocalDateTime.now().plusMinutes(10));
+        when(passwordResetTokenRepository.findFirstByEmailOrderByIdDesc(EMAIL)).thenReturn(Optional.of(token));
+
+        assertErrorCode(
+                () -> service.confirmPasswordReset(new PasswordResetConfirmRequest(EMAIL, "000000", "newPassword123")),
+                ErrorCode.AUTH_PASSWORD_RESET_NOT_FOUND
+        );
+        assertThat(token.getFailedAttemptCount()).isEqualTo(1);
+        assertThat(token.getUsed()).isFalse();
+        verify(userRepository, never()).findByEmail(anyString());
+    }
+
+    @Test
+    void confirmPasswordResetLocksAfterMaxAttemptsEvenWithCorrectCode() {
+        PasswordResetToken token = resetToken("123456", false, LocalDateTime.now().plusMinutes(10));
+        ReflectionTestUtils.setField(token, "failedAttempts", AuthService.MAX_CODE_ATTEMPTS);
+        when(passwordResetTokenRepository.findFirstByEmailOrderByIdDesc(EMAIL)).thenReturn(Optional.of(token));
+
+        assertErrorCode(
+                () -> service.confirmPasswordReset(new PasswordResetConfirmRequest(EMAIL, "123456", "newPassword123")),
+                ErrorCode.AUTH_TOO_MANY_ATTEMPTS
+        );
+        verify(sessionRepository, never()).deleteByUserId(any());
+    }
+
+    @Test
+    void confirmPasswordResetTreatsLegacyNullAttemptsAsZero() {
+        User user = activeUser(1L);
+        PasswordResetToken token = resetToken("123456", false, LocalDateTime.now().plusMinutes(10));
+        ReflectionTestUtils.setField(token, "failedAttempts", null);
+        when(passwordResetTokenRepository.findFirstByEmailOrderByIdDesc(EMAIL)).thenReturn(Optional.of(token));
+        when(userRepository.findByEmail(EMAIL)).thenReturn(Optional.of(user));
+
+        service.confirmPasswordReset(new PasswordResetConfirmRequest(EMAIL, "123456", "newPassword123"));
+
+        assertThat(token.getUsed()).isTrue();
+    }
+
+    @Test
     void confirmPasswordResetRejectsUsedCode() {
-        when(passwordResetTokenRepository.findByEmailAndToken(EMAIL, "123456"))
+        when(passwordResetTokenRepository.findFirstByEmailOrderByIdDesc(EMAIL))
                 .thenReturn(Optional.of(resetToken("123456", true, LocalDateTime.now().plusMinutes(10))));
 
         assertErrorCode(
@@ -360,7 +495,7 @@ class AuthServiceTest {
 
     @Test
     void confirmPasswordResetRejectsExpiredCode() {
-        when(passwordResetTokenRepository.findByEmailAndToken(EMAIL, "123456"))
+        when(passwordResetTokenRepository.findFirstByEmailOrderByIdDesc(EMAIL))
                 .thenReturn(Optional.of(resetToken("123456", false, LocalDateTime.now().minusMinutes(1))));
 
         assertErrorCode(
@@ -373,7 +508,7 @@ class AuthServiceTest {
     void confirmPasswordResetChangesPasswordAndRevokesAllSessions() {
         User user = activeUser(1L);
         PasswordResetToken token = resetToken("123456", false, LocalDateTime.now().plusMinutes(10));
-        when(passwordResetTokenRepository.findByEmailAndToken(EMAIL, "123456")).thenReturn(Optional.of(token));
+        when(passwordResetTokenRepository.findFirstByEmailOrderByIdDesc(EMAIL)).thenReturn(Optional.of(token));
         when(userRepository.findByEmail(EMAIL)).thenReturn(Optional.of(user));
 
         service.confirmPasswordReset(new PasswordResetConfirmRequest(EMAIL, "123456", "newPassword123"));

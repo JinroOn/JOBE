@@ -28,6 +28,7 @@ import com.jinroon.jobe.domain.user.repository.SessionRepository;
 import com.jinroon.jobe.domain.user.repository.UserConsentRepository;
 import com.jinroon.jobe.domain.user.repository.UserRepository;
 import java.security.SecureRandom;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +44,10 @@ public class AuthService {
     private static final int REFRESH_TOKEN_DAYS = 14;
     private static final int EMAIL_TOKEN_MINUTES = 30;
     private static final int PASSWORD_RESET_TOKEN_MINUTES = 30;
+    static final int MAX_CODE_ATTEMPTS = 5;
+    static final Duration RESEND_COOLDOWN = Duration.ofSeconds(60);
+    static final Duration ISSUE_WINDOW = Duration.ofHours(1);
+    static final int MAX_ISSUES_PER_WINDOW = 5;
 
     private final UserRepository userRepository;
     private final UserConsentRepository userConsentRepository;
@@ -113,8 +118,19 @@ public class AuthService {
         if (userRepository.existsByEmail(request.email())) {
             throw new CustomException(ErrorCode.USER_EMAIL_DUPLICATE);
         }
-        emailVerificationRepository.deleteByEmailAndUsedFalse(request.email());
-        LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(EMAIL_TOKEN_MINUTES);
+        LocalDateTime now = LocalDateTime.now();
+        boolean allowed = isIssueAllowed(
+                emailVerificationRepository.findFirstByEmailOrderByIdDesc(request.email())
+                        .map(EmailVerification::getCreatedAt)
+                        .orElse(null),
+                emailVerificationRepository.countByEmailAndCreatedAtAfter(request.email(), now.minus(ISSUE_WINDOW)),
+                now
+        );
+        if (!allowed) {
+            throw new CustomException(ErrorCode.AUTH_TOO_MANY_REQUESTS);
+        }
+        // 이전 미사용 코드는 지우지 않는다(발급 횟수 집계용). 확인은 항상 가장 최근 코드로만 한다.
+        LocalDateTime expiresAt = now.plusMinutes(EMAIL_TOKEN_MINUTES);
         EmailVerification verification = emailVerificationRepository.save(
                 EmailVerification.issue(request.email(), issueEmailVerificationCode(), expiresAt)
         );
@@ -122,18 +138,24 @@ public class AuthService {
         return EmailVerificationResponse.from(verification);
     }
 
-    @Transactional
+    // 틀린 코드의 실패 횟수가 예외와 함께 롤백되지 않도록 CustomException에서는 커밋한다.
+    // 이 메서드에서 예외 전에 바뀌는 상태는 실패 횟수뿐이다.
+    @Transactional(noRollbackFor = CustomException.class)
     public EmailVerificationResponse confirmEmailVerification(EmailVerificationConfirmRequest request) {
-        EmailVerification verification = emailVerificationRepository.findByEmailAndToken(
-                        request.email(),
-                        request.token()
-                )
+        EmailVerification verification = emailVerificationRepository.findFirstByEmailOrderByIdDesc(request.email())
                 .orElseThrow(() -> new CustomException(ErrorCode.AUTH_EMAIL_VERIFICATION_NOT_FOUND));
         if (verification.getUsed()) {
             throw new CustomException(ErrorCode.AUTH_EMAIL_VERIFICATION_ALREADY_USED);
         }
         if (verification.isExpired(LocalDateTime.now())) {
             throw new CustomException(ErrorCode.AUTH_EMAIL_VERIFICATION_EXPIRED);
+        }
+        if (verification.isAttemptLimitReached(MAX_CODE_ATTEMPTS)) {
+            throw new CustomException(ErrorCode.AUTH_TOO_MANY_ATTEMPTS);
+        }
+        if (!verification.matchesCode(request.token())) {
+            verification.recordFailedAttempt();
+            throw new CustomException(ErrorCode.AUTH_EMAIL_VERIFICATION_NOT_FOUND);
         }
         if (userRepository.existsByEmail(verification.getEmail())) {
             throw new CustomException(ErrorCode.USER_EMAIL_DUPLICATE);
@@ -160,36 +182,57 @@ public class AuthService {
         sessionRepository.delete(session);
     }
 
+    /**
+     * 가입 여부를 드러내지 않기 위해 미가입·비활성 이메일과 발급 제한에 걸린 요청에도 같은 성공 응답을 준다.
+     * 이 경우 코드는 만들지 않고 메일도 보내지 않는다.
+     */
     @Transactional
     public PasswordResetResponse issuePasswordReset(PasswordResetIssueRequest request) {
-        User user = userRepository.findByEmail(request.email())
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-        requireActive(user);
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime expiresAt = now.plusMinutes(PASSWORD_RESET_TOKEN_MINUTES);
+        PasswordResetResponse silentResponse = new PasswordResetResponse(request.email(), expiresAt);
 
-        passwordResetTokenRepository.deleteByEmailAndUsedFalse(user.getEmail());
+        User user = userRepository.findByEmail(request.email()).orElse(null);
+        if (user == null || !user.isActive()) {
+            return silentResponse;
+        }
+        boolean allowed = isIssueAllowed(
+                passwordResetTokenRepository.findFirstByEmailOrderByIdDesc(user.getEmail())
+                        .map(PasswordResetToken::getCreatedAt)
+                        .orElse(null),
+                passwordResetTokenRepository.countByEmailAndCreatedAtAfter(user.getEmail(), now.minus(ISSUE_WINDOW)),
+                now
+        );
+        if (!allowed) {
+            return silentResponse;
+        }
+
+        // 이전 미사용 코드는 지우지 않는다(발급 횟수 집계용). 확인은 항상 가장 최근 코드로만 한다.
         PasswordResetToken resetToken = passwordResetTokenRepository.save(
-                PasswordResetToken.issue(
-                        user.getEmail(),
-                        issueUniquePasswordResetCode(),
-                        LocalDateTime.now().plusMinutes(PASSWORD_RESET_TOKEN_MINUTES)
-                )
+                PasswordResetToken.issue(user.getEmail(), issueUniquePasswordResetCode(), expiresAt)
         );
         mailService.sendPasswordReset(resetToken.getEmail(), resetToken.getToken());
         return PasswordResetResponse.from(resetToken);
     }
 
-    @Transactional
+    // 틀린 코드의 실패 횟수가 예외와 함께 롤백되지 않도록 CustomException에서는 커밋한다.
+    // 이 메서드에서 예외 전에 바뀌는 상태는 실패 횟수뿐이다.
+    @Transactional(noRollbackFor = CustomException.class)
     public void confirmPasswordReset(PasswordResetConfirmRequest request) {
-        PasswordResetToken resetToken = passwordResetTokenRepository.findByEmailAndToken(
-                        request.email(),
-                        request.code()
-                )
+        PasswordResetToken resetToken = passwordResetTokenRepository.findFirstByEmailOrderByIdDesc(request.email())
                 .orElseThrow(() -> new CustomException(ErrorCode.AUTH_PASSWORD_RESET_NOT_FOUND));
         if (resetToken.getUsed()) {
             throw new CustomException(ErrorCode.AUTH_PASSWORD_RESET_ALREADY_USED);
         }
         if (resetToken.isExpired(LocalDateTime.now())) {
             throw new CustomException(ErrorCode.AUTH_PASSWORD_RESET_EXPIRED);
+        }
+        if (resetToken.isAttemptLimitReached(MAX_CODE_ATTEMPTS)) {
+            throw new CustomException(ErrorCode.AUTH_TOO_MANY_ATTEMPTS);
+        }
+        if (!resetToken.matchesCode(request.code())) {
+            resetToken.recordFailedAttempt();
+            throw new CustomException(ErrorCode.AUTH_PASSWORD_RESET_NOT_FOUND);
         }
 
         User user = userRepository.findByEmail(resetToken.getEmail())
@@ -203,6 +246,13 @@ public class AuthService {
     private Session issueSession(User user, String deviceInfo) {
         LocalDateTime expiresAt = LocalDateTime.now().plusDays(REFRESH_TOKEN_DAYS);
         return sessionRepository.save(Session.issue(user.getId(), issueToken(REFRESH_TOKEN_BYTES), deviceInfo, expiresAt));
+    }
+
+    private boolean isIssueAllowed(LocalDateTime lastIssuedAt, long issuedInWindow, LocalDateTime now) {
+        if (lastIssuedAt != null && lastIssuedAt.isAfter(now.minus(RESEND_COOLDOWN))) {
+            return false;
+        }
+        return issuedInWindow < MAX_ISSUES_PER_WINDOW;
     }
 
     private void requireActive(User user) {

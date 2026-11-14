@@ -5,6 +5,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -34,12 +36,17 @@ public class PasswordResetToken extends BaseEntitySupport {
     @Column(name = "expires_at", nullable = false)
     private LocalDateTime expiresAt;
 
+    // 기존 행과의 호환을 위해 nullable. null은 0회로 취급한다.
+    @Column(name = "failed_attempts")
+    private Integer failedAttempts;
+
     public static PasswordResetToken issue(String email, String token, LocalDateTime expiresAt) {
         PasswordResetToken resetToken = new PasswordResetToken();
         resetToken.email = email;
         resetToken.token = token;
         resetToken.used = false;
         resetToken.expiresAt = expiresAt;
+        resetToken.failedAttempts = 0;
         return resetToken;
     }
 
@@ -49,5 +56,24 @@ public class PasswordResetToken extends BaseEntitySupport {
 
     public boolean isExpired(LocalDateTime now) {
         return expiresAt.isBefore(now);
+    }
+
+    public boolean matchesCode(String code) {
+        if (code == null || token == null) {
+            return false;
+        }
+        return MessageDigest.isEqual(token.getBytes(StandardCharsets.UTF_8), code.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public void recordFailedAttempt() {
+        failedAttempts = getFailedAttemptCount() + 1;
+    }
+
+    public int getFailedAttemptCount() {
+        return failedAttempts == null ? 0 : failedAttempts;
+    }
+
+    public boolean isAttemptLimitReached(int maxAttempts) {
+        return getFailedAttemptCount() >= maxAttempts;
     }
 }

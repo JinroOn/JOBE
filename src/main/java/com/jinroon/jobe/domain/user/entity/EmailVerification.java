@@ -6,6 +6,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -29,12 +31,17 @@ public class EmailVerification extends BaseEntitySupport {
     @Column(name = "expires_at", nullable = false)
     private LocalDateTime expiresAt;
 
+    // 기존 행과의 호환을 위해 nullable. null은 0회로 취급한다.
+    @Column(name = "failed_attempts")
+    private Integer failedAttempts;
+
     public static EmailVerification issue(String email, String token, LocalDateTime expiresAt) {
         EmailVerification verification = new EmailVerification();
         verification.email = email;
         verification.token = token;
         verification.used = false;
         verification.expiresAt = expiresAt;
+        verification.failedAttempts = 0;
         return verification;
     }
 
@@ -44,5 +51,24 @@ public class EmailVerification extends BaseEntitySupport {
 
     public boolean isExpired(LocalDateTime now) {
         return expiresAt.isBefore(now);
+    }
+
+    public boolean matchesCode(String code) {
+        if (code == null || token == null) {
+            return false;
+        }
+        return MessageDigest.isEqual(token.getBytes(StandardCharsets.UTF_8), code.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public void recordFailedAttempt() {
+        failedAttempts = getFailedAttemptCount() + 1;
+    }
+
+    public int getFailedAttemptCount() {
+        return failedAttempts == null ? 0 : failedAttempts;
+    }
+
+    public boolean isAttemptLimitReached(int maxAttempts) {
+        return getFailedAttemptCount() >= maxAttempts;
     }
 }
