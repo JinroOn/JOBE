@@ -1,12 +1,14 @@
 package com.jinroon.jobe.global.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jinroon.jobe.global.exception.error.ErrorCode;
 import com.jinroon.jobe.global.exception.error.ErrorDto;
 import com.jinroon.jobe.global.security.CustomUserDetailsService;
 import com.jinroon.jobe.global.security.JwtFilter;
 import com.jinroon.jobe.global.security.JwtProvider;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -28,6 +30,14 @@ public class SecurityConfig {
     private final JwtProvider jwtProvider;
     private final CustomUserDetailsService customUserDetailsService;
     private final ObjectMapper objectMapper;
+
+    /**
+     * 브라우저에서 API를 호출할 수 있는 출처(프론트 주소) 목록. 쉼표로 구분한다.
+     * 운영에서는 환경변수 CORS_ALLOWED_ORIGINS로 배포 주소만 넣는다.
+     * 와일드카드 패턴(예: https://jinro-on-*.vercel.app)도 쓸 수 있다.
+     */
+    @Value("${app.cors.allowed-origins}")
+    private List<String> allowedOrigins;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -73,14 +83,14 @@ public class SecurityConfig {
                             response.setContentType("application/json;charset=UTF-8");
                             response.setStatus(401);
                             response.getWriter().write(
-                                    objectMapper.writeValueAsString(new ErrorDto(401, "인증이 필요합니다."))
+                                    objectMapper.writeValueAsString(ErrorDto.of(ErrorCode.UNAUTHORIZED))
                             );
                         })
                         .accessDeniedHandler((request, response, accessDeniedException) -> {
                             response.setContentType("application/json;charset=UTF-8");
                             response.setStatus(403);
                             response.getWriter().write(
-                                    objectMapper.writeValueAsString(new ErrorDto(403, "접근 권한이 없습니다."))
+                                    objectMapper.writeValueAsString(ErrorDto.of(ErrorCode.FORBIDDEN))
                             );
                         })
                 )
@@ -90,10 +100,16 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(List.of("*"));
+        // 이전에는 모든 출처(*)와 credentials를 함께 허용해 어느 사이트에서든 API를 호출할 수 있었다.
+        config.setAllowedOriginPatterns(allowedOrigins.stream()
+                .map(String::trim)
+                .filter(origin -> !origin.isEmpty())
+                .toList());
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true);
+        config.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Request-Id"));
+        // 프론트는 쿠키 없이 Authorization 헤더로 인증하므로 credentials는 허용하지 않는다.
+        config.setAllowCredentials(false);
+        config.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
