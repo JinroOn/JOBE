@@ -67,6 +67,6 @@ public class GlobalExceptionHandler {
     private static ResponseEntity<ErrorDto> toResponse(ErrorCode errorCode) {
         return ResponseEntity
                 .status(errorCode.getStatus())
-                .body(new ErrorDto(errorCode.getStatus(), errorCode.getMessage()));
+                .body(ErrorDto.of(errorCode));
     }
 }
