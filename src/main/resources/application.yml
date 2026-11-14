@@ -11,6 +11,11 @@ spring:
     hibernate:
       ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
     show-sql: ${SPRING_JPA_SHOW_SQL:true}
+    properties:
+      hibernate:
+        hbm2ddl:
+          # Flyway가 관리하는 exploration_* 테이블은 ddl-auto가 만들거나 바꾸지 않게 한다.
+          schema_filter_provider: com.jinroon.jobe.global.config.FlywayManagedSchemaFilterProvider
   security:
     user:
       password: ${SPRING_SECURITY_USER_PASSWORD:temp1234}
