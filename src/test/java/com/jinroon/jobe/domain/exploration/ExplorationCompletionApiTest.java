@@ -35,7 +35,7 @@ class ExplorationCompletionApiTest extends ExplorationApiTestSupport {
         assertThat(result.toString()).doesNotContain("inputHash", "bundleHash", "rankedCandidates", "numeric_value", "sourceHashes", "total\"", "topic\"");
         assertThat(result.path("nextActivities").isEmpty()).isTrue();
         assertThat(result.path("activityAvailability").asText()).isEqualTo("UNAVAILABLE");
-        assertThat(result.path("capabilities").path("supportAvailable").asBoolean()).isFalse();
+        assertThat(result.path("capabilities").path("supportAvailable").asBoolean()).isTrue();
     }
 
     @Test void allUnknownIsNormalCompletionWithEmptyCandidatesAndNoInventedZeroScores() throws Exception {

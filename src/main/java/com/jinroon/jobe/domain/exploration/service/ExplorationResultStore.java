@@ -26,7 +26,7 @@ public class ExplorationResultStore {
         return result;
     }
 
-    public JsonNode response(ExplorationResult result) {
+    public JsonNode verifiedSnapshot(ExplorationResult result) {
         JsonNode payload = json.read(result.getResultJson());
         var seal = jdbc.queryForList("SELECT content_hash FROM exploration_result_seal WHERE result_id=?", String.class, result.getId());
         if (seal.size() != 1 || !seal.get(0).equals(json.hex(payload))
@@ -37,6 +37,11 @@ public class ExplorationResultStore {
                 || !result.getCompletionReason().equals(payload.path("completionReason").asText())
                 || !HexFormat.of().formatHex(result.getInputHash()).equals(payload.path("inputHash").asText())
                 || !payload.path("inputHash").asText().equals(json.hex(payload.path("input")))) throw ExplorationApiException.integrity();
+        return payload;
+    }
+
+    public JsonNode response(ExplorationResult result) {
+        JsonNode payload = verifiedSnapshot(result);
         ObjectNode dto = json.object();
         dto.put("resultId", result.getId());
         for (String field : new String[]{"resultContractVersion", "sessionId", "sessionStatus", "completedAt", "status", "completionReason", "reasonCodes", "versions", "evidenceLevel", "cautions", "presentation", "runMode", "testOnly", "flags"})
@@ -49,7 +54,7 @@ public class ExplorationResultStore {
         dto.put("activityAvailability", "UNAVAILABLE");
         dto.put("activityMessage", "승인된 탐색 활동 안내를 준비 중입니다.");
         ObjectNode capabilities = dto.putObject("capabilities");
-        capabilities.put("supportAvailable", false); capabilities.put("planAvailable", false); capabilities.put("sharingAvailable", false);
+        capabilities.put("supportAvailable", true); capabilities.put("planAvailable", false); capabilities.put("sharingAvailable", false);
         return dto;
     }
 }
