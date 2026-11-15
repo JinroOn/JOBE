@@ -5,7 +5,6 @@ import com.jinroon.jobe.global.exception.error.ErrorDto;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
@@ -26,13 +25,17 @@ public class GlobalExceptionHandler {
         return toResponse(exception.getErrorCode());
     }
 
+    // 다른 오류와 같은 status·code·message 형식에 필드별 메시지(fieldErrors)를 더한다.
+    // 이전에는 {"필드명": "메시지"}만 내려 code·message가 없었다.
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidation(MethodArgumentNotValidException exception) {
+    public ResponseEntity<ErrorDto> handleValidation(MethodArgumentNotValidException exception) {
         Map<String, String> errors = new LinkedHashMap<>();
         exception.getBindingResult().getFieldErrors().forEach(error ->
-                errors.put(error.getField(), error.getDefaultMessage())
+                errors.putIfAbsent(error.getField(), error.getDefaultMessage())
         );
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        return ResponseEntity
+                .status(ErrorCode.INVALID_INPUT.getStatus())
+                .body(ErrorDto.withFieldErrors(ErrorCode.INVALID_INPUT, errors));
     }
 
     // 존재하지 않는 URL. 이전에는 아래 Exception 핸들러에 걸려 500으로 응답했다.
