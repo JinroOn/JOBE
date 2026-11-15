@@ -1,0 +1,21 @@
+{
+  "copied_at": "2026-11-15",
+  "scope": "REFERENCE_ONLY_NOT_RUNTIME_RESULTS",
+  "files": [
+    {
+      "file": "activity-scoring-cases.json",
+      "source": "통합과정/업데이트준비완료/D04_활동점수_계약사례.json",
+      "sha256": "8c2b9bdf69073fb419ce49f3624f19c57bc08bbe8fcfa9bba23d9e251daa621d"
+    },
+    {
+      "file": "completion-cases.json",
+      "source": "통합과정/업데이트준비완료/D06_완료결과_계약사례.json",
+      "sha256": "38c11c5537a6583a39c060f7138de5aa800e854d179ad58e09d58914f0d0652f"
+    },
+    {
+      "file": "reachability-profiles.json",
+      "source": "통합과정/업데이트준비완료/D08_전공94_도달성_시험입력.json",
+      "sha256": "324d8bc1538e0f885777616b3a1df5a9010c7cf2e4c3a727fd54d4e164b5dcb6"
+    }
+  ]
+}

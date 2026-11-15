@@ -1,5 +1,5 @@
 {
-  "ruleset_version": "RULESET_V1_4_IMPLEMENTATION_CANDIDATE",
+  "ruleset_version": "RULESET_V1_5_IMPLEMENTATION_CANDIDATE",
   "semantic_contract_version": "SEMANTIC_CONTRACT_V1_0",
   "content_status": "REVIEWED",
   "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
@@ -7,7 +7,7 @@
   "catalog_versions": {
     "question": "QUESTION_CATALOG_V1_1",
     "option": "OPTION_CATALOG_V1_0",
-    "major_mapping": "MAJOR_MAPPING_V1_1_IMPLEMENTATION_CANDIDATE",
+    "major_mapping": "MAJOR_MAPPING_V1_2_IMPLEMENTATION_CANDIDATE",
     "comparison_option_variant": "OPTION_VARIANT_V1_0"
   },
   "score_scale": [0, 25, 50, 75, 100],

@@ -1,8 +1,8 @@
 {
-  "majorName": "문예창작과",
-  "standardMajorName": "문예창작과",
+  "majorName": "문예창작학과",
+  "standardMajorName": "문예창작학과",
   "category": "인문계열",
-  "description": "문예창작과는 문예창작과 관련된 핵심 개념과 방법을 배우고, 이를 실제 사례와 문제 해결에 적용하는 전공이다. 주요 학습 내용은 문학 개론, 문학과 언어, 번역과 모국어 등이며, 학생은 전공 지식을 개념 이해에 그치지 않고 분석, 실습, 사례 해석으로 연결한다. 전공 탐색 과정에서는 문예 창작 관련 공모전, 습작 활동 등의 활동을 통해 자료를 다루고 현장 감각을 넓힐 수 있다. 의사소통, 자기관리, 협업윤리를 기르는 태도가 중요하며, 언어, 역사, 문화, 인간의 생각을 깊이 읽고 해석하고 싶은 학생에게 잘 맞을 수 있다.",
+  "description": "문예창작학과는 문예창작과 관련된 핵심 개념과 방법을 배우고, 이를 실제 사례와 문제 해결에 적용하는 전공이다. 주요 학습 내용은 문학 개론, 문학과 언어, 번역과 모국어 등이며, 학생은 전공 지식을 개념 이해에 그치지 않고 분석, 실습, 사례 해석으로 연결한다. 전공 탐색 과정에서는 문예 창작 관련 공모전, 습작 활동 등의 활동을 통해 자료를 다루고 현장 감각을 넓힐 수 있다. 의사소통, 자기관리, 협업윤리를 기르는 태도가 중요하며, 언어, 역사, 문화, 인간의 생각을 깊이 읽고 해석하고 싶은 학생에게 잘 맞을 수 있다.",
   "descriptionSources": [
     {
       "sourceName": "커리어넷 대학교 학과정보",
@@ -132,23 +132,23 @@
   "relatedOccupations": [
     {
       "occupationName": "극작가",
-      "relatedMajor": "문예창작과",
+      "relatedMajor": "문예창작학과",
       "excelRowNumber": 23
     },
     {
       "occupationName": "소설가",
-      "relatedMajor": "문예창작과",
+      "relatedMajor": "문예창작학과",
       "excelRowNumber": 24
     },
     {
       "occupationName": "시인",
-      "relatedMajor": "문예창작과",
+      "relatedMajor": "문예창작학과",
       "excelRowNumber": 25
     }
   ],
   "occupationDatasetRecommended": true,
   "dbSeed": {
-    "major_name": "문예창작과",
+    "major_name": "문예창작학과",
     "category": "인문계열",
     "req_math_logical": 5,
     "req_problem_solving": 13,
@@ -187,5 +187,8 @@
     "createdAt": "2026-06-04",
     "lastUpdated": "2026-06-04",
     "dataType": "service_ready_quantitative_excel_only"
-  }
+  },
+  "majorNameAliases": [
+    "문예창작과"
+  ]
 }
