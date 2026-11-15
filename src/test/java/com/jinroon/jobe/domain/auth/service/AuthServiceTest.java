@@ -440,6 +440,24 @@ class AuthServiceTest {
     }
 
     @Test
+    void issuePasswordResetAnswersSameWhenMailFails() {
+        // 메일 장애 때 가입된 이메일만 500이 나면 가입 여부가 드러난다.
+        when(userRepository.findByEmail(EMAIL)).thenReturn(Optional.of(activeUser(1L)));
+        when(userRepository.findByIdForUpdate(1L)).thenReturn(Optional.of(activeUser(1L)));
+        when(passwordResetTokenRepository.existsByToken(anyString())).thenReturn(false);
+        when(passwordResetTokenRepository.save(any(PasswordResetToken.class)))
+                .thenAnswer(invocation -> invocation.getArgument(0));
+        org.mockito.Mockito.doThrow(new IllegalStateException("smtp down"))
+                .when(mailService).sendPasswordReset(anyString(), anyString());
+
+        var response = service.issuePasswordReset(new PasswordResetIssueRequest(EMAIL));
+
+        assertThat(response.email()).isEqualTo(EMAIL);
+        assertThat(response.expiresAt()).isAfter(LocalDateTime.now().plusMinutes(29));
+        verify(passwordResetTokenRepository).save(any(PasswordResetToken.class));
+    }
+
+    @Test
     void issuePasswordResetDoesNotRecreateTokenWhenAccountWasDeletedAfterLookup() {
         when(userRepository.findByEmail(EMAIL)).thenReturn(Optional.of(activeUser(1L)));
         when(userRepository.findByIdForUpdate(1L)).thenReturn(Optional.empty());
