@@ -206,28 +206,92 @@ class Section32IntegrationTest {
     }
 
     @Test
-    void majorPublicResponseHasNoLegacyScoringFields() throws Exception {
-        Major major=major("public");
-        mvc.perform(get("/api/majors/"+major.getId())).andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("public"))
-                .andExpect(jsonPath("$.reqMathLogic").doesNotExist())
-                .andExpect(jsonPath("$.tendLogicalInquiry").doesNotExist())
-                .andExpect(jsonPath("$.thrMathLogic").doesNotExist());
+    void legacyMajorDetailAndListExposeActualCatalogValuesWithoutInternalMetadata() throws Exception {
+        var values=legacyMajorValues("public");
+        Major major=majors.saveAndFlush(EntityFormMapper.create(Major.class,values));
+        var detail=mvc.perform(get("/api/majors/"+major.getId())).andExpect(status().isOk());
+        var mapper=new com.fasterxml.jackson.databind.ObjectMapper();
+        var body=mapper.readTree(detail.andReturn().getResponse().getContentAsString());
+        var list=mapper.readTree(mvc.perform(get("/api/majors")).andExpect(status().isOk()).andReturn().getResponse().getContentAsString());
+        com.fasterxml.jackson.databind.JsonNode listed=null;
+        for(var row:list)if(row.path("id").asLong()==major.getId())listed=row;
+        assertThat(listed).isNotNull();
+        for(var entry:values.entrySet())if(entry.getValue() instanceof Number number) {
+            assertThat(body.path(entry.getKey()).doubleValue()).as(entry.getKey()).isEqualTo(number.doubleValue());
+            assertThat(listed.path(entry.getKey()).doubleValue()).as(entry.getKey()).isEqualTo(number.doubleValue());
+        }
+        detail.andExpect(jsonPath("$.createdAt").doesNotExist()).andExpect(jsonPath("$.majorCode").doesNotExist())
+                .andExpect(jsonPath("$.contentStatus").doesNotExist());
     }
 
     @Test
-    void administratorCanOnlyPatchMajorDescriptionAndCareer() throws Exception {
-        User admin=user(UserRole.admin);
-        Major major=major("immutable-name");
+    void administratorCanPatchLegacyFormAndUnknownExplorationFieldsAreRejected() throws Exception {
+        User admin=user(UserRole.admin);Major major=major("old-name");
+        var mapper=new com.fasterxml.jackson.databind.ObjectMapper();var values=legacyMajorValues("new-name");
+        var response=mvc.perform(patch("/api/majors/"+major.getId()).header("Authorization",token(admin))
+                .contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(values)))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.name").value("new-name"));
+        var body=mapper.readTree(response.andReturn().getResponse().getContentAsString());
+        for(var entry:values.entrySet())if(entry.getValue() instanceof Number number)
+            assertThat(body.path(entry.getKey()).doubleValue()).as(entry.getKey()).isEqualTo(number.doubleValue());
         mvc.perform(patch("/api/admin/majors/"+major.getId()).header("Authorization",token(admin))
-                .contentType(MediaType.APPLICATION_JSON).content("{\"description\":\"updated\",\"careerPaths\":\"jobs\"}"))
-                .andExpect(status().isOk()).andExpect(jsonPath("$.description").value("updated"));
-        for (String field:new String[]{"name","reqMathLogic","majorCode","contentStatus"}) {
+                .contentType(MediaType.APPLICATION_JSON).content("{\"description\":\"updated\",\"reqMathLogic\":0}"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.reqMathLogic").value(0))
+                .andExpect(jsonPath("$.reqProblemSolving").value(values.get("reqProblemSolving")));
+        for(String field:new String[]{"majorCode","contentStatus","rulesetVersion","interestAxes","id","userId","createdAt"}) {
             mvc.perform(patch("/api/admin/majors/"+major.getId()).header("Authorization",token(admin))
                     .contentType(MediaType.APPLICATION_JSON).content("{\""+field+"\":\"forbidden\"}"))
                     .andExpect(status().isBadRequest());
         }
-        assertThat(majors.findById(major.getId()).orElseThrow().getName()).isEqualTo("immutable-name");
+    }
+
+    @Test
+    void administratorCanCreateUsingExistingFullLegacyFormAndMembersCannotWrite() throws Exception {
+        User admin=user(UserRole.admin),member=user(UserRole.member);var mapper=new com.fasterxml.jackson.databind.ObjectMapper();
+        var values=legacyMajorValues("created");
+        mvc.perform(post("/api/majors").header("Authorization",token(admin)).contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(values))).andExpect(status().isCreated())
+                .andExpect(jsonPath("$.reqMathLogic").value(values.get("reqMathLogic")))
+                .andExpect(jsonPath("$.thrInfoTech").value(values.get("thrInfoTech")));
+        Major major=major("protected");
+        for(String path:new String[]{"/api/majors/","/api/admin/majors/"})
+            mvc.perform(patch(path+major.getId()).header("Authorization",token(member)).contentType(MediaType.APPLICATION_JSON)
+                    .content(mapper.writeValueAsString(values))).andExpect(status().isForbidden());
+    }
+
+    @Test
+    void outOfRangeLegacyScoresAreRejectedWithoutPartialWrite() throws Exception {
+        User admin=user(UserRole.admin);Major major=major("unchanged");var mapper=new com.fasterxml.jackson.databind.ObjectMapper();
+        for(String field:legacyScoreFields())for(double value:new double[]{-1,101}) {
+            var values=new java.util.LinkedHashMap<String,Object>();values.put("description","must not be saved");values.put(field,value);
+            mvc.perform(patch("/api/majors/"+major.getId()).header("Authorization",token(admin)).contentType(MediaType.APPLICATION_JSON)
+                    .content(mapper.writeValueAsString(values))).andExpect(status().isBadRequest());
+        }
+        assertThat(majors.findById(major.getId()).orElseThrow().getDescription()).isNull();
+    }
+
+    @Test
+    void boundMajorAllowsLegacyScoresButCannotRenameOrMutateCanonicalProfile() throws Exception {
+        loader.load(Path.of("datasets/exploration"));User admin=user(UserRole.admin);Major major=major("문예창작학과");
+        binding.bind("MAJOR_MAPPING_V1_2_IMPLEMENTATION_CANDIDATE","MAJOR_ROW_6",major.getId());
+        String before=jdbc.queryForObject("SELECT mapping_json FROM exploration_major_mapping WHERE major_id=?",String.class,major.getId());
+        mvc.perform(patch("/api/majors/"+major.getId()).header("Authorization",token(admin)).contentType(MediaType.APPLICATION_JSON)
+                .content(new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(legacyMajorValues("문예창작학과"))))
+                .andExpect(status().isOk());
+        mvc.perform(patch("/api/majors/"+major.getId()).header("Authorization",token(admin)).contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"changed\",\"description\":\"not saved\"}"))
+                .andExpect(status().isConflict()).andExpect(jsonPath("$.code").value("MAJOR_RENAME_REQUIRES_MAPPING_UPDATE"));
+        assertThat(majors.findById(major.getId()).orElseThrow().getName()).isEqualTo("문예창작학과");
+        assertThat(jdbc.queryForObject("SELECT mapping_json FROM exploration_major_mapping WHERE major_id=?",String.class,major.getId())).isEqualTo(before);
+    }
+
+    private static java.util.List<String> legacyScoreFields() {
+        return java.util.List.of("reqMathLogic", "reqProblemSolving", "reqInfoTech", "reqImplementation", "reqSystemUnderstanding", "reqDataAnalysis", "reqCommunication", "reqCollaboration", "reqSelfManagement", "tendLogicalInquiry", "tendPracticalTech", "tendArtCreative", "tendSocialCooperation", "tendLifeHealth", "tendEducationGuide", "tendTheoryAcademic", "tendDataAnalytics", "tendSystemOperation", "thrMathLogic", "thrInfoTech");
+    }
+    private static Map<String,Object> legacyMajorValues(String name) {
+        Map<String,Object> values=new java.util.LinkedHashMap<>(Map.of("name",name,"category","인문계열","difficulty","high","description","actual description","careerPaths","actual careers"));
+        int index=0;for(String field:legacyScoreFields())values.put(field,Float.valueOf(3+4*index++));
+        return values;
     }
 
     @Test

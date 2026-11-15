@@ -1,7 +1,7 @@
 package com.jinroon.jobe.domain.major.controller.api;
 
 import com.jinroon.jobe.domain.major.dto.response.MajorResponse;
-import com.jinroon.jobe.domain.major.dto.request.MajorDescriptionRequest;
+import com.jinroon.jobe.domain.major.dto.request.MajorUpdateRequest;
 import com.jinroon.jobe.domain.major.dto.request.MajorRequest;
 import com.jinroon.jobe.global.exception.error.ErrorDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -60,7 +60,7 @@ public interface MajorApi {
             @Valid @RequestBody MajorRequest request
     );
 
-    @Operation(summary = "전공 수정", description = "전공 ID와 변경할 필드값으로 전공 정보를 수정합니다.")
+    @Operation(summary = "전공 수정", description = "관리자 전용 레거시 전공 수정. 전공 매핑에 연결된 이름 변경은 409로 거부하며 신규 탐색 프로필·버전·승인 상태는 별도 API에서 관리합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "수정 성공",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = MajorResponse.class))),
@@ -74,9 +74,9 @@ public interface MajorApi {
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "수정할 필드값",
                     required = true,
-                    content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.major.dto.request.MajorDescriptionRequest.class))
+                    content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.major.dto.request.MajorUpdateRequest.class))
             )
-            @Valid @RequestBody MajorDescriptionRequest request
+            @Valid @RequestBody MajorUpdateRequest request
     );
 
     @Operation(summary = "전공 삭제", description = "전공 ID로 전공을 삭제합니다.")
