@@ -1,6 +1,7 @@
 package com.jinroon.jobe.domain.major.controller.api;
 
-import com.jinroon.jobe.domain.major.entity.Major;
+import com.jinroon.jobe.domain.major.dto.response.MajorResponse;
+import com.jinroon.jobe.domain.major.dto.request.MajorDescriptionRequest;
 import com.jinroon.jobe.domain.major.dto.request.MajorRequest;
 import com.jinroon.jobe.global.exception.error.ErrorDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,9 +26,9 @@ public interface MajorApi {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "조회 성공",
                     content = @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = Major.class))))
+                            array = @ArraySchema(schema = @Schema(implementation = MajorResponse.class))))
     })
-    List<Major> findMajors(
+    List<MajorResponse> findMajors(
             @Parameter(description = "카테고리 필터 (예: IT, 의학)") @RequestParam(required = false) String category,
             @Parameter(description = "전공명 키워드 검색") @RequestParam(required = false) String keyword
     );
@@ -35,22 +36,22 @@ public interface MajorApi {
     @Operation(summary = "전공 단건 조회", description = "전공 ID로 특정 전공 정보를 조회합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "조회 성공",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Major.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = MajorResponse.class))),
             @ApiResponse(responseCode = "404", description = "전공을 찾을 수 없음",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
-    Major getMajor(
+    MajorResponse getMajor(
             @Parameter(description = "전공 ID") @PathVariable Long majorId
     );
 
     @Operation(summary = "전공 생성", description = "새로운 전공을 등록합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "생성 성공",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Major.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = MajorResponse.class))),
             @ApiResponse(responseCode = "400", description = "입력값 오류",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
-    Major createMajor(
+    MajorResponse createMajor(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "전공 생성 정보",
                     required = true,
@@ -62,20 +63,20 @@ public interface MajorApi {
     @Operation(summary = "전공 수정", description = "전공 ID와 변경할 필드값으로 전공 정보를 수정합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "수정 성공",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Major.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = MajorResponse.class))),
             @ApiResponse(responseCode = "400", description = "입력값 오류",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class))),
             @ApiResponse(responseCode = "404", description = "전공을 찾을 수 없음",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
-    Major updateMajor(
+    MajorResponse updateMajor(
             @Parameter(description = "전공 ID") @PathVariable Long majorId,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "수정할 필드값",
                     required = true,
-                    content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.major.dto.request.MajorRequest.class))
+                    content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.major.dto.request.MajorDescriptionRequest.class))
             )
-            @Valid @RequestBody MajorRequest request
+            @Valid @RequestBody MajorDescriptionRequest request
     );
 
     @Operation(summary = "전공 삭제", description = "전공 ID로 전공을 삭제합니다.")

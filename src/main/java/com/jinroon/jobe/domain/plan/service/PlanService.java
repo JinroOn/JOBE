@@ -52,6 +52,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PlanService {
 
+
     private final MajorWeeklyPlanRepository planRepository;
     private final MajorWeeklyPlanItemRepository planItemRepository;
     private final MajorWeeklyPlanRiskNoteRepository riskNoteRepository;
@@ -64,6 +65,7 @@ public class PlanService {
     private final AiServiceClient aiServiceClient;
     private final ObjectMapper objectMapper;
     private final MajorDatasetContextService majorDatasetContextService;
+    private final com.jinroon.jobe.domain.user.service.UserWriteGuard writeGuard;
 
     public MajorWeeklyPlan getPlan(Long planId) {
         return get(planRepository, planId, ErrorCode.PLAN_NOT_FOUND);
@@ -150,6 +152,7 @@ public class PlanService {
      * 버전·활성 여부·개요 등은 서버가 정하므로 요청에서 두 ID 외의 값은 쓰지 않는다.
      */
     public MajorWeeklyPlan createPlanForUser(Map<String, Object> values, Long userId) {
+        writeGuard.requireActive(userId);
         Long resultId = requiredLong(values, "diagnosisResultId");
         Long resultMajorScoreId = requiredLong(values, "resultMajorScoreId");
         requireResultOwner(resultId, userId);
@@ -186,6 +189,7 @@ public class PlanService {
      * 결과·전공 점수 연결, 버전, 활성 여부, AI 생성 상태는 서버가 관리한다.
      */
     public MajorWeeklyPlan updatePlanForUser(Long planId, Map<String, Object> values, Long userId) {
+        writeGuard.requireActive(userId);
         MajorWeeklyPlan plan = getPlanForUser(planId, userId);
         Object overview = values.get("overview");
         if (overview instanceof String text) {
@@ -201,6 +205,7 @@ public class PlanService {
 
     @Transactional
     public MajorWeeklyPlanItem createItemForUser(Map<String, Object> values, Long userId) {
+        writeGuard.requireActive(userId);
         Long planId = ((Number) values.get("weeklyPlanId")).longValue();
         getPlanForUser(planId, userId);
         return createItem(values);
@@ -213,6 +218,7 @@ public class PlanService {
 
     @Transactional
     public MajorWeeklyPlanRiskNote createRiskNoteForUser(Map<String, Object> values, Long userId) {
+        writeGuard.requireActive(userId);
         Long planId = ((Number) values.get("weeklyPlanId")).longValue();
         getPlanForUser(planId, userId);
         return createRiskNote(values);
@@ -226,6 +232,7 @@ public class PlanService {
 
     @Transactional
     public void completeItemForUser(Long itemId, Long userId) {
+        writeGuard.requireActive(userId);
         MajorWeeklyPlanItem item = get(planItemRepository, itemId, ErrorCode.PLAN_ITEM_NOT_FOUND);
         getPlanForUser(item.getWeeklyPlanId(), userId);
         item.complete();
@@ -234,7 +241,7 @@ public class PlanService {
     private void requireResultOwner(Long resultId, Long userId) {
         DiagnosisResult result = get(diagnosisResultRepository, resultId, ErrorCode.RESULT_NOT_FOUND);
         if (!Objects.equals(result.getUserId(), userId)) {
-            throw new CustomException(ErrorCode.FORBIDDEN);
+            throw new CustomException(ErrorCode.RESULT_NOT_FOUND);
         }
     }
 

@@ -57,6 +57,14 @@ public class UserController implements UserApi {
                 .toList();
     }
 
+    @GetMapping("/me/consents/latest")
+    public UserConsentResponse latestConsent(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        return userService.findConsents(userDetails.getUserId()).stream().findFirst()
+                .map(UserConsentResponse::from)
+                .orElseThrow(() -> new com.jinroon.jobe.global.exception.CustomException(
+                        com.jinroon.jobe.global.exception.error.ErrorCode.NOT_FOUND));
+    }
+
     @Override
     @GetMapping("/me/favorites")
     public List<UserFavoriteResponse> findFavorites(@AuthenticationPrincipal CustomUserDetails userDetails) {

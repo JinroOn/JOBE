@@ -97,7 +97,8 @@ class DiagnosisServiceTendencyResultTest {
                 majorWeeklyPlanRiskNoteRepository,
                 consultationSessionRepository,
                 consultationLogRepository,
-                new TendencyScoringService(new ObjectMapper())
+                new TendencyScoringService(new ObjectMapper()),
+                org.mockito.Mockito.mock(com.jinroon.jobe.domain.user.service.UserWriteGuard.class)
         );
     }
 
@@ -147,7 +148,7 @@ class DiagnosisServiceTendencyResultTest {
         assertThatThrownBy(() -> diagnosisService.createTendencyResultForUser(tendencyValues(10L, 80.0f), 99L))
                 .isInstanceOf(CustomException.class)
                 .extracting("errorCode")
-                .isEqualTo(ErrorCode.FORBIDDEN);
+                .isEqualTo(ErrorCode.DIAGNOSIS_SESSION_NOT_FOUND);
 
         verify(tendencyEvalResultRepository, never()).findByDiagnosisSessionId(any());
         verify(tendencyEvalResultRepository, never()).save(any());

@@ -39,6 +39,9 @@ public class SecurityConfig {
     @Value("${app.cors.allowed-origins}")
     private List<String> allowedOrigins;
 
+    @Value("${exploration.enabled:false}")
+    private boolean explorationEnabled;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
@@ -47,6 +50,7 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/admin/**").hasRole("admin")
                         .requestMatchers(HttpMethod.POST,
                                 "/api/auth/signup",
                                 "/api/auth/login",
@@ -74,10 +78,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/notices").hasRole("admin")
                         .requestMatchers(HttpMethod.PATCH, "/api/notices/**").hasRole("admin")
                         .requestMatchers(HttpMethod.DELETE, "/api/notices/**").hasRole("admin")
-                        .requestMatchers("/api/notices", "/api/notices/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JwtFilter(jwtProvider, customUserDetailsService), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new com.jinroon.jobe.global.security.ExplorationAvailabilityFilter(explorationEnabled, objectMapper), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint((request, response, authException) -> {
                             response.setContentType("application/json;charset=UTF-8");

@@ -91,7 +91,8 @@ class ConsultationServiceTest {
                 planRepository,
                 planItemRepository,
                 diagnosisProfileScoringService,
-                aiServiceClient
+                aiServiceClient,
+                org.mockito.Mockito.mock(com.jinroon.jobe.domain.user.service.UserWriteGuard.class)
         );
     }
 
@@ -147,7 +148,7 @@ class ConsultationServiceTest {
         ))
                 .isInstanceOf(CustomException.class)
                 .extracting("errorCode")
-                .isEqualTo(ErrorCode.FORBIDDEN);
+                .isEqualTo(ErrorCode.CONSULTATION_SESSION_NOT_FOUND);
 
         verify(logRepository, never()).save(any());
         verify(aiServiceClient, never()).getConsultationChat(any());

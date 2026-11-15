@@ -222,7 +222,7 @@ class DiagnosisResultAccessTest {
         DiagnosisSession session = saveSession(owner);
 
         mockMvc.perform(get("/api/diagnoses/sessions/" + session.getId()).header("Authorization", bearer(other)))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -233,7 +233,7 @@ class DiagnosisResultAccessTest {
 
         mockMvc.perform(post("/api/diagnoses/sessions/" + session.getId() + "/score")
                         .header("Authorization", bearer(other)))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isNotFound());
     }
 
     // ---- 결과 ----
@@ -245,9 +245,9 @@ class DiagnosisResultAccessTest {
         DiagnosisResult result = saveResult(owner);
 
         mockMvc.perform(get("/api/results/" + result.getId()).header("Authorization", bearer(other)))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isNotFound());
         mockMvc.perform(get("/api/results/" + result.getId() + "/major-scores").header("Authorization", bearer(other)))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -356,7 +356,7 @@ class DiagnosisResultAccessTest {
                         .header("Authorization", bearer(other))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"diagnosisResultId\":" + result.getId() + ",\"resultMajorScoreId\":1}"))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -366,7 +366,7 @@ class DiagnosisResultAccessTest {
         DiagnosisResult result = saveResult(owner);
 
         mockMvc.perform(get("/api/plans/results/" + result.getId()).header("Authorization", bearer(other)))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isNotFound());
     }
 
     // ---- helpers ----

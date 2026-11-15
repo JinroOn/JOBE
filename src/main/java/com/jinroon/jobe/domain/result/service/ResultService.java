@@ -60,6 +60,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ResultService {
+
     private static final int AI_COMMENT_TARGET_MAJOR_LIMIT = 1;
     private static final Charset WINDOWS_1252 = Charset.forName("windows-1252");
 
@@ -76,6 +77,7 @@ public class ResultService {
     private final ObjectMapper objectMapper;
     private final PlanService planService;
     private final TendencyScoringService tendencyScoringService;
+    private final com.jinroon.jobe.domain.user.service.UserWriteGuard writeGuard;
 
     public List<DiagnosisResult> findResults(Long userId) {
         return userId == null ? diagnosisResultRepository.findAll() : diagnosisResultRepository.findByUserId(userId);
@@ -126,6 +128,7 @@ public class ResultService {
 
     @Transactional
     public DiagnosisResult completeDiagnosisResultForUser(Long sessionId, Long userId) {
+        writeGuard.requireActive(userId);
         DiagnosisSession session = get(diagnosisSessionRepository, sessionId, ErrorCode.DIAGNOSIS_SESSION_NOT_FOUND);
         requireOwner(session.getUserId(), userId);
 
@@ -135,7 +138,7 @@ public class ResultService {
                 .orElseThrow(() -> new CustomException(ErrorCode.DIAGNOSIS_TENDENCY_RESULT_NOT_FOUND));
         recomputeTendencyFromAnswers(session, tendency);
 
-        List<Major> majors = majorRepository.findAll();
+        List<Major> majors = majorRepository.findAllForReference();
         List<MajorScoreDraft> drafts = majors.stream()
                 .map(major -> scoreMajor(session, competency, tendency, major))
                 .sorted(ResultService::compareMajorScoreDrafts)
@@ -185,11 +188,13 @@ public class ResultService {
 
     @Transactional
     public DiagnosisResult generateAiCommentForUser(Long resultId, Long userId) {
+        writeGuard.requireActive(userId);
         return generateAiCommentForUser(resultId, userId, false);
     }
 
     @Transactional
     public DiagnosisResult generateAiCommentForUser(Long resultId, Long userId, boolean force) {
+        writeGuard.requireActive(userId);
         DiagnosisResult result = getResultForUser(resultId, userId);
         return applyAiRecommendation(result, force);
     }
@@ -230,7 +235,7 @@ public class ResultService {
 
     private static void requireOwner(Long ownerId, Long userId) {
         if (!Objects.equals(ownerId, userId)) {
-            throw new CustomException(ErrorCode.FORBIDDEN);
+            throw new CustomException(ErrorCode.RESULT_NOT_FOUND);
         }
     }
 

@@ -8,6 +8,7 @@ public record UserConsentResponse(
         Long userId,
         Boolean privacyAgreed,
         Boolean termsAgreed,
+        Boolean marketingAgreed,
         String termsVersion,
         LocalDateTime agreedAt
 ) {
@@ -17,6 +18,7 @@ public record UserConsentResponse(
                 consent.getUserId(),
                 consent.getPrivacyAgreed(),
                 consent.getTermsAgreed(),
+                consent.getMarketingAgreed(),
                 consent.getTermsVersion(),
                 consent.getAgreedAt()
         );

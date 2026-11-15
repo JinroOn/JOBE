@@ -68,14 +68,16 @@ class UserServiceTest {
                 userFavoriteRepository,
                 sessionRepository,
                 emailVerificationRepository,
-                majorRepository
+                majorRepository,
+                org.mockito.Mockito.mock(com.jinroon.jobe.domain.user.service.UserWriteGuard.class),
+                org.mockito.Mockito.mock(com.jinroon.jobe.domain.user.service.AccountDeletionService.class)
         );
     }
 
     @Test
     void createFavoriteSavesUserAndMajor() {
         when(userRepository.findById(7L)).thenReturn(Optional.of(user(7L, "a@example.com")));
-        when(majorRepository.findById(3L)).thenReturn(Optional.of(newEntity(Major.class)));
+        when(majorRepository.findByIdForReference(3L)).thenReturn(Optional.of(newEntity(Major.class)));
         when(userFavoriteRepository.existsByUserIdAndMajorId(7L, 3L)).thenReturn(false);
         when(userFavoriteRepository.saveAndFlush(any(UserFavorite.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
@@ -88,7 +90,7 @@ class UserServiceTest {
     @Test
     void createFavoriteRejectsDuplicate() {
         when(userRepository.findById(7L)).thenReturn(Optional.of(user(7L, "a@example.com")));
-        when(majorRepository.findById(3L)).thenReturn(Optional.of(newEntity(Major.class)));
+        when(majorRepository.findByIdForReference(3L)).thenReturn(Optional.of(newEntity(Major.class)));
         when(userFavoriteRepository.existsByUserIdAndMajorId(7L, 3L)).thenReturn(true);
 
         assertErrorCode(() -> service.createFavorite(7L, 3L), ErrorCode.MAJOR_FAVORITE_DUPLICATE);
@@ -98,7 +100,7 @@ class UserServiceTest {
     @Test
     void createFavoriteRejectsUnknownMajor() {
         when(userRepository.findById(7L)).thenReturn(Optional.of(user(7L, "a@example.com")));
-        when(majorRepository.findById(3L)).thenReturn(Optional.empty());
+        when(majorRepository.findByIdForReference(3L)).thenReturn(Optional.empty());
 
         assertErrorCode(() -> service.createFavorite(7L, 3L), ErrorCode.MAJOR_NOT_FOUND);
         verify(userFavoriteRepository, never()).saveAndFlush(any());
@@ -107,7 +109,7 @@ class UserServiceTest {
     @Test
     void createFavoriteConvertsConcurrentUniqueViolationToDuplicate() {
         when(userRepository.findById(7L)).thenReturn(Optional.of(user(7L, "a@example.com")));
-        when(majorRepository.findById(3L)).thenReturn(Optional.of(newEntity(Major.class)));
+        when(majorRepository.findByIdForReference(3L)).thenReturn(Optional.of(newEntity(Major.class)));
         when(userFavoriteRepository.existsByUserIdAndMajorId(7L, 3L)).thenReturn(false);
         when(userFavoriteRepository.saveAndFlush(any(UserFavorite.class)))
                 .thenThrow(new DataIntegrityViolationException("uk_user_favorites_user_major"));
@@ -211,7 +213,7 @@ class UserServiceTest {
     void deleteFavoriteForUserRejectsOtherUsersFavorite() {
         when(userFavoriteRepository.findById(10L)).thenReturn(Optional.of(favorite(10L, 8L, 3L)));
 
-        assertErrorCode(() -> service.deleteFavoriteForUser(10L, 7L), ErrorCode.FORBIDDEN);
+        assertErrorCode(() -> service.deleteFavoriteForUser(10L, 7L), ErrorCode.MAJOR_FAVORITE_NOT_FOUND);
         verify(userFavoriteRepository, never()).delete(any());
     }
 
@@ -229,7 +231,7 @@ class UserServiceTest {
         when(emailVerificationRepository.findById(5L)).thenReturn(Optional.of(verification));
         when(userRepository.findById(7L)).thenReturn(Optional.of(user(7L, "a@example.com")));
 
-        assertErrorCode(() -> service.getEmailVerificationForUser(5L, 7L), ErrorCode.FORBIDDEN);
+        assertErrorCode(() -> service.getEmailVerificationForUser(5L, 7L), ErrorCode.AUTH_EMAIL_VERIFICATION_NOT_FOUND);
     }
 
     @Test

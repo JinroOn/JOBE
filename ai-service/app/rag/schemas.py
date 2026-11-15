@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 MatchedBy = Literal["exact", "alias", "vector", "fallback", "none"]
@@ -23,6 +23,15 @@ class RetrievalRequest(BaseModel):
     maxSnippetChars: int = Field(default=1600, ge=200, le=3000)
     logRetrieval: bool = False
     enableVectorSearch: bool = True
+    approvedOnly: bool = False
+
+    @model_validator(mode="after")
+    def approved_evidence_requires_fixed_version(self):
+        if self.approvedOnly and (self.datasetVersion is None or not self.datasetVersion.strip()):
+            raise ValueError("Approved evidence requires a fixed datasetVersion")
+        if self.approvedOnly and (self.weaknessFocus or self.competencyProfile):
+            raise ValueError("Exploration evidence must not use legacy weakness/competency inputs")
+        return self
 
 
 class RagSnippet(BaseModel):

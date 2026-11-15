@@ -31,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class DiagnosisService {
 
+
     private final DiagnosisSessionRepository diagnosisSessionRepository;
     private final ExamQuestionRepository examQuestionRepository;
     private final DiagnosisExamAnswerRepository examAnswerRepository;
@@ -45,6 +46,7 @@ public class DiagnosisService {
     private final ConsultationSessionRepository consultationSessionRepository;
     private final ConsultationLogRepository consultationLogRepository;
     private final TendencyScoringService tendencyScoringService;
+    private final com.jinroon.jobe.domain.user.service.UserWriteGuard writeGuard;
 
     public DiagnosisSession getSession(Long sessionId) {
         return get(diagnosisSessionRepository, sessionId, ErrorCode.DIAGNOSIS_SESSION_NOT_FOUND);
@@ -72,6 +74,7 @@ public class DiagnosisService {
 
     @Transactional
     public void deleteSessionForUser(Long sessionId, Long userId) {
+        writeGuard.requireActive(userId);
         getSessionForUser(sessionId, userId);
 
         // diagnosis_results 하위 전체 cascade 삭제
@@ -158,6 +161,7 @@ public class DiagnosisService {
      */
     @Transactional
     public DiagnosisSession createSessionForUser(DiagnosisSessionRequest request, Long userId) {
+        writeGuard.requireActive(userId);
         DiagnosisStatus status = parseStatus(request.getStatus());
         if (status != null && status != DiagnosisStatus.in_progress) {
             throw new CustomException(ErrorCode.INVALID_INPUT);
@@ -172,6 +176,7 @@ public class DiagnosisService {
      */
     @Transactional
     public DiagnosisSession updateSessionForUser(Long sessionId, DiagnosisSessionRequest request, Long userId) {
+        writeGuard.requireActive(userId);
         DiagnosisSession session = getSessionForUser(sessionId, userId);
         if (session.isCompleted()) {
             throw new CustomException(ErrorCode.DIAGNOSIS_SESSION_ALREADY_COMPLETED);
@@ -209,6 +214,7 @@ public class DiagnosisService {
 
     @Transactional
     public DiagnosisExamAnswer createExamAnswerForUser(Map<String, Object> values, Long userId) {
+        writeGuard.requireActive(userId);
         Long sessionId = ((Number) values.get("diagnosisSessionId")).longValue();
         Long questionId = ((Number) values.get("examQuestionId")).longValue();
         getSessionForUser(sessionId, userId);
@@ -245,6 +251,7 @@ public class DiagnosisService {
 
     @Transactional
     public DiagnosisEssayAnswer createEssayAnswerForUser(Map<String, Object> values, Long userId) {
+        writeGuard.requireActive(userId);
         Long sessionId = ((Number) values.get("diagnosisSessionId")).longValue();
         getSessionForUser(sessionId, userId);
         return createEssayAnswer(values);
@@ -310,7 +317,7 @@ public class DiagnosisService {
 
     private static void requireOwner(Long ownerId, Long userId) {
         if (!Objects.equals(ownerId, userId)) {
-            throw new CustomException(ErrorCode.FORBIDDEN);
+            throw new CustomException(ErrorCode.DIAGNOSIS_SESSION_NOT_FOUND);
         }
     }
 

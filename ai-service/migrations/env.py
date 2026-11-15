@@ -15,6 +15,7 @@ if str(ROOT) not in sys.path:
 load_dotenv(dotenv_path=ROOT / ".env")
 
 from app.db import get_ai_database_settings  # noqa: E402
+from app.rag.approval import AiEvidenceReview  # register review metadata
 from app.rag.models import Base  # noqa: E402
 
 config = context.config

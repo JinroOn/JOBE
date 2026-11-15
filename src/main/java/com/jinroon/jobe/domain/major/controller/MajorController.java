@@ -2,7 +2,8 @@ package com.jinroon.jobe.domain.major.controller;
 
 import com.jinroon.jobe.domain.major.controller.api.MajorApi;
 import com.jinroon.jobe.domain.major.dto.request.MajorRequest;
-import com.jinroon.jobe.domain.major.entity.Major;
+import com.jinroon.jobe.domain.major.dto.response.MajorResponse;
+import com.jinroon.jobe.domain.major.dto.request.MajorDescriptionRequest;
 import com.jinroon.jobe.domain.major.service.MajorService;
 import com.jinroon.jobe.global.common.dto.RequestMapMapper;
 import jakarta.validation.Valid;
@@ -22,37 +23,37 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/majors")
+@RequestMapping({"/api/majors", "/api/admin/majors"})
 public class MajorController implements MajorApi {
 
     private final MajorService majorService;
 
     @Override
     @GetMapping
-    public List<Major> findMajors(
+    public List<MajorResponse> findMajors(
             @RequestParam(required = false) String category,
             @RequestParam(required = false) String keyword
     ) {
-        return majorService.findMajors(category, keyword);
+        return majorService.findMajors(category, keyword).stream().map(MajorResponse::from).toList();
     }
 
     @Override
     @GetMapping("/{majorId}")
-    public Major getMajor(@PathVariable Long majorId) {
-        return majorService.getMajor(majorId);
+    public MajorResponse getMajor(@PathVariable Long majorId) {
+        return MajorResponse.from(majorService.getMajor(majorId));
     }
 
     @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Major createMajor(@Valid @RequestBody MajorRequest request) {
-        return majorService.createMajor(RequestMapMapper.toMap(request));
+    public MajorResponse createMajor(@Valid @RequestBody MajorRequest request) {
+        return MajorResponse.from(majorService.createMajor(RequestMapMapper.toMap(request)));
     }
 
     @Override
     @PatchMapping("/{majorId}")
-    public Major updateMajor(@PathVariable Long majorId, @Valid @RequestBody MajorRequest request) {
-        return majorService.updateMajor(majorId, RequestMapMapper.toMap(request));
+    public MajorResponse updateMajor(@PathVariable Long majorId, @Valid @RequestBody MajorDescriptionRequest request) {
+        return MajorResponse.from(majorService.updateMajor(majorId, RequestMapMapper.toMap(request)));
     }
 
     @Override

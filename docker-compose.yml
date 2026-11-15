@@ -8,8 +8,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: jobe
-    ports:
-      - "3307:3306"
+    expose:
+      - "3306"
     volumes:
       - mysql-data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -27,8 +27,8 @@ services:
       POSTGRES_DB: jobe_ai
       POSTGRES_USER: jobe_ai
       POSTGRES_PASSWORD: root
-    ports:
-      - "5433:5432"
+    expose:
+      - "5432"
     volumes:
       - ai-postgres-data:/var/lib/postgresql/data
     healthcheck:
@@ -63,8 +63,8 @@ services:
       AI_RAG_AUTO_INGEST_DATASET_ROOT: /datasets
     volumes:
       - ./datasets:/datasets:ro
-    ports:
-      - "8001:8001"
+    expose:
+      - "8001"
     depends_on:
       ai-postgres:
         condition: service_healthy
@@ -89,6 +89,7 @@ services:
       - ./ai-service/.env
     environment:
       SPRING_PROFILES_ACTIVE: docker,prod
+      EXPLORATION_ENABLED: ${EXPLORATION_ENABLED:-false}
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/jobe
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root

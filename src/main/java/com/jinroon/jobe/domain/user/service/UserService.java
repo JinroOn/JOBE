@@ -44,6 +44,8 @@ public class UserService {
     private final SessionRepository sessionRepository;
     private final EmailVerificationRepository emailVerificationRepository;
     private final MajorRepository majorRepository;
+    private final UserWriteGuard writeGuard;
+    private final AccountDeletionService accountDeletion;
 
     public List<User> findUsers() {
         return userRepository.findAll();
@@ -54,7 +56,7 @@ public class UserService {
     }
 
     public List<UserConsent> findConsents(Long userId) {
-        return userConsentRepository.findByUserId(userId);
+        return userConsentRepository.findByUserIdOrderByAgreedAtDescIdDesc(userId);
     }
 
     public List<UserFavorite> findFavorites(Long userId) {
@@ -110,6 +112,7 @@ public class UserService {
      */
     @Transactional
     public User updateProfile(Long userId, UserProfileUpdateRequest request) {
+        writeGuard.requireActive(userId);
         User user = getUser(userId);
         user.updateProfile(request.nickname(), request.profileImageUrl());
         return user;
@@ -117,7 +120,7 @@ public class UserService {
 
     @Transactional
     public void deleteUser(Long userId) {
-        userRepository.delete(getUser(userId));
+        accountDeletion.delete(userId);
     }
 
     /**
@@ -125,18 +128,26 @@ public class UserService {
      */
     @Transactional
     public UserConsent createConsent(Long userId, UserConsentRequest request) {
+        writeGuard.requireActive(userId);
+        UserConsent previous = userConsentRepository.findFirstByUserIdOrderByAgreedAtDescIdDesc(userId).orElse(null);
+        boolean terms = request.getTermsAgreed() != null ? request.getTermsAgreed()
+                : previous != null && Boolean.TRUE.equals(previous.getTermsAgreed());
+        boolean privacy = request.getPrivacyAgreed() != null ? request.getPrivacyAgreed()
+                : previous != null && Boolean.TRUE.equals(previous.getPrivacyAgreed());
+        boolean marketing = request.getMarketingAgreed() != null ? request.getMarketingAgreed()
+                : previous != null && Boolean.TRUE.equals(previous.getMarketingAgreed());
+        if (!terms || !privacy) throw new CustomException(ErrorCode.ACCOUNT_WITHDRAWAL_REQUIRED);
         return userConsentRepository.save(UserConsent.of(
-                userId,
-                Boolean.TRUE.equals(request.getTermsAgreed()),
-                Boolean.TRUE.equals(request.getPrivacyAgreed()),
-                Boolean.TRUE.equals(request.getMarketingAgreed())
+                userId, terms, privacy, marketing
         ));
     }
 
     @Transactional
     public UserFavorite createFavorite(Long userId, Long majorId) {
+        writeGuard.requireActive(userId);
         get(userRepository, userId, ErrorCode.USER_NOT_FOUND);
-        get(majorRepository, majorId, ErrorCode.MAJOR_NOT_FOUND);
+        majorRepository.findByIdForReference(majorId)
+                .orElseThrow(() -> new CustomException(ErrorCode.MAJOR_NOT_FOUND));
         if (userFavoriteRepository.existsByUserIdAndMajorId(userId, majorId)) {
             throw new CustomException(ErrorCode.MAJOR_FAVORITE_DUPLICATE);
         }
@@ -155,8 +166,9 @@ public class UserService {
 
     @Transactional
     public void deleteFavoriteForUser(Long favoriteId, Long userId) {
+        writeGuard.requireActive(userId);
         UserFavorite favorite = get(userFavoriteRepository, favoriteId, ErrorCode.MAJOR_FAVORITE_NOT_FOUND);
-        requireOwner(favorite.getUserId(), userId);
+        if (!Objects.equals(favorite.getUserId(), userId)) throw new CustomException(ErrorCode.MAJOR_FAVORITE_NOT_FOUND);
         userFavoriteRepository.delete(favorite);
     }
 
@@ -191,13 +203,13 @@ public class UserService {
 
     private static void requireOwner(Long ownerId, Long userId) {
         if (!Objects.equals(ownerId, userId)) {
-            throw new CustomException(ErrorCode.FORBIDDEN);
+            throw new CustomException(ErrorCode.NOT_FOUND);
         }
     }
 
     private static void requireOwner(String ownerEmail, String email) {
         if (!Objects.equals(ownerEmail, email)) {
-            throw new CustomException(ErrorCode.FORBIDDEN);
+            throw new CustomException(ErrorCode.AUTH_EMAIL_VERIFICATION_NOT_FOUND);
         }
     }
 }

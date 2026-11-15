@@ -1,0 +1,13 @@
+{
+  "ruleset_version": "RULESET_V1_5_IMPLEMENTATION_CANDIDATE",
+  "cases": [
+    {"id":"fixed_order", "scores":[25,100,75], "expected":57.5},
+    {"id":"missing_first", "scores":[null,100,75], "expected":90},
+    {"id":"missing_middle", "scores":[25,null,75], "expected":39.285714285714285},
+    {"id":"missing_last", "scores":[25,100,null], "expected":53.125},
+    {"id":"zero_valid", "scores":[0,100,75], "expected":45},
+    {"id":"two_zeros_valid", "scores":[0,0,null], "expected":0},
+    {"id":"one_valid", "scores":[null,100,null], "expected":null},
+    {"id":"all_missing", "scores":[null,null,null], "expected":null}
+  ]
+}

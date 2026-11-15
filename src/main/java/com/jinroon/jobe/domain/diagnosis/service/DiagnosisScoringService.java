@@ -27,13 +27,16 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class DiagnosisScoringService {
 
+
     private final DiagnosisSessionRepository diagnosisSessionRepository;
     private final DiagnosisExamAnswerRepository examAnswerRepository;
     private final ExamQuestionRepository examQuestionRepository;
     private final CompetencyEvalResultRepository competencyEvalResultRepository;
+    private final com.jinroon.jobe.domain.user.service.UserWriteGuard writeGuard;
 
     @Transactional
     public CompetencyEvalResult scoreCompetencyForUser(Long sessionId, Long userId) {
+        writeGuard.requireActive(userId);
         DiagnosisSession session = get(diagnosisSessionRepository, sessionId, ErrorCode.DIAGNOSIS_SESSION_NOT_FOUND);
         requireOwner(session.getUserId(), userId);
         return scoreCompetency(session);
@@ -132,7 +135,7 @@ public class DiagnosisScoringService {
 
     private void requireOwner(Long ownerId, Long userId) {
         if (!Objects.equals(ownerId, userId)) {
-            throw new CustomException(ErrorCode.FORBIDDEN);
+            throw new CustomException(ErrorCode.DIAGNOSIS_SESSION_NOT_FOUND);
         }
     }
 
