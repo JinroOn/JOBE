@@ -87,6 +87,25 @@ class ErrorResponseHttpTest {
     }
 
     @Test
+    void validationErrorUsesSameFormatWithFieldErrors() throws Exception {
+        mockMvc.perform(post("/api/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"email\":\"not-an-email\",\"password\":\"short\"}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.code").value("INVALID_INPUT"))
+                .andExpect(jsonPath("$.message").exists())
+                .andExpect(jsonPath("$.fieldErrors.email").exists())
+                .andExpect(jsonPath("$.fieldErrors.password").exists());
+    }
+
+    @Test
+    void nonValidationErrorHasNoFieldErrorsKey() throws Exception {
+        mockMvc.perform(get("/api/notices/999999999").header("Authorization", token))
+                .andExpect(jsonPath("$.fieldErrors").doesNotExist());
+    }
+
+    @Test
     void wrongPathVariableTypeReturns400() throws Exception {
         mockMvc.perform(get("/api/results/not-a-number").header("Authorization", token))
                 .andExpect(status().isBadRequest());
