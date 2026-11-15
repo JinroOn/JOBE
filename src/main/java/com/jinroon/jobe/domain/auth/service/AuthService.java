@@ -36,10 +36,12 @@ import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.HexFormat;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -233,7 +235,14 @@ public class AuthService {
         PasswordResetToken resetToken = passwordResetTokenRepository.save(
                 PasswordResetToken.issue(user.getEmail(), issueUniquePasswordResetCode(), expiresAt)
         );
-        mailService.sendPasswordReset(resetToken.getEmail(), resetToken.getToken());
+        try {
+            mailService.sendPasswordReset(resetToken.getEmail(), resetToken.getToken());
+        } catch (RuntimeException exception) {
+            // 메일 장애 때 500을 주면 가입된 이메일만 실패해 가입 여부가 드러난다. 같은 성공 응답을 주고 서버 로그로만 남긴다.
+            // 발급 기록은 남겨 재요청 횟수 제한에 포함한다.
+            log.warn("Password reset mail failed errorType={}", exception.getClass().getSimpleName());
+            return silentResponse;
+        }
         return PasswordResetResponse.from(resetToken);
     }
 

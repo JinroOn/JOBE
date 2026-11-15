@@ -55,6 +55,8 @@ public class SecurityConfig {
                                 "/api/auth/signup",
                                 "/api/auth/login",
                                 "/api/auth/refresh",
+                                // refresh 토큰 자체로 세션을 지운다. access 토큰이 만료된 뒤에도 로그아웃이 되어야 한다.
+                                "/api/auth/logout",
                                 "/api/auth/email-verifications",
                                 "/api/auth/email-verifications/confirm",
                                 "/api/auth/password-resets",
