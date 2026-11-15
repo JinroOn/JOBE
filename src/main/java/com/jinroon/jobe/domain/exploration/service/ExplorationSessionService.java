@@ -28,6 +28,9 @@ public class ExplorationSessionService {
     private final ExplorationRuntimeCatalog catalogs;
     private final ExplorationJson json;
     private final ExplorationStageStore stages;
+    private final ExplorationResultRepository results;
+    private final ExplorationResultAssembler resultAssembler;
+    private final ExplorationResultStore resultStore;
 
     public record Reply(int status, JsonNode body) {}
     private record State(List<ExplorationIssuedQuestion> issued, Map<Long, String> answers, Map<Long, Integer> answerRevisions,
@@ -203,6 +206,91 @@ public class ExplorationSessionService {
         return success(request, 200, sessionDto(session, frozen));
     }
 
+    @Transactional
+    public Reply complete(Long userId, long sessionId, String key, long expectedRevision) {
+        validateKey(key);
+        users.requireActive(userId);
+        ExplorationSession session = ownedLocked(userId, sessionId);
+        policy.authorizeExisting(userId, session.getRunMode());
+        ExplorationIdempotency request = reservation(userId, "COMPLETE", sessionId, key, json.hash(Map.of("expectedRevision", expectedRevision)));
+        if (session.getStatus() == ExplorationSessionStatus.completed)
+            return success(request, 200, resultStore.response(requiredResult(session)));
+        if (request.getResponseStatus() != null || results.findBySessionId(sessionId).isPresent()) throw ExplorationApiException.integrity();
+        writable(session, expectedRevision);
+        var frozen = catalogs.load(sessionId);
+        State current = state(session, frozen);
+        if (current.issued().stream().anyMatch(q -> q.getEffective() && q.getRequired() && !current.answers().containsKey(q.getId())))
+            throw new ExplorationApiException(422, "STAGE_INCOMPLETE", "이미 발급된 필수 문항의 응답을 완료해 주세요.");
+        if (!current.one().plan().toIssue().isEmpty() || current.one().plan().active().stream().anyMatch(k ->
+                current.issued().stream().noneMatch(q -> key(q).equals(k) && q.getEffective() && current.answers().containsKey(q.getId()))))
+            throw new ExplorationApiException(422, "STAGE_INCOMPLETE", "1단계 필수 응답을 완료해 주세요.");
+        try {
+            var engine = new QuestionBranchEngine(frozen.branch());
+            var fixed = "STAGE_1".equals(session.getStage()) ? engine.freezeCandidates(responses(current), history(current))
+                    : stages.load(sessionId, "STAGE_2", frozen).candidates();
+            boolean boundary = true; // Every already-exposed required question above is answered; partial batches never qualify.
+            boolean early = !"STAGE_3".equals(session.getStage()) && engine.canExitAtModuleBoundary(fixed, responses(current), history(current),
+                    QuestionBranchEngine.Presentation.none(), boundary);
+            boolean globalLimit = current.issued().size() >= frozen.payload().path("rules").path("caps").path("pre_result").asInt();
+            boolean terminal = "STAGE_3".equals(session.getStage()) && current.plan().toIssue().isEmpty();
+            if (!early && !terminal && !globalLimit) throw new ExplorationApiException(409, "COMPLETION_NOT_ALLOWED", "아직 종료 조건을 충족하지 않았습니다.");
+            var plans = json.array();
+            plans.add(json.tree(current.one().plan()));
+            boolean limited = current.one().plan().budgetLimited();
+            if (stageNumber(session.getStage()) >= 2) {
+                var two = stages.load(sessionId, "STAGE_2", frozen); plans.add(json.tree(two.plan())); limited |= two.plan().budgetLimited();
+            }
+            if (stageNumber(session.getStage()) >= 3) {
+                var three = stages.load(sessionId, "STAGE_3", frozen); plans.add(json.tree(three.plan())); limited |= three.plan().budgetLimited();
+            }
+            String reason = early ? "EARLY_EXIT" : (globalLimit || limited ? "INFO_LIMIT_REACHED" : "NORMAL");
+            ObjectNode input = json.object();
+            input.put("resultContractVersion", ExplorationResultAssembler.CONTRACT);
+            input.put("bundleHash", frozen.hash());
+            input.put("completionReason", reason);
+            input.set("fixedCandidates", json.tree(fixed));
+            input.set("stagePlans", plans);
+            var questions = input.putArray("questions");
+            for (var q : current.issued()) {
+                var row = questions.addObject(); row.set("key", json.tree(key(q))); row.put("ordinal", q.getOrdinal());
+                row.put("stage", q.getStage()); row.put("required", q.getRequired()); row.put("effective", q.getEffective());
+                row.put("snapshotHash", json.hex(json.read(q.getSnapshotJson())));
+                row.put("optionCode", current.answers().get(q.getId()));
+            }
+            var now = LocalDateTime.now();
+            ObjectNode snapshot = resultAssembler.assemble(sessionId, now.toString(), reason, frozen, fixed, responses(current), input);
+            ObjectNode flags = snapshot.putObject("flags");
+            flags.put("lowDifferentiation", current.one().lowDifferentiation());
+            flags.put("interestTie", !current.one().tieAxes().isEmpty());
+            flags.put("stateUnknown", "STATE_UNKNOWN".equals(current.one().route().reason()));
+            flags.put("stateInconsistent", "STATE_INCONSISTENT".equals(current.one().route().reason()));
+            snapshot.put("runMode", session.getRunMode().name()); snapshot.put("testOnly", session.getRunMode().name().equals("DEV"));
+            ExplorationResult saved = resultStore.save(sessionId, snapshot);
+            session.complete(now);
+            return success(request, 200, resultStore.response(saved));
+        } catch (IllegalArgumentException e) { throw ExplorationApiException.integrity(); }
+    }
+
+    @Transactional(readOnly = true)
+    public JsonNode resultBySession(Long userId, long sessionId) {
+        var session = sessions.findById(sessionId).filter(s -> s.isOwnedBy(userId)).orElseThrow(this::notFound);
+        policy.authorizeExisting(userId, session.getRunMode());
+        if (session.getStatus() != ExplorationSessionStatus.completed) {
+            if (results.findBySessionId(sessionId).isPresent()) throw ExplorationApiException.integrity();
+            throw notFound();
+        }
+        return resultStore.response(requiredResult(session));
+    }
+
+    @Transactional(readOnly = true)
+    public JsonNode resultById(Long userId, long resultId) {
+        var result = results.findById(resultId).orElseThrow(this::notFound);
+        var session = sessions.findById(result.getSessionId()).filter(s -> s.isOwnedBy(userId)).orElseThrow(this::notFound);
+        policy.authorizeExisting(userId, session.getRunMode());
+        if (session.getStatus() != ExplorationSessionStatus.completed) throw ExplorationApiException.integrity();
+        return resultStore.response(result);
+    }
+
     @Transactional(readOnly = true)
     public JsonNode get(Long userId, long sessionId) {
         ExplorationSession session = sessions.findById(sessionId).filter(s -> s.isOwnedBy(userId)).orElseThrow(this::notFound);
@@ -240,7 +328,7 @@ public class ExplorationSessionService {
             summary.put("stage", stageNumber(session.getStage()));
             summary.set("startedAt", json.tree(session.getStartedAt()));
             summary.set("completedAt", json.tree(session.getCompletedAt()));
-            summary.putNull("resultId"); // completion/result persistence belongs to the next implementation unit
+            summary.set("resultId", json.tree(resultId(session)));
         }
         return response;
     }
@@ -327,7 +415,8 @@ public class ExplorationSessionService {
         response.put("revision", session.getRevision());
         response.set("versions", frozen.payload().path("versions").deepCopy());
         response.set("startedAt", json.tree(session.getStartedAt()));
-        response.putNull("resultId");
+        response.set("resultId", json.tree(resultId(session)));
+        response.set("completedAt", json.tree(session.getCompletedAt()));
         return response;
     }
 
@@ -372,6 +461,13 @@ public class ExplorationSessionService {
         return sessions.findByIdForUpdate(sessionId).filter(s -> s.isOwnedBy(userId)).orElseThrow(this::notFound);
     }
     private ExplorationApiException notFound() { return new ExplorationApiException(404, "RESOURCE_NOT_FOUND", "탐색 회차를 찾을 수 없습니다."); }
+    private ExplorationResult requiredResult(ExplorationSession session) {
+        return results.findBySessionId(session.getId()).orElseThrow(ExplorationApiException::integrity);
+    }
+    private Long resultId(ExplorationSession session) {
+        if (session.getStatus() != ExplorationSessionStatus.completed) return null;
+        var result = requiredResult(session); resultStore.response(result); return result.getId();
+    }
     private void writable(ExplorationSession session, long expectedRevision) {
         if (session.getStatus() == ExplorationSessionStatus.completed) throw new ExplorationApiException(409, "SESSION_ALREADY_COMPLETED", "완료된 회차입니다.");
         if (session.getStatus() == ExplorationSessionStatus.abandoned) throw new ExplorationApiException(409, "SESSION_ABANDONED", "폐기된 회차입니다.");
