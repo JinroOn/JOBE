@@ -9,9 +9,12 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -81,7 +84,7 @@ public class MajorDatasetContextService {
                     .toList();
 
             for (Path path : candidates) {
-                if (normalize(path.getFileName().toString()).contains(normalizedMajorName)) {
+                if (fileNameMatches(path, normalizedMajorName)) {
                     return readJson(path);
                 }
             }
@@ -221,8 +224,7 @@ public class MajorDatasetContextService {
                     .toList();
 
             for (Path path : candidates) {
-                if (!normalizedMajorName.isBlank()
-                        && normalize(path.getFileName().toString()).contains(normalizedMajorName)) {
+                if (fileNameMatches(path, normalizedMajorName)) {
                     return Optional.of(path);
                 }
             }
@@ -251,7 +253,7 @@ public class MajorDatasetContextService {
                     .flatMap(Optional::stream)
                     .anyMatch(node -> jsonMajorNameMatches(node, normalizedMajorName));
         } catch (IOException e) {
-            log.warn("?꾧났 RAG JSONL 留ㅼ묶 ?ㅽ뙣 file={} error={}", path.getFileName(), e.getMessage());
+            log.warn("전공 RAG JSONL 매칭 실패 file={} error={}", path.getFileName(), e.getMessage());
             return false;
         }
     }
@@ -310,11 +312,29 @@ public class MajorDatasetContextService {
         return value.substring(0, maxLength);
     }
 
+    /**
+     * 파일명(major-row-{번호}-{전공명}.service.json / .rag.jsonl)의 전공명 부분이 DB 전공명과 정확히 같은지 본다.
+     * 예전에는 파일명에 전공명이 "포함"되는지만 봐서 화학과가 연극영화학과 파일에, 사학과가 국사학과 파일에 걸렸다.
+     */
+    private boolean fileNameMatches(Path path, String normalizedMajorName) {
+        if (normalizedMajorName.isBlank()) {
+            return false;
+        }
+        Matcher matcher = DATASET_FILE_NAME.matcher(Normalizer.normalize(path.getFileName().toString(), Normalizer.Form.NFC));
+        return matcher.matches() && normalize(matcher.group(1)).equals(normalizedMajorName);
+    }
+
+    private static final Pattern DATASET_FILE_NAME =
+            Pattern.compile("^major-row-\\d+-(.+?)\\.(?:service\\.json|rag\\.jsonl)$");
+
     private String normalize(String value) {
         if (value == null) {
             return "";
         }
-        return value.replaceAll("[^\\p{IsAlphabetic}\\p{IsDigit}]", "").toLowerCase();
+        // macOS 파일명은 한글 자모가 분리된(NFD) 형태일 수 있어 NFC로 맞춘 뒤 비교한다.
+        return Normalizer.normalize(value, Normalizer.Form.NFC)
+                .replaceAll("[^\\p{IsAlphabetic}\\p{IsDigit}]", "")
+                .toLowerCase();
     }
 
     private record DatasetContext(

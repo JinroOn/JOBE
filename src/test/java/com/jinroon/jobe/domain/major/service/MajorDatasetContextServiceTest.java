@@ -114,6 +114,68 @@ class MajorDatasetContextServiceTest {
         );
     }
 
+    @Test
+    void doesNotUseAnotherMajorWhoseFileNameContainsTheName() throws Exception {
+        // "연극영화학과"에는 "화학과"가 들어 있다. 예전에는 화학과에 연극영화학과 자료가 쓰였다.
+        writeMajor("major-row-244-연극영화학과", "연극영화학과", "연극과 영화를 만드는 전공");
+
+        RecommendationCommentRequest.MajorContext context =
+                service.toRecommendationMajorContext(major("화학과", "자연계열", "화학 전공 설명", null));
+
+        assertThat(context.description()).isEqualTo("화학 전공 설명");
+        assertThat(context.ragSnippets()).isEmpty();
+    }
+
+    @Test
+    void picksOwnFileWhenSimilarNamesExist() throws Exception {
+        writeMajor("major-row-3-국사학과", "국사학과", "한국사 전공");
+        writeMajor("major-row-26-사학과", "사학과", "역사 전공");
+
+        RecommendationCommentRequest.MajorContext context =
+                service.toRecommendationMajorContext(major("사학과", "인문계열", "기본설명", null));
+
+        assertThat(context.description()).isEqualTo("역사 전공");
+        assertThat(context.ragSnippets()).containsExactly("사학과 snippet");
+    }
+
+    @Test
+    void matchesDecomposedHangulFileName() throws Exception {
+        // macOS에서 만든 파일명은 한글이 자모 단위(NFD)로 저장될 수 있다.
+        String nfd = java.text.Normalizer.normalize("major-row-174-통계학과", java.text.Normalizer.Form.NFD);
+        writeMajor(nfd, "통계학과", "통계 전공");
+
+        RecommendationCommentRequest.MajorContext context =
+                service.toRecommendationMajorContext(major("통계학과", "자연계열", "기본설명", null));
+
+        assertThat(context.description()).isEqualTo("통계 전공");
+    }
+
+    @Test
+    void everyRealDatasetMajorResolvesToItsOwnFile() throws Exception {
+        Path realMajors = Path.of("datasets/majors");
+        ReflectionTestUtils.setField(service, "majorsPath", realMajors.toString());
+        ReflectionTestUtils.setField(service, "ragPath", "datasets/rag/per-major");
+        ObjectMapper objectMapper = new ObjectMapper();
+        try (var files = Files.list(realMajors)) {
+            for (Path file : files.filter(p -> p.toString().endsWith(".service.json")).toList()) {
+                String name = objectMapper.readTree(file.toFile()).path("majorName").asText();
+                String expected = objectMapper.readTree(file.toFile()).path("description").asText();
+
+                RecommendationCommentRequest.MajorContext context =
+                        service.toRecommendationMajorContext(major(name, "기본분류", "기본설명", null));
+
+                assertThat(context.description()).as(name).isEqualTo(expected);
+            }
+        }
+    }
+
+    private void writeMajor(String baseName, String majorName, String description) throws Exception {
+        Files.writeString(majorsDir.resolve(baseName + ".service.json"),
+                "{\"majorName\":\"" + majorName + "\",\"description\":\"" + description + "\"}");
+        Files.writeString(ragDir.resolve(baseName + ".rag.jsonl"),
+                "{\"content\":\"" + majorName + " snippet\"}\n");
+    }
+
     private Major major(String name, String category, String description, String careerPaths) {
         Major major = newEntity(Major.class);
         ReflectionTestUtils.setField(major, "name", name);
