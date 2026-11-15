@@ -146,6 +146,8 @@ public class ConsultationService {
     public ConsultationLog createLogForUser(Map<String, Object> values, Long userId) {
         Long sessionId = ((Number) values.get("consultationSessionId")).longValue();
         getSessionForUser(sessionId, userId);
+        // 사용자가 직접 남기는 로그는 항상 user. assistant 로그는 AI 답변 저장(createMessageWithAiReplyForUser)에서만 만든다.
+        values.put("role", "user");
         return createLog(values);
     }
 

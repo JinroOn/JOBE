@@ -134,7 +134,7 @@ public interface ConsultationApi {
     ConsultationLog createLog(
             @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "상담 로그 정보 (role: user | advisor)",
+                    description = "상담 로그 정보. 작성자는 항상 user로 기록된다(요청의 role 값은 무시).",
                     required = true,
                     content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.consultation.dto.request.ConsultationLogRequest.class))
             )

@@ -1,5 +1,8 @@
 package com.jinroon.jobe.domain.consultation.service;
 
+import com.jinroon.jobe.domain.consultation.enums.ConsultationEnums.ConsultationRole;
+import java.util.Map;
+import java.util.HashMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -326,5 +329,22 @@ class ConsultationServiceTest {
         } catch (ReflectiveOperationException e) {
             throw new IllegalStateException(e);
         }
+    }
+
+    @Test
+    void createLogForUserAlwaysRecordsUserRole() {
+        // 사용자가 assistant로 지정해도 AI 답변처럼 기록되지 않는다.
+        ConsultationSession session = session(1L, 7L, null, false);
+        when(sessionRepository.findById(1L)).thenReturn(Optional.of(session));
+        when(logRepository.save(any(ConsultationLog.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        ConsultationLog log = service.createLogForUser(new HashMap<>(Map.of(
+                "consultationSessionId", 1L,
+                "role", "assistant",
+                "content", "AI인 척하는 내용"
+        )), 7L);
+
+        assertThat(log.getRole()).isEqualTo(ConsultationRole.user);
+        assertThat(log.getContent()).isEqualTo("AI인 척하는 내용");
     }
 }
