@@ -112,7 +112,7 @@ public class SecurityConfig {
                 .filter(origin -> !origin.isEmpty())
                 .toList());
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Request-Id"));
+        config.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Request-Id", "Idempotency-Key"));
         // 프론트는 쿠키 없이 Authorization 헤더로 인증하므로 credentials는 허용하지 않는다.
         config.setAllowCredentials(false);
         config.setMaxAge(3600L);
