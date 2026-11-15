@@ -55,6 +55,8 @@ public class ExplorationResultStore {
         dto.put("activityMessage", "승인된 탐색 활동 안내를 준비 중입니다.");
         dto.put("activitiesEndpoint", "/api/exploration/v1/results/"+result.getId()+"/activities");
         ObjectNode capabilities = dto.putObject("capabilities");
+        dto.put("comparisonEndpoint", "/api/exploration/v1/results/"+result.getId()+"/comparison");
+        capabilities.put("comparisonAvailable",payload.path("rankedCandidates").size()>=2);
         capabilities.put("supportAvailable", true); capabilities.put("planAvailable", false); capabilities.put("sharingAvailable", false);
         return dto;
     }

@@ -6,6 +6,12 @@ import java.util.*;
 /** Real completed result fixture; seed answers only to keep unrelated support tests small. */
 abstract class CompletedExplorationTestSupport extends ExplorationApiTestSupport {
     protected long completedResult(boolean candidates) throws Exception {
+        return completedResult(candidates,null);
+    }
+    protected long completedResult(Map<String,Integer> interestScores) throws Exception {
+        return completedResult(true,interestScores);
+    }
+    private long completedResult(boolean candidates,Map<String,Integer> interestScores) throws Exception {
         long id=start(UUID.randomUUID().toString()).path("sessionId").asLong();
         for(int stage=1;stage<=3;stage++) {
             for(int n=0;n<4;n++) {
@@ -15,7 +21,9 @@ abstract class CompletedExplorationTestSupport extends ExplorationApiTestSupport
                     long iid=q.path("issuedId").asLong();
                     JsonNode snapshot=mapper.readTree(jdbc.queryForObject("SELECT snapshot_json FROM exploration_issued_question WHERE id=?",String.class,iid));
                     String code=q.path("options").get(0).path("code").asText();
-                    for(JsonNode o:snapshot.path("options"))if(candidates?o.path("numeric_value").asText().equals("75"):
+                    String value="75";
+                    if(interestScores!=null && snapshot.path("question").path("scoring_role").asText().equals("CANDIDATE_TOPIC"))value=interestScores.getOrDefault(snapshot.path("question").path("metric_code").asText(),0).toString();
+                    for(JsonNode o:snapshot.path("options"))if(candidates?o.path("numeric_value").asText().equals(value):
                             o.path("is_unknown").asBoolean()||o.path("is_no_experience").asBoolean()){code=o.path("option_code").asText();break;}
                     jdbc.update("INSERT INTO exploration_answer_revision(issued_id,answer_revision,option_code,is_current,client_mutation_id,mutation_request_hash,mutation_response_json,answered_at) VALUES (?,1,?,true,?,?,JSON_OBJECT(),NOW())",
                             iid,code,UUID.randomUUID().toString(),new byte[32]);changed++;
