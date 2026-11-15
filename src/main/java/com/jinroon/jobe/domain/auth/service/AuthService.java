@@ -113,7 +113,10 @@ public class AuthService {
         User user = userRepository.findById(currentSession.getUserId())
                 .orElseThrow(() -> new CustomException(ErrorCode.AUTH_TOKEN_INVALID));
         requireActive(user);
-        sessionRepository.delete(currentSession);
+        // 같은 토큰으로 동시에 갱신하면 먼저 지운 요청만 새 토큰을 받는다. 나머지는 이미 쓰인 토큰으로 본다.
+        if (sessionRepository.deleteSessionById(currentSession.getId()) == 0) {
+            throw new CustomException(ErrorCode.AUTH_TOKEN_INVALID);
+        }
         IssuedSession issued = issueSession(user, request.deviceInfo());
         String accessToken = jwtProvider.createToken(user);
         return new AuthResponse(UserResponse.from(user), accessToken, issued.rawRefreshToken(), issued.session().getExpiresAt());

@@ -250,17 +250,30 @@ class AuthServiceTest {
         Session current = session(1L, "old-token", LocalDateTime.now().plusDays(1));
         when(sessionRepository.findByRefreshToken(AuthService.hashRefreshToken("old-token"))).thenReturn(Optional.of(current));
         when(userRepository.findById(1L)).thenReturn(Optional.of(activeUser(1L)));
+        when(sessionRepository.deleteSessionById(current.getId())).thenReturn(1);
         when(sessionRepository.save(any(Session.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         AuthResponse response = service.refresh(new RefreshTokenRequest("old-token", "new-device"));
 
-        verify(sessionRepository).delete(current);
+        verify(sessionRepository).deleteSessionById(current.getId());
         assertThat(response.refreshToken()).isNotEqualTo("old-token");
         assertThat(jwtProvider.isValid(response.accessToken())).isTrue();
         ArgumentCaptor<Session> sessionCaptor = ArgumentCaptor.forClass(Session.class);
         verify(sessionRepository).save(sessionCaptor.capture());
         assertThat(sessionCaptor.getValue().getRefreshToken())
                 .isEqualTo(AuthService.hashRefreshToken(response.refreshToken()));
+    }
+
+    @Test
+    void refreshRejectsTokenAlreadyRotatedByConcurrentRequest() {
+        // 동시에 들어온 다른 요청이 먼저 세션을 지웠으면 새 토큰을 발급하지 않는다.
+        Session current = session(1L, "old-token", LocalDateTime.now().plusDays(1));
+        when(sessionRepository.findByRefreshToken(AuthService.hashRefreshToken("old-token"))).thenReturn(Optional.of(current));
+        when(userRepository.findById(1L)).thenReturn(Optional.of(activeUser(1L)));
+        when(sessionRepository.deleteSessionById(current.getId())).thenReturn(0);
+
+        assertErrorCode(() -> service.refresh(new RefreshTokenRequest("old-token", null)), ErrorCode.AUTH_TOKEN_INVALID);
+        verify(sessionRepository, never()).save(any(Session.class));
     }
 
     @Test
