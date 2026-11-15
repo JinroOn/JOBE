@@ -27,10 +27,11 @@ public class ExplorationSessionService {
     private final ExplorationRuntimePolicy policy;
     private final ExplorationRuntimeCatalog catalogs;
     private final ExplorationJson json;
+    private final ExplorationStageStore stages;
 
     public record Reply(int status, JsonNode body) {}
     private record State(List<ExplorationIssuedQuestion> issued, Map<Long, String> answers, Map<Long, Integer> answerRevisions,
-                         QuestionBranchEngine.StageOne plan) {}
+                         QuestionBranchEngine.StageOne one, QuestionBranchEngine.Plan plan) {}
 
     private record BranchChanges(List<Long> excludedIssuedIds, List<Long> restoredIssuedIds) {}
 
@@ -60,13 +61,12 @@ public class ExplorationSessionService {
         ExplorationIdempotency request = reservation(userId, "NEXT", sessionId, key, json.hash(Map.of("expectedRevision", expectedRevision)));
         if (request.getResponseStatus() != null) return replay(request); // replay before revision/status validation
         writable(session, expectedRevision);
-        requireStageOne(session);
         var frozen = catalogs.load(sessionId);
         BranchChanges changes = reconcile(session, frozen);
         State state = state(session, frozen);
         boolean changed = !changes.excludedIssuedIds().isEmpty() || !changes.restoredIssuedIds().isEmpty();
         int ordinal = issued.findMaxOrdinal(sessionId);
-        for (BranchCatalog.Key keyToIssue : state.plan().plan().toIssue()) {
+        for (BranchCatalog.Key keyToIssue : state.plan().toIssue()) {
             issued.save(ExplorationIssuedQuestion.issue(sessionId, keyToIssue.questionId(), keyToIssue.questionVersion(),
                     nullable(keyToIssue.comparisonSet()), nullable(keyToIssue.variantVersion()), session.getStage(), ++ordinal,
                     true, json.write(catalogs.questionSnapshot(frozen, keyToIssue)), LocalDateTime.now()));
@@ -78,7 +78,7 @@ public class ExplorationSessionService {
         ObjectNode response = json.object();
         response.put("revision", session.getRevision());
         ArrayNode questions = response.putArray("issuedQuestions");
-        updated.issued().stream().filter(q -> q.getEffective() && !updated.answers().containsKey(q.getId()))
+        updated.issued().stream().filter(q -> q.getStage().equals(session.getStage()) && q.getEffective() && !updated.answers().containsKey(q.getId()))
                 .forEach(q -> questions.add(questionDto(q, frozen)));
         response.set("progress", progress(session, frozen, updated));
         response.put("nextAction", nextAction(session, updated));
@@ -106,11 +106,10 @@ public class ExplorationSessionService {
             return success(request, 200, json.read(mutation.get().getMutationResponseJson()));
         }
         writable(session, expectedRevision);
-        requireStageOne(session);
         var frozen = catalogs.load(sessionId);
         JsonNode snapshot = validatedSnapshot(question, frozen);
         if (!question.getEffective()) throw new ExplorationApiException(422, "QUESTION_NOT_EFFECTIVE", "현재 분기에서 답변할 수 없는 문항입니다.");
-        if (!session.getStage().equals(question.getStage())) throw new ExplorationApiException(422, "QUESTION_NOT_EFFECTIVE", "현재 단계의 문항이 아닙니다.");
+        if (stageNumber(question.getStage()) > stageNumber(session.getStage())) throw new ExplorationApiException(422, "QUESTION_NOT_EFFECTIVE", "현재 단계의 문항이 아닙니다.");
         boolean allowed = false;
         for (JsonNode option : snapshot.path("options")) if (option.path("option_code").asText().equals(optionCode)) allowed = true;
         if (!allowed) throw new ExplorationApiException(422, "OPTION_NOT_ISSUED", "발급된 선택지가 아닙니다.");
@@ -123,8 +122,20 @@ public class ExplorationSessionService {
         answers.flush(); // release current BEFORE the INSERT touches the generated unique key
         var saved = answers.saveAndFlush(ExplorationAnswerRevision.record(issuedId, answerRevision, optionCode,
                 clientMutationId, hash, "{}", LocalDateTime.now()));
+        String previousStage = session.getStage();
+        boolean rewind = stageNumber(question.getStage()) < stageNumber(previousStage);
+        List<Long> rewound = new ArrayList<>();
+        if (rewind) {
+            stages.invalidateAfter(sessionId, question.getStage());
+            for (var later : issued.findBySessionIdOrderByOrdinalAsc(sessionId)) {
+                if (stageNumber(later.getStage()) > stageNumber(question.getStage()) && later.getEffective()) {
+                    later.exclude(); rewound.add(later.getId());
+                }
+            }
+            session.moveToStage(question.getStage()); // revision increases exactly once for the whole answer transaction
+        }
         BranchChanges changes = reconcile(session, frozen);
-        session.increaseRevision();
+        if (!rewind) session.increaseRevision();
         State updated = state(session, frozen);
         ObjectNode response = json.object();
         response.put("issuedId", issuedId);
@@ -132,14 +143,49 @@ public class ExplorationSessionService {
         response.put("answerRevision", answerRevision);
         response.put("revision", session.getRevision());
         response.put("effective", question.getEffective());
+        response.put("stage", stageNumber(session.getStage()));
+        response.put("rewound", rewind);
         ObjectNode branch = response.putObject("branchChanges");
-        branch.set("excludedIssuedIds", json.tree(changes.excludedIssuedIds()));
+        rewound.addAll(changes.excludedIssuedIds());
+        branch.set("excludedIssuedIds", json.tree(rewound));
         branch.set("restoredIssuedIds", json.tree(changes.restoredIssuedIds()));
-        branch.put("pendingQuestionCount", updated.plan().plan().toIssue().size());
-        branch.put("budgetLimited", updated.plan().plan().budgetLimited());
+        branch.put("pendingQuestionCount", updated.plan().toIssue().size());
+        branch.put("budgetLimited", updated.plan().budgetLimited());
         response.set("progress", progress(session, frozen, updated));
         response.put("nextAction", nextAction(session, updated));
         saved.storeMutationResponse(json.write(response));
+        return success(request, 200, response);
+    }
+
+    @Transactional
+    public Reply advance(Long userId, long sessionId, String key, long expectedRevision) {
+        validateKey(key);
+        users.requireActive(userId);
+        ExplorationSession session = ownedLocked(userId, sessionId);
+        policy.authorizeExisting(userId, session.getRunMode());
+        ExplorationIdempotency request = reservation(userId, "ADVANCE", sessionId, key, json.hash(Map.of("expectedRevision", expectedRevision)));
+        if (request.getResponseStatus() != null) return replay(request);
+        writable(session, expectedRevision);
+        var frozen = catalogs.load(sessionId);
+        State current = state(session, frozen);
+        if (!current.plan().toIssue().isEmpty() || current.issued().stream().anyMatch(q -> q.getStage().equals(session.getStage())
+                && q.getEffective() && q.getRequired() && !current.answers().containsKey(q.getId())))
+            throw new ExplorationApiException(422, "STAGE_INCOMPLETE", "현재 단계의 발급 및 필수 응답을 완료해 주세요.");
+        if (!"STAGE_3".equals(session.getStage())) {
+            QuestionBranchEngine engine = new QuestionBranchEngine(frozen.branch());
+            var fixed = "STAGE_1".equals(session.getStage())
+                    ? engine.freezeCandidates(responses(current), history(current))
+                    : stages.load(sessionId, "STAGE_2", frozen).candidates();
+            session.moveToStage("STAGE_1".equals(session.getStage()) ? "STAGE_2" : "STAGE_3");
+            stages.enter(session, frozen, fixed, responses(current), history(current));
+            reconcile(session, frozen); // restore only matching, previously issued identities; do not expose new ones
+        }
+        State updated = state(session, frozen);
+        ObjectNode response = json.object();
+        response.set("session", sessionDto(session, frozen));
+        response.set("progress", progress(session, frozen, updated));
+        response.put("nextAction", nextAction(session, updated));
+        response.set("fixedCandidates", fixedCandidates(session, frozen));
         return success(request, 200, response);
     }
 
@@ -161,11 +207,11 @@ public class ExplorationSessionService {
     public JsonNode get(Long userId, long sessionId) {
         ExplorationSession session = sessions.findById(sessionId).filter(s -> s.isOwnedBy(userId)).orElseThrow(this::notFound);
         policy.authorizeExisting(userId, session.getRunMode());
-        requireStageOne(session);
         var frozen = catalogs.load(sessionId);
         State state = state(session, frozen);
         ObjectNode response = json.object();
         response.set("session", sessionDto(session, frozen));
+        response.set("fixedCandidates", fixedCandidates(session, frozen));
         ArrayNode rows = response.putArray("issued");
         for (ExplorationIssuedQuestion question : state.issued()) {
             ObjectNode row = rows.addObject();
@@ -210,16 +256,26 @@ public class ExplorationSessionService {
         try {
             for (ExplorationIssuedQuestion question : history) validatedSnapshot(question, frozen);
             responses.forEach(frozen.branch()::option); // excluded answers must also belong to their pinned variant
-            var plan = new QuestionBranchEngine(frozen.branch()).stageOne(responses, history.stream().map(this::key).toList());
-            return new State(history, current, revisions, plan);
+            var one = new QuestionBranchEngine(frozen.branch()).stageOne(responses, history.stream().map(this::key).toList());
+            QuestionBranchEngine.Plan plan;
+            if ("STAGE_1".equals(session.getStage())) plan = one.plan();
+            else {
+                var checkpoint = stages.load(session.getId(), session.getStage(), frozen);
+                var selected = checkpoint.plan();
+                var old = new HashSet<>(history.stream().map(this::key).toList());
+                plan = new QuestionBranchEngine.Plan(selected.active(), selected.active().stream().filter(k -> !old.contains(k)).toList(),
+                        selected.omitted(), selected.budgetLimited());
+            }
+            return new State(history, current, revisions, one, plan);
         } catch (IllegalArgumentException e) { throw ExplorationApiException.integrity(); }
     }
 
     private BranchChanges reconcile(ExplorationSession session, ExplorationRuntimeCatalog.Frozen frozen) {
         State before = state(session, frozen);
-        Set<BranchCatalog.Key> active = new HashSet<>(before.plan().plan().active());
+        Set<BranchCatalog.Key> active = new HashSet<>(before.plan().active());
         List<Long> excluded = new ArrayList<>(), restored = new ArrayList<>();
         for (ExplorationIssuedQuestion question : before.issued()) {
+            if (!question.getStage().equals(session.getStage())) continue;
             if (active.contains(key(question)) && !question.getEffective()) {
                 question.restore(); restored.add(question.getId());
             } else if (!active.contains(key(question)) && question.getEffective()) {
@@ -264,6 +320,8 @@ public class ExplorationSessionService {
         ObjectNode response = json.object();
         response.put("sessionId", session.getId());
         response.put("diagnosisType", session.getDiagnosisType());
+        response.put("runMode", session.getRunMode().name());
+        response.put("testOnly", session.getRunMode().name().equals("DEV"));
         response.put("status", session.getStatus().name());
         response.put("stage", stageNumber(session.getStage()));
         response.put("revision", session.getRevision());
@@ -274,21 +332,24 @@ public class ExplorationSessionService {
     }
 
     private ObjectNode progress(ExplorationSession session, ExplorationRuntimeCatalog.Frozen frozen, State state) {
-        int maximum = frozen.payload().path("rules").path("caps").path("stage1").asInt();
+        int maximum = frozen.payload().path("rules").path("caps").path("stage" + stageNumber(session.getStage())).asInt();
         if (maximum <= 0) throw ExplorationApiException.integrity();
         ObjectNode progress = json.object();
         progress.put("stage", stageNumber(session.getStage()));
-        progress.put("answered", state.issued().stream().filter(q -> q.getEffective() && state.answers().containsKey(q.getId())).count());
-        progress.put("issued", state.issued().size());
+        long shown = state.issued().stream().filter(q -> q.getStage().equals(session.getStage())).count();
+        progress.put("answered", state.issued().stream().filter(q -> q.getStage().equals(session.getStage()) && q.getEffective() && state.answers().containsKey(q.getId())).count());
+        progress.put("issued", shown);
         progress.put("stageMax", maximum);
-        progress.put("remainingMax", Math.max(0, maximum - state.issued().size()));
+        progress.put("remainingMax", Math.max(0, maximum - shown));
+        progress.put("totalIssued", state.issued().size());
         return progress;
     }
 
     private String nextAction(ExplorationSession session, State state) {
         if (!session.isInProgress()) return null;
-        if (state.issued().stream().anyMatch(q -> q.getEffective() && !state.answers().containsKey(q.getId()))) return "ANSWER";
-        return state.plan().plan().toIssue().isEmpty() ? "ADVANCE" : "NEXT";
+        if (state.issued().stream().anyMatch(q -> q.getStage().equals(session.getStage()) && q.getEffective() && !state.answers().containsKey(q.getId()))) return "ANSWER";
+        if (!state.plan().toIssue().isEmpty()) return "NEXT";
+        return "STAGE_3".equals(session.getStage()) ? "COMPLETE" : "ADVANCE";
     }
 
     private ExplorationIdempotency reservation(Long userId, String operation, long resourceId, String key, byte[] hash) {
@@ -319,8 +380,21 @@ public class ExplorationSessionService {
     private static void validateKey(String key) {
         if (key == null || !key.matches("[!-~]{1,128}")) throw new ExplorationApiException(400, "INVALID_REQUEST", "멱등 키는 공백 없는 ASCII 문자 1~128자로 지정해 주세요.");
     }
-    private void requireStageOne(ExplorationSession session) {
-        if (!"STAGE_1".equals(session.getStage())) throw new ExplorationApiException(409, "STAGE_NOT_SUPPORTED", "단계 이동 기능은 아직 제공되지 않습니다.");
+    private List<BranchCatalog.Answer> responses(State state) {
+        return state.issued().stream().filter(q -> state.answers().containsKey(q.getId()))
+                .map(q -> new BranchCatalog.Answer(key(q), state.answers().get(q.getId()), true, q.getEffective())).toList();
+    }
+    private List<BranchCatalog.Key> history(State state) {
+        return state.issued().stream().map(this::key).toList();
+    }
+    private JsonNode fixedCandidates(ExplorationSession session, ExplorationRuntimeCatalog.Frozen frozen) {
+        if ("STAGE_1".equals(session.getStage())) return json.tree(null);
+        var checkpoint = stages.load(session.getId(), "STAGE_2", frozen);
+        ObjectNode dto = json.object();
+        dto.put("checkpointId", checkpoint.id());
+        dto.set("groupCodes", json.tree(checkpoint.candidates().groupCodes()));
+        dto.set("majorCodes", json.tree(checkpoint.candidates().majorCodes()));
+        return dto;
     }
     private static int stageNumber(String stage) { return Integer.parseInt(stage.substring("STAGE_".length())); }
     private static String nullable(String value) { return value.isEmpty() ? null : value; }

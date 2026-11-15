@@ -45,6 +45,12 @@ public class ExplorationSessionController {
         return reply(service.abandon(user.getUserId(), sessionId, key, request.getExpectedRevision()));
     }
 
+    @PostMapping("/{sessionId}/advance")
+    public ResponseEntity<Object> advance(@AuthenticationPrincipal CustomUserDetails user, @PathVariable long sessionId,
+            @RequestHeader("Idempotency-Key") String key, @Valid @RequestBody ExplorationRequests.Mutation request) {
+        return reply(service.advance(user.getUserId(), sessionId, key, request.getExpectedRevision()));
+    }
+
     @PutMapping("/{sessionId}/answers/{issuedId}")
     public ResponseEntity<Object> answer(@AuthenticationPrincipal CustomUserDetails user, @PathVariable long sessionId,
             @PathVariable long issuedId, @RequestHeader("Idempotency-Key") String key,
