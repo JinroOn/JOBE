@@ -31,6 +31,7 @@ public class ExplorationSessionService {
     private final ExplorationResultRepository results;
     private final ExplorationResultAssembler resultAssembler;
     private final ExplorationResultStore resultStore;
+    private final com.jinroon.jobe.domain.exploration.activity.ActivityRecommendationService activities;
 
     public record Reply(int status, JsonNode body) {}
     private record State(List<ExplorationIssuedQuestion> issued, Map<Long, String> answers, Map<Long, Integer> answerRevisions,
@@ -279,7 +280,8 @@ public class ExplorationSessionService {
             if (results.findBySessionId(sessionId).isPresent()) throw ExplorationApiException.integrity();
             throw notFound();
         }
-        return resultStore.response(requiredResult(session));
+        var result=requiredResult(session);
+        return activities.enrich(userId,result.getId(),resultStore.response(result));
     }
 
     @Transactional(readOnly = true)
@@ -288,7 +290,7 @@ public class ExplorationSessionService {
         var session = sessions.findById(result.getSessionId()).filter(s -> s.isOwnedBy(userId)).orElseThrow(this::notFound);
         policy.authorizeExisting(userId, session.getRunMode());
         if (session.getStatus() != ExplorationSessionStatus.completed) throw ExplorationApiException.integrity();
-        return resultStore.response(result);
+        return activities.enrich(userId,result.getId(),resultStore.response(result));
     }
 
     @Transactional(readOnly = true)

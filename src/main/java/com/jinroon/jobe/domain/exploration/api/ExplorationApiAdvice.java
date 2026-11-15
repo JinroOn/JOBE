@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
-@RestControllerAdvice(assignableTypes = {ExplorationSessionController.class, ExplorationResultController.class, DiagnosisHistoryController.class, PostResultSupportController.class})
+@RestControllerAdvice(assignableTypes = {ExplorationSessionController.class, ExplorationResultController.class, DiagnosisHistoryController.class, PostResultSupportController.class, ActivityRecommendationController.class})
 public class ExplorationApiAdvice {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public record Failure(int status, String code, String message, Long existingSessionId) {}

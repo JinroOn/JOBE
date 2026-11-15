@@ -204,7 +204,7 @@ public class PostResultSupportService {
         var progress=response.putObject("progress");progress.put("issued",history.size());progress.put("active",active);progress.put("answered",answered);progress.put("maximum",8);progress.put("remainingMax",8-history.size());
         response.put("budgetLimited",!omitted.isEmpty());response.set("omittedQuestionIds",json.tree(omitted));
         response.put("nextAction",active==0&&!omitted.isEmpty()?"INFO_LIMIT_REACHED":answered<active?"ANSWER":"DONE");
-        response.put("activityAvailability","UNAVAILABLE");response.put("planGenerationAvailable",false);
+        response.put("activityAvailability","NOT_EVALUATED");response.put("activitiesEndpoint","/api/exploration/v1/results/"+context.result().getId()+"/activities");response.put("planGenerationAvailable",false);
         return response;
     }
     private JsonNode allowedPurposes(Context context){return json.tree(context.snapshot().path("status").asText().equals("NO_SUPPORTED_CANDIDATE")?List.of("ACTIVITY"):List.of("PLAN","ACTIVITY","BOTH"));}

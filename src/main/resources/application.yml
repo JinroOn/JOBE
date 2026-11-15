@@ -90,6 +90,11 @@ exploration:
     # 시작 시 적재. 기본 꺼짐. 개발 환경에서만 켠다. 적재 상태는 입력 그대로(REVIEWED)이며 ACTIVE로 바꾸지 않는다.
     load-on-startup: ${EXPLORATION_CATALOG_LOAD_ON_STARTUP:false}
     dry-run: ${EXPLORATION_CATALOG_DRY_RUN:false}
+  activities:
+    catalog-version: ${EXPLORATION_ACTIVITY_CATALOG_VERSION:ACTIVITY_CATALOG_V1_DRAFT}
+    dataset-path: ${EXPLORATION_ACTIVITY_DATASET_PATH:datasets/activities/catalog.json}
+    load-on-startup: ${EXPLORATION_ACTIVITY_LOAD_ON_STARTUP:false}
+    dry-run: ${EXPLORATION_ACTIVITY_DRY_RUN:true}
 
 app:
   mail:

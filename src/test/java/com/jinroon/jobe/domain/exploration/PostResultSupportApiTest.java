@@ -35,7 +35,8 @@ class PostResultSupportApiTest extends CompletedExplorationTestSupport {
         assertThat(count("exploration_idempotency","user_id=? AND operation='SUPPORT_SELECT'",OWNER)).isZero();
         JsonNode activity=select(rid,0,"ACTIVITY",null,"activity",200);
         assertThat(activity.path("progress").path("issued").asInt()).isEqualTo(6);
-        assertThat(activity.path("activityAvailability").asText()).isEqualTo("UNAVAILABLE");
+        assertThat(activity.path("activityAvailability").asText()).isEqualTo("NOT_EVALUATED");
+        assertThat(activity.path("activitiesEndpoint").asText()).isEqualTo("/api/exploration/v1/results/"+rid+"/activities");
         assertThat(activity.path("planGenerationAvailable").asBoolean()).isFalse();
         assertThat(select(rid,1,"ACTIVITY","MAJOR_ROW_2","target",422).path("code").asText()).isEqualTo("TARGET_MAJOR_NOT_IN_RESULT");
     }

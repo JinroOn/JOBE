@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
+@org.springframework.core.annotation.Order(0)
 @RequiredArgsConstructor
 @ConditionalOnProperty(prefix = "exploration.catalog", name = "load-on-startup", havingValue = "true")
 public class ExplorationCatalogLoadRunner implements ApplicationRunner {
