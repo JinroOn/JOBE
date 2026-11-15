@@ -44,6 +44,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AuthService {
 
+
     private static final int REFRESH_TOKEN_BYTES = 48;
     private static final int EMAIL_VERIFICATION_CODE_BOUND = 1_000_000;
     private static final int REFRESH_TOKEN_DAYS = 14;
@@ -63,6 +64,7 @@ public class AuthService {
     private final JwtProvider jwtProvider;
     private final MailService mailService;
     private final SecureRandom secureRandom = new SecureRandom();
+    private final com.jinroon.jobe.domain.user.service.UserWriteGuard writeGuard;
 
     @Transactional
     public UserResponse signUp(SignUpRequest request) {
@@ -211,6 +213,11 @@ public class AuthService {
         if (user == null || !user.isActive()) {
             return silentResponse;
         }
+        // Serialize token issuance with account deletion while keeping the non-enumerating response.
+        user = userRepository.findByIdForUpdate(user.getId()).orElse(null);
+        if (user == null || !user.isActive()) {
+            return silentResponse;
+        }
         boolean allowed = isIssueAllowed(
                 passwordResetTokenRepository.findFirstByEmailOrderByIdDesc(user.getEmail())
                         .map(PasswordResetToken::getCreatedAt)
@@ -290,6 +297,7 @@ public class AuthService {
     }
 
     private void requireActive(User user) {
+        writeGuard.requireActive(user.getId());
         if (!user.isActive()) {
             throw new CustomException(ErrorCode.UNAUTHORIZED);
         }

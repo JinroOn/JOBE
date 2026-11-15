@@ -90,7 +90,8 @@ class AuthServiceTest {
                 passwordResetTokenRepository,
                 passwordHasher,
                 jwtProvider,
-                mailService
+                mailService,
+                org.mockito.Mockito.mock(com.jinroon.jobe.domain.user.service.UserWriteGuard.class)
         );
     }
 
@@ -425,6 +426,7 @@ class AuthServiceTest {
     @Test
     void issuePasswordResetSendsSixDigitCodeToActiveUser() {
         when(userRepository.findByEmail(EMAIL)).thenReturn(Optional.of(activeUser(1L)));
+        when(userRepository.findByIdForUpdate(1L)).thenReturn(Optional.of(activeUser(1L)));
         when(passwordResetTokenRepository.existsByToken(anyString())).thenReturn(false);
         when(passwordResetTokenRepository.save(any(PasswordResetToken.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
@@ -435,6 +437,18 @@ class AuthServiceTest {
         ArgumentCaptor<String> codeCaptor = ArgumentCaptor.forClass(String.class);
         verify(mailService).sendPasswordReset(eq(EMAIL), codeCaptor.capture());
         assertThat(codeCaptor.getValue()).matches("\\d{6}");
+    }
+
+    @Test
+    void issuePasswordResetDoesNotRecreateTokenWhenAccountWasDeletedAfterLookup() {
+        when(userRepository.findByEmail(EMAIL)).thenReturn(Optional.of(activeUser(1L)));
+        when(userRepository.findByIdForUpdate(1L)).thenReturn(Optional.empty());
+
+        var response=service.issuePasswordReset(new PasswordResetIssueRequest(EMAIL));
+
+        assertThat(response.email()).isEqualTo(EMAIL);
+        verify(passwordResetTokenRepository,never()).save(any());
+        verify(mailService,never()).sendPasswordReset(anyString(),anyString());
     }
 
     @Test
@@ -466,6 +480,7 @@ class AuthServiceTest {
         PasswordResetToken recent = resetToken("123456", false, LocalDateTime.now().plusMinutes(30));
         ReflectionTestUtils.setField(recent, "createdAt", LocalDateTime.now().minusSeconds(10));
         when(userRepository.findByEmail(EMAIL)).thenReturn(Optional.of(activeUser(1L)));
+        when(userRepository.findByIdForUpdate(1L)).thenReturn(Optional.of(activeUser(1L)));
         when(passwordResetTokenRepository.findFirstByEmailOrderByIdDesc(EMAIL)).thenReturn(Optional.of(recent));
 
         var response = service.issuePasswordReset(new PasswordResetIssueRequest(EMAIL));

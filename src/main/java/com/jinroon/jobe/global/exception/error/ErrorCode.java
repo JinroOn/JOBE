@@ -19,6 +19,7 @@ public enum ErrorCode {
     // User
     USER_NOT_FOUND(404, "존재하지 않는 사용자입니다."),
     USER_EMAIL_DUPLICATE(409, "이미 사용 중인 이메일입니다."),
+    ACCOUNT_WITHDRAWAL_REQUIRED(409, "필수 동의 철회는 회원 탈퇴 경로를 이용해 주세요."),
     USER_PASSWORD_INVALID(401, "비밀번호가 올바르지 않습니다."),
 
     // Auth
@@ -52,6 +53,10 @@ public enum ErrorCode {
 
     // Major
     MAJOR_NOT_FOUND(404, "존재하지 않는 전공입니다."),
+    MAJOR_IN_USE(409, "사용 중인 전공은 삭제할 수 없습니다."),
+    MAJOR_BINDING_CONFLICT(409, "이미 다른 전공과 연결되어 있습니다."),
+    MAJOR_BINDING_MISMATCH(422, "전공 코드·이름·원본 파일이 일치하지 않습니다."),
+    CATALOG_IMMUTABLE(409, "공개 또는 보관된 카탈로그는 변경할 수 없습니다."),
     MAJOR_FAVORITE_DUPLICATE(409, "이미 즐겨찾기에 추가된 전공입니다."),
     MAJOR_FAVORITE_NOT_FOUND(404, "즐겨찾기를 찾을 수 없습니다."),
 

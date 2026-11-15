@@ -46,6 +46,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ConsultationService {
 
+
     private final ConsultationSessionRepository consultationSessionRepository;
     private final ConsultationLogRepository consultationLogRepository;
     private final DiagnosisResultRepository diagnosisResultRepository;
@@ -56,6 +57,7 @@ public class ConsultationService {
     private final MajorWeeklyPlanItemRepository planItemRepository;
     private final DiagnosisProfileScoringService diagnosisProfileScoringService;
     private final AiServiceClient aiServiceClient;
+    private final com.jinroon.jobe.domain.user.service.UserWriteGuard writeGuard;
 
     public List<ConsultationSession> findSessionsByUser(Long userId) {
         return consultationSessionRepository.findByUserId(userId);
@@ -98,6 +100,7 @@ public class ConsultationService {
 
     @Transactional
     public ConsultationSession createSessionForUser(Map<String, Object> values, Long userId) {
+        writeGuard.requireActive(userId);
         values.put("userId", userId);
         return createSession(values);
     }
@@ -111,6 +114,7 @@ public class ConsultationService {
 
     @Transactional
     public ConsultationSession updateSessionForUser(Long sessionId, Map<String, Object> values, Long userId) {
+        writeGuard.requireActive(userId);
         ConsultationSession session = getSessionForUser(sessionId, userId);
         values.remove("userId");
         EntityFormMapper.apply(session, values);
@@ -128,6 +132,7 @@ public class ConsultationService {
 
     @Transactional
     public ConsultationSession endSessionForUser(Long sessionId, Long userId) {
+        writeGuard.requireActive(userId);
         getSessionForUser(sessionId, userId);
         return endSession(sessionId);
     }
@@ -144,6 +149,7 @@ public class ConsultationService {
 
     @Transactional
     public ConsultationLog createLogForUser(Map<String, Object> values, Long userId) {
+        writeGuard.requireActive(userId);
         Long sessionId = ((Number) values.get("consultationSessionId")).longValue();
         getSessionForUser(sessionId, userId);
         // 사용자가 직접 남기는 로그는 항상 user. assistant 로그는 AI 답변 저장(createMessageWithAiReplyForUser)에서만 만든다.
@@ -157,6 +163,7 @@ public class ConsultationService {
             ConsultationMessageRequest request,
             Long userId
     ) {
+        writeGuard.requireActive(userId);
         ConsultationSession session = getSessionForUser(sessionId, userId);
         if (session.isEnded()) {
             throw new CustomException(ErrorCode.CONSULTATION_SESSION_ALREADY_ENDED);
@@ -189,7 +196,7 @@ public class ConsultationService {
 
     private static void requireOwner(Long ownerId, Long userId) {
         if (!Objects.equals(ownerId, userId)) {
-            throw new CustomException(ErrorCode.FORBIDDEN);
+            throw new CustomException(ErrorCode.CONSULTATION_SESSION_NOT_FOUND);
         }
     }
 

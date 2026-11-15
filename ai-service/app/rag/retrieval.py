@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session
 
 from app.db import get_ai_database_settings
 from app.rag.ingestion import create_embedding_provider, get_embedding_dimension, normalize_major_key, stable_hash
+from app.rag.approval import with_approval
 from app.rag.models import AiMajorAlias, AiMajorChunk, AiMajorDocument, AiRetrievalLog
 from app.rag.schemas import (
     RagSnippet,
@@ -46,6 +47,7 @@ class ChunkCandidate:
     score: float | None = None
     alias_name: str | None = None
     canonical_major_name: str | None = None
+    review_id: int | None = None
 
 
 @dataclass(frozen=True)
@@ -106,7 +108,7 @@ class MajorRagRetriever:
         canonical_key = alias_match.major_key if alias_match else major_key
 
         candidates: list[ChunkCandidate] = []
-        candidates.extend(_exact_candidates(session, canonical_key, dataset_version, request.topK * 2, matched_by="exact"))
+        candidates.extend(_exact_candidates(session, canonical_key, dataset_version, request.topK * 2, matched_by="exact", **({"approved_only": True} if request.approvedOnly else {})))
         if alias_match:
             candidates.extend(
                 ChunkCandidate(
@@ -114,10 +116,11 @@ class MajorRagRetriever:
                     document=candidate.document,
                     matched_by="alias",
                     score=candidate.score,
+                    review_id=candidate.review_id,
                     alias_name=alias_match.alias_name,
                     canonical_major_name=alias_match.major_name,
                 )
-                for candidate in _exact_candidates(session, alias_match.major_key, dataset_version, request.topK * 2, matched_by="alias")
+                for candidate in _exact_candidates(session, alias_match.major_key, dataset_version, request.topK * 2, matched_by="alias", **({"approved_only": True} if request.approvedOnly else {}))
             )
 
         vector_candidates: list[ChunkCandidate] = []
@@ -148,6 +151,8 @@ class MajorRagRetriever:
             )
 
         context = _build_major_context(request.majorName, ranked)
+        if request.approvedOnly:
+            context = context.model_copy(update={"coreAxes": None})
         snippets = [_to_snippet(candidate, max_chars=request.maxSnippetChars) for candidate in ranked]
         matched_by = _dominant_match(snippets)
         meta = RetrievalMeta(
@@ -236,6 +241,7 @@ def _exact_candidates(
     limit: int,
     *,
     matched_by: str,
+    approved_only: bool = False,
 ) -> list[ChunkCandidate]:
     stmt = (
         _base_chunk_select()
@@ -248,7 +254,10 @@ def _exact_candidates(
         .limit(limit)
     )
     stmt = _with_dataset_version(stmt, dataset_version)
-    return [ChunkCandidate(chunk=chunk, document=document, matched_by=matched_by, score=1.0) for chunk, document in session.execute(stmt)]
+    if approved_only:
+        stmt = with_approval(stmt)
+    return [ChunkCandidate(chunk=row[0], document=row[1], matched_by=matched_by, score=1.0,
+                           review_id=int(row[2]) if approved_only else None) for row in session.execute(stmt)]
 
 
 def _vector_candidates(
@@ -276,11 +285,14 @@ def _vector_candidates(
     )
     stmt = _with_dataset_version(stmt, dataset_version)
     candidates: list[ChunkCandidate] = []
-    for chunk, document, raw_distance in session.execute(stmt):
+    if request.approvedOnly:
+        stmt = with_approval(stmt)
+    for row in session.execute(stmt):
+        chunk, document, raw_distance = row[:3]
         score = max(0.0, 1.0 - float(raw_distance))
         if score < request.scoreThreshold:
             continue
-        candidates.append(ChunkCandidate(chunk=chunk, document=document, matched_by="vector", score=score))
+        candidates.append(ChunkCandidate(chunk=chunk, document=document, matched_by="vector", score=score, review_id=int(row[3]) if request.approvedOnly else None))
     return candidates
 
 
@@ -354,7 +366,13 @@ def _first_chunk_text(candidates: list[ChunkCandidate], chunk_type: str) -> str 
 
 
 def _to_snippet(candidate: ChunkCandidate, *, max_chars: int) -> RagSnippet:
-    metadata = dict(candidate.chunk.metadata_json or {})
+    metadata = dict(candidate.chunk.metadata_json or {}) if candidate.review_id is None else {
+        "evidenceReviewId": candidate.review_id,
+        "datasetVersion": candidate.document.dataset_version,
+        "documentContentHash": candidate.document.content_hash,
+        "chunkContentHash": candidate.chunk.content_hash,
+        "evidenceScope": "PUBLIC",
+    }
     if candidate.alias_name:
         metadata.update(
             {

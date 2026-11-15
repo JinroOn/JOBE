@@ -103,7 +103,8 @@ class ResultServiceTest {
                 majorDatasetContextService,
                 new ObjectMapper(),
                 planService,
-                new TendencyScoringService(new ObjectMapper())
+                new TendencyScoringService(new ObjectMapper()),
+                org.mockito.Mockito.mock(com.jinroon.jobe.domain.user.service.UserWriteGuard.class)
         );
     }
 
@@ -236,7 +237,7 @@ class ResultServiceTest {
         assertThatThrownBy(() -> resultService.completeDiagnosisResultForUser(10L, 99L))
                 .isInstanceOf(CustomException.class)
                 .extracting("errorCode")
-                .isEqualTo(ErrorCode.FORBIDDEN);
+                .isEqualTo(ErrorCode.RESULT_NOT_FOUND);
 
         verify(competencyEvalResultRepository, never()).findByDiagnosisSessionId(any());
     }
@@ -372,7 +373,7 @@ class ResultServiceTest {
         assertThatThrownBy(() -> resultService.generateAiCommentForUser(1L, 99L))
                 .isInstanceOf(CustomException.class)
                 .extracting("errorCode")
-                .isEqualTo(ErrorCode.FORBIDDEN);
+                .isEqualTo(ErrorCode.RESULT_NOT_FOUND);
 
         verify(aiServiceClient, never()).getRecommendationComment(any());
     }
@@ -808,7 +809,7 @@ class ResultServiceTest {
         when(diagnosisSessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
         when(competencyEvalResultRepository.findByDiagnosisSessionId(session.getId())).thenReturn(Optional.of(competency));
         when(tendencyEvalResultRepository.findByDiagnosisSessionId(session.getId())).thenReturn(Optional.of(tendency));
-        when(majorRepository.findAll()).thenReturn(majors);
+        when(majorRepository.findAllForReference()).thenReturn(majors);
         when(diagnosisResultRepository.findByDiagnosisSessionId(session.getId())).thenReturn(Optional.empty());
         when(diagnosisResultRepository.save(any(DiagnosisResult.class))).thenAnswer(invocation -> {
             DiagnosisResult result = invocation.getArgument(0);

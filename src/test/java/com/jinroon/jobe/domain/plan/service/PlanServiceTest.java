@@ -95,7 +95,8 @@ class PlanServiceTest {
                 diagnosisProfileScoringService,
                 aiServiceClient,
                 new ObjectMapper(),
-                majorDatasetContextService
+                majorDatasetContextService,
+                org.mockito.Mockito.mock(com.jinroon.jobe.domain.user.service.UserWriteGuard.class)
         );
     }
 
@@ -323,7 +324,7 @@ class PlanServiceTest {
         assertThatThrownBy(() -> planService.createPlanForUser(planValues(), 99L))
                 .isInstanceOf(CustomException.class)
                 .extracting("errorCode")
-                .isEqualTo(ErrorCode.FORBIDDEN);
+                .isEqualTo(ErrorCode.RESULT_NOT_FOUND);
 
         verify(planRepository, never()).save(any());
         verify(aiServiceClient, never()).getWeeklyPlan(any());

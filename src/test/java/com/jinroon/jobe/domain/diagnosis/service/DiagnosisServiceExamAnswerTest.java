@@ -97,7 +97,8 @@ class DiagnosisServiceExamAnswerTest {
                 majorWeeklyPlanRiskNoteRepository,
                 consultationSessionRepository,
                 consultationLogRepository,
-                new TendencyScoringService(new com.fasterxml.jackson.databind.ObjectMapper())
+                new TendencyScoringService(new com.fasterxml.jackson.databind.ObjectMapper()),
+                org.mockito.Mockito.mock(com.jinroon.jobe.domain.user.service.UserWriteGuard.class)
         );
     }
 
@@ -178,7 +179,7 @@ class DiagnosisServiceExamAnswerTest {
         assertThatThrownBy(() -> diagnosisService.createExamAnswerForUser(answerValues(10L, 101L, "A", 10, true), 99L))
                 .isInstanceOf(CustomException.class)
                 .extracting("errorCode")
-                .isEqualTo(ErrorCode.FORBIDDEN);
+                .isEqualTo(ErrorCode.DIAGNOSIS_SESSION_NOT_FOUND);
 
         verify(examQuestionRepository, never()).findById(any());
         verify(examAnswerRepository, never()).findByDiagnosisSessionIdAndExamQuestionId(any(), any());

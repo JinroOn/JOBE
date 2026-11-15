@@ -54,7 +54,8 @@ class DiagnosisScoringServiceTest {
                 diagnosisSessionRepository,
                 examAnswerRepository,
                 examQuestionRepository,
-                competencyEvalResultRepository
+                competencyEvalResultRepository,
+                org.mockito.Mockito.mock(com.jinroon.jobe.domain.user.service.UserWriteGuard.class)
         );
     }
 
@@ -97,7 +98,7 @@ class DiagnosisScoringServiceTest {
         assertThatThrownBy(() -> scoringService.scoreCompetencyForUser(10L, 99L))
                 .isInstanceOf(CustomException.class)
                 .extracting("errorCode")
-                .isEqualTo(ErrorCode.FORBIDDEN);
+                .isEqualTo(ErrorCode.DIAGNOSIS_SESSION_NOT_FOUND);
 
         verify(examAnswerRepository, never()).findByDiagnosisSessionId(any());
     }

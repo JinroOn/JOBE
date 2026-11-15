@@ -1,0 +1,11 @@
+# Optional local-only host access. Default compose keeps DB and AI services internal.
+services:
+  mysql:
+    ports:
+      - "127.0.0.1:3307:3306"
+  ai-postgres:
+    ports:
+      - "127.0.0.1:5433:5432"
+  ai-service:
+    ports:
+      - "127.0.0.1:8001:8001"

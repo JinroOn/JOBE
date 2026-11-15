@@ -20,6 +20,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Major extends BaseEntitySupport {
 
+    public void updateDescription(String description, String careerPaths) {
+        if (description != null) this.description = description;
+        if (careerPaths != null) this.careerPaths = careerPaths;
+    }
+
     @Column(nullable = false, length = 100)
     private String name;
 
