@@ -54,6 +54,7 @@ public enum ErrorCode {
     // Major
     MAJOR_NOT_FOUND(404, "존재하지 않는 전공입니다."),
     MAJOR_IN_USE(409, "사용 중인 전공은 삭제할 수 없습니다."),
+    MAJOR_RENAME_REQUIRES_MAPPING_UPDATE(409, "신규 전공 매핑에 연결된 전공명은 매핑 변경 절차가 필요합니다."),
     MAJOR_BINDING_CONFLICT(409, "이미 다른 전공과 연결되어 있습니다."),
     MAJOR_BINDING_MISMATCH(422, "전공 코드·이름·원본 파일이 일치하지 않습니다."),
     CATALOG_IMMUTABLE(409, "공개 또는 보관된 카탈로그는 변경할 수 없습니다."),

@@ -3,7 +3,7 @@ package com.jinroon.jobe.domain.major.controller;
 import com.jinroon.jobe.domain.major.controller.api.MajorApi;
 import com.jinroon.jobe.domain.major.dto.request.MajorRequest;
 import com.jinroon.jobe.domain.major.dto.response.MajorResponse;
-import com.jinroon.jobe.domain.major.dto.request.MajorDescriptionRequest;
+import com.jinroon.jobe.domain.major.dto.request.MajorUpdateRequest;
 import com.jinroon.jobe.domain.major.service.MajorService;
 import com.jinroon.jobe.global.common.dto.RequestMapMapper;
 import jakarta.validation.Valid;
@@ -52,7 +52,7 @@ public class MajorController implements MajorApi {
 
     @Override
     @PatchMapping("/{majorId}")
-    public MajorResponse updateMajor(@PathVariable Long majorId, @Valid @RequestBody MajorDescriptionRequest request) {
+    public MajorResponse updateMajor(@PathVariable Long majorId, @Valid @RequestBody MajorUpdateRequest request) {
         return MajorResponse.from(majorService.updateMajor(majorId, RequestMapMapper.toMap(request)));
     }
 

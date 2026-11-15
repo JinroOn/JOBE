@@ -25,6 +25,56 @@ public class Major extends BaseEntitySupport {
         if (careerPaths != null) this.careerPaths = careerPaths;
     }
 
+    public void updateLegacyMetadata(String name, String category, MajorDifficulty difficulty) {
+        if (name != null) this.name = name;
+        if (category != null) this.category = category;
+        if (difficulty != null) this.difficulty = difficulty;
+    }
+
+    public record LegacyScores(Float reqMathLogic,
+        Float reqProblemSolving,
+        Float reqInfoTech,
+        Float reqImplementation,
+        Float reqSystemUnderstanding,
+        Float reqDataAnalysis,
+        Float reqCommunication,
+        Float reqCollaboration,
+        Float reqSelfManagement,
+        Float tendLogicalInquiry,
+        Float tendPracticalTech,
+        Float tendArtCreative,
+        Float tendSocialCooperation,
+        Float tendLifeHealth,
+        Float tendEducationGuide,
+        Float tendTheoryAcademic,
+        Float tendDataAnalytics,
+        Float tendSystemOperation,
+        Float thrMathLogic,
+        Float thrInfoTech) {}
+
+    public void updateLegacyScores(LegacyScores scores) {
+        if (scores.reqMathLogic() != null) this.reqMathLogic = scores.reqMathLogic();
+        if (scores.reqProblemSolving() != null) this.reqProblemSolving = scores.reqProblemSolving();
+        if (scores.reqInfoTech() != null) this.reqInfoTech = scores.reqInfoTech();
+        if (scores.reqImplementation() != null) this.reqImplementation = scores.reqImplementation();
+        if (scores.reqSystemUnderstanding() != null) this.reqSystemUnderstanding = scores.reqSystemUnderstanding();
+        if (scores.reqDataAnalysis() != null) this.reqDataAnalysis = scores.reqDataAnalysis();
+        if (scores.reqCommunication() != null) this.reqCommunication = scores.reqCommunication();
+        if (scores.reqCollaboration() != null) this.reqCollaboration = scores.reqCollaboration();
+        if (scores.reqSelfManagement() != null) this.reqSelfManagement = scores.reqSelfManagement();
+        if (scores.tendLogicalInquiry() != null) this.tendLogicalInquiry = scores.tendLogicalInquiry();
+        if (scores.tendPracticalTech() != null) this.tendPracticalTech = scores.tendPracticalTech();
+        if (scores.tendArtCreative() != null) this.tendArtCreative = scores.tendArtCreative();
+        if (scores.tendSocialCooperation() != null) this.tendSocialCooperation = scores.tendSocialCooperation();
+        if (scores.tendLifeHealth() != null) this.tendLifeHealth = scores.tendLifeHealth();
+        if (scores.tendEducationGuide() != null) this.tendEducationGuide = scores.tendEducationGuide();
+        if (scores.tendTheoryAcademic() != null) this.tendTheoryAcademic = scores.tendTheoryAcademic();
+        if (scores.tendDataAnalytics() != null) this.tendDataAnalytics = scores.tendDataAnalytics();
+        if (scores.tendSystemOperation() != null) this.tendSystemOperation = scores.tendSystemOperation();
+        if (scores.thrMathLogic() != null) this.thrMathLogic = scores.thrMathLogic();
+        if (scores.thrInfoTech() != null) this.thrInfoTech = scores.thrInfoTech();
+    }
+
     @Column(nullable = false, length = 100)
     private String name;
 
