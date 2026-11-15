@@ -29,8 +29,10 @@ public class ExplorationSessionService {
     private final ExplorationJson json;
 
     public record Reply(int status, JsonNode body) {}
-    private record State(List<ExplorationIssuedQuestion> issued, Map<Long, String> answers,
+    private record State(List<ExplorationIssuedQuestion> issued, Map<Long, String> answers, Map<Long, Integer> answerRevisions,
                          QuestionBranchEngine.StageOne plan) {}
+
+    private record BranchChanges(List<Long> excludedIssuedIds, List<Long> restoredIssuedIds) {}
 
     @Transactional
     public Reply start(Long userId, String key, String diagnosisType) {
@@ -60,16 +62,9 @@ public class ExplorationSessionService {
         writable(session, expectedRevision);
         requireStageOne(session);
         var frozen = catalogs.load(sessionId);
+        BranchChanges changes = reconcile(session, frozen);
         State state = state(session, frozen);
-        Set<BranchCatalog.Key> active = new HashSet<>(state.plan().plan().active());
-        boolean changed = false;
-        for (ExplorationIssuedQuestion question : state.issued()) {
-            boolean effective = active.contains(key(question));
-            if (effective != question.getEffective()) {
-                if (effective) question.restore(); else question.exclude();
-                changed = true;
-            }
-        }
+        boolean changed = !changes.excludedIssuedIds().isEmpty() || !changes.restoredIssuedIds().isEmpty();
         int ordinal = issued.findMaxOrdinal(sessionId);
         for (BranchCatalog.Key keyToIssue : state.plan().plan().toIssue()) {
             issued.save(ExplorationIssuedQuestion.issue(sessionId, keyToIssue.questionId(), keyToIssue.questionVersion(),
@@ -87,7 +82,64 @@ public class ExplorationSessionService {
                 .forEach(q -> questions.add(questionDto(q, frozen)));
         response.set("progress", progress(session, frozen, updated));
         response.put("nextAction", nextAction(session, updated));
-        response.put("adjusted", state.issued().stream().anyMatch(q -> !q.getEffective()));
+        response.put("adjusted", !changes.excludedIssuedIds().isEmpty() || !changes.restoredIssuedIds().isEmpty());
+        return success(request, 200, response);
+    }
+
+    @Transactional
+    public Reply answer(Long userId, long sessionId, long issuedId, String idempotencyKey,
+                        long expectedRevision, String optionCode, String clientMutationId) {
+        validateKey(idempotencyKey);
+        validateKey(clientMutationId);
+        users.requireActive(userId);
+        ExplorationSession session = ownedLocked(userId, sessionId);
+        ExplorationIssuedQuestion question = issued.findByIdAndSessionId(issuedId, sessionId).orElseThrow(this::notFound);
+        policy.authorizeExisting(userId, session.getRunMode());
+        byte[] hash = json.hash(Map.of("operation", "ANSWER", "sessionId", sessionId, "issuedId", issuedId,
+                "expectedRevision", expectedRevision, "optionCode", optionCode, "clientMutationId", clientMutationId));
+        ExplorationIdempotency request = reservation(userId, "ANSWER", issuedId, idempotencyKey, hash);
+        if (request.getResponseStatus() != null) return replay(request);
+        Optional<ExplorationAnswerRevision> mutation = answers.findByIssuedIdAndClientMutationId(issuedId, clientMutationId);
+        if (mutation.isPresent()) {
+            if (!Arrays.equals(mutation.get().getMutationRequestHash(), hash))
+                throw new ExplorationApiException(409, "IDEMPOTENCY_CONFLICT", "같은 답변 변경 식별자의 요청 내용이 다릅니다.");
+            return success(request, 200, json.read(mutation.get().getMutationResponseJson()));
+        }
+        writable(session, expectedRevision);
+        requireStageOne(session);
+        var frozen = catalogs.load(sessionId);
+        JsonNode snapshot = validatedSnapshot(question, frozen);
+        if (!question.getEffective()) throw new ExplorationApiException(422, "QUESTION_NOT_EFFECTIVE", "현재 분기에서 답변할 수 없는 문항입니다.");
+        if (!session.getStage().equals(question.getStage())) throw new ExplorationApiException(422, "QUESTION_NOT_EFFECTIVE", "현재 단계의 문항이 아닙니다.");
+        boolean allowed = false;
+        for (JsonNode option : snapshot.path("options")) if (option.path("option_code").asText().equals(optionCode)) allowed = true;
+        if (!allowed) throw new ExplorationApiException(422, "OPTION_NOT_ISSUED", "발급된 선택지가 아닙니다.");
+        var current = answers.findByIssuedIdAndCurrentTrue(issuedId);
+        var latest = answers.findFirstByIssuedIdOrderByAnswerRevisionDesc(issuedId);
+        if (!current.map(ExplorationAnswerRevision::getId).equals(latest.map(ExplorationAnswerRevision::getId)))
+            throw ExplorationApiException.integrity();
+        int answerRevision = latest.map(a -> Math.addExact(a.getAnswerRevision(), 1)).orElse(1);
+        current.ifPresent(ExplorationAnswerRevision::release);
+        answers.flush(); // release current BEFORE the INSERT touches the generated unique key
+        var saved = answers.saveAndFlush(ExplorationAnswerRevision.record(issuedId, answerRevision, optionCode,
+                clientMutationId, hash, "{}", LocalDateTime.now()));
+        BranchChanges changes = reconcile(session, frozen);
+        session.increaseRevision();
+        State updated = state(session, frozen);
+        ObjectNode response = json.object();
+        response.put("issuedId", issuedId);
+        response.put("optionCode", optionCode);
+        response.put("answerRevision", answerRevision);
+        response.put("revision", session.getRevision());
+        response.put("effective", question.getEffective());
+        ObjectNode branch = response.putObject("branchChanges");
+        branch.set("excludedIssuedIds", json.tree(changes.excludedIssuedIds()));
+        branch.set("restoredIssuedIds", json.tree(changes.restoredIssuedIds()));
+        branch.put("pendingQuestionCount", updated.plan().plan().toIssue().size());
+        branch.put("budgetLimited", updated.plan().plan().budgetLimited());
+        response.set("progress", progress(session, frozen, updated));
+        response.put("nextAction", nextAction(session, updated));
+        saved.storeMutationResponse(json.write(response));
         return success(request, 200, response);
     }
 
@@ -120,6 +172,7 @@ public class ExplorationSessionService {
             row.set("question", questionDto(question, frozen));
             row.put("stage", stageNumber(question.getStage()));
             row.put("answerCode", state.answers().get(question.getId()));
+            row.set("answerRevision", json.tree(state.answerRevisions().get(question.getId())));
             row.put("effective", question.getEffective());
         }
         response.set("progress", progress(session, frozen, state));
@@ -149,19 +202,43 @@ public class ExplorationSessionService {
     private State state(ExplorationSession session, ExplorationRuntimeCatalog.Frozen frozen) {
         List<ExplorationIssuedQuestion> history = issued.findBySessionIdOrderByOrdinalAsc(session.getId());
         Map<Long, String> current = new HashMap<>();
+        Map<Long, Integer> revisions = new HashMap<>();
         if (!history.isEmpty()) answers.findByIssuedIdInAndCurrentTrue(history.stream().map(ExplorationIssuedQuestion::getId).toList())
-                .forEach(a -> current.put(a.getIssuedId(), a.getOptionCode()));
+                .forEach(a -> { current.put(a.getIssuedId(), a.getOptionCode()); revisions.put(a.getIssuedId(), a.getAnswerRevision()); });
         List<BranchCatalog.Answer> responses = history.stream().filter(q -> current.containsKey(q.getId()))
                 .map(q -> new BranchCatalog.Answer(key(q), current.get(q.getId()), true, q.getEffective())).toList();
         try {
+            for (ExplorationIssuedQuestion question : history) validatedSnapshot(question, frozen);
+            responses.forEach(frozen.branch()::option); // excluded answers must also belong to their pinned variant
             var plan = new QuestionBranchEngine(frozen.branch()).stageOne(responses, history.stream().map(this::key).toList());
-            return new State(history, current, plan);
+            return new State(history, current, revisions, plan);
         } catch (IllegalArgumentException e) { throw ExplorationApiException.integrity(); }
     }
 
-    private ObjectNode questionDto(ExplorationIssuedQuestion question, ExplorationRuntimeCatalog.Frozen frozen) {
+    private BranchChanges reconcile(ExplorationSession session, ExplorationRuntimeCatalog.Frozen frozen) {
+        State before = state(session, frozen);
+        Set<BranchCatalog.Key> active = new HashSet<>(before.plan().plan().active());
+        List<Long> excluded = new ArrayList<>(), restored = new ArrayList<>();
+        for (ExplorationIssuedQuestion question : before.issued()) {
+            if (active.contains(key(question)) && !question.getEffective()) {
+                question.restore(); restored.add(question.getId());
+            } else if (!active.contains(key(question)) && question.getEffective()) {
+                question.exclude(); excluded.add(question.getId());
+            }
+        }
+        // No exposure here: fresh keys are issued only by /next; restored instances keep their original snapshot.
+        issued.flush();
+        return new BranchChanges(List.copyOf(excluded), List.copyOf(restored));
+    }
+
+    private JsonNode validatedSnapshot(ExplorationIssuedQuestion question, ExplorationRuntimeCatalog.Frozen frozen) {
         JsonNode snapshot = json.read(question.getSnapshotJson());
         if (!json.hex(snapshot).equals(json.hex(catalogs.questionSnapshot(frozen, key(question))))) throw ExplorationApiException.integrity();
+        return snapshot;
+    }
+
+    private ObjectNode questionDto(ExplorationIssuedQuestion question, ExplorationRuntimeCatalog.Frozen frozen) {
+        JsonNode snapshot = validatedSnapshot(question, frozen);
         ObjectNode dto = json.object();
         dto.put("issuedId", question.getId());
         dto.put("questionId", question.getQuestionId());

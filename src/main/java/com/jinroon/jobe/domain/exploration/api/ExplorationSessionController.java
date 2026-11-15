@@ -45,6 +45,14 @@ public class ExplorationSessionController {
         return reply(service.abandon(user.getUserId(), sessionId, key, request.getExpectedRevision()));
     }
 
+    @PutMapping("/{sessionId}/answers/{issuedId}")
+    public ResponseEntity<Object> answer(@AuthenticationPrincipal CustomUserDetails user, @PathVariable long sessionId,
+            @PathVariable long issuedId, @RequestHeader("Idempotency-Key") String key,
+            @Valid @RequestBody ExplorationRequests.Answer request) {
+        return reply(service.answer(user.getUserId(), sessionId, issuedId, key, request.getExpectedRevision(),
+                request.getOptionCode(), request.getClientMutationId()));
+    }
+
     private ResponseEntity<Object> reply(ExplorationSessionService.Reply result) {
         return ResponseEntity.status(result.status()).body(json.responseValue(result.body()));
     }

@@ -3,6 +3,8 @@ package com.jinroon.jobe.domain.exploration.api;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
@@ -36,5 +38,13 @@ public final class ExplorationRequests {
                 throw new IllegalArgumentException("Revision must be a JSON integer");
             expectedRevision = Long.valueOf(value.toString());
         }
+    }
+
+    @Getter @Setter
+    public static class Answer extends Mutation {
+        @NotBlank @Size(max = 100)
+        private String optionCode;
+        @NotNull @Pattern(regexp = "[!-~]{1,128}")
+        private String clientMutationId;
     }
 }
