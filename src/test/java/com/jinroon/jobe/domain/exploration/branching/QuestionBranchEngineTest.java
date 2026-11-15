@@ -35,6 +35,24 @@ class QuestionBranchEngineTest {
     private static MajorProfile simple(String code,String group,String interest) {
         return new MajorProfile(code,group,InterestStructure.SINGLE,interest,interest,List.of("ACT_CRE","ACT_DES","ACT_EDU"),List.of("LEARN_HUM"));
     }
+    @Test void confirmationCannotExcludeItselfButItsScoreStillChangesTheInterestAxis() {
+        List<Key> history=new ArrayList<>(engine.stageOne(List.of(),List.of()).plan().toIssue());
+        List<Answer> answers=new ArrayList<>();
+        for(Key key:history)if(catalog.question(key.questionId()).module().equals("INTEREST_SCREEN")) {
+            String code=catalog.options(key).stream().filter(o->Objects.equals(o.value(),100)).findFirst().orElseThrow().code();
+            answers.add(new Answer(key,code,true,true));
+        }
+        Plan first=engine.stageOne(answers,history).plan();
+        assertThat(first.toIssue()).hasSize(6);
+        history.addAll(first.toIssue());Key confirmation=first.toIssue().get(0);
+        String zero=catalog.options(confirmation).stream().filter(o->Objects.equals(o.value(),0)).findFirst().orElseThrow().code();
+        answers.add(new Answer(confirmation,zero,true,true));
+        Plan updated=engine.stageOne(answers,history).plan();
+        assertThat(updated.active()).contains(confirmation);
+        assertThat(updated.toIssue()).isEmpty();
+        String metric=catalog.question(confirmation.questionId()).metric();
+        assertThat(catalog.scoring().calculator().aggregate(catalog.scoringResponses(answers)).interest().get(metric).score()).isEqualTo(50);
+    }
     private static CandidateEngine candidateEngine(List<MajorProfile> majors) {
         ScoringCatalog s=catalog.scoring();return new CandidateEngine(new ScoringCatalog(s.rulesetVersion(),s.mappingVersion(),s.semanticVersion(),s.calculator(),majors),5,5);
     }

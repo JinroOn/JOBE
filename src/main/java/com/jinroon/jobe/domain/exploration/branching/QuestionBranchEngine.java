@@ -50,8 +50,17 @@ public final class QuestionBranchEngine {
         List<String> top=ranked.stream().limit(3).toList();List<String> ties=new ArrayList<>();
         if(ranked.size()>=3)for(String metric:ranked.subList(3,ranked.size()))
             if(view.axes().interest().get(ranked.get(2)).score()-view.axes().interest().get(metric).score()<=threshold("interest_tie_gap_lte"))ties.add(metric);
-        LinkedHashSet<String> confirmations=new LinkedHashSet<>(top);confirmations.addAll(ties);
-        view.axes().interest().entrySet().stream().filter(e->e.getValue().validCount()<2).map(Map.Entry::getKey).sorted().forEach(confirmations::add);
+        // Eligibility depends on upstream screening, not the confirmation's own answer.
+        // Otherwise a low confirmation score can exclude itself and then reactivate forever.
+        Axes screeningAxes=catalog.scoring().calculator().aggregate(catalog.scoringResponses(view.answers().stream()
+                .filter(a->catalog.question(a.key().questionId()).module().equals("INTEREST_SCREEN")).toList()));
+        List<String> screeningRank=screeningAxes.interest().entrySet().stream().filter(e->e.getValue().score()!=null)
+                .sorted(Comparator.<Map.Entry<String,AxisScore>,Double>comparing(e->e.getValue().score(),Comparator.reverseOrder())
+                        .thenComparing(Map.Entry::getKey)).map(Map.Entry::getKey).toList();
+        LinkedHashSet<String> confirmations=new LinkedHashSet<>(screeningRank.stream().limit(3).toList());
+        if(screeningRank.size()>=3)for(String metric:screeningRank.subList(3,screeningRank.size()))
+            if(screeningAxes.interest().get(screeningRank.get(2)).score()-screeningAxes.interest().get(metric).score()<=threshold("interest_tie_gap_lte"))confirmations.add(metric);
+        screeningAxes.interest().entrySet().stream().filter(e->e.getValue().validCount()<2).map(Map.Entry::getKey).sorted().forEach(confirmations::add);
         List<String> confirm=confirmations.stream().limit(cap("interest_confirmation")).toList();
         List<Key> desired=new ArrayList<>();
         for(String id:List.of("STATE-01","STATE-03","STATE-06"))desired.add(key(id));

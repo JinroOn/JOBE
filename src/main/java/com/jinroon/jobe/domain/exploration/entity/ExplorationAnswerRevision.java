@@ -72,6 +72,11 @@ public class ExplorationAnswerRevision {
         this.current = false;
     }
 
+    /** Finalize inside the same transaction as insertion; never commit an unfinished mutation. */
+    public void storeMutationResponse(String responseJson) {
+        this.mutationResponseJson = responseJson;
+    }
+
     public byte[] getMutationRequestHash() {
         return mutationRequestHash.clone();
     }
