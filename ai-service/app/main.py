@@ -22,6 +22,7 @@ from .chain_consultation import ConsultationChain
 from .chain_plan import WeeklyPlanChain
 from .db import check_ai_db_health, is_ai_db_healthcheck_enabled
 from .errors import AppError, RateLimitError, UnauthorizedError, build_error_response
+from .exploration_transport import prepare_evidence
 from .models import (
     ConsultationChatRequest,
     ConsultationChatResponse,
@@ -238,6 +239,12 @@ async def generate_weekly_plan(
         fallback_reason,
     )
     return response
+
+
+@app.post("/v1/exploration/evidence/prepare")
+def prepare_exploration_evidence(payload: dict, _auth: None = Depends(require_internal_auth)) -> dict:
+    rate_limiter.check()
+    return prepare_evidence(payload)
 
 
 @app.post("/v1/consultation/chat", response_model=ConsultationChatResponse)
