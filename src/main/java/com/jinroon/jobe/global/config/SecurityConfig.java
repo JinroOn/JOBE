@@ -63,6 +63,7 @@ public class SecurityConfig {
                                 "/api/auth/password-resets/confirm"
                         ).permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/results/share/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/exploration/v1/shared-results/*").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/majors", "/api/majors/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/notices", "/api/notices/**").permitAll()
                         .requestMatchers(
