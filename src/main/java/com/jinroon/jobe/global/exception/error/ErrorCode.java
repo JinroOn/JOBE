@@ -60,6 +60,11 @@ public enum ErrorCode {
     CATALOG_IMMUTABLE(409, "공개 또는 보관된 카탈로그는 변경할 수 없습니다."),
     CATALOG_REVIEW_ARCHIVED(409, "보관된 자료는 검토할 수 없습니다."),
     CATALOG_REVIEW_PREREQUISITE(409, "구현·내용 검토 승인 후에 파일럿·공개 검토를 기록할 수 있습니다."),
+    CATALOG_ACTIVATION_NOT_ALLOWED(409, "검토 완료(REVIEWED) 상태의 자료만 활성화할 수 있습니다."),
+    CATALOG_APPROVAL_MISSING(409, "현재 내용에 대해 필요한 승인이 모두 있어야 활성화할 수 있습니다."),
+    CATALOG_SELF_APPROVAL(409, "승인한 관리자는 같은 자료를 활성화할 수 없습니다."),
+    CATALOG_IN_USE(409, "현재 실행 설정이 사용하는 자료는 보관할 수 없습니다."),
+    CATALOG_ALREADY_ARCHIVED(409, "이미 보관된 자료입니다."),
     MAJOR_FAVORITE_DUPLICATE(409, "이미 즐겨찾기에 추가된 전공입니다."),
     MAJOR_FAVORITE_NOT_FOUND(404, "즐겨찾기를 찾을 수 없습니다."),
 
