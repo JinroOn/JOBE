@@ -63,16 +63,8 @@ public class CatalogActivationService {
         Map<String, Object> target = row(type, targetId, false);
         lockSlot(type, target);
         target = row(type, targetId, true);
-        if (!"REVIEWED".equals(target.get("content_status"))) {
-            throw new CustomException(ErrorCode.CATALOG_ACTIVATION_NOT_ALLOWED);
-        }
-        List<Long> reviewIds = approvals(type, target, scope, actorId);
-
-        List<Map<String, Object>> previous = jdbc.queryForList("SELECT * FROM " + type.table() + " WHERE content_status='ACTIVE'"
-                + slotCondition(type) + " AND id<>?", slotArgs(type, target, targetId));
-        for (Map<String, Object> old : previous) {
-            if (inUse(type, old)) throw new CustomException(ErrorCode.CATALOG_IN_USE);
-        }
+        List<Long> reviewIds = checkActivatable(actorId, type, target, scope);
+        List<Map<String, Object>> previous = previousActive(type, target);
         LocalDateTime now = LocalDateTime.now();
         List<State> archived = new ArrayList<>();
         for (Map<String, Object> old : previous) {
@@ -95,8 +87,8 @@ public class CatalogActivationService {
     public Result archive(long actorId, TargetType type, long targetId, String reason) {
         rootOnly(type);
         Map<String, Object> target = row(type, targetId, true);
-        if ("ARCHIVED".equals(target.get("content_status"))) throw new CustomException(ErrorCode.CATALOG_ALREADY_ARCHIVED);
-        if (type != TargetType.ACTIVITY_CATALOG && inUse(type, target)) throw new CustomException(ErrorCode.CATALOG_IN_USE);
+        ErrorCode blocker = archiveBlocker(type, target);
+        if (blocker != null) throw new CustomException(blocker);
         jdbc.update("UPDATE " + type.table() + " SET content_status='ARCHIVED' WHERE id=?", targetId);
         long activationId = log(type, target, "ARCHIVE", null, actorId, null, null, reason.strip(), LocalDateTime.now());
         return new Result(activation(activationRow(activationId)), state(type, row(type, targetId, false)), List.of());
@@ -109,6 +101,51 @@ public class CatalogActivationService {
         List<Activation> rows = jdbc.queryForList("SELECT * FROM exploration_catalog_activation WHERE target_type=? AND target_id=? "
                 + "ORDER BY created_at DESC, id DESC", type.name(), targetId).stream().map(this::activation).toList();
         return new History(state(type, target), rows);
+    }
+
+    /**
+     * 관리자 목록 화면용. 지금 이 관리자가 활성화하면 막히는 이유(오류 코드)를 돌려주고, 가능하면 null이다.
+     * 실제 활성화와 같은 규칙을 쓰며 데이터를 바꾸지 않는다.
+     */
+    ErrorCode activationBlocker(long actorId, TargetType type, Map<String, Object> target, Scope scope) {
+        if (type == TargetType.ACTIVITY) return ErrorCode.INVALID_INPUT;
+        try {
+            checkActivatable(actorId, type, target, scope);
+            previousActive(type, target);
+            return null;
+        } catch (CustomException e) {
+            return e.getErrorCode();
+        }
+    }
+
+    /** 관리자 목록 화면용. 보관하면 막히는 이유를 돌려주고, 가능하면 null이다. */
+    ErrorCode archiveBlocker(TargetType type, Map<String, Object> target) {
+        if (type == TargetType.ACTIVITY) return ErrorCode.INVALID_INPUT;
+        if ("ARCHIVED".equals(target.get("content_status"))) return ErrorCode.CATALOG_ALREADY_ARCHIVED;
+        if (type != TargetType.ACTIVITY_CATALOG && inUse(type, target)) return ErrorCode.CATALOG_IN_USE;
+        return null;
+    }
+
+    /** 현재 실행 설정이 이 자료를 고르는지. */
+    boolean usedByRuntime(TargetType type, Map<String, Object> target) {
+        return inUse(type, target);
+    }
+
+    private List<Long> checkActivatable(long actorId, TargetType type, Map<String, Object> target, Scope scope) {
+        if (!"REVIEWED".equals(target.get("content_status"))) {
+            throw new CustomException(ErrorCode.CATALOG_ACTIVATION_NOT_ALLOWED);
+        }
+        return approvals(type, target, scope, actorId);
+    }
+
+    /** 자리를 넘겨줄 기존 ACTIVE. 실행 설정이 쓰는 자료면 교체할 수 없다. */
+    private List<Map<String, Object>> previousActive(TargetType type, Map<String, Object> target) {
+        List<Map<String, Object>> previous = jdbc.queryForList("SELECT * FROM " + type.table() + " WHERE content_status='ACTIVE'"
+                + slotCondition(type) + " AND id<>?", slotArgs(type, target, id(target)));
+        for (Map<String, Object> old : previous) {
+            if (inUse(type, old)) throw new CustomException(ErrorCode.CATALOG_IN_USE);
+        }
+        return previous;
     }
 
     /**
@@ -189,7 +226,7 @@ public class CatalogActivationService {
         return args.toArray();
     }
 
-    private Map<String, Object> row(TargetType type, long targetId, boolean lock) {
+    Map<String, Object> row(TargetType type, long targetId, boolean lock) {
         String columns = "id,version,content_hash,content_status,implementation_review_status,domain_review_status"
                 + (type == TargetType.CATALOG ? ",catalog_type" : "");
         List<Map<String, Object>> rows = jdbc.queryForList("SELECT " + columns + " FROM " + type.table() + " WHERE id=?"
