@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * 관리자 검토 기록 API(3.2.2 카탈로그 승인·활성화 연계의 1단계).
  * 검토 대상 행은 테스트 전용 버전명으로 만들고 트랜잭션 롤백으로 지운다. 실제 적재 자료는 건드리지 않는다.
- * 로컬 MySQL(docker compose up -d mysql)이 필요하다.
+ * 로컬 MySQL(docker compose -f docker-compose.test.yml up -d)이 필요하다.
  */
 @SpringBootTest
 @AutoConfigureMockMvc

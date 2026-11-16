@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * 관리자 카탈로그 목록·상세(#101). 검토·활성화 대상 선택용이며 조회만 한다.
  * 실행 설정 버전을 테스트 전용 이름으로 바꾸고, 대상 행은 테스트 전용 버전명과 트랜잭션 롤백을 쓴다.
- * 로컬 MySQL(docker compose up -d mysql)이 필요하다.
+ * 로컬 MySQL(docker compose -f docker-compose.test.yml up -d)이 필요하다.
  */
 @SpringBootTest(properties = {
         "exploration.runtime.ruleset-version=TEST_QUERY_RULESET_IN_USE",

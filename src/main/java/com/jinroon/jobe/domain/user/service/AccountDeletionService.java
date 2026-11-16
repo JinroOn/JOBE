@@ -22,6 +22,10 @@ public class AccountDeletionService {
         user.withdraw();
         users.flush();
 
+        // Same MySQL transaction as account deletion; survives remote outages.
+        jdbc.update("INSERT IGNORE INTO exploration_ai_erasure_outbox(owner_key) SELECT owner_key FROM exploration_ai_owner WHERE user_id=?",userId);
+        jdbc.update("DELETE FROM exploration_ai_owner WHERE user_id=?",userId);
+
         jdbc.update("DELETE i FROM major_weekly_plan_items i JOIN major_weekly_plans p ON i.weekly_plan_id=p.id "
                 + "JOIN diagnosis_results r ON p.diagnosis_result_id=r.id WHERE r.user_id=?", userId);
         jdbc.update("DELETE i FROM major_weekly_plan_risk_notes i JOIN major_weekly_plans p ON i.weekly_plan_id=p.id "

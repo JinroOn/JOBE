@@ -2,6 +2,7 @@
 from datetime import datetime
 from sqlalchemy import BigInteger, DateTime, ForeignKey, Index, String, Text, func, select
 from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.dialects.postgresql import JSONB
 from app.rag.models import Base, AiMajorDocument, AiMajorChunk
 
 
@@ -19,6 +20,8 @@ class AiEvidenceReview(Base):
     reviewer_id: Mapped[str] = mapped_column(String(120), nullable=False)
     source_reference: Mapped[str] = mapped_column(Text, nullable=False)
     reviewed_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now())
+    # Optional for legacy PUBLIC readers. Exploration requires a newly reviewed, content-bound manifest.
+    binding_manifest: Mapped[dict | None] = mapped_column(JSONB(none_as_null=True), nullable=True)
     __table_args__ = (Index("ix_ai_evidence_review_document_scope_id", "document_id", "scope", "id"),)
 
 

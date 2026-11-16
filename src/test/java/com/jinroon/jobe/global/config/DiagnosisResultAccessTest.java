@@ -33,7 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 3.2: 진단·결과·계획 API의 인증·소유권 규칙(기준선)과 정답 숨김, 쓰기 경로 차단,
  * 성향 서버 계산, 계획 점수 소속 확인, 공유 응답 축소를 HTTP 수준에서 확인한다.
  * 서비스 단위 테스트는 이미 있으므로 여기서는 컨트롤러·보안 설정을 거친 응답 코드만 본다.
- * 로컬 MySQL(docker compose up -d mysql)이 필요하다. 테스트 데이터는 트랜잭션 롤백으로 지운다.
+ * 로컬 MySQL(docker compose -f docker-compose.test.yml up -d)이 필요하다. 테스트 데이터는 트랜잭션 롤백으로 지운다.
  */
 @SpringBootTest
 @AutoConfigureMockMvc

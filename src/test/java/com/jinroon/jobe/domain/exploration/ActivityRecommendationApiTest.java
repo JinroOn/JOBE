@@ -10,15 +10,55 @@ import java.nio.file.Path;
 import java.util.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.util.ReflectionTestUtils;
+import com.jinroon.jobe.domain.exploration.activity.ActivityRecommendationService;
 
 /** All positive approvals here are synthetic rows in an isolated test DB, never real content approval. */
+@TestPropertySource(properties="exploration.activities.catalog-version=TEST_ACTIVITY_RECOMMENDATION_V1")
 class ActivityRecommendationApiTest extends CompletedExplorationTestSupport {
     @Autowired ActivityCatalogLoader activityLoader;
     @Autowired PostResultSupportService support;
-    private static final String VERSION="ACTIVITY_CATALOG_V1_DRAFT";
+    @Autowired ActivityRecommendationService recommendations;
+    private static final String VERSION="TEST_ACTIVITY_RECOMMENDATION_V1";
+    private final Set<Long> createdCatalogs=Collections.synchronizedSet(new HashSet<>());
+    private long protectedCatalogId;
+    private Map<String,Object> protectedCatalog;
+    private List<Map<String,Object>> protectedItems,protectedReviews;
+    private boolean protectedCatalogCaptured;
+
+    @BeforeEach void preserveActualDraftCatalog(){
+        activityLoader.load(Path.of("datasets/activities/catalog.json"));
+        protectedCatalogId=jdbc.queryForObject("SELECT id FROM exploration_activity_catalog WHERE version='ACTIVITY_CATALOG_V1_DRAFT'",Long.class);
+        protectedCatalog=jdbc.queryForMap("SELECT * FROM exploration_activity_catalog WHERE id=?",protectedCatalogId);
+        protectedItems=jdbc.queryForList("SELECT * FROM exploration_activity WHERE catalog_id=? ORDER BY id",protectedCatalogId);
+        protectedReviews=reviewsFor(protectedCatalogId);
+        protectedCatalogCaptured=true;
+        assertThat(count("exploration_activity_catalog","version=?",VERSION)).as("Discard the dedicated test DB if a stale synthetic fixture remains").isZero();
+    }
     @AfterEach void clearActivities(){
-        jdbc.update("DELETE FROM exploration_review_history WHERE target_type IN ('ACTIVITY','ACTIVITY_CATALOG')");
-        jdbc.update("DELETE FROM exploration_activity");jdbc.update("DELETE FROM exploration_activity_catalog");
+        for(long id:createdCatalogs)removeCatalog(id);
+        createdCatalogs.clear();
+        if(!protectedCatalogCaptured)return;
+        assertThat(jdbc.queryForMap("SELECT * FROM exploration_activity_catalog WHERE id=?",protectedCatalogId)).isEqualTo(protectedCatalog);
+        assertThat(jdbc.queryForList("SELECT * FROM exploration_activity WHERE catalog_id=? ORDER BY id",protectedCatalogId)).isEqualTo(protectedItems);
+        assertThat(reviewsFor(protectedCatalogId)).isEqualTo(protectedReviews);
+    }
+    private List<Map<String,Object>> reviewsFor(long catalog){
+        return jdbc.queryForList("SELECT * FROM exploration_review_history WHERE (target_type='ACTIVITY_CATALOG' AND target_id=?) "
+                +"OR (target_type='ACTIVITY' AND target_id IN (SELECT id FROM exploration_activity WHERE catalog_id=?)) ORDER BY id",catalog,catalog);
+    }
+    private void removeCatalog(long catalog){
+        jdbc.update("DELETE FROM exploration_review_history WHERE (target_type='ACTIVITY_CATALOG' AND target_id=?) "
+                +"OR (target_type='ACTIVITY' AND target_id IN (SELECT id FROM exploration_activity WHERE catalog_id=?))",catalog,catalog);
+        jdbc.update("DELETE FROM exploration_activity WHERE catalog_id=?",catalog);
+        jdbc.update("DELETE FROM exploration_activity_catalog WHERE id=?",catalog);
+    }
+    private long catalogId(){return jdbc.queryForObject("SELECT id FROM exploration_activity_catalog WHERE version=?",Long.class,VERSION);}
+    private ActivityCatalogLoader.Report loadCatalog(JsonNode payload){
+        var report=activityLoader.load(payload);
+        if(report.inserted())createdCatalogs.add(jdbc.queryForObject("SELECT id FROM exploration_activity_catalog WHERE version=?",Long.class,report.version()));
+        return report;
     }
     @Test void absentCatalogReturnsExplicitEmptyStateWithoutCreatingSupport()throws Exception {
         long rid=completedResult(true);JsonNode response=activities(rid,200);
@@ -31,10 +71,14 @@ class ActivityRecommendationApiTest extends CompletedExplorationTestSupport {
         long rid=completedResult(true);
         assertThat(activityLoader.load(Path.of("datasets/activities/catalog.json")).activities()).isEqualTo(282);
         assertThat(activityLoader.load(Path.of("datasets/activities/catalog.json")).inserted()).isFalse();
-        assertThat(count("exploration_activity","content_status='DRAFT' AND domain_review_status='PENDING'")).isEqualTo(282);
-        assertThat(count("exploration_review_history","target_type IN ('ACTIVITY','ACTIVITY_CATALOG')")).isZero();
-        JsonNode response=activities(rid,200);assertThat(response.path("nextActivities").isEmpty()).isTrue();
-        assertThat(response.toString()).doesNotContain("body_markdown","worksheet_markdown","review_record_markdown");
+        assertThat(count("exploration_activity","catalog_id=? AND content_status='DRAFT' AND domain_review_status='PENDING'",protectedCatalogId)).isEqualTo(282);
+        assertThat(reviewsFor(protectedCatalogId)).isEqualTo(protectedReviews);
+        ReflectionTestUtils.setField(recommendations,"selectedVersion","ACTIVITY_CATALOG_V1_DRAFT");
+        try {
+            JsonNode response=activities(rid,200);assertThat(response.path("nextActivities").isEmpty()).isTrue();
+            assertThat(response.path("reasonCode").asText()).isEqualTo("NO_APPROVED_ACTIVITIES");
+            assertThat(response.toString()).doesNotContain("body_markdown","worksheet_markdown","review_record_markdown");
+        } finally {ReflectionTestUtils.setField(recommendations,"selectedVersion",VERSION);}
     }
     @Test void statusesAloneOrOnlyRootApprovalNeverAuthorizeItems()throws Exception {
         long rid=completedResult(true);load(item("A",major(rid,0)));
@@ -46,12 +90,12 @@ class ActivityRecommendationApiTest extends CompletedExplorationTestSupport {
     @Test void approvalsRequireExactHashEvidenceScopeAndBothKinds()throws Exception {
         long rid=completedResult(true);load(item("A",major(rid,0)));approveAll();
         for(String sql:List.of("target_hash=REPEAT('0',64)","evidence_reference=''","scope='PUBLIC'","decision='REJECTED'","reviewer_id=0","reviewed_at=DATE_ADD(NOW(),INTERVAL 1 DAY)")) {
-            var original=jdbc.queryForMap("SELECT * FROM exploration_review_history WHERE target_type='ACTIVITY' AND review_kind='DOMAIN'");
+            var original=jdbc.queryForMap("SELECT * FROM exploration_review_history WHERE target_type='ACTIVITY' AND review_kind='DOMAIN' AND target_id IN (SELECT id FROM exploration_activity WHERE catalog_id=?)",catalogId());
             jdbc.update("UPDATE exploration_review_history SET "+sql+" WHERE id=?",original.get("id"));
             assertThat(activities(rid,200).path("nextActivities").isEmpty()).as(sql).isTrue();
             jdbc.update("UPDATE exploration_review_history SET target_hash=?,evidence_reference=?,scope=?,decision=?,reviewer_id=?,reviewed_at=? WHERE id=?",original.get("target_hash"),original.get("evidence_reference"),original.get("scope"),original.get("decision"),original.get("reviewer_id"),original.get("reviewed_at"),original.get("id"));
         }
-        jdbc.update("DELETE FROM exploration_review_history WHERE target_type='ACTIVITY' AND review_kind='IMPLEMENTATION'");
+        jdbc.update("DELETE FROM exploration_review_history WHERE target_type='ACTIVITY' AND review_kind='IMPLEMENTATION' AND target_id IN (SELECT id FROM exploration_activity WHERE catalog_id=?)",catalogId());
         assertThat(activities(rid,200).path("nextActivities").isEmpty()).isTrue();
     }
     @Test void latestRejectionRevokesOldApprovalImmediately()throws Exception {
@@ -62,9 +106,9 @@ class ActivityRecommendationApiTest extends CompletedExplorationTestSupport {
     }
     @Test void archivedOrRejectedItemsCannotBeReenabledByOldReviews()throws Exception {
         long rid=completedResult(true);load(item("A",major(rid,0)));approveAll();
-        jdbc.update("UPDATE exploration_activity SET content_status='ARCHIVED'");
+        jdbc.update("UPDATE exploration_activity SET content_status='ARCHIVED' WHERE catalog_id=?",catalogId());
         assertThat(activities(rid,200).path("nextActivities").isEmpty()).isTrue();
-        jdbc.update("UPDATE exploration_activity SET content_status='REVIEWED',domain_review_status='REJECTED'");
+        jdbc.update("UPDATE exploration_activity SET content_status='REVIEWED',domain_review_status='REJECTED' WHERE catalog_id=?",catalogId());
         assertThat(activities(rid,200).path("nextActivities").isEmpty()).isTrue();
     }
     @Test void targetSelectsOnlyThatFrozenCandidateAndGeneralActivities()throws Exception {
@@ -78,7 +122,7 @@ class ActivityRecommendationApiTest extends CompletedExplorationTestSupport {
     @Test void noCandidateReceivesOnlyApprovedGeneralExplorationAndCanBeEmpty()throws Exception {
         long rid=completedResult(false);load(item("A","MAJOR_ROW_133"),item("B",null));approveAll();
         assertThat(ids(activities(rid,200))).containsExactly("B");
-        jdbc.update("UPDATE exploration_activity SET content_status='ARCHIVED' WHERE activity_code='B'");
+        jdbc.update("UPDATE exploration_activity SET content_status='ARCHIVED' WHERE activity_code='B' AND catalog_id=?",catalogId());
         assertThat(activities(rid,200).path("nextActivities").isEmpty()).isTrue();
     }
     @Test void candidateOrderLimitAndTieBreakAreStable()throws Exception {
@@ -128,23 +172,23 @@ class ActivityRecommendationApiTest extends CompletedExplorationTestSupport {
     }
     @Test void tamperedRootOrActivityFailsClosedInsteadOfReturningAnEmptySuccess()throws Exception {
         long rid=completedResult(true);load(item("A",major(rid,0)));approveAll();
-        jdbc.update("UPDATE exploration_activity SET payload_json=JSON_SET(payload_json,'$.title','tampered')");
+        jdbc.update("UPDATE exploration_activity SET payload_json=JSON_SET(payload_json,'$.title','tampered') WHERE catalog_id=?",catalogId());
         assertThat(activities(rid,503).path("code").asText()).isEqualTo("CATALOG_INTEGRITY_ERROR");
-        jdbc.update("UPDATE exploration_activity_catalog SET payload_json=JSON_SET(payload_json,'$.version','tampered')");
+        jdbc.update("UPDATE exploration_activity_catalog SET payload_json=JSON_SET(payload_json,'$.version','tampered') WHERE id=?",catalogId());
         activities(rid,503);
     }
     @Test void rootBindingDetectsChangedItemEvenWhenItsIndividualHashIsRecomputed()throws Exception {
         long rid=completedResult(true);ObjectNode item=item("A",major(rid,0));load(item);approveAll();
         item.put("title","changed");String changed=mapper.writeValueAsString(item);
-        jdbc.update("UPDATE exploration_activity SET payload_json=?,content_hash=?",changed,new com.jinroon.jobe.domain.exploration.service.ExplorationJson(mapper).hex(item));
+        jdbc.update("UPDATE exploration_activity SET payload_json=?,content_hash=? WHERE catalog_id=?",changed,new com.jinroon.jobe.domain.exploration.service.ExplorationJson(mapper).hex(item),catalogId());
         activities(rid,503);
     }
     @Test void mismatchedMajorMappingVersionReturnsUnavailable()throws Exception {
         long rid=completedResult(true);load(item("A",major(rid,0)));approveAll();
         // A legitimately versioned catalog for another mapping is unavailable to this old result.
-        ObjectNode payload=(ObjectNode)mapper.readTree(jdbc.queryForObject("SELECT payload_json FROM exploration_activity_catalog",String.class));
+        ObjectNode payload=(ObjectNode)mapper.readTree(jdbc.queryForObject("SELECT payload_json FROM exploration_activity_catalog WHERE id=?",String.class,catalogId()));
         payload.put("major_mapping_version","ANOTHER_MAPPING");var json=new com.jinroon.jobe.domain.exploration.service.ExplorationJson(mapper);
-        jdbc.update("UPDATE exploration_activity_catalog SET major_mapping_version=?,payload_json=?,content_hash=?","ANOTHER_MAPPING",json.write(payload),json.hex(payload));
+        jdbc.update("UPDATE exploration_activity_catalog SET major_mapping_version=?,payload_json=?,content_hash=? WHERE id=?","ANOTHER_MAPPING",json.write(payload),json.hex(payload),catalogId());
         assertThat(activities(rid,200).path("reasonCode").asText()).isEqualTo("MAPPING_VERSION_UNAVAILABLE");
     }
     @Test void clientCannotOverrideCatalogApprovalUserOrTargetAndForeignResultsAreHidden()throws Exception {
@@ -160,26 +204,42 @@ class ActivityRecommendationApiTest extends CompletedExplorationTestSupport {
         assertThat(count("exploration_post_result","result_id=?",rid)).isZero();
     }
     @Test void loaderRejectsConflictsUnknownMajorsAndRollsBackPartialImport()throws Exception {
-        long rid=completedResult(true);ObjectNode a=item("A",major(rid,0));ObjectNode payload=payload(a);activityLoader.load(payload);
-        a.put("title","different");assertThatThrownBy(()->activityLoader.load(payload(a))).isInstanceOf(IllegalArgumentException.class);
-        ObjectNode wrong=payload(item("B","NO_SUCH_MAJOR"));wrong.put("version","WRONG-MAJOR");
-        assertThatThrownBy(()->activityLoader.load(wrong)).isInstanceOf(IllegalArgumentException.class);
-        ObjectNode rollback=payload(item("B",major(rid,0)),item("C",major(rid,0)));rollback.put("version","ROLLBACK");
+        long rid=completedResult(true);ObjectNode a=item("A",major(rid,0));ObjectNode payload=payload(a);loadCatalog(payload);
+        a.put("title","different");assertThatThrownBy(()->loadCatalog(payload(a))).isInstanceOf(IllegalArgumentException.class);
+        ObjectNode wrong=payload(item("B","NO_SUCH_MAJOR"));wrong.put("version","TEST_ACTIVITY_RECOMMENDATION_WRONG_MAJOR");
+        assertThatThrownBy(()->loadCatalog(wrong)).isInstanceOf(IllegalArgumentException.class);
+        ObjectNode rollback=payload(item("B",major(rid,0)),item("C",major(rid,0)));rollback.put("version","TEST_ACTIVITY_RECOMMENDATION_ROLLBACK");
         jdbc.execute("CREATE TRIGGER test_activity_import_failure BEFORE INSERT ON exploration_activity FOR EACH ROW BEGIN IF NEW.activity_code='C' THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='synthetic failure'; END IF; END");
-        try{assertThatThrownBy(()->activityLoader.load(rollback)).isInstanceOf(Exception.class);assertThat(count("exploration_activity_catalog","version='ROLLBACK'")).isZero();}
+        try{assertThatThrownBy(()->loadCatalog(rollback)).isInstanceOf(Exception.class);assertThat(count("exploration_activity_catalog","version='TEST_ACTIVITY_RECOMMENDATION_ROLLBACK'")).isZero();}
         finally{jdbc.execute("DROP TRIGGER test_activity_import_failure");}
     }
     @Test void concurrentSameVersionImportsAreAtomicAndIdempotent()throws Exception {
         long rid=completedResult(true);ObjectNode payload=payload(item("A",major(rid,0)),item("B",major(rid,0)));
-        var reports=parallel(()->activityLoader.load(payload));
+        var reports=parallel(()->loadCatalog(payload));
         assertThat(reports.stream().filter(ActivityCatalogLoader.Report::inserted).count()).isEqualTo(1);
         assertThat(count("exploration_activity_catalog","version=?",VERSION)).isEqualTo(1);
-        assertThat(count("exploration_activity","activity_code IN ('A','B')")).isEqualTo(2);
+        assertThat(count("exploration_activity","catalog_id=? AND activity_code IN ('A','B')",catalogId())).isEqualTo(2);
     }
     @Test void reimportDoesNotRepairDamagedStoredContentSilently()throws Exception {
-        long rid=completedResult(true);ObjectNode payload=payload(item("A",major(rid,0)));activityLoader.load(payload);
-        jdbc.update("UPDATE exploration_activity SET payload_json=JSON_SET(payload_json,'$.title','damaged')");
-        assertThatThrownBy(()->activityLoader.load(payload)).isInstanceOf(IllegalArgumentException.class);
+        long rid=completedResult(true);ObjectNode payload=payload(item("A",major(rid,0)));loadCatalog(payload);
+        jdbc.update("UPDATE exploration_activity SET payload_json=JSON_SET(payload_json,'$.title','damaged') WHERE catalog_id=?",catalogId());
+        assertThatThrownBy(()->loadCatalog(payload)).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test void cleanupPreservesAnUnownedCatalogAndItsRowsAlongsideTheActualDrafts()throws Exception {
+        long rid=completedResult(true);
+        ObjectNode foreign=payload(item("UNRELATED",major(rid,0)));foreign.put("version","TEST_ACTIVITY_UNRELATED_"+UUID.randomUUID().toString().replace("-",""));
+        activityLoader.load(foreign); // Deliberately outside the owned fixture set.
+        long id=jdbc.queryForObject("SELECT id FROM exploration_activity_catalog WHERE version=?",Long.class,foreign.path("version").asText());
+        var before=jdbc.queryForMap("SELECT * FROM exploration_activity_catalog WHERE id=?",id);
+        var items=jdbc.queryForList("SELECT * FROM exploration_activity WHERE catalog_id=?",id);
+        try {
+            load(item("A",major(rid,0)));approveAll();
+            clearActivities();
+            assertThat(jdbc.queryForMap("SELECT * FROM exploration_activity_catalog WHERE id=?",id)).isEqualTo(before);
+            assertThat(jdbc.queryForList("SELECT * FROM exploration_activity WHERE catalog_id=?",id)).isEqualTo(items);
+            assertThat(count("exploration_activity_catalog","version=?",VERSION)).isZero();
+        } finally {removeCatalog(id);}
     }
 
     private ObjectNode item(String code,String major){
@@ -191,13 +251,13 @@ class ActivityRecommendationApiTest extends CompletedExplorationTestSupport {
     }
     private ObjectNode payload(ObjectNode... items){ObjectNode p=mapper.createObjectNode();p.put("schema_version","1.0");p.put("version",VERSION);p.put("major_mapping_version","MAJOR_MAPPING_V1_2_IMPLEMENTATION_CANDIDATE");draft(p);var array=p.putArray("activities");for(var item:items)array.add(item);return p;}
     private void draft(ObjectNode a){a.put("content_status","DRAFT");a.put("implementation_review_status","PENDING");a.put("domain_review_status","PENDING");}
-    private void load(ObjectNode... items){activityLoader.load(payload(items));}
-    private void statuses(String table){jdbc.update("UPDATE "+table+" SET content_status='REVIEWED',implementation_review_status='APPROVED_FOR_IMPLEMENTATION',domain_review_status='APPROVED'");}
-    private void approveAll(){statuses("exploration_activity_catalog");statuses("exploration_activity");approveRoot();for(var code:jdbc.queryForList("SELECT activity_code FROM exploration_activity",String.class))approveItem(code);}
+    private void load(ObjectNode... items){loadCatalog(payload(items));}
+    private void statuses(String table){jdbc.update("UPDATE "+table+" SET content_status='REVIEWED',implementation_review_status='APPROVED_FOR_IMPLEMENTATION',domain_review_status='APPROVED' WHERE "+(table.equals("exploration_activity_catalog")?"id":"catalog_id")+"=?",catalogId());}
+    private void approveAll(){statuses("exploration_activity_catalog");statuses("exploration_activity");approveRoot();for(var code:jdbc.queryForList("SELECT activity_code FROM exploration_activity WHERE catalog_id=?",String.class,catalogId()))approveItem(code);}
     private void approveRoot(){statuses("exploration_activity_catalog");review("exploration_activity_catalog","ACTIVITY_CATALOG","IMPLEMENTATION","APPROVED_FOR_IMPLEMENTATION");review("exploration_activity_catalog","ACTIVITY_CATALOG","DOMAIN","APPROVED");}
     private void approveItem(String code){reviewWhere("exploration_activity","ACTIVITY","IMPLEMENTATION","APPROVED_FOR_IMPLEMENTATION"," WHERE activity_code='"+code+"'");reviewWhere("exploration_activity","ACTIVITY","DOMAIN","APPROVED"," WHERE activity_code='"+code+"'");}
     private void review(String table,String type,String kind,String decision){reviewWhere(table,type,kind,decision,"");}
-    private void reviewWhere(String table,String type,String kind,String decision,String where){jdbc.update("INSERT INTO exploration_review_history(target_type,target_id,target_version,target_hash,review_kind,decision,reviewer_id,reviewed_at,evidence_reference,scope) SELECT ?,id,version,content_hash,?,?,999999,NOW(),'SYNTHETIC-TEST-ONLY','DEV' FROM "+table+where,type,kind,decision);}
+    private void reviewWhere(String table,String type,String kind,String decision,String where){jdbc.update("INSERT INTO exploration_review_history(target_type,target_id,target_version,target_hash,review_kind,decision,reviewer_id,reviewed_at,evidence_reference,scope) SELECT ?,id,version,content_hash,?,?,999999,NOW(),'SYNTHETIC-TEST-ONLY','DEV' FROM "+table+where+(where.isEmpty()?" WHERE ":" AND ")+(table.equals("exploration_activity_catalog")?"id":"catalog_id")+"=?",type,kind,decision,catalogId());}
     private String major(long rid,int index)throws Exception{return resultSnapshot(rid).path("rankedCandidates").get(index).path("majorCode").asText();}
     private String path(long rid){return "/api/exploration/v1/results/"+rid+"/activities";}
     private JsonNode activities(long rid,int status)throws Exception{return response(get(path(rid)).header("Authorization",owner),status);}

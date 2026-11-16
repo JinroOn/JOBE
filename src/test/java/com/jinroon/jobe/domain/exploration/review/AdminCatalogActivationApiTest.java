@@ -26,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * ACTIVE 전환·보관(3.2.2 카탈로그 승인·활성화 연계의 2단계).
  * 실행 설정의 버전을 테스트 전용 이름으로 바꿔 '사용 중' 판단을 실제 적재 자료와 분리한다.
- * 대상 행은 테스트 전용 버전명으로 만들고 트랜잭션 롤백으로 지운다. 로컬 MySQL(docker compose up -d mysql)이 필요하다.
+ * 대상 행은 테스트 전용 버전명으로 만들고 트랜잭션 롤백으로 지운다. 로컬 MySQL(docker compose -f docker-compose.test.yml up -d)이 필요하다.
  */
 @SpringBootTest(properties = {
         "exploration.runtime.ruleset-version=TEST_ACT_RULESET_IN_USE",

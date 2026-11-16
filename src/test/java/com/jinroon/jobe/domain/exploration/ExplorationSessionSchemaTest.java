@@ -38,7 +38,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 /**
  * V2(회차·발급 문항·답변 이력·멱등 저장소·결과)의 유일키와 잠금 동작을 실제 MySQL로 확인한다(D07).
  * 동시성 확인을 위해 실제로 커밋하므로 테스트 클래스 트랜잭션을 쓰지 않고, 만든 데이터를 직접 지운다.
- * 로컬 MySQL(docker compose up -d mysql)이 필요하다.
+ * 로컬 MySQL(docker compose -f docker-compose.test.yml up -d)이 필요하다.
  */
 @SpringBootTest
 class ExplorationSessionSchemaTest {

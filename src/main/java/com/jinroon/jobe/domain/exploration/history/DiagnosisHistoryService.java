@@ -9,7 +9,6 @@ import com.jinroon.jobe.domain.exploration.service.ExplorationResultStore;
 import com.jinroon.jobe.domain.exploration.service.ExplorationRuntimePolicy;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +51,7 @@ public class DiagnosisHistoryService {
         if (!query.status().equals("ALL")) { sql.append(" AND status=?"); args.add(query.status()); }
         if (cursor != null) {
             sql.append(" AND (sort_at<? OR (sort_at=? AND (type_rank<? OR (type_rank=? AND item_id<?))))");
-            args.add(Timestamp.valueOf(cursor.sortAt())); args.add(Timestamp.valueOf(cursor.sortAt()));
+            args.add(cursor.sortAt()); args.add(cursor.sortAt());
             args.add(cursor.rank()); args.add(cursor.rank()); args.add(cursor.id());
         }
         sql.append(" ORDER BY sort_at DESC,type_rank DESC,item_id DESC LIMIT ?"); args.add(query.limit()+1);
@@ -142,5 +141,6 @@ public class DiagnosisHistoryService {
                 rs.getInt("stage"),time(rs,"started_at"),time(rs,"completed_at"),time(rs,"sort_at"),rid,rs.getLong("result_count"),
                 rs.getString("result_status"),rs.getString("result_contract_version"),rs.getString("run_mode"));
     }
-    private static LocalDateTime time(ResultSet rs,String column) throws SQLException { Timestamp t=rs.getTimestamp(column);return t==null?null:t.toLocalDateTime(); }
+    // DATETIME is a wall-clock value, not an instant in the JVM's default zone.
+    private static LocalDateTime time(ResultSet rs,String column) throws SQLException { return rs.getObject(column,LocalDateTime.class); }
 }

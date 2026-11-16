@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * access 토큰이 만료·무효인 상태에서도 refresh 토큰만으로 로그아웃해 서버 세션을 지울 수 있는지 확인한다.
  * 예전에는 로그아웃이 인증 경로라 401이 나고 refresh 토큰이 계속 유효했다.
- * 로컬 MySQL(docker compose up -d mysql)이 필요하다. 테스트 데이터는 트랜잭션 롤백으로 지운다.
+ * 로컬 MySQL(docker compose -f docker-compose.test.yml up -d)이 필요하다. 테스트 데이터는 트랜잭션 롤백으로 지운다.
  */
 @SpringBootTest
 @AutoConfigureMockMvc

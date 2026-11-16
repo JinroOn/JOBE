@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 /**
  * CORS 허용 출처 제한 테스트(문서 4.4).
  * 기본 설정(app.cors.allowed-origins)의 배포 주소·로컬 개발 주소만 허용하고, 그 외 출처와 credentials는 허용하지 않는다.
- * 로컬 MySQL(docker compose up -d mysql)이 필요하다.
+ * 로컬 MySQL(docker compose -f docker-compose.test.yml up -d)이 필요하다.
  */
 @SpringBootTest
 @AutoConfigureMockMvc

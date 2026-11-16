@@ -147,6 +147,13 @@ class CommonErrorResponse(BaseModel):
         "RATE_LIMIT_EXCEEDED",
         "INTERNAL_ERROR",
         "UPSTREAM_UNAVAILABLE",
+        "EVIDENCE_BINDING_DISABLED",
+        "EVIDENCE_POLICY_INVALID",
+        "EVIDENCE_CONTRACT_INVALID",
+        "EVIDENCE_INTEGRITY_ERROR",
+        "EVIDENCE_NO_LONGER_AVAILABLE",
+        "EVIDENCE_STORE_UNAVAILABLE",
+        "EXPLORATION_JOB_CONFLICT",
     ]
     message: str = Field(min_length=1, max_length=500)
     requestId: str = Field(min_length=1, max_length=100)
