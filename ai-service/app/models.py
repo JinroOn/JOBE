@@ -153,6 +153,7 @@ class CommonErrorResponse(BaseModel):
         "EVIDENCE_INTEGRITY_ERROR",
         "EVIDENCE_NO_LONGER_AVAILABLE",
         "EVIDENCE_STORE_UNAVAILABLE",
+        "EXPLORATION_JOB_CONFLICT",
     ]
     message: str = Field(min_length=1, max_length=500)
     requestId: str = Field(min_length=1, max_length=100)

@@ -9,7 +9,7 @@ from datetime import timedelta
 import re
 import uuid
 
-from sqlalchemy import BigInteger, DateTime, Integer, String, Text, func, select
+from sqlalchemy import BigInteger, DateTime, Integer, String, Text, func, select, text
 from sqlalchemy.dialects.postgresql import JSONB, insert
 from sqlalchemy.orm import Mapped, mapped_column, Session
 
@@ -50,7 +50,7 @@ class ExplorationJobStore:
         except (ValueError, TypeError, AttributeError): raise JobConflict() from None
 
     def enqueue(self, owner: str, mutation: str, binding: EvidenceBinding) -> int:
-        self._owner(owner)
+        self.guard_owner(owner)
         if not isinstance(mutation, str) or not re.fullmatch(r'[A-Za-z0-9_-]{1,80}', mutation): raise JobConflict()
         # Replays are also subject to fresh evidence approval, never a permission cache.
         self.binder.revalidate(binding)
@@ -64,7 +64,7 @@ class ExplorationJobStore:
         return row.id
 
     def _locked(self, owner, job):
-        self._owner(owner)
+        self.guard_owner(owner)
         row = self.db.scalar(select(ExplorationJob).where(ExplorationJob.id==job,
             ExplorationJob.owner_key==owner).with_for_update().execution_options(populate_existing=True))
         if row is None: raise JobConflict()
@@ -113,5 +113,13 @@ class ExplorationJobStore:
     def purge_owner(self, owner: str):
         """Trusted account-erasure workflow only; includes saved context/evidence text."""
         self._owner(owner)
+        self.db.execute(text('SELECT pg_advisory_xact_lock(hashtextextended(:owner,0))'),{'owner':owner})
+        self.db.execute(text('INSERT INTO ai_exploration_erased_owners(owner_key) VALUES (:owner) ON CONFLICT DO NOTHING'),{'owner':owner})
         from sqlalchemy import delete
         self.db.execute(delete(ExplorationJob).where(ExplorationJob.owner_key==owner))
+
+    def guard_owner(self, owner: str):
+        self._owner(owner)
+        self.db.execute(text('SELECT pg_advisory_xact_lock(hashtextextended(:owner,0))'),{'owner':owner})
+        if self.db.scalar(text('SELECT EXISTS(SELECT 1 FROM ai_exploration_erased_owners WHERE owner_key=:owner)'),{'owner':owner}):
+            raise JobConflict()

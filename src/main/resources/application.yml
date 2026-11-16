@@ -77,6 +77,10 @@ diagnosis:
       default-time-limit-sec: ${DIAGNOSIS_QUESTIONS_DEFAULT_TIME_LIMIT_SEC:60}
 
 exploration:
+  jobs:
+    enabled: ${EXPLORATION_JOBS_ENABLED:false}
+    erasure:
+      enabled: ${EXPLORATION_JOBS_ERASURE_ENABLED:false}
   evidence:
     enabled: ${EXPLORATION_EVIDENCE_ENABLED:false}
     dataset-version: ${EXPLORATION_EVIDENCE_DATASET_VERSION:}
