@@ -16,7 +16,7 @@ import org.junit.jupiter.params.provider.*;
 class ResultComparisonProjectorTest {
     private static final ObjectMapper M=new ObjectMapper();
     private static final ExplorationJson JSON=new ExplorationJson(M);
-    private static final ExplorationRuntimeCatalog CATALOGS=new ExplorationRuntimeCatalog(null,JSON);
+    private static final ExplorationRuntimeCatalog CATALOGS=new ExplorationRuntimeCatalog(null,JSON,null);
     private static final ResultComparisonProjector PROJECTOR=new ResultComparisonProjector(JSON,CATALOGS);
     private static ExplorationRuntimeCatalog.Frozen frozen;
     private static List<Map<String,String>> skipRows;

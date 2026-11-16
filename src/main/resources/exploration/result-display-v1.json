@@ -1,0 +1,33 @@
+{
+  "version": "RESULT_DISPLAY_V1_0",
+  "scope": "DEV",
+  "domainReviewStatus": "PENDING",
+  "sources": ["통합과정/문서통합/04_DB_API_화면_구현계약.md#결과", "통합과정/업데이트준비완료/D05_콘텐츠_상태_및_활성화_계약.md", "datasets/exploration/semantic-dictionary.json"],
+  "groups": {
+    "HUM": {"name":"인문", "summary":"인간의 언어·역사·문화에 관한 전공을 먼저 탐색해볼 수 있습니다."},
+    "SOC": {"name":"사회", "summary":"사회 현상과 제도, 사람들의 관계를 살펴보는 전공을 탐색해볼 수 있습니다."},
+    "EDU": {"name":"교육", "summary":"배움과 가르침을 다루는 전공을 먼저 탐색해볼 수 있습니다."},
+    "ENG": {"name":"공학", "summary":"기술과 설계를 통해 문제를 다루는 전공을 탐색해볼 수 있습니다."},
+    "DAT": {"name":"데이터·정보", "summary":"데이터와 정보 기술을 다루는 전공을 먼저 탐색해볼 수 있습니다."},
+    "SCI": {"name":"자연과학", "summary":"자연 현상을 관찰하고 탐구하는 전공을 탐색해볼 수 있습니다."},
+    "BIO": {"name":"생명", "summary":"생명 현상과 생물 자원을 다루는 전공을 탐색해볼 수 있습니다."},
+    "ART": {"name":"예술", "summary":"표현과 창작을 다루는 전공을 먼저 탐색해볼 수 있습니다."},
+    "SPORT": {"name":"스포츠", "summary":"신체 활동과 스포츠를 다루는 전공을 탐색해볼 수 있습니다."},
+    "BIZ": {"name":"경영·경제", "summary":"조직 운영과 경제 활동을 다루는 전공을 탐색해볼 수 있습니다."},
+    "MED": {"name":"보건·의료", "summary":"건강과 돌봄을 다루는 전공을 먼저 탐색해볼 수 있습니다."}
+  },
+  "metrics": {
+    "INT_HUM":"인문·언어·역사", "INT_SOC":"사회 현상", "INT_EDU":"교육과 배움", "INT_ENG":"공학과 기술", "INT_DAT":"데이터와 정보", "INT_SCI":"자연과학", "INT_BIO":"생명과 생물", "INT_VISUAL":"시각 표현", "INT_MED":"미디어와 콘텐츠", "INT_PERFORM":"공연과 표현", "INT_SPORT":"신체 활동과 스포츠", "INT_BIZ":"경영과 조직", "INT_ECO":"경제 활동", "INT_CARE":"건강과 돌봄",
+    "ACT_CRE":"창작", "ACT_DES":"설계와 디자인", "ACT_EDU":"가르치기", "ACT_EXP":"실험", "ACT_FLD":"현장 관찰", "ACT_OPS":"운영", "ACT_RES":"조사와 연구", "ACT_SUP":"지원과 돌봄", "ACT_SYS":"체계와 시스템 구성", "ACT_PFM":"공연과 표현", "ACT_PHY":"신체 활동",
+    "LEARN_HUM":"인문 학습", "LEARN_SOC":"사회 학습", "LEARN_EDU":"교육 학습", "LEARN_ENG":"공학 학습", "LEARN_INF":"정보 학습", "LEARN_SCI":"자연과학 학습", "LEARN_BIO":"생명과학 학습", "LEARN_VISUAL":"시각 표현 학습", "LEARN_MED":"미디어 학습", "LEARN_PERFORM":"공연 학습", "LEARN_SPORT":"스포츠 학습", "LEARN_BIZ":"경영·경제 학습"
+  },
+  "cautions": {
+    "CAUTION_MATH":{"text":"수학을 어떤 방식으로 사용하는지 확인해볼 수 있습니다.","checkAction":"공식 교육과정에서 수학 관련 기초 과목과 예시 과제를 확인해보세요."},
+    "CAUTION_SCIENCE":{"text":"과학 기초 내용과 탐구 활동을 확인해볼 수 있습니다.","checkAction":"공식 교육과정에서 과학 기초 과목과 실험·탐구 수업 안내를 확인해보세요."},
+    "CAUTION_FACE_TO_FACE":{"text":"사람을 직접 만나는 활동의 모습을 확인해볼 수 있습니다.","checkAction":"공식 학과 안내의 현장 활동과 사람을 만나는 실습 사례를 살펴보세요."},
+    "CAUTION_LONG_PREP":{"text":"학습과 준비가 어떤 단계로 이어지는지 확인해볼 수 있습니다.","checkAction":"공식 교육과정과 해당 진로의 자격 안내에서 준비 단계와 소요 조건을 확인해보세요."},
+    "CAUTION_STUDY_LOAD":{"text":"수업과 과제의 진행 방식을 확인해볼 수 있습니다.","checkAction":"강의계획서의 주별 학습 내용과 과제 예시를 살펴보세요."},
+    "CAUTION_PRACTICE":{"text":"실습의 환경과 진행 방식을 확인해볼 수 있습니다.","checkAction":"공식 학과 안내에서 실습 환경과 결과물 예시, 준비 사항을 살펴보세요."},
+    "CAUTION_CREATIVE_WORK":{"text":"창작 과제의 진행 방식을 확인해볼 수 있습니다.","checkAction":"공식 수업 안내와 과제·작품 예시를 살펴보고 작은 활동부터 시도해보세요."}
+  }
+}

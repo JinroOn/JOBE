@@ -88,7 +88,7 @@ public class ExplorationShareService {
                 ||userRepository.findById(session.getUserId()).filter(u->u.isActive()).isEmpty())throw missing();
         JsonNode source=resultStore.verifiedSnapshot(result),summary=json.read(link.get("summary_json").toString());
         if(!json.hex(source).equals(link.get("result_hash"))||!json.hex(summary).equals(link.get("summary_hash"))||!projector.allowed(summary)
-                ||!json.hex(projector.project(source,summary.path("nickname").textValue())).equals(json.hex(summary)))throw ExplorationApiException.integrity();
+                ||!json.hex(projector.project(source,summary.path("nickname").textValue(),summary.path("summaryVersion").asText())).equals(json.hex(summary)))throw ExplorationApiException.integrity();
         ObjectNode response=summary.deepCopy();response.put("expiresAt",instant(link,"expires_at").toString());return response;
     }
 
