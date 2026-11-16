@@ -16,6 +16,7 @@ class ExplorationAiInputIntegrationTest extends CompletedExplorationTestSupport 
     @Autowired ExplorationAiContract contract;
     @Autowired ExplorationAiResponseAdapter outputs;
     @Test void authenticPreparedContextProducesMinimalUnboundInputWithoutJobsOrLegacyAiData()throws Exception {
+        long unrelated=unrelatedLegacyPlan();var existingPlan=jdbc.queryForMap("SELECT * FROM major_weekly_plans WHERE id=?",unrelated);
         long rid=completedResult(true);long id=contexts.prepare(OWNER,rid,"context","CONSULTATION",0,null).body().path("contextId").asLong();
         int requests=count("exploration_idempotency","user_id=?",OWNER);var prepared=inputs.prepare(OWNER,id,"CONSULTATION");JsonNode request=prepared.request();
         assertThat(prepared.readyForGeneration()).isFalse();assertThat(prepared.blockedReason()).isEqualTo("APPROVED_EVIDENCE_NOT_BOUND");contract.request(request);
@@ -23,7 +24,8 @@ class ExplorationAiInputIntegrationTest extends CompletedExplorationTestSupport 
         assertThat(request.path("input").toString()).doesNotContain("requestId","sourceContextHash","inputHash","versions");
         assertThat(request.path("evidence").path("approvedOnly").asBoolean()).isTrue();assertThat(request.path("evidence").path("datasetVersion").isNull()).isTrue();
         assertThat(outputs.adapt(request,inputs.insufficientEvidence(request)).status()).isEqualTo("INSUFFICIENT_EVIDENCE");
-        assertThat(count("exploration_idempotency","user_id=?",OWNER)).isEqualTo(requests);assertThat(count("consultation_sessions","user_id=?",OWNER)).isZero();assertThat(count("major_weekly_plans","1=1")).isZero();
+        assertThat(count("exploration_idempotency","user_id=?",OWNER)).isEqualTo(requests);assertThat(count("consultation_sessions","user_id=?",OWNER)).isZero();assertThat(count("major_weekly_plans","diagnosis_result_id IN (SELECT id FROM diagnosis_results WHERE user_id=?)",OWNER)).isZero();
+        assertThat(jdbc.queryForMap("SELECT * FROM major_weekly_plans WHERE id=?",unrelated)).isEqualTo(existingPlan);
     }
     @Test void planKeepsTargetBeyondSevenAndOnlyApplicableSemanticPreferences()throws Exception {
         long rid=completedResult(true);String target=resultSnapshot(rid).path("rankedCandidates").get(7).path("majorCode").asText();JsonNode state=support.select(OWNER,rid,"support",0,"BOTH",target).body();

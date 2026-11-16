@@ -43,7 +43,9 @@ abstract class ExplorationApiTestSupport {
     @Autowired ExplorationCatalogLoader loader;
     @Autowired AccountDeletionService deletion;
     @Autowired ExplorationSessionService service;
+    @Autowired com.jinroon.jobe.domain.major.repository.MajorRepository fixtureMajors;
     protected String owner, other, outside;
+    private final Set<Long> extraFixtureMajorIds = new HashSet<>();
 
     @BeforeEach void prepare() {
         loader.load(Path.of("datasets/exploration"));
@@ -52,6 +54,7 @@ abstract class ExplorationApiTestSupport {
 
     @AfterEach void cleanup() {
         for (long id : List.of(OWNER, OTHER, OUTSIDE)) if (users.existsById(id)) deletion.delete(id);
+        for (long id : extraFixtureMajorIds) jdbc.update("DELETE FROM majors WHERE id=?", id);
         jdbc.update("DELETE s FROM exploration_runtime_snapshot s LEFT JOIN exploration_session_pin p ON p.snapshot_hash=s.content_hash WHERE p.session_id IS NULL");
     }
 
@@ -71,6 +74,26 @@ abstract class ExplorationApiTestSupport {
         return body.isBlank() ? mapper.nullNode() : mapper.readTree(body);
     }
     protected int count(String table, String where, Object... args) { return jdbc.queryForObject("SELECT COUNT(*) FROM " + table + " WHERE " + where, Integer.class, args); }
+    /** A valid unrelated legacy plan makes whole-table-zero assertions fail even in a disposable DB. */
+    protected long unrelatedLegacyPlan() {
+        long major = fixtureMajors.saveAndFlush(com.jinroon.jobe.global.common.entity.EntityFormMapper.create(
+                com.jinroon.jobe.domain.major.entity.Major.class,
+                Map.of("name", "unrelated-"+UUID.randomUUID(), "category", "test", "difficulty", "mid"))).getId();
+        extraFixtureMajorIds.add(major);
+        long session = insertFixture("INSERT INTO diagnosis_sessions(user_id,status,current_step,started_at,input_snapshot) VALUES (?,'completed',1,NOW(),'{}')", OTHER);
+        long result = insertFixture("INSERT INTO diagnosis_results(user_id,diagnosis_session_id,competency_vector,tendency_vector,ai_comment_status) VALUES (?,?,'{}','{}','NOT_REQUESTED')", OTHER, session);
+        long score = insertFixture("INSERT INTO result_major_scores(diagnosis_result_id,major_id,is_failed) VALUES (?,?,false)", result, major);
+        return insertFixture("INSERT INTO major_weekly_plans(diagnosis_result_id,result_major_score_id,version_no,active_version,fallback,ai_plan_status) VALUES (?,?,1,true,false,'NOT_REQUESTED')", result, score);
+    }
+    private long insertFixture(String sql, Object... args) {
+        var key = new org.springframework.jdbc.support.GeneratedKeyHolder();
+        jdbc.update(connection -> {
+            var statement = connection.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
+            for (int i=0;i<args.length;i++) statement.setObject(i+1,args[i]);
+            return statement;
+        },key);
+        return Objects.requireNonNull(key.getKey()).longValue();
+    }
     /** Restore by shared hash, even if the test deletes its pin or throws an assertion failure. */
     protected AutoCloseable preserveRuntimeSnapshot(long sessionId) {
         var row = jdbc.queryForMap("SELECT s.content_hash,s.payload_json FROM exploration_runtime_snapshot s "

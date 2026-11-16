@@ -27,7 +27,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 /**
  * 같은 refresh 토큰으로 동시에 여러 번 갱신해도 새 세션은 하나만 생기는지 실제 트랜잭션으로 확인한다.
  * 토큰이 탈취돼 원래 사용자와 동시에 쓰이는 경우 둘 다 새 토큰을 받으면 안 된다.
- * 로컬 MySQL(docker compose up -d mysql)이 필요하다. 테스트 클래스 트랜잭션을 쓰지 않으므로 직접 정리한다.
+ * 로컬 MySQL(docker compose -f docker-compose.test.yml up -d)이 필요하다. 테스트 클래스 트랜잭션을 쓰지 않으므로 직접 정리한다.
  */
 @SpringBootTest
 class ConcurrentRefreshIntegrationTest {

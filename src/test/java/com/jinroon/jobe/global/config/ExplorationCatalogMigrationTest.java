@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Flyway V1(탐색형 카탈로그 테이블) 적용과 MySQL 제약 동작을 확인한다.
- * 로컬 MySQL(docker compose up -d mysql)이 필요하다. 테스트 데이터는 트랜잭션 롤백으로 지운다.
+ * 로컬 MySQL(docker compose -f docker-compose.test.yml up -d)이 필요하다. 테스트 데이터는 트랜잭션 롤백으로 지운다.
  */
 @SpringBootTest
 @Transactional

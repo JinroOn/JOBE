@@ -29,7 +29,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 /**
  * 틀린 코드의 실패 횟수가 예외가 나도 DB에 남는지(롤백되지 않는지) 실제 트랜잭션으로 확인한다.
  * 단위 테스트는 트랜잭션을 거치지 않아 이 부분을 검증할 수 없다.
- * 로컬 MySQL(docker compose up -d mysql)이 필요하다. 테스트 클래스 트랜잭션을 쓰지 않으므로 직접 정리한다.
+ * 로컬 MySQL(docker compose -f docker-compose.test.yml up -d)이 필요하다. 테스트 클래스 트랜잭션을 쓰지 않으므로 직접 정리한다.
  */
 @SpringBootTest
 class AuthCodeAttemptLimitIntegrationTest {

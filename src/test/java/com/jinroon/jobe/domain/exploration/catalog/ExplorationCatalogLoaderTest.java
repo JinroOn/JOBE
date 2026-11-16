@@ -30,7 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 카탈로그 적재기 규칙 테스트. 실제 문항·규칙은 비공개라 저장소에 없으므로
  * src/test/resources/exploration-fixture의 가짜 데이터로 같은 검증·적재 규칙을 확인한다(CI 포함).
  * 실제 데이터 확인은 ExplorationCatalogRealDatasetTest(데이터가 있을 때만 실행).
- * 로컬 MySQL(docker compose up -d mysql)이 필요하다. 적재한 데이터는 테스트 트랜잭션 롤백으로 지운다.
+ * 로컬 MySQL(docker compose -f docker-compose.test.yml up -d)이 필요하다. 적재한 데이터는 테스트 트랜잭션 롤백으로 지운다.
  */
 @SpringBootTest
 @Transactional

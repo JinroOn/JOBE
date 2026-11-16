@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 /**
  * 탐색형 API가 켜져 있을 때 오류 응답에도 CORS 헤더가 붙는지 확인한다.
  * 헤더가 없으면 브라우저가 응답 본문을 막아 프런트가 오류 code(401·400 등)를 구분할 수 없다.
- * 요청이 거부되는 경로만 호출하므로 DB에 데이터를 쓰지 않는다. 로컬 MySQL(docker compose up -d mysql)이 필요하다.
+ * 요청이 거부되는 경로만 호출하므로 DB에 데이터를 쓰지 않는다. 로컬 MySQL(docker compose -f docker-compose.test.yml up -d)이 필요하다.
  */
 @SpringBootTest(properties = {"exploration.enabled=true", "exploration.runtime.run-mode=DEV",
         "exploration.runtime.dev-user-ids=8200000001"})

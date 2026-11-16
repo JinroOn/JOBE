@@ -24,12 +24,14 @@ class ResultContextApiTest extends CompletedExplorationTestSupport {
     @Autowired DiagnosisSessionRepository legacySessions;
     @Autowired DiagnosisResultRepository legacyResults;
     @Test void generalConsultationNeedsNoSupportAndNeverCreatesLegacySessionsOrPlans()throws Exception {
+        long unrelated=unrelatedLegacyPlan();var existingPlan=jdbc.queryForMap("SELECT * FROM major_weekly_plans WHERE id=?",unrelated);
         long rid=completedResult(false);JsonNode prepared=prepare(rid,"CONSULTATION",0,null,"general",201);long id=prepared.path("contextId").asLong();
         assertThat(prepared.path("resultType").asText()).isEqualTo("EXPLORATION_V1");assertThat(prepared.path("resultKey").asText()).isEqualTo("EXPLORATION_V1:RESULT:"+rid);
         assertThat(prepared.path("contextKey").asText()).isEqualTo("EXPLORATION_V1:CONTEXT:"+id);assertThat(prepared.path("generationStatus").asText()).isEqualTo("NOT_REQUESTED");
         assertThat(prepared.path("generationAvailable").asBoolean()).isFalse();assertThat(prepared.path("status").asText()).isEqualTo("PREPARED");assertThat(getContext(id,owner,200)).isEqualTo(prepared);
         JsonNode stored=snapshot(id);assertThat(stored.path("support").path("initialized").asBoolean()).isFalse();assertThat(stored.path("support").path("appliedAnswers").isEmpty()).isTrue();
-        assertThat(count("exploration_post_result","result_id=?",rid)).isZero();assertThat(count("consultation_sessions","user_id=?",OWNER)).isZero();assertThat(count("major_weekly_plans","1=1")).isZero();
+        assertThat(count("exploration_post_result","result_id=?",rid)).isZero();assertThat(count("consultation_sessions","user_id=?",OWNER)).isZero();assertThat(count("major_weekly_plans","diagnosis_result_id IN (SELECT id FROM diagnosis_results WHERE user_id=?)",OWNER)).isZero();
+        assertThat(jdbc.queryForMap("SELECT * FROM major_weekly_plans WHERE id=?",unrelated)).isEqualTo(existingPlan);
     }
     @Test void plansWithoutCandidatesAreRejectedButGeneralConsultationIsAllowed()throws Exception {
         long rid=completedResult(false);assertThat(prepare(rid,"PLAN",0,"MAJOR_ROW_2","plan",409).path("code").asText()).isEqualTo("PLAN_TARGET_UNAVAILABLE");prepare(rid,"CONSULTATION",0,null,"consult",201);
