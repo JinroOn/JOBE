@@ -13,6 +13,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
@@ -49,12 +50,14 @@ public class GlobalExceptionHandler {
         return toResponse(ErrorCode.METHOD_NOT_ALLOWED);
     }
 
-    // 읽을 수 없는 JSON 본문, 잘못된 파라미터 타입·누락, 지원하지 않는 Content-Type
+    // 읽을 수 없는 JSON 본문, 잘못된 파라미터 타입·누락, 지원하지 않는 Content-Type,
+    // 쿼리·경로 파라미터의 제약(@Positive·@Pattern 등) 위반. 제약 위반은 이전에 500으로 응답했다.
     @ExceptionHandler({
             HttpMessageNotReadableException.class,
             MethodArgumentTypeMismatchException.class,
             MissingServletRequestParameterException.class,
-            HttpMediaTypeNotSupportedException.class
+            HttpMediaTypeNotSupportedException.class,
+            HandlerMethodValidationException.class
     })
     public ResponseEntity<ErrorDto> handleBadRequest(Exception exception) {
         log.debug("Bad request errorType={} message={}", exception.getClass().getSimpleName(), exception.getMessage());
