@@ -31,6 +31,7 @@ public class CatalogReviewService {
 
         private final String table;
         TargetType(String table) { this.table = table; }
+        String table() { return table; }
     }
 
     /**
