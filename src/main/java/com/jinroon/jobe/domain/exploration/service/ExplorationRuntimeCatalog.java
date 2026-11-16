@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 public class ExplorationRuntimeCatalog {
     private final JdbcTemplate jdbc;
     private final ExplorationJson json;
+    private final com.jinroon.jobe.domain.exploration.display.ResultDisplayCatalog displayCatalog;
     @Value("${exploration.runtime.ruleset-version:RULESET_V1_5_IMPLEMENTATION_CANDIDATE}")
     private String rulesetVersion;
 
@@ -72,6 +73,12 @@ public class ExplorationRuntimeCatalog {
         mapping.put("major_mapping_version", requested.get("MAJOR_MAPPING"));
         mapping.set("majors", majors);
         payload.set("semantic", json.read(catalogs.get("SEMANTIC_CONTRACT").get("metadata_json").toString()));
+        payload.set("displayContent", displayCatalog.snapshot());
+        payload.set("cautionTags", json.tree(jdbc.queryForList("SELECT m.major_code AS majorCode,t.tag_code AS tagCode,"
+                + "t.proposal_status AS proposalStatus,t.content_status AS contentStatus,"
+                + "t.implementation_review_status AS implementationReviewStatus,t.domain_review_status AS domainReviewStatus,t.evidence "
+                + "FROM exploration_caution_tag t JOIN exploration_major_mapping m ON m.id=t.mapping_id "
+                + "WHERE m.catalog_id=? ORDER BY m.major_code,t.tag_code", mappingId)));
         BranchCatalog branch = branch(payload);
         return new Frozen(new VersionBundle(questionId, optionId, variantId, mappingId, id(rule), semanticId), json.hex(payload), payload, branch);
     }

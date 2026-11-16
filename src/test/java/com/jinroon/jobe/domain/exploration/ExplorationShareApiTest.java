@@ -49,6 +49,24 @@ class ExplorationShareApiTest extends CompletedExplorationTestSupport {
         jdbc.update("UPDATE users SET nickname='changed later' WHERE id=?",OWNER);assertThat(read(link,200).path("nickname").asText()).isEqualTo("public QA nickname");
         JsonNode replacement=issue(rid,1,false,"remove",201);read(link,404);assertThat(read(replacement,200).has("nickname")).isFalse();
     }
+    @Test void newSummaryAddsOnlyGroupDisplayLabelsAndKeepsPrivateEvidenceOut()throws Exception {
+        long rid=completedResult(true);JsonNode summary=read(issue(rid,0,false,"display",201),200);
+        assertThat(summary.path("summaryVersion").asText()).isEqualTo("SHARED_EXPLORATION_SUMMARY_V1_1");
+        for(JsonNode group:summary.path("groups")) {
+            assertThat(fields(group)).containsExactlyInAnyOrder("groupCode","name","summary");
+            assertThat(group.path("name").asText()).isNotBlank();assertThat(group.path("summary").asText()).contains("탐색");
+        }
+        assertThat(allFields(summary)).doesNotContain("reasons","evidenceLevel","cautions","preparationResponses","recheckAxes","display");
+    }
+    @Test void historicalV10SummaryIsVerifiedWithItsOriginalSchemaAfterDisplayUpgrade()throws Exception {
+        long rid=completedResult(true);JsonNode link=issue(rid,0,false,"legacy-schema",201);
+        var projector=new SharedResultProjector(json,new com.jinroon.jobe.domain.exploration.display.ExplorationResultDisplay(json,
+                new com.jinroon.jobe.domain.exploration.display.ResultDisplayCatalog(mapper)));
+        JsonNode legacy=projector.project(resultSnapshot(rid),null,SharedResultProjector.LEGACY_CONTRACT);
+        jdbc.update("UPDATE exploration_share_link SET summary_json=?,summary_hash=? WHERE state_id IN (SELECT id FROM exploration_share_state WHERE result_id=?)",json.write(legacy),json.hex(legacy),rid);
+        JsonNode response=read(link,200);assertThat(response.path("summaryVersion").asText()).isEqualTo(SharedResultProjector.LEGACY_CONTRACT);
+        for(JsonNode group:response.path("groups"))assertThat(fields(group)).containsExactly("groupCode");
+    }
     @Test void exactThirtyDayBoundaryExpiresAndRetryCannotExtendOriginalLink()throws Exception {
         long rid=completedResult(true);JsonNode link=issue(rid,0,false,"create",201);Instant expiry=NOW.plus(Duration.ofDays(30));
         when(time.now()).thenReturn(expiry.minusNanos(1000));read(link,200);when(time.now()).thenReturn(expiry);read(link,404);

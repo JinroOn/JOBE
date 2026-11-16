@@ -17,6 +17,7 @@ public class ExplorationResultStore {
     private final ExplorationResultRepository results;
     private final JdbcTemplate jdbc;
     private final ExplorationJson json;
+    private final com.jinroon.jobe.domain.exploration.display.ExplorationResultDisplay resultDisplay;
     private final com.jinroon.jobe.domain.exploration.sharing.ExplorationSharePolicy sharing;
     private final com.jinroon.jobe.domain.exploration.repository.ExplorationSessionRepository sessions;
 
@@ -62,6 +63,15 @@ public class ExplorationResultStore {
         dto.put("resultVersion", payload.path("resultContractVersion").asText());
         dto.set("groups", payload.path("groupSummaries").deepCopy());
         dto.set("majors", payload.path("majorSummaries").deepCopy());
+        // Stored response-only preparation answers are not approved caution guidance.
+        dto.set("preparationResponses", payload.path("cautions").deepCopy());
+        JsonNode display = resultDisplay.project(payload);
+        dto.set("groups", display.path("groups")); dto.set("majors", display.path("majors"));
+        dto.set("cautions", display.path("cautions")); dto.set("recheckAxes", display.path("recheckAxes"));
+        dto.put("displayVersion", display.path("version").asText());
+        dto.put("displaySource", display.path("source").asText());
+        dto.put("cautionAvailability", display.path("cautionAvailability").asText());
+        dto.set("cautionUnavailableReason", display.path("cautionUnavailableReason"));
         // Current availability is separate from the immutable diagnosis payload.
         dto.set("nextActivities", json.array());
         dto.put("activityAvailability", "UNAVAILABLE");

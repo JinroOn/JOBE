@@ -16,6 +16,7 @@ import static com.jinroon.jobe.domain.exploration.scoring.ExplorationScoreCalcul
 public class ExplorationResultAssembler {
     public static final String CONTRACT = "RESULT_CONTRACT_V1_0";
     private final ExplorationJson json;
+    private final com.jinroon.jobe.domain.exploration.display.ExplorationResultDisplay resultDisplay;
 
     public ObjectNode assemble(long sessionId, String completedAt, String reason, ExplorationRuntimeCatalog.Frozen frozen,
                                FixedCandidates fixed, List<BranchCatalog.Answer> answers, JsonNode input) {
@@ -90,6 +91,7 @@ public class ExplorationResultAssembler {
             caution.put("questionId", q.id()); caution.put("questionText", source.path("question_text").asText());
             caution.put("answerText", option.path("option_text").asText()); caution.put("usage", "PREPARATION_RESPONSE_ONLY");
         }
+        snapshot.set("display", resultDisplay.freeze(snapshot, frozen.payload()));
         return snapshot;
     }
 
