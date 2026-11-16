@@ -1,0 +1,2197 @@
+{
+  "fixtureVersion": "EXPLORATION_AI_CONTRACT_CASES_V1",
+  "synthetic": true,
+  "boundCasesAreProtocolMetadataOnly": true,
+  "adapterCases": [
+    {
+      "name": "consultation",
+      "context": {
+        "contractVersion": "EXPLORATION_RESULT_CONTEXT_V1_0",
+        "resultType": "EXPLORATION_V1",
+        "contextType": "CONSULTATION",
+        "runMode": "DEV",
+        "testOnly": true,
+        "targetMajor": null,
+        "source": {
+          "resultId": 98765,
+          "sessionId": 12345,
+          "userId": 999,
+          "versions": {
+            "semanticContract": "SEMANTIC_CONTRACT_V1_0"
+          }
+        },
+        "email": "synthetic@example.invalid",
+        "nickname": "DO_NOT_FORWARD",
+        "shareToken": "SYNTHETIC_PRIVATE_TOKEN",
+        "result": {
+          "status": "LOW_EVIDENCE",
+          "majorSummaries": [
+            {
+              "majorName": "고고학과"
+            },
+            {
+              "majorName": "컴퓨터공학과"
+            }
+          ],
+          "flags": {
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "competencyVector": {
+            "private": 99
+          }
+        },
+        "support": {
+          "initialized": true,
+          "collectionBudgetLimited": false,
+          "omittedQuestionIds": [],
+          "appliedAnswers": [
+            {
+              "questionId": "READINESS-INFO-01",
+              "meaningCode": "INFO_SOME",
+              "unknown": false,
+              "issuedId": 444,
+              "answerRevision": 2,
+              "answerText": "SYNTHETIC_PRIVATE_ANSWER"
+            }
+          ]
+        }
+      },
+      "requestId": "fixture-consultation",
+      "expectedRequest": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "고고학과",
+            "컴퓨터공학과"
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "b753df85009d0ca0331077acefb3e13fd2a9c4f66f195f2b855a27a4bbdcc402"
+      }
+    },
+    {
+      "name": "plan_beyond_seven",
+      "context": {
+        "contractVersion": "EXPLORATION_RESULT_CONTEXT_V1_0",
+        "resultType": "EXPLORATION_V1",
+        "contextType": "PLAN",
+        "runMode": "DEV",
+        "testOnly": true,
+        "targetMajor": {
+          "major_name": "전공 여덟번째",
+          "major_code": "SYNTHETIC_PRIVATE_MAJOR"
+        },
+        "source": {
+          "resultId": 98765,
+          "sessionId": 12345,
+          "userId": 999,
+          "versions": {
+            "semanticContract": "SEMANTIC_CONTRACT_V1_0"
+          }
+        },
+        "email": "synthetic@example.invalid",
+        "nickname": "DO_NOT_FORWARD",
+        "shareToken": "SYNTHETIC_PRIVATE_TOKEN",
+        "result": {
+          "status": "LOW_EVIDENCE",
+          "majorSummaries": [
+            {
+              "majorName": "합성 전공 0"
+            },
+            {
+              "majorName": "합성 전공 1"
+            },
+            {
+              "majorName": "합성 전공 2"
+            },
+            {
+              "majorName": "합성 전공 3"
+            },
+            {
+              "majorName": "합성 전공 4"
+            },
+            {
+              "majorName": "합성 전공 5"
+            },
+            {
+              "majorName": "합성 전공 6"
+            }
+          ],
+          "flags": {
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "competencyVector": {
+            "private": 99
+          }
+        },
+        "support": {
+          "initialized": true,
+          "collectionBudgetLimited": false,
+          "omittedQuestionIds": [],
+          "appliedAnswers": [
+            {
+              "questionId": "READINESS-INFO-01",
+              "meaningCode": "INFO_SOME",
+              "unknown": false,
+              "issuedId": 444,
+              "answerRevision": 2,
+              "answerText": "SYNTHETIC_PRIVATE_ANSWER"
+            }
+          ]
+        }
+      },
+      "requestId": "fixture-plan_beyond_seven",
+      "expectedRequest": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-plan_beyond_seven",
+        "sourceContextHash": "8d3592d5007377d4fd452256ace1bb17f04a2013da702dbdba80fa5ab4c7ec40",
+        "purpose": "PLAN",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "합성 전공 0",
+            "합성 전공 1",
+            "합성 전공 2",
+            "합성 전공 3",
+            "합성 전공 4",
+            "합성 전공 5",
+            "합성 전공 6",
+            "전공 여덟번째"
+          ],
+          "targetName": "전공 여덟번째",
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "d528675a6f02fca8c217f927b53ee1cf7d82f250ef670903adbd11a92b436df1"
+      }
+    },
+    {
+      "name": "no_candidate",
+      "context": {
+        "contractVersion": "EXPLORATION_RESULT_CONTEXT_V1_0",
+        "resultType": "EXPLORATION_V1",
+        "contextType": "CONSULTATION",
+        "runMode": "DEV",
+        "testOnly": true,
+        "targetMajor": null,
+        "source": {
+          "resultId": 98765,
+          "sessionId": 12345,
+          "userId": 999,
+          "versions": {
+            "semanticContract": "SEMANTIC_CONTRACT_V1_0"
+          }
+        },
+        "email": "synthetic@example.invalid",
+        "nickname": "DO_NOT_FORWARD",
+        "shareToken": "SYNTHETIC_PRIVATE_TOKEN",
+        "result": {
+          "status": "NO_SUPPORTED_CANDIDATE",
+          "majorSummaries": [],
+          "flags": {
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "competencyVector": {
+            "private": 99
+          }
+        },
+        "support": {
+          "initialized": false,
+          "collectionBudgetLimited": false,
+          "omittedQuestionIds": [],
+          "appliedAnswers": []
+        }
+      },
+      "requestId": "fixture-no_candidate",
+      "expectedRequest": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-no_candidate",
+        "sourceContextHash": "6ac553306d287faea2897083ca2701317adf9c44488347f32594b6f53a057ac1",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "NO_SUPPORTED_CANDIDATE",
+          "candidateNames": [],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": false,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [],
+          "collection": {
+            "initialized": false,
+            "applicableAnswerCount": 0,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "54a90018ba80f5e5caabd369bbe42549a1c290e64a61aa1a5720230450d04a00"
+      }
+    }
+  ],
+  "requestCases": [
+    {
+      "name": "consultation",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "고고학과",
+            "컴퓨터공학과"
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "b753df85009d0ca0331077acefb3e13fd2a9c4f66f195f2b855a27a4bbdcc402"
+      },
+      "valid": true
+    },
+    {
+      "name": "plan_beyond_seven",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-plan_beyond_seven",
+        "sourceContextHash": "8d3592d5007377d4fd452256ace1bb17f04a2013da702dbdba80fa5ab4c7ec40",
+        "purpose": "PLAN",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "합성 전공 0",
+            "합성 전공 1",
+            "합성 전공 2",
+            "합성 전공 3",
+            "합성 전공 4",
+            "합성 전공 5",
+            "합성 전공 6",
+            "전공 여덟번째"
+          ],
+          "targetName": "전공 여덟번째",
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "d528675a6f02fca8c217f927b53ee1cf7d82f250ef670903adbd11a92b436df1"
+      },
+      "valid": true
+    },
+    {
+      "name": "no_candidate",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-no_candidate",
+        "sourceContextHash": "6ac553306d287faea2897083ca2701317adf9c44488347f32594b6f53a057ac1",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "NO_SUPPORTED_CANDIDATE",
+          "candidateNames": [],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": false,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [],
+          "collection": {
+            "initialized": false,
+            "applicableAnswerCount": 0,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "54a90018ba80f5e5caabd369bbe42549a1c290e64a61aa1a5720230450d04a00"
+      },
+      "valid": true
+    },
+    {
+      "name": "protocol_bound_consult",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "고고학과",
+            "컴퓨터공학과"
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "BOUND",
+          "datasetVersion": "SYNTHETIC_PROTOCOL_ONLY",
+          "referenceKeys": [
+            "SYNTHETIC_REF_1"
+          ]
+        },
+        "inputHash": "d3f35f7a363fac09e8569a7f5b83d50c79df7dee94d06f3afd484c2b9a68c75f"
+      },
+      "valid": true
+    },
+    {
+      "name": "protocol_bound_plan",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-plan_beyond_seven",
+        "sourceContextHash": "8d3592d5007377d4fd452256ace1bb17f04a2013da702dbdba80fa5ab4c7ec40",
+        "purpose": "PLAN",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "합성 전공 0",
+            "합성 전공 1",
+            "합성 전공 2",
+            "합성 전공 3",
+            "합성 전공 4",
+            "합성 전공 5",
+            "합성 전공 6",
+            "전공 여덟번째"
+          ],
+          "targetName": "전공 여덟번째",
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "BOUND",
+          "datasetVersion": "SYNTHETIC_PROTOCOL_ONLY",
+          "referenceKeys": [
+            "SYNTHETIC_REF_1"
+          ]
+        },
+        "inputHash": "fa1fa57915ddba5a6dab2341b3087fc8e3f148e1560eae7b1038ed30f8d9c502"
+      },
+      "valid": true
+    },
+    {
+      "name": "unicode_hash",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "합성 전공 😀"
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "1ef36d1ac6675640af2694d78c47ee5a0004a6443a3b7a83230ed6147da7f9d8"
+      },
+      "valid": true
+    },
+    {
+      "name": "legacy_weakness",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "고고학과",
+            "컴퓨터공학과"
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          },
+          "weaknessFocus": [
+            "mathLogicalScore"
+          ]
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "d331a31c8c1531f1edf2ef0f41282a3f9cc69a6691a043f3ef0047e5902b90df"
+      },
+      "valid": false
+    },
+    {
+      "name": "user_id",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "고고학과",
+            "컴퓨터공학과"
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "b753df85009d0ca0331077acefb3e13fd2a9c4f66f195f2b855a27a4bbdcc402",
+        "userId": 1
+      },
+      "valid": false
+    },
+    {
+      "name": "raw_answers",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "고고학과",
+            "컴퓨터공학과"
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          },
+          "answers": [
+            "secret"
+          ]
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "f8c84e07cce31dfb5d32f05b98bf4f9f4e3154f909b7fb2999d69e9f46d29f34"
+      },
+      "valid": false
+    },
+    {
+      "name": "public_mode",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "CONSULTATION",
+        "mode": "PUBLIC",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "고고학과",
+            "컴퓨터공학과"
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "b753df85009d0ca0331077acefb3e13fd2a9c4f66f195f2b855a27a4bbdcc402"
+      },
+      "valid": false
+    },
+    {
+      "name": "not_test",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": false,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "고고학과",
+            "컴퓨터공학과"
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "b753df85009d0ca0331077acefb3e13fd2a9c4f66f195f2b855a27a4bbdcc402"
+      },
+      "valid": false
+    },
+    {
+      "name": "int_boolean",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": 1,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "고고학과",
+            "컴퓨터공학과"
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "b753df85009d0ca0331077acefb3e13fd2a9c4f66f195f2b855a27a4bbdcc402"
+      },
+      "valid": false
+    },
+    {
+      "name": "duplicate_candidate",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "고고학과",
+            "컴퓨터공학과",
+            "고고학과"
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "96239fe9a377f7fd31d3108410cc1dc0442549893ee4f14b7ab86cd271265799"
+      },
+      "valid": false
+    },
+    {
+      "name": "target_not_candidate",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "고고학과",
+            "컴퓨터공학과"
+          ],
+          "targetName": "UNKNOWN",
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "6769451220b4a7cb11bae8c47000cec06828fb67462216106fdc32f8512f1bb9"
+      },
+      "valid": false
+    },
+    {
+      "name": "plan_without_target",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "PLAN",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "고고학과",
+            "컴퓨터공학과"
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "58f94c1a77fd09f630732a45482a6b2a0bf4c4a922aaef6a29bda9334b741d62"
+      },
+      "valid": false
+    },
+    {
+      "name": "no_candidate_invents_names",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "NO_SUPPORTED_CANDIDATE",
+          "candidateNames": [
+            "고고학과",
+            "컴퓨터공학과"
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "0b9a7a3bc238ba59f377a9b521fb18def4bc8e4a822536bb153cd8a063dbe59e"
+      },
+      "valid": false
+    },
+    {
+      "name": "preference_count_mismatch",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "고고학과",
+            "컴퓨터공학과"
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 0,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "3d32cad5f47102ce74556ab9055627eab47fa0162b14320145c879cde057721e"
+      },
+      "valid": false
+    },
+    {
+      "name": "duplicate_preference",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "고고학과",
+            "컴퓨터공학과"
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            },
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "221228103d197386689736b7805a8ee093affcfc038a150755a4160e39828f6e"
+      },
+      "valid": false
+    },
+    {
+      "name": "unknown_topic",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "고고학과",
+            "컴퓨터공학과"
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "DECISION-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "bbd73d3207d4c2bd23fe225738558d363b08bc907607bfbffe98be9db1793627"
+      },
+      "valid": false
+    },
+    {
+      "name": "meaning_is_raw_text",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "고고학과",
+            "컴퓨터공학과"
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "synthetic@example.invalid",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "83f03a2e5d76a66a29e1caeb510efea218c04d02892fc8adfc85118060021fce"
+      },
+      "valid": false
+    },
+    {
+      "name": "unknown_string_boolean",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "고고학과",
+            "컴퓨터공학과"
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": "true"
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "c3b62ca73c665e4d71bd5e23c3cb475c3642d741574dc6ddab4e873ad6f0ceed"
+      },
+      "valid": false
+    },
+    {
+      "name": "bool_count",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "고고학과",
+            "컴퓨터공학과"
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": true,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "3886a2ba652a7172498eab048aab9ddd924a8aa4547f8cefa599ae62473949ee"
+      },
+      "valid": false
+    },
+    {
+      "name": "float_count",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "고고학과",
+            "컴퓨터공학과"
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1.0,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "ded071d5a9cd5c917f6e93fa63f04ecb93c8eda829f534ce470e41a2ab259507"
+      },
+      "valid": false
+    },
+    {
+      "name": "uninitialized_with_answers",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "고고학과",
+            "컴퓨터공학과"
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": false,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "fce08b028e65d07b03bdb4f4b7d7cb15834d67f9a6236ee761f01fbe74d86a15"
+      },
+      "valid": false
+    },
+    {
+      "name": "missing_field",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "고고학과",
+            "컴퓨터공학과"
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "3c58d85bda66392cf0ad20afceccf6edcdfe511bd9b4a764e30dea858905184c"
+      },
+      "valid": false
+    },
+    {
+      "name": "stale_hash",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "고고학과",
+            "컴퓨터공학과",
+            "추가 합성 전공"
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "b753df85009d0ca0331077acefb3e13fd2a9c4f66f195f2b855a27a4bbdcc402"
+      },
+      "valid": false
+    },
+    {
+      "name": "approved_false",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "고고학과",
+            "컴퓨터공학과"
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": false,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "8dd4a99c2c4dc6b5766c3e371f599dcbf017b0935369655de56545692dca22cd"
+      },
+      "valid": false
+    },
+    {
+      "name": "unbound_references",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "고고학과",
+            "컴퓨터공학과"
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": [
+            "SYNTHETIC_REF_1"
+          ]
+        },
+        "inputHash": "af2611a29181a7fa12bc944223dc2ca95ad30dbfde29d9279f8acd545ec1021c"
+      },
+      "valid": false
+    },
+    {
+      "name": "bound_missing_version",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "고고학과",
+            "컴퓨터공학과"
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "BOUND",
+          "datasetVersion": null,
+          "referenceKeys": [
+            "SYNTHETIC_REF_1"
+          ]
+        },
+        "inputHash": "c3241e04f6227cb37808cc487b4c6652ca070d97318f94f779b1d865c48a882d"
+      },
+      "valid": false
+    },
+    {
+      "name": "duplicate_evidence_refs",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "고고학과",
+            "컴퓨터공학과"
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "BOUND",
+          "datasetVersion": "SYNTHETIC_PROTOCOL_ONLY",
+          "referenceKeys": [
+            "SYNTHETIC_REF_1",
+            "SYNTHETIC_REF_1"
+          ]
+        },
+        "inputHash": "8f1dc5297712f2ad67e558eafa8e12d7e53abbb6c5a80195abc93ce6a88bf3a7"
+      },
+      "valid": false
+    },
+    {
+      "name": "unknown_contract",
+      "request": {
+        "contractVersion": "LEGACY",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "고고학과",
+            "컴퓨터공학과"
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "b753df85009d0ca0331077acefb3e13fd2a9c4f66f195f2b855a27a4bbdcc402"
+      },
+      "valid": false
+    },
+    {
+      "name": "blank_unicode_candidate",
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "sourceContextHash": "a9d4f48ef867efb688e6ed597c55a1655fec9a00398f6d30eb07e7f8abf268b9",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            " "
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "NOT_BOUND",
+          "datasetVersion": null,
+          "referenceKeys": []
+        },
+        "inputHash": "58c1952890a4a30187fdc9cc177a64801b0401e6ab9161efb0ae3a6553f43b14"
+      },
+      "valid": false
+    }
+  ],
+  "responseCases": [
+    {
+      "name": "insufficient",
+      "requestName": "consultation",
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "inputHash": "b753df85009d0ca0331077acefb3e13fd2a9c4f66f195f2b855a27a4bbdcc402",
+        "purpose": "CONSULTATION",
+        "status": "INSUFFICIENT_EVIDENCE",
+        "changesRecommendation": false,
+        "reasonCode": "APPROVED_EVIDENCE_UNAVAILABLE",
+        "result": null
+      },
+      "valid": true
+    },
+    {
+      "name": "declined",
+      "requestName": "consultation",
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "inputHash": "b753df85009d0ca0331077acefb3e13fd2a9c4f66f195f2b855a27a4bbdcc402",
+        "purpose": "CONSULTATION",
+        "status": "DECLINED",
+        "changesRecommendation": false,
+        "reasonCode": "OUT_OF_SCOPE",
+        "result": null
+      },
+      "valid": true
+    },
+    {
+      "name": "protocol_consult_success",
+      "requestName": "protocol_bound_consult",
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "inputHash": "d3f35f7a363fac09e8569a7f5b83d50c79df7dee94d06f3afd484c2b9a68c75f",
+        "purpose": "CONSULTATION",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "summary": "합성 응답입니다.",
+          "questions": [
+            "다음에 확인할 점은 무엇인가요?"
+          ],
+          "referenceKeys": [
+            "SYNTHETIC_REF_1"
+          ]
+        }
+      },
+      "valid": true
+    },
+    {
+      "name": "protocol_plan_success",
+      "requestName": "protocol_bound_plan",
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-plan_beyond_seven",
+        "inputHash": "fa1fa57915ddba5a6dab2341b3087fc8e3f148e1560eae7b1038ed30f8d9c502",
+        "purpose": "PLAN",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "targetName": "전공 여덟번째",
+          "overview": "합성 계획 형식입니다.",
+          "steps": [
+            {
+              "title": "공식 자료 확인",
+              "description": "합성 설명입니다.",
+              "referenceKeys": [
+                "SYNTHETIC_REF_1"
+              ]
+            }
+          ]
+        }
+      },
+      "valid": true
+    },
+    {
+      "name": "success_without_evidence",
+      "requestName": "consultation",
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "inputHash": "b753df85009d0ca0331077acefb3e13fd2a9c4f66f195f2b855a27a4bbdcc402",
+        "purpose": "CONSULTATION",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "summary": "합성 응답입니다.",
+          "questions": [
+            "다음에 확인할 점은 무엇인가요?"
+          ],
+          "referenceKeys": [
+            "SYNTHETIC_REF_1"
+          ]
+        }
+      },
+      "valid": false
+    },
+    {
+      "name": "request_id_mismatch",
+      "requestName": "protocol_bound_consult",
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "another-request",
+        "inputHash": "d3f35f7a363fac09e8569a7f5b83d50c79df7dee94d06f3afd484c2b9a68c75f",
+        "purpose": "CONSULTATION",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "summary": "합성 응답입니다.",
+          "questions": [
+            "다음에 확인할 점은 무엇인가요?"
+          ],
+          "referenceKeys": [
+            "SYNTHETIC_REF_1"
+          ]
+        }
+      },
+      "valid": false
+    },
+    {
+      "name": "input_hash_mismatch",
+      "requestName": "protocol_bound_consult",
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "inputHash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "purpose": "CONSULTATION",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "summary": "합성 응답입니다.",
+          "questions": [
+            "다음에 확인할 점은 무엇인가요?"
+          ],
+          "referenceKeys": [
+            "SYNTHETIC_REF_1"
+          ]
+        }
+      },
+      "valid": false
+    },
+    {
+      "name": "purpose_mismatch",
+      "requestName": "protocol_bound_consult",
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "inputHash": "d3f35f7a363fac09e8569a7f5b83d50c79df7dee94d06f3afd484c2b9a68c75f",
+        "purpose": "PLAN",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "summary": "합성 응답입니다.",
+          "questions": [
+            "다음에 확인할 점은 무엇인가요?"
+          ],
+          "referenceKeys": [
+            "SYNTHETIC_REF_1"
+          ]
+        }
+      },
+      "valid": false
+    },
+    {
+      "name": "private_extra_field",
+      "requestName": "protocol_bound_consult",
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "inputHash": "d3f35f7a363fac09e8569a7f5b83d50c79df7dee94d06f3afd484c2b9a68c75f",
+        "purpose": "CONSULTATION",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "summary": "합성 응답입니다.",
+          "questions": [
+            "다음에 확인할 점은 무엇인가요?"
+          ],
+          "referenceKeys": [
+            "SYNTHETIC_REF_1"
+          ]
+        },
+        "userId": 1
+      },
+      "valid": false
+    },
+    {
+      "name": "changes_recommendation",
+      "requestName": "protocol_bound_consult",
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "inputHash": "d3f35f7a363fac09e8569a7f5b83d50c79df7dee94d06f3afd484c2b9a68c75f",
+        "purpose": "CONSULTATION",
+        "status": "SUCCEEDED",
+        "changesRecommendation": true,
+        "reasonCode": null,
+        "result": {
+          "summary": "합성 응답입니다.",
+          "questions": [
+            "다음에 확인할 점은 무엇인가요?"
+          ],
+          "referenceKeys": [
+            "SYNTHETIC_REF_1"
+          ]
+        }
+      },
+      "valid": false
+    },
+    {
+      "name": "unknown_reference",
+      "requestName": "protocol_bound_consult",
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "inputHash": "d3f35f7a363fac09e8569a7f5b83d50c79df7dee94d06f3afd484c2b9a68c75f",
+        "purpose": "CONSULTATION",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "summary": "합성 응답입니다.",
+          "questions": [
+            "다음에 확인할 점은 무엇인가요?"
+          ],
+          "referenceKeys": [
+            "UNDECLARED"
+          ]
+        }
+      },
+      "valid": false
+    },
+    {
+      "name": "duplicate_reference",
+      "requestName": "protocol_bound_consult",
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "inputHash": "d3f35f7a363fac09e8569a7f5b83d50c79df7dee94d06f3afd484c2b9a68c75f",
+        "purpose": "CONSULTATION",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "summary": "합성 응답입니다.",
+          "questions": [
+            "다음에 확인할 점은 무엇인가요?"
+          ],
+          "referenceKeys": [
+            "SYNTHETIC_REF_1",
+            "SYNTHETIC_REF_1"
+          ]
+        }
+      },
+      "valid": false
+    },
+    {
+      "name": "legacy_score_result",
+      "requestName": "protocol_bound_consult",
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "inputHash": "d3f35f7a363fac09e8569a7f5b83d50c79df7dee94d06f3afd484c2b9a68c75f",
+        "purpose": "CONSULTATION",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "summary": "합성 응답입니다.",
+          "questions": [
+            "다음에 확인할 점은 무엇인가요?"
+          ],
+          "referenceKeys": [
+            "SYNTHETIC_REF_1"
+          ],
+          "fitScore": 99
+        }
+      },
+      "valid": false
+    },
+    {
+      "name": "target_replacement",
+      "requestName": "protocol_bound_plan",
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-plan_beyond_seven",
+        "inputHash": "fa1fa57915ddba5a6dab2341b3087fc8e3f148e1560eae7b1038ed30f8d9c502",
+        "purpose": "PLAN",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "targetName": "다른 전공",
+          "overview": "합성 계획 형식입니다.",
+          "steps": [
+            {
+              "title": "공식 자료 확인",
+              "description": "합성 설명입니다.",
+              "referenceKeys": [
+                "SYNTHETIC_REF_1"
+              ]
+            }
+          ]
+        }
+      },
+      "valid": false
+    },
+    {
+      "name": "empty_steps",
+      "requestName": "protocol_bound_plan",
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-plan_beyond_seven",
+        "inputHash": "fa1fa57915ddba5a6dab2341b3087fc8e3f148e1560eae7b1038ed30f8d9c502",
+        "purpose": "PLAN",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "targetName": "전공 여덟번째",
+          "overview": "합성 계획 형식입니다.",
+          "steps": []
+        }
+      },
+      "valid": false
+    },
+    {
+      "name": "blank_result",
+      "requestName": "protocol_bound_consult",
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "inputHash": "d3f35f7a363fac09e8569a7f5b83d50c79df7dee94d06f3afd484c2b9a68c75f",
+        "purpose": "CONSULTATION",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "summary": " ",
+          "questions": [
+            "다음에 확인할 점은 무엇인가요?"
+          ],
+          "referenceKeys": [
+            "SYNTHETIC_REF_1"
+          ]
+        }
+      },
+      "valid": false
+    },
+    {
+      "name": "long_result",
+      "requestName": "protocol_bound_consult",
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "inputHash": "d3f35f7a363fac09e8569a7f5b83d50c79df7dee94d06f3afd484c2b9a68c75f",
+        "purpose": "CONSULTATION",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "summary": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "questions": [
+            "다음에 확인할 점은 무엇인가요?"
+          ],
+          "referenceKeys": [
+            "SYNTHETIC_REF_1"
+          ]
+        }
+      },
+      "valid": false
+    },
+    {
+      "name": "too_many_questions",
+      "requestName": "protocol_bound_consult",
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "inputHash": "d3f35f7a363fac09e8569a7f5b83d50c79df7dee94d06f3afd484c2b9a68c75f",
+        "purpose": "CONSULTATION",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "summary": "합성 응답입니다.",
+          "questions": [
+            "x",
+            "x",
+            "x",
+            "x"
+          ],
+          "referenceKeys": [
+            "SYNTHETIC_REF_1"
+          ]
+        }
+      },
+      "valid": false
+    },
+    {
+      "name": "insufficient_with_content",
+      "requestName": "consultation",
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-consultation",
+        "inputHash": "b753df85009d0ca0331077acefb3e13fd2a9c4f66f195f2b855a27a4bbdcc402",
+        "purpose": "CONSULTATION",
+        "status": "INSUFFICIENT_EVIDENCE",
+        "changesRecommendation": false,
+        "reasonCode": "APPROVED_EVIDENCE_UNAVAILABLE",
+        "result": {
+          "summary": "must not expose"
+        }
+      },
+      "valid": false
+    },
+    {
+      "name": "null_body",
+      "requestName": "consultation",
+      "response": null,
+      "valid": false
+    }
+  ]
+}

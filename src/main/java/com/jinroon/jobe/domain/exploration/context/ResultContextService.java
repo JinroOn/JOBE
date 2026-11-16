@@ -93,6 +93,10 @@ public class ResultContextService {
         boolean more=rows.size()>limit;out.put("hasMore",more);out.set("nextBeforeContextId",json.tree(more?number(rows.get(limit-1),"id"):null));return out;
     }
 
+    /** Short ownership/snapshot read for preparation. No external call occurs while these locks are held. */
+    @Transactional
+    public LockedInput readForAdapter(long user,long contextId,String type){return lockForUse(user,contextId,type);}
+
     /** Future callback must call this inside its final persistence transaction, after the external call. */
     @Transactional(propagation=Propagation.MANDATORY)
     public LockedInput lockForUse(long user,long contextId,String type){
