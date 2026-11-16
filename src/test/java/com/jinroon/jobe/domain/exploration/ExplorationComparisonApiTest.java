@@ -69,10 +69,12 @@ class ExplorationComparisonApiTest extends CompletedExplorationTestSupport {
     }
     @Test void resultAndPinnedBundleTamperingFailClosed()throws Exception {
         long rid=completedResult(true);long sid=resultSnapshot(rid).path("sessionId").asLong();
-        jdbc.update("UPDATE exploration_runtime_snapshot s JOIN exploration_session_pin p ON p.snapshot_hash=s.content_hash SET s.payload_json=JSON_SET(s.payload_json,'$.mapping.majors[0].major_name','tampered') WHERE p.session_id=?",sid);
-        assertThat(overview(rid,owner,503).path("code").asText()).isEqualTo("CATALOG_INTEGRITY_ERROR");
-        jdbc.update("UPDATE exploration_result SET result_json=JSON_SET(result_json,'$.status','READY') WHERE id=?",rid);
-        overview(rid,owner,503);
+        try (var restored = preserveRuntimeSnapshot(sid)) {
+            jdbc.update("UPDATE exploration_runtime_snapshot s JOIN exploration_session_pin p ON p.snapshot_hash=s.content_hash SET s.payload_json=JSON_SET(s.payload_json,'$.mapping.majors[0].major_name','tampered') WHERE p.session_id=?",sid);
+            assertThat(overview(rid,owner,503).path("code").asText()).isEqualTo("CATALOG_INTEGRITY_ERROR");
+            jdbc.update("UPDATE exploration_result SET result_json=JSON_SET(result_json,'$.status','READY') WHERE id=?",rid);
+            overview(rid,owner,503);
+        }
     }
     @Test void strictQueryAndOwnershipAreEnforced()throws Exception {
         long rid=completedResult(true);String a=code(rid,0),b=code(rid,1);

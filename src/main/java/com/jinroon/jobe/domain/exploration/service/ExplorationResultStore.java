@@ -42,6 +42,17 @@ public class ExplorationResultStore {
         return payload;
     }
 
+    /** Listing-only isolation. Detail and mutation paths must continue to use the throwing verifier. */
+    public boolean availableForListing(ExplorationResult result) {
+        try {
+            verifiedSnapshot(result);
+            return true;
+        } catch (ExplorationApiException e) {
+            if (e.getStatus() == 503 && "CATALOG_INTEGRITY_ERROR".equals(e.getCode())) return false;
+            throw e;
+        }
+    }
+
     public JsonNode response(ExplorationResult result) {
         JsonNode payload = verifiedSnapshot(result);
         ObjectNode dto = json.object();

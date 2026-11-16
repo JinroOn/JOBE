@@ -330,7 +330,13 @@ public class ExplorationSessionService {
             summary.put("stage", stageNumber(session.getStage()));
             summary.set("startedAt", json.tree(session.getStartedAt()));
             summary.set("completedAt", json.tree(session.getCompletedAt()));
-            summary.set("resultId", json.tree(resultId(session)));
+            var result = session.getStatus() == ExplorationSessionStatus.completed
+                    ? results.findBySessionId(session.getId()).orElse(null) : null;
+            boolean available = result != null && resultStore.availableForListing(result);
+            summary.set("resultId", json.tree(available ? result.getId() : null));
+            summary.put("resultAvailability", session.getStatus() != ExplorationSessionStatus.completed
+                    ? "NOT_COMPLETED" : result == null ? "MISSING" : available ? "AVAILABLE" : "UNAVAILABLE");
+            summary.put("resultUnavailableReason", result != null && !available ? "CATALOG_INTEGRITY_ERROR" : null);
         }
         return response;
     }
