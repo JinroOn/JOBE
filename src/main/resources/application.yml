@@ -78,6 +78,9 @@ diagnosis:
 
 exploration:
   enabled: ${EXPLORATION_ENABLED:false}
+  sharing:
+    # Anonymous reads are loopback-only DEV QA; PUBLIC/PILOT remain closed.
+    enabled: ${EXPLORATION_SHARING_ENABLED:false}
   runtime:
     # PUBLIC/PILOT stay closed until actual release/pilot review gates are connected.
     run-mode: ${EXPLORATION_RUN_MODE:PUBLIC}

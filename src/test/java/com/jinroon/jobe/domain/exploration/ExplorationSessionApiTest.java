@@ -110,35 +110,57 @@ class ExplorationSessionApiTest extends ExplorationApiTestSupport {
 
     @Test void sharedSnapshotTamperingFailsClosedAndRollsBackNext() throws Exception {
         long id = start("start").path("sessionId").asLong();
-        jdbc.update("UPDATE exploration_runtime_snapshot s JOIN exploration_session_pin p ON p.snapshot_hash=s.content_hash SET s.payload_json=JSON_SET(s.payload_json,'$.tampered',true) WHERE p.session_id=?", id);
-        assertThat(postJson(id + "/next", owner, "next", "{\"expectedRevision\":0}", 503).path("code").asText()).isEqualTo("CATALOG_INTEGRITY_ERROR");
-        assertThat(count("exploration_issued_question", "session_id=?", id)).isZero();
-        assertThat(count("exploration_idempotency", "user_id=?", OWNER)).isEqualTo(1);
+        long unrelated = postJson("", other, "unrelated", START, 201).path("sessionId").asLong();
+        String original = jdbc.queryForObject("SELECT s.payload_json FROM exploration_runtime_snapshot s JOIN exploration_session_pin p ON p.snapshot_hash=s.content_hash WHERE p.session_id=?", String.class, unrelated);
+        try (var restored = preserveRuntimeSnapshot(id)) {
+            jdbc.update("UPDATE exploration_runtime_snapshot s JOIN exploration_session_pin p ON p.snapshot_hash=s.content_hash SET s.payload_json=JSON_SET(s.payload_json,'$.tampered',true) WHERE p.session_id=?", id);
+            assertThat(postJson(id + "/next", owner, "next", "{\"expectedRevision\":0}", 503).path("code").asText()).isEqualTo("CATALOG_INTEGRITY_ERROR");
+            assertThat(count("exploration_issued_question", "session_id=?", id)).isZero();
+            assertThat(count("exploration_idempotency", "user_id=?", OWNER)).isEqualTo(1);
+        }
+        assertThat(jdbc.queryForObject("SELECT s.payload_json FROM exploration_runtime_snapshot s JOIN exploration_session_pin p ON p.snapshot_hash=s.content_hash WHERE p.session_id=?", String.class, unrelated)).isEqualTo(original);
+        postJson(unrelated + "/next", other, "after-restoration", "{\"expectedRevision\":0}", 200);
+    }
+
+    @Test void sharedSnapshotIsRestoredEvenWhenTamperingAssertionFails() throws Exception {
+        long id = start("start").path("sessionId").asLong();
+        assertThatThrownBy(() -> {
+            try (var restored = preserveRuntimeSnapshot(id)) {
+                jdbc.update("UPDATE exploration_runtime_snapshot s JOIN exploration_session_pin p ON p.snapshot_hash=s.content_hash SET s.payload_json=JSON_OBJECT('changed',true) WHERE p.session_id=?", id);
+                throw new AssertionError("synthetic failed assertion");
+            }
+        }).isInstanceOf(AssertionError.class).hasMessage("synthetic failed assertion");
+        postJson(id + "/next", owner, "after-restoration", "{\"expectedRevision\":0}", 200);
     }
 
     @Test void sharedSnapshotsDeduplicateAndWithdrawalRemovesOnlyPersonalGraph() throws Exception {
         long id = start("start").path("sessionId").asLong();
-        postJson("", other, "start", START, 201);
+        long unrelated = postJson("", other, "start", START, 201).path("sessionId").asLong();
+        String hash = jdbc.queryForObject("SELECT snapshot_hash FROM exploration_session_pin WHERE session_id=?", String.class, id);
+        assertThat(jdbc.queryForObject("SELECT snapshot_hash FROM exploration_session_pin WHERE session_id=?", String.class, unrelated)).isEqualTo(hash);
         postJson(id + "/next", owner, "next", "{\"expectedRevision\":0}", 200);
-        assertThat(count("exploration_runtime_snapshot", "1=1")).isEqualTo(1);
+        assertThat(count("exploration_runtime_snapshot", "content_hash=?", hash)).isEqualTo(1);
         deletion.delete(OWNER);
         assertThat(count("exploration_session_pin", "session_id=?", id)).isZero();
         assertThat(count("exploration_issued_question", "session_id=?", id)).isZero();
         assertThat(count("exploration_idempotency", "user_id=?", OWNER)).isZero();
-        assertThat(count("exploration_runtime_snapshot", "1=1")).isEqualTo(1);
+        assertThat(count("exploration_runtime_snapshot", "content_hash=?", hash)).isEqualTo(1);
         assertThat(getJson("", other, 200).size()).isEqualTo(1);
         getJson("/" + id, owner, 401); // old JWT cannot restore the deleted account
     }
 
     @Test void contentGateRejectsUnreviewedChildWithoutLeavingSessionOrPin() throws Exception {
+        postJson("", other, "existing-session", START, 201);
         long child = jdbc.queryForObject("SELECT q.id FROM exploration_question q JOIN exploration_catalog c ON c.id=q.catalog_id WHERE c.version='QUESTION_CATALOG_V1_1' AND q.question_id='STATE-01'", Long.class);
+        int pinsBefore = count("exploration_session_pin", "1=1");
+        String original = jdbc.queryForObject("SELECT implementation_review_status FROM exploration_question WHERE id=?", String.class, child);
         try {
             jdbc.update("UPDATE exploration_question SET implementation_review_status='REJECTED' WHERE id=?", child);
             assertThat(postJson("", owner, "start", START, 503).path("code").asText()).isEqualTo("NO_ACTIVE_CATALOG");
             assertThat(count("exploration_session", "user_id=?", OWNER)).isZero();
             assertThat(count("exploration_idempotency", "user_id=?", OWNER)).isZero();
-            assertThat(count("exploration_session_pin", "1=1")).isZero();
-        } finally { jdbc.update("UPDATE exploration_question SET implementation_review_status='APPROVED_FOR_IMPLEMENTATION' WHERE id=?", child); }
+            assertThat(count("exploration_session_pin", "1=1")).isEqualTo(pinsBefore);
+        } finally { jdbc.update("UPDATE exploration_question SET implementation_review_status=? WHERE id=?", original, child); }
     }
 
     @Test void usersOutsideServerAllowlistCannotStartOrList() throws Exception {

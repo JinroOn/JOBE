@@ -34,7 +34,7 @@ public class DiagnosisHistoryService {
     private record Item(String key, String sessionKey, long sessionId, String type, String status, int stage,
                         LocalDateTime startedAt, LocalDateTime completedAt, LocalDateTime occurredAt,
                         String resultKey, Long resultId, String resultAvailability, String resultStatus,
-                        String resultContractVersion, String runMode, boolean testOnly, String nextAction, Links links) {}
+                        String resultContractVersion, String resultUnavailableReason, String runMode, boolean testOnly, String nextAction, Links links) {}
 
     @Transactional(readOnly = true)
     public JsonNode list(long userId, String view, HistoryQuery query) {
@@ -43,9 +43,6 @@ public class DiagnosisHistoryService {
         var mode = policy.authorize(userId); // This new namespace stays isolated DEV; legacy endpoints are unchanged.
         HistoryCursorCodec.State cursor = query.cursor() == null ? null : cursors.decode(query.cursor(), userId, view, query);
         boolean legacy = !query.type().equals("EXPLORATION_V1"), exploration = !query.type().equals("LEGACY");
-        if (exploration && view.equals("results") && !jdbc.queryForList("SELECT s.id FROM exploration_session s LEFT JOIN exploration_result r ON r.session_id=s.id "
-                + "WHERE s.user_id=? AND s.run_mode=? AND s.status='completed' AND r.id IS NULL LIMIT 1",Long.class,userId,mode.name()).isEmpty())
-            throw ExplorationApiException.integrity();
         long legacyFence = cursor == null ? legacy ? fence(userId, view, false, mode) : 0 : cursor.legacyFence();
         long explorationFence = cursor == null ? exploration ? fence(userId, view, true, mode) : 0 : cursor.explorationFence();
         List<String> sources = new ArrayList<>(); List<Object> args = new ArrayList<>();
@@ -117,23 +114,25 @@ public class DiagnosisHistoryService {
     private Item project(long userId,String view,Row row) {
         boolean completed = row.status().equals("completed");
         boolean available = completed && row.resultCount()==1;
+        boolean corrupt = false;
         if (row.rank()==1) {
             if (row.stage()<1 || row.stage()>3) throw ExplorationApiException.integrity();
             policy.authorizeExisting(userId, ExplorationRunMode.valueOf(row.runMode()));
-            if (completed && !available || !completed && row.resultCount()!=0) throw ExplorationApiException.integrity();
+            if (!completed && row.resultCount()!=0) throw ExplorationApiException.integrity();
             if (available) {
-                var result = results.findById(row.resultId()).filter(r -> r.getSessionId().equals(row.sessionId())).orElseThrow(ExplorationApiException::integrity);
-                resultStore.response(result); // Reuse the sealed-result contract without returning scores or personal answers.
+                var result = results.findById(row.resultId()).filter(r -> r.getSessionId().equals(row.sessionId())).orElse(null);
+                available = result != null && resultStore.availableForListing(result);
+                corrupt = !available;
             }
         }
         Long resultId = available ? row.resultId() : null;
         String sessionPath = row.rank()==0 ? "/api/diagnoses/sessions/"+row.sessionId() : "/api/exploration/v1/sessions/"+row.sessionId();
         String resultPath = resultId==null ? null : (row.rank()==0 ? "/api/results/" : "/api/exploration/v1/results/")+resultId;
-        String availability = !completed ? "NOT_COMPLETED" : row.resultCount()==0 ? "MISSING" : row.resultCount()>1 ? "AMBIGUOUS" : "AVAILABLE";
+        String availability = corrupt ? "UNAVAILABLE" : !completed ? "NOT_COMPLETED" : row.resultCount()==0 ? "MISSING" : row.resultCount()>1 ? "AMBIGUOUS" : "AVAILABLE";
         String action = row.status().equals("in_progress") ? "RESUME" : available ? "VIEW_RESULT" : "NONE";
         return new Item(row.type()+":"+(view.equals("sessions")?"SESSION":"RESULT")+":"+row.itemId(),row.type()+":SESSION:"+row.sessionId(),row.sessionId(),row.type(),row.status(),row.stage(),
                 row.startedAt(),row.completedAt(),row.sortAt(),resultId==null?null:row.type()+":RESULT:"+resultId,resultId,
-                availability,available?row.resultStatus():null,available?row.contract():null,row.runMode(),row.rank()==1 && row.runMode().equals("DEV"),
+                availability,available?row.resultStatus():null,available?row.contract():null,corrupt?"CATALOG_INTEGRITY_ERROR":null,row.runMode(),row.rank()==1 && row.runMode().equals("DEV"),
                 action,new Links(sessionPath,action.equals("RESUME")?sessionPath:null,resultPath));
     }
 

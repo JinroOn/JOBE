@@ -26,7 +26,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
-/** Real MySQL transactions + JWT + the checked-in REVIEWED catalog; no fabricated approvals. */
+/** Real MySQL transactions + JWT. Run only against a disposable, dedicated test database. */
 @SpringBootTest(properties = {"exploration.enabled=true", "exploration.runtime.run-mode=DEV",
         "exploration.runtime.dev-user-ids=8200000001,8200000002"})
 @ActiveProfiles("exploration-dev")
@@ -71,6 +71,13 @@ abstract class ExplorationApiTestSupport {
         return body.isBlank() ? mapper.nullNode() : mapper.readTree(body);
     }
     protected int count(String table, String where, Object... args) { return jdbc.queryForObject("SELECT COUNT(*) FROM " + table + " WHERE " + where, Integer.class, args); }
+    /** Restore by shared hash, even if the test deletes its pin or throws an assertion failure. */
+    protected AutoCloseable preserveRuntimeSnapshot(long sessionId) {
+        var row = jdbc.queryForMap("SELECT s.content_hash,s.payload_json FROM exploration_runtime_snapshot s "
+                + "JOIN exploration_session_pin p ON p.snapshot_hash=s.content_hash WHERE p.session_id=?", sessionId);
+        String hash = (String) row.get("content_hash"), original = (String) row.get("payload_json");
+        return () -> assertThat(jdbc.update("UPDATE exploration_runtime_snapshot SET payload_json=? WHERE content_hash=?", original, hash)).isEqualTo(1);
+    }
     protected <T> List<T> parallel(Callable<T> action) throws Exception {
         ExecutorService pool = Executors.newFixedThreadPool(2);
         CountDownLatch ready = new CountDownLatch(2), start = new CountDownLatch(1);

@@ -120,9 +120,11 @@ class ExplorationCompletionApiTest extends ExplorationApiTestSupport {
 
     @Test void completedResultDoesNotReadOrRecomputeFromAlteredRuntimeCatalog() throws Exception {
         long id=ready(null,false,false);JsonNode result=complete(id,revision(id),"complete",200);
-        jdbc.update("UPDATE exploration_runtime_snapshot r JOIN exploration_session_pin p ON r.content_hash=p.snapshot_hash SET r.payload_json=JSON_OBJECT('changed',true) WHERE p.session_id=?",id);
-        assertThat(getJson("/"+id+"/result",owner,200)).isEqualTo(result);
-        assertThat(complete(id,0,"retry-without-catalog",200)).isEqualTo(result);
+        try (var restored = preserveRuntimeSnapshot(id)) {
+            jdbc.update("UPDATE exploration_runtime_snapshot r JOIN exploration_session_pin p ON r.content_hash=p.snapshot_hash SET r.payload_json=JSON_OBJECT('changed',true) WHERE p.session_id=?",id);
+            assertThat(getJson("/"+id+"/result",owner,200)).isEqualTo(result);
+            assertThat(complete(id,0,"retry-without-catalog",200)).isEqualTo(result);
+        }
     }
 
     @Test void tamperedResultOrMissingResultFailsClosedEvenForSuccessfulCompleteRetry() throws Exception {
@@ -163,12 +165,15 @@ class ExplorationCompletionApiTest extends ExplorationApiTestSupport {
     }
 
     @Test void commitFailureRollsBackResultSealAndSessionCompletion() throws Exception {
+        long existing=ready(null,false,false);
+        complete(existing,revision(existing),"existing-result",200);
         long id=ready(null,false,false);long rev=revision(id);
+        int sealsBefore = count("exploration_result_seal","1=1");
         jdbc.execute("CREATE TRIGGER test_complete_commit_failure BEFORE UPDATE ON exploration_idempotency FOR EACH ROW BEGIN IF NEW.operation='COMPLETE' AND NEW.response_status IS NOT NULL THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='synthetic complete commit failure'; END IF; END");
         try {
             complete(id,rev,"retry",500);
             assertThat(count("exploration_result","session_id=?",id)).isZero();
-            assertThat(count("exploration_result_seal","1=1")).isZero();
+            assertThat(count("exploration_result_seal","1=1")).isEqualTo(sealsBefore);
             assertThat(revision(id)).isEqualTo(rev);
         } finally {jdbc.execute("DROP TRIGGER test_complete_commit_failure");}
         complete(id,rev,"retry",200);
@@ -176,9 +181,11 @@ class ExplorationCompletionApiTest extends ExplorationApiTestSupport {
 
     @Test void invalidCatalogCannotBeConvertedIntoNoCandidateResult() throws Exception {
         long id=ready(null,false,false);
-        jdbc.update("UPDATE exploration_runtime_snapshot r JOIN exploration_session_pin p ON r.content_hash=p.snapshot_hash SET r.payload_json=JSON_OBJECT('changed',true) WHERE p.session_id=?",id);
-        assertThat(complete(id,revisionSql(id),"corrupt",503).path("code").asText()).isEqualTo("CATALOG_INTEGRITY_ERROR");
-        assertThat(count("exploration_result","session_id=?",id)).isZero();
+        try (var restored = preserveRuntimeSnapshot(id)) {
+            jdbc.update("UPDATE exploration_runtime_snapshot r JOIN exploration_session_pin p ON r.content_hash=p.snapshot_hash SET r.payload_json=JSON_OBJECT('changed',true) WHERE p.session_id=?",id);
+            assertThat(complete(id,revisionSql(id),"corrupt",503).path("code").asText()).isEqualTo("CATALOG_INTEGRITY_ERROR");
+            assertThat(count("exploration_result","session_id=?",id)).isZero();
+        }
     }
 
     @Test void withdrawalPurgesResultAndSealAndOldJwtCannotAccessThem() throws Exception {

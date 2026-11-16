@@ -17,6 +17,8 @@ public class ExplorationResultStore {
     private final ExplorationResultRepository results;
     private final JdbcTemplate jdbc;
     private final ExplorationJson json;
+    private final com.jinroon.jobe.domain.exploration.sharing.ExplorationSharePolicy sharing;
+    private final com.jinroon.jobe.domain.exploration.repository.ExplorationSessionRepository sessions;
 
     public ExplorationResult save(long sessionId, ObjectNode payload) {
         var result = results.saveAndFlush(ExplorationResult.of(sessionId, ExplorationResultAssembler.CONTRACT,
@@ -40,6 +42,17 @@ public class ExplorationResultStore {
         return payload;
     }
 
+    /** Listing-only isolation. Detail and mutation paths must continue to use the throwing verifier. */
+    public boolean availableForListing(ExplorationResult result) {
+        try {
+            verifiedSnapshot(result);
+            return true;
+        } catch (ExplorationApiException e) {
+            if (e.getStatus() == 503 && "CATALOG_INTEGRITY_ERROR".equals(e.getCode())) return false;
+            throw e;
+        }
+    }
+
     public JsonNode response(ExplorationResult result) {
         JsonNode payload = verifiedSnapshot(result);
         ObjectNode dto = json.object();
@@ -57,7 +70,11 @@ public class ExplorationResultStore {
         ObjectNode capabilities = dto.putObject("capabilities");
         dto.put("comparisonEndpoint", "/api/exploration/v1/results/"+result.getId()+"/comparison");
         capabilities.put("comparisonAvailable",payload.path("rankedCandidates").size()>=2);
-        capabilities.put("supportAvailable", true); capabilities.put("planAvailable", false); capabilities.put("sharingAvailable", false);
+        capabilities.put("supportAvailable", true); capabilities.put("planAvailable", false);
+        var session=sessions.findById(result.getSessionId()).orElseThrow(ExplorationApiException::integrity);
+        capabilities.put("sharingAvailable",sharing.available(session.getUserId(),session.getRunMode()));
+        dto.put("sharingEndpoint","/api/exploration/v1/results/"+result.getId()+"/share");
+        dto.put("contextsEndpoint","/api/exploration/v1/results/"+result.getId()+"/contexts");
         return dto;
     }
 }

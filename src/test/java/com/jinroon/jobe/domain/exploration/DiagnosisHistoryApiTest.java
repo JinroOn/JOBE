@@ -174,13 +174,50 @@ class DiagnosisHistoryApiTest extends ExplorationApiTestSupport {
         assertThat(count("exploration_result","session_id=?",id)).isZero();
     }
 
-    @Test void corruptedOrMissingCompletedExplorationResultIsAnIntegrityErrorNotLegacyFallback() throws Exception {
+    @Test void corruptedResultIsIsolatedWithoutLeakingOrRepairingItsContent() throws Exception {
         long id=start("start").path("sessionId").asLong();long rid=explorationResult(id);
+        long healthy=start("healthy").path("sessionId").asLong();long healthyRid=explorationResult(healthy);
+        long foreign=postJson("",other,"foreign",START,201).path("sessionId").asLong();explorationResult(foreign);
         jdbc.update("UPDATE exploration_result SET result_json=JSON_SET(result_json,'$.status','READY') WHERE id=?",rid);
-        assertThat(page("results",owner,null,null,null,null,503).path("code").asText()).isEqualTo("CATALOG_INTEGRITY_ERROR");
+        String corrupted=jdbc.queryForObject("SELECT result_json FROM exploration_result WHERE id=?",String.class,rid);
+        String seal=jdbc.queryForObject("SELECT content_hash FROM exploration_result_seal WHERE result_id=?",String.class,rid);
+        for(String view:List.of("sessions","results")) {
+            JsonNode items=page(view,owner,null,null,null,null,200).path("items");
+            assertThat(items.size()).isEqualTo(2);
+            JsonNode bad=find(items,id),good=find(items,healthy);
+            assertThat(bad.path("resultAvailability").asText()).isEqualTo("UNAVAILABLE");
+            assertThat(bad.path("resultUnavailableReason").asText()).isEqualTo("CATALOG_INTEGRITY_ERROR");
+            for(String field:List.of("resultId","resultKey","resultStatus","resultContractVersion")) assertThat(bad.path(field).isNull()).isTrue();
+            assertThat(bad.path("links").path("result").isNull()).isTrue();assertThat(bad.path("links").path("resume").isNull()).isTrue();
+            assertThat(bad.path("nextAction").asText()).isEqualTo("NONE");
+            assertThat(good.path("resultAvailability").asText()).isEqualTo("AVAILABLE");assertThat(good.path("resultId").asLong()).isEqualTo(healthyRid);
+            assertThat(page(view,other,null,null,null,null,200).path("items").size()).isEqualTo(1);
+            JsonNode first=page(view,owner,null,null,1,null,200);
+            JsonNode second=page(view,owner,null,null,1,first.path("nextCursor").asText(),200);
+            assertThat(first.path("hasMore").asBoolean()).isTrue();assertThat(second.path("hasMore").asBoolean()).isFalse();
+            assertThat(first.path("items").get(0).path("sessionId").asLong()).isNotEqualTo(second.path("items").get(0).path("sessionId").asLong());
+        }
+        JsonNode sessions=getJson("",owner,200);
+        assertThat(find(sessions,id).path("resultAvailability").asText()).isEqualTo("UNAVAILABLE");
+        assertThat(find(sessions,id).path("resultId").isNull()).isTrue();
+        assertThat(find(sessions,healthy).path("resultId").asLong()).isEqualTo(healthyRid);
+        getJson("/"+id+"/result",owner,503);
+        response(get("/api/exploration/v1/results/"+rid).header("Authorization",owner),503);
+        response(get("/api/exploration/v1/results/"+rid).header("Authorization",other),404);
+        response(get("/api/exploration/v1/results/"+healthyRid).header("Authorization",owner),200);
+        assertThat(jdbc.queryForObject("SELECT result_json FROM exploration_result WHERE id=?",String.class,rid)).isEqualTo(corrupted);
+        assertThat(jdbc.queryForObject("SELECT content_hash FROM exploration_result_seal WHERE result_id=?",String.class,rid)).isEqualTo(seal);
+    }
+
+    @Test void missingResultIsMarkedInSessionsAndDoesNotBlockOtherResultHistory() throws Exception {
+        long id=start("start").path("sessionId").asLong();long rid=explorationResult(id);
+        long healthy=start("healthy").path("sessionId").asLong();long healthyRid=explorationResult(healthy);
         jdbc.update("DELETE FROM exploration_result WHERE id=?",rid);
-        assertThat(page("sessions",owner,null,null,null,null,503).path("code").asText()).isEqualTo("CATALOG_INTEGRITY_ERROR");
-        assertThat(page("results",owner,null,null,null,null,503).path("code").asText()).isEqualTo("CATALOG_INTEGRITY_ERROR");
+        assertThat(find(page("sessions",owner,null,null,null,null,200).path("items"),id).path("resultAvailability").asText()).isEqualTo("MISSING");
+        assertThat(find(getJson("",owner,200),id).path("resultAvailability").asText()).isEqualTo("MISSING");
+        JsonNode results=page("results",owner,null,null,null,null,200).path("items");
+        assertThat(results.size()).isEqualTo(1);assertThat(results.get(0).path("resultId").asLong()).isEqualTo(healthyRid);
+        getJson("/"+id+"/result",owner,503);
         legacy(OWNER,"in_progress",SAME);
         assertThat(page("sessions",owner,"LEGACY",null,null,null,200).path("items").size()).isEqualTo(1);
     }
