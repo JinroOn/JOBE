@@ -1,4 +1,6 @@
-"""Internal durable preparation queue. No worker, provider, HTTP API or generation permission.
+"""Internal durable preparation queue and explicit MOCK artifact completion.
+
+The separate transport exposes queue commands; no provider or real generation permission.
 
 The authenticated Java consumer supplies an opaque owner key and must recheck the
 account/context before each operation. The caller owns commit/rollback. No external
@@ -14,9 +16,11 @@ from sqlalchemy.dialects.postgresql import JSONB, insert
 from sqlalchemy.orm import Mapped, mapped_column, Session
 
 from app.rag.models import Base
+from app.exploration_contract import validate_response
 from app.rag.exploration_binding import (
     EvidenceBinding, EvidenceIntegrityError, EvidenceNoLongerAvailable,
     ExplorationEvidenceBinder,
+    _hash,
 )
 
 
@@ -36,6 +40,9 @@ class ExplorationJob(Base):
     lease_token: Mapped[str | None] = mapped_column(String(36))
     lease_until: Mapped[object | None] = mapped_column(DateTime(timezone=True))
     reason: Mapped[str | None] = mapped_column(Text)
+    mock_response: Mapped[dict | None] = mapped_column(JSONB(none_as_null=True))
+    mock_response_hash: Mapped[str | None] = mapped_column(String(64))
+    completed_at: Mapped[object | None] = mapped_column(DateTime(timezone=True))
 
 
 class ExplorationJobStore:
@@ -107,7 +114,28 @@ class ExplorationJobStore:
     def cancel(self, owner: str, job: int):
         row = self._locked(owner, job)
         row.state, row.reason = 'CANCELLED', 'CANCELLED'
+        row.mock_response = row.mock_response_hash = row.completed_at = None
         row.lease_token = row.lease_until = None
+        self.db.flush()
+
+    def complete_mock(self, owner: str, job: int, lease: str, response: dict):
+        """Commit by caller. Internal test artifact, never a generated user result."""
+        row=self._locked(owner,job)
+        now=self.db.scalar(select(func.statement_timestamp()))
+        if row.state!='LEASED' or row.lease_token!=lease or row.lease_until<=now:raise JobConflict()
+        binding=EvidenceBinding(**row.binding)
+        if binding.binding_hash!=row.binding_hash:raise EvidenceIntegrityError()
+        self.binder.revalidate(binding)
+        valid=validate_response(binding.request,response).model_dump()
+        # Revalidation may wait on I/O: do not use the pre-validation timestamp.
+        now=self.db.scalar(select(func.statement_timestamp()))
+        if row.lease_until<=now:raise JobConflict()
+        row.state='MOCK_COMPLETED'
+        row.reason='MOCK_ONLY_NOT_GENERATED'
+        row.mock_response=valid
+        row.mock_response_hash=_hash(valid)
+        row.completed_at=now
+        row.lease_token=row.lease_until=None
         self.db.flush()
 
     def purge_owner(self, owner: str):

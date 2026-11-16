@@ -33,7 +33,7 @@ public class ExplorationJobClient {
                 || !response.path("sourceContextHash").equals(request.path("sourceContextHash"))
                 || !response.path("inputHash").equals(request.path("inputHash")))throw new Unavailable();
         String state=response.path("status").asText();
-        if(!Set.of("QUEUED","LEASED","BLOCKED","CANCELLED","INSUFFICIENT_EVIDENCE").contains(state))throw new Unavailable();
+        if(!Set.of("QUEUED","LEASED","BLOCKED","CANCELLED","MOCK_COMPLETED","INSUFFICIENT_EVIDENCE").contains(state))throw new Unavailable();
         if(state.equals("INSUFFICIENT_EVIDENCE")) {
             if(!response.path("jobId").isNull() || !operation.equals("enqueue"))throw new Unavailable();
         } else if(!response.path("jobId").isIntegralNumber() || !response.path("jobId").canConvertToLong() || response.path("jobId").asLong()<=0)throw new Unavailable();
