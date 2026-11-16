@@ -63,6 +63,7 @@ public class ExplorationResultStore {
         var session=sessions.findById(result.getSessionId()).orElseThrow(ExplorationApiException::integrity);
         capabilities.put("sharingAvailable",sharing.available(session.getUserId(),session.getRunMode()));
         dto.put("sharingEndpoint","/api/exploration/v1/results/"+result.getId()+"/share");
+        dto.put("contextsEndpoint","/api/exploration/v1/results/"+result.getId()+"/contexts");
         return dto;
     }
 }
