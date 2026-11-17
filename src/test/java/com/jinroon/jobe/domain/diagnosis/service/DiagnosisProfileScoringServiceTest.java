@@ -141,7 +141,7 @@ class DiagnosisProfileScoringServiceTest {
         DiagnosisProfileAdjustment adjustment = service.calculateProfileAdjustment(profile, dataScienceMajor());
 
         assertThat(adjustment.bonus()).isPositive();
-        assertThat(adjustment.reasons()).contains("Career goal keywords partially match this major path.");
+        assertThat(adjustment.reasons()).contains("진로 목표 키워드가 이 전공의 진로 경로와 일부 맞습니다.");
     }
 
     @Test
@@ -220,7 +220,7 @@ class DiagnosisProfileScoringServiceTest {
 
         assertThat(adjustment.bonus()).isBetween(0.1f, 1.0f);
         assertThat(adjustment.reasons())
-                .contains("Current study time fits the preparation load of this major.");
+                .contains("현재 공부 시간이 이 전공의 준비 부담과 맞습니다.");
     }
 
     @Test
@@ -236,7 +236,7 @@ class DiagnosisProfileScoringServiceTest {
 
         assertThat(adjustment.bonus()).isBetween(-1.0f, -0.1f);
         assertThat(adjustment.reasons())
-                .contains("This major may require a gradual study-load plan based on current study time.");
+                .contains("현재 공부 시간을 고려하면 이 전공은 공부량을 점진적으로 늘려 가는 계획이 필요할 수 있습니다.");
     }
 
     @Test
@@ -310,9 +310,9 @@ class DiagnosisProfileScoringServiceTest {
         DiagnosisProfileAdjustment adjustment = service.calculateProfileAdjustment(profile, dataScienceMajor());
         String reasons = String.join(" ", adjustment.reasons()).toLowerCase();
 
-        assertThat(reasons).doesNotContain("too hard");
-        assertThat(reasons).doesNotContain("cannot");
-        assertThat(reasons).contains("gradual study-load plan");
+        assertThat(reasons).doesNotContain("어렵");
+        assertThat(reasons).doesNotContain("불가");
+        assertThat(reasons).contains("점진적으로 늘려 가는 계획");
     }
 
     @Test
