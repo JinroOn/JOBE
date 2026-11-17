@@ -80,6 +80,8 @@ exploration:
   jobs:
     model-enabled: ${EXPLORATION_MODEL_EXECUTION_ENABLED:false}
     model-name: ${EXPLORATION_LLM_MODEL:${LLM_MODEL:}}
+    model-connect-timeout-ms: ${EXPLORATION_MODEL_CONNECT_TIMEOUT_MS:2000}
+    model-read-timeout-ms: ${EXPLORATION_MODEL_READ_TIMEOUT_MS:40000}
     dispatch:
       enabled: ${EXPLORATION_MOCK_DISPATCH_ENABLED:false}
     mock-enabled: ${EXPLORATION_MOCK_EXECUTION_ENABLED:false}

@@ -32,12 +32,14 @@ def configuration():
     key = os.getenv('LLM_API_KEY') or os.getenv('OPENAI_API_KEY') or os.getenv('FACTCHAT_API_KEY') or ''
     try:
         timeout = float(os.getenv('EXPLORATION_LLM_TIMEOUT_SECONDS', '5'))
+        plan_timeout = float(os.getenv('EXPLORATION_PLAN_LLM_TIMEOUT_SECONDS', '30'))
     except ValueError:
         raise ModelFault('MODEL_CONFIGURATION_INVALID') from None
     if (provider not in {'openai', 'openai_compatible', 'factchat'} or not model.strip()
-            or len(model) > 80 or not key.strip() or not math.isfinite(timeout) or not 0 < timeout <= 5):
+            or len(model) > 80 or not key.strip() or not math.isfinite(timeout) or not 0 < timeout <= 5
+            or not math.isfinite(plan_timeout) or not 0 < plan_timeout <= 30):
         raise ModelFault('MODEL_CONFIGURATION_INVALID')
-    return dict(provider=provider, model=model, key=key, timeout=timeout,
+    return dict(provider=provider, model=model, key=key, timeout=timeout, plan_timeout=plan_timeout,
                 base=os.getenv('LLM_BASE_URL') or os.getenv('OPENAI_BASE_URL') or None)
 
 
@@ -53,7 +55,7 @@ def preflight():
     try:
         config = configuration()
         provider = {'configured': True, 'provider': config['provider'], 'model': config['model'],
-                    'timeoutSeconds': config['timeout']}
+                    'timeoutSeconds': config['timeout'], 'planTimeoutSeconds': config['plan_timeout']}
     except ModelFault:
         provider = {'configured': False, 'reasonCode': 'MODEL_CONFIGURATION_INVALID'}
     return dict(reportVersion=VERSION, mode='preflight', liveRequests=0, provider=provider,
@@ -111,13 +113,14 @@ async def protocol_probe(config, factory=None):
         factory = ChatOpenAI
     rows = []
     for name, schema, budget in (('CONSULTATION_SCHEMA', ConsultationResult, 1600), ('PLAN12_SCHEMA', Plan12Result, 6000)):
+        deadline = config['plan_timeout'] if name == 'PLAN12_SCHEMA' else config['timeout']
         model = None
         row = {'probe': name, 'status': 'FAILED', 'requestAttempted': False,
-               'contentQuality': 'NOT_EVALUATED', 'estimatedCost': None}
+               'contentQuality': 'NOT_EVALUATED', 'estimatedCost': None, 'timeoutSeconds': deadline}
         started = time.monotonic()
         try:
             model = factory(model=config['model'], api_key=config['key'], base_url=config['base'],
-                            timeout=config['timeout'], max_retries=0, max_tokens=budget)
+                            timeout=deadline, max_retries=0, max_tokens=budget)
             prompt = ('Synthetic SDK schema test only; no student, diagnosis, approved source or service result. '
                       'Use exactly the supplied literal referenceKey protocol_ref. Keep every text short. '
                       'For consultation: summary=프로토콜 시험, questions=[], referenceKeys=[protocol_ref]. '
@@ -126,7 +129,7 @@ async def protocol_probe(config, factory=None):
                       'For every week title=시험, tasks=[형식 확인], expectedOutput=시험 기록, referenceKeys=[protocol_ref].')
             row['requestAttempted'] = True
             envelope = await asyncio.wait_for(model.with_structured_output(schema, include_raw=True).ainvoke(
-                [SystemMessage(content=prompt), HumanMessage(content=name)]), timeout=config['timeout'])
+                [SystemMessage(content=prompt), HumanMessage(content=name)]), timeout=deadline)
             row['usage'] = usage(envelope.get('raw'))
             if envelope.get('parsing_error') is not None or envelope.get('parsed') is None:
                 row['reasonCode'] = 'MODEL_OUTPUT_INVALID'
@@ -149,7 +152,7 @@ async def protocol_probe(config, factory=None):
         if row.get('reasonCode') == 'MODEL_AUTH_FAILED':
             break
     return dict(reportVersion=VERSION, mode='protocol', provider=config['provider'], model=config['model'],
-                timeoutSeconds=config['timeout'], liveRequests=sum(r['requestAttempted'] for r in rows), probes=rows,
+                timeoutSeconds=config['timeout'], planTimeoutSeconds=config['plan_timeout'], liveRequests=sum(r['requestAttempted'] for r in rows), probes=rows,
                 status='PASS' if len(rows) == 2 and all(r['status'] == 'PASS' for r in rows) else 'FAILED',
                 contentQuality='NOT_EVALUATED', approvalVerified=False, serviceGenerationTested=False,
                 costStatus='TOKEN_USAGE_ONLY_PRICE_AND_BILLING_REVIEW_REQUIRED', releaseReady=False)

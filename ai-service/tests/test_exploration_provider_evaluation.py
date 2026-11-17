@@ -89,6 +89,7 @@ def test_timeout_is_bounded_and_not_reported_as_zero_token_cost(configured):
             await asyncio.sleep(10)
     config = evaluation.configuration()
     config['timeout'] = .01
+    config['plan_timeout'] = .01
     report = asyncio.run(evaluation.protocol_probe(config, Slow))
     assert all(p['reasonCode'] == 'MODEL_TIMEOUT' and p['estimatedCost'] is None for p in report['probes'])
 

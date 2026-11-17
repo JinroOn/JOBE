@@ -3,7 +3,6 @@ package com.jinroon.jobe.domain.exploration.ai;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Set;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -11,11 +10,19 @@ import org.springframework.web.client.RestTemplate;
 
 /** Trusted internal job commands. Never forwards raw remote error text. */
 @Component
-@RequiredArgsConstructor
 public class ExplorationJobClient {
     private final RestTemplate rest;
+    private final RestTemplate modelRest;
     private final ObjectMapper mapper;
     private final ExplorationAiContract contract;
+    @org.springframework.beans.factory.annotation.Autowired
+    public ExplorationJobClient(RestTemplate rest,ObjectMapper mapper,ExplorationAiContract contract,
+            @org.springframework.beans.factory.annotation.Qualifier("explorationModelRestTemplate") RestTemplate modelRest) {
+        this.rest=rest;this.mapper=mapper;this.contract=contract;this.modelRest=modelRest;
+    }
+    public ExplorationJobClient(RestTemplate rest,ObjectMapper mapper,ExplorationAiContract contract) {
+        this(rest,mapper,contract,rest);
+    }
     @Value("${ai.server.url}") private String base;
     @Value("${ai.server.token}") private String token;
     @Value("${exploration.jobs.enabled:false}") private boolean enabled;
@@ -93,7 +100,8 @@ public class ExplorationJobClient {
         if(token==null||token.isBlank())throw new Unavailable(Failure.CONFIGURATION);
         var headers=new HttpHeaders();headers.setContentType(MediaType.APPLICATION_JSON);headers.setBearerAuth(token);
         try {
-            var raw=rest.exchange(base.replaceAll("/+$","")+"/v1/exploration/jobs/"+operation,HttpMethod.POST,
+            var transport=operation.equals("model-execute")?modelRest:rest;
+            var raw=transport.exchange(base.replaceAll("/+$","")+"/v1/exploration/jobs/"+operation,HttpMethod.POST,
                     new HttpEntity<>(payload.toString(),headers),String.class);
             if(raw.getStatusCode().value()!=200 || raw.getBody()==null || raw.getBody().length()>(operation.endsWith("execute")?65536:4096))throw invalid();
             var response=mapper.readTree(raw.getBody());

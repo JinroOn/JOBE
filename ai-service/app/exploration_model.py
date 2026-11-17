@@ -24,12 +24,14 @@ class ExplorationModel:
         self.model=os.getenv('EXPLORATION_LLM_MODEL') or os.getenv('LLM_MODEL','')
         self.key=os.getenv('LLM_API_KEY') or os.getenv('OPENAI_API_KEY') or os.getenv('FACTCHAT_API_KEY') or ''
         self.base=os.getenv('LLM_BASE_URL') or os.getenv('OPENAI_BASE_URL') or None
-        try:self.timeout=float(os.getenv('EXPLORATION_LLM_TIMEOUT_SECONDS','5'))
+        try:
+            self.timeout=float(os.getenv('EXPLORATION_LLM_TIMEOUT_SECONDS','5'))
+            self.plan_timeout=float(os.getenv('EXPLORATION_PLAN_LLM_TIMEOUT_SECONDS','30'))
         except ValueError:raise ModelFault('MODEL_CONFIGURATION_INVALID') from None
         if (os.getenv('EXPLORATION_MODEL_EXECUTION_ENABLED','false').lower()!='true'
                 or os.getenv('MOCK_MODE','').lower()=='true' or not self.key.strip()
                 or self.provider not in {'openai','openai_compatible','factchat'}
-                or not self.model.strip() or len(self.model)>80 or not 0<self.timeout<=5):
+                or not self.model.strip() or len(self.model)>80 or not 0<self.timeout<=5 or not 0<self.plan_timeout<=30):
             raise ModelFault('MODEL_CONFIGURATION_INVALID')
 
     @property
@@ -77,8 +79,9 @@ class ExplorationModel:
         model=None
         try:
             factory=self.factory if self.factory is not None else ChatOpenAI
-            model=factory(model=self.model,api_key=self.key,base_url=self.base,timeout=self.timeout,max_retries=0,max_tokens=6000 if self.plan12 else 1600)
-            generated=await asyncio.wait_for(model.with_structured_output(schema).ainvoke(messages),timeout=self.timeout)
+            deadline=self.plan_timeout if self.plan12 else self.timeout
+            model=factory(model=self.model,api_key=self.key,base_url=self.base,timeout=deadline,max_retries=0,max_tokens=6000 if self.plan12 else 1600)
+            generated=await asyncio.wait_for(model.with_structured_output(schema).ainvoke(messages),timeout=deadline)
             content=generated.model_dump() if hasattr(generated,'model_dump') else generated
             response={**{k:request[k] for k in ('contractVersion','requestId','inputHash','purpose')},
                       'status':'SUCCEEDED','changesRecommendation':False,'reasonCode':None,'result':content}
