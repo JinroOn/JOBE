@@ -82,7 +82,7 @@ public class ExplorationJobClient {
         if(result.size()!=11 || !result.path("mode").asText().equals("MODEL") || !result.path("mutationKey").asText().equals(mutation)
                 || !result.path("originalInputHash").equals(request.path("inputHash")) || !result.path("sourceContextHash").equals(request.path("sourceContextHash"))
                 || !result.path("bindingHash").asText().matches("[a-f0-9]{64}") || !result.path("jobId").isIntegralNumber() || !result.path("jobId").canConvertToLong() || result.path("jobId").asLong()<=0)throw invalid();
-        String prompt=ExplorationAiContract.CONVERSATION_VERSION.equals(request.path("contractVersion").asText())?"EXPLORATION_CONVERSATION_V1_0":"EXPLORATION_MODEL_V1_0";
+        String prompt=ExplorationAiContract.promptVersion(request);
         var metadata=result.path("providerMetadata");if(metadata.size()!=3 || !Set.of("openai","openai_compatible","factchat").contains(metadata.path("provider").asText()) || !modelName.equals(metadata.path("model").asText()) || !prompt.equals(metadata.path("promptVersion").asText()))throw invalid();
         try{contract.request(result.path("boundRequest"));contract.response(result.path("boundRequest"),result.path("response"));}catch(ExplorationAiContract.Invalid e){throw invalid();}
         if(!datasetVersion.equals(result.path("boundRequest").path("evidence").path("datasetVersion").asText()))throw invalid();

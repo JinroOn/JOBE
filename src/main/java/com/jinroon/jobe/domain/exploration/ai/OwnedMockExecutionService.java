@@ -25,6 +25,15 @@ public class OwnedMockExecutionService {
         if(!modelEnabled || !erasureEnabled || !explorationEnabled || !"DEV".equals(runMode))throw new ExplorationJobClient.Unavailable(ExplorationJobClient.Failure.CONFIGURATION);
     }
     @Transactional(propagation=Propagation.NEVER)
+    public JsonNode executePlan(long user,long context,String mutation,JsonNode request){
+        requireModelEnabled();
+        if(!ExplorationAiContract.PLAN12_VERSION.equals(request.path("contractVersion").asText())||!mutation.equals(request.path("requestId").asText()))throw new ExplorationJobClient.Conflict();
+        store.reserveModel(user,context,"PLAN",mutation,request);
+        var existing=store.completedModel(user,context,"PLAN",mutation);if(existing!=null)return existing;
+        var lease=store.claimModel(user,context,"PLAN",mutation);
+        return compute(new OwnedGenerationStore.Candidate(user,context,"PLAN",mutation),lease,true,true);
+    }
+    @Transactional(propagation=Propagation.NEVER)
     public JsonNode executeConversation(long user,long context,String mutation,JsonNode request){
         requireModelEnabled();
         if(!ExplorationAiContract.CONVERSATION_VERSION.equals(request.path("contractVersion").asText())||!mutation.equals(request.path("requestId").asText()))throw new ExplorationJobClient.Conflict();

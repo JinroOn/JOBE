@@ -26,7 +26,7 @@ public class ExplorationJobService {
         String requestId=UUID.nameUUIDFromBytes((owner+":"+mutation).getBytes(StandardCharsets.UTF_8)).toString();
         JsonNode stored=generations.requestForOperation(user,context,purpose,mutation);
         JsonNode request=stored==null?adapter.build(snapshot,requestId):stored;
-        boolean conversation=ExplorationAiContract.CONVERSATION_VERSION.equals(request.path("contractVersion").asText());
+        boolean conversation=ExplorationAiContract.CONVERSATION_VERSION.equals(request.path("contractVersion").asText())||ExplorationAiContract.PLAN12_VERSION.equals(request.path("contractVersion").asText());
         if(conversation&&operation.equals("enqueue"))throw new ExplorationJobClient.Conflict();
         if(operation.equals("enqueue"))generations.reserve(user,context,purpose,mutation,request);
         if(operation.equals("cancel"))generations.reserveForCancel(user,context,purpose,mutation,request);

@@ -279,3 +279,39 @@ def test_real_conversation_consumer_selects_and_pins_dialogue_prompt_before_clai
     response=call('model-execute');assert response.status_code==200
     assert response.json()['providerMetadata']['promptVersion']=='EXPLORATION_CONVERSATION_V1_0'
     assert call('model-execute').json()==response.json()
+
+
+@pytest.fixture
+def plan12_model(scenario,monkeypatch):
+    import json
+    from app.exploration_model import ExplorationModel
+    body,call=scenario
+    body['request']['purpose']='PLAN';body['request']['contractVersion']='EXPLORATION_AI_CONTRACT_V1_2'
+    body['request']['input']['targetName']=body['request']['input']['candidateNames'][0]
+    body['request']['input']['planSpec']={'weeks':12,'phaseLayout':'INFO_4_BASIC_4_ACTIVITY_4'}
+    body['request']['inputHash']=input_hash(body['request'])
+    monkeypatch.setenv('EXPLORATION_MODEL_EXECUTION_ENABLED','true');monkeypatch.setenv('MOCK_MODE','false')
+    monkeypatch.setenv('LLM_API_KEY','SYNTHETIC_NOT_A_KEY');monkeypatch.setenv('EXPLORATION_LLM_MODEL','TEST_PLAN12_MODEL')
+    class Injected:
+        calls=0
+        def __init__(self,**settings):assert settings['max_tokens']==6000
+        def with_structured_output(self,schema):return self
+        async def ainvoke(self,messages):
+            Injected.calls+=1;value=json.loads(messages[1].content);assert 'exactly weeks 1-12' in messages[0].content
+            return {'targetName':value['input']['targetName'],'weeks':[{'week':i,'phase':'INFO' if i<=4 else 'BASIC_LEARNING' if i<=8 else 'SMALL_ACTIVITY','title':'SYNTHETIC week','tasks':['SYNTHETIC task'],'expectedOutput':'SYNTHETIC note','referenceKeys':[value['evidence'][0]['referenceKey']]} for i in range(1,13)]}
+    monkeypatch.setattr(wire,'ExplorationModel',lambda:ExplorationModel(Injected))
+    return body,call,Injected
+
+
+def test_plan12_model_transport_preserves_target_weeks_and_pinned_prompt(plan12_model):
+    body,call,model=plan12_model;assert call('enqueue').status_code==200
+    result=call('model-execute');assert result.status_code==200
+    assert result.json()['providerMetadata']['promptVersion']=='EXPLORATION_PLAN12_V1_0'
+    assert len(result.json()['response']['result']['weeks'])==12
+    assert call('model-execute').json()==result.json() and model.calls==1
+
+
+def test_plan12_cancel_does_not_replay_generated_output(plan12_model):
+    body,call,model=plan12_model;call('enqueue');assert call('model-execute').status_code==200
+    assert call('cancel').status_code==200
+    assert call('model-execute').status_code==409 and model.calls==1

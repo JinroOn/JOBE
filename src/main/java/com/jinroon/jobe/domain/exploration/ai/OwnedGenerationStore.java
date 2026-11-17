@@ -25,6 +25,7 @@ public class OwnedGenerationStore {
     private final JdbcTemplate jdbc;
     private final EntityManager entities;
     private final com.jinroon.jobe.domain.exploration.consultation.ConsultationTurnStore conversations;
+    private final com.jinroon.jobe.domain.exploration.plan.ExplorationPlanStore plans;
     public record Lease(String token,JsonNode request) {}
     public record Candidate(long user,long context,String purpose,String mutation) {}
     private void active(long user){
@@ -42,6 +43,7 @@ public class OwnedGenerationStore {
         if(ExplorationAiContract.CONVERSATION_VERSION.equals(expected.path("contractVersion").asText())){
             conversations.verifyRequest(user,context,expected,false);return;
         }
+        if(isPlan(expected)){plans.verifyRequest(user,context,expected,false);return;}
         var actual=adapter.build(contexts.lockForUse(user,context,purpose).snapshot(),expected.path("requestId").asText());
         if(!actual.equals(expected))throw conflict();
     }
@@ -50,7 +52,7 @@ public class OwnedGenerationStore {
     @Transactional public void reserveForCancel(long user,long context,String purpose,String mutation,JsonNode request){reserveMode(user,context,purpose,mutation,request,null);}
     private void reserveMode(long user,long context,String purpose,String mutation,JsonNode request,String mode){
         active(user);current(user,context,purpose,request);
-        if(isConversation(request)&&mode!=null&&!mode.equals("MODEL"))throw conflict();
+        if((isConversation(request)||isPlan(request))&&mode!=null&&!mode.equals("MODEL"))throw conflict();
         jdbc.update("INSERT IGNORE INTO exploration_generation_task(user_id,context_id,purpose,mutation_key,request_json,state,next_attempt_at,execution_mode) VALUES (?,?,?,?,?,'QUEUED',UTC_TIMESTAMP(6),?)",user,context,purpose,mutation,request.toString(),mode==null?"MOCK":mode);
         var row=locked(user,mutation);
         if(mode!=null && !mode.equals(row.get("execution_mode")))throw conflict();
@@ -71,6 +73,7 @@ public class OwnedGenerationStore {
         if(((Number)row.get("context_id")).longValue()!=context || !purpose.equals(row.get("purpose")))throw conflict();
         current(user,context,purpose,request);
         if(isConversation(request)){if(!model)throw conflict();conversations.verifyRequest(user,context,request,true);}
+        if(isPlan(request)){if(!model)throw conflict();plans.verifyRequest(user,context,request,true);}
         String state=row.get("state").toString();int attempt=((Number)row.get("attempt")).intValue();
         if(!(state.equals("QUEUED") || state.equals("RUNNING")&&!live(row)) || attempt>=3 || !truth(row.get("retry_due")))throw conflict();
         String mode=model?"MODEL":"MOCK";
@@ -83,6 +86,7 @@ public class OwnedGenerationStore {
         active(user);contexts.lockForUse(user,context,purpose);var row=locked(user,mutation);
         if(((Number)row.get("context_id")).longValue()!=context || !purpose.equals(row.get("purpose")))throw conflict();
         conversations.cancelPending(context,mutation);
+        plans.protectCancellation(context,mutation);
         jdbc.update("UPDATE exploration_generation_task SET state='CANCELLED',lease_token=NULL,lease_until=NULL,result_json=NULL,result_hash=NULL WHERE id=?",row.get("id"));
     }
     @Transactional public JsonNode completeMock(long user,long context,String purpose,String mutation,String lease,JsonNode envelope){return completeMode(user,context,purpose,mutation,lease,envelope,false);}
@@ -93,15 +97,17 @@ public class OwnedGenerationStore {
         if(((Number)row.get("context_id")).longValue()!=context || !purpose.equals(row.get("purpose")) || !row.get("state").equals("RUNNING") || !lease.equals(row.get("lease_token")) || !live(row))throw conflict();
         JsonNode original=json.read(row.get("request_json").toString());current(user,context,purpose,original);
         if(isConversation(original)){if(!model)throw conflict();conversations.verifyRequest(user,context,original,true);}
+        if(isPlan(original)){if(!model)throw conflict();plans.verifyRequest(user,context,original,true);}
         if(!mode.equals(row.get("execution_mode")) || envelope.size()!=(model?11:10) || !envelope.path("transportVersion").asText().equals(model?"EXPLORATION_MODEL_EXECUTION_V1_0":"EXPLORATION_MOCK_EXECUTION_V1_0") || !envelope.path("sourceContextHash").equals(original.path("sourceContextHash")))throw conflict();
         var bound=envelope.path("boundRequest");contract.request(bound);contract.response(bound,envelope.path("response"));
         for(String key:List.of("contractVersion","requestId","sourceContextHash","purpose","mode","testOnly","input"))if(!original.path(key).equals(bound.path(key)))throw conflict();
         if(!envelope.path("mode").asText().equals(mode) || !envelope.path("generationAuthorized").isBoolean() || envelope.path("generationAuthorized").asBoolean()!=model || !bound.path("evidence").path("bindingStatus").asText().equals("BOUND") || !envelope.path("mutationKey").asText().equals(mutation) || !envelope.path("originalInputHash").equals(original.path("inputHash")) || !envelope.path("bindingHash").asText().matches("[a-f0-9]{64}") || !envelope.path("jobId").isIntegralNumber() || envelope.path("jobId").asLong()<=0)throw conflict();
-        if(model){String prompt=isConversation(original)?"EXPLORATION_CONVERSATION_V1_0":"EXPLORATION_MODEL_V1_0";var metadata=envelope.path("providerMetadata");if(!metadata.isObject() || metadata.size()!=3 || !Set.of("openai","openai_compatible","factchat").contains(metadata.path("provider").asText()) || metadata.path("model").asText().isBlank() || metadata.path("model").asText().length()>80 || !prompt.equals(metadata.path("promptVersion").asText()))throw conflict();}
+        if(model){String prompt=ExplorationAiContract.promptVersion(original);var metadata=envelope.path("providerMetadata");if(!metadata.isObject() || metadata.size()!=3 || !Set.of("openai","openai_compatible","factchat").contains(metadata.path("provider").asText()) || metadata.path("model").asText().isBlank() || metadata.path("model").asText().length()>80 || !prompt.equals(metadata.path("promptVersion").asText()))throw conflict();}
         String body=envelope.toString();String hash=json.hex(envelope);
         int saved=jdbc.update("UPDATE exploration_generation_task SET state=?,result_json=?,result_hash=?,lease_token=NULL,lease_until=NULL WHERE id=? AND state='RUNNING' AND lease_token=? AND lease_until>UTC_TIMESTAMP(6)",state,body,hash,row.get("id"),lease);
         if(saved!=1)throw conflict();
         if(isConversation(original))conversations.publish(user,context,original,envelope);
+        if(isPlan(original))plans.publish(user,context,original,envelope);
         var reply=json.object().put("status",state).put("mode",mode).put("generationAuthorized",model);reply.set("response",envelope.path("response").deepCopy());return reply;
     }
     @Transactional public JsonNode completed(long user,long context,String purpose,String mutation){return completedMode(user,context,purpose,mutation,false);}
@@ -119,6 +125,7 @@ public class OwnedGenerationStore {
     }
     private static ExplorationApiException conflict(){return new ExplorationApiException(409,"GENERATION_TASK_CONFLICT","Generation task is unavailable or changed");}
     private boolean isConversation(JsonNode request){return ExplorationAiContract.CONVERSATION_VERSION.equals(request.path("contractVersion").asText());}
+    private boolean isPlan(JsonNode request){return ExplorationAiContract.PLAN12_VERSION.equals(request.path("contractVersion").asText());}
     @Transactional public JsonNode requestForOperation(long user,long context,String purpose,String mutation){
         active(user);contexts.lockForUse(user,context,purpose);
         var rows=jdbc.queryForList("SELECT request_json,purpose,context_id FROM exploration_generation_task WHERE user_id=? AND mutation_key=?",user,mutation);

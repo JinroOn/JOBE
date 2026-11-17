@@ -34,6 +34,14 @@ public class ResultContextService {
     public record Reply(int status,JsonNode body){}
     private record Source(ExplorationResult result,ExplorationSession session,JsonNode snapshot){}
     public record LockedInput(long contextId,String contextType,JsonNode snapshot){}
+    /** Validation without preparing personal data or invoking AI. Used before a new plan request. */
+    @Transactional
+    public void validatePlanRequest(long user,long resultId,Long expected,String target){
+        users.requireActive(user);Source source=owned(user,resultId,true);JsonNode state=support.get(user,resultId);
+        long revision=state.path("supportRevision").asLong();
+        if(expected!=null&&expected!=revision)throw new ExplorationApiException(409,"STALE_REVISION","최신 지원 상태를 조회한 뒤 다시 준비해 주세요.");
+        validateTarget(source.snapshot(),state,"PLAN",target);
+    }
 
     @Transactional
     public Reply prepare(long user,long resultId,String key,String type,long expected,String target){
