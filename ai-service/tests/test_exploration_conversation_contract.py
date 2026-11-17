@@ -59,6 +59,11 @@ def test_injected_model_receives_question_and_history_as_data_not_new_evidence(s
     assert response['inputHash'] == request['inputHash']
     assert 'PRIVATE_REQUEST_IDENTIFIER' not in chat.messages[1].content
     assert 'untrusted data' in chat.messages[0].content
+    assert 'Answer input.conversation.question in summary' in chat.messages[0].content
+    assert 'never as approved evidence' in chat.messages[0].content
+    assert ExplorationModel(chat).metadata['promptVersion']=='EXPLORATION_MODEL_V1_0'
+    consumer=ExplorationModel(chat);consumer.configure_request(request)
+    assert consumer.metadata['promptVersion']=='EXPLORATION_CONVERSATION_V1_0'
 
 
 def test_v0_fixture_keeps_identical_shape_and_hash():

@@ -62,6 +62,13 @@ class ExplorationJobClientTest {
     ObjectNode modelEnvelope(){var body=mockEnvelope().put("transportVersion","EXPLORATION_MODEL_EXECUTION_V1_0").put("mode","MODEL").put("generationAuthorized",true);body.putObject("providerMetadata").put("provider","openai").put("model","TEST_MODEL").put("promptVersion","EXPLORATION_MODEL_V1_0");return body;}
     @Test void modelConsumerRequiresItsOwnFlag(){assertThatThrownBy(()->client.executeModel("owner","m",request)).isInstanceOf(ExplorationJobClient.Unavailable.class);server.verify();}
     @Test void acceptsOnlyConfiguredModelAndProvenance(){modelReady();reply("model-execute",modelEnvelope().toString());assertThat(client.executeModel("owner","m",request).path("mode").asText()).isEqualTo("MODEL");server.verify();}
+    @Test void conversationRequestAndPromptVersionSurviveAuthenticatedTransport(){
+        var r=(ObjectNode)request.deepCopy();r.put("contractVersion",ExplorationAiContract.CONVERSATION_VERSION);
+        var conversation=((ObjectNode)r.path("input")).putObject("conversation").put("question","SYNTHETIC question");conversation.putArray("history");
+        r.put("inputHash",new ExplorationAiContract(new ExplorationJson(mapper)).inputHash(r));request=r;modelReady();
+        var body=modelEnvelope();((ObjectNode)body.path("providerMetadata")).put("promptVersion","EXPLORATION_CONVERSATION_V1_0");reply("model-execute",body.toString());
+        var result=client.executeModel("owner","m",request);assertThat(result.path("boundRequest").path("input").path("conversation")).isEqualTo(conversation);server.verify();
+    }
     @ParameterizedTest @ValueSource(strings={"mode","permission","provider","model","prompt","hash","extra"})
     void rejectsModelEnvelopeMismatch(String field){modelReady();var body=modelEnvelope();switch(field){case "mode"->body.put("mode","MOCK");case "permission"->body.put("generationAuthorized",false);case "provider"->((ObjectNode)body.path("providerMetadata")).put("provider","other");case "model"->((ObjectNode)body.path("providerMetadata")).put("model","OTHER");case "prompt"->((ObjectNode)body.path("providerMetadata")).put("promptVersion","OTHER");case "hash"->body.put("originalInputHash","0".repeat(64));case "extra"->body.put("extra","PRIVATE");}reply("model-execute",body.toString());assertThatThrownBy(()->client.executeModel("owner","m",request)).isInstanceOf(ExplorationJobClient.Unavailable.class);}
 }

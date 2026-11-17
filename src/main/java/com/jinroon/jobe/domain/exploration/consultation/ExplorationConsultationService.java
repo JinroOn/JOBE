@@ -18,6 +18,7 @@ public class ExplorationConsultationService {
     private final ResultContextService contexts;
     private final PostResultSupportService support;
     private final JdbcTemplate jdbc;
+    private final ConsultationTurnStore turns;
 
     @Transactional
     public ConsultationDtos.Session open(long user,long result,String key){
@@ -33,9 +34,8 @@ public class ExplorationConsultationService {
         }else context=((Number)existing.get(0).get("context_id")).longValue();
         contexts.lockForUse(user,context,"CONSULTATION");
         var row=jdbc.queryForMap("SELECT id FROM exploration_consultation WHERE result_id=? FOR UPDATE",result);
-        // Until the message consumer exists, no other route may create turns or messages.
-        if(jdbc.queryForObject("SELECT COUNT(*) FROM exploration_consultation_turn WHERE consultation_id=?",Long.class,row.get("id"))!=0)
-            throw new ExplorationApiException(503,"CONSULTATION_CONSUMER_UNAVAILABLE","상담 메시지 기능을 준비 중입니다.");
-        return new ConsultationDtos.Session(((Number)row.get("id")).longValue(),result,List.of());
+        long consultation=((Number)row.get("id")).longValue();
+        var messages=turns.history(user,consultation).stream().map(ConsultationDtos::message).toList();
+        return new ConsultationDtos.Session(consultation,result,messages,turns.pending(user,consultation));
     }
 }

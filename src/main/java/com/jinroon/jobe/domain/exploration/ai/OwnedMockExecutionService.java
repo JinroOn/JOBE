@@ -21,6 +21,18 @@ public class OwnedMockExecutionService {
     @Value("${exploration.jobs.model-enabled:false}") private boolean modelEnabled;
     private final com.jinroon.jobe.domain.exploration.context.ResultContextService contexts;
     private final ExplorationAiInputAdapter adapter;
+    public void requireModelEnabled(){
+        if(!modelEnabled || !erasureEnabled || !explorationEnabled || !"DEV".equals(runMode))throw new ExplorationJobClient.Unavailable(ExplorationJobClient.Failure.CONFIGURATION);
+    }
+    @Transactional(propagation=Propagation.NEVER)
+    public JsonNode executeConversation(long user,long context,String mutation,JsonNode request){
+        requireModelEnabled();
+        if(!ExplorationAiContract.CONVERSATION_VERSION.equals(request.path("contractVersion").asText())||!mutation.equals(request.path("requestId").asText()))throw new ExplorationJobClient.Conflict();
+        store.reserveModel(user,context,"CONSULTATION",mutation,request);
+        var existing=store.completedModel(user,context,"CONSULTATION",mutation);if(existing!=null)return existing;
+        var lease=store.claimModel(user,context,"CONSULTATION",mutation);
+        return compute(new OwnedGenerationStore.Candidate(user,context,"CONSULTATION",mutation),lease,true,true);
+    }
     @Transactional(propagation=Propagation.NEVER)
     public JsonNode executeModel(long user,long context,String purpose,String mutation){
         if(!modelEnabled || !erasureEnabled || !explorationEnabled || !"DEV".equals(runMode))throw new ExplorationJobClient.Unavailable(ExplorationJobClient.Failure.CONFIGURATION);
@@ -59,6 +71,7 @@ public class OwnedMockExecutionService {
             String owner=owners.ownedKey(task.user());
             if(enqueue){
                 var queued=client.command("enqueue",owner,task.mutation(),lease.request());
+                if(model&&ExplorationAiContract.CONVERSATION_VERSION.equals(lease.request().path("contractVersion").asText())&&queued.path("status").asText().equals("INSUFFICIENT_EVIDENCE"))return store.completeConversationInsufficient(task,lease.token());
                 if(java.util.Set.of("INSUFFICIENT_EVIDENCE","BLOCKED","CANCELLED").contains(queued.path("status").asText()))throw new ExplorationJobClient.Unavailable(ExplorationJobClient.Failure.EVIDENCE_UNAVAILABLE);
             }
             var result=model?client.executeModel(owner,task.mutation(),lease.request()):client.executeMock(owner,task.mutation(),lease.request());
