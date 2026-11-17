@@ -353,7 +353,7 @@ public class DiagnosisProfileScoringService {
         if (goalTextBonus < 0.2f) {
             return;
         }
-        reasons.add("Career goal keywords partially match this major path.");
+        reasons.add("진로 목표 키워드가 이 전공의 진로 경로와 일부 맞습니다.");
     }
 
     private void addStudyLoadReason(List<String> reasons, float studyLoadBonus) {
@@ -361,9 +361,9 @@ public class DiagnosisProfileScoringService {
             return;
         }
         if (studyLoadBonus > 0) {
-            reasons.add("Current study time fits the preparation load of this major.");
+            reasons.add("현재 공부 시간이 이 전공의 준비 부담과 맞습니다.");
         } else {
-            reasons.add("This major may require a gradual study-load plan based on current study time.");
+            reasons.add("현재 공부 시간을 고려하면 이 전공은 공부량을 점진적으로 늘려 가는 계획이 필요할 수 있습니다.");
         }
     }
 
