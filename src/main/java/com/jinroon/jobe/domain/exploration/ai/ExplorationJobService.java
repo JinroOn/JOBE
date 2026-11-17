@@ -17,6 +17,7 @@ public class ExplorationJobService {
     private final ResultContextService contexts;
     private final ExplorationAiInputAdapter adapter;
     private final ExplorationJobClient client;
+    private final OwnedGenerationStore generations;
     @Transactional(propagation=Propagation.NEVER)
     public JsonNode command(long user,long context,String purpose,String mutation,String operation) {
         if(mutation==null || !mutation.matches("[A-Za-z0-9_-]{1,80}"))throw new ExplorationJobClient.Unavailable();
@@ -24,6 +25,8 @@ public class ExplorationJobService {
         String owner=owners.ownedKey(user);
         String requestId=UUID.nameUUIDFromBytes((owner+":"+mutation).getBytes(StandardCharsets.UTF_8)).toString();
         JsonNode request=adapter.build(snapshot,requestId);
+        if(operation.equals("enqueue") || operation.equals("cancel"))generations.reserve(user,context,purpose,mutation,request);
+        if(operation.equals("cancel"))generations.cancel(user,context,purpose,mutation);
         JsonNode result=client.command(operation,owner,mutation,request);
         JsonNode current=adapter.build(contexts.readForAdapter(user,context,purpose).snapshot(),requestId);
         if(!request.equals(current))throw new ExplorationJobClient.Unavailable();

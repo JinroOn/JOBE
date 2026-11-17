@@ -78,6 +78,7 @@ diagnosis:
 
 exploration:
   jobs:
+    mock-enabled: ${EXPLORATION_MOCK_EXECUTION_ENABLED:false}
     enabled: ${EXPLORATION_JOBS_ENABLED:false}
     erasure:
       enabled: ${EXPLORATION_JOBS_ERASURE_ENABLED:false}

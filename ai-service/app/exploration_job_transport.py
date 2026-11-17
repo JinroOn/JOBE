@@ -10,6 +10,7 @@ from app.exploration_transport import evidence_session
 from app.rag.exploration_binding import (
     EvidencePolicy, EvidencePolicyError, EvidenceIntegrityError, EvidenceNoLongerAvailable,
     EvidenceStoreUnavailable, ExplorationEvidenceBinder,
+    EvidenceBinding, _hash,
 )
 
 VERSION='EXPLORATION_JOB_TRANSPORT_V1_0'
@@ -17,6 +18,7 @@ VERSION='EXPLORATION_JOB_TRANSPORT_V1_0'
 
 def command(operation: str, payload: dict):
     try:
+        if operation=='mock-execute':return execute_mock(payload)
         if operation not in {'enqueue','read','cancel','purge'}: raise JobConflict()
         expected={'ownerKey'} if operation=='purge' else {'ownerKey','mutationKey','request'}
         if set(payload)!=expected: raise ContractViolation('Invalid exploration job command')
@@ -68,3 +70,31 @@ def envelope(original,mutation,state,job):
     return {'transportVersion':VERSION,'status':state,'mutationKey':mutation,
             'sourceContextHash':original['sourceContextHash'],'inputHash':original['inputHash'],
             'jobId':job,'generationAuthorized':False}
+
+
+def execute_mock(payload):
+    if os.getenv('EXPLORATION_MOCK_EXECUTION_ENABLED','false').lower()!='true':
+        raise AppError(503,'EVIDENCE_BINDING_DISABLED','MOCK execution is disabled')
+    # Same authenticated identity/input checks as read; no client-supplied binding/output.
+    metadata=command('read',payload)
+    from app.exploration_worker import MockExplorationWorker
+    from app.exploration_contract import validate_response
+    policy=EvidencePolicy(os.getenv('EXPLORATION_EVIDENCE_DATASET_VERSION',''))
+    owner,job=payload['ownerKey'],metadata['jobId']
+    if metadata['status']!='MOCK_COMPLETED':
+        state=MockExplorationWorker(evidence_session,policy).run_one(owner,job)
+        if state!='MOCK_COMPLETED':raise JobConflict()
+    with evidence_session() as db:
+        store=ExplorationJobStore(db,ExplorationEvidenceBinder(db,policy))
+        row=store._locked(owner,job)
+        if row.state!='MOCK_COMPLETED' or row.mock_response is None or _hash(row.mock_response)!=row.mock_response_hash:raise JobConflict()
+        binding=EvidenceBinding(**row.binding)
+        if binding.binding_hash!=row.binding_hash:raise EvidenceIntegrityError()
+        store.binder.revalidate(binding)
+        response=validate_response(binding.request,row.mock_response).model_dump()
+        original=read_request(payload['request']).model_dump()
+        if json.loads(binding.original_request_json)!=original:raise JobConflict()
+        return {'transportVersion':'EXPLORATION_MOCK_EXECUTION_V1_0','mode':'MOCK','generationAuthorized':False,
+                'mutationKey':payload['mutationKey'],'originalInputHash':original['inputHash'],
+                'sourceContextHash':original['sourceContextHash'],'jobId':row.id,'bindingHash':row.binding_hash,
+                'boundRequest':binding.request,'response':response}

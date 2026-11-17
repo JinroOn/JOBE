@@ -14,6 +14,13 @@ import org.springframework.web.bind.annotation.*;
 public class ExplorationJobController {
     private final ExplorationJobService service;
     private final ExplorationJson json;
+    private final OwnedMockExecutionService mockExecution;
+    @PostMapping("/mock-run") public Object mockRun(@AuthenticationPrincipal CustomUserDetails user,@PathVariable long context,@PathVariable String purpose,@PathVariable String mutation,HttpServletRequest request){
+        if(!request.getParameterMap().isEmpty() || !purpose.matches("CONSULTATION|PLAN") || !mutation.matches("[A-Za-z0-9_-]{1,80}"))throw new ExplorationApiException(400,"INVALID_REQUEST","Invalid exploration job request");
+        try{return json.responseValue(mockExecution.execute(user.getUserId(),context,purpose,mutation));}
+        catch(ExplorationJobClient.Conflict e){throw new ExplorationApiException(409,"EXPLORATION_JOB_CONFLICT","Exploration job is unavailable or conflicts");}
+        catch(ExplorationJobClient.Unavailable e){throw new ExplorationApiException(503,"EXPLORATION_JOB_UNAVAILABLE","Exploration job service is unavailable");}
+    }
     @PostMapping public Object enqueue(@AuthenticationPrincipal CustomUserDetails user,@PathVariable long context,@PathVariable String purpose,@PathVariable String mutation,HttpServletRequest request){return command(user,context,purpose,mutation,"enqueue",request);}
     @GetMapping public Object read(@AuthenticationPrincipal CustomUserDetails user,@PathVariable long context,@PathVariable String purpose,@PathVariable String mutation,HttpServletRequest request){return command(user,context,purpose,mutation,"read",request);}
     @DeleteMapping public Object cancel(@AuthenticationPrincipal CustomUserDetails user,@PathVariable long context,@PathVariable String purpose,@PathVariable String mutation,HttpServletRequest request){return command(user,context,purpose,mutation,"cancel",request);}

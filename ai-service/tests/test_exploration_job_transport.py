@@ -111,3 +111,43 @@ def test_unknown_fields_and_invalid_request_rejected(scenario):
     assert call('enqueue',{**body,'extra':'PRIVATE'}).status_code==422
     assert call('enqueue',{**body,'ownerKey':'not-owner'}).status_code==409
     assert call('anything').status_code==409
+
+
+def test_mock_execution_is_disabled_by_default(scenario):
+    body,call=scenario;call('enqueue')
+    assert call('mock-execute').status_code==503
+
+
+def test_mock_execution_returns_bound_validated_artifact_and_replays(scenario,monkeypatch):
+    from app.exploration_contract import validate_response
+    body,call=scenario;call('enqueue');monkeypatch.setenv('EXPLORATION_MOCK_EXECUTION_ENABLED','true')
+    response=call('mock-execute');assert response.status_code==200
+    result=response.json()
+    assert set(result)=={'transportVersion','mode','generationAuthorized','mutationKey','originalInputHash','sourceContextHash','jobId','bindingHash','boundRequest','response'}
+    assert result['mode']=='MOCK' and result['generationAuthorized'] is False
+    assert result['originalInputHash']==body['request']['inputHash']
+    validate_response(result['boundRequest'],result['response'])
+    assert call('mock-execute').json()==result
+
+
+def test_cancel_or_erasure_prevents_mock_execution(scenario,monkeypatch):
+    body,call=scenario;call('enqueue');monkeypatch.setenv('EXPLORATION_MOCK_EXECUTION_ENABLED','true')
+    call('cancel');assert call('mock-execute').status_code==409
+    call('purge',{'ownerKey':body['ownerKey']});assert call('mock-execute').status_code==409
+
+
+def test_mock_endpoint_rejects_foreign_owner_and_requires_auth(scenario,monkeypatch):
+    body,call=scenario;call('enqueue');monkeypatch.setenv('EXPLORATION_MOCK_EXECUTION_ENABLED','true')
+    assert call('mock-execute',auth=False).status_code==401
+    assert call('mock-execute',{**body,'ownerKey':str(uuid.uuid4())}).status_code==409
+
+
+def test_mock_plan_uses_the_selected_target(scenario,monkeypatch):
+    from copy import deepcopy
+    body,call=scenario;body=deepcopy(body);body['request']['purpose']='PLAN'
+    body['request']['input']['targetName']=body['request']['input']['candidateNames'][0]
+    body['request']['inputHash']=input_hash(body['request'])
+    monkeypatch.setenv('EXPLORATION_MOCK_EXECUTION_ENABLED','true')
+    assert call('enqueue',body).status_code==200
+    result=call('mock-execute',body);assert result.status_code==200
+    assert result.json()['response']['result']['targetName']==body['request']['input']['targetName']
