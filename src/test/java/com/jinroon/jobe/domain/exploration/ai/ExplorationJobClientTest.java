@@ -58,4 +58,10 @@ class ExplorationJobClientTest {
         server.expect(requestTo("http://ai.local/v1/exploration/jobs/read")).andRespond(withStatus(HttpStatus.CONFLICT).contentType(MediaType.APPLICATION_JSON).body("{\"code\":\"EXPLORATION_JOB_BUSY\"}"));
         var error=catchThrowableOfType(()->client.command("read","owner","m",request),ExplorationJobClient.Unavailable.class);assertThat(error.retryable()).isTrue();
     }
+    void modelReady(){ReflectionTestUtils.setField(client,"modelEnabled",true);ReflectionTestUtils.setField(client,"modelName","TEST_MODEL");}
+    ObjectNode modelEnvelope(){var body=mockEnvelope().put("transportVersion","EXPLORATION_MODEL_EXECUTION_V1_0").put("mode","MODEL").put("generationAuthorized",true);body.putObject("providerMetadata").put("provider","openai").put("model","TEST_MODEL").put("promptVersion","EXPLORATION_MODEL_V1_0");return body;}
+    @Test void modelConsumerRequiresItsOwnFlag(){assertThatThrownBy(()->client.executeModel("owner","m",request)).isInstanceOf(ExplorationJobClient.Unavailable.class);server.verify();}
+    @Test void acceptsOnlyConfiguredModelAndProvenance(){modelReady();reply("model-execute",modelEnvelope().toString());assertThat(client.executeModel("owner","m",request).path("mode").asText()).isEqualTo("MODEL");server.verify();}
+    @ParameterizedTest @ValueSource(strings={"mode","permission","provider","model","prompt","hash","extra"})
+    void rejectsModelEnvelopeMismatch(String field){modelReady();var body=modelEnvelope();switch(field){case "mode"->body.put("mode","MOCK");case "permission"->body.put("generationAuthorized",false);case "provider"->((ObjectNode)body.path("providerMetadata")).put("provider","other");case "model"->((ObjectNode)body.path("providerMetadata")).put("model","OTHER");case "prompt"->((ObjectNode)body.path("providerMetadata")).put("promptVersion","OTHER");case "hash"->body.put("originalInputHash","0".repeat(64));case "extra"->body.put("extra","PRIVATE");}reply("model-execute",body.toString());assertThatThrownBy(()->client.executeModel("owner","m",request)).isInstanceOf(ExplorationJobClient.Unavailable.class);}
 }

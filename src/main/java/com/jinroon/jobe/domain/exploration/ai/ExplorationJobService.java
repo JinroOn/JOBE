@@ -25,7 +25,8 @@ public class ExplorationJobService {
         String owner=owners.ownedKey(user);
         String requestId=UUID.nameUUIDFromBytes((owner+":"+mutation).getBytes(StandardCharsets.UTF_8)).toString();
         JsonNode request=adapter.build(snapshot,requestId);
-        if(operation.equals("enqueue") || operation.equals("cancel"))generations.reserve(user,context,purpose,mutation,request);
+        if(operation.equals("enqueue"))generations.reserve(user,context,purpose,mutation,request);
+        if(operation.equals("cancel"))generations.reserveForCancel(user,context,purpose,mutation,request);
         if(operation.equals("cancel"))generations.cancel(user,context,purpose,mutation);
         if(operation.equals("read")){var status=generations.status(user,context,purpose,mutation,request);if(status!=null)return status;}
         JsonNode result=client.command(operation,owner,mutation,request);

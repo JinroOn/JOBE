@@ -6,6 +6,7 @@ from sqlalchemy import select
 from app.errors import AppError
 from app.exploration_contract import read_request, ContractViolation
 from app.exploration_jobs import ExplorationJob, ExplorationJobStore, JobConflict, JobLeaseBusy
+from app.exploration_model import ExplorationModel,ModelFault
 from app.exploration_transport import evidence_session
 from app.rag.exploration_binding import (
     EvidencePolicy, EvidencePolicyError, EvidenceIntegrityError, EvidenceNoLongerAvailable,
@@ -19,6 +20,7 @@ VERSION='EXPLORATION_JOB_TRANSPORT_V1_0'
 def command(operation: str, payload: dict):
     try:
         if operation=='mock-execute':return execute_mock(payload)
+        if operation=='model-execute':return execute_model(payload)
         if operation not in {'enqueue','read','cancel','purge'}: raise JobConflict()
         expected={'ownerKey'} if operation=='purge' else {'ownerKey','mutationKey','request'}
         if set(payload)!=expected: raise ContractViolation('Invalid exploration job command')
@@ -54,6 +56,9 @@ def command(operation: str, payload: dict):
             return result
     except ContractViolation:
         raise AppError(422,'EVIDENCE_CONTRACT_INVALID','Invalid exploration job command') from None
+    except ModelFault as error:
+        status=422 if error.code in {'MODEL_OUTPUT_INVALID','MODEL_INPUT_INVALID'} else 503
+        raise AppError(status,error.code,'Exploration model execution failed',retryable=error.retryable) from None
     except JobLeaseBusy:
         raise AppError(409,'EXPLORATION_JOB_BUSY','Exploration job lease is still active',retryable=True) from None
     except JobConflict:
@@ -100,3 +105,28 @@ def execute_mock(payload):
                 'mutationKey':payload['mutationKey'],'originalInputHash':original['inputHash'],
                 'sourceContextHash':original['sourceContextHash'],'jobId':row.id,'bindingHash':row.binding_hash,
                 'boundRequest':binding.request,'response':response}
+
+
+def execute_model(payload):
+    if os.getenv('EXPLORATION_MODEL_EXECUTION_ENABLED','false').lower()!='true' or os.getenv('MOCK_MODE','').lower()=='true':raise ModelFault('MODEL_CONFIGURATION_INVALID')
+    consumer=ExplorationModel()  # Explicit configuration validation, no implicit MOCK fallback.
+    metadata=command('read',payload)
+    from app.exploration_worker import ModelExplorationWorker
+    from app.exploration_contract import validate_response
+    policy=EvidencePolicy(os.getenv('EXPLORATION_EVIDENCE_DATASET_VERSION',''))
+    owner,job=payload['ownerKey'],metadata['jobId']
+    if metadata['status']!='MODEL_COMPLETED':
+        if ModelExplorationWorker(evidence_session,policy,consumer).run_one(owner,job)!='MODEL_COMPLETED':raise JobConflict()
+    with evidence_session() as db:
+        store=ExplorationJobStore(db,ExplorationEvidenceBinder(db,policy));row=store._locked(owner,job)
+        if row.state!='MODEL_COMPLETED' or row.model_response is None or _hash(row.model_response)!=row.model_response_hash:raise EvidenceIntegrityError()
+        binding=EvidenceBinding(**row.binding)
+        if binding.binding_hash!=row.binding_hash:raise EvidenceIntegrityError()
+        store.binder.revalidate(binding)
+        response=validate_response(binding.request,row.model_response).model_dump()
+        original=read_request(payload['request']).model_dump()
+        if json.loads(binding.original_request_json)!=original:raise JobConflict()
+        return {'transportVersion':'EXPLORATION_MODEL_EXECUTION_V1_0','mode':'MODEL','generationAuthorized':True,
+                'mutationKey':payload['mutationKey'],'originalInputHash':original['inputHash'],
+                'sourceContextHash':original['sourceContextHash'],'jobId':row.id,'bindingHash':row.binding_hash,
+                'boundRequest':binding.request,'response':response,'providerMetadata':row.model_metadata}

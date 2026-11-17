@@ -163,3 +163,51 @@ def test_active_remote_lease_is_a_retryable_busy_response(scenario,monkeypatch):
         store.claim(body['ownerKey'],job);db.commit()
     response=call('mock-execute');assert response.status_code==409
     assert response.json()['code']=='EXPLORATION_JOB_BUSY' and response.json()['retryable'] is True
+
+
+def test_model_endpoint_requires_explicit_activation(scenario):
+    body,call=scenario;call('enqueue')
+    response=call('model-execute');assert response.status_code==503
+    assert response.json()['code']=='MODEL_CONFIGURATION_INVALID'
+
+
+@pytest.fixture
+def injected_model(monkeypatch):
+    from app.exploration_worker import mock_response
+    class Consumer:
+        metadata={'provider':'openai','model':'TEST_MODEL','promptVersion':'EXPLORATION_MODEL_V1_0'}
+        calls=0
+        def generate(self,request,facts):
+            self.calls+=1
+            return mock_response(request,facts)
+    consumer=Consumer()
+    monkeypatch.setenv('EXPLORATION_MODEL_EXECUTION_ENABLED','true');monkeypatch.setenv('MOCK_MODE','false')
+    monkeypatch.setattr(wire,'ExplorationModel',lambda:consumer)
+    return consumer
+
+
+def test_model_transport_is_explicit_and_pins_artifact_provenance(scenario,injected_model):
+    body,call=scenario;call('enqueue');response=call('model-execute')
+    assert response.status_code==200
+    result=response.json();assert result['mode']=='MODEL' and result['generationAuthorized'] is True
+    assert result['providerMetadata']==injected_model.metadata
+    assert call('model-execute').json()==result and injected_model.calls==1
+
+
+def test_model_and_mock_cannot_reinterpret_the_same_job(scenario,injected_model,monkeypatch):
+    body,call=scenario;call('enqueue');assert call('model-execute').status_code==200
+    monkeypatch.setenv('EXPLORATION_MOCK_EXECUTION_ENABLED','true')
+    assert call('mock-execute').status_code==409
+
+
+def test_model_transport_requires_auth_and_rejects_foreign_owner(scenario,injected_model):
+    body,call=scenario;call('enqueue')
+    assert call('model-execute',auth=False).status_code==401
+    assert call('model-execute',{**body,'ownerKey':str(uuid.uuid4())}).status_code==409
+    assert injected_model.calls==0
+
+
+def test_model_transport_cancel_removes_artifact_and_rejects_reexecution(scenario,injected_model):
+    body,call=scenario;call('enqueue');assert call('model-execute').status_code==200
+    assert call('cancel').status_code==200
+    assert call('model-execute').status_code==409 and injected_model.calls==1
