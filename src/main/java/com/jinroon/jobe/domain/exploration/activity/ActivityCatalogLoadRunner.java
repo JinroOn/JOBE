@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @ConditionalOnProperty(prefix="exploration.activities",name="load-on-startup",havingValue="true")
 public class ActivityCatalogLoadRunner implements ApplicationRunner {
     private final ActivityCatalogLoader loader;
-    @Value("${exploration.activities.dataset-path:datasets/activities/catalog.json}") private String path;
+    @Value("${exploration.activities.dataset-path:datasets/activities/catalog-v2.json}") private String path;
     @Value("${exploration.activities.dry-run:true}") private boolean dryRun;
     public void run(ApplicationArguments args){if(dryRun)loader.validate(Path.of(path));else loader.load(Path.of(path));}
 }

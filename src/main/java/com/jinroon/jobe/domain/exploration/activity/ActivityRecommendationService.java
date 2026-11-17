@@ -23,7 +23,7 @@ public class ActivityRecommendationService {
     private final PostResultSupportService support;
     private final ExplorationJson json;
     private final JdbcTemplate jdbc;
-    @Value("${exploration.activities.catalog-version:ACTIVITY_CATALOG_V1_DRAFT}") private String selectedVersion;
+    @Value("${exploration.activities.catalog-version:ACTIVITY_CATALOG_V2_DRAFT}") private String selectedVersion;
     private record Candidate(JsonNode payload,String hash,int majorOrder,double preference,List<Long> reviews) {}
 
     /** Result GET refreshes only dynamic activity fields. Completion idempotency stays historical. */
