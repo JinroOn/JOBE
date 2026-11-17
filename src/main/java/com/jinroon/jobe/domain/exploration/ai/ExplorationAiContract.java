@@ -12,15 +12,19 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ExplorationAiContract {
     public static final String VERSION="EXPLORATION_AI_CONTRACT_V1_0";
+    public static final String CONVERSATION_VERSION="EXPLORATION_AI_CONTRACT_V1_1";
     private final ExplorationJson json;
     private static final Set<String> TOPICS=Set.of("READINESS-INFO-01","READINESS-CMP-01","READINESS-SELF-01","READINESS-ACT-02","READINESS-ACT-01","READINESS-CON-01","READINESS-INFO-02","READINESS-SELF-02","ACTIVITY-REPORT-01","ACTIVITY-PROJECT-01","ACTIVITY-READ-01","ACTIVITY-EXPERIMENT-01","ACTIVITY-PRESENT-01","ACTIVITY-CONTENT-01");
     public static final class Invalid extends RuntimeException {public Invalid(){super("Invalid exploration AI contract");}}
     public String inputHash(JsonNode request){var body=json.object();for(String key:List.of("sourceContextHash","purpose","input","evidence"))body.set(key,request.path(key).deepCopy());return json.hex(body);}
     public void request(JsonNode r){
         fields(r,"contractVersion","requestId","sourceContextHash","inputHash","purpose","mode","testOnly","input","evidence");
-        require(VERSION.equals(r.path("contractVersion").asText()));pattern(r.path("requestId"),"[A-Za-z0-9_-]{1,80}");pattern(r.path("sourceContextHash"),"[a-f0-9]{64}");pattern(r.path("inputHash"),"[a-f0-9]{64}");
+        boolean conversation=CONVERSATION_VERSION.equals(r.path("contractVersion").asText());
+        require(conversation||VERSION.equals(r.path("contractVersion").asText()));pattern(r.path("requestId"),"[A-Za-z0-9_-]{1,80}");pattern(r.path("sourceContextHash"),"[a-f0-9]{64}");pattern(r.path("inputHash"),"[a-f0-9]{64}");
         require(Set.of("CONSULTATION","PLAN").contains(r.path("purpose").asText()));require("DEV".equals(r.path("mode").asText()));truth(r.path("testOnly"));
-        JsonNode input=r.path("input");fields(input,"diagnosisStatus","candidateNames","targetName","uncertainty","preferences","collection");
+        JsonNode input=r.path("input");
+        if(conversation){require("CONSULTATION".equals(r.path("purpose").asText()));fields(input,"diagnosisStatus","candidateNames","targetName","uncertainty","preferences","collection","conversation");conversation(input.path("conversation"));}
+        else fields(input,"diagnosisStatus","candidateNames","targetName","uncertainty","preferences","collection");
         require(Set.of("READY","LOW_EVIDENCE","NO_SUPPORTED_CANDIDATE").contains(input.path("diagnosisStatus").asText()));strings(input.path("candidateNames"),0,8,100,true);
         JsonNode target=input.path("targetName");if(!target.isNull()){text(target,100);require(contains(input.path("candidateNames"),target.asText()));}
         if(r.path("purpose").asText().equals("PLAN"))require(!target.isNull()&&!input.path("diagnosisStatus").asText().equals("NO_SUPPORTED_CANDIDATE"));
@@ -51,6 +55,18 @@ public class ExplorationAiContract {
             for(JsonNode step:result.path("steps")){fields(step,"title","description","referenceKeys");text(step.path("title"),200);text(step.path("description"),600);references(step.path("referenceKeys"),request);}}
     }
     public ObjectNode insufficient(JsonNode request){request(request);var out=json.object();for(String field:List.of("contractVersion","requestId","inputHash","purpose"))out.set(field,request.path(field).deepCopy());out.put("status","INSUFFICIENT_EVIDENCE");out.put("changesRecommendation",false);out.put("reasonCode","APPROVED_EVIDENCE_UNAVAILABLE");out.putNull("result");return out;}
+    /** History is untrusted dialogue, never an approval or a new source reference. */
+    public void conversation(JsonNode value){
+        fields(value,"history","question");text(value.path("question"),2000);
+        JsonNode history=value.path("history");array(history,0,6);require(history.size()%2==0);
+        int size=value.path("question").asText().codePointCount(0,value.path("question").asText().length());
+        for(int i=0;i<history.size();i++){
+            JsonNode message=history.get(i);fields(message,"role","content");String role=i%2==0?"user":"assistant";
+            require(role.equals(message.path("role").asText()));text(message.path("content"),role.equals("user")?2000:4000);
+            String content=message.path("content").asText();size+=content.codePointCount(0,content.length());
+        }
+        require(size<=8000);
+    }
     private void references(JsonNode refs,JsonNode request){strings(refs,1,10,80,true);for(JsonNode ref:refs)require(contains(request.path("evidence").path("referenceKeys"),ref.asText()));}
     private boolean contains(JsonNode values,String s){for(JsonNode value:values)if(value.asText().equals(s))return true;return false;}
     private void fields(JsonNode value,String... names){require(value!=null&&value.isObject()&&value.size()==names.length);Set<String> expected=Set.of(names);value.fieldNames().forEachRemaining(k->require(expected.contains(k)));}

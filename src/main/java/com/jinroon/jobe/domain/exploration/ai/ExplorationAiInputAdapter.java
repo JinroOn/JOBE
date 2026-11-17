@@ -13,6 +13,15 @@ import org.springframework.stereotype.Component;
 public class ExplorationAiInputAdapter {
     private final ExplorationJson json;
     private final ExplorationAiContract contract;
+    /** Internal adapter: history must be selected from owned, completed stored turns by the consumer. */
+    public JsonNode buildConversation(JsonNode context,String requestId,JsonNode conversation){
+        if(!"CONSULTATION".equals(context.path("contextType").asText()))throw new ExplorationAiContract.Invalid();
+        contract.conversation(conversation);
+        var request=(com.fasterxml.jackson.databind.node.ObjectNode)build(context,requestId);
+        request.put("contractVersion",ExplorationAiContract.CONVERSATION_VERSION);
+        ((com.fasterxml.jackson.databind.node.ObjectNode)request.path("input")).set("conversation",conversation.deepCopy());
+        request.put("inputHash",contract.inputHash(request));contract.request(request);return request;
+    }
     public JsonNode build(JsonNode context,String requestId){
         if(!ResultContextService.CONTRACT.equals(context.path("contractVersion").asText())||!"EXPLORATION_V1".equals(context.path("resultType").asText())||!"SEMANTIC_CONTRACT_V1_0".equals(context.path("source").path("versions").path("semanticContract").asText())||!context.path("runMode").asText().equals("DEV")||!context.path("testOnly").asBoolean())throw new ExplorationAiContract.Invalid();
         var r=json.object();r.put("contractVersion",ExplorationAiContract.VERSION);r.put("requestId",requestId);r.put("sourceContextHash",json.hex(context));r.put("purpose",context.path("contextType").asText());r.put("mode","DEV");r.put("testOnly",true);

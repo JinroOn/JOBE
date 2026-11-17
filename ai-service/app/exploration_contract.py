@@ -12,6 +12,7 @@ from typing import Annotated, Literal
 from pydantic import AfterValidator, BaseModel, ConfigDict, Field, StrictBool, StringConstraints, model_validator
 
 VERSION = "EXPLORATION_AI_CONTRACT_V1_0"
+CONVERSATION_VERSION = "EXPLORATION_AI_CONTRACT_V1_1"
 TOPICS = {
     "READINESS-INFO-01", "READINESS-CMP-01", "READINESS-SELF-01", "READINESS-ACT-02",
     "READINESS-ACT-01", "READINESS-CON-01", "READINESS-INFO-02", "READINESS-SELF-02",
@@ -96,6 +97,34 @@ class ModelInput(StrictModel):
         return self
 
 
+class ConversationMessage(StrictModel):
+    role: Literal["user", "assistant"]
+    content: text(4000)
+
+
+class Conversation(StrictModel):
+    # Only server-selected completed pairs belong here. No identity or source metadata.
+    history: Annotated[list[ConversationMessage], Field(max_length=6)]
+    question: text(2000)
+
+    @model_validator(mode="after")
+    def bounded_pairs(self):
+        if len(self.history) % 2:
+            raise ValueError("History must contain completed pairs")
+        if len(self.question) + sum(len(m.content) for m in self.history) > 8000:
+            raise ValueError("Conversation exceeds input budget")
+        for i, message in enumerate(self.history):
+            if message.role != ("user" if i % 2 == 0 else "assistant"):
+                raise ValueError("Invalid history order")
+            if message.role == "user" and len(message.content) > 2000:
+                raise ValueError("Question exceeds input budget")
+        return self
+
+
+class ConversationInput(ModelInput):
+    conversation: Conversation
+
+
 class Evidence(StrictModel):
     approvedOnly: StrictBool
     bindingStatus: Literal["NOT_BOUND", "BOUND"]
@@ -121,18 +150,23 @@ def input_hash(request: dict) -> str:
 
 
 class ExplorationRequest(StrictModel):
-    contractVersion: Literal["EXPLORATION_AI_CONTRACT_V1_0"]
+    contractVersion: Literal["EXPLORATION_AI_CONTRACT_V1_0", "EXPLORATION_AI_CONTRACT_V1_1"]
     requestId: Reference
     sourceContextHash: Hash
     inputHash: Hash
     purpose: Literal["CONSULTATION", "PLAN"]
     mode: Literal["DEV"]
     testOnly: StrictBool
-    input: ModelInput
+    input: ConversationInput | ModelInput
     evidence: Evidence
 
     @model_validator(mode="after")
     def binding(self):
+        conversation = isinstance(self.input, ConversationInput)
+        if (self.contractVersion == CONVERSATION_VERSION) != conversation:
+            raise ValueError("Conversation version mismatch")
+        if conversation and self.purpose != "CONSULTATION":
+            raise ValueError("Conversation is only for consultation")
         if not self.testOnly:
             raise ValueError("Only isolated DEV is supported")
         if self.purpose == "PLAN" and (
@@ -166,7 +200,7 @@ class PlanResult(StrictModel):
 
 
 class ExplorationResponse(StrictModel):
-    contractVersion: Literal["EXPLORATION_AI_CONTRACT_V1_0"]
+    contractVersion: Literal["EXPLORATION_AI_CONTRACT_V1_0", "EXPLORATION_AI_CONTRACT_V1_1"]
     requestId: Reference
     inputHash: Hash
     purpose: Literal["CONSULTATION", "PLAN"]
