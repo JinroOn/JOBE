@@ -47,4 +47,28 @@ public final class ExplorationRequests {
         @NotNull @Pattern(regexp = "[!-~]{1,128}")
         private String clientMutationId;
     }
+
+    @Getter
+    public static class Presentation extends Mutation {
+        @NotNull @jakarta.validation.constraints.Positive
+        private Long checkpointId;
+        @NotNull private java.util.List<String> unexpected;
+        @NotNull private java.util.List<String> unfamiliar;
+
+        @JsonSetter public void setCheckpointId(Object value) {
+            if (value == null) { checkpointId = null; return; }
+            if (!(value instanceof Integer || value instanceof Long || value instanceof java.math.BigInteger))
+                throw new IllegalArgumentException("Checkpoint must be a JSON integer");
+            checkpointId = Long.valueOf(value.toString());
+        }
+        @JsonSetter public void setUnexpected(Object value) { unexpected = codes(value); }
+        @JsonSetter public void setUnfamiliar(Object value) { unfamiliar = codes(value); }
+        private static java.util.List<String> codes(Object value) {
+            if (!(value instanceof java.util.List<?> list) || list.size() > 7
+                    || list.stream().anyMatch(v -> !(v instanceof String s) || s.isBlank() || s.length() > 100)
+                    || new java.util.HashSet<>(list).size() != list.size())
+                throw new IllegalArgumentException("Expected up to seven distinct major codes");
+            return list.stream().map(String.class::cast).sorted().toList();
+        }
+    }
 }

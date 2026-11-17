@@ -44,11 +44,28 @@ public class ExplorationResultDisplay {
         var majors = out.putArray("majors");
         Map<String, JsonNode> candidates = new LinkedHashMap<>();
         result.path("rankedCandidates").forEach(m -> candidates.put(m.path("majorCode").asText(), m));
+        JsonNode presentation = result.path("presentation");
+        boolean collected = "USER_REPORTED".equals(presentation.path("source").asText());
+        Set<String> unfamiliar = new HashSet<>(), unexpected = new HashSet<>();
+        presentation.path("unfamiliar").forEach(n -> unfamiliar.add(n.asText()));
+        presentation.path("unexpected").forEach(n -> unexpected.add(n.asText()));
+        String range = presentation.path("unfamiliarRange").asText();
+        int unfamiliarLimit = switch (range) { case "OPEN_MAIN_ONLY" -> 0; case "OPEN_ONE_EXTRA" -> 1; default -> Integer.MAX_VALUE; };
+        int unfoldedUnfamiliar = 0;
         for (JsonNode source : result.path("majorSummaries")) {
             if (majors.size() == 7) break;
             ObjectNode row = source.deepCopy();
             row.put("name", source.path("majorName").asText()); row.putNull("majorId");
             row.put("collapsed", false); row.put("collapseReasonCode", "PRESENTATION_NOT_COLLECTED");
+            if (collected) {
+                boolean collapsed = unfamiliar.contains(source.path("majorCode").asText()) && unfoldedUnfamiliar++ >= unfamiliarLimit;
+                row.put("collapsed", collapsed);
+                row.put("collapseReasonCode", collapsed ? "OPENNESS_UNFAMILIAR_RANGE" : "USER_REACTION_COLLECTED");
+                row.put("unexpected", unexpected.contains(source.path("majorCode").asText()));
+                row.put("unfamiliar", unfamiliar.contains(source.path("majorCode").asText()));
+                if (unexpected.contains(source.path("majorCode").asText()) && presentation.has("unexpectedAction"))
+                    row.set("unexpectedAction", presentation.path("unexpectedAction").deepCopy());
+            }
             JsonNode candidate = candidates.getOrDefault(source.path("majorCode").asText(), json.object());
             var axes = evidence(candidate, source);
             row.put("evidenceLevel", level(axes));

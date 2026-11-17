@@ -44,7 +44,21 @@ dependencies {
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+	useJUnitPlatform { excludeTags 'exploration-reachability' }
+}
+
+// Explicit, expensive real-MySQL audit. Does not replace normal regression tests or approve content.
+tasks.register('explorationReachability', Test) {
+	description = 'Run the D08 issued-HTTP reachability audit against the guarded dedicated test database.'
+	group = 'verification'
+	testClassesDirs = sourceSets.test.output.classesDirs
+	classpath = sourceSets.test.runtimeClasspath
+	useJUnitPlatform { includeTags 'exploration-reachability' }
+	systemProperty 'exploration.reachability.report-dir', providers.gradleProperty('explorationReachabilityReportDir')
+		.getOrElse(layout.buildDirectory.dir('reports/exploration-reachability').get().asFile.absolutePath)
+	systemProperty 'exploration.reachability.max-recipes', providers.gradleProperty('explorationReachabilityMaxRecipes').getOrElse('376')
+	systemProperty 'exploration.reachability.offset', providers.gradleProperty('explorationReachabilityOffset').getOrElse('0')
+	outputs.upToDateWhen { false }
 }
 
 // 실행용 bootJar만 만든다. plain jar까지 생기면 Dockerfile의 COPY build/libs/*.jar가 두 파일을 잡아 실패한다.

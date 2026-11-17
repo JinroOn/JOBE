@@ -194,6 +194,57 @@ public class ExplorationSessionService {
     }
 
     @Transactional
+    public Reply presentation(Long userId, long sessionId, String key, long expectedRevision, long checkpointId,
+                              List<String> unexpected, List<String> unfamiliar) {
+        validateKey(key);
+        if (unexpected == null || unfamiliar == null || unexpected.size() > 7 || unfamiliar.size() > 7
+                || unexpected.stream().anyMatch(Objects::isNull) || unfamiliar.stream().anyMatch(Objects::isNull)
+                || new HashSet<>(unexpected).size() != unexpected.size() || new HashSet<>(unfamiliar).size() != unfamiliar.size())
+            throw new ExplorationApiException(400, "INVALID_REQUEST", "중복 없는 후보 코드 목록을 전달해 주세요.");
+        unexpected = unexpected.stream().sorted().toList(); unfamiliar = unfamiliar.stream().sorted().toList();
+        users.requireActive(userId);
+        ExplorationSession session = ownedLocked(userId, sessionId);
+        policy.authorizeExisting(userId, session.getRunMode());
+        var request = reservation(userId, "PRESENTATION", sessionId, key, json.hash(Map.of("expectedRevision", expectedRevision,
+                "checkpointId", checkpointId, "unexpected", unexpected, "unfamiliar", unfamiliar)));
+        if (request.getResponseStatus() != null) return replay(request);
+        writable(session, expectedRevision);
+        if ("STAGE_1".equals(session.getStage()))
+            throw new ExplorationApiException(409, "CANDIDATES_NOT_PRESENTED", "2단계 후보를 확인한 뒤 반응을 제출해 주세요.");
+        var frozen = catalogs.load(sessionId);
+        var previous = stages.load(sessionId, "STAGE_2", frozen);
+        if (previous.id() != checkpointId)
+            throw new ExplorationApiException(409, "STALE_PRESENTATION", "최신 후보를 조회한 뒤 다시 제출해 주세요.");
+        JsonNode value = stages.presentation(previous, frozen);
+        Set<String> shown = new HashSet<>(); value.path("shownMajorCodes").forEach(n -> shown.add(n.asText()));
+        if (!shown.containsAll(unexpected) || !shown.containsAll(unfamiliar))
+            throw new ExplorationApiException(422, "MAJOR_NOT_PRESENTED", "제시된 후보에 대해서만 반응을 제출할 수 있습니다.");
+        State before = state(session, frozen);
+        // Preserve exposure history and all answers; changing a reaction never refunds budget or changes candidate scores.
+        stages.invalidateAfter(sessionId, "STAGE_1");
+        boolean rewound = "STAGE_3".equals(session.getStage());
+        List<Long> excluded = new ArrayList<>();
+        for (var q : before.issued()) if ("STAGE_3".equals(q.getStage()) && q.getEffective()) { q.exclude(); excluded.add(q.getId()); }
+        if (rewound) session.moveToStage("STAGE_2"); else session.increaseRevision();
+        stages.react(session, frozen, previous, history(before), unexpected, unfamiliar);
+        BranchChanges changes = reconcile(session, frozen);
+        excluded.addAll(changes.excludedIssuedIds());
+        State updated = state(session, frozen);
+        ObjectNode response = json.object();
+        response.set("session", sessionDto(session, frozen));
+        response.set("fixedCandidates", fixedCandidates(session, frozen));
+        response.put("rewound", rewound);
+        ObjectNode branch = response.putObject("branchChanges");
+        branch.set("excludedIssuedIds", json.tree(excluded));
+        branch.set("restoredIssuedIds", json.tree(changes.restoredIssuedIds()));
+        branch.put("pendingQuestionCount", updated.plan().toIssue().size());
+        branch.put("budgetLimited", updated.plan().budgetLimited());
+        response.set("progress", progress(session, frozen, updated));
+        response.put("nextAction", nextAction(session, updated));
+        return success(request, 200, response);
+    }
+
+    @Transactional
     public Reply abandon(Long userId, long sessionId, String key, long expectedRevision) {
         validateKey(key);
         users.requireActive(userId);
@@ -231,7 +282,8 @@ public class ExplorationSessionService {
                     : stages.load(sessionId, "STAGE_2", frozen).candidates();
             boolean boundary = true; // Every already-exposed required question above is answered; partial batches never qualify.
             boolean early = !"STAGE_3".equals(session.getStage()) && engine.canExitAtModuleBoundary(fixed, responses(current), history(current),
-                    QuestionBranchEngine.Presentation.none(), boundary);
+                    "STAGE_1".equals(session.getStage()) ? QuestionBranchEngine.Presentation.none()
+                            : ExplorationStageStore.enginePresentation(stages.presentation(stages.load(sessionId, "STAGE_2", frozen), frozen)), boundary);
             boolean globalLimit = current.issued().size() >= frozen.payload().path("rules").path("caps").path("pre_result").asInt();
             boolean terminal = "STAGE_3".equals(session.getStage()) && current.plan().toIssue().isEmpty();
             if (!early && !terminal && !globalLimit) throw new ExplorationApiException(409, "COMPLETION_NOT_ALLOWED", "아직 종료 조건을 충족하지 않았습니다.");
@@ -251,6 +303,9 @@ public class ExplorationSessionService {
             input.put("completionReason", reason);
             input.set("fixedCandidates", json.tree(fixed));
             input.set("stagePlans", plans);
+            input.set("presentation", "STAGE_1".equals(session.getStage())
+                    ? json.tree(Map.of("source", "NOT_COLLECTED", "unexpected", List.of(), "unfamiliar", List.of(), "shownMajorCodes", List.of()))
+                    : stages.presentation(stages.load(sessionId, "STAGE_2", frozen), frozen));
             var questions = input.putArray("questions");
             for (var q : current.issued()) {
                 var row = questions.addObject(); row.set("key", json.tree(key(q))); row.put("ordinal", q.getOrdinal());
@@ -498,6 +553,14 @@ public class ExplorationSessionService {
         dto.put("checkpointId", checkpoint.id());
         dto.set("groupCodes", json.tree(checkpoint.candidates().groupCodes()));
         dto.set("majorCodes", json.tree(checkpoint.candidates().majorCodes()));
+        JsonNode presentation = stages.presentation(checkpoint, frozen);
+        dto.set("presentation", presentation);
+        var preview = dto.putArray("shownCandidates");
+        for (JsonNode code : presentation.path("shownMajorCodes")) {
+            var row = preview.addObject(); row.put("majorCode", code.asText());
+            for (JsonNode major : frozen.payload().path("mapping").path("majors"))
+                if (code.asText().equals(major.path("major_code").asText())) row.put("majorName", major.path("major_name").asText());
+        }
         return dto;
     }
     private static int stageNumber(String stage) { return Integer.parseInt(stage.substring("STAGE_".length())); }

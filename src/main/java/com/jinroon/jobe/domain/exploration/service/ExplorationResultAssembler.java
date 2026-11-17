@@ -54,6 +54,12 @@ public class ExplorationResultAssembler {
         ObjectNode presentation = snapshot.putObject("presentation");
         presentation.put("source", "NOT_COLLECTED");
         presentation.put("adjustedByUserReaction", false);
+        if (input.path("presentation").isObject()) presentation.setAll((ObjectNode) input.path("presentation").deepCopy());
+        // OPEN-04 controls unfolding only. Neither reaction nor openness changes rank or candidate membership.
+        for (var answer : frozen.branch().active(answers)) if (answer.key().questionId().equals("OPEN-04"))
+            presentation.put("unfamiliarRange", frozen.branch().option(answer).meaning());
+        for (var answer : frozen.branch().active(answers)) if (answer.key().questionId().equals("OPEN-03"))
+            presentation.put("unexpectedAction", frozen.branch().option(answer).meaning());
         var summaries = snapshot.putArray("majorSummaries");
         Map<String, JsonNode> names = new HashMap<>();
         frozen.payload().path("mapping").path("majors").forEach(m -> names.put(m.path("major_code").asText(), m));
@@ -92,6 +98,9 @@ public class ExplorationResultAssembler {
             caution.put("answerText", option.path("option_text").asText()); caution.put("usage", "PREPARATION_RESPONSE_ONLY");
         }
         snapshot.set("display", resultDisplay.freeze(snapshot, frozen.payload()));
+        boolean adjusted = false;
+        for (JsonNode major : snapshot.path("display").path("majors")) adjusted |= major.path("collapsed").asBoolean();
+        presentation.put("adjustedByUserReaction", adjusted);
         return snapshot;
     }
 

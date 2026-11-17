@@ -64,6 +64,34 @@ class ExplorationResultDisplayTest {
         assertThat(reason.path("text").asText()).contains("현장", "참고").doesNotContain("잘 맞", "뛰어", "높은");
     }
 
+    @ParameterizedTest @CsvSource({"OPEN_MAIN_ONLY,0", "OPEN_ONE_EXTRA,1", "OPEN_MULTIPLE,3", "OPEN_UNSURE,3", "NOT_ANSWERED,3"})
+    void unfamiliarRangeOnlyControlsUnfoldingAndNeverRemovesOrReordersCandidates(String range, int unfolded) {
+        ObjectNode source = result(2, false);
+        for (String code : List.of("M2", "M3")) {
+            ObjectNode copy = source.path("majorSummaries").get(0).deepCopy(); copy.put("majorCode", code);
+            ((ArrayNode) source.path("majorSummaries")).add(copy);
+        }
+        ObjectNode reaction = source.putObject("presentation"); reaction.put("source", "USER_REPORTED");
+        reaction.putArray("unfamiliar").add("M1").add("M2").add("M3"); reaction.putArray("unexpected").add("M2");
+        reaction.put("unfamiliarRange", range); reaction.put("unexpectedAction", "OPEN_COMPARE");
+        String original = json.write(source); JsonNode view = display.project(source);
+        int opened = 0; List<String> codes = new ArrayList<>();
+        for (JsonNode card : view.path("majors")) { if (!card.path("collapsed").asBoolean()) opened++; codes.add(card.path("majorCode").asText()); }
+        assertThat(opened).isEqualTo(unfolded);
+        assertThat(codes).containsExactly("M1", "M2", "M3");
+        assertThat(view.path("majors").get(1).path("unexpectedAction").asText()).isEqualTo("OPEN_COMPARE");
+        assertThat(view.path("majors").get(0).has("unexpectedAction")).isFalse();
+        assertThat(json.write(source)).isEqualTo(original);
+    }
+
+    @Test void noUnfamiliarityIsInferredFromMissingReactionOrAnOpennessAnswerAlone() {
+        ObjectNode source = result(2, false);
+        source.putObject("presentation").put("source", "NOT_COLLECTED").put("unfamiliarRange", "OPEN_MAIN_ONLY");
+        JsonNode card = display.project(source).path("majors").get(0);
+        assertThat(card.path("collapsed").asBoolean()).isFalse();
+        assertThat(card.path("collapseReasonCode").asText()).isEqualTo("PRESENTATION_NOT_COLLECTED");
+    }
+
     @ParameterizedTest @CsvSource({
         "REVIEWED,APPROVED_FOR_IMPLEMENTATION,PENDING,PROPOSED,true,1",
         "ACTIVE,APPROVED_FOR_IMPLEMENTATION,APPROVED,PROPOSED,true,1",
