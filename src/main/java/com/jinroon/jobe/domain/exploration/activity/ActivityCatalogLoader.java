@@ -24,12 +24,15 @@ public class ActivityCatalogLoader {
         catch(java.io.IOException e){throw new IllegalArgumentException("Cannot read activity dataset",e);}
     }
     public void validate(JsonNode payload) {
-        require(payload.path("schema_version").asText().equals("1.0"),"Invalid activity schema");
+        require(Set.of("1.0","1.1").contains(payload.path("schema_version").asText()),"Invalid activity schema");
+        boolean explicit=payload.path("schema_version").asText().equals("1.1");
+        if(explicit)require(payload.path("preference_policy_version").asText().equals("ACTIVITY_PREFERENCE_MAPPING_V1_0"),"Invalid preference policy");
         code(payload,"version");code(payload,"major_mapping_version");states(payload,false);
         require(payload.path("activities").isArray() && payload.path("activities").size()>0,"Missing activities");
         Set<String> codes=new HashSet<>();
         for(JsonNode item:payload.path("activities")) {
             validateActivity(item);require(codes.add(item.path("activity_id").asText()),"Duplicate activity code");
+            if(explicit)require(item.has("preference_mapping_basis"),"Missing preference mapping basis");
         }
     }
     public static void validateActivity(JsonNode item) {
@@ -43,6 +46,19 @@ public class ActivityCatalogLoader {
         require(item.path("preference_question_ids").isArray(),"Missing explicit preference mapping");
         Set<String> tags=new HashSet<>();
         for(JsonNode tag:item.path("preference_question_ids"))require(PREFERENCES.contains(tag.asText())&&tags.add(tag.asText()),"Invalid preference mapping");
+        if(item.has("preference_mapping_basis")) {
+            require(item.path("preference_mapping_basis").isArray(),"Invalid preference basis");
+            Set<String> explained=new HashSet<>();
+            for(JsonNode basis:item.path("preference_mapping_basis")) {
+                String question=basis.path("question_id").asText();
+                require(tags.contains(question)&&explained.add(question),"Unmapped/duplicate preference basis");
+                require(basis.path("rationale").isTextual()&&!basis.path("rationale").asText().isBlank(),"Missing preference rationale");
+                JsonNode steps=basis.path("step_indexes");require(steps.isArray()&&!steps.isEmpty(),"Missing preference steps");
+                Set<Integer> indexes=new HashSet<>();
+                for(JsonNode step:steps)require(step.isIntegralNumber()&&step.asInt()>=0&&step.asInt()<item.path("steps").size()&&indexes.add(step.asInt()),"Invalid preference step");
+            }
+            require(explained.equals(tags),"Incomplete preference basis");
+        }
         require(item.path("sources").isArray()&&item.path("sources").size()>0,"Missing sources");
         Set<String> sources=new HashSet<>();
         for(JsonNode source:item.path("sources")) {

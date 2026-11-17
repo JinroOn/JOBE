@@ -80,6 +80,8 @@ exploration:
   jobs:
     model-enabled: ${EXPLORATION_MODEL_EXECUTION_ENABLED:false}
     model-name: ${EXPLORATION_LLM_MODEL:${LLM_MODEL:}}
+    model-connect-timeout-ms: ${EXPLORATION_MODEL_CONNECT_TIMEOUT_MS:2000}
+    model-read-timeout-ms: ${EXPLORATION_MODEL_READ_TIMEOUT_MS:40000}
     dispatch:
       enabled: ${EXPLORATION_MOCK_DISPATCH_ENABLED:false}
     mock-enabled: ${EXPLORATION_MOCK_EXECUTION_ENABLED:false}
@@ -106,8 +108,8 @@ exploration:
     load-on-startup: ${EXPLORATION_CATALOG_LOAD_ON_STARTUP:false}
     dry-run: ${EXPLORATION_CATALOG_DRY_RUN:false}
   activities:
-    catalog-version: ${EXPLORATION_ACTIVITY_CATALOG_VERSION:ACTIVITY_CATALOG_V1_DRAFT}
-    dataset-path: ${EXPLORATION_ACTIVITY_DATASET_PATH:datasets/activities/catalog.json}
+    catalog-version: ${EXPLORATION_ACTIVITY_CATALOG_VERSION:ACTIVITY_CATALOG_V2_DRAFT}
+    dataset-path: ${EXPLORATION_ACTIVITY_DATASET_PATH:datasets/activities/catalog-v2.json}
     load-on-startup: ${EXPLORATION_ACTIVITY_LOAD_ON_STARTUP:false}
     dry-run: ${EXPLORATION_ACTIVITY_DRY_RUN:true}
 

@@ -87,6 +87,42 @@ class ActivityRecommendationApiTest extends CompletedExplorationTestSupport {
         approveRoot();assertThat(activities(rid,200).path("nextActivities").isEmpty()).isTrue();
         approveItem("A");assertThat(activities(rid,200).path("nextActivities").size()).isEqualTo(1);
     }
+    @Test void authoredGeneralDraftsNeedReviewsAndUseExplicitPreferencesForNoCandidateResults()throws Exception {
+        long rid=completedResult(false);
+        ObjectNode next=(ObjectNode)mapper.readTree(java.nio.file.Files.readString(Path.of("datasets/activities/catalog-v2.json")));
+        next.put("version",VERSION);loadCatalog(next);
+        assertThat(activities(rid,200).path("reasonCode").asText()).isEqualTo("NO_APPROVED_ACTIVITIES");
+        approveRoot();statuses("exploration_activity");
+        for(JsonNode a:next.path("activities"))if(a.path("major_code").isNull())approveItem(a.path("activity_id").asText());
+        String raw=jdbc.queryForObject("SELECT result_json FROM exploration_result WHERE id=?",String.class,rid);
+        JsonNode state=support.select(OWNER,rid,"common-select",0,"ACTIVITY",null).body();
+        support.answer(OWNER,rid,issued(state,"ACTIVITY-EXPERIMENT-01"),"common-positive",1,"STRONGLY_AGREE","common-positive");
+        var response=activities(rid,200);
+        assertThat(ids(response).get(0)).isEqualTo("DRAFT-GENERAL-04");
+        assertThat(response.path("nextActivities").size()).isEqualTo(3);
+        for(JsonNode a:response.path("nextActivities")){
+            assertThat(a.path("major_code").isNull()).isTrue();
+            assertThat(a.path("selectionReason").asText()).isEqualTo("GENERAL_EXPLORATION");
+        }
+        assertThat(jdbc.queryForObject("SELECT result_json FROM exploration_result WHERE id=?",String.class,rid)).isEqualTo(raw);
+        review("exploration_activity","ACTIVITY","DOMAIN","REJECTED");
+        assertThat(activities(rid,200).path("nextActivities").isEmpty()).isTrue();
+    }
+    @Test void authoredMajorReadingAndProjectStepsDrivePreferenceWithoutChangingCandidateOrder()throws Exception {
+        long rid=completedResult(true);String code=major(rid,0);
+        ObjectNode next=(ObjectNode)mapper.readTree(java.nio.file.Files.readString(Path.of("datasets/activities/catalog-v2.json")));
+        next.put("version",VERSION);loadCatalog(next);approveRoot();statuses("exploration_activity");
+        String reading=null,project=null;
+        for(JsonNode a:next.path("activities"))if(code.equals(a.path("major_code").asText())){
+            if(a.path("kind").asText().equals("INFORMATION"))reading=a.path("activity_id").asText();
+            if(a.path("kind").asText().equals("SMALL_TASK"))project=a.path("activity_id").asText();
+        }
+        assertThat(reading).isNotNull();assertThat(project).isNotNull();approveItem(reading);approveItem(project);
+        JsonNode state=support.select(OWNER,rid,"major-select",0,"ACTIVITY",null).body();
+        support.answer(OWNER,rid,issued(state,"ACTIVITY-READ-01"),"read-negative",1,"STRONGLY_DISAGREE","read-negative");
+        support.answer(OWNER,rid,issued(state,"ACTIVITY-PROJECT-01"),"project-positive",2,"AGREE","project-positive");
+        assertThat(ids(activities(rid,200))).containsExactly(project,reading);
+    }
     @Test void approvalsRequireExactHashEvidenceScopeAndBothKinds()throws Exception {
         long rid=completedResult(true);load(item("A",major(rid,0)));approveAll();
         for(String sql:List.of("target_hash=REPEAT('0',64)","evidence_reference=''","scope='PUBLIC'","decision='REJECTED'","reviewer_id=0","reviewed_at=DATE_ADD(NOW(),INTERVAL 1 DAY)")) {
