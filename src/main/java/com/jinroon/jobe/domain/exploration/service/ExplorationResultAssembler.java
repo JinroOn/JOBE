@@ -17,6 +17,7 @@ public class ExplorationResultAssembler {
     public static final String CONTRACT = "RESULT_CONTRACT_V1_0";
     private final ExplorationJson json;
     private final com.jinroon.jobe.domain.exploration.display.ExplorationResultDisplay resultDisplay;
+    private final com.jinroon.jobe.domain.exploration.candidate.CandidateViewProjector candidateView;
 
     public ObjectNode assemble(long sessionId, String completedAt, String reason, ExplorationRuntimeCatalog.Frozen frozen,
                                FixedCandidates fixed, List<BranchCatalog.Answer> answers, JsonNode input) {
@@ -101,6 +102,7 @@ public class ExplorationResultAssembler {
         boolean adjusted = false;
         for (JsonNode major : snapshot.path("display").path("majors")) adjusted |= major.path("collapsed").asBoolean();
         presentation.put("adjustedByUserReaction", adjusted);
+        snapshot.set("candidateView",candidateView.freeze(snapshot,frozen.payload()));
         return snapshot;
     }
 

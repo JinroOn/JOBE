@@ -49,6 +49,19 @@ def summarize(recipes_path, mapping_path, report_dirs):
         if any(row.get(k) != original.get(k) for k in ("resultInputHash", "rankedCandidates", "firstScreen")):
             errors.append(f"{row['recipeId']}:MERGE_REPRODUCIBILITY_FAILURE")
     candidates, screens = {m: [] for m in mapping}, {m: [] for m in mapping}
+    browsed = {m: [] for m in mapping}
+    browsing_rows = [r for r in good if "candidateBrowsing" in r]
+    if browsing_rows and len(browsing_rows) != len(good):
+        errors.append("INCOMPLETE_CANDIDATE_BROWSING_EVIDENCE")
+    for row in browsing_rows:
+        data = row["candidateBrowsing"]
+        codes = [c["majorCode"] for c in data["items"]]
+        if codes != [c["majorCode"] for c in row["rankedCandidates"]] or data["totalCount"] != len(codes):
+            errors.append(f"{row['recipeId']}:CANDIDATE_BROWSING_MISMATCH")
+        for code in codes:
+            if code not in browsed:
+                raise ValueError(f"Unknown candidate browsing code: {code}")
+            browsed[code].append(row["recipeId"])
     coverage = set()
     for row in good:
         for m in row["rankedCandidates"]:
@@ -89,6 +102,9 @@ def summarize(recipes_path, mapping_path, report_dirs):
         "displayGate": "OBSERVED_FOR_ALL_MAJORS" if not screen_gaps and not failed and not errors else "PRODUCT_REVIEW_REQUIRED",
         "majorCount": len(mapping), "majorsWithCandidatePath": len(mapping) - len(candidate_gaps),
         "majorsWithFirstScreenPath": len(mapping) - len(screen_gaps),
+        "candidateBrowsingGate": "NOT_EXECUTED" if not browsing_rows else "PASS" if len(browsing_rows) == len(recipes) and not errors and not failed else "FAILED",
+        "majorsWithBrowsingPath": sum(bool(v) for v in browsed.values()) if browsing_rows else None,
+        "candidateBrowsingPaths": browsed if browsing_rows else None,
         "candidateGaps": candidate_gaps, "firstScreenGaps": screen_gaps, "byVariant": by_variant,
         "issuedQuestionCoverage": sorted(coverage), "majors": majors,
         "scope": "376 finite BROAD issued-HTTP recipes, with bounded synthetic reaction/repeat probes; no browser/student/provider/production validation",
@@ -115,10 +131,14 @@ def markdown_report(result):
         for m in gaps:
             reasons = sorted({o["diagnosis"].get("screenLimitReason", o["diagnosis"].get("code", "EXECUTION_FAILURE")) for o in m["targetedObservations"]})
             lines.append(f"| {m['majorCode']} | {m['majorName']} | {m['group']} | {', '.join(reasons)} |")
+        if result.get("candidateBrowsingGate") == "PASS":
+            lines += ["", "위 전공의 대표 화면 미노출 기록은 유지한다. 별도의 본인 전체 후보 API에서 확인할 수 있는 경로는 검증했으며 실제 화면의 더보기 연결은 프런트 검증 대상이다."]
     lines += ["", "## 전체 전공", "", "경로 수는 실제 학생 수나 성공률이 아니라 서로 다른 원본 합성 recipe의 개수다.", "",
               "| 전공 코드 | 전공명 | 군 | 후보 경로 수 | 첫 화면 경로 수 | 자체4종 후보/첫 화면 |", "|---|---|---|---:|---:|---|"]
     for m in result["majors"]:
         lines.append(f"| {m['majorCode']} | {m['majorName']} | {m['group']} | {len(m['candidatePathsAnyRecipe'])} | {len(m['firstScreenPathsAnyRecipe'])} | {len(m['targetedCandidatePaths'])}/4 · {len(m['targetedFirstScreenPaths'])}/4 |")
+    if result.get("candidateBrowsingGate") == "PASS":
+        lines += ["", f"본인 전체 후보 조회 API: {result['majorsWithBrowsingPath']}/{result['majorCount']} 전공에서 열람 경로 확인. 첫 화면과 별도로 확인한 백엔드 경로이며 실제 브라우저/학생 열람 검증은 아니다."]
     lines += ["", "## 범위와 다음 판단", "",
               "모든 전공의1위·첫 화면을 강제로 맞추는 시험이 아니다. 실제 발급·허용 선택지·상한·봉인/재조회·동일 입력 재현과 후보 진입을 검증했다. 전체 브라우저/접근성 E2E, 실제 콘텐츠 검토/승인, 실제 모델/운영 성능·삭제/배포/복구는 별도다. 학생 파일럿 미실시·사용자 이관 유보 방침은 유지한다.", "",
               "세부 입력/버전/hash·issued/answer revision·생략/예산·군/점수/동점 증거는 summary.json과 각 shard/runs.jsonl을 따른다. 정적 fixture의 NOT_EXECUTED는 생성 당시 상태로 보존하고 이 실행 증거와 구분한다.", ""]

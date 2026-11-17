@@ -18,6 +18,7 @@ public class ExplorationResultStore {
     private final JdbcTemplate jdbc;
     private final ExplorationJson json;
     private final ExplorationStoredJson storedJson;
+    private final com.jinroon.jobe.domain.exploration.candidate.CandidateViewProjector candidateView;
     private final com.jinroon.jobe.domain.exploration.display.ExplorationResultDisplay resultDisplay;
     private final com.jinroon.jobe.domain.exploration.sharing.ExplorationSharePolicy sharing;
     private final com.jinroon.jobe.domain.exploration.repository.ExplorationSessionRepository sessions;
@@ -92,6 +93,8 @@ public class ExplorationResultStore {
         capabilities.put("sharingAvailable",sharing.available(session.getUserId(),session.getRunMode()));
         dto.put("sharingEndpoint","/api/exploration/v1/results/"+result.getId()+"/share");
         dto.put("contextsEndpoint","/api/exploration/v1/results/"+result.getId()+"/contexts");
+        JsonNode browsing=candidateView.metadata(payload,result.getId());
+        if(browsing!=null)dto.set("candidateBrowsing",browsing);
         return dto;
     }
 }

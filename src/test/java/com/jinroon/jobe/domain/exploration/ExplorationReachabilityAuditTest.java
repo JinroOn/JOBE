@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @Tag("exploration-reachability")
 class ExplorationReachabilityAuditTest extends ExplorationApiTestSupport {
     private static final Path RECIPES = Path.of("datasets/exploration-validation/reachability-profiles.json");
-    private static final String HARNESS = "D08_HTTP_HARNESS_V1_0";
+    private static final String HARNESS = "D08_HTTP_HARNESS_V1_1";
     private final Set<String> questionCoverage = new TreeSet<>();
     private final List<JsonNode> runs = new ArrayList<>();
     private ExplorationJson json;
@@ -177,6 +177,17 @@ class ExplorationReachabilityAuditTest extends ExplorationApiTestSupport {
         JsonNode snapshot = json.read(jdbc.queryForObject("SELECT result_json FROM exploration_result WHERE id=? AND session_id=?", String.class, resultId, id));
         JsonNode repeat = callPost(id + "/complete", revisionBody(revision), 200);
         assertThat(repeat).isEqualTo(complete);
+        JsonNode browsing=http(get("/api/exploration/v1/results/"+resultId+"/candidates"),"",200);
+        assertThat(browsing.path("items").findValuesAsText("majorCode")).isEqualTo(snapshot.path("rankedCandidates").findValuesAsText("majorCode"));
+        assertThat(browsing.path("totalCount").asInt()).isEqualTo(snapshot.path("rankedCandidates").size());
+        assertThat(browsing.path("firstScreenCount").asInt()).isEqualTo(snapshot.path("firstScreen").size());
+        Set<String> firstCodes=new HashSet<>();snapshot.path("firstScreen").forEach(c->firstCodes.add(c.path("majorCode").asText()));
+        for(JsonNode card:browsing.path("items")) {
+            assertThat(card.path("name").asText()).isNotBlank();
+            assertThat(card.path("isFirstScreen").asBoolean()).isEqualTo(firstCodes.contains(card.path("majorCode").asText()));
+        }
+        assertThat(browsing.toString()).doesNotContain("basisInputs","sourceHashes","\"total\"","\"score\"","usedInterestAxes");
+        out.set("candidateBrowsing",browsing);
         out.put("resultId", resultId); out.put("executionStatus", "EXECUTED");
         out.put("resultInputHash", snapshot.path("inputHash").asText()); out.put("resultSnapshotHash", json.hex(snapshot));
         out.put("bundleHash", snapshot.path("bundleHash").asText()); out.set("sourceHashes", snapshot.path("sourceHashes"));
