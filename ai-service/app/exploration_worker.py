@@ -89,5 +89,7 @@ class ModelExplorationWorker(MockExplorationWorker):
     def compute(self,request,facts):return self.consumer.generate(request,facts)
     def complete(self,store,owner,job,lease,response):store.complete_model(owner,job,lease,response,self.consumer.metadata)
     def claimed(self,row):
+        if hasattr(self.consumer,'configure_request'):
+            self.consumer.configure_request(EvidenceBinding(**row.binding).request)
         if row.model_policy is None:row.model_policy=dict(self.consumer.metadata)
         elif row.model_policy!=self.consumer.metadata:raise ModelFault('MODEL_CONFIGURATION_INVALID')

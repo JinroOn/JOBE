@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 public class ExplorationAiContract {
     public static final String VERSION="EXPLORATION_AI_CONTRACT_V1_0";
     public static final String CONVERSATION_VERSION="EXPLORATION_AI_CONTRACT_V1_1";
+    public static final String PLAN12_VERSION="EXPLORATION_AI_CONTRACT_V1_2";
+    public static String promptVersion(JsonNode request){return PLAN12_VERSION.equals(request.path("contractVersion").asText())?"EXPLORATION_PLAN12_V1_0":CONVERSATION_VERSION.equals(request.path("contractVersion").asText())?"EXPLORATION_CONVERSATION_V1_0":"EXPLORATION_MODEL_V1_0";}
     private final ExplorationJson json;
     private static final Set<String> TOPICS=Set.of("READINESS-INFO-01","READINESS-CMP-01","READINESS-SELF-01","READINESS-ACT-02","READINESS-ACT-01","READINESS-CON-01","READINESS-INFO-02","READINESS-SELF-02","ACTIVITY-REPORT-01","ACTIVITY-PROJECT-01","ACTIVITY-READ-01","ACTIVITY-EXPERIMENT-01","ACTIVITY-PRESENT-01","ACTIVITY-CONTENT-01");
     public static final class Invalid extends RuntimeException {public Invalid(){super("Invalid exploration AI contract");}}
@@ -20,10 +22,12 @@ public class ExplorationAiContract {
     public void request(JsonNode r){
         fields(r,"contractVersion","requestId","sourceContextHash","inputHash","purpose","mode","testOnly","input","evidence");
         boolean conversation=CONVERSATION_VERSION.equals(r.path("contractVersion").asText());
-        require(conversation||VERSION.equals(r.path("contractVersion").asText()));pattern(r.path("requestId"),"[A-Za-z0-9_-]{1,80}");pattern(r.path("sourceContextHash"),"[a-f0-9]{64}");pattern(r.path("inputHash"),"[a-f0-9]{64}");
+        boolean plan12=PLAN12_VERSION.equals(r.path("contractVersion").asText());
+        require(conversation||plan12||VERSION.equals(r.path("contractVersion").asText()));pattern(r.path("requestId"),"[A-Za-z0-9_-]{1,80}");pattern(r.path("sourceContextHash"),"[a-f0-9]{64}");pattern(r.path("inputHash"),"[a-f0-9]{64}");
         require(Set.of("CONSULTATION","PLAN").contains(r.path("purpose").asText()));require("DEV".equals(r.path("mode").asText()));truth(r.path("testOnly"));
         JsonNode input=r.path("input");
         if(conversation){require("CONSULTATION".equals(r.path("purpose").asText()));fields(input,"diagnosisStatus","candidateNames","targetName","uncertainty","preferences","collection","conversation");conversation(input.path("conversation"));}
+        else if(plan12){require("PLAN".equals(r.path("purpose").asText()));fields(input,"diagnosisStatus","candidateNames","targetName","uncertainty","preferences","collection","planSpec");var spec=input.path("planSpec");fields(spec,"weeks","phaseLayout");integer(spec.path("weeks"),12,12);require("INFO_4_BASIC_4_ACTIVITY_4".equals(spec.path("phaseLayout").asText()));}
         else fields(input,"diagnosisStatus","candidateNames","targetName","uncertainty","preferences","collection");
         require(Set.of("READY","LOW_EVIDENCE","NO_SUPPORTED_CANDIDATE").contains(input.path("diagnosisStatus").asText()));strings(input.path("candidateNames"),0,8,100,true);
         JsonNode target=input.path("targetName");if(!target.isNull()){text(target,100);require(contains(input.path("candidateNames"),target.asText()));}
@@ -51,6 +55,10 @@ public class ExplorationAiContract {
         require(status.equals("SUCCEEDED")&&response.path("reasonCode").isNull()&&request.path("evidence").path("bindingStatus").asText().equals("BOUND"));
         JsonNode result=response.path("result");
         if(request.path("purpose").asText().equals("CONSULTATION")){fields(result,"summary","questions","referenceKeys");text(result.path("summary"),4000);strings(result.path("questions"),0,3,300,false);references(result.path("referenceKeys"),request);}
+        else if(PLAN12_VERSION.equals(request.path("contractVersion").asText())){
+            fields(result,"targetName","weeks");require(result.path("targetName").equals(request.path("input").path("targetName")));array(result.path("weeks"),12,12);
+            for(int i=0;i<12;i++){var w=result.path("weeks").get(i);fields(w,"week","phase","title","tasks","expectedOutput","referenceKeys");integer(w.path("week"),i+1,i+1);require((i<4?"INFO":i<8?"BASIC_LEARNING":"SMALL_ACTIVITY").equals(w.path("phase").asText()));text(w.path("title"),100);strings(w.path("tasks"),1,3,300,false);text(w.path("expectedOutput"),300);references(w.path("referenceKeys"),request);}
+        }
         else {fields(result,"targetName","overview","steps");require(result.path("targetName").equals(request.path("input").path("targetName")));text(result.path("overview"),2000);array(result.path("steps"),1,6);
             for(JsonNode step:result.path("steps")){fields(step,"title","description","referenceKeys");text(step.path("title"),200);text(step.path("description"),600);references(step.path("referenceKeys"),request);}}
     }

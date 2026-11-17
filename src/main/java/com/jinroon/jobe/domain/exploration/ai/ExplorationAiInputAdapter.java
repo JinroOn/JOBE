@@ -13,6 +13,12 @@ import org.springframework.stereotype.Component;
 public class ExplorationAiInputAdapter {
     private final ExplorationJson json;
     private final ExplorationAiContract contract;
+    public JsonNode buildPlan(JsonNode context,String requestId){
+        if(!"PLAN".equals(context.path("contextType").asText()))throw new ExplorationAiContract.Invalid();
+        var r=(com.fasterxml.jackson.databind.node.ObjectNode)build(context,requestId);r.put("contractVersion",ExplorationAiContract.PLAN12_VERSION);
+        ((com.fasterxml.jackson.databind.node.ObjectNode)r.path("input")).putObject("planSpec").put("weeks",12).put("phaseLayout","INFO_4_BASIC_4_ACTIVITY_4");
+        r.put("inputHash",contract.inputHash(r));contract.request(r);return r;
+    }
     /** Internal adapter: history must be selected from owned, completed stored turns by the consumer. */
     public JsonNode buildConversation(JsonNode context,String requestId,JsonNode conversation){
         if(!"CONSULTATION".equals(context.path("contextType").asText()))throw new ExplorationAiContract.Invalid();

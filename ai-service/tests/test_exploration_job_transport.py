@@ -211,3 +211,107 @@ def test_model_transport_cancel_removes_artifact_and_rejects_reexecution(scenari
     body,call=scenario;call('enqueue');assert call('model-execute').status_code==200
     assert call('cancel').status_code==200
     assert call('model-execute').status_code==409 and injected_model.calls==1
+
+
+def conversation_request(body):
+    body['request']['contractVersion']='EXPLORATION_AI_CONTRACT_V1_1'
+    body['request']['input']['conversation']={
+        'history':[{'role':'user','content':'SYNTHETIC earlier question'},
+                   {'role':'assistant','content':'SYNTHETIC earlier answer, not approved evidence'}],
+        'question':'SYNTHETIC current question',
+    }
+    body['request']['inputHash']=input_hash(body['request'])
+
+
+def test_conversation_model_transport_preserves_question_history_and_idempotent_replay(scenario,injected_model):
+    body,call=scenario;conversation_request(body)
+    assert call('enqueue').status_code==200
+    first=call('model-execute');assert first.status_code==200
+    result=first.json()
+    assert result['boundRequest']['input']['conversation']==body['request']['input']['conversation']
+    assert result['response']['contractVersion']=='EXPLORATION_AI_CONTRACT_V1_1'
+    assert result['originalInputHash']==body['request']['inputHash']
+    assert call('model-execute').json()==result and injected_model.calls==1
+
+
+def test_conversation_change_cannot_reuse_original_hash_or_completed_mutation(scenario,injected_model):
+    body,call=scenario;conversation_request(body);assert call('enqueue').status_code==200
+    assert call('model-execute').status_code==200
+    body['request']['input']['conversation']['question']='Changed question'
+    assert call('model-execute').status_code==422
+    body['request']['inputHash']=input_hash(body['request'])
+    assert call('model-execute').status_code==409 and injected_model.calls==1
+
+
+def test_conversation_approval_revoked_during_model_call_leaves_no_artifact(scenario,injected_model):
+    from sqlalchemy import select
+    from app.exploration_jobs import ExplorationJob
+    from app.rag.models import AiMajorDocument
+    body,call=scenario;conversation_request(body);job=call('enqueue').json()['jobId']
+    generate=injected_model.generate
+    def revoked(request,facts):
+        value=generate(request,facts)
+        with wire.evidence_session() as db:
+            doc=db.scalars(select(AiMajorDocument).where(AiMajorDocument.dataset_version==os.environ['EXPLORATION_EVIDENCE_DATASET_VERSION'])).first()
+            review(db,doc,decision='REVOKED',manifest=False);db.commit()
+        return value
+    injected_model.generate=revoked
+    assert call('model-execute').status_code==409
+    with wire.evidence_session() as db:assert db.get(ExplorationJob,job).model_response is None
+
+
+def test_real_conversation_consumer_selects_and_pins_dialogue_prompt_before_claim(scenario,monkeypatch):
+    import json
+    from app.exploration_model import ExplorationModel
+    body,call=scenario;conversation_request(body)
+    monkeypatch.setenv('EXPLORATION_MODEL_EXECUTION_ENABLED','true');monkeypatch.setenv('MOCK_MODE','false')
+    monkeypatch.setenv('LLM_API_KEY','SYNTHETIC_NOT_A_KEY');monkeypatch.setenv('EXPLORATION_LLM_MODEL','TEST_CONVERSATION_MODEL')
+    class Injected:
+        def __init__(self,**settings):pass
+        def with_structured_output(self,schema):return self
+        async def ainvoke(self,messages):
+            value=json.loads(messages[1].content)
+            assert value['input']['conversation']==body['request']['input']['conversation']
+            assert 'Answer input.conversation.question in summary' in messages[0].content
+            return {'summary':'SYNTHETIC current-question answer','questions':[],'referenceKeys':[value['evidence'][0]['referenceKey']]}
+    monkeypatch.setattr(wire,'ExplorationModel',lambda:ExplorationModel(Injected))
+    assert call('enqueue').status_code==200
+    response=call('model-execute');assert response.status_code==200
+    assert response.json()['providerMetadata']['promptVersion']=='EXPLORATION_CONVERSATION_V1_0'
+    assert call('model-execute').json()==response.json()
+
+
+@pytest.fixture
+def plan12_model(scenario,monkeypatch):
+    import json
+    from app.exploration_model import ExplorationModel
+    body,call=scenario
+    body['request']['purpose']='PLAN';body['request']['contractVersion']='EXPLORATION_AI_CONTRACT_V1_2'
+    body['request']['input']['targetName']=body['request']['input']['candidateNames'][0]
+    body['request']['input']['planSpec']={'weeks':12,'phaseLayout':'INFO_4_BASIC_4_ACTIVITY_4'}
+    body['request']['inputHash']=input_hash(body['request'])
+    monkeypatch.setenv('EXPLORATION_MODEL_EXECUTION_ENABLED','true');monkeypatch.setenv('MOCK_MODE','false')
+    monkeypatch.setenv('LLM_API_KEY','SYNTHETIC_NOT_A_KEY');monkeypatch.setenv('EXPLORATION_LLM_MODEL','TEST_PLAN12_MODEL')
+    class Injected:
+        calls=0
+        def __init__(self,**settings):assert settings['max_tokens']==6000
+        def with_structured_output(self,schema):return self
+        async def ainvoke(self,messages):
+            Injected.calls+=1;value=json.loads(messages[1].content);assert 'exactly weeks 1-12' in messages[0].content
+            return {'targetName':value['input']['targetName'],'weeks':[{'week':i,'phase':'INFO' if i<=4 else 'BASIC_LEARNING' if i<=8 else 'SMALL_ACTIVITY','title':'SYNTHETIC week','tasks':['SYNTHETIC task'],'expectedOutput':'SYNTHETIC note','referenceKeys':[value['evidence'][0]['referenceKey']]} for i in range(1,13)]}
+    monkeypatch.setattr(wire,'ExplorationModel',lambda:ExplorationModel(Injected))
+    return body,call,Injected
+
+
+def test_plan12_model_transport_preserves_target_weeks_and_pinned_prompt(plan12_model):
+    body,call,model=plan12_model;assert call('enqueue').status_code==200
+    result=call('model-execute');assert result.status_code==200
+    assert result.json()['providerMetadata']['promptVersion']=='EXPLORATION_PLAN12_V1_0'
+    assert len(result.json()['response']['result']['weeks'])==12
+    assert call('model-execute').json()==result.json() and model.calls==1
+
+
+def test_plan12_cancel_does_not_replay_generated_output(plan12_model):
+    body,call,model=plan12_model;call('enqueue');assert call('model-execute').status_code==200
+    assert call('cancel').status_code==200
+    assert call('model-execute').status_code==409 and model.calls==1

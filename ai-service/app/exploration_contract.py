@@ -13,6 +13,7 @@ from pydantic import AfterValidator, BaseModel, ConfigDict, Field, StrictBool, S
 
 VERSION = "EXPLORATION_AI_CONTRACT_V1_0"
 CONVERSATION_VERSION = "EXPLORATION_AI_CONTRACT_V1_1"
+PLAN12_VERSION = "EXPLORATION_AI_CONTRACT_V1_2"
 TOPICS = {
     "READINESS-INFO-01", "READINESS-CMP-01", "READINESS-SELF-01", "READINESS-ACT-02",
     "READINESS-ACT-01", "READINESS-CON-01", "READINESS-INFO-02", "READINESS-SELF-02",
@@ -125,6 +126,15 @@ class ConversationInput(ModelInput):
     conversation: Conversation
 
 
+class PlanSpec(StrictModel):
+    weeks: Annotated[int, Field(ge=12, le=12)]
+    phaseLayout: Literal["INFO_4_BASIC_4_ACTIVITY_4"]
+
+
+class Plan12Input(ModelInput):
+    planSpec: PlanSpec
+
+
 class Evidence(StrictModel):
     approvedOnly: StrictBool
     bindingStatus: Literal["NOT_BOUND", "BOUND"]
@@ -150,14 +160,14 @@ def input_hash(request: dict) -> str:
 
 
 class ExplorationRequest(StrictModel):
-    contractVersion: Literal["EXPLORATION_AI_CONTRACT_V1_0", "EXPLORATION_AI_CONTRACT_V1_1"]
+    contractVersion: Literal["EXPLORATION_AI_CONTRACT_V1_0", "EXPLORATION_AI_CONTRACT_V1_1", "EXPLORATION_AI_CONTRACT_V1_2"]
     requestId: Reference
     sourceContextHash: Hash
     inputHash: Hash
     purpose: Literal["CONSULTATION", "PLAN"]
     mode: Literal["DEV"]
     testOnly: StrictBool
-    input: ConversationInput | ModelInput
+    input: ConversationInput | Plan12Input | ModelInput
     evidence: Evidence
 
     @model_validator(mode="after")
@@ -167,6 +177,9 @@ class ExplorationRequest(StrictModel):
             raise ValueError("Conversation version mismatch")
         if conversation and self.purpose != "CONSULTATION":
             raise ValueError("Conversation is only for consultation")
+        plan12 = isinstance(self.input, Plan12Input)
+        if (self.contractVersion == PLAN12_VERSION) != plan12 or (plan12 and self.purpose != "PLAN"):
+            raise ValueError("Twelve-week plan version mismatch")
         if not self.testOnly:
             raise ValueError("Only isolated DEV is supported")
         if self.purpose == "PLAN" and (
@@ -199,8 +212,30 @@ class PlanResult(StrictModel):
     steps: Annotated[list[PlanStep], Field(min_length=1, max_length=6)]
 
 
+class PlanWeek(StrictModel):
+    week: Annotated[int, Field(ge=1, le=12)]
+    phase: Literal["INFO", "BASIC_LEARNING", "SMALL_ACTIVITY"]
+    title: text(100)
+    tasks: Annotated[list[text(300)], Field(min_length=1, max_length=3)]
+    expectedOutput: text(300)
+    referenceKeys: References
+
+
+class Plan12Result(StrictModel):
+    targetName: text(100)
+    weeks: Annotated[list[PlanWeek], Field(min_length=12, max_length=12)]
+
+    @model_validator(mode="after")
+    def ordered_phases(self):
+        for i, week in enumerate(self.weeks, 1):
+            phase = "INFO" if i <= 4 else "BASIC_LEARNING" if i <= 8 else "SMALL_ACTIVITY"
+            if week.week != i or week.phase != phase:
+                raise ValueError("Twelve consecutive weeks in fixed phases are required")
+        return self
+
+
 class ExplorationResponse(StrictModel):
-    contractVersion: Literal["EXPLORATION_AI_CONTRACT_V1_0", "EXPLORATION_AI_CONTRACT_V1_1"]
+    contractVersion: Literal["EXPLORATION_AI_CONTRACT_V1_0", "EXPLORATION_AI_CONTRACT_V1_1", "EXPLORATION_AI_CONTRACT_V1_2"]
     requestId: Reference
     inputHash: Hash
     purpose: Literal["CONSULTATION", "PLAN"]
@@ -243,10 +278,10 @@ def validate_response(request: dict | ExplorationRequest, response: dict) -> Exp
                 content = ConsultationResult.model_validate(result.result)
                 references = [content.referenceKeys]
             else:
-                content = PlanResult.model_validate(result.result)
+                content = (Plan12Result if req.contractVersion == PLAN12_VERSION else PlanResult).model_validate(result.result)
                 if content.targetName != req.input.targetName:
                     raise ValueError("Plan target mismatch")
-                references = [step.referenceKeys for step in content.steps]
+                references = [step.referenceKeys for step in (content.weeks if req.contractVersion == PLAN12_VERSION else content.steps)]
             for refs in references:
                 if len(set(refs)) != len(refs) or not set(refs).issubset(req.evidence.referenceKeys):
                     raise ValueError("Unknown or duplicate reference")

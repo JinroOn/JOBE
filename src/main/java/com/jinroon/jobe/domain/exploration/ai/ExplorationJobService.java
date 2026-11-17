@@ -24,13 +24,16 @@ public class ExplorationJobService {
         var snapshot=contexts.readForAdapter(user,context,purpose).snapshot();
         String owner=owners.ownedKey(user);
         String requestId=UUID.nameUUIDFromBytes((owner+":"+mutation).getBytes(StandardCharsets.UTF_8)).toString();
-        JsonNode request=adapter.build(snapshot,requestId);
+        JsonNode stored=generations.requestForOperation(user,context,purpose,mutation);
+        JsonNode request=stored==null?adapter.build(snapshot,requestId):stored;
+        boolean conversation=ExplorationAiContract.CONVERSATION_VERSION.equals(request.path("contractVersion").asText())||ExplorationAiContract.PLAN12_VERSION.equals(request.path("contractVersion").asText());
+        if(conversation&&operation.equals("enqueue"))throw new ExplorationJobClient.Conflict();
         if(operation.equals("enqueue"))generations.reserve(user,context,purpose,mutation,request);
         if(operation.equals("cancel"))generations.reserveForCancel(user,context,purpose,mutation,request);
         if(operation.equals("cancel"))generations.cancel(user,context,purpose,mutation);
         if(operation.equals("read")){var status=generations.status(user,context,purpose,mutation,request);if(status!=null)return status;}
         JsonNode result=client.command(operation,owner,mutation,request);
-        JsonNode current=adapter.build(contexts.readForAdapter(user,context,purpose).snapshot(),requestId);
+        JsonNode current=conversation?generations.requestForOperation(user,context,purpose,mutation):adapter.build(contexts.readForAdapter(user,context,purpose).snapshot(),requestId);
         if(!request.equals(current))throw new ExplorationJobClient.Unavailable();
         if(!result.path("status").asText().equals("INSUFFICIENT_EVIDENCE")){var status=generations.status(user,context,purpose,mutation,request);if(status!=null)return status;}
         return result;
