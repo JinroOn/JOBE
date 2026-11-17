@@ -151,3 +151,15 @@ def test_mock_plan_uses_the_selected_target(scenario,monkeypatch):
     assert call('enqueue',body).status_code==200
     result=call('mock-execute',body);assert result.status_code==200
     assert result.json()['response']['result']['targetName']==body['request']['input']['targetName']
+
+
+def test_active_remote_lease_is_a_retryable_busy_response(scenario,monkeypatch):
+    from app.exploration_jobs import ExplorationJobStore
+    from app.rag.exploration_binding import EvidencePolicy,ExplorationEvidenceBinder
+    body,call=scenario;job=call('enqueue').json()['jobId']
+    monkeypatch.setenv('EXPLORATION_MOCK_EXECUTION_ENABLED','true')
+    with wire.evidence_session() as db:
+        store=ExplorationJobStore(db,ExplorationEvidenceBinder(db,EvidencePolicy(os.environ['EXPLORATION_EVIDENCE_DATASET_VERSION'])))
+        store.claim(body['ownerKey'],job);db.commit()
+    response=call('mock-execute');assert response.status_code==409
+    assert response.json()['code']=='EXPLORATION_JOB_BUSY' and response.json()['retryable'] is True

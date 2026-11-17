@@ -28,6 +28,10 @@ class JobConflict(ValueError):
     def __init__(self): super().__init__('Exploration job conflict')
 
 
+class JobLeaseBusy(JobConflict):
+    """Valid job whose current worker still owns an unexpired lease."""
+
+
 class ExplorationJob(Base):
     __tablename__ = 'ai_exploration_jobs'
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
@@ -81,7 +85,7 @@ class ExplorationJobStore:
         row = self._locked(owner, job)
         now = self.db.scalar(select(func.statement_timestamp()))
         if row.state not in {'QUEUED','LEASED'}: raise JobConflict()
-        if row.state=='LEASED' and row.lease_until > now: raise JobConflict()
+        if row.state=='LEASED' and row.lease_until > now: raise JobLeaseBusy()
         if row.attempt >= 3:
             row.state, row.reason = 'BLOCKED', 'ATTEMPTS_EXHAUSTED'
             row.lease_token = row.lease_until = None

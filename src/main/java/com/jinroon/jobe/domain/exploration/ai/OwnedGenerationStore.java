@@ -25,6 +25,7 @@ public class OwnedGenerationStore {
     private final JdbcTemplate jdbc;
     private final EntityManager entities;
     public record Lease(String token,JsonNode request) {}
+    public record Candidate(long user,long context,String purpose,String mutation) {}
     private void active(long user){
         // A locking SQL read also avoids reusing a pre-call JPA first-level cached status.
         var rows=jdbc.queryForList("SELECT status FROM users WHERE id=? FOR UPDATE",String.class,user);
@@ -42,12 +43,12 @@ public class OwnedGenerationStore {
     }
     @Transactional public void reserve(long user,long context,String purpose,String mutation,JsonNode request){
         active(user);current(user,context,purpose,request);
-        jdbc.update("INSERT IGNORE INTO exploration_generation_task(user_id,context_id,purpose,mutation_key,request_json,state) VALUES (?,?,?,?,?,'QUEUED')",user,context,purpose,mutation,request.toString());
+        jdbc.update("INSERT IGNORE INTO exploration_generation_task(user_id,context_id,purpose,mutation_key,request_json,state,next_attempt_at) VALUES (?,?,?,?,?,'QUEUED',UTC_TIMESTAMP(6))",user,context,purpose,mutation,request.toString());
         var row=locked(user,mutation);
         if(((Number)row.get("context_id")).longValue()!=context || !purpose.equals(row.get("purpose")) || !json.read(row.get("request_json").toString()).equals(request))throw conflict();
     }
     private Map<String,Object> locked(long user,String mutation){
-        var rows=jdbc.queryForList("SELECT *, (lease_until>UTC_TIMESTAMP(6)) AS lease_live FROM exploration_generation_task WHERE user_id=? AND mutation_key=? FOR UPDATE",user,mutation);
+        var rows=jdbc.queryForList("SELECT *, (lease_until>UTC_TIMESTAMP(6)) AS lease_live, (next_attempt_at IS NULL OR next_attempt_at<=UTC_TIMESTAMP(6)) AS retry_due FROM exploration_generation_task WHERE user_id=? AND mutation_key=? FOR UPDATE",user,mutation);
         if(rows.isEmpty())throw conflict();return rows.get(0);
     }
     private boolean live(Map<String,Object> row){Object value=row.get("lease_live");return value instanceof Boolean b?b:value instanceof Number n&&n.intValue()==1;}
@@ -59,9 +60,9 @@ public class OwnedGenerationStore {
         if(((Number)row.get("context_id")).longValue()!=context || !purpose.equals(row.get("purpose")))throw conflict();
         current(user,context,purpose,request);
         String state=row.get("state").toString();int attempt=((Number)row.get("attempt")).intValue();
-        if(!(state.equals("QUEUED") || state.equals("RUNNING")&&!live(row)) || attempt>=3)throw conflict();
+        if(!(state.equals("QUEUED") || state.equals("RUNNING")&&!live(row)) || attempt>=3 || !truth(row.get("retry_due")))throw conflict();
         String token=UUID.randomUUID().toString();
-        jdbc.update("UPDATE exploration_generation_task SET state='RUNNING',attempt=attempt+1,lease_token=?,lease_until=DATE_ADD(UTC_TIMESTAMP(6),INTERVAL 60 SECOND) WHERE id=?",token,row.get("id"));
+        jdbc.update("UPDATE exploration_generation_task SET state='RUNNING',attempt=attempt+1,lease_token=?,lease_until=DATE_ADD(UTC_TIMESTAMP(6),INTERVAL 60 SECOND),next_attempt_at=NULL,failure_code=NULL WHERE id=?",token,row.get("id"));
         return new Lease(token,request.deepCopy());
     }
     @Transactional public void cancel(long user,long context,String purpose,String mutation){
@@ -92,4 +93,35 @@ public class OwnedGenerationStore {
         var reply=json.object().put("status","MOCK_STORED").put("mode","MOCK").put("generationAuthorized",false);reply.set("response",result.path("response").deepCopy());return reply;
     }
     private static ExplorationApiException conflict(){return new ExplorationApiException(409,"GENERATION_TASK_CONFLICT","Generation task is unavailable or changed");}
+    private boolean truth(Object value){return value instanceof Boolean b?b:value instanceof Number n&&n.intValue()==1;}
+    @Transactional(readOnly=true) public List<Candidate> candidates(int limit){
+        if(limit<1 || limit>25)throw conflict();
+        return jdbc.query("SELECT user_id,context_id,purpose,mutation_key FROM exploration_generation_task WHERE attempt<3 AND (next_attempt_at IS NULL OR next_attempt_at<=UTC_TIMESTAMP(6)) AND (state='QUEUED' OR (state='RUNNING' AND lease_until<=UTC_TIMESTAMP(6))) ORDER BY COALESCE(next_attempt_at,'1000-01-01'),id LIMIT ?",(rs,n)->new Candidate(rs.getLong(1),rs.getLong(2),rs.getString(3),rs.getString(4)),limit);
+    }
+    @Transactional public int exhaustExpired(){
+        return jdbc.update("UPDATE exploration_generation_task SET state='FAILED',failure_code='ATTEMPTS_EXHAUSTED',lease_token=NULL,lease_until=NULL,next_attempt_at=NULL WHERE state='RUNNING' AND attempt>=3 AND lease_until<=UTC_TIMESTAMP(6) LIMIT 25");
+    }
+    @Transactional public void failed(Candidate task,String lease,boolean retryable,String code){
+        if(!Set.of("TRANSIENT","CONFIGURATION","AUTHENTICATION","INVALID_RESPONSE","INVALID_REQUEST","CONFLICT","EVIDENCE_UNAVAILABLE","INTEGRITY","SOURCE_UNAVAILABLE","OUTPUT_INVALID","UNEXPECTED_FAILURE").contains(code))throw conflict();
+        // No result writes. Token condition cannot overwrite cancellation, deletion or a newer claim.
+        var rows=jdbc.queryForList("SELECT status FROM users WHERE id=? FOR UPDATE",String.class,task.user());
+        if(rows.isEmpty())return;
+        var jobs=jdbc.queryForList("SELECT id,attempt FROM exploration_generation_task WHERE user_id=? AND context_id=? AND mutation_key=? AND state='RUNNING' AND lease_token=? FOR UPDATE",task.user(),task.context(),task.mutation(),lease);
+        if(jobs.isEmpty())return;
+        int attempt=((Number)jobs.get(0).get("attempt")).intValue();boolean retry=retryable && attempt<3 && rows.get(0).equals("active");
+        int delay=attempt<=1?15:30;
+        jdbc.update("UPDATE exploration_generation_task SET state=?,failure_code=?,lease_token=NULL,lease_until=NULL,next_attempt_at=IF(?,DATE_ADD(UTC_TIMESTAMP(6),INTERVAL ? SECOND),NULL) WHERE id=?",retry?"QUEUED":"FAILED",retryable&&attempt>=3?"ATTEMPTS_EXHAUSTED":code,retry,delay,jobs.get(0).get("id"));
+    }
+    @Transactional public void rejectUnclaimed(Candidate task){
+        jdbc.update("UPDATE exploration_generation_task SET state='FAILED',failure_code='SOURCE_UNAVAILABLE',lease_token=NULL,lease_until=NULL,next_attempt_at=NULL WHERE user_id=? AND context_id=? AND mutation_key=? AND (next_attempt_at IS NULL OR next_attempt_at<=UTC_TIMESTAMP(6)) AND (state='QUEUED' OR (state='RUNNING' AND lease_until<=UTC_TIMESTAMP(6)))",task.user(),task.context(),task.mutation());
+    }
+    @Transactional public JsonNode status(long user,long context,String purpose,String mutation,JsonNode expected){
+        active(user);current(user,context,purpose,expected);
+        var rows=jdbc.queryForList("SELECT *,DATE_FORMAT(next_attempt_at,'%Y-%m-%dT%H:%i:%s.%fZ') AS next_retry_at FROM exploration_generation_task WHERE user_id=? AND mutation_key=? FOR UPDATE",user,mutation);
+        if(rows.isEmpty())return null;var row=rows.get(0);
+        if(((Number)row.get("context_id")).longValue()!=context || !purpose.equals(row.get("purpose")) || !json.read(row.get("request_json").toString()).equals(expected))throw conflict();
+        var out=json.object().put("statusVersion","OWNED_MOCK_TASK_STATUS_V1_0").put("status",row.get("state").toString()).put("mode","MOCK").put("generationAuthorized",false).put("mutationKey",mutation).put("attempt",((Number)row.get("attempt")).intValue());
+        out.set("nextRetryAt",json.tree(row.get("next_retry_at")));out.set("failureCode",json.tree(row.get("failure_code")));
+        return out;
+    }
 }

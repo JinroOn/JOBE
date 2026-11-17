@@ -5,7 +5,7 @@ import re
 from sqlalchemy import select
 from app.errors import AppError
 from app.exploration_contract import read_request, ContractViolation
-from app.exploration_jobs import ExplorationJob, ExplorationJobStore, JobConflict
+from app.exploration_jobs import ExplorationJob, ExplorationJobStore, JobConflict, JobLeaseBusy
 from app.exploration_transport import evidence_session
 from app.rag.exploration_binding import (
     EvidencePolicy, EvidencePolicyError, EvidenceIntegrityError, EvidenceNoLongerAvailable,
@@ -54,6 +54,8 @@ def command(operation: str, payload: dict):
             return result
     except ContractViolation:
         raise AppError(422,'EVIDENCE_CONTRACT_INVALID','Invalid exploration job command') from None
+    except JobLeaseBusy:
+        raise AppError(409,'EXPLORATION_JOB_BUSY','Exploration job lease is still active',retryable=True) from None
     except JobConflict:
         raise AppError(409,'EXPLORATION_JOB_CONFLICT','Exploration job is unavailable or conflicts') from None
     except EvidencePolicyError:

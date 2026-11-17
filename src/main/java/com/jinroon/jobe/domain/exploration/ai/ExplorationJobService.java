@@ -27,9 +27,11 @@ public class ExplorationJobService {
         JsonNode request=adapter.build(snapshot,requestId);
         if(operation.equals("enqueue") || operation.equals("cancel"))generations.reserve(user,context,purpose,mutation,request);
         if(operation.equals("cancel"))generations.cancel(user,context,purpose,mutation);
+        if(operation.equals("read")){var status=generations.status(user,context,purpose,mutation,request);if(status!=null)return status;}
         JsonNode result=client.command(operation,owner,mutation,request);
         JsonNode current=adapter.build(contexts.readForAdapter(user,context,purpose).snapshot(),requestId);
         if(!request.equals(current))throw new ExplorationJobClient.Unavailable();
+        if(!result.path("status").asText().equals("INSUFFICIENT_EVIDENCE")){var status=generations.status(user,context,purpose,mutation,request);if(status!=null)return status;}
         return result;
     }
 }

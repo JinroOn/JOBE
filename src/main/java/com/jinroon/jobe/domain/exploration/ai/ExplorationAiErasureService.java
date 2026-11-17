@@ -33,5 +33,11 @@ public class ExplorationAiErasureService {
     }
     @Configuration
     @EnableScheduling
-    static class Scheduling {}
+    static class Scheduling {
+        @org.springframework.context.annotation.Bean
+        org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler taskScheduler(){
+            var scheduler=new org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler();
+            scheduler.setPoolSize(2);scheduler.setThreadNamePrefix("exploration-lifecycle-");return scheduler;
+        }
+    }
 }

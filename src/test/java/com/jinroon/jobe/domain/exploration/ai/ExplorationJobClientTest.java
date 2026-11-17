@@ -42,4 +42,20 @@ class ExplorationJobClientTest {
     @Test void acceptsExplicitMockArtifact(){reply("mock-execute",mockEnvelope().toString());assertThat(client.executeMock("owner","m",request).path("mode").asText()).isEqualTo("MOCK");server.verify();}
     @ParameterizedTest @ValueSource(strings={"mode","originalInputHash","sourceContextHash","mutationKey","bindingHash","extra"})
     void rejectsUnboundOrMismatchedMockArtifact(String field){var body=mockEnvelope().put(field,"BAD");reply("mock-execute",body.toString());assertThatThrownBy(()->client.executeMock("owner","m",request)).isInstanceOf(ExplorationJobClient.Unavailable.class);}
+    @ParameterizedTest @ValueSource(ints={400,401,403,409,422,429,500,503})
+    void retryClassificationIsStatusBoundedAndRedacted(int status){
+        server.expect(requestTo("http://ai.local/v1/exploration/jobs/read")).andRespond(withStatus(HttpStatusCode.valueOf(status)).body("PRIVATE_ERROR"));
+        var error=catchThrowableOfType(()->client.command("read","owner","m",request),ExplorationJobClient.Unavailable.class);
+        assertThat(error.retryable()).isEqualTo(status==429||status>=500);assertThat(error.getMessage()).doesNotContain("PRIVATE_ERROR");
+    }
+    @ParameterizedTest @ValueSource(strings={"EVIDENCE_INTEGRITY_ERROR","EVIDENCE_POLICY_INVALID","EVIDENCE_BINDING_DISABLED","EVIDENCE_STORE_UNAVAILABLE"})
+    void known503CodesDistinguishPermanentFromTransient(String code){
+        server.expect(requestTo("http://ai.local/v1/exploration/jobs/read")).andRespond(withStatus(HttpStatus.SERVICE_UNAVAILABLE).contentType(MediaType.APPLICATION_JSON).body("{\"code\":\""+code+"\",\"message\":\"PRIVATE\"}"));
+        var error=catchThrowableOfType(()->client.command("read","owner","m",request),ExplorationJobClient.Unavailable.class);
+        assertThat(error.retryable()).isEqualTo(code.equals("EVIDENCE_STORE_UNAVAILABLE"));assertThat(error.getMessage()).doesNotContain("PRIVATE");
+    }
+    @Test void activeRemoteLeaseIsTransientInsteadOfGenericConflict(){
+        server.expect(requestTo("http://ai.local/v1/exploration/jobs/read")).andRespond(withStatus(HttpStatus.CONFLICT).contentType(MediaType.APPLICATION_JSON).body("{\"code\":\"EXPLORATION_JOB_BUSY\"}"));
+        var error=catchThrowableOfType(()->client.command("read","owner","m",request),ExplorationJobClient.Unavailable.class);assertThat(error.retryable()).isTrue();
+    }
 }
