@@ -19,12 +19,22 @@ import org.springframework.stereotype.Component;
 public class ExplorationStageStore {
     private final JdbcTemplate jdbc;
     private final ExplorationJson json;
+    private final ExplorationStoredJson storedJson;
 
     public record Checkpoint(long id, String hash, JsonNode payload, FixedCandidates candidates,
                              QuestionBranchEngine.Plan plan) {}
 
     public Checkpoint enter(ExplorationSession session, ExplorationRuntimeCatalog.Frozen frozen,
                             FixedCandidates fixed, List<BranchCatalog.Answer> responses, List<BranchCatalog.Key> history) {
+        JsonNode presentation = "STAGE_3".equals(session.getStage())
+                ? presentation(load(session.getId(), "STAGE_2", frozen), frozen)
+                : json.tree(Map.of("unexpected", List.of(), "unfamiliar", List.of(), "source", "NOT_COLLECTED"));
+        return enter(session, frozen, fixed, responses, history, presentation);
+    }
+
+    private Checkpoint enter(ExplorationSession session, ExplorationRuntimeCatalog.Frozen frozen,
+                            FixedCandidates fixed, List<BranchCatalog.Answer> responses, List<BranchCatalog.Key> history,
+                            JsonNode presentation) {
         try {
             QuestionBranchEngine engine = new QuestionBranchEngine(frozen.branch());
             ObjectNode payload = json.object();
@@ -34,10 +44,14 @@ public class ExplorationStageStore {
             payload.set("candidates", json.tree(fixed));
             payload.set("inputAnswers", json.tree(responses));
             payload.set("inputHistory", json.tree(history));
-            payload.set("presentation", json.tree(Map.of("unexpected", List.of(), "unfamiliar", List.of(), "source", "NOT_COLLECTED")));
+            ObjectNode savedPresentation = presentation.deepCopy();
+            if (!savedPresentation.has("shownMajorCodes")) savedPresentation.set("shownMajorCodes", json.tree(
+                    engine.candidates().rerank(fixed, frozen.branch().scoringResponses(responses)).firstScreen().stream()
+                            .map(com.jinroon.jobe.domain.exploration.scoring.ExplorationScoreCalculator.MajorScore::majorCode).toList()));
+            payload.set("presentation", savedPresentation);
             QuestionBranchEngine.Plan plan;
             if ("STAGE_2".equals(session.getStage())) {
-                plan = engine.stageTwo(fixed, responses, history, QuestionBranchEngine.Presentation.none());
+                plan = engine.stageTwo(fixed, responses, history, enginePresentation(savedPresentation));
             } else if ("STAGE_3".equals(session.getStage())) {
                 var tags = developmentTags(session, frozen);
                 payload.set("eligibleTags", tags);
@@ -46,11 +60,52 @@ public class ExplorationStageStore {
                 plan = engine.stageThree(fixed, responses, history, eligible);
             } else throw ExplorationApiException.integrity();
             payload.set("plan", json.tree(plan));
-            String hash = json.hex(payload);
+            var stored = storedJson.freeze(payload);
             jdbc.update("INSERT INTO exploration_stage_checkpoint(session_id,stage,entered_revision,payload_hash,payload_json) VALUES (?,?,?,?,?)",
-                    session.getId(), session.getStage(), session.getRevision(), hash, json.write(payload));
+                    session.getId(), session.getStage(), session.getRevision(), stored.hash(), stored.encoded());
             return load(session.getId(), session.getStage(), frozen);
         } catch (IllegalArgumentException e) { throw ExplorationApiException.integrity(); }
+    }
+
+    /** Replace only the reaction-dependent decision. Upstream score inputs remain the original stage-entry inputs. */
+    public Checkpoint react(ExplorationSession session, ExplorationRuntimeCatalog.Frozen frozen, Checkpoint previous,
+                            List<BranchCatalog.Key> history, List<String> unexpected, List<String> unfamiliar) {
+        ObjectNode value = presentation(previous, frozen).deepCopy();
+        value.put("source", "USER_REPORTED");
+        value.set("unexpected", json.tree(unexpected)); value.set("unfamiliar", json.tree(unfamiliar));
+        return enter(session, frozen, previous.candidates(), inputAnswers(previous.payload()), history, value);
+    }
+
+    public JsonNode presentation(Checkpoint checkpoint, ExplorationRuntimeCatalog.Frozen frozen) {
+        JsonNode value = checkpoint.payload().path("presentation");
+        if (!value.isObject() || !Set.of("NOT_COLLECTED", "USER_REPORTED").contains(value.path("source").asText()))
+            throw ExplorationApiException.integrity();
+        ObjectNode result = value.deepCopy();
+        // Compatibility for checkpoints pinned before candidate reactions were implemented.
+        List<String> shown = new QuestionBranchEngine(frozen.branch()).candidates()
+                .rerank(checkpoint.candidates(), frozen.branch().scoringResponses(inputAnswers(checkpoint.payload())))
+                .firstScreen().stream().map(com.jinroon.jobe.domain.exploration.scoring.ExplorationScoreCalculator.MajorScore::majorCode).toList();
+        if (result.has("shownMajorCodes") && !strings(result.path("shownMajorCodes")).equals(shown)) throw ExplorationApiException.integrity();
+        result.set("shownMajorCodes", json.tree(shown));
+        var reaction = enginePresentation(result);
+        if (!shown.containsAll(reaction.unexpected()) || !shown.containsAll(reaction.unfamiliar())
+                || ("NOT_COLLECTED".equals(result.path("source").asText()) && (!reaction.unexpected().isEmpty() || !reaction.unfamiliar().isEmpty())))
+            throw ExplorationApiException.integrity();
+        return result;
+    }
+
+    public static QuestionBranchEngine.Presentation enginePresentation(JsonNode value) {
+        return new QuestionBranchEngine.Presentation(new HashSet<>(strings(value.path("unexpected"))), new HashSet<>(strings(value.path("unfamiliar"))));
+    }
+
+    private static List<BranchCatalog.Answer> inputAnswers(JsonNode payload) {
+        List<BranchCatalog.Answer> result = new ArrayList<>();
+        if (!payload.path("inputAnswers").isArray()) throw ExplorationApiException.integrity();
+        for (JsonNode row : payload.path("inputAnswers")) result.add(new BranchCatalog.Answer(
+                new BranchCatalog.Key(row.path("key").path("questionId").asText(), row.path("key").path("questionVersion").asText(),
+                        row.path("key").path("comparisonSet").asText(), row.path("key").path("variantVersion").asText()),
+                row.path("optionCode").asText(), row.path("current").asBoolean(), row.path("effective").asBoolean()));
+        return List.copyOf(result);
     }
 
     public Checkpoint load(long sessionId, String stage, ExplorationRuntimeCatalog.Frozen frozen) {
@@ -112,7 +167,9 @@ public class ExplorationStageStore {
 
     private static List<String> strings(JsonNode node) {
         if (!node.isArray()) throw ExplorationApiException.integrity();
-        List<String> values = new ArrayList<>(); node.forEach(n -> values.add(n.asText())); return List.copyOf(values);
+        List<String> values = new ArrayList<>();
+        node.forEach(n -> { if (!n.isTextual() || values.contains(n.asText())) throw ExplorationApiException.integrity(); values.add(n.asText()); });
+        return List.copyOf(values);
     }
     private static List<BranchCatalog.Key> keys(JsonNode node) {
         if (!node.isArray()) throw ExplorationApiException.integrity();

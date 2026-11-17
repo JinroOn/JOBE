@@ -70,6 +70,15 @@ public class ExplorationSessionController {
                 request.getOptionCode(), request.getClientMutationId()));
     }
 
+    @PutMapping("/{sessionId}/presentation")
+    public ResponseEntity<Object> presentation(@AuthenticationPrincipal CustomUserDetails user, @PathVariable long sessionId,
+            @RequestHeader("Idempotency-Key") String key, @Valid @RequestBody ExplorationRequests.Presentation request,
+            jakarta.servlet.http.HttpServletRequest http) {
+        if (http.getQueryString() != null) throw new ExplorationApiException(400, "INVALID_REQUEST", "쿼리 파라미터를 지원하지 않습니다.");
+        return reply(service.presentation(user.getUserId(), sessionId, key, request.getExpectedRevision(),
+                request.getCheckpointId(), request.getUnexpected(), request.getUnfamiliar()));
+    }
+
     private ResponseEntity<Object> reply(ExplorationSessionService.Reply result) {
         return ResponseEntity.status(result.status()).body(json.responseValue(result.body()));
     }

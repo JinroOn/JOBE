@@ -17,15 +17,22 @@ public class ExplorationResultStore {
     private final ExplorationResultRepository results;
     private final JdbcTemplate jdbc;
     private final ExplorationJson json;
+    private final ExplorationStoredJson storedJson;
     private final com.jinroon.jobe.domain.exploration.display.ExplorationResultDisplay resultDisplay;
     private final com.jinroon.jobe.domain.exploration.sharing.ExplorationSharePolicy sharing;
     private final com.jinroon.jobe.domain.exploration.repository.ExplorationSessionRepository sessions;
 
     public ExplorationResult save(long sessionId, ObjectNode payload) {
+        if (!payload.path("inputHash").asText().equals(json.hex(payload.path("input")))) throw ExplorationApiException.integrity();
+        ObjectNode normalized = (ObjectNode) storedJson.normalize(payload);
+        // Input proof must describe the durable JSON too; calculation/ranking has already finished unchanged.
+        normalized.put("inputHash", json.hex(normalized.path("input")));
+        var frozen = storedJson.freeze(normalized);
+        if (!frozen.payload().path("inputHash").asText().equals(json.hex(frozen.payload().path("input")))) throw ExplorationApiException.integrity();
         var result = results.saveAndFlush(ExplorationResult.of(sessionId, ExplorationResultAssembler.CONTRACT,
-                ExplorationResultStatus.valueOf(payload.path("status").asText()), payload.path("completionReason").asText(),
-                HexFormat.of().parseHex(payload.path("inputHash").asText()), json.write(payload)));
-        jdbc.update("INSERT INTO exploration_result_seal(result_id,content_hash) VALUES (?,?)", result.getId(), json.hex(payload));
+                ExplorationResultStatus.valueOf(normalized.path("status").asText()), normalized.path("completionReason").asText(),
+                HexFormat.of().parseHex(normalized.path("inputHash").asText()), frozen.encoded()));
+        jdbc.update("INSERT INTO exploration_result_seal(result_id,content_hash) VALUES (?,?)", result.getId(), frozen.hash());
         return result;
     }
 
