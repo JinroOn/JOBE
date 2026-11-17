@@ -78,6 +78,11 @@ diagnosis:
 
 exploration:
   jobs:
+    model-enabled: ${EXPLORATION_MODEL_EXECUTION_ENABLED:false}
+    model-name: ${EXPLORATION_LLM_MODEL:${LLM_MODEL:}}
+    dispatch:
+      enabled: ${EXPLORATION_MOCK_DISPATCH_ENABLED:false}
+    mock-enabled: ${EXPLORATION_MOCK_EXECUTION_ENABLED:false}
     enabled: ${EXPLORATION_JOBS_ENABLED:false}
     erasure:
       enabled: ${EXPLORATION_JOBS_ERASURE_ENABLED:false}

@@ -28,6 +28,10 @@ class JobConflict(ValueError):
     def __init__(self): super().__init__('Exploration job conflict')
 
 
+class JobLeaseBusy(JobConflict):
+    """Valid job whose current worker still owns an unexpired lease."""
+
+
 class ExplorationJob(Base):
     __tablename__ = 'ai_exploration_jobs'
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
@@ -43,6 +47,12 @@ class ExplorationJob(Base):
     mock_response: Mapped[dict | None] = mapped_column(JSONB(none_as_null=True))
     mock_response_hash: Mapped[str | None] = mapped_column(String(64))
     completed_at: Mapped[object | None] = mapped_column(DateTime(timezone=True))
+    execution_mode: Mapped[str] = mapped_column(String(10),nullable=False,default='MOCK')
+    model_response: Mapped[dict | None] = mapped_column(JSONB(none_as_null=True))
+    model_response_hash: Mapped[str | None] = mapped_column(String(64))
+    model_metadata: Mapped[dict | None] = mapped_column(JSONB(none_as_null=True))
+    model_completed_at: Mapped[object | None] = mapped_column(DateTime(timezone=True))
+    model_policy: Mapped[dict | None] = mapped_column(JSONB(none_as_null=True))
 
 
 class ExplorationJobStore:
@@ -77,11 +87,12 @@ class ExplorationJobStore:
         if row is None: raise JobConflict()
         return row
 
-    def claim(self, owner: str, job: int) -> dict:
+    def claim(self, owner: str, job: int,mode: str='MOCK') -> dict:
         row = self._locked(owner, job)
+        if mode not in {'MOCK','MODEL'} or row.attempt>0 and row.execution_mode!=mode:raise JobConflict()
         now = self.db.scalar(select(func.statement_timestamp()))
         if row.state not in {'QUEUED','LEASED'}: raise JobConflict()
-        if row.state=='LEASED' and row.lease_until > now: raise JobConflict()
+        if row.state=='LEASED' and row.lease_until > now: raise JobLeaseBusy()
         if row.attempt >= 3:
             row.state, row.reason = 'BLOCKED', 'ATTEMPTS_EXHAUSTED'
             row.lease_token = row.lease_until = None
@@ -97,6 +108,7 @@ class ExplorationJobStore:
             self.db.flush()
             return {'state':'BLOCKED', 'generationAuthorized':False}
         row.state, row.attempt = 'LEASED', row.attempt+1
+        row.execution_mode=mode
         row.lease_token, row.lease_until = str(uuid.uuid4()), now+timedelta(seconds=60)
         self.db.flush()
         return {'state':'LEASED', 'leaseToken':row.lease_token, 'attempt':row.attempt,
@@ -115,6 +127,7 @@ class ExplorationJobStore:
         row = self._locked(owner, job)
         row.state, row.reason = 'CANCELLED', 'CANCELLED'
         row.mock_response = row.mock_response_hash = row.completed_at = None
+        row.model_response = row.model_response_hash = row.model_metadata = row.model_completed_at = None
         row.lease_token = row.lease_until = None
         self.db.flush()
 
@@ -122,7 +135,7 @@ class ExplorationJobStore:
         """Commit by caller. Internal test artifact, never a generated user result."""
         row=self._locked(owner,job)
         now=self.db.scalar(select(func.statement_timestamp()))
-        if row.state!='LEASED' or row.lease_token!=lease or row.lease_until<=now:raise JobConflict()
+        if row.state!='LEASED' or row.execution_mode!='MOCK' or row.lease_token!=lease or row.lease_until<=now:raise JobConflict()
         binding=EvidenceBinding(**row.binding)
         if binding.binding_hash!=row.binding_hash:raise EvidenceIntegrityError()
         self.binder.revalidate(binding)
@@ -135,6 +148,22 @@ class ExplorationJobStore:
         row.mock_response=valid
         row.mock_response_hash=_hash(valid)
         row.completed_at=now
+        row.lease_token=row.lease_until=None
+        self.db.flush()
+
+    def complete_model(self,owner,job,lease,response,metadata):
+        row=self._locked(owner,job)
+        if row.state!='LEASED' or row.execution_mode!='MODEL' or row.lease_token!=lease or row.lease_until<=self.db.scalar(select(func.statement_timestamp())):raise JobConflict()
+        binding=EvidenceBinding(**row.binding)
+        if binding.binding_hash!=row.binding_hash:raise EvidenceIntegrityError()
+        self.binder.revalidate(binding)
+        valid=validate_response(binding.request,response).model_dump()
+        if set(metadata)!={'provider','model','promptVersion'} or metadata!=row.model_policy:raise EvidenceIntegrityError()
+        now=self.db.scalar(select(func.statement_timestamp()))
+        if row.lease_until<=now:raise JobConflict()
+        row.state,row.reason='MODEL_COMPLETED','MODEL_RESULT_VALIDATED'
+        row.model_response,row.model_response_hash=valid,_hash(valid)
+        row.model_metadata,row.model_completed_at=dict(metadata),now
         row.lease_token=row.lease_until=None
         self.db.flush()
 

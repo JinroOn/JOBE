@@ -154,6 +154,13 @@ class CommonErrorResponse(BaseModel):
         "EVIDENCE_NO_LONGER_AVAILABLE",
         "EVIDENCE_STORE_UNAVAILABLE",
         "EXPLORATION_JOB_CONFLICT",
+        "EXPLORATION_JOB_BUSY",
+        "MODEL_CONFIGURATION_INVALID",
+        "MODEL_INPUT_INVALID",
+        "MODEL_OUTPUT_INVALID",
+        "MODEL_AUTH_FAILED",
+        "MODEL_TIMEOUT",
+        "MODEL_UNAVAILABLE",
     ]
     message: str = Field(min_length=1, max_length=500)
     requestId: str = Field(min_length=1, max_length=100)

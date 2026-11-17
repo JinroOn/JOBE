@@ -111,3 +111,103 @@ def test_unknown_fields_and_invalid_request_rejected(scenario):
     assert call('enqueue',{**body,'extra':'PRIVATE'}).status_code==422
     assert call('enqueue',{**body,'ownerKey':'not-owner'}).status_code==409
     assert call('anything').status_code==409
+
+
+def test_mock_execution_is_disabled_by_default(scenario):
+    body,call=scenario;call('enqueue')
+    assert call('mock-execute').status_code==503
+
+
+def test_mock_execution_returns_bound_validated_artifact_and_replays(scenario,monkeypatch):
+    from app.exploration_contract import validate_response
+    body,call=scenario;call('enqueue');monkeypatch.setenv('EXPLORATION_MOCK_EXECUTION_ENABLED','true')
+    response=call('mock-execute');assert response.status_code==200
+    result=response.json()
+    assert set(result)=={'transportVersion','mode','generationAuthorized','mutationKey','originalInputHash','sourceContextHash','jobId','bindingHash','boundRequest','response'}
+    assert result['mode']=='MOCK' and result['generationAuthorized'] is False
+    assert result['originalInputHash']==body['request']['inputHash']
+    validate_response(result['boundRequest'],result['response'])
+    assert call('mock-execute').json()==result
+
+
+def test_cancel_or_erasure_prevents_mock_execution(scenario,monkeypatch):
+    body,call=scenario;call('enqueue');monkeypatch.setenv('EXPLORATION_MOCK_EXECUTION_ENABLED','true')
+    call('cancel');assert call('mock-execute').status_code==409
+    call('purge',{'ownerKey':body['ownerKey']});assert call('mock-execute').status_code==409
+
+
+def test_mock_endpoint_rejects_foreign_owner_and_requires_auth(scenario,monkeypatch):
+    body,call=scenario;call('enqueue');monkeypatch.setenv('EXPLORATION_MOCK_EXECUTION_ENABLED','true')
+    assert call('mock-execute',auth=False).status_code==401
+    assert call('mock-execute',{**body,'ownerKey':str(uuid.uuid4())}).status_code==409
+
+
+def test_mock_plan_uses_the_selected_target(scenario,monkeypatch):
+    from copy import deepcopy
+    body,call=scenario;body=deepcopy(body);body['request']['purpose']='PLAN'
+    body['request']['input']['targetName']=body['request']['input']['candidateNames'][0]
+    body['request']['inputHash']=input_hash(body['request'])
+    monkeypatch.setenv('EXPLORATION_MOCK_EXECUTION_ENABLED','true')
+    assert call('enqueue',body).status_code==200
+    result=call('mock-execute',body);assert result.status_code==200
+    assert result.json()['response']['result']['targetName']==body['request']['input']['targetName']
+
+
+def test_active_remote_lease_is_a_retryable_busy_response(scenario,monkeypatch):
+    from app.exploration_jobs import ExplorationJobStore
+    from app.rag.exploration_binding import EvidencePolicy,ExplorationEvidenceBinder
+    body,call=scenario;job=call('enqueue').json()['jobId']
+    monkeypatch.setenv('EXPLORATION_MOCK_EXECUTION_ENABLED','true')
+    with wire.evidence_session() as db:
+        store=ExplorationJobStore(db,ExplorationEvidenceBinder(db,EvidencePolicy(os.environ['EXPLORATION_EVIDENCE_DATASET_VERSION'])))
+        store.claim(body['ownerKey'],job);db.commit()
+    response=call('mock-execute');assert response.status_code==409
+    assert response.json()['code']=='EXPLORATION_JOB_BUSY' and response.json()['retryable'] is True
+
+
+def test_model_endpoint_requires_explicit_activation(scenario):
+    body,call=scenario;call('enqueue')
+    response=call('model-execute');assert response.status_code==503
+    assert response.json()['code']=='MODEL_CONFIGURATION_INVALID'
+
+
+@pytest.fixture
+def injected_model(monkeypatch):
+    from app.exploration_worker import mock_response
+    class Consumer:
+        metadata={'provider':'openai','model':'TEST_MODEL','promptVersion':'EXPLORATION_MODEL_V1_0'}
+        calls=0
+        def generate(self,request,facts):
+            self.calls+=1
+            return mock_response(request,facts)
+    consumer=Consumer()
+    monkeypatch.setenv('EXPLORATION_MODEL_EXECUTION_ENABLED','true');monkeypatch.setenv('MOCK_MODE','false')
+    monkeypatch.setattr(wire,'ExplorationModel',lambda:consumer)
+    return consumer
+
+
+def test_model_transport_is_explicit_and_pins_artifact_provenance(scenario,injected_model):
+    body,call=scenario;call('enqueue');response=call('model-execute')
+    assert response.status_code==200
+    result=response.json();assert result['mode']=='MODEL' and result['generationAuthorized'] is True
+    assert result['providerMetadata']==injected_model.metadata
+    assert call('model-execute').json()==result and injected_model.calls==1
+
+
+def test_model_and_mock_cannot_reinterpret_the_same_job(scenario,injected_model,monkeypatch):
+    body,call=scenario;call('enqueue');assert call('model-execute').status_code==200
+    monkeypatch.setenv('EXPLORATION_MOCK_EXECUTION_ENABLED','true')
+    assert call('mock-execute').status_code==409
+
+
+def test_model_transport_requires_auth_and_rejects_foreign_owner(scenario,injected_model):
+    body,call=scenario;call('enqueue')
+    assert call('model-execute',auth=False).status_code==401
+    assert call('model-execute',{**body,'ownerKey':str(uuid.uuid4())}).status_code==409
+    assert injected_model.calls==0
+
+
+def test_model_transport_cancel_removes_artifact_and_rejects_reexecution(scenario,injected_model):
+    body,call=scenario;call('enqueue');assert call('model-execute').status_code==200
+    assert call('cancel').status_code==200
+    assert call('model-execute').status_code==409 and injected_model.calls==1

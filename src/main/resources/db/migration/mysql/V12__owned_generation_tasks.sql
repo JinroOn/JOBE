@@ -1,0 +1,20 @@
+CREATE TABLE exploration_generation_task (
+ id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ user_id BIGINT NOT NULL,
+ context_id BIGINT NOT NULL,
+ purpose VARCHAR(20) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+ mutation_key VARCHAR(80) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+ request_json JSON NOT NULL,
+ state VARCHAR(20) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+ attempt INT NOT NULL DEFAULT 0,
+ lease_token CHAR(36) CHARACTER SET ascii COLLATE ascii_bin NULL,
+ lease_until DATETIME(6) NULL,
+ result_json JSON NULL,
+ result_hash CHAR(64) CHARACTER SET ascii COLLATE ascii_bin NULL,
+ CONSTRAINT uq_generation_user_mutation UNIQUE(user_id,mutation_key),
+ CONSTRAINT fk_generation_context FOREIGN KEY(context_id) REFERENCES exploration_result_context(id) ON DELETE CASCADE,
+ CONSTRAINT ck_generation_state CHECK(state IN ('QUEUED','RUNNING','CANCELLED','MOCK_STORED')),
+ CONSTRAINT ck_generation_attempt CHECK(attempt BETWEEN 0 AND 3),
+ CONSTRAINT ck_generation_lease CHECK((state='RUNNING' AND lease_token IS NOT NULL AND lease_until IS NOT NULL) OR (state<>'RUNNING' AND lease_token IS NULL AND lease_until IS NULL)),
+ CONSTRAINT ck_generation_result CHECK((state='MOCK_STORED' AND result_json IS NOT NULL AND result_hash IS NOT NULL) OR (state<>'MOCK_STORED' AND result_json IS NULL AND result_hash IS NULL))
+) ENGINE=InnoDB;
