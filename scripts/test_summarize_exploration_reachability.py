@@ -81,6 +81,37 @@ class AuditMergeTest(unittest.TestCase):
         self.assertEqual(value["executionGate"], "FAILED")
         self.assertIn("A:baseline:MERGE_REPRODUCIBILITY_FAILURE", value["executionErrors"])
 
+    def add_browsing(self, directories):
+        for directory in directories:
+            file = directory / "runs.jsonl"
+            rows = [json.loads(s) for s in file.read_text().splitlines()]
+            for row in rows:
+                row["candidateBrowsing"] = {"items": row["rankedCandidates"], "totalCount": len(row["rankedCandidates"])}
+            file.write_text("\n".join(json.dumps(r) for r in rows) + "\n")
+
+    def test_actual_candidate_api_coverage_is_separate_from_first_screen(self):
+        self.add_browsing(self.dirs)
+        value = self.merge()
+        self.assertEqual(value["candidateBrowsingGate"], "PASS")
+        self.assertEqual(value["majorsWithBrowsingPath"], 2)
+        self.assertEqual(value["majorsWithFirstScreenPath"], 1)
+
+    def test_partial_candidate_api_evidence_cannot_be_reported_as_a_pass(self):
+        self.add_browsing(self.dirs[:1])
+        value = self.merge()
+        self.assertEqual(value["candidateBrowsingGate"], "FAILED")
+        self.assertEqual(value["executionGate"], "FAILED")
+
+    def test_api_list_mismatch_fails_audit_even_when_result_candidates_are_unchanged(self):
+        self.add_browsing(self.dirs)
+        file = self.dirs[0] / "runs.jsonl"
+        rows = [json.loads(s) for s in file.read_text().splitlines()]
+        rows[0]["candidateBrowsing"] = {"items": [], "totalCount": 0}
+        file.write_text("\n".join(json.dumps(r) for r in rows) + "\n")
+        value = self.merge()
+        self.assertEqual(value["candidateBrowsingGate"], "FAILED")
+        self.assertIn("A:baseline:CANDIDATE_BROWSING_MISMATCH", value["executionErrors"])
+
 
 if __name__ == "__main__":
     unittest.main()

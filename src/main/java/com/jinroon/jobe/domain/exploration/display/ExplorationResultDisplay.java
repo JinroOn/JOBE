@@ -35,6 +35,31 @@ public class ExplorationResultDisplay {
         return display;
     }
 
+    /** Read sealed used evidence only. No scoring, reranking, live wording fallback, or current catalog lookup. */
+    public String candidateEvidenceLevel(JsonNode candidate) {
+        return level(evidence(candidate, json.object()));
+    }
+
+    public ObjectNode candidateDescription(JsonNode candidate, JsonNode wording) {
+        ObjectNode out = json.object();
+        out.put("evidenceLevel", candidateEvidenceLevel(candidate));
+        boolean available = wording.isObject() && wording.path("version").isTextual() && wording.path("metrics").isObject();
+        for (String field : List.of("usedInterestAxes", "usedActivityAxes", "usedLearningSets"))
+            for (JsonNode code : candidate.path(field)) available &= wording.path("metrics").path(code.asText()).isTextual();
+        var reasons = out.putArray("reasons");
+        if (available) {
+            reason(reasons, "INTEREST", candidate.path("usedInterestAxes"), wording);
+            reason(reasons, "ACTIVITY", candidate.path("usedActivityAxes"), wording);
+            reason(reasons, "LEARNING", candidate.path("usedLearningSets"), wording);
+            out.put("explanation", reasons.get(0).path("text").asText() + " 능력이나 합격 가능성을 판정한 결과가 아닙니다.");
+            out.put("reasonAvailability", "AVAILABLE"); out.putNull("reasonUnavailableCode");
+        } else {
+            out.putNull("explanation"); out.put("reasonAvailability", "UNAVAILABLE");
+            out.put("reasonUnavailableCode", "HISTORICAL_DISPLAY_CONTENT_UNAVAILABLE");
+        }
+        return out;
+    }
+
     private ObjectNode build(JsonNode result, JsonNode wording) {
         ObjectNode out = json.object();
         out.put("version", wording.path("version").asText());
