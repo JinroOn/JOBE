@@ -54,6 +54,12 @@ springdoc:
   default-consumes-media-type: application/json
   default-produces-media-type: application/json
 
+management:
+  health:
+    # 배포 헬스체크(/actuator/health)는 앱 상태만 본다. 메일 서버 인증 실패로 전체가 DOWN이 되지 않게 메일 점검은 끈다.
+    mail:
+      enabled: false
+
 jwt:
   secret: ${JWT_SECRET:dev-secret-key-must-be-at-least-256-bits-long-for-hs256-algorithm}
 
