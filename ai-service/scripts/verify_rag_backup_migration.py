@@ -213,6 +213,11 @@ def verify(args):
               'sourceReadOnly': True, 'sourceMigrated': False, 'approvalsCreated': False,
               'providerCalls': 0, 'cloneContainer': clone, 'cloneRemoved': False}
     source = source_url(args.env_file)
+    report['sourceContainer'] = args.source_container
+    report['sourcePort'] = source.port
+    report['sourceDatabase'] = source.database
+    report['migrationHashes'] = {p.name: file_hash(p) for p in (ROOT / 'migrations/versions').glob('*.py')}
+    report['alembicEnvironmentHash'] = file_hash(ROOT / 'migrations/env.py')
     require(not args.report.exists(), 'REPORT_ALREADY_EXISTS')
     backup_root = args.backup_dir.resolve()
     require(backup_root != REPO and REPO not in backup_root.parents, 'BACKUP_MUST_STAY_OUTSIDE_REPOSITORY')
@@ -270,7 +275,7 @@ def verify(args):
         compare_original(before, restored, migrated=False)
         report['restoreExact'] = True
         save('MIGRATE_CLONE')
-        run([sys.executable, '-m', 'alembic', 'upgrade', 'head'], env=child_env(clone_url.render_as_string(hide_password=False)), code='CLONE_MIGRATION_FAILED')
+        run([sys.executable, '-m', 'alembic', 'upgrade', HEAD], env=child_env(clone_url.render_as_string(hide_password=False)), code='CLONE_MIGRATION_FAILED')
         with readonly(clone_url.set(drivername='postgresql')) as con:
             migrated = manifest(con)
         compare_original(before, migrated, migrated=True)

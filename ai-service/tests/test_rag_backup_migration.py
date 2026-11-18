@@ -100,7 +100,7 @@ def test_backup_inside_repository_is_rejected_before_any_container_or_file_mutat
     monkeypatch.setattr(check, 'source_url', lambda path: make_url('postgresql://test:TEST@127.0.0.1:5433/source'))
     monkeypatch.setattr(check, 'inspect_container', lambda *a: pytest.fail('No Docker action'))
     args = SimpleNamespace(env_file=tmp_path/'.env', report=tmp_path/'report.json',
-                           backup_dir=check.REPO/'backups', clone_port=15439)
+                           backup_dir=check.REPO/'backups', clone_port=15439, source_container='TEST_SOURCE')
     with pytest.raises(check.VerificationFault, match='BACKUP_MUST_STAY_OUTSIDE_REPOSITORY'):
         check.verify(args)
     assert not args.report.exists()
