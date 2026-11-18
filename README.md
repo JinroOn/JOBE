@@ -96,6 +96,22 @@ docker-compose up -d --build
 docker-compose down -v
 ```
 
+### 테스트 실행
+
+통합 테스트는 개발 DB(`jobe`)가 아닌 전용 테스트 DB(`jobe_test`, 포트 13307)만 사용합니다.
+
+```bash
+docker compose -f docker-compose.test.yml up -d --wait
+```
+
+```bash
+JOBE_TEST_DATABASE_URL='jdbc:mysql://127.0.0.1:13307/jobe_test?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul' \
+JOBE_TEST_DATABASE_USERNAME=root JOBE_TEST_DATABASE_PASSWORD=jobe-test-only ./gradlew test
+```
+
+- 테스트 DB는 메모리에 저장되므로 컨테이너를 내렸다 올리면(`down` → `up`) 비워집니다.
+- 테스트가 오류 없이 멈추면 테스트 DB 용량을 확인하고 컨테이너를 다시 올리세요.
+
 ## 브랜치 전략
 
 `feature` → `develop` (기본) → `main` (배포)
