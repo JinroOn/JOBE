@@ -7,6 +7,11 @@ from test_exploration_model import settings,FakeChat,bound
 
 CASES=json.loads((Path(__file__).resolve().parents[2]/'datasets/exploration-plan12-contract/cases.json').read_text(encoding='utf-8'))
 
+
+def reviewed_tasks():
+    return ['준비: 종이 | 시간: 20분 내외 | 방식: 혼자',
+            '탐색 제안: 개념을 세 문장으로 정리하기. 쉬운 대안: 단어 세 개 적기.']
+
 @pytest.mark.parametrize('case',CASES['requestCases'],ids=lambda c:c['name'])
 def test_shared_plan12_request(case):
     if case['valid']:assert read_request(case['request']).model_dump()==case['request']
@@ -23,9 +28,10 @@ def test_model_uses_twelve_week_schema_prompt_budget_and_approved_references(set
     request,facts=bound('PLAN');request['contractVersion']='EXPLORATION_AI_CONTRACT_V1_2'
     request['input']['planSpec']={'weeks':12,'phaseLayout':'INFO_4_BASIC_4_ACTIVITY_4'};request['inputHash']=input_hash(request)
     content=copy.deepcopy(CASES['responseCases'][0]['response']['result']);content['targetName']=request['input']['targetName']
-    for w in content['weeks']:w['referenceKeys']=request['evidence']['referenceKeys']
+    for w in content['weeks']:
+        w['referenceKeys']=request['evidence']['referenceKeys'];w['tasks']=reviewed_tasks()
     chat=FakeChat(content);consumer=ExplorationModel(chat);consumer.configure_request(request)
-    assert consumer.metadata['promptVersion']=='EXPLORATION_PLAN12_V1_0'
+    assert consumer.metadata['promptVersion']=='EXPLORATION_PLAN12_V1_2'
     result=consumer.generate(request,facts)
     assert len(result['result']['weeks'])==12 and chat.settings['max_tokens']==6000
     assert 'exactly weeks 1-12' in chat.messages[0].content
@@ -37,7 +43,8 @@ def test_twelve_week_deadline_is_separate_from_short_consultation_deadline(setti
     request,facts=bound('PLAN');request['contractVersion']='EXPLORATION_AI_CONTRACT_V1_2'
     request['input']['planSpec']={'weeks':12,'phaseLayout':'INFO_4_BASIC_4_ACTIVITY_4'};request['inputHash']=input_hash(request)
     content=copy.deepcopy(CASES['responseCases'][0]['response']['result']);content['targetName']=request['input']['targetName']
-    for w in content['weeks']:w['referenceKeys']=request['evidence']['referenceKeys']
+    for w in content['weeks']:
+        w['referenceKeys']=request['evidence']['referenceKeys'];w['tasks']=reviewed_tasks()
     chat=FakeChat(content);consumer=ExplorationModel(chat);consumer.generate(request,facts)
     assert chat.settings['timeout']==30 and chat.settings['max_retries']==0
     short=FakeChat({'summary':'TEST','questions':[],'referenceKeys':request['evidence']['referenceKeys']})
@@ -62,3 +69,27 @@ def test_twelve_week_timeout_still_fails_without_partial_output(settings,monkeyp
         async def ainvoke(self,messages):await asyncio.sleep(10)
     with pytest.raises(ModelFault) as failure:ExplorationModel(Slow(None)).generate(request,facts)
     assert failure.value.code=='MODEL_TIMEOUT' and failure.value.retryable
+
+
+@pytest.mark.parametrize('missing',['preparation','proposal','fallback','extra_task'])
+def test_new_model_output_missing_required_guidance_is_not_returned_or_repaired(settings,missing):
+    from app.exploration_model import ModelFault
+    request,facts=bound('PLAN');request['contractVersion']='EXPLORATION_AI_CONTRACT_V1_2'
+    request['input']['planSpec']={'weeks':12,'phaseLayout':'INFO_4_BASIC_4_ACTIVITY_4'};request['inputHash']=input_hash(request)
+    content=copy.deepcopy(CASES['responseCases'][0]['response']['result']);content['targetName']=request['input']['targetName']
+    for w in content['weeks']:
+        w['referenceKeys']=request['evidence']['referenceKeys'];w['tasks']=reviewed_tasks()
+    first=content['weeks'][0]
+    if missing=='preparation':first['tasks'][0]='개념을 읽기'
+    if missing=='proposal':first['tasks'][1]='개념 정리. 쉬운 대안: 단어 세 개 적기.'
+    if missing=='fallback':first['tasks'][1]='탐색 제안: 개념을 정리하기.'
+    if missing=='extra_task':first['tasks'].append('추가 과제')
+    original=copy.deepcopy(content)
+    with pytest.raises(ModelFault) as error:ExplorationModel(FakeChat(content)).generate(request,facts)
+    assert error.value.code=='MODEL_OUTPUT_INVALID' and not error.value.retryable
+    assert content==original
+
+
+def test_old_stored_plan_contract_remains_readable_without_new_presentation_labels():
+    # The generation-only check must not tighten the shared/history wire validator.
+    validate_response(CASES['request'],CASES['responseCases'][0]['response'])

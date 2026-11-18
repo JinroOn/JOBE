@@ -44,7 +44,18 @@ dependencies {
 }
 
 tasks.named('test') {
-	useJUnitPlatform { excludeTags 'exploration-reachability' }
+	useJUnitPlatform { excludeTags 'exploration-reachability', 'exploration-provider-input' }
+}
+
+// Offline export from an owned synthetic HTTP flow; never contacts a provider.
+tasks.register('explorationProviderInputs', Test) {
+	group = 'verification'
+	description = 'Export guarded synthetic owned consultation/plan inputs for explicit provider evaluation.'
+	testClassesDirs = sourceSets.test.output.classesDirs
+	classpath = sourceSets.test.runtimeClasspath
+	useJUnitPlatform { includeTags 'exploration-provider-input' }
+	systemProperty 'exploration.provider.input-dir', providers.gradleProperty('explorationProviderInputDir').getOrElse('')
+	outputs.upToDateWhen { false }
 }
 
 // Explicit, expensive real-MySQL audit. Does not replace normal regression tests or approve content.

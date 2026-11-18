@@ -298,7 +298,7 @@ def plan12_model(scenario,monkeypatch):
         def with_structured_output(self,schema):return self
         async def ainvoke(self,messages):
             Injected.calls+=1;value=json.loads(messages[1].content);assert 'exactly weeks 1-12' in messages[0].content
-            return {'targetName':value['input']['targetName'],'weeks':[{'week':i,'phase':'INFO' if i<=4 else 'BASIC_LEARNING' if i<=8 else 'SMALL_ACTIVITY','title':'SYNTHETIC week','tasks':['SYNTHETIC task'],'expectedOutput':'SYNTHETIC note','referenceKeys':[value['evidence'][0]['referenceKey']]} for i in range(1,13)]}
+            return {'targetName':value['input']['targetName'],'weeks':[{'week':i,'phase':'INFO' if i<=4 else 'BASIC_LEARNING' if i<=8 else 'SMALL_ACTIVITY','title':'SYNTHETIC week','tasks':['준비: 종이 | 시간: 20분 | 방식: 혼자','탐색 제안: 한 문장 정리. 쉬운 대안: 단어 하나 적기.'],'expectedOutput':'SYNTHETIC note','referenceKeys':[value['evidence'][0]['referenceKey']]} for i in range(1,13)]}
     monkeypatch.setattr(wire,'ExplorationModel',lambda:ExplorationModel(Injected))
     return body,call,Injected
 
@@ -306,7 +306,7 @@ def plan12_model(scenario,monkeypatch):
 def test_plan12_model_transport_preserves_target_weeks_and_pinned_prompt(plan12_model):
     body,call,model=plan12_model;assert call('enqueue').status_code==200
     result=call('model-execute');assert result.status_code==200
-    assert result.json()['providerMetadata']['promptVersion']=='EXPLORATION_PLAN12_V1_0'
+    assert result.json()['providerMetadata']['promptVersion']=='EXPLORATION_PLAN12_V1_2'
     assert len(result.json()['response']['result']['weeks'])==12
     assert call('model-execute').json()==result.json() and model.calls==1
 

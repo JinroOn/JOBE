@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_PILOT_V1_REVIEW_20261118",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-18",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_133",
+  "majorName": "컴퓨터공학과",
+  "purpose": "공식 교육과정으로 대조한 사실 초안. 수집·승인·서비스 활성화 입력 형식이 아니며 아직 DB에 반영하지 않았다.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "커리어넷의 컴퓨터공학과 안내는 컴퓨터 시스템, 프로그래밍 기법, 알고리즘 설계, 응용소프트웨어 개발 등을 이론과 실습으로 다루는 전공이라고 설명한다. 주요 교과목 사례로는 운영체제, 소프트웨어 공학, 자료구조와 실험, 임베디드시스템, 데이터베이스가 제시된다. 운영체제의 구조와 작동 방식, 소프트웨어의 요구사항 분석과 설계, 자료구조의 구현 등을 배우는 내용을 살펴볼 수 있다. 진로 탐색 활동으로는 컴퓨터·IT 관련 글과 뉴스를 읽거나 관련 영상을 살펴보는 방법이 소개된다. 이는 학과를 알아보기 위한 사례이며, 개인의 적성이나 입학 요건을 판정하는 기준은 아니다.",
+      "sourceIds": ["CAREERNET_CSE_569"]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "컴퓨터 분야에서 배우는 내용을 살펴볼 수 있는 대학 교육과정 사례가 있다. 서울대학교 컴퓨터공학부의 2026학번 전공 이수 표준 형태에는 자료구조, 컴퓨터구조, 알고리즘, 운영체제, 데이터베이스, 데이터통신 등이 제시되어 있다. 고려대학교 컴퓨터학과의 2026학번 교육과정표에는 자료구조, 알고리즘, 컴퓨터구조, 운영체제, 컴퓨터네트워크, 인공지능이 기본 전공의 전공필수 과목으로 제시되어 있다. 이는 두 대학의 해당 학번 교육과정 사례이며, 대학과 입학연도에 따라 과목과 이수 요건은 달라질 수 있다.",
+      "sourceIds": ["SNU_CSE_CURRICULUM_2026", "KOREA_CS_CURRICULUM_2026"]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "CAREERNET_CSE_569",
+      "publisher": "한국직업능력연구원 국가진로교육연구센터 / 커리어넷",
+      "title": "대학교 학과정보 — 컴퓨터공학과 (seq=569)",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=569",
+      "accessedAt": "2026-11-18",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "페이지가 사용하는 공개 GET /cloud/api/major/uView?seq=569 응답의 major_NM·major_SUMRY·subject·careerAct를 직접 대조함. 학과 개요·주요 교과목·읽기/영상 탐색 사례를 바꾸어 서술함.",
+      "limitation": "응답 updt는 2020-12-02. 현재 대학별 개설·필수 과목 또는 최신 입시/취업 정보로 일반화하지 않음. 흥미·적성, 전망, 임금/취업률, 본체 분해 활동은 수록하지 않음."
+    },
+    {
+      "sourceId": "SNU_CSE_CURRICULUM_2026",
+      "publisher": "서울대학교 컴퓨터공학부",
+      "title": "전공 이수 표준 형태 — 2026학번부터 적용",
+      "url": "https://cse.snu.ac.kr/ko/academics/undergraduate/curriculum",
+      "accessedAt": "2026-11-18",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "supports": "제시한 6개 과목이 해당 학번 표준 형태에 포함됨. 모두 필수 과목이라는 주장은 하지 않음.",
+      "limitation": "변경 가능한 웹페이지이며 원문 전체를 고정 보관하거나 도메인 검토자가 승인한 상태가 아님."
+    },
+    {
+      "sourceId": "KOREA_CS_CURRICULUM_2026",
+      "publisher": "고려대학교 컴퓨터학과",
+      "title": "컴퓨터학과 교육과정표 (2026학번~)",
+      "url": "https://cs.korea.ac.kr/cs/under/computer_Curriculum.do?article.offset=0&articleLimit=10&articleNo=807272&mode=view",
+      "accessedAt": "2026-11-18",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "supports": "COSE213·214·222·341·342·361이 기본 전공 전공필수로 제시됨.",
+      "limitation": "해당 학번 교육과정에 한정하며 다른 대학의 졸업 요건으로 일반화하지 않음."
+    }
+  ],
+  "excludedClaims": [
+    "개인에게 잘 맞는 전공이라는 판단",
+    "요구 역량·적성·점수·순위·합격 또는 취업 보장",
+    "대학 학과명과 서비스 전공명의 동일성 또는 명칭 변경",
+    "근거를 확인하지 않은 관련 직업·입시·자격 요건"
+  ],
+  "beforeApproval": [
+    "실제 검토자가 출처와 문구를 확인하고 식별자·검토 시각·판정을 기록",
+    "승인 대상 버전과 파일 내용 확정 후 별도 불변 자료로 수집",
+    "수집된 실제 문서·청크의 현재 manifest를 다시 캡처해 검토 이력과 연결",
+    "문구 또는 출처 변경 시 기존 승인을 재사용하지 않고 재검토",
+    "94개 전공 전체를 지원하는 버전이 아니므로 전공 범위를 명시"
+  ]
+}
