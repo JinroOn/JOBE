@@ -68,6 +68,8 @@ public class MajorWeeklyPlan extends BaseEntitySupport {
         this.overview = overview;
     }
 
+    public void recordFallback(boolean fallback) { this.fallback=fallback; }
+
     public void prepareVersion(Integer versionNo, Long parentPlanId) {
         this.versionNo = versionNo;
         this.parentPlanId = parentPlanId;

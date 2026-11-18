@@ -78,6 +78,7 @@ public class ResultService {
     private final PlanService planService;
     private final TendencyScoringService tendencyScoringService;
     private final com.jinroon.jobe.domain.user.service.UserWriteGuard writeGuard;
+    private final com.jinroon.jobe.domain.plan.service.LegacyPlanTransactions transactions;
 
     public List<DiagnosisResult> findResults(Long userId) {
         return userId == null ? diagnosisResultRepository.findAll() : diagnosisResultRepository.findByUserId(userId);
@@ -126,8 +127,17 @@ public class ResultService {
 
 
 
-    @Transactional
+    @Transactional(propagation=org.springframework.transaction.annotation.Propagation.NOT_SUPPORTED)
     public DiagnosisResult completeDiagnosisResultForUser(Long sessionId, Long userId) {
+        CompletedLegacy completed=transactions.execute(()->completeLegacyResult(sessionId,userId));
+        // The result transaction has fully cleaned up its connection before provider I/O starts.
+        createInitialPlanIfAbsent(completed.result().getId(),completed.scores());
+        return completed.result();
+    }
+
+    private record CompletedLegacy(DiagnosisResult result,List<ResultMajorScore> scores){}
+
+    private CompletedLegacy completeLegacyResult(Long sessionId,Long userId) {
         writeGuard.requireActive(userId);
         DiagnosisSession session = get(diagnosisSessionRepository, sessionId, ErrorCode.DIAGNOSIS_SESSION_NOT_FOUND);
         requireOwner(session.getUserId(), userId);
@@ -180,10 +190,8 @@ public class ResultService {
             ));
         }
         List<ResultMajorScore> savedScores = resultMajorScoreRepository.saveAll(scores);
-        createInitialPlanIfAbsent(result.getId(), savedScores);
-
         session.complete(LocalDateTime.now());
-        return result;
+        return new CompletedLegacy(result,savedScores);
     }
 
     @Transactional
@@ -393,15 +401,13 @@ public class ResultService {
                 .findFirst()
                 .or(() -> scores.stream().filter(score -> score.getId() != null).findFirst())
                 .ifPresent(score -> {
+                    Long scoreId = score.getId();
                     try {
-                        planService.createPlan(Map.of(
-                                "diagnosisResultId", resultId,
-                                "resultMajorScoreId", score.getId(),
-                                "activeVersion", true
-                        ));
-                    } catch (Exception e) {
-                        log.warn("Initial weekly plan creation skipped resultId={} resultMajorScoreId={} errorType={} message={}",
-                                resultId, score.getId(), e.getClass().getSimpleName(), e.getMessage());
+                        planService.createPlan(Map.of("diagnosisResultId", resultId, "resultMajorScoreId", scoreId,
+                                "activeVersion", true));
+                    } catch (Exception failure) {
+                        log.warn("Initial weekly plan creation skipped resultId={} resultMajorScoreId={} errorType={}",
+                                resultId, scoreId, failure.getClass().getSimpleName());
                     }
                 });
     }

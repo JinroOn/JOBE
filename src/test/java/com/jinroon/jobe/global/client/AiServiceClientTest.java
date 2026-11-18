@@ -26,7 +26,8 @@ import org.springframework.web.client.RestTemplate;
 class AiServiceClientTest {
 
     private final RestTemplate restTemplate = org.mockito.Mockito.mock(RestTemplate.class);
-    private final AiServiceClient client = new AiServiceClient(restTemplate);
+    private final RestTemplate weeklyTemplate = org.mockito.Mockito.mock(RestTemplate.class);
+    private final AiServiceClient client = new AiServiceClient(restTemplate,weeklyTemplate);
 
     @Test
     void recommendationCommentRequestAddsAuthAndRequestIdHeaders() {
@@ -68,18 +69,18 @@ class AiServiceClientTest {
     }
 
     @Test
-    void weeklyPlanRequestReturnsNullWhenAiServiceCallFails() {
+    void weeklyPlanConnectionFailureHasAStableCode() {
         configureClient();
-        when(restTemplate.exchange(
+        when(weeklyTemplate.exchange(
                 eq("http://ai.local/v1/plan/weekly"),
                 eq(HttpMethod.POST),
                 any(HttpEntity.class),
                 eq(WeeklyPlanResponse.class)
         )).thenThrow(new ResourceAccessException("connection refused"));
 
-        WeeklyPlanResponse actual = client.getWeeklyPlan(weeklyPlanRequest());
-
-        assertThat(actual).isNull();
+        org.assertj.core.api.Assertions.assertThatThrownBy(() -> client.getWeeklyPlan(weeklyPlanRequest()))
+                .isInstanceOf(AiServiceClient.WeeklyPlanFailure.class).hasMessage("AI_WEEKLY_PLAN_CONNECTION_FAILED");
+        org.mockito.Mockito.verifyNoInteractions(restTemplate);
     }
 
     @Test

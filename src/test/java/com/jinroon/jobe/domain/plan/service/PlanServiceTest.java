@@ -79,10 +79,13 @@ class PlanServiceTest {
     private MajorDatasetContextService majorDatasetContextService;
 
     private PlanService planService;
+    private LegacyPlanTransactions transactions;
 
     @BeforeEach
     void setUp() {
         diagnosisProfileScoringService = new DiagnosisProfileScoringService(new ObjectMapper());
+        transactions=org.mockito.Mockito.mock(LegacyPlanTransactions.class);
+        org.mockito.Mockito.lenient().when(transactions.execute(any())).thenAnswer(call -> ((java.util.function.Supplier<?>)call.getArgument(0)).get());
         planService = new PlanService(
                 planRepository,
                 planItemRepository,
@@ -96,7 +99,7 @@ class PlanServiceTest {
                 aiServiceClient,
                 new ObjectMapper(),
                 majorDatasetContextService,
-                org.mockito.Mockito.mock(com.jinroon.jobe.domain.user.service.UserWriteGuard.class)
+                org.mockito.Mockito.mock(com.jinroon.jobe.domain.user.service.UserWriteGuard.class), transactions
         );
     }
 
@@ -128,6 +131,7 @@ class PlanServiceTest {
         when(planRepository.save(any(MajorWeeklyPlan.class))).thenAnswer(invocation -> {
             MajorWeeklyPlan plan = invocation.getArgument(0);
             ReflectionTestUtils.setField(plan, "id", 20L);
+            org.mockito.Mockito.lenient().when(planRepository.findById(20L)).thenReturn(Optional.of(plan));
             return plan;
         });
         when(competencyEvalResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.of(competency));
@@ -198,6 +202,7 @@ class PlanServiceTest {
         when(planRepository.save(any(MajorWeeklyPlan.class))).thenAnswer(invocation -> {
             MajorWeeklyPlan plan = invocation.getArgument(0);
             ReflectionTestUtils.setField(plan, "id", 20L);
+            org.mockito.Mockito.lenient().when(planRepository.findById(20L)).thenReturn(Optional.of(plan));
             return plan;
         });
         when(competencyEvalResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.of(competency));
@@ -238,6 +243,7 @@ class PlanServiceTest {
         when(planRepository.save(any(MajorWeeklyPlan.class))).thenAnswer(invocation -> {
             MajorWeeklyPlan plan = invocation.getArgument(0);
             ReflectionTestUtils.setField(plan, "id", 20L);
+            org.mockito.Mockito.lenient().when(planRepository.findById(20L)).thenReturn(Optional.of(plan));
             return plan;
         });
         when(competencyEvalResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.of(competency));
@@ -296,6 +302,7 @@ class PlanServiceTest {
         when(planRepository.save(any(MajorWeeklyPlan.class))).thenAnswer(invocation -> {
             MajorWeeklyPlan plan = invocation.getArgument(0);
             ReflectionTestUtils.setField(plan, "id", 20L);
+            org.mockito.Mockito.lenient().when(planRepository.findById(20L)).thenReturn(Optional.of(plan));
             return plan;
         });
         when(competencyEvalResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.of(competency));
@@ -360,6 +367,7 @@ class PlanServiceTest {
         when(planRepository.save(any(MajorWeeklyPlan.class))).thenAnswer(invocation -> {
             MajorWeeklyPlan plan = invocation.getArgument(0);
             ReflectionTestUtils.setField(plan, "id", 21L);
+            org.mockito.Mockito.lenient().when(planRepository.findById(21L)).thenReturn(Optional.of(plan));
             return plan;
         });
         when(competencyEvalResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.of(competency));
@@ -414,6 +422,7 @@ class PlanServiceTest {
         when(planRepository.save(any(MajorWeeklyPlan.class))).thenAnswer(invocation -> {
             MajorWeeklyPlan plan = invocation.getArgument(0);
             ReflectionTestUtils.setField(plan, "id", 21L);
+            org.mockito.Mockito.lenient().when(planRepository.findById(21L)).thenReturn(Optional.of(plan));
             return plan;
         });
         when(competencyEvalResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.of(competency));
@@ -500,6 +509,7 @@ class PlanServiceTest {
         when(planRepository.save(any(MajorWeeklyPlan.class))).thenAnswer(invocation -> {
             MajorWeeklyPlan plan = invocation.getArgument(0);
             ReflectionTestUtils.setField(plan, "id", 21L);
+            org.mockito.Mockito.lenient().when(planRepository.findById(21L)).thenReturn(Optional.of(plan));
             return plan;
         });
         when(competencyEvalResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.of(competency));

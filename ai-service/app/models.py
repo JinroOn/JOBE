@@ -213,6 +213,8 @@ class WeeklyPlanResponse(BaseModel):
     weeklyPlan: list[WeeklyPlanItem] = Field(min_length=4, max_length=12)
     riskNotes: list[str] = Field(default_factory=list, max_length=10)
     requestId: str = Field(min_length=1, max_length=100)
+    fallback: bool = False
+    fallbackReasons: list[str] = Field(default_factory=list, max_length=30)
 
 
 class ConsultationHistoryMessage(BaseModel):
