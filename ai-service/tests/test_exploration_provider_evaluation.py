@@ -34,8 +34,9 @@ class ProtocolClient:
         if self.schema is evaluation.ConsultationResult:
             value = dict(summary='protocol', questions=[], referenceKeys=['protocol_ref'])
         else:
-            value = dict(targetName='PROTOCOL_TEST', weeks=[dict(week=i, phase='INFO' if i <= 4 else 'BASIC_LEARNING' if i <= 8 else 'SMALL_ACTIVITY',
-                title='protocol', tasks=['test'], expectedOutput='test', referenceKeys=['protocol_ref']) for i in range(1, 13)])
+            from plan12_draft_fixtures import draft_result
+            assert self.schema is evaluation.Plan12Draft
+            value = draft_result('protocol_ref', 'PROTOCOL_TEST')
         return dict(parsed=self.schema.model_validate(value), parsing_error=None,
                     raw=SimpleNamespace(usage_metadata=dict(input_tokens=12, output_tokens=8, total_tokens=20)))
 
@@ -171,6 +172,8 @@ def test_approved_evaluation_is_readonly_rechecks_after_call_and_never_saves_a_r
             events.append('after')
             if revoke: raise binding.EvidenceNoLongerAvailable()
     class Consumer:
+        timings = {'providerWaitMs': 12.0, 'cleanupMs': 2.0, 'totalMs': 15.0}
+        metadata = {'promptVersion': 'TEST_PROMPT'}
         def generate(self, request, facts):
             assert events[-1] == 'end_tx'
             events.append('provider')
@@ -186,5 +189,7 @@ def test_approved_evaluation_is_readonly_rechecks_after_call_and_never_saves_a_r
     assert report['contentQuality'] == ('NOT_EVALUATED' if revoke else 'HUMAN_REVIEW_REQUIRED')
     assert review_path.exists() is (not revoke)
     if not revoke:
+        assert report['timingsMs'] == Consumer.timings
+        assert report['promptVersion'] == 'TEST_PROMPT'
         review = json.loads(review_path.read_text())
         assert review['requiresHumanReview'] and 'requestId' not in review and 'inputHash' not in review
