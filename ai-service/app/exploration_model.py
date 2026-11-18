@@ -6,7 +6,7 @@ from app.exploration_contract import ConsultationResult,PlanResult,Plan12Result,
 
 PROMPT_VERSION='EXPLORATION_MODEL_V1_0'
 CONVERSATION_PROMPT_VERSION='EXPLORATION_CONVERSATION_V1_0'
-PLAN12_PROMPT_VERSION='EXPLORATION_PLAN12_V1_2'
+PLAN12_PROMPT_VERSION='EXPLORATION_PLAN12_V1_3'
 
 
 class ModelFault(RuntimeError):
@@ -87,12 +87,22 @@ class ExplorationModel:
                'INFO: read and compare supplied topics; BASIC_LEARNING: explain one small concept in everyday words; '
                'SMALL_ACTIVITY: make a tiny personal sketch, comparison table or reflection using that concept. '
                'Give a concrete, small expectedOutput each week. Keep all strings concise and within the schema limits. '
+               'Make every task self-contained: students see the tasks and source titles/versions, not the hidden evidence excerpts. '
+               'Include a short paraphrase of the supplied fact or an explicitly fictional input example inside the task itself, '
+               'followed by one observable action and a bounded output such as two labelled boxes with one entry each. '
+               'An authored fictional example is task material, never a cited factual claim about the major. '
+               'If evidence only names a course or topic, do not ask beginners to explain its principles, list its methods or compare its advantages. '
+               'Instead, use those supplied names to mark familiar/unknown words or write one question they would like to explore. '
+               'Do not require an unspecified article, video, website, textbook, search engine or a prior week\'s unavailable explanation. '
+               'Without a verified student-visible resource location in the input, use the embedded excerpt/example and an offline alternative; '
+               'never invent a URL or claim login, payment, accessibility or current availability was checked. '
+               'The easy alternative must use the same embedded input, require no new device or source, and reduce the action/output. '
                'Do not infer personal aptitude or mastery from completing the suggested tasks. '
-               '모든 주의 tasks는 정확히 두 문장이어야 합니다. 첫 문장은 반드시 "준비: ... | 시간: 약 20분 | 방식: 혼자" 형태로, '
+               '모든 주의 tasks는 정확히 두 문장이어야 합니다. 첫 문장은 "준비: ... | 시간: 약 5~20분 중 작은 예상 범위, 부담되면 줄이기 | 방식: 혼자" 형태로, '
                '둘째 문장은 반드시 "탐색 제안: 작은 행동 한 가지. 쉬운 대안: 더 짧은 행동 한 가지." 형태로 작성하세요. '
                '예상 시간은 제안이며 관찰된 소요시간이 아닙니다. 필요하면 더 짧게 조정할 수 있게 하세요. '
-               '예: tasks=["준비: 종이와 펜 | 시간: 약 20분, 부담되면 줄이기 | 방식: 혼자", '
-               '"탐색 제안: 제공된 주제 하나를 세 문장으로 정리하기. 쉬운 대안: 단어 세 개만 적기."]. '
+               '예: tasks=["준비: 종이와 펜 | 시간: 약 5~10분, 부담되면 줄이기 | 방식: 혼자", '
+               '"탐색 제안: 가상 예시: [책, 공책, 펜]을 보고 종이 물건/그 외 두 칸에 나눠 적기. 쉬운 대안: 책 하나만 해당 칸에 적기."]. '
                '예시를 주제에 맞게 바꾸되 각 문장을 짧게 쓰세요. 근거에 졸업 후 진로·직업·전망이 없으면 그 주제를 과제로 넣지 마세요.' if self.plan12 else ''))),
             HumanMessage(content=payload)]
         model=None

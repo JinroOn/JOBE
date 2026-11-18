@@ -43,9 +43,17 @@ def assess_plan(result: dict, facts: list[dict]) -> dict:
             codes.append("COLLABORATOR_ASSUMPTION_REVIEW")
         if re.search(r"운영체제.*실습|프로그래밍.*공부|프로젝트.*실습", text):
             codes.append("TASK_SIZE_REVIEW")
+        # Editorial hints only: an explicit example can still be wrong or inaccessible.
+        action = week.tasks[1] if len(week.tasks) > 1 else ""
+        has_input_cue = bool(re.search(r"가상\s*예시\s*[:：]|입력\s*예시\s*[:：]|「[^」]+」", action))
+        if not has_input_cue and re.search(
+                r"기본\s*(?:개념|원리)|여러\s*방법|자신의\s*(?:이해|생각|느낌)|개인적.*(?:반영|스케치)", action):
+            codes.append("ABSTRACT_TASK_REVIEW")
+        if not has_input_cue and re.search(r"글이나\s*뉴스|관련\s*영상|영상.*시청|기사.*읽", action):
+            codes.append("EXTERNAL_RESOURCE_ACCESS_REVIEW")
         if codes:
             findings.append({"week": week.week, "codes": codes})
-    return {"reviewVersion": "PLAN12_REVIEW_HINTS_V1_0", "schemaValid": True,
+    return {"reviewVersion": "PLAN12_REVIEW_HINTS_V1_1", "schemaValid": True,
             "status": "REVIEW_HINTS_FOUND" if findings else "HUMAN_REVIEW_REQUIRED",
             "findings": findings, "semanticSupportVerified": False,
             "humanReviewRequired": True, "generationAuthorized": False,

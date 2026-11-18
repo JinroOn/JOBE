@@ -83,7 +83,7 @@ class ExplorationJobClientTest {
     @ParameterizedTest @ValueSource(strings={"mode","permission","provider","model","prompt","hash","extra"})
     void rejectsModelEnvelopeMismatch(String field){modelReady();var body=modelEnvelope();switch(field){case "mode"->body.put("mode","MOCK");case "permission"->body.put("generationAuthorized",false);case "provider"->((ObjectNode)body.path("providerMetadata")).put("provider","other");case "model"->((ObjectNode)body.path("providerMetadata")).put("model","OTHER");case "prompt"->((ObjectNode)body.path("providerMetadata")).put("promptVersion","OTHER");case "hash"->body.put("originalInputHash","0".repeat(64));case "extra"->body.put("extra","PRIVATE");}reply("model-execute",body.toString());assertThatThrownBy(()->client.executeModel("owner","m",request)).isInstanceOf(ExplorationJobClient.Unavailable.class);}
 
-    @ParameterizedTest @ValueSource(strings={"EXPLORATION_PLAN12_V1_0","EXPLORATION_PLAN12_V1_1","EXPLORATION_PLAN12_V1_2"})
+    @ParameterizedTest @ValueSource(strings={"EXPLORATION_PLAN12_V1_0","EXPLORATION_PLAN12_V1_1","EXPLORATION_PLAN12_V1_2","EXPLORATION_PLAN12_V1_3"})
     void newPlanRepliesRequireTheUpdatedPromptWithoutChangingTheWireContract(String prompt)throws Exception{
         var cases=mapper.readTree(Files.readString(Path.of("datasets/exploration-plan12-contract/cases.json")));
         ObjectNode bound=cases.path("request").deepCopy();
@@ -93,7 +93,7 @@ class ExplorationJobClientTest {
         modelReady();ReflectionTestUtils.setField(client,"datasetVersion",bound.path("evidence").path("datasetVersion").asText());
         var body=modelEnvelope();body.set("boundRequest",bound);body.set("response",cases.path("responseCases").get(0).path("response"));
         ((ObjectNode)body.path("providerMetadata")).put("promptVersion",prompt);reply("model-execute",body.toString());
-        if(prompt.equals("EXPLORATION_PLAN12_V1_2"))assertThat(client.executeModel("owner","m",request).path("response").path("contractVersion").asText()).isEqualTo(ExplorationAiContract.PLAN12_VERSION);
+        if(prompt.equals("EXPLORATION_PLAN12_V1_3"))assertThat(client.executeModel("owner","m",request).path("response").path("contractVersion").asText()).isEqualTo(ExplorationAiContract.PLAN12_VERSION);
         else assertThatThrownBy(()->client.executeModel("owner","m",request)).isInstanceOf(ExplorationJobClient.Unavailable.class);
         server.verify();
     }

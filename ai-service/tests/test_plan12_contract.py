@@ -31,10 +31,13 @@ def test_model_uses_twelve_week_schema_prompt_budget_and_approved_references(set
     for w in content['weeks']:
         w['referenceKeys']=request['evidence']['referenceKeys'];w['tasks']=reviewed_tasks()
     chat=FakeChat(content);consumer=ExplorationModel(chat);consumer.configure_request(request)
-    assert consumer.metadata['promptVersion']=='EXPLORATION_PLAN12_V1_2'
+    assert consumer.metadata['promptVersion']=='EXPLORATION_PLAN12_V1_3'
     result=consumer.generate(request,facts)
     assert len(result['result']['weeks'])==12 and chat.settings['max_tokens']==6000
     assert 'exactly weeks 1-12' in chat.messages[0].content
+    assert 'students see the tasks and source titles/versions, not the hidden evidence excerpts' in chat.messages[0].content
+    assert 'If evidence only names a course or topic' in chat.messages[0].content
+    assert 'never invent a URL' in chat.messages[0].content
     assert set(json.loads(chat.messages[1].content))=={'purpose','input','evidence'}
 
 
@@ -93,3 +96,19 @@ def test_new_model_output_missing_required_guidance_is_not_returned_or_repaired(
 def test_old_stored_plan_contract_remains_readable_without_new_presentation_labels():
     # The generation-only check must not tighten the shared/history wire validator.
     validate_response(CASES['request'],CASES['responseCases'][0]['response'])
+
+
+def test_abstract_wording_hints_are_not_a_new_semantic_rejection_rule(settings):
+    from app.plan_review import assess_plan
+    request,facts=bound('PLAN');request['contractVersion']='EXPLORATION_AI_CONTRACT_V1_2'
+    request['input']['planSpec']={'weeks':12,'phaseLayout':'INFO_4_BASIC_4_ACTIVITY_4'};request['inputHash']=input_hash(request)
+    content=copy.deepcopy(CASES['responseCases'][0]['response']['result']);content['targetName']=request['input']['targetName']
+    for w in content['weeks']:
+        w['referenceKeys']=request['evidence']['referenceKeys'];w['tasks']=reviewed_tasks()
+    content['weeks'][1]['tasks'][1]='탐색 제안: 기본 원리를 설명하기. 쉬운 대안: 단어 적기.'
+    original=copy.deepcopy(content)
+    result=ExplorationModel(FakeChat(content)).generate(request,facts)
+    assert result['result']==original
+    review=assess_plan(result['result'],facts)
+    assert any('ABSTRACT_TASK_REVIEW' in f['codes'] for f in review['findings'])
+    assert review['semanticSupportVerified'] is False
