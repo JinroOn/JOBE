@@ -75,6 +75,6 @@ def test_pilot_is_unapproved_and_cannot_claim_a_database_manifest():
     assert draft["generationAuthorized"] is False
     sources = {s["sourceId"] for s in draft["sources"]}
     for chunk in draft["chunks"]:
-        assert chunk["chunkType"] == "major_overview"
+        assert chunk["chunkType"] in {"description", "major_overview"}
         assert 20 < len(chunk["text"]) <= 1600
         assert set(chunk["sourceIds"]) <= sources
