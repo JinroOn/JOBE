@@ -21,6 +21,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from app.exploration_contract import ConsultationResult, Plan12Result
+from app.exploration_plan_draft import Plan12Draft, render_plan_draft
 from app.exploration_model import ModelFault
 
 VERSION = 'EXPLORATION_PROVIDER_EVALUATION_V1_0'
@@ -112,7 +113,7 @@ async def protocol_probe(config, factory=None):
         from langchain_openai import ChatOpenAI
         factory = ChatOpenAI
     rows = []
-    for name, schema, budget in (('CONSULTATION_SCHEMA', ConsultationResult, 1600), ('PLAN12_SCHEMA', Plan12Result, 6000)):
+    for name, schema, budget in (('CONSULTATION_SCHEMA', ConsultationResult, 1600), ('PLAN12_SCHEMA', Plan12Draft, 6000)):
         deadline = config['plan_timeout'] if name == 'PLAN12_SCHEMA' else config['timeout']
         model = None
         row = {'probe': name, 'status': 'FAILED', 'requestAttempted': False,
@@ -126,7 +127,9 @@ async def protocol_probe(config, factory=None):
                       'For consultation: summary=프로토콜 시험, questions=[], referenceKeys=[protocol_ref]. '
                       'For plan: targetName=PROTOCOL_TEST, exactly weeks 1 through 12; '
                       'phase INFO for 1-4, BASIC_LEARNING for 5-8, SMALL_ACTIVITY for 9-12. '
-                      'For every week title=시험, tasks=[형식 확인], expectedOutput=시험 기록, referenceKeys=[protocol_ref].')
+                      'For every week title=시험, materials=종이, estimatedMinutes=5, inputKind=FICTIONAL_EXAMPLE, '
+                      'inputText=[A,B], action=두 칸에 나누기, expectedOutput=표, easierAction=A만 적기, '
+                      'easierOutput=단어, referenceKeys=[protocol_ref]. No public tasks field.')
             row['requestAttempted'] = True
             envelope = await asyncio.wait_for(model.with_structured_output(schema, include_raw=True).ainvoke(
                 [SystemMessage(content=prompt), HumanMessage(content=name)]), timeout=deadline)
@@ -140,6 +143,8 @@ async def protocol_probe(config, factory=None):
                     refs = [parsed.referenceKeys] if name == 'CONSULTATION_SCHEMA' else [w.referenceKeys for w in parsed.weeks]
                     if any(r != ['protocol_ref'] for r in refs) or (name == 'PLAN12_SCHEMA' and parsed.targetName != 'PROTOCOL_TEST'):
                         raise ValueError()
+                    if name == 'PLAN12_SCHEMA':
+                        render_plan_draft(parsed.model_dump(), [{'referenceKey':'protocol_ref','text':'SYNTHETIC PROTOCOL'}])
                     row.update(status='PASS', schemaValid=True)
                 except (ValueError, TypeError):
                     row['reasonCode'] = 'MODEL_OUTPUT_INVALID'
@@ -177,6 +182,7 @@ def approved_probe(request_path, dataset_version, review_output=None):
     if request_path is None:
         return dict(report, reasonCode='OWNED_REQUEST_EXPORT_REQUIRED')
     engine = None
+    consumer = None
     try:
         policy = EvidencePolicy(dataset_version)
         configured = os.getenv('EXPLORATION_EVIDENCE_DATASET_VERSION', '')
@@ -206,6 +212,8 @@ def approved_probe(request_path, dataset_version, review_output=None):
         started = time.monotonic()
         response = consumer.generate(prepared.request, facts)
         report['latencyMs'] = round((time.monotonic() - started) * 1000)
+        report['timingsMs'] = dict(consumer.timings)
+        report['promptVersion'] = consumer.metadata['promptVersion']
         with readonly() as db:
             ExplorationEvidenceBinder(db, policy).revalidate(prepared.binding)
         if review_output is not None:
@@ -221,7 +229,7 @@ def approved_probe(request_path, dataset_version, review_output=None):
     except (EvidenceIntegrityError, EvidenceNoLongerAvailable, EvidencePolicyError):
         return dict(report, reasonCode='EVIDENCE_VALIDATION_FAILED')
     except ModelFault as error:
-        return dict(report, reasonCode=error.code)
+        return dict(report, reasonCode=error.code, timingsMs=dict(consumer.timings) if consumer is not None else {})
     except (OSError, ValueError):
         return dict(report, reasonCode='EVALUATION_REQUEST_INVALID')
     except Exception:

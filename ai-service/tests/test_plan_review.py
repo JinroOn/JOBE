@@ -65,3 +65,27 @@ def test_malformed_week_order_is_not_a_content_review_success():
     value["weeks"][0]["week"] = 2
     with pytest.raises(ValidationError):
         assess_plan(value, FACTS)
+
+
+@pytest.mark.parametrize('action,code', [
+    ('탐색 제안: 알고리즘 설계의 기본 원리를 이해하고 설명하기. 쉬운 대안: 예를 적기.', 'ABSTRACT_TASK_REVIEW'),
+    ('탐색 제안: 여러 방법을 비교하는 표를 작성하기. 쉬운 대안: 장점을 적기.', 'ABSTRACT_TASK_REVIEW'),
+    ('탐색 제안: 자신의 생각이나 느낌을 기록하기. 쉬운 대안: 필요성을 적기.', 'ABSTRACT_TASK_REVIEW'),
+    ('탐색 제안: 글이나 뉴스를 읽고 기록하기. 쉬운 대안: 관련 영상을 시청하기.', 'EXTERNAL_RESOURCE_ACCESS_REVIEW'),
+])
+def test_actual_sample_wording_is_flagged_without_changing_or_approving_it(action, code):
+    value = plan()
+    value['weeks'][0]['tasks'][1] = action
+    original = deepcopy(value)
+    review = assess_plan(value, FACTS)
+    assert code in review['findings'][0]['codes']
+    assert review['semanticSupportVerified'] is False and review['humanReviewRequired'] is True
+    assert review['generationAuthorized'] is False and value == original
+
+
+def test_embedded_example_reduces_hints_without_proving_source_support():
+    value = plan()
+    value['weeks'][0]['tasks'][1] = '탐색 제안: 가상 예시: [책, 펜]을 두 칸에 나눠 적기. 쉬운 대안: 책 하나만 적기.'
+    review = assess_plan(value, FACTS)
+    assert review['findings'] == []
+    assert review['status'] == 'HUMAN_REVIEW_REQUIRED' and not review['semanticSupportVerified']
