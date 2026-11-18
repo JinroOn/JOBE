@@ -4,6 +4,7 @@ import asyncio
 import os
 import re
 import uuid
+import math
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -57,12 +58,19 @@ class PlanChainResult:
     prompt_version: str
     model: str
 
+    def __post_init__(self) -> None:
+        # These reasons are server-generated fixed codes, never provider exception text.
+        self.response=self.response.model_copy(update={"fallback": bool(self.fallback_reasons),
+                                                      "fallbackReasons": sorted(set(self.fallback_reasons))})
+
 
 class WeeklyPlanChain:
     def __init__(self) -> None:
         self.provider = os.getenv("LLM_PROVIDER", "openai").lower()
         self.model = os.getenv("LLM_MODEL", "gpt-4o-mini")
-        self.timeout_seconds = float(os.getenv("LLM_TIMEOUT_SECONDS", "10"))
+        self.timeout_seconds = float(os.getenv("WEEKLY_PLAN_LLM_TIMEOUT_SECONDS", "30"))
+        if not math.isfinite(self.timeout_seconds) or not 0 < self.timeout_seconds <= 30:
+            raise ValueError("WEEKLY_PLAN_LLM_TIMEOUT_SECONDS must be finite and within (0, 30]")
         self.api_key = (
             os.getenv("LLM_API_KEY")
             or os.getenv("OPENAI_API_KEY")
@@ -100,6 +108,7 @@ class WeeklyPlanChain:
                 model=self.model,
                 api_key=self.api_key,
                 timeout=self.timeout_seconds,
+                max_retries=0,
                 base_url=self.base_url or None,
             )
             structured = llm.with_structured_output(GeneratedWeeklyPlan)

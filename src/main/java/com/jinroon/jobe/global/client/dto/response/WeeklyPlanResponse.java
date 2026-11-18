@@ -8,8 +8,13 @@ public record WeeklyPlanResponse(
         List<WeeklyPlan> weeklyPlan,
         List<String> riskNotes,
         String version,
-        String requestId
+        String requestId,
+        Boolean fallback,
+        List<String> fallbackReasons
 ) {
+    public WeeklyPlanResponse(String planId,String overview,List<WeeklyPlan> weeklyPlan,List<String> riskNotes,String version,String requestId){
+        this(planId,overview,weeklyPlan,riskNotes,version,requestId,false,List.of());
+    }
     public record WeeklyPlan(
             Integer week,
             String goal,

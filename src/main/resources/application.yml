@@ -69,6 +69,8 @@ ai:
     token: ${AI_SERVER_TOKEN:${INTERNAL_SERVICE_TOKEN:}}
     connect-timeout-ms: ${AI_SERVER_CONNECT_TIMEOUT_MS:2000}
     read-timeout-ms: ${AI_SERVER_READ_TIMEOUT_MS:10000}
+    weekly-plan-connect-timeout-ms: ${AI_WEEKLY_PLAN_CONNECT_TIMEOUT_MS:2000}
+    weekly-plan-read-timeout-ms: ${AI_WEEKLY_PLAN_READ_TIMEOUT_MS:40000}
 
 major:
   dataset:

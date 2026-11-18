@@ -87,9 +87,12 @@ class ResultServiceTest {
     private PlanService planService;
 
     private ResultService resultService;
+    private com.jinroon.jobe.domain.plan.service.LegacyPlanTransactions transactions;
 
     @BeforeEach
     void setUp() {
+        transactions=org.mockito.Mockito.mock(com.jinroon.jobe.domain.plan.service.LegacyPlanTransactions.class);
+        org.mockito.Mockito.lenient().when(transactions.execute(any())).thenAnswer(call->((java.util.function.Supplier<?>)call.getArgument(0)).get());
         resultService = new ResultService(
                 diagnosisResultRepository,
                 resultMajorScoreRepository,
@@ -104,7 +107,7 @@ class ResultServiceTest {
                 new ObjectMapper(),
                 planService,
                 new TendencyScoringService(new ObjectMapper()),
-                org.mockito.Mockito.mock(com.jinroon.jobe.domain.user.service.UserWriteGuard.class)
+                org.mockito.Mockito.mock(com.jinroon.jobe.domain.user.service.UserWriteGuard.class), transactions
         );
     }
 
@@ -286,6 +289,13 @@ class ResultServiceTest {
         assertThat(scores).extracting(ResultMajorScore::getMajorId).containsExactly(101L, 102L, 100L);
         assertThat(scores).extracting(ResultMajorScore::getRank).containsExactly(1, 2, 3);
         assertThat(scores.get(2).getFailed()).isTrue();
+    }
+
+    @Test
+    void resultTransactionCommitFailureNeverCallsInitialPlan(){
+        org.mockito.Mockito.doThrow(new IllegalStateException("SYNTHETIC_COMMIT_FAILURE")).when(transactions).execute(any());
+        assertThatThrownBy(()->resultService.completeDiagnosisResultForUser(10L,7L)).isInstanceOf(IllegalStateException.class);
+        verify(planService,never()).createPlan(any());
     }
 
     @Test

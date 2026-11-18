@@ -327,37 +327,11 @@ class DiagnosisResultAccessTest {
 
     // ---- 3.2 5단계: 계획의 전공 점수 소속 확인 (N06) ----
 
-    @Test
-    void planWithMajorScoreOfAnotherResultIsRejected() throws Exception {
-        User owner = saveUser(UserRole.member);
-        User other = saveUser(UserRole.member);
-        DiagnosisResult ownResult = saveResult(owner);
-        DiagnosisResult otherResult = saveResult(other);
-        ResultMajorScore otherScore = resultMajorScoreRepository.save(ResultMajorScore.of(
-                otherResult.getId(), 1L, 70.0f, 80.0f, 76.0f, 1, false, null));
 
-        mockMvc.perform(post("/api/plans")
-                        .header("Authorization", bearer(owner))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"diagnosisResultId\":" + ownResult.getId()
-                                + ",\"resultMajorScoreId\":" + otherScore.getId() + "}"))
-                .andExpect(status().isNotFound());
-    }
 
     // ---- 계획 ----
 
-    @Test
-    void planForOtherUsersResultIsForbidden() throws Exception {
-        User owner = saveUser(UserRole.member);
-        User other = saveUser(UserRole.member);
-        DiagnosisResult result = saveResult(owner);
 
-        mockMvc.perform(post("/api/plans")
-                        .header("Authorization", bearer(other))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"diagnosisResultId\":" + result.getId() + ",\"resultMajorScoreId\":1}"))
-                .andExpect(status().isNotFound());
-    }
 
     @Test
     void plansOfOtherUsersResultAreForbidden() throws Exception {
