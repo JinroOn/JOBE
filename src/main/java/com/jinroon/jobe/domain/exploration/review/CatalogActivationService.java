@@ -2,6 +2,7 @@ package com.jinroon.jobe.domain.exploration.review;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jinroon.jobe.domain.exploration.activity.ActivityRecommendationService;
 import com.jinroon.jobe.domain.exploration.review.CatalogReviewService.TargetType;
 import com.jinroon.jobe.global.exception.CustomException;
 import com.jinroon.jobe.global.exception.error.ErrorCode;
@@ -34,7 +35,8 @@ public class CatalogActivationService {
     @Value("${exploration.runtime.ruleset-version:RULESET_V1_5_IMPLEMENTATION_CANDIDATE}")
     private String rulesetVersion;
 
-    @Value("${exploration.activities.catalog-version:ACTIVITY_CATALOG_V1_DRAFT}")
+    // 활동 추천과 같은 기준 버전. 실행 중인 카탈로그의 보관·교체를 막는 판단에 쓴다.
+    @Value("${exploration.activities.catalog-version:" + ActivityRecommendationService.DEFAULT_CATALOG_VERSION + "}")
     private String activityCatalogVersion;
 
     /** 활성화 범위. 범위가 넓을수록 필요한 검토 종류가 늘어난다. */

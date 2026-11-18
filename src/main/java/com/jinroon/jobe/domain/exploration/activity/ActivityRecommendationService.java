@@ -23,7 +23,9 @@ public class ActivityRecommendationService {
     private final PostResultSupportService support;
     private final ExplorationJson json;
     private final JdbcTemplate jdbc;
-    @Value("${exploration.activities.catalog-version:ACTIVITY_CATALOG_V2_DRAFT}") private String selectedVersion;
+    /** 설정이 없을 때 쓰는 활동 카탈로그 버전. 활성화 관리(CatalogActivationService)도 같은 값을 기준으로 삼는다. */
+    public static final String DEFAULT_CATALOG_VERSION = "ACTIVITY_CATALOG_V2_DRAFT";
+    @Value("${exploration.activities.catalog-version:" + DEFAULT_CATALOG_VERSION + "}") private String selectedVersion;
     private record Candidate(JsonNode payload,String hash,int majorOrder,double preference,List<Long> reviews) {}
 
     /** Result GET refreshes only dynamic activity fields. Completion idempotency stays historical. */
