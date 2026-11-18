@@ -1,0 +1,20 @@
+# 로컬 전용 메일 수신 서버(Mailpit) 연결. 사용: SPRING_PROFILES_ACTIVE=dev,mailpit
+# docker compose -f docker-compose.yml -f docker-compose.local.yml up -d mailpit 으로 띄우고
+# http://localhost:8025 에서 받은 메일을 확인한다. 인증 없이 로컬 포트로만 보내며 외부로 발송하지 않는다.
+spring:
+  mail:
+    host: ${MAILPIT_HOST:localhost}
+    port: ${MAILPIT_SMTP_PORT:1025}
+    username:
+    password:
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+            required: false
+
+app:
+  mail:
+    from-address: no-reply@jinroon.local

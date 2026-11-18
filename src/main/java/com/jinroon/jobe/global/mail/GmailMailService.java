@@ -21,7 +21,8 @@ public class GmailMailService implements MailService {
 
     private final JavaMailSender mailSender;
 
-    @Value("${spring.mail.username}")
+    // 보내는 주소. 지정하지 않으면 기존처럼 SMTP 계정(spring.mail.username)을 쓴다.
+    @Value("${app.mail.from-address:${spring.mail.username}}")
     private String fromEmail;
 
     @Value("${app.mail.from-name:JOBE}")
