@@ -36,6 +36,19 @@ docker-compose up -d
 | Swagger UI | http://localhost:8080/swagger-ui/index.html |
 | AI 서버 | http://localhost:8001 |
 
+### 로컬 회원가입 메일 확인 (Mailpit)
+
+로컬에는 실제 메일 서버(SMTP)가 없어 회원가입·비밀번호 재설정 인증 메일을 보낼 수 없습니다.
+Mailpit을 띄우고 백엔드를 `mailpit` 프로필로 실행하면, 메일이 외부로 나가지 않고 Mailpit으로 들어옵니다.
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.local.yml up -d mailpit
+```
+
+- 백엔드 실행 프로필에 `mailpit`을 추가합니다. 예: `SPRING_PROFILES_ACTIVE=dev,mailpit`
+- 받은 메일(인증번호)은 http://localhost:8025 에서 확인합니다.
+- `mailpit` 프로필은 `prod` 프로필과 함께 켜면 시작되지 않습니다.
+
 ### 초기 데이터 (자동 생성)
 
 docker-compose 최초 실행 시 아래 데이터가 자동으로 생성됩니다.
