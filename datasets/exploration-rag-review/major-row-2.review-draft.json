@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M2_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_2",
+  "majorName": "고고학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "고고학과는 유적과 유물로 과거의 생활과 문화를 연구한다. 커리어넷은 한국고대·선사문화와 한국의 고분문화를 교과 사례로 소개한다.",
+      "sourceIds": [
+        "m2-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "서울대 고고미술사학과 고고학전공 학부 과목 개요는 선사시대 유적·유물을 통해 당시 생활과 기술을 살피는 교과목을 소개한다. 부산대 고고학과 교육과정 자료에는 구석기시대고고학이 나온다.",
+      "sourceIds": [
+        "m2-university",
+        "m2-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m2-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 고고학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=29",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2020-12-02 갱신 응답에서 확인한 고고학과는 유적과 유물로 과거의 생활과 문화를 연구한다. 커리어넷은 한국고대·선사문화와 한국의 고분문화를 교과 사례로 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m2-university",
+      "publisher": "서울대학교",
+      "title": "2024 학사과정 교과목 과목개요",
+      "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_Summary_2024.pdf",
+      "supports": "고고학전공의 유적·유물을 통한 한반도 선사시대 생활·기술 탐구",
+      "limitation": "2024 학부 과목 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m2-extra",
+      "publisher": "부산대학교",
+      "title": "2026 PNU 펜토미노 교육과정",
+      "url": "https://microbio.pusan.ac.kr/bbs/microbio/222/1525348/download.do",
+      "supports": "고고학과 한국고고학 모듈의 구석기시대고고학",
+      "limitation": "해당 교육과정의 모듈 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}
