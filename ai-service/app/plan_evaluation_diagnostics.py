@@ -13,7 +13,7 @@ ERROR_TYPES = frozenset({
     'missing', 'extra_forbidden', 'string_type', 'string_too_short', 'string_too_long',
     'string_pattern_mismatch', 'literal_error', 'int_type', 'greater_than_equal',
     'less_than_equal', 'list_type', 'too_short', 'too_long', 'model_type', 'value_error',
-    'json_invalid', 'duplicate_options', 'missing_activity_variety',
+    'json_invalid', 'repeated_scenario', 'missing_activity_variety',
 })
 FINISH_REASONS = frozenset({'stop', 'tool_calls', 'function_call', 'length', 'content_filter'})
 WEEK_FIELDS = frozenset(PlanWeekDraft.model_fields) | {'tasks', 'referenceKeys'}

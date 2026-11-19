@@ -2,10 +2,11 @@
 import re
 from typing import Annotated, Literal
 
-from pydantic import Field, ValidationInfo, field_validator, model_validator
+from pydantic import Field, model_validator
 from pydantic_core import PydanticCustomError
 
 from app.exploration_contract import ContractViolation, Plan12Result, StrictModel, text
+from app.exploration_plan_scenarios import FICTIONAL_SCENARIOS
 
 
 MAX_EXCERPT_CANDIDATES = 12
@@ -35,18 +36,7 @@ VARIED_ACTIVITIES = frozenset({'CLASSIFY_ITEMS', 'OBSERVE_DIFFERENCE', 'ORDER_ST
 
 class FictionalTask(StrictModel):
     inputKind: Literal['FICTIONAL_EXAMPLE']
-    inputText: text(70)
-    activity: Literal['CHOOSE_OPTION', 'CLASSIFY_ITEMS', 'OBSERVE_DIFFERENCE', 'ORDER_STEPS', 'SKETCH_LABELS']
-    optionA: text(30)
-    optionB: text(30)
-
-    @field_validator('optionB')
-    @classmethod
-    def distinct_options(cls, option, info: ValidationInfo):
-        first = info.data.get('optionA')
-        if first is not None and ' '.join(first.split()).casefold() == ' '.join(option.split()).casefold():
-            raise PydanticCustomError('duplicate_options', 'The two entries must be distinct')
-        return option
+    scenarioIndex: Annotated[int, Field(ge=1, le=len(FICTIONAL_SCENARIOS))]
 
 
 class PlanWeekDraft(StrictModel):
@@ -66,7 +56,11 @@ class Plan12Draft(StrictModel):
             phase = 'INFO' if number <= 4 else 'BASIC_LEARNING' if number <= 8 else 'SMALL_ACTIVITY'
             if week.week != number or week.phase != phase:
                 raise ValueError('Twelve ordered weeks and phases are required')
-        activities = {week.task.activity for week in self.weeks[4:]}
+        indices = [week.task.scenarioIndex for week in self.weeks if isinstance(week.task, FictionalTask)]
+        if len(indices) != len(set(indices)):
+            raise PydanticCustomError('repeated_scenario', 'Each fictional scenario can be used only once')
+        activities = {FICTIONAL_SCENARIOS[week.task.scenarioIndex - 1].activity
+                      for week in self.weeks[4:] if isinstance(week.task, FictionalTask)}
         if not VARIED_ACTIVITIES.issubset(activities):
             raise PydanticCustomError('missing_activity_variety', 'Weeks 5-12 must include classification, observation, ordering and sketching')
         return self
@@ -143,10 +137,9 @@ def render_plan_draft(value, facts) -> dict:
             provided_input = f'근거 발췌: 「{input_text}」'
             activity = task.activity
         else:
-            input_text = ' '.join(task.inputText.split())
-            first, second = (' '.join(option.split()) for option in (task.optionA, task.optionB))
-            provided_input = f'가상 예시: 「{input_text}」 (A 「{first}」 / B 「{second}」)'
-            activity = task.activity
+            scenario = FICTIONAL_SCENARIOS[task.scenarioIndex - 1]
+            provided_input = f'가상 예시: 「{scenario.situation}」 (A 「{scenario.first}」 / B 「{scenario.second}」)'
+            activity = scenario.activity
         title, action, output, easier_action, easier_output = ACTIVITY_TEXT[activity]
         weeks.append({
             'week': week.week, 'phase': week.phase, 'title': title,
@@ -166,18 +159,12 @@ PLAN12_INSTRUCTIONS = (
     'For EVIDENCE_EXCERPT, select the index of one supplied excerptCandidates entry as excerptIndex '
     'and choose MARK_KEYWORD or WRITE_QUESTION for activity. The server writes the excerpt. '
     'If excerptCandidates is empty, use FICTIONAL_EXAMPLE. Avoid reusing the same excerpt when suitable alternatives exist. '
-    'For FICTIONAL_EXAMPLE, choose activity and supply an imaginary situation in inputText (up to 70 characters) '
-    'plus concrete, distinct entries in optionA and optionB (up to 30 characters each). '
-    'Weeks 5-12 must include CLASSIFY_ITEMS, OBSERVE_DIFFERENCE, ORDER_STEPS and SKETCH_LABELS at least once each. '
-    'For CLASSIFY_ITEMS, give two named categories and their rule in inputText, and two items as A and B. '
-    'Example: "도서 안내를 반납일 정보 칸과 책 이름 칸으로 나눈다", A="금요일까지", B="숲 속 이야기". '
-    'For OBSERVE_DIFFERENCE, give a situation and two short displays, notes or records with a visible difference. '
-    'For ORDER_STEPS, give a goal and ordering clue, with two actions to put in order. '
-    'For SKETCH_LABELS, give a simple screen purpose and two concrete button or box names. '
-    'For CHOOSE_OPTION, give a situation with a goal or preference and two choices the reader can compare. '
-    'Use everyday Korean and put all rules, clues and examples the reader needs in these fields. '
-    'Use varied topics present in the approved evidence. The server assigns the reference for every week. '
-    'Use different excerpts for information and questions, and vary fictional actions across the last two phases. '
+    'For FICTIONAL_EXAMPLE, select the index of one supplied fictionalScenarios entry as scenarioIndex. '
+    'Its activity, situation and two entries are written by the server. Do not repeat a scenario index. '
+    'Weeks 5-12 must select at least one scenario of each activity: CLASSIFY_ITEMS, OBSERVE_DIFFERENCE, ORDER_STEPS, SKETCH_LABELS. '
+    'For example, indices 2, 3, 4 and 5 satisfy that requirement when each is used once in weeks 5-12. '
+    'Use the approved evidence for factual excerpts. The server assigns the reference for every week. '
+    'Use different excerpts for information and questions, and choose fictional scenarios appropriate for practice in the last two phases. '
     'Suggest a small estimatedMinutes value between 1 and 20. Each task uses paper and a pen. '
     'Keep all input and options self-contained. Never invent a URL or require an article, lesson, device or partner. '
     'Keep fictional examples separate from factual claims and avoid admissions, aptitude, forecasts and rankings.'

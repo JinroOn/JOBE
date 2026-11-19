@@ -7,6 +7,7 @@ from pydantic import ValidationError
 from app.exploration_contract import ContractViolation, Plan12Result
 from app.exploration_model import ExplorationModel, ModelFault
 from app.exploration_plan_draft import Plan12Draft, excerpt_candidates, render_plan_draft
+from app.exploration_plan_scenarios import FICTIONAL_SCENARIOS
 from plan12_draft_fixtures import draft_result
 from test_exploration_model import FakeChat, bound, settings
 from app.exploration_contract import input_hash
@@ -34,10 +35,8 @@ def test_provider_tool_schema_describes_both_allowed_task_shapes():
     fictional = by_kind['FICTIONAL_EXAMPLE']
     assert set(evidence['required']) == {'inputKind', 'excerptIndex', 'activity'}
     assert set(evidence['properties']['activity']['enum']) == {'MARK_KEYWORD', 'WRITE_QUESTION'}
-    assert set(fictional['required']) == {'inputKind', 'inputText', 'activity', 'optionA', 'optionB'}
-    assert set(fictional['properties']['activity']['enum']) == {
-        'CHOOSE_OPTION', 'CLASSIFY_ITEMS', 'OBSERVE_DIFFERENCE', 'ORDER_STEPS', 'SKETCH_LABELS',
-    }
+    assert set(fictional['required']) == {'inputKind', 'scenarioIndex'}
+    assert fictional['properties']['scenarioIndex']['maximum'] == len(FICTIONAL_SCENARIOS)
     assert all(branch['additionalProperties'] is False for branch in branches)
 
 
@@ -47,31 +46,31 @@ def test_rendered_tasks_embed_the_actual_input_and_retain_public_shape():
     original = deepcopy(draft)
     rendered = render_plan_draft(draft, facts)
     assert set(rendered['weeks'][0]) == {'week', 'phase', 'title', 'tasks', 'expectedOutput', 'referenceKeys'}
-    assert '가상 예시: 「문구류 정리하기」' in rendered['weeks'][0]['tasks'][1]
-    assert 'A 「종이 재료로 나누기」 / B 「사용 목적별로 나누기」' in rendered['weeks'][0]['tasks'][1]
+    assert '가상 예시: 「문구류를 찾기 쉽게 정리하려고 한다.' in rendered['weeks'][0]['tasks'][1]
+    assert 'A 「재료별로 나누기」 / B 「쓰는 목적별로 나누기」' in rendered['weeks'][0]['tasks'][1]
     assert 'A 또는 B 한 글자' in rendered['weeks'][0]['tasks'][1]
     assert rendered['weeks'][0]['expectedOutput'] == '고른 선택지 하나와 고른 이유 한 문장'
     assert draft == original
     Plan12Result.model_validate(rendered)
 
 
-@pytest.mark.parametrize('change', ['blank_input', 'blank_option', 'duplicate_options', 'missing_option',
-                                  'excerpt_with_options', 'fictional_without_choice', 'extra_tasks',
-                                  'too_long_input', 'reorder', 'wrong_phase',
+@pytest.mark.parametrize('change', ['string_index', 'zero_index', 'excessive_index', 'missing_index',
+                                  'excerpt_with_scenario', 'fictional_with_activity', 'extra_tasks',
+                                  'model_written_scenario', 'reorder', 'wrong_phase',
                                   'string_minutes', 'zero_minutes', 'excessive_minutes', 'model_reference',
                                   'unavailable_excerpt', 'old_excerpt_text', 'public_only'])
 def test_invalid_drafts_fail_without_partial_output_or_silent_repair(settings, change):
     request, facts = model_request()
     draft = draft_result()
     week = draft['weeks'][0]
-    if change == 'blank_input': week['task']['inputText'] = '  '
-    elif change == 'blank_option': week['task']['optionA'] = '  '
-    elif change == 'duplicate_options': week['task'].update(optionA='A B', optionB=' a  b ')
-    elif change == 'missing_option': del week['task']['optionB']
-    elif change == 'excerpt_with_options': week['task'] = {**excerpt_task(1), 'optionA': 'A'}
-    elif change == 'fictional_without_choice': week['task']['activity'] = 'MARK_KEYWORD'
+    if change == 'string_index': week['task']['scenarioIndex'] = '1'
+    elif change == 'zero_index': week['task']['scenarioIndex'] = 0
+    elif change == 'excessive_index': week['task']['scenarioIndex'] = len(FICTIONAL_SCENARIOS) + 1
+    elif change == 'missing_index': del week['task']['scenarioIndex']
+    elif change == 'excerpt_with_scenario': week['task'] = {**excerpt_task(1), 'scenarioIndex': 1}
+    elif change == 'fictional_with_activity': week['task']['activity'] = 'MARK_KEYWORD'
     elif change == 'extra_tasks': week['tasks'] = ['OLD FREE TEXT']
-    elif change == 'too_long_input': week['task']['inputText'] = 'x'*71
+    elif change == 'model_written_scenario': week['task']['inputText'] = 'Unreviewed generic situation'
     elif change == 'reorder': draft['weeks'][0], draft['weeks'][1] = draft['weeks'][1], draft['weeks'][0]
     elif change == 'wrong_phase': week['phase'] = 'SMALL_ACTIVITY'
     elif change == 'string_minutes': week['estimatedMinutes'] = '5'
@@ -137,14 +136,18 @@ def test_plan_references_require_one_bound_fact_and_cannot_be_chosen_by_the_mode
         render_plan_draft(draft_result(), facts * 2)
 
 
-@pytest.mark.parametrize('index', [0, 4, 5, 7, 9])
-def test_maximum_draft_field_sizes_still_fit_existing_wire_limits(index):
+def test_all_curated_scenarios_fit_existing_wire_limits():
     _, facts = model_request()
     draft = draft_result()
-    draft['weeks'][index]['task'].update(inputText='나'*70, optionA='다'*30, optionB='라'*30)
-    week = render_plan_draft(draft, facts)['weeks'][index]
-    assert max(map(len, week['tasks'])) <= 300
-    assert '다'*30 in week['tasks'][1] and '라'*30 in week['tasks'][1]
+    rendered = render_plan_draft(draft, facts)['weeks']
+    rendered_by_scenario = {week['task']['scenarioIndex']: output for week, output in zip(draft['weeks'], rendered)}
+    for scenario_index, scenario in enumerate(FICTIONAL_SCENARIOS, 1):
+        week = rendered_by_scenario.get(scenario_index)
+        if week is None:
+            draft['weeks'][0]['task']['scenarioIndex'] = scenario_index
+            week = render_plan_draft(draft, facts)['weeks'][0]
+        assert max(map(len, week['tasks'])) <= 300
+        assert all(text in week['tasks'][1] for text in (scenario.situation, scenario.first, scenario.second))
 
 
 @pytest.mark.parametrize('number,title,output,easier', [
@@ -157,23 +160,32 @@ def test_varied_activities_render_their_own_output_and_alternative(number, title
     _, facts = model_request()
     draft = draft_result()
     week = render_plan_draft(draft, facts)['weeks'][number - 1]
-    source = draft['weeks'][number - 1]['task']
+    source = FICTIONAL_SCENARIOS[draft['weeks'][number - 1]['task']['scenarioIndex'] - 1]
     assert week['title'] == title and week['expectedOutput'] == output
     assert f'(결과: {easier})' in week['tasks'][1]
-    assert all(source[key] in week['tasks'][1] for key in ('inputText', 'optionA', 'optionB'))
+    assert all(text in week['tasks'][1] for text in (source.situation, source.first, source.second))
 
 
 def test_repeated_choices_cannot_replace_varied_activities_after_info(settings):
     request, facts = model_request()
     draft = draft_result()
-    draft['weeks'][1]['task'] = draft['weeks'][4]['task'].copy()
-    draft['weeks'][4]['task'] = draft['weeks'][0]['task'].copy()
+    draft['weeks'][1]['task'], draft['weeks'][4]['task'] = draft['weeks'][4]['task'], draft['weeks'][1]['task']
+    draft['weeks'][4]['task']['scenarioIndex'] = 12
+    draft['weeks'][6]['task']['scenarioIndex'] = 13
     with pytest.raises(ValidationError) as failure:
         Plan12Draft.model_validate(draft)
     assert failure.value.errors()[0]['type'] == 'missing_activity_variety'
     with pytest.raises(ModelFault) as failure:
         ExplorationModel(FakeChat(draft)).generate(request, facts)
     assert failure.value.code == 'MODEL_OUTPUT_INVALID'
+
+
+def test_curated_scenario_cannot_be_repeated():
+    draft = draft_result()
+    draft['weeks'][0]['task'] = draft['weeks'][1]['task'].copy()
+    with pytest.raises(ValidationError) as failure:
+        Plan12Draft.model_validate(draft)
+    assert failure.value.errors()[0]['type'] == 'repeated_scenario'
 
 
 @pytest.mark.parametrize('number,excerpt,allowed,prohibited,expected', [
@@ -207,20 +219,20 @@ def test_nested_diagnostics_identify_known_paths_and_remove_arbitrary_keys():
     from app.plan_evaluation_diagnostics import output_failure
 
     draft = draft_result()
-    draft['weeks'][0]['task'].update(optionB=4, PRIVATE_KEY='PRIVATE_VALUE')
+    draft['weeks'][0]['task'].update(scenarioIndex='4', PRIVATE_KEY='PRIVATE_VALUE')
     with pytest.raises(ValidationError) as failure:
         Plan12Draft.model_validate(draft)
     errors = output_failure('PROVIDER_PARSING', failure.value)['errors']
-    assert {'type': 'string_type', 'path': ['weeks', 0, 'task', 'FictionalTask', 'optionB']} in errors
+    assert {'type': 'int_type', 'path': ['weeks', 0, 'task', 'FictionalTask', 'scenarioIndex']} in errors
     assert 'PRIVATE' not in str(errors)
 
     draft['weeks'][0]['task'] = {
-        'inputKind': 'FICTIONAL_EXAMPLE', 'activity': 'CHOOSE_OPTION', 'inputText': '상황', 'optionA': 'x', 'optionB': ' X ',
+        'inputKind': 'FICTIONAL_EXAMPLE', 'scenarioIndex': 0,
     }
     with pytest.raises(ValidationError) as failure:
         Plan12Draft.model_validate(draft)
     errors = output_failure('PROVIDER_PARSING', failure.value)['errors']
-    assert {'type': 'duplicate_options', 'path': ['weeks', 0, 'task', 'FictionalTask', 'optionB']} in errors
+    assert {'type': 'greater_than_equal', 'path': ['weeks', 0, 'task', 'FictionalTask', 'scenarioIndex']} in errors
 
 
 class DiagnosticChat(FakeChat):

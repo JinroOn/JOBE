@@ -3,12 +3,14 @@ import asyncio
 import json
 import os
 import time
+from dataclasses import asdict
 from app.exploration_plan_draft import Plan12Draft, PLAN12_INSTRUCTIONS, excerpt_candidates, render_plan_draft
+from app.exploration_plan_scenarios import FICTIONAL_SCENARIOS
 from app.exploration_contract import ConsultationResult,PlanResult,Plan12Result,validate_response
 
 PROMPT_VERSION='EXPLORATION_MODEL_V1_0'
 CONVERSATION_PROMPT_VERSION='EXPLORATION_CONVERSATION_V1_0'
-PLAN12_PROMPT_VERSION='EXPLORATION_PLAN12_V1_9'
+PLAN12_PROMPT_VERSION='EXPLORATION_PLAN12_V1_10'
 
 
 class ModelFault(RuntimeError):
@@ -77,6 +79,9 @@ class ExplorationModel:
                                          for index, sentence in enumerate(excerpt_candidates(fact['text']), 1)]
             evidence = [fact]
         data={'purpose':request['purpose'],'input':request['input'],'evidence':evidence}
+        if self.plan12:
+            data['fictionalScenarios'] = [{'index': index, **asdict(scenario)}
+                                          for index, scenario in enumerate(FICTIONAL_SCENARIOS, 1)]
         payload=json.dumps(data,ensure_ascii=False,allow_nan=False)
         if len(payload)>24000:raise ModelFault('MODEL_INPUT_INVALID')
         messages=[SystemMessage(content=(
