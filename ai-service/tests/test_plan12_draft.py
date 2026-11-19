@@ -34,7 +34,10 @@ def test_provider_tool_schema_describes_both_allowed_task_shapes():
     fictional = by_kind['FICTIONAL_EXAMPLE']
     assert set(evidence['required']) == {'inputKind', 'excerptIndex', 'activity'}
     assert set(evidence['properties']['activity']['enum']) == {'MARK_KEYWORD', 'WRITE_QUESTION'}
-    assert set(fictional['required']) == {'inputKind', 'inputText', 'optionA', 'optionB'}
+    assert set(fictional['required']) == {'inputKind', 'inputText', 'activity', 'optionA', 'optionB'}
+    assert set(fictional['properties']['activity']['enum']) == {
+        'CHOOSE_OPTION', 'CLASSIFY_ITEMS', 'OBSERVE_DIFFERENCE', 'ORDER_STEPS', 'SKETCH_LABELS',
+    }
     assert all(branch['additionalProperties'] is False for branch in branches)
 
 
@@ -134,13 +137,43 @@ def test_plan_references_require_one_bound_fact_and_cannot_be_chosen_by_the_mode
         render_plan_draft(draft_result(), facts * 2)
 
 
-def test_maximum_draft_field_sizes_still_fit_existing_wire_limits():
+@pytest.mark.parametrize('index', [0, 4, 5, 7, 9])
+def test_maximum_draft_field_sizes_still_fit_existing_wire_limits(index):
+    _, facts = model_request()
+    draft = draft_result()
+    draft['weeks'][index]['task'].update(inputText='나'*70, optionA='다'*30, optionB='라'*30)
+    week = render_plan_draft(draft, facts)['weeks'][index]
+    assert max(map(len, week['tasks'])) <= 300
+    assert '다'*30 in week['tasks'][1] and '라'*30 in week['tasks'][1]
+
+
+@pytest.mark.parametrize('number,title,output,easier', [
+    (5, '두 칸으로 나누기', 'A와 B를 나눠 적은 두 칸', 'A가 들어갈 칸의 이름 하나'),
+    (6, '차이 한 가지 찾기', 'A와 B의 차이를 적은 한 줄', '옮겨 적은 낱말이나 표시 하나'),
+    (8, '두 행동에 순서 붙이기', '순서 번호가 붙은 행동 두 개', '1번을 붙인 행동 하나'),
+    (10, '작은 화면 그리기', '이름을 적은 네모 두 개', 'A의 이름을 적은 네모 하나'),
+])
+def test_varied_activities_render_their_own_output_and_alternative(number, title, output, easier):
+    _, facts = model_request()
+    draft = draft_result()
+    week = render_plan_draft(draft, facts)['weeks'][number - 1]
+    source = draft['weeks'][number - 1]['task']
+    assert week['title'] == title and week['expectedOutput'] == output
+    assert f'(결과: {easier})' in week['tasks'][1]
+    assert all(source[key] in week['tasks'][1] for key in ('inputText', 'optionA', 'optionB'))
+
+
+def test_repeated_choices_cannot_replace_varied_activities_after_info(settings):
     request, facts = model_request()
     draft = draft_result()
-    draft['weeks'][0]['task'].update(inputText='나'*70, optionA='다'*30, optionB='라'*30)
-    rendered = render_plan_draft(draft, facts)
-    assert max(map(len, rendered['weeks'][0]['tasks'])) <= 300
-    assert '다'*30 in rendered['weeks'][0]['tasks'][1] and '라'*30 in rendered['weeks'][0]['tasks'][1]
+    draft['weeks'][1]['task'] = draft['weeks'][4]['task'].copy()
+    draft['weeks'][4]['task'] = draft['weeks'][0]['task'].copy()
+    with pytest.raises(ValidationError) as failure:
+        Plan12Draft.model_validate(draft)
+    assert failure.value.errors()[0]['type'] == 'missing_activity_variety'
+    with pytest.raises(ModelFault) as failure:
+        ExplorationModel(FakeChat(draft)).generate(request, facts)
+    assert failure.value.code == 'MODEL_OUTPUT_INVALID'
 
 
 @pytest.mark.parametrize('number,excerpt,allowed,prohibited,expected', [
@@ -178,16 +211,16 @@ def test_nested_diagnostics_identify_known_paths_and_remove_arbitrary_keys():
     with pytest.raises(ValidationError) as failure:
         Plan12Draft.model_validate(draft)
     errors = output_failure('PROVIDER_PARSING', failure.value)['errors']
-    assert {'type': 'string_type', 'path': ['weeks', 0, 'task', 'FictionalChoiceTask', 'optionB']} in errors
+    assert {'type': 'string_type', 'path': ['weeks', 0, 'task', 'FictionalTask', 'optionB']} in errors
     assert 'PRIVATE' not in str(errors)
 
     draft['weeks'][0]['task'] = {
-        'inputKind': 'FICTIONAL_EXAMPLE', 'inputText': '상황', 'optionA': 'x', 'optionB': ' X ',
+        'inputKind': 'FICTIONAL_EXAMPLE', 'activity': 'CHOOSE_OPTION', 'inputText': '상황', 'optionA': 'x', 'optionB': ' X ',
     }
     with pytest.raises(ValidationError) as failure:
         Plan12Draft.model_validate(draft)
     errors = output_failure('PROVIDER_PARSING', failure.value)['errors']
-    assert {'type': 'duplicate_options', 'path': ['weeks', 0, 'task', 'FictionalChoiceTask', 'optionB']} in errors
+    assert {'type': 'duplicate_options', 'path': ['weeks', 0, 'task', 'FictionalTask', 'optionB']} in errors
 
 
 class DiagnosticChat(FakeChat):

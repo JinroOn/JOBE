@@ -26,7 +26,7 @@ def test_model_uses_twelve_week_schema_prompt_budget_and_approved_references(set
     request['input']['planSpec']={'weeks':12,'phaseLayout':'INFO_4_BASIC_4_ACTIVITY_4'};request['inputHash']=input_hash(request)
     content=draft_result(request['input']['targetName'])
     chat=FakeChat(content);consumer=ExplorationModel(chat);consumer.configure_request(request)
-    assert consumer.metadata['promptVersion']=='EXPLORATION_PLAN12_V1_8'
+    assert consumer.metadata['promptVersion']=='EXPLORATION_PLAN12_V1_9'
     result=consumer.generate(request,facts)
     assert len(result['result']['weeks'])==12 and chat.settings['max_tokens']==6000
     assert 'exactly weeks 1-12' in chat.messages[0].content

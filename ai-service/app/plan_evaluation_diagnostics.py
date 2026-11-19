@@ -6,20 +6,20 @@ from openai import ContentFilterFinishReasonError, LengthFinishReasonError
 from pydantic import ValidationError
 
 from app.exploration_contract import ContractViolation
-from app.exploration_plan_draft import EvidenceTask, FictionalChoiceTask, PlanWeekDraft
+from app.exploration_plan_draft import EvidenceTask, FictionalTask, PlanWeekDraft
 
 
 ERROR_TYPES = frozenset({
     'missing', 'extra_forbidden', 'string_type', 'string_too_short', 'string_too_long',
     'string_pattern_mismatch', 'literal_error', 'int_type', 'greater_than_equal',
     'less_than_equal', 'list_type', 'too_short', 'too_long', 'model_type', 'value_error',
-    'json_invalid', 'duplicate_options',
+    'json_invalid', 'duplicate_options', 'missing_activity_variety',
 })
 FINISH_REASONS = frozenset({'stop', 'tool_calls', 'function_call', 'length', 'content_filter'})
 WEEK_FIELDS = frozenset(PlanWeekDraft.model_fields) | {'tasks', 'referenceKeys'}
 TASK_FIELDS = {
     EvidenceTask.__name__: frozenset(EvidenceTask.model_fields),
-    FictionalChoiceTask.__name__: frozenset(FictionalChoiceTask.model_fields),
+    FictionalTask.__name__: frozenset(FictionalTask.model_fields),
 }
 
 

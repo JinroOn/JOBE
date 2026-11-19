@@ -128,8 +128,10 @@ async def protocol_probe(config, factory=None):
                       'For plan: targetName=PROTOCOL_TEST, exactly weeks 1 through 12; '
                       'phase INFO for 1-4, BASIC_LEARNING for 5-8, SMALL_ACTIVITY for 9-12. '
                       'For every week estimatedMinutes=5 '
-                      'and task={inputKind: FICTIONAL_EXAMPLE, inputText: 가상 자료 정리, '
-                      'optionA: 제목순, optionB: 날짜순}.')
+                      'and task={inputKind: FICTIONAL_EXAMPLE, activity, inputText: 가상 자료 정리, '
+                      'optionA: 제목순, optionB: 날짜순}. '
+                      'Use CLASSIFY_ITEMS in week 5, OBSERVE_DIFFERENCE in week 6, '
+                      'ORDER_STEPS in week 8, SKETCH_LABELS in week 10, and CHOOSE_OPTION in other weeks.')
             row['requestAttempted'] = True
             envelope = await asyncio.wait_for(model.with_structured_output(schema, include_raw=True).ainvoke(
                 [SystemMessage(content=prompt), HumanMessage(content=name)]), timeout=deadline)
