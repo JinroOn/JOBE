@@ -3,12 +3,12 @@ import asyncio
 import json
 import os
 import time
-from app.exploration_plan_draft import Plan12Draft, PLAN12_INSTRUCTIONS, render_plan_draft
+from app.exploration_plan_draft import Plan12Draft, PLAN12_INSTRUCTIONS, excerpt_candidates, render_plan_draft
 from app.exploration_contract import ConsultationResult,PlanResult,Plan12Result,validate_response
 
 PROMPT_VERSION='EXPLORATION_MODEL_V1_0'
 CONVERSATION_PROMPT_VERSION='EXPLORATION_CONVERSATION_V1_0'
-PLAN12_PROMPT_VERSION='EXPLORATION_PLAN12_V1_7'
+PLAN12_PROMPT_VERSION='EXPLORATION_PLAN12_V1_8'
 
 
 class ModelFault(RuntimeError):
@@ -70,7 +70,12 @@ class ExplorationModel:
                 if set(fact)!={'referenceKey','majorName','chunkType','text'} or fact['chunkType'] not in {'description','major_overview','related_jobs'} or not isinstance(fact['text'],str) or not fact['text'].strip() or len(fact['text'])>1600:raise ValueError()
         except (ContractViolation,ValueError,TypeError,KeyError):raise ModelFault('MODEL_INPUT_INVALID') from None
         schema=ConsultationResult if request['purpose']=='CONSULTATION' else Plan12Draft if self.plan12 else PlanResult
-        evidence = [{k: v for k, v in facts[0].items() if k != 'referenceKey'}] if self.plan12 else facts
+        evidence = facts
+        if self.plan12:
+            fact = {key: value for key, value in facts[0].items() if key != 'referenceKey'}
+            fact['excerptCandidates'] = [{'index': index, 'text': sentence}
+                                         for index, sentence in enumerate(excerpt_candidates(fact['text']), 1)]
+            evidence = [fact]
         data={'purpose':request['purpose'],'input':request['input'],'evidence':evidence}
         payload=json.dumps(data,ensure_ascii=False,allow_nan=False)
         if len(payload)>24000:raise ModelFault('MODEL_INPUT_INVALID')

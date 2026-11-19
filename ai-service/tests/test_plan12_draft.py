@@ -6,7 +6,7 @@ from pydantic import ValidationError
 
 from app.exploration_contract import ContractViolation, Plan12Result
 from app.exploration_model import ExplorationModel, ModelFault
-from app.exploration_plan_draft import Plan12Draft, render_plan_draft
+from app.exploration_plan_draft import Plan12Draft, excerpt_candidates, render_plan_draft
 from plan12_draft_fixtures import draft_result
 from test_exploration_model import FakeChat, bound, settings
 from app.exploration_contract import input_hash
@@ -20,8 +20,8 @@ def model_request():
     return request, facts
 
 
-def excerpt_task(text, activity='MARK_KEYWORD'):
-    return {'inputKind': 'EVIDENCE_EXCERPT', 'inputText': text, 'activity': activity}
+def excerpt_task(index, activity='MARK_KEYWORD'):
+    return {'inputKind': 'EVIDENCE_EXCERPT', 'excerptIndex': index, 'activity': activity}
 
 
 def test_provider_tool_schema_describes_both_allowed_task_shapes():
@@ -32,7 +32,7 @@ def test_provider_tool_schema_describes_both_allowed_task_shapes():
     by_kind = {item['properties']['inputKind']['const']: item for item in branches}
     evidence = by_kind['EVIDENCE_EXCERPT']
     fictional = by_kind['FICTIONAL_EXAMPLE']
-    assert set(evidence['required']) == {'inputKind', 'inputText', 'activity'}
+    assert set(evidence['required']) == {'inputKind', 'excerptIndex', 'activity'}
     assert set(evidence['properties']['activity']['enum']) == {'MARK_KEYWORD', 'WRITE_QUESTION'}
     assert set(fictional['required']) == {'inputKind', 'inputText', 'optionA', 'optionB'}
     assert all(branch['additionalProperties'] is False for branch in branches)
@@ -56,7 +56,7 @@ def test_rendered_tasks_embed_the_actual_input_and_retain_public_shape():
                                   'excerpt_with_options', 'fictional_without_choice', 'extra_tasks',
                                   'too_long_input', 'reorder', 'wrong_phase',
                                   'string_minutes', 'zero_minutes', 'excessive_minutes', 'model_reference',
-                                  'fabricated_excerpt', 'public_only'])
+                                  'unavailable_excerpt', 'old_excerpt_text', 'public_only'])
 def test_invalid_drafts_fail_without_partial_output_or_silent_repair(settings, change):
     request, facts = model_request()
     draft = draft_result()
@@ -65,7 +65,7 @@ def test_invalid_drafts_fail_without_partial_output_or_silent_repair(settings, c
     elif change == 'blank_option': week['task']['optionA'] = '  '
     elif change == 'duplicate_options': week['task'].update(optionA='A B', optionB=' a  b ')
     elif change == 'missing_option': del week['task']['optionB']
-    elif change == 'excerpt_with_options': week['task'] = {**excerpt_task(facts[0]['text']), 'optionA': 'A'}
+    elif change == 'excerpt_with_options': week['task'] = {**excerpt_task(1), 'optionA': 'A'}
     elif change == 'fictional_without_choice': week['task']['activity'] = 'MARK_KEYWORD'
     elif change == 'extra_tasks': week['tasks'] = ['OLD FREE TEXT']
     elif change == 'too_long_input': week['task']['inputText'] = 'x'*71
@@ -75,7 +75,9 @@ def test_invalid_drafts_fail_without_partial_output_or_silent_repair(settings, c
     elif change == 'zero_minutes': week['estimatedMinutes'] = 0
     elif change == 'excessive_minutes': week['estimatedMinutes'] = 21
     elif change == 'model_reference': week['referenceKeys'] = ['forged']
-    elif change == 'fabricated_excerpt': week['task'] = excerpt_task('NOT PRESENT IN FACT')
+    elif change == 'unavailable_excerpt': week['task'] = excerpt_task(1)
+    elif change == 'old_excerpt_text':
+        week['task'] = {'inputKind': 'EVIDENCE_EXCERPT', 'inputText': 'NOT PRESENT IN FACT', 'activity': 'MARK_KEYWORD'}
     elif change == 'public_only':
         draft = render_plan_draft(draft, facts)
     original = deepcopy(draft)
@@ -85,14 +87,41 @@ def test_invalid_drafts_fail_without_partial_output_or_silent_repair(settings, c
     assert draft == original
 
 
-def test_literal_excerpt_must_come_from_the_cited_fact(settings):
+def test_server_renders_the_displayed_candidate_without_clipping(settings):
+    import json
+
     request, facts = model_request()
+    opening = ('컴퓨터공학과에서는 컴퓨터 시스템과 프로그래밍, 알고리즘 설계와 응용 소프트웨어 개발 등 '
+               '컴퓨터로 문제를 해결하는 여러 주제를 이론과 실습을 통해 다룬다.')
+    assert len(opening) > 70
+    facts[0]['text'] = opening + '  데이터베이스는 교과목의 한 예다.  끝나지 않은 조각'
     draft = draft_result()
-    draft['weeks'][0]['task'] = excerpt_task('APPROVED EDUCATIONAL')
+    draft['weeks'][0]['task'] = excerpt_task(1)
     chat = FakeChat(draft)
     result = ExplorationModel(chat).generate(request, facts)
     assert chat.schema is Plan12Draft
-    assert '근거 발췌: 「APPROVED EDUCATIONAL」' in result['result']['weeks'][0]['tasks'][1]
+    assert json.loads(chat.messages[1].content)['evidence'][0]['excerptCandidates'] == [
+        {'index': 1, 'text': opening}, {'index': 2, 'text': '데이터베이스는 교과목의 한 예다.'},
+    ]
+    assert f'근거 발췌: 「{opening}」' in result['result']['weeks'][0]['tasks'][1]
+    assert result['result']['weeks'][0]['referenceKeys'] == request['evidence']['referenceKeys']
+
+
+def test_candidates_are_bounded_deduplicated_and_never_truncated():
+    full = '가' * 119 + '.'
+    too_long = '나' * 120 + '.'
+    sentences = [f'교과목 사례 {i}번이다.' for i in range(1, 15)]
+    source = ' '.join([too_long, full, full, '이어지는 조각...', *sentences, '끝나지 않은 글'])
+    assert excerpt_candidates(source) == [full, *sentences[:11]]
+
+
+def test_index_must_exist_in_the_current_approved_candidates():
+    _, facts = model_request()
+    facts[0]['text'] = '이 과목은 컴퓨터를 다룬다.'
+    draft = draft_result()
+    draft['weeks'][0]['task'] = excerpt_task(2)
+    with pytest.raises(ContractViolation, match='excerpt index is not available'):
+        render_plan_draft(draft, facts)
 
 
 def test_plan_references_require_one_bound_fact_and_cannot_be_chosen_by_the_model(settings):
@@ -115,15 +144,15 @@ def test_maximum_draft_field_sizes_still_fit_existing_wire_limits():
 
 
 @pytest.mark.parametrize('number,excerpt,allowed,prohibited,expected', [
-    (4, 'IT 관련 글과 뉴스를 읽거나 관련 영상을 살펴보는 방법', 'WRITE_QUESTION', 'IT 관련 기사 한 개 요약하기', '고른 말 하나와 질문 한 문장'),
-    (9, '운영체제의 구조와 작동 방식', 'MARK_KEYWORD', '운영체제 구조를 그려보기', '표시한 말 하나와 고른 이유 한 문장'),
+    (4, 'IT 관련 글과 뉴스를 읽거나 관련 영상을 살펴볼 수 있다.', 'WRITE_QUESTION', 'IT 관련 기사 한 개 요약하기', '고른 말 하나와 질문 한 문장'),
+    (9, '운영체제의 구조와 작동 방식을 알아본다.', 'MARK_KEYWORD', '운영체제 구조를 그려보기', '표시한 말 하나와 고른 이유 한 문장'),
 ])
 def test_short_excerpts_cannot_be_used_to_assign_unsupported_work(settings, number, excerpt, allowed, prohibited, expected):
     request, facts = model_request()
     facts[0]['text'] = excerpt
     draft = draft_result()
     week = draft['weeks'][number - 1]
-    week['task'] = excerpt_task(excerpt, allowed)
+    week['task'] = excerpt_task(1, allowed)
     model = ExplorationModel(FakeChat(draft))
     rendered = model.generate(request, facts)['result']['weeks'][number - 1]
     assert f'「{excerpt}」' in rendered['tasks'][1]
@@ -135,7 +164,7 @@ def test_short_excerpts_cannot_be_used_to_assign_unsupported_work(settings, numb
         model.generate(request, facts)
     assert failure.value.code == 'MODEL_OUTPUT_INVALID'
 
-    week['task'] = excerpt_task(excerpt, 'CHOOSE_OPTION')
+    week['task'] = excerpt_task(1, 'CHOOSE_OPTION')
     with pytest.raises(ModelFault) as failure:
         model.generate(request, facts)
     assert failure.value.code == 'MODEL_OUTPUT_INVALID'
@@ -203,7 +232,7 @@ def test_diagnostic_mode_distinguishes_truncation_from_render_rejection(settings
     assert model.output_diagnostic['kind'] == 'OUTPUT_LENGTH_LIMIT'
 
     draft = draft_result()
-    draft['weeks'][0]['task'] = excerpt_task('NOT IN SOURCE')
+    draft['weeks'][0]['task'] = excerpt_task(1)
     chat.result = {'parsed': Plan12Draft.model_validate(draft), 'parsing_error': None, 'raw': None}
     with pytest.raises(ModelFault):
         model.generate(request, facts)

@@ -1,4 +1,5 @@
 """Provider-only plan draft; public and historical Plan12Result stays unchanged."""
+import re
 from typing import Annotated, Literal
 
 from pydantic import Field, ValidationInfo, field_validator, model_validator
@@ -7,9 +8,25 @@ from pydantic_core import PydanticCustomError
 from app.exploration_contract import ContractViolation, Plan12Result, StrictModel, text
 
 
+MAX_EXCERPT_CANDIDATES = 12
+MAX_EXCERPT_LENGTH = 120
+SENTENCE_ENDINGS = '.!?。！？'
+SENTENCE_BOUNDARY = re.compile(r'(?<=[.!?。！？])\s+')
+
+
+def excerpt_candidates(text: str) -> list[str]:
+    """Collect bounded, visibly sentence-ended spans without shortening a span."""
+    sentences = SENTENCE_BOUNDARY.split(' '.join(text.split()))
+    candidates = dict.fromkeys(sentence for sentence in sentences
+                               if 0 < len(sentence) <= MAX_EXCERPT_LENGTH
+                               and sentence[-1] in SENTENCE_ENDINGS
+                               and not sentence.endswith('...'))
+    return list(candidates)[:MAX_EXCERPT_CANDIDATES]
+
+
 class EvidenceTask(StrictModel):
     inputKind: Literal['EVIDENCE_EXCERPT']
-    inputText: text(70)
+    excerptIndex: Annotated[int, Field(ge=1, le=MAX_EXCERPT_CANDIDATES)]
     activity: Literal['MARK_KEYWORD', 'WRITE_QUESTION']
 
 
@@ -74,23 +91,24 @@ ACTIVITY_TEXT = {
 
 
 def render_plan_draft(value, facts) -> dict:
-    """Validate slots and literal excerpt provenance, not meaning or educational quality."""
+    """Resolve excerpt indices against the same approved candidates shown to the model."""
     if len(facts) != 1:
         raise ContractViolation('Plan draft requires one bound evidence item')
     fact = facts[0]
     reference_key = fact['referenceKey']
-    evidence_text = ' '.join(fact['text'].split())
+    candidates = excerpt_candidates(fact['text'])
     draft = Plan12Draft.model_validate(value)
     weeks = []
     for week in draft.weeks:
         task = week.task
-        input_text = ' '.join(task.inputText.split())
         if isinstance(task, EvidenceTask):
-            if input_text not in evidence_text:
-                raise ContractViolation('Invalid plan draft evidence')
+            if task.excerptIndex > len(candidates):
+                raise ContractViolation('Plan draft excerpt index is not available')
+            input_text = candidates[task.excerptIndex - 1]
             provided_input = f'근거 발췌: 「{input_text}」'
             activity = task.activity
         else:
+            input_text = ' '.join(task.inputText.split())
             first, second = (' '.join(option.split()) for option in (task.optionA, task.optionB))
             provided_input = f'가상 예시: 「{input_text}」 (A 「{first}」 / B 「{second}」)'
             activity = 'CHOOSE_OPTION'
@@ -110,8 +128,9 @@ PLAN12_INSTRUCTIONS = (
     'Produce exactly weeks 1-12: weeks 1-4 INFO, 5-8 BASIC_LEARNING, 9-12 SMALL_ACTIVITY. '
     'Return targetName and the Plan12Draft week fields only. The server writes titles, actions, alternatives and outputs. '
     'Fill each week\'s task with one of the two schema shapes. '
-    'For EVIDENCE_EXCERPT, copy an exact substring of up to 70 characters from the supplied evidence text '
-    'into inputText and choose MARK_KEYWORD or WRITE_QUESTION for activity. '
+    'For EVIDENCE_EXCERPT, select the index of one supplied excerptCandidates entry as excerptIndex '
+    'and choose MARK_KEYWORD or WRITE_QUESTION for activity. The server writes the excerpt. '
+    'If excerptCandidates is empty, use FICTIONAL_EXAMPLE. Avoid reusing the same excerpt when suitable alternatives exist. '
     'For FICTIONAL_EXAMPLE, supply inputText as an imaginary situation of up to 70 characters '
     'and optionA and optionB as two distinct labels of up to 30 characters each. '
     'For example, inputText="동아리 소식을 정리하는 가상 상황", optionA="제목으로 분류", optionB="날짜 순서로 정리". '
