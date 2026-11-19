@@ -1,0 +1,355 @@
+{
+  "schema_version": "1.1",
+  "major_mapping_version": "MAJOR_MAPPING_V1_2_IMPLEMENTATION_CANDIDATE",
+  "content_status": "DRAFT",
+  "implementation_review_status": "PENDING",
+  "domain_review_status": "PENDING",
+  "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M168_DRAFT",
+  "provenance": {
+    "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
+    "scope": "SINGLE_MAJOR_DEV_REVIEW",
+    "parent_file_sha256": "98e0d997a7af59dfe2dab16e1156dad04933809a620b120ddd5990c8797c2e7c"
+  },
+  "activities": [
+    {
+      "activity_id": "DRAFT-M168-01",
+      "version": "0.3.0",
+      "title": "세포와 생태계가 묻는 질문 구분하기",
+      "kind": "INFORMATION",
+      "major_code": "MAJOR_ROW_168",
+      "major_name": "생명과학과",
+      "exploration_group": "BIO",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "탐색 주제: 생명과학의 관찰 수준과 설명. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
+      "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
+      "steps": [
+        "교과목을 찾아 관찰 단위가 어떻게 다른지 적는다.",
+        "하나의 식물에 대해 세포 수준과 환경 수준의 질문을 각각 정한다."
+      ],
+      "artifacts": [
+        "서로 다른 수준의 질문 두 가지"
+      ],
+      "example_output": "세포 구조는 그림에서 어떻게 보일까? 같은 식물이 주변 다른 생물과 어떻게 관계를 맺을까?",
+      "worksheet_columns": "공식 자료에서 확인한 명칭 / 내가 더 알아볼 주제 / 미확인 질문 / 확인 경로",
+      "reflection_question": "소개를 읽은 뒤 관심이 생긴 부분과 여전히 모르는 부분은 무엇인가요?",
+      "alternative": "제공 과목명과 식물 예시만 사용한다.",
+      "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
+      "source_ids": [
+        "m168-careernet",
+        "m168-university",
+        "m168-extra"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 세포와 생태계가 묻는 질문 구분하기\n\n공식 교과자료의 세포생물학과 생태학을 살펴본다.\n\n1. 교과목을 찾아 관찰 단위가 어떻게 다른지 적는다.\n2. 하나의 식물에 대해 세포 수준과 환경 수준의 질문을 각각 정한다.\n\n남길 결과물은 서로 다른 수준의 질문 두 가지입니다.\n\n쉬운 대안. 제공 과목명과 식물 예시만 사용한다.",
+      "worksheet_markdown": "## 세포와 생태계가 묻는 질문 구분하기\n\n공식 교과자료의 세포생물학과 생태학을 살펴본다.\n\n| 수준 | 대상 | 질문 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m168-careernet",
+          "title": "대학교 학과정보 생명과학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=261",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2020-12-02 갱신 응답에서 확인한 생명과학과는 생명체의 구성과 기능을 세포부터 생태계까지 다양한 수준에서 탐구한다. 커리어넷은 세포생물학, 유전학과 일반생태학을 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m168-university",
+          "title": "학부 교과과정",
+          "publisher": "서울대학교 생명과학부",
+          "url": "https://biosci.snu.ac.kr/academics/curriculum/undergraduate",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "세포생물학·일반 생태학에 해당하는 생태학 과목",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m168-extra",
+          "title": "학사과정 교과과정",
+          "publisher": "KAIST 생명과학과",
+          "url": "https://bio.kaist.ac.kr/page/ko/selectPage.do?menuSeq=3356&pageSeq=3405",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "세포생물학 교과목",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-READ-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-READ-01",
+          "step_indexes": [
+            0
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M168-02",
+      "version": "0.3.0",
+      "title": "가상 연못의 생물 관계를 그림으로 연결하기",
+      "kind": "SMALL_TASK",
+      "major_code": "MAJOR_ROW_168",
+      "major_name": "생명과학과",
+      "exploration_group": "BIO",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 10,
+        "max": 15,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "경험할 주제: 생명과학의 관찰 수준과 설명. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
+      "scenario": "가상 식물A가 다른 조건에서 자랐다는 기록만 제공하고 원인은 제시하지 않음",
+      "steps": [
+        "관찰한 생물과 위치를 선으로 연결한다.",
+        "직접 관찰한 연결과 먹이 관계처럼 추가 증거가 필요한 연결을 다르게 표시한다."
+      ],
+      "artifacts": [
+        "관찰과 가설을 나눈 생태 관계도"
+      ],
+      "example_output": "달팽이와 물풀의 위치 관계는 보이지만 달팽이가 물풀을 먹었는지는 이 기록으로 알 수 없다.",
+      "worksheet_columns": "관찰 수준/가설/필요 자료/한계 지도",
+      "reflection_question": "서로 다른 수준의 설명을 연결하는 일이 흥미로운가?",
+      "alternative": "실물 채집 없이 가상 기록만 사용한다.",
+      "safety_boundary": "실제 생물 실험·유전검사·배양 없이 가상 기록 사용",
+      "source_ids": [
+        "m168-careernet",
+        "m168-university",
+        "m168-extra"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 가상 연못의 생물 관계를 그림으로 연결하기\n\n가상의 기록에서 달팽이는 물풀 표면에 있었고, 물새는 얕은 물가에서 관찰됐다. 먹이 행동은 기록되지 않았다.\n\n1. 관찰한 생물과 위치를 선으로 연결한다.\n2. 직접 관찰한 연결과 먹이 관계처럼 추가 증거가 필요한 연결을 다르게 표시한다.\n\n남길 결과물은 관찰과 가설을 나눈 생태 관계도입니다.\n\n쉬운 대안. 실물 채집 없이 가상 기록만 사용한다.",
+      "worksheet_markdown": "## 가상 연못의 생물 관계를 그림으로 연결하기\n\n가상의 기록에서 달팽이는 물풀 표면에 있었고, 물새는 얕은 물가에서 관찰됐다. 먹이 행동은 기록되지 않았다.\n\n| 생물 | 위치 | 확인한 연결 | 추가 질문 |\n|---|---|---|---|\n| | | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m168-careernet",
+          "title": "대학교 학과정보 생명과학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=261",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2020-12-02 갱신 응답에서 확인한 생명과학과는 생명체의 구성과 기능을 세포부터 생태계까지 다양한 수준에서 탐구한다. 커리어넷은 세포생물학, 유전학과 일반생태학을 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m168-university",
+          "title": "학부 교과과정",
+          "publisher": "서울대학교 생명과학부",
+          "url": "https://biosci.snu.ac.kr/academics/curriculum/undergraduate",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "세포생물학·일반 생태학에 해당하는 생태학 과목",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m168-extra",
+          "title": "학사과정 교과과정",
+          "publisher": "KAIST 생명과학과",
+          "url": "https://bio.kaist.ac.kr/page/ko/selectPage.do?menuSeq=3356&pageSeq=3405",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "세포생물학 교과목",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-PROJECT-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-PROJECT-01",
+          "step_indexes": [
+            0,
+            1
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M168-03",
+      "version": "0.3.0",
+      "title": "관찰 범위의 차이를 설명하기",
+      "kind": "REFLECTION_AND_NEXT_STEP",
+      "major_code": "MAJOR_ROW_168",
+      "major_name": "생명과학과",
+      "exploration_group": "BIO",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
+      "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
+      "steps": [
+        "다른 계절·시간이면 다른 모습이 나타날 수 있는 이유를 적는다.",
+        "후속 공개 자료에서 비교할 항목을 하나 고른다."
+      ],
+      "artifacts": [
+        "다음 해석에 필요한 기준"
+      ],
+      "example_output": "다른 계절에도 물새가 같은 곳에서 관찰되는지 정해진 위치의 기록을 비교한다.",
+      "worksheet_columns": "경험한 과정 / 흥미·불편·모름 / 확인 질문 / 확인 경로 / 다음 행동",
+      "reflection_question": "서로 다른 수준의 설명을 연결하는 일이 흥미로운가?",
+      "alternative": "예시만 보고 조건 하나를 말한다.",
+      "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
+      "source_ids": [
+        "m168-careernet",
+        "m168-university",
+        "m168-extra"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 관찰 범위의 차이를 설명하기\n\n앞 그림을 다시 보고 위치 기록 하나를 고른다.\n\n1. 다른 계절·시간이면 다른 모습이 나타날 수 있는 이유를 적는다.\n2. 후속 공개 자료에서 비교할 항목을 하나 고른다.\n\n남길 결과물은 다음 해석에 필요한 기준입니다.\n\n쉬운 대안. 예시만 보고 조건 하나를 말한다.",
+      "worksheet_markdown": "## 관찰 범위의 차이를 설명하기\n\n앞 그림을 다시 보고 위치 기록 하나를 고른다.\n\n| 현재 자료 | 변경 조건 | 다음 확인 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m168-careernet",
+          "title": "대학교 학과정보 생명과학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=261",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2020-12-02 갱신 응답에서 확인한 생명과학과는 생명체의 구성과 기능을 세포부터 생태계까지 다양한 수준에서 탐구한다. 커리어넷은 세포생물학, 유전학과 일반생태학을 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m168-university",
+          "title": "학부 교과과정",
+          "publisher": "서울대학교 생명과학부",
+          "url": "https://biosci.snu.ac.kr/academics/curriculum/undergraduate",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "세포생물학·일반 생태학에 해당하는 생태학 과목",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m168-extra",
+          "title": "학사과정 교과과정",
+          "publisher": "KAIST 생명과학과",
+          "url": "https://bio.kaist.ac.kr/page/ko/selectPage.do?menuSeq=3356&pageSeq=3405",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "세포생물학 교과목",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [],
+      "preference_mapping_basis": [],
+      "revised_on": "2026-11-20"
+    }
+  ]
+}
