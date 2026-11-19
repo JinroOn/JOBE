@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M50_20261119",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-19",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_50",
+  "majorName": "심리학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "심리학과에서는 사람의 마음과 행동을 과학적으로 연구한다. 커리어넷은 인지심리, 사회심리와 심리조사법을 과목 사례로 소개한다.",
+      "sourceIds": [
+        "careernet-m50"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "연세대 심리학과 교과이수 로드맵에는 심리학의 실험연구방법, 심리통계와 인지심리학이 있다. 고려대 심리학부는 행동경제학에서 의사결정 연구를 통해 일상적인 선택 문제를 다루는 과목을 소개한다.",
+      "sourceIds": [
+        "m50-university-1",
+        "m50-university-2"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "careernet-m50",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 심리학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=330",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2020-12-02 갱신 응답의 마음과 행동을 과학적으로 공부한다는 학과 개요 및 인지심리·사회심리·심리조사법",
+      "limitation": "학과명이 같다. 기존 자료에서 계열 분류가 달라 대조 표시가 있었으며 이번에는 연구방법과 학부 과목의 사례만 인용한다.",
+      "accessedAt": "2026-11-19"
+    },
+    {
+      "sourceId": "m50-university-1",
+      "publisher": "연세대학교",
+      "title": "2026학년도 교과이수 로드맵 심리학과",
+      "url": "https://universitycollege.yonsei.ac.kr/cms/etcResourceOpen.do?key=%24cms%24EwBmDYwRmB9BPA9gOwM4FMCWACAxogVwCcNsjEBDAEwFsKAHWAM02QDp6qmg&site=%24cms%24K4YyA",
+      "supports": "심리학의 실험연구방법·심리통계·인지심리학",
+      "limitation": "2026 로드맵의 편성 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-19"
+    },
+    {
+      "sourceId": "m50-university-2",
+      "publisher": "고려대학교 심리학부",
+      "title": "학부 교과과정",
+      "url": "https://psy.korea.ac.kr/UnderGraduate/Curriculum",
+      "supports": "행동경제학에서 의사결정 심리의 연구와 일상 선택 사례를 다룸",
+      "limitation": "공식 학부 과목 개요 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-19"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}
