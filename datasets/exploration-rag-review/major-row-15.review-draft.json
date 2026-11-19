@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M15_20261119",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-19",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_15",
+  "majorName": "철학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "철학과는 삶의 의미, 선과 악, 존재 같은 질문을 다루고 답의 근거를 검토하는 방법을 배운다. 커리어넷은 철학적 논리학, 한국철학사, 과학철학을 과목 사례로 제시한다.",
+      "sourceIds": [
+        "careernet-m15"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "서울대 2024 편람의 철학과 과목에는 기호논리학, 윤리학과 한국철학사가 있다. 연세대 전공가이드북의 철학과에는 논리학과 윤리학, 인식론이 제시된다.",
+      "sourceIds": [
+        "m15-university-1",
+        "m15-university-2"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "careernet-m15",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 철학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=548",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2020-12-02 갱신 응답의 삶과 세계에 대한 질문 및 철학적 논리학·한국철학사·과학철학",
+      "limitation": "대표 학과 정보다. 학교별 교과목은 대학 공식 자료에서 확인한다.",
+      "accessedAt": "2026-11-19"
+    },
+    {
+      "sourceId": "m15-university-1",
+      "publisher": "서울대학교",
+      "title": "2024 학사과정 교과목 편람",
+      "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+      "supports": "철학과 기호논리학·윤리학·한국철학사 과목명",
+      "limitation": "2024 교과목 편람의 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-19"
+    },
+    {
+      "sourceId": "m15-university-2",
+      "publisher": "연세대학교",
+      "title": "전공가이드북 YONSEI All-ways+ 철학과",
+      "url": "https://yonseirc.yonsei.ac.kr/_attach/yonsei_rc/file/2026/02/MwLIYFxKUEqjnviMvdtiYJYLyr.pdf",
+      "supports": "철학과의 논리학·윤리학·인식론 과목 사례",
+      "limitation": "안내 책자의 과목 사례만 인용한다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-19"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}
