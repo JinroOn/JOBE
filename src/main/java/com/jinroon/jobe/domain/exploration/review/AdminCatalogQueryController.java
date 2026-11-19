@@ -34,4 +34,15 @@ public class AdminCatalogQueryController {
                                                          @PathVariable @Positive long targetId) {
         return catalogs.detail(admin.getUserId(), targetType, targetId);
     }
+
+    @GetMapping("/ACTIVITY_CATALOG/{catalogId}/activities")
+    public List<AdminCatalogQueryService.ActivitySummary> activities(@PathVariable @Positive long catalogId) {
+        return catalogs.activities(catalogId);
+    }
+
+    @GetMapping("/ACTIVITY_CATALOG/{catalogId}/activities/{activityId}")
+    public AdminCatalogQueryService.ActivityDetail activity(@PathVariable @Positive long catalogId,
+                                                             @PathVariable @Positive long activityId) {
+        return catalogs.activity(catalogId, activityId);
+    }
 }

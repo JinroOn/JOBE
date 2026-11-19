@@ -65,6 +65,7 @@ public enum ErrorCode {
     CATALOG_SELF_APPROVAL(409, "승인한 관리자는 같은 자료를 활성화할 수 없습니다."),
     CATALOG_IN_USE(409, "현재 실행 설정이 사용하는 자료는 보관할 수 없습니다."),
     CATALOG_ALREADY_ARCHIVED(409, "이미 보관된 자료입니다."),
+    CATALOG_INTEGRITY_ERROR(503, "저장된 탐색 자료를 검증할 수 없습니다."),
     MAJOR_FAVORITE_DUPLICATE(409, "이미 즐겨찾기에 추가된 전공입니다."),
     MAJOR_FAVORITE_NOT_FOUND(404, "즐겨찾기를 찾을 수 없습니다."),
 

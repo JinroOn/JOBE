@@ -3,10 +3,12 @@ package com.jinroon.jobe.domain.exploration.review;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jinroon.jobe.domain.exploration.service.ExplorationJson;
 import com.jinroon.jobe.domain.user.entity.User;
 import com.jinroon.jobe.domain.user.enums.UserEnums.UserRole;
 import com.jinroon.jobe.domain.user.repository.UserRepository;
@@ -42,6 +44,7 @@ class AdminCatalogQueryApiTest {
     @Autowired private MockMvc mockMvc;
     @Autowired private JdbcTemplate jdbc;
     @Autowired private ObjectMapper mapper;
+    @Autowired private ExplorationJson explorationJson;
     @Autowired private UserRepository userRepository;
     @Autowired private JwtProvider jwtProvider;
 
@@ -71,6 +74,70 @@ class AdminCatalogQueryApiTest {
         mockMvc.perform(get(API).header("Authorization", member)).andExpect(status().isForbidden());
         mockMvc.perform(get(API + "/CATALOG/" + questionCatalogId).header("Authorization", member))
                 .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void activityCatalogListsReviewTargetsAndShowsTheSealedContentWithoutWriting() throws Exception {
+        long catalogId = activityCatalog();
+        long activityId = insertActivity(catalogId, "TEST-A-02", "MAJOR_ROW_133");
+        long commonId = insertActivity(catalogId, "TEST-A-01", null);
+        String path = API + "/ACTIVITY_CATALOG/" + catalogId + "/activities";
+        review("ACTIVITY", activityId, "IMPLEMENTATION");
+
+        JsonNode list = json(get(path), activator);
+        assertThat(list.size()).isEqualTo(2);
+        assertThat(list.get(0).path("targetId").asLong()).isEqualTo(commonId);
+        assertThat(list.get(0).path("majorCode").isNull()).isTrue();
+        JsonNode summary = list.get(1);
+        assertThat(summary.path("targetId").asLong()).isEqualTo(activityId);
+        assertThat(summary.path("targetType").asText()).isEqualTo("ACTIVITY");
+        assertThat(summary.path("version").asText()).isEqualTo("1.0");
+        assertThat(summary.path("title").asText()).isEqualTo("검토용 활동");
+        assertThat(summary.path("implementationReviewStatus").asText()).isEqualTo("APPROVED_FOR_IMPLEMENTATION");
+
+        JsonNode detail = json(get(path + "/" + activityId), activator);
+        assertThat(detail.path("activity")).isEqualTo(summary);
+        assertThat(detail.path("content").path("body_markdown").asText()).isEqualTo("제시된 목록에서 말 하나를 고른다.");
+        assertThat(detail.path("content").path("sources").size()).isEqualTo(1);
+        assertThat(explorationJson.hex(detail.path("content"))).isEqualTo(summary.path("contentHash").asText());
+        assertThat(detail.path("reviews").size()).isEqualTo(1);
+        assertThat(json(get(path + "/" + activityId), activator)).isEqualTo(detail);
+    }
+
+    @Test
+    void activityDetailEnforcesAdminCatalogMembershipAndIntegrity() throws Exception {
+        long catalogId = activityCatalog();
+        long activityId = insertActivity(catalogId, "TEST-A", null);
+        String path = API + "/ACTIVITY_CATALOG/" + catalogId + "/activities";
+        String detail = path + "/" + activityId;
+        String member = bearer(saveUser(UserRole.member));
+        mockMvc.perform(get(path).header("Authorization", member)).andExpect(status().isForbidden());
+        mockMvc.perform(get(detail).header("Authorization", member)).andExpect(status().isForbidden());
+        mockMvc.perform(get(API + "/ACTIVITY_CATALOG/" + activityCatalog() + "/activities/" + activityId)
+                .header("Authorization", bearer(activator))).andExpect(status().isNotFound());
+        mockMvc.perform(get(API + "/ACTIVITY_CATALOG/999999999/activities")
+                .header("Authorization", bearer(activator))).andExpect(status().isNotFound());
+        jdbc.update("UPDATE exploration_activity SET payload_json=JSON_SET(payload_json,'$.title','변경') WHERE id=?", activityId);
+        mockMvc.perform(get(detail).header("Authorization", bearer(activator)))
+                .andExpect(status().isServiceUnavailable()).andExpect(jsonPath("$.code").value("CATALOG_INTEGRITY_ERROR"));
+    }
+
+    private long activityCatalog() {
+        String version = "TEST_QUERY_ACTIVITY_" + suffix();
+        jdbc.update("INSERT INTO exploration_activity_catalog(version,major_mapping_version,content_hash,payload_json,"
+                + "content_status,implementation_review_status,domain_review_status) VALUES (?, 'TEST_MAPPING', ?, '{}',"
+                + "'DRAFT','PENDING','PENDING')", version, HASH);
+        return jdbc.queryForObject("SELECT id FROM exploration_activity_catalog WHERE version=?", Long.class, version);
+    }
+
+    private long insertActivity(long catalogId, String code, String majorCode) {
+        var content = mapper.createObjectNode().put("activity_id", code).put("version", "1.0").put("major_code", majorCode)
+                .put("title", "검토용 활동").put("kind", "INFORMATION").put("body_markdown", "제시된 목록에서 말 하나를 고른다.");
+        content.putArray("sources").addObject().put("title", "합성 출처");
+        jdbc.update("INSERT INTO exploration_activity(catalog_id,activity_code,version,major_code,content_hash,payload_json,"
+                        + "content_status,implementation_review_status,domain_review_status) VALUES (?,?, '1.0', ?, ?, ?,"
+                        + "'DRAFT','PENDING','PENDING')", catalogId, code, majorCode, explorationJson.hex(content), explorationJson.write(content));
+        return jdbc.queryForObject("SELECT id FROM exploration_activity WHERE catalog_id=? AND activity_code=?", Long.class, catalogId, code);
     }
 
     @Test
