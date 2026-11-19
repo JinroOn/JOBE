@@ -16,7 +16,7 @@ ERROR_TYPES = frozenset({
     'json_invalid', 'duplicate_options',
 })
 FINISH_REASONS = frozenset({'stop', 'tool_calls', 'function_call', 'length', 'content_filter'})
-WEEK_FIELDS = frozenset(PlanWeekDraft.model_fields) | {'tasks'}
+WEEK_FIELDS = frozenset(PlanWeekDraft.model_fields) | {'tasks', 'referenceKeys'}
 TASK_FIELDS = {
     EvidenceTask.__name__: frozenset(EvidenceTask.model_fields),
     FictionalChoiceTask.__name__: frozenset(FictionalChoiceTask.model_fields),

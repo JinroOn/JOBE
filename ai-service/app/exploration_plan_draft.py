@@ -4,7 +4,7 @@ from typing import Annotated, Literal
 from pydantic import Field, ValidationInfo, field_validator, model_validator
 from pydantic_core import PydanticCustomError
 
-from app.exploration_contract import ContractViolation, Plan12Result, References, StrictModel, text
+from app.exploration_contract import ContractViolation, Plan12Result, StrictModel, text
 
 
 class EvidenceTask(StrictModel):
@@ -33,7 +33,6 @@ class PlanWeekDraft(StrictModel):
     phase: Literal['INFO', 'BASIC_LEARNING', 'SMALL_ACTIVITY']
     estimatedMinutes: Annotated[int, Field(ge=1, le=20)]
     task: EvidenceTask | FictionalChoiceTask
-    referenceKeys: References
 
 
 class Plan12Draft(StrictModel):
@@ -76,16 +75,18 @@ ACTIVITY_TEXT = {
 
 def render_plan_draft(value, facts) -> dict:
     """Validate slots and literal excerpt provenance, not meaning or educational quality."""
+    if len(facts) != 1:
+        raise ContractViolation('Plan draft requires one bound evidence item')
+    fact = facts[0]
+    reference_key = fact['referenceKey']
+    evidence_text = ' '.join(fact['text'].split())
     draft = Plan12Draft.model_validate(value)
-    references = {fact['referenceKey']: ' '.join(fact['text'].split()) for fact in facts}
     weeks = []
     for week in draft.weeks:
-        if any(ref not in references for ref in week.referenceKeys):
-            raise ContractViolation('Invalid plan draft evidence')
         task = week.task
         input_text = ' '.join(task.inputText.split())
         if isinstance(task, EvidenceTask):
-            if not any(input_text in references[ref] for ref in week.referenceKeys):
+            if input_text not in evidence_text:
                 raise ContractViolation('Invalid plan draft evidence')
             provided_input = f'근거 발췌: 「{input_text}」'
             activity = task.activity
@@ -100,7 +101,7 @@ def render_plan_draft(value, facts) -> dict:
                 f'준비: 종이와 펜 | 시간: 약 {week.estimatedMinutes}분, 부담되면 줄이기 | 방식: 혼자',
                 f'탐색 제안: {provided_input} | 행동: {action}. 쉬운 대안: {easier_action} (결과: {easier_output}).',
             ],
-            'expectedOutput': output, 'referenceKeys': week.referenceKeys,
+            'expectedOutput': output, 'referenceKeys': [reference_key],
         })
     return Plan12Result.model_validate({'targetName': draft.targetName, 'weeks': weeks}).model_dump()
 
@@ -109,12 +110,12 @@ PLAN12_INSTRUCTIONS = (
     'Produce exactly weeks 1-12: weeks 1-4 INFO, 5-8 BASIC_LEARNING, 9-12 SMALL_ACTIVITY. '
     'Return targetName and the Plan12Draft week fields only. The server writes titles, actions, alternatives and outputs. '
     'Fill each week\'s task with one of the two schema shapes. '
-    'For EVIDENCE_EXCERPT, copy an exact substring of up to 70 characters from a cited supplied fact '
+    'For EVIDENCE_EXCERPT, copy an exact substring of up to 70 characters from the supplied evidence text '
     'into inputText and choose MARK_KEYWORD or WRITE_QUESTION for activity. '
     'For FICTIONAL_EXAMPLE, supply inputText as an imaginary situation of up to 70 characters '
     'and optionA and optionB as two distinct labels of up to 30 characters each. '
     'For example, inputText="동아리 소식을 정리하는 가상 상황", optionA="제목으로 분류", optionB="날짜 순서로 정리". '
-    'Use varied topics actually present in the approved evidence and cite only supplied referenceKey values. '
+    'Use varied topics present in the approved evidence. The server assigns the reference for every week. '
     'Use names and excerpts for information and questions, and small fictional choices for activities when suitable. '
     'Suggest a small estimatedMinutes value between 1 and 20. Each task uses paper and a pen. '
     'Keep all input and options self-contained. Never invent a URL or require an article, lesson, device or partner. '

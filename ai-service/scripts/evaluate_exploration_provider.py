@@ -123,11 +123,11 @@ async def protocol_probe(config, factory=None):
             model = factory(model=config['model'], api_key=config['key'], base_url=config['base'],
                             timeout=deadline, max_retries=0, max_tokens=budget)
             prompt = ('Synthetic SDK schema test only; no student, diagnosis, approved source or service result. '
-                      'Use exactly the supplied literal referenceKey protocol_ref. Keep every text short. '
+                      'Keep every text short. '
                       'For consultation: summary=프로토콜 시험, questions=[], referenceKeys=[protocol_ref]. '
                       'For plan: targetName=PROTOCOL_TEST, exactly weeks 1 through 12; '
                       'phase INFO for 1-4, BASIC_LEARNING for 5-8, SMALL_ACTIVITY for 9-12. '
-                      'For every week estimatedMinutes=5, referenceKeys=[protocol_ref], '
+                      'For every week estimatedMinutes=5 '
                       'and task={inputKind: FICTIONAL_EXAMPLE, inputText: 가상 자료 정리, '
                       'optionA: 제목순, optionB: 날짜순}.')
             row['requestAttempted'] = True
@@ -140,11 +140,12 @@ async def protocol_probe(config, factory=None):
                 try:
                     parsed = envelope['parsed']
                     parsed = schema.model_validate(parsed.model_dump() if hasattr(parsed, 'model_dump') else parsed)
-                    refs = [parsed.referenceKeys] if name == 'CONSULTATION_SCHEMA' else [w.referenceKeys for w in parsed.weeks]
-                    if any(r != ['protocol_ref'] for r in refs) or (name == 'PLAN12_SCHEMA' and parsed.targetName != 'PROTOCOL_TEST'):
-                        raise ValueError()
                     if name == 'PLAN12_SCHEMA':
+                        if parsed.targetName != 'PROTOCOL_TEST':
+                            raise ValueError()
                         render_plan_draft(parsed.model_dump(), [{'referenceKey':'protocol_ref','text':'SYNTHETIC PROTOCOL'}])
+                    elif parsed.referenceKeys != ['protocol_ref']:
+                        raise ValueError()
                     row.update(status='PASS', schemaValid=True)
                 except (ValueError, TypeError):
                     row['reasonCode'] = 'MODEL_OUTPUT_INVALID'

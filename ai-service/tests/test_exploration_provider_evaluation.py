@@ -36,7 +36,7 @@ class ProtocolClient:
         else:
             from plan12_draft_fixtures import draft_result
             assert self.schema is evaluation.Plan12Draft
-            value = draft_result('protocol_ref', 'PROTOCOL_TEST')
+            value = draft_result('PROTOCOL_TEST')
         return dict(parsed=self.schema.model_validate(value), parsing_error=None,
                     raw=SimpleNamespace(usage_metadata=dict(input_tokens=12, output_tokens=8, total_tokens=20)))
 

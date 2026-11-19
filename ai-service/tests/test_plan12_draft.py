@@ -26,7 +26,9 @@ def excerpt_task(text, activity='MARK_KEYWORD'):
 
 def test_provider_tool_schema_describes_both_allowed_task_shapes():
     parameters = convert_to_openai_tool(Plan12Draft)['function']['parameters']
-    branches = parameters['properties']['weeks']['items']['properties']['task']['anyOf']
+    fields = parameters['properties']['weeks']['items']['properties']
+    assert 'referenceKeys' not in fields
+    branches = fields['task']['anyOf']
     by_kind = {item['properties']['inputKind']['const']: item for item in branches}
     evidence = by_kind['EVIDENCE_EXCERPT']
     fictional = by_kind['FICTIONAL_EXAMPLE']
@@ -38,7 +40,7 @@ def test_provider_tool_schema_describes_both_allowed_task_shapes():
 
 def test_rendered_tasks_embed_the_actual_input_and_retain_public_shape():
     request, facts = model_request()
-    draft = draft_result(facts[0]['referenceKey'])
+    draft = draft_result()
     original = deepcopy(draft)
     rendered = render_plan_draft(draft, facts)
     assert set(rendered['weeks'][0]) == {'week', 'phase', 'title', 'tasks', 'expectedOutput', 'referenceKeys'}
@@ -53,11 +55,11 @@ def test_rendered_tasks_embed_the_actual_input_and_retain_public_shape():
 @pytest.mark.parametrize('change', ['blank_input', 'blank_option', 'duplicate_options', 'missing_option',
                                   'excerpt_with_options', 'fictional_without_choice', 'extra_tasks',
                                   'too_long_input', 'reorder', 'wrong_phase',
-                                  'string_minutes', 'zero_minutes', 'excessive_minutes', 'unknown_reference',
-                                  'fabricated_excerpt', 'uncited_excerpt', 'public_only'])
+                                  'string_minutes', 'zero_minutes', 'excessive_minutes', 'model_reference',
+                                  'fabricated_excerpt', 'public_only'])
 def test_invalid_drafts_fail_without_partial_output_or_silent_repair(settings, change):
     request, facts = model_request()
-    draft = draft_result(facts[0]['referenceKey'])
+    draft = draft_result()
     week = draft['weeks'][0]
     if change == 'blank_input': week['task']['inputText'] = '  '
     elif change == 'blank_option': week['task']['optionA'] = '  '
@@ -72,14 +74,8 @@ def test_invalid_drafts_fail_without_partial_output_or_silent_repair(settings, c
     elif change == 'string_minutes': week['estimatedMinutes'] = '5'
     elif change == 'zero_minutes': week['estimatedMinutes'] = 0
     elif change == 'excessive_minutes': week['estimatedMinutes'] = 21
-    elif change == 'unknown_reference': week['referenceKeys'] = ['forged']
+    elif change == 'model_reference': week['referenceKeys'] = ['forged']
     elif change == 'fabricated_excerpt': week['task'] = excerpt_task('NOT PRESENT IN FACT')
-    elif change == 'uncited_excerpt':
-        facts.append(dict(facts[0], referenceKey='other', text='ONLY IN ANOTHER FACT'))
-        # Test renderer separately: consumer correctly rejects an input with extra unrelated facts first.
-        week['task'] = excerpt_task('ONLY IN ANOTHER FACT')
-        with pytest.raises(ContractViolation): render_plan_draft(draft, facts)
-        return
     elif change == 'public_only':
         draft = render_plan_draft(draft, facts)
     original = deepcopy(draft)
@@ -91,7 +87,7 @@ def test_invalid_drafts_fail_without_partial_output_or_silent_repair(settings, c
 
 def test_literal_excerpt_must_come_from_the_cited_fact(settings):
     request, facts = model_request()
-    draft = draft_result(facts[0]['referenceKey'])
+    draft = draft_result()
     draft['weeks'][0]['task'] = excerpt_task('APPROVED EDUCATIONAL')
     chat = FakeChat(draft)
     result = ExplorationModel(chat).generate(request, facts)
@@ -99,9 +95,19 @@ def test_literal_excerpt_must_come_from_the_cited_fact(settings):
     assert '근거 발췌: 「APPROVED EDUCATIONAL」' in result['result']['weeks'][0]['tasks'][1]
 
 
+def test_plan_references_require_one_bound_fact_and_cannot_be_chosen_by_the_model(settings):
+    request, facts = model_request()
+    model = ExplorationModel(lambda **kwargs: pytest.fail('Invalid evidence must fail before provider call'))
+    with pytest.raises(ModelFault) as failure:
+        model.generate(request, [dict(facts[0], referenceKey='forged')])
+    assert failure.value.code == 'MODEL_INPUT_INVALID'
+    with pytest.raises(ContractViolation):
+        render_plan_draft(draft_result(), facts * 2)
+
+
 def test_maximum_draft_field_sizes_still_fit_existing_wire_limits():
     request, facts = model_request()
-    draft = draft_result(facts[0]['referenceKey'])
+    draft = draft_result()
     draft['weeks'][0]['task'].update(inputText='나'*70, optionA='다'*30, optionB='라'*30)
     rendered = render_plan_draft(draft, facts)
     assert max(map(len, rendered['weeks'][0]['tasks'])) <= 300
@@ -115,7 +121,7 @@ def test_maximum_draft_field_sizes_still_fit_existing_wire_limits():
 def test_short_excerpts_cannot_be_used_to_assign_unsupported_work(settings, number, excerpt, allowed, prohibited, expected):
     request, facts = model_request()
     facts[0]['text'] = excerpt
-    draft = draft_result(facts[0]['referenceKey'])
+    draft = draft_result()
     week = draft['weeks'][number - 1]
     week['task'] = excerpt_task(excerpt, allowed)
     model = ExplorationModel(FakeChat(draft))
@@ -138,7 +144,7 @@ def test_short_excerpts_cannot_be_used_to_assign_unsupported_work(settings, numb
 def test_nested_diagnostics_identify_known_paths_and_remove_arbitrary_keys():
     from app.plan_evaluation_diagnostics import output_failure
 
-    draft = draft_result('ref')
+    draft = draft_result()
     draft['weeks'][0]['task'].update(optionB=4, PRIVATE_KEY='PRIVATE_VALUE')
     with pytest.raises(ValidationError) as failure:
         Plan12Draft.model_validate(draft)
@@ -163,7 +169,7 @@ class DiagnosticChat(FakeChat):
 
 def test_parser_diagnostics_only_keep_known_paths_and_error_codes(settings):
     request, facts = model_request()
-    draft = draft_result(facts[0]['referenceKey'])
+    draft = draft_result()
     draft['weeks'][0]['estimatedMinutes'] = 'PRIVATE_VALUE'
     draft['weeks'][0]['PRIVATE_FIELD'] = 'PRIVATE_VALUE'
     with pytest.raises(ValidationError) as parser_failure:
@@ -196,14 +202,14 @@ def test_diagnostic_mode_distinguishes_truncation_from_render_rejection(settings
         model.generate(request, facts)
     assert model.output_diagnostic['kind'] == 'OUTPUT_LENGTH_LIMIT'
 
-    draft = draft_result(facts[0]['referenceKey'])
+    draft = draft_result()
     draft['weeks'][0]['task'] = excerpt_task('NOT IN SOURCE')
     chat.result = {'parsed': Plan12Draft.model_validate(draft), 'parsing_error': None, 'raw': None}
     with pytest.raises(ModelFault):
         model.generate(request, facts)
     assert model.output_diagnostic == {'stage': 'VALIDATION_AND_RENDER', 'kind': 'CONTRACT_VALIDATION'}
 
-    chat.result['parsed'] = Plan12Draft.model_validate(draft_result(facts[0]['referenceKey']))
+    chat.result['parsed'] = Plan12Draft.model_validate(draft_result())
     response = model.generate(request, facts)
     assert len(response['result']['weeks']) == 12
     assert model.output_diagnostic is None and 'outputDiagnostic' not in response
