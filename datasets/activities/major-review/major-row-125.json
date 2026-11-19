@@ -1,0 +1,355 @@
+{
+  "schema_version": "1.1",
+  "major_mapping_version": "MAJOR_MAPPING_V1_2_IMPLEMENTATION_CANDIDATE",
+  "content_status": "DRAFT",
+  "implementation_review_status": "PENDING",
+  "domain_review_status": "PENDING",
+  "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M125_DRAFT",
+  "provenance": {
+    "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
+    "scope": "SINGLE_MAJOR_DEV_REVIEW",
+    "parent_file_sha256": "98e0d997a7af59dfe2dab16e1156dad04933809a620b120ddd5990c8797c2e7c"
+  },
+  "activities": [
+    {
+      "activity_id": "DRAFT-M125-01",
+      "version": "0.3.0",
+      "title": "부품 설계와 제품 설계 구분하기",
+      "kind": "INFORMATION",
+      "major_code": "MAJOR_ROW_125",
+      "major_name": "기계공학과",
+      "exploration_group": "ENG",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "탐색 주제: 기계 시스템의 구성과 원인 탐색. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
+      "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
+      "steps": [
+        "두 학교 공식 자료에서 과목명과 제공되는 설명을 읽는다.",
+        "연필깎이의 손잡이와 연필깎이 전체에 대해 각각 다른 설계 질문을 적는다."
+      ],
+      "artifacts": [
+        "부품과 제품을 구분한 설계 질문 2개"
+      ],
+      "example_output": "손잡이만 고친다면 손의 움직임을 줄이는 길이는 얼마일까? 전체를 고친다면 연필 고정 장치와 손잡이는 어떻게 연결해야 할까?",
+      "worksheet_columns": "공식 자료에서 확인한 명칭 / 내가 더 알아볼 주제 / 미확인 질문 / 확인 경로",
+      "reflection_question": "소개를 읽은 뒤 관심이 생긴 부분과 여전히 모르는 부분은 무엇인가요?",
+      "alternative": "링크를 열 수 없으면 제공 과목명을 참고해 사용하는 물건의 부품과 전체를 고른다.",
+      "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
+      "source_ids": [
+        "careernet-m125",
+        "m125-university-1",
+        "m125-university-2"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 부품 설계와 제품 설계 구분하기\n\n기계요소설계와 기계제품 종합설계라는 공식 과목명을 사용한다.\n\n1. 두 학교 공식 자료에서 과목명과 제공되는 설명을 읽는다.\n2. 연필깎이의 손잡이와 연필깎이 전체에 대해 각각 다른 설계 질문을 적는다.\n\n남길 결과물은 부품과 제품을 구분한 설계 질문 2개입니다.\n\n쉬운 대안. 링크를 열 수 없으면 제공 과목명을 참고해 사용하는 물건의 부품과 전체를 고른다.",
+      "worksheet_markdown": "## 부품 설계와 제품 설계 구분하기\n\n기계요소설계와 기계제품 종합설계라는 공식 과목명을 사용한다.\n\n| 대상 | 문제 | 확인할 질문 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "careernet-m125",
+          "title": "대학교 학과정보 기계공학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=86",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2020-12-02 갱신 응답의 기계·설비 개발 학습 및 기계공작법·기계공학실험·열역학",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "대표 학과 정보다. 학교별 교과목은 대학 공식 자료에서 확인한다."
+        },
+        {
+          "source_id": "m125-university-1",
+          "title": "교과목명 변경 및 교과목 신설 안내",
+          "publisher": "서울대학교 기계공학부",
+          "url": "https://me.snu.ac.kr/%EA%B3%B5%ED%86%B5-%EA%B3%B5%EC%A7%80%EC%82%AC%ED%95%AD/editor/?mod=document&pageid=27&uid=22082",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2026학년도 2학기 공지의 기계제품 종합설계 과목명",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "교과목명 변경 공지이며 학부의 전체 과목이나 이수 조건을 설명하지 않는다."
+        },
+        {
+          "source_id": "m125-university-2",
+          "title": "학부 교과목 소개",
+          "publisher": "연세대학교 기계공학부",
+          "url": "https://me.yonsei.ac.kr/ko/undergraduate/courses",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "기계요소설계에서 기계부품과 시스템 설계 문제를 정의하는 과정",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "연세대학교 교과목 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-READ-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-READ-01",
+          "step_indexes": [
+            0
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-19"
+    },
+    {
+      "activity_id": "DRAFT-M125-02",
+      "version": "0.3.0",
+      "title": "종이 지지대 모양을 바꿔 하중 나누기",
+      "kind": "SMALL_TASK",
+      "major_code": "MAJOR_ROW_125",
+      "major_name": "기계공학과",
+      "exploration_group": "ENG",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 10,
+        "max": 15,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "경험할 주제: 기계 시스템의 구성과 원인 탐색. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
+      "scenario": "가상 손잡이·축·바퀴로 이루어진 장치를 도식으로만 제공",
+      "steps": [
+        "책 사이 간격을 일정하게 하고 같은 방향으로 종이 양끝을 받친다.",
+        "동전을 가운데에 하나씩, 최대 5개까지 올린다. 종이가 눈에 띄게 아래로 처지기 전까지 올린 개수와 관찰 내용을 기록한다."
+      ],
+      "artifacts": [
+        "두 모양과 처짐 관찰을 기록한 비교표"
+      ],
+      "example_output": "가상 결과에서 평평한 종이는 1개, 주름 종이는 4개까지 버텼다. 같은 간격과 동전으로 비교했다.",
+      "worksheet_columns": "부품 관계도/원인 가설/확인 계획 표",
+      "reflection_question": "부품 관계를 추적하는 일이 흥미로운가?",
+      "alternative": "준비물이 없으면 가상 결과를 비교하고 종이 모양 외에 같게 할 조건을 적는다.",
+      "safety_boundary": "실물 분해·가공·동력 장치 제작 없이 종이 도식만 사용",
+      "source_ids": [
+        "careernet-m125",
+        "m125-university-1",
+        "m125-university-2"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 종이 지지대 모양을 바꿔 하중 나누기\n\n같은 크기의 종이 2장, 책 2권, 가벼운 동전 몇 개를 사용해 평평한 종이와 세로 주름을 낸 종이를 비교한다.\n\n1. 책 사이 간격을 일정하게 하고 같은 방향으로 종이 양끝을 받친다.\n2. 동전을 가운데에 하나씩, 최대 5개까지 올린다. 종이가 눈에 띄게 아래로 처지기 전까지 올린 개수와 관찰 내용을 기록한다.\n\n남길 결과물은 두 모양과 처짐 관찰을 기록한 비교표입니다.\n\n쉬운 대안. 준비물이 없으면 가상 결과를 비교하고 종이 모양 외에 같게 할 조건을 적는다.",
+      "worksheet_markdown": "## 종이 지지대 모양을 바꿔 하중 나누기\n\n같은 크기의 종이 2장, 책 2권, 가벼운 동전 몇 개를 사용해 평평한 종이와 세로 주름을 낸 종이를 비교한다.\n\n| 종이 모양 | 책 간격 | 처지기 전 동전 수 | 관찰 |\n|---|---|---|---|\n| | | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "careernet-m125",
+          "title": "대학교 학과정보 기계공학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=86",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2020-12-02 갱신 응답의 기계·설비 개발 학습 및 기계공작법·기계공학실험·열역학",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "대표 학과 정보다. 학교별 교과목은 대학 공식 자료에서 확인한다."
+        },
+        {
+          "source_id": "m125-university-1",
+          "title": "교과목명 변경 및 교과목 신설 안내",
+          "publisher": "서울대학교 기계공학부",
+          "url": "https://me.snu.ac.kr/%EA%B3%B5%ED%86%B5-%EA%B3%B5%EC%A7%80%EC%82%AC%ED%95%AD/editor/?mod=document&pageid=27&uid=22082",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2026학년도 2학기 공지의 기계제품 종합설계 과목명",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "교과목명 변경 공지이며 학부의 전체 과목이나 이수 조건을 설명하지 않는다."
+        },
+        {
+          "source_id": "m125-university-2",
+          "title": "학부 교과목 소개",
+          "publisher": "연세대학교 기계공학부",
+          "url": "https://me.yonsei.ac.kr/ko/undergraduate/courses",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "기계요소설계에서 기계부품과 시스템 설계 문제를 정의하는 과정",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "연세대학교 교과목 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-PROJECT-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-PROJECT-01",
+          "step_indexes": [
+            0,
+            1
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-19"
+    },
+    {
+      "activity_id": "DRAFT-M125-03",
+      "version": "0.3.0",
+      "title": "다른 설계와 공정하게 비교할 조건 정하기",
+      "kind": "REFLECTION_AND_NEXT_STEP",
+      "major_code": "MAJOR_ROW_125",
+      "major_name": "기계공학과",
+      "exploration_group": "ENG",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
+      "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
+      "steps": [
+        "관찰에서 유지했던 조건과 측정하기 어려웠던 기준을 적는다.",
+        "종이 크기는 유지하고 주름 방향만 바꿔 다시 비교하는 계획을 적는다."
+      ],
+      "artifacts": [
+        "한 가지 변경 조건과 측정 기준이 담긴 재시험 계획"
+      ],
+      "example_output": "주름 방향만 90도 바꾼다. 책 간격과 동전 위치를 고정하고, 첫 처짐이 눈에 띄기 전 동전 수를 기록한다.",
+      "worksheet_columns": "경험한 과정 / 흥미·불편·모름 / 확인 질문 / 확인 경로 / 다음 행동",
+      "reflection_question": "부품 관계를 추적하는 일이 흥미로운가?",
+      "alternative": "실험을 반복할 필요 없이 그림과 비교 기준만 작성한다.",
+      "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
+      "source_ids": [
+        "careernet-m125",
+        "m125-university-1",
+        "m125-university-2"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 다른 설계와 공정하게 비교할 조건 정하기\n\n종이 지지대 표 또는 제공 예시를 본다.\n\n1. 관찰에서 유지했던 조건과 측정하기 어려웠던 기준을 적는다.\n2. 종이 크기는 유지하고 주름 방향만 바꿔 다시 비교하는 계획을 적는다.\n\n남길 결과물은 한 가지 변경 조건과 측정 기준이 담긴 재시험 계획입니다.\n\n쉬운 대안. 실험을 반복할 필요 없이 그림과 비교 기준만 작성한다.",
+      "worksheet_markdown": "## 다른 설계와 공정하게 비교할 조건 정하기\n\n종이 지지대 표 또는 제공 예시를 본다.\n\n| 바꿀 조건 | 유지할 조건 | 비교 기준 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "careernet-m125",
+          "title": "대학교 학과정보 기계공학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=86",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2020-12-02 갱신 응답의 기계·설비 개발 학습 및 기계공작법·기계공학실험·열역학",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "대표 학과 정보다. 학교별 교과목은 대학 공식 자료에서 확인한다."
+        },
+        {
+          "source_id": "m125-university-1",
+          "title": "교과목명 변경 및 교과목 신설 안내",
+          "publisher": "서울대학교 기계공학부",
+          "url": "https://me.snu.ac.kr/%EA%B3%B5%ED%86%B5-%EA%B3%B5%EC%A7%80%EC%82%AC%ED%95%AD/editor/?mod=document&pageid=27&uid=22082",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2026학년도 2학기 공지의 기계제품 종합설계 과목명",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "교과목명 변경 공지이며 학부의 전체 과목이나 이수 조건을 설명하지 않는다."
+        },
+        {
+          "source_id": "m125-university-2",
+          "title": "학부 교과목 소개",
+          "publisher": "연세대학교 기계공학부",
+          "url": "https://me.yonsei.ac.kr/ko/undergraduate/courses",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "기계요소설계에서 기계부품과 시스템 설계 문제를 정의하는 과정",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "연세대학교 교과목 사례다."
+        }
+      ],
+      "preference_question_ids": [],
+      "preference_mapping_basis": [],
+      "revised_on": "2026-11-19"
+    }
+  ]
+}
