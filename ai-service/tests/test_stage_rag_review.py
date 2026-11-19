@@ -1,5 +1,6 @@
 """Synthetic reviews and writes below use a disposable database, never development data."""
 from copy import deepcopy
+from datetime import datetime, timezone
 import json
 import os
 from pathlib import Path
@@ -13,7 +14,7 @@ from sqlalchemy.orm import Session
 from app.exploration_contract import input_hash
 from app.rag.exploration_binding import EvidencePolicy, ExplorationEvidenceBinder
 from app.rag.models import AiMajorDocument
-from scripts import stage_rag_review as workflow
+from scripts import review_rag_evidence as review, stage_rag_review as workflow
 from scripts.verify_rag_backup_migration import HEAD, VerificationFault
 
 REPO = Path(__file__).resolve().parents[2]
@@ -122,7 +123,7 @@ def test_actual_text_change_with_original_declared_hash_blocks_replay(database):
 def test_manifest_failure_rolls_back_new_document_and_all_chunks(database, monkeypatch):
     def fail(*args, **kwargs):
         raise RuntimeError("SYNTHETIC_MANIFEST_FAILURE")
-    monkeypatch.setattr(ExplorationEvidenceBinder, "capture_review_manifest", fail)
+    monkeypatch.setattr(workflow, "_manifest", fail)
     with pytest.raises(RuntimeError, match="SYNTHETIC_MANIFEST_FAILURE"):
         workflow.stage(database, DRAFT, RELATIVE, apply=True)
     assert counts(database) == [0, 0, 0, 0]
@@ -143,3 +144,58 @@ def test_staged_facts_are_unavailable_until_real_review_and_do_not_change_legacy
         legacy = s.scalar(select(AiMajorDocument).where(AiMajorDocument.dataset_version == "LEGACY_TEST_ONLY"))
         assert legacy.content_hash == "a" * 64 and legacy.metadata_json == {"keep": True}
         assert s.scalar(text("SELECT count(*) FROM ai_major_chunks WHERE embedding IS NOT NULL")) == 0
+
+
+def batch_drafts():
+    paths = [f"exploration-rag-review/major-row-{row}.review-draft.json" for row in (3, 40, 166)]
+    return [(workflow.validate_draft(json.loads((REPO / "datasets" / path).read_text(encoding="utf-8")), MAPPING), path)
+            for path in paths]
+
+
+def test_shared_version_requires_explicit_review_for_each_requested_major(database):
+    drafts = batch_drafts()
+    version = "EXPLORATION_RAG_TEST_COMMON"
+    plan = workflow.stage_batch(database, drafts, version, apply=False)
+    assert plan["operation"] == "WOULD_CREATE"
+    assert all(packet["bindingManifest"] is None for packet in plan["documents"])
+    assert counts(database) == [0, 0, 0, 0]
+
+    staged = workflow.stage_batch(database, drafts, version, apply=True)
+    replay = workflow.stage_batch(database, list(reversed(drafts)), version, apply=False)
+    assert staged["operation"] == "CREATED" and replay["operation"] == "UNCHANGED"
+    assert [p["bindingManifest"] for p in staged["documents"]] == [p["bindingManifest"] for p in replay["documents"]]
+    assert counts(database) == [3, 6, 0, 0]
+    with pytest.raises(VerificationFault, match="IMMUTABLE_VERSION_CONFLICT"):
+        workflow.stage_batch(database, drafts[:2], version, apply=True)
+
+    request = json.loads((REPO / "datasets/exploration-ai-contract/cases.json").read_text(encoding="utf-8"))["adapterCases"][0]["expectedRequest"]
+    request["input"]["candidateNames"] = [packet["majorName"] for packet in staged["documents"]]
+    request["input"]["targetName"] = None
+    request["inputHash"] = input_hash(request)
+
+    for count, packet in enumerate(staged["documents"]):
+        with Session(database) as session:
+            assert ExplorationEvidenceBinder(session, EvidencePolicy(version)).prepare(request).status == "INSUFFICIENT_EVIDENCE"
+        receipt = review.preview(database, packet["documentId"], version)["receiptTemplate"]
+        assert receipt["bindingManifest"] == packet["bindingManifest"]
+        receipt.update(decision="APPROVED", reviewerId="SYNTHETIC_TEST_REVIEWER",
+                       reviewedAt=datetime.now(timezone.utc).isoformat(),
+                       sourceReference="SYNTHETIC_TEST_ONLY")
+        review.record(database, receipt, apply=True)
+        assert counts(database) == [3, 6, count + 1, 0]
+    with Session(database) as session:
+        assert ExplorationEvidenceBinder(session, EvidencePolicy(version)).prepare(request).status == "BOUND"
+
+
+def test_manifest_failure_rolls_back_entire_batch(database, monkeypatch):
+    manifest = workflow._manifest
+
+    def fail_on_second(doc, chunks):
+        if doc.major_name == "국사학과":
+            raise RuntimeError("SYNTHETIC_BATCH_MANIFEST_FAILURE")
+        return manifest(doc, chunks)
+
+    monkeypatch.setattr(workflow, "_manifest", fail_on_second)
+    with pytest.raises(RuntimeError, match="SYNTHETIC_BATCH_MANIFEST_FAILURE"):
+        workflow.stage_batch(database, batch_drafts(), "EXPLORATION_RAG_TEST_ROLLBACK", apply=True)
+    assert counts(database) == [0, 0, 0, 0]
