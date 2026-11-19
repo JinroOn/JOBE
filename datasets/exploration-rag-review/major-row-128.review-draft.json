@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M128_20261119",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-19",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_128",
+  "majorName": "산업공학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "산업공학과는 제품 생산과 전달 같은 여러 단계가 연결된 시스템을 설계하고 운영하는 방법을 배운다. 커리어넷은 물류공학과 생산계획을 과목 사례로 소개한다.",
+      "sourceIds": [
+        "careernet-m128"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "서울대 산업공학과 학부 자료에는 최적화모형 및 응용과 물류관리가 있다. 연세대 산업공학과 교과과정에는 생산시스템분석, 공급망경영과 품질공학이 있다.",
+      "sourceIds": [
+        "m128-university-1",
+        "m128-university-2"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "careernet-m128",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 산업공학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=250",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2023-06-01 갱신 응답의 산업 시스템 설계·운영과 물류공학·생산계획",
+      "limitation": "대표 학과 정보다. 학교별 교과목은 대학 공식 자료에서 확인한다.",
+      "accessedAt": "2026-11-19"
+    },
+    {
+      "sourceId": "m128-university-1",
+      "publisher": "서울대학교 산업공학과",
+      "title": "학부 전공교과목 이수규정 2008~2025학번",
+      "url": "https://ie.snu.ac.kr/wp-content/uploads/sites/307/2025/07/%ED%95%99%EB%B6%80%EC%A0%84%EA%B3%B5%EC%9D%B4%EC%88%98%EA%B7%9C%EC%A0%9508-25%ED%95%99%EB%B2%88-1.pdf",
+      "supports": "최적화모형 및 응용·물류관리·품질경영",
+      "limitation": "수록 과목명만 인용한다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-19"
+    },
+    {
+      "sourceId": "m128-university-2",
+      "publisher": "연세대학교 산업공학과",
+      "title": "학부 교과과정",
+      "url": "https://ie.yonsei.ac.kr/sub03/sub01.php",
+      "supports": "생산시스템분석·공급망경영·품질공학",
+      "limitation": "해당 대학의 과목 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-19"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

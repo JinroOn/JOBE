@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M87_20261119",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-19",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_87",
+  "majorName": "교육학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "교육학과는 학습과 수업을 둘러싼 이론을 공부하고 교육 현장의 문제를 분석한다. 커리어넷은 교육학개론, 교육사회학과 교육심리를 대표 과목으로 소개한다.",
+      "sourceIds": [
+        "careernet-m87"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "고려대 교육학과 학부 교수요목은 교육과정, 교육평가와 교육공학에서 다루는 내용을 설명한다. 서울대 학사편람의 사범대학 교직이론 과목에도 교육과정, 교육평가와 교육심리가 제시된다.",
+      "sourceIds": [
+        "m87-university-1",
+        "m87-university-2"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "careernet-m87",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 교육학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=59",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2020-12-02 갱신 응답의 교육 이론과 현장 문제, 교육학개론·교육사회학·교육심리",
+      "limitation": "대표 학과 정보다. 학교별 교과목은 대학 공식 자료에서 확인한다.",
+      "accessedAt": "2026-11-19"
+    },
+    {
+      "sourceId": "m87-university-1",
+      "publisher": "고려대학교 교육학과",
+      "title": "학부 교수요목",
+      "url": "https://edu.korea.ac.kr/edu/matriculate/matriculation.do",
+      "supports": "교육과정, 교육평가와 교육공학의 수업 내용",
+      "limitation": "고려대 교육학과 개설 과목 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-19"
+    },
+    {
+      "sourceId": "m87-university-2",
+      "publisher": "서울대학교",
+      "title": "2024 학사과정 교과목 편람",
+      "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+      "supports": "사범대학 교직이론 목록의 교육과정·교육평가·교육심리",
+      "limitation": "교육학과 전체 교과과정이 아닌 사범대학 교직이론의 비교 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-19"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

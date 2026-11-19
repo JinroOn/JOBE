@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M176_20261119",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-19",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_176",
+  "majorName": "화학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "화학과에서는 물질의 성분과 구조를 알아보고 물질이 변하는 원리를 탐구한다. 커리어넷은 분석화학과 물리화학, 유기화학 등 여러 분야의 과목을 소개한다.",
+      "sourceIds": [
+        "careernet-m176"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "서울대 화학부 자료에는 유기화학, 분석화학과 물리분석실험 과목이 있다. 연세대 화학과 교과이수 로드맵에는 분석화학(1)과 물리유기화학 등이 제시된다.",
+      "sourceIds": [
+        "m176-university-1",
+        "m176-university-2"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "careernet-m176",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 화학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=649",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2020-12-02 갱신 응답의 물질의 성분·구조·변화와 유기화학·분석화학·물리화학",
+      "limitation": "대표 학과 정보다. 학교별 교과목은 대학 공식 자료에서 확인한다.",
+      "accessedAt": "2026-11-19"
+    },
+    {
+      "sourceId": "m176-university-1",
+      "publisher": "서울대학교 화학부",
+      "title": "학부 교과과정",
+      "url": "https://chem.snu.ac.kr/academics/undergraduate/major-elective",
+      "supports": "유기화학·분석화학과 물리분석실험 과목",
+      "limitation": "교과목 사례만 인용한다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-19"
+    },
+    {
+      "sourceId": "m176-university-2",
+      "publisher": "연세대학교",
+      "title": "2026 교과이수 로드맵 화학과",
+      "url": "https://yonseirc.yonsei.ac.kr/cms/etcResourceOpen.do?key=%24cms%24EwBmDYwRmB9BPA9gOwM4FMCWACAxogVwCcNsjEBDAEwFsKAHWAM02QDp6qmg&site=%24cms%24K4YyA",
+      "supports": "분석화학(1)과 물리유기화학",
+      "limitation": "2026 로드맵의 편성 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-19"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

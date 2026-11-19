@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M11_20261119",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-19",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_11",
+  "majorName": "영어영문학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "영어영문학과는 영어 표현과 언어의 구조를 살피고 영어로 쓰인 문학과 문화를 탐구한다. 커리어넷은 영미소설, 영어음성학과 영작문을 과목으로 소개한다.",
+      "sourceIds": [
+        "careernet-m11"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "서울대 영어영문학과 학부 공지에 영어담화분석과 최근 영어권 소설이 나온다. 연세대 로드맵은 대화분석의 기초와 단편소설의 예술을 서로 다른 영역의 과목으로 제시한다.",
+      "sourceIds": [
+        "m11-university-1",
+        "m11-university-2"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "careernet-m11",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 영어영문학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=366",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2020-12-02 갱신 응답의 영어학·영미문학·문화 탐구 및 영미소설·영어음성학",
+      "limitation": "대표 학과 정보다. 학교별 교과목은 대학 공식 자료에서 확인한다.",
+      "accessedAt": "2026-11-19"
+    },
+    {
+      "sourceId": "m11-university-1",
+      "publisher": "서울대학교 영어영문학과",
+      "title": "학부 교과목 공지",
+      "url": "https://english.snu.ac.kr/18255/",
+      "supports": "영어담화분석과 최근 영어권 소설 과목 사례",
+      "limitation": "2014년 공지에서 과목 사례만 인용한다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-19"
+    },
+    {
+      "sourceId": "m11-university-2",
+      "publisher": "연세대학교",
+      "title": "2026학년도 교과이수 로드맵 영어영문학과",
+      "url": "https://universitycollege.yonsei.ac.kr/cms/etcResourceOpen.do?key=%24cms%24EwBmDYwRmB9BPA9gOwM4FMCWACAxogVwCcNsjEBDAEwFsKAHWAM02QDp6qmg&site=%24cms%24K4YyA",
+      "supports": "대화분석의 기초, 단편소설의 예술, 영어글쓰기 영역",
+      "limitation": "2026 교과이수 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-19"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

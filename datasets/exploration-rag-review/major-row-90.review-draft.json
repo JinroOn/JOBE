@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M90_20261119",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-19",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_90",
+  "majorName": "수학교육과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "수학교육과에서는 수학 내용과 학생이 수학 개념을 이해하도록 가르치는 방법을 함께 공부한다. 커리어넷은 수학교육론, 집합론과 미적분학을 과목 사례로 소개한다.",
+      "sourceIds": [
+        "careernet-m90"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "서울대 학사과정 편람에는 수학교육론과 수학교재연구 및 지도법이 나온다. 고려대 수학교육과 교과목표에는 수학교과교육론과 수학교과교재연구및지도법, 선형대수I가 있다.",
+      "sourceIds": [
+        "m90-university-1",
+        "m90-university-2"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "careernet-m90",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 수학교육과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=299",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2020-12-02 갱신 응답의 중등 수학교육과 교과 내용 학습, 수학교육론·집합론·미적분학",
+      "limitation": "대표 학과 정보다. 학교별 교과목은 대학 공식 자료에서 확인한다.",
+      "accessedAt": "2026-11-19"
+    },
+    {
+      "sourceId": "m90-university-1",
+      "publisher": "서울대학교",
+      "title": "2024 학사과정 교과목 편람",
+      "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
+      "supports": "수학교육론과 수학교재연구 및 지도법",
+      "limitation": "2024 편람의 수학교육 교과교육 과목 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-19"
+    },
+    {
+      "sourceId": "m90-university-2",
+      "publisher": "고려대학교 수학교육과",
+      "title": "학부 교과목표",
+      "url": "https://mathedu.korea.ac.kr/mathedu/under/sylabus.do",
+      "supports": "수학교과교육론·수학교과교재연구및지도법과 선형대수I",
+      "limitation": "고려대학교 과목 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-19"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}
