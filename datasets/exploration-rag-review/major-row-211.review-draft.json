@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M211_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_211",
+  "majorName": "치의예과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "치의예과는 구강과 인체를 이해하는 치의학 기초를 준비하는 과정이다. 커리어넷은 구강생화학과 치아형태학 등 치의학 관련 과목 사례를 소개한다.",
+      "sourceIds": [
+        "m211-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "조선대 안내는 치의예과의 교양·기초치의학과 치의학과의 심화·임상 단계를 구분하고, 예과 과목으로 치의학입문과 치의학연구방법론을 제시한다. 연세대 입학가이드 역시 예과와 치의학과 단계의 차이를 설명한다.",
+      "sourceIds": [
+        "m211-university",
+        "m211-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m211-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 치의예과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=564",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2020-12-02 갱신 응답에서 확인한 치의예과는 구강과 인체를 이해하는 치의학 기초를 준비하는 과정이다. 커리어넷은 구강생화학과 치아형태학 등 치의학 관련 과목 사례를 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m211-university",
+      "publisher": "조선대학교 치과대학",
+      "title": "치의예과 전공 안내",
+      "url": "https://dentistry.chosun.ac.kr/sites/dentistry/down/009_2024_dentistry_dentistry.pdf",
+      "supports": "예과와 치의학과의 구분, 치의학입문·치의학연구방법론",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m211-extra",
+      "publisher": "연세대학교 치과대학",
+      "title": "입학가이드",
+      "url": "https://dentistry.yonsei.ac.kr/dentistry/admission/college/guide.do",
+      "supports": "치의예과 이후 치의학과 학습 사례",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}
