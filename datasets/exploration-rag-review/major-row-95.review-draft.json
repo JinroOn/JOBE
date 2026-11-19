@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M95_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_95",
+  "majorName": "음악교육과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "음악교육과는 음악 이론과 실기를 익히고 음악 활동을 가르치는 방법을 배운다. 커리어넷은 음악수업실기, 음악이론과 음악교수법을 소개한다.",
+      "sourceIds": [
+        "m95-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "한국교원대 음악교육과는 음악교육론, 음악과교재연구와 국악감상지도법을 제시한다. 국립공주대 가이드북에는 합주지도법과 창작과 감상 평가방법이 있다.",
+      "sourceIds": [
+        "m95-university",
+        "m95-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m95-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 음악교육과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=10022",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2020-12-02 갱신 응답에서 확인한 음악교육과는 음악 이론과 실기를 익히고 음악 활동을 가르치는 방법을 배운다. 커리어넷은 음악수업실기, 음악이론과 음악교수법을 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m95-university",
+      "publisher": "한국교원대학교 음악교육과",
+      "title": "교육과정안내",
+      "url": "https://www.knue.ac.kr/music/contents.do?key=1311",
+      "supports": "음악교육론·음악과교재연구·국악감상지도법",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m95-extra",
+      "publisher": "국립공주대학교",
+      "title": "2025학년도 진로진학가이드북",
+      "url": "https://ipsi.kongju.ac.kr/download/viewer/1721635859017/index.html",
+      "supports": "합주지도법 및 창작과 감상 평가방법",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}
