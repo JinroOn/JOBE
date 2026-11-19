@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M92_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_92",
+  "majorName": "영어교육과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "영어교육과는 영어의 구조와 사용을 공부하고 학습자가 영어로 소통하도록 지도하는 방법을 배운다. 커리어넷은 영어교수법과 영어교과교육론을 사례로 든다.",
+      "sourceIds": [
+        "m92-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "고려대 영어교육과 교수요목에는 영어교과교재연구및지도법이 있다. 서울대 교과목 개요는 듣기·말하기·읽기·쓰기 지도와 평가를 다룬다.",
+      "sourceIds": [
+        "m92-university",
+        "m92-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m92-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 영어교육과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=365",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2020-12-02 갱신 응답에서 확인한 영어교육과는 영어의 구조와 사용을 공부하고 학습자가 영어로 소통하도록 지도하는 방법을 배운다. 커리어넷은 영어교수법과 영어교과교육론을 사례로 든다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m92-university",
+      "publisher": "고려대학교 영어교육과",
+      "title": "학부 교수요목",
+      "url": "https://eled.korea.ac.kr/eled/info/object.do",
+      "supports": "영어교과교재연구및지도법과 교재에 대한 지도",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m92-extra",
+      "publisher": "서울대학교",
+      "title": "2024 학사과정 교과목 과목개요",
+      "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_Summary_2024.pdf",
+      "supports": "듣기·말하기·읽기·쓰기 지도와 평가",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}
