@@ -49,7 +49,7 @@ class ConsultationMessageApiTest extends CompletedExplorationTestSupport {
         var r=response.putObject("result").put("summary",text);r.putArray("questions");r.putArray("referenceKeys").add(refs.get(0));
         var out=mapper.createObjectNode().put("transportVersion","EXPLORATION_MODEL_EXECUTION_V1_0").put("mode","MODEL").put("generationAuthorized",true)
             .put("mutationKey",mutation).put("originalInputHash",original.path("inputHash").asText()).put("sourceContextHash",original.path("sourceContextHash").asText()).put("bindingHash","a".repeat(64)).put("jobId",1);
-        out.set("boundRequest",bound);out.set("response",response);out.putObject("providerMetadata").put("provider","openai").put("model","TEST_CHAT_MODEL").put("promptVersion","EXPLORATION_CONVERSATION_V1_0");return out;
+        out.set("boundRequest",bound);out.set("response",response);out.putObject("providerMetadata").put("provider","openai").put("model","TEST_CHAT_MODEL").put("promptVersion","EXPLORATION_CONVERSATION_V1_1");return out;
     }
     @Test void sendsOwnedPairReplaysWithoutProviderAndResumesVerifiedHistory()throws Exception{
         long c=open();var first=messages.send(OWNER,c,"q1","무엇을 확인할까요?");
