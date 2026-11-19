@@ -1,0 +1,355 @@
+{
+  "schema_version": "1.1",
+  "major_mapping_version": "MAJOR_MAPPING_V1_2_IMPLEMENTATION_CANDIDATE",
+  "content_status": "DRAFT",
+  "implementation_review_status": "PENDING",
+  "domain_review_status": "PENDING",
+  "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M51_DRAFT",
+  "provenance": {
+    "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
+    "scope": "SINGLE_MAJOR_DEV_REVIEW",
+    "parent_file_sha256": "98e0d997a7af59dfe2dab16e1156dad04933809a620b120ddd5990c8797c2e7c"
+  },
+  "activities": [
+    {
+      "activity_id": "DRAFT-M51-01",
+      "version": "0.3.0",
+      "title": "국내 의사결정과 국가 간 협력의 질문 나누기",
+      "kind": "INFORMATION",
+      "major_code": "MAJOR_ROW_51",
+      "major_name": "정치외교학과",
+      "exploration_group": "SOC",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "탐색 주제: 정책 협의와 이해관계. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
+      "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
+      "steps": [
+        "공식 교과과정에서 두 과목을 찾고 다룰 내용에 대해 떠오른 질문을 적는다.",
+        "국내에서 누가 결정을 내리는지와 국가 간 어떤 합의가 필요한지 묻는 질문을 나눈다."
+      ],
+      "artifacts": [
+        "과목별 비교 질문 2개"
+      ],
+      "example_output": "같은 정책을 나라별로 어떻게 의결할까? 여러 나라가 공동 결정을 할 때 무엇을 먼저 합의할까?",
+      "worksheet_columns": "공식 자료에서 확인한 명칭 / 내가 더 알아볼 주제 / 미확인 질문 / 확인 경로",
+      "reflection_question": "소개를 읽은 뒤 관심이 생긴 부분과 여전히 모르는 부분은 무엇인가요?",
+      "alternative": "공식 링크 대신 제공된 과목명 두 개로 질문을 작성한다.",
+      "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
+      "source_ids": [
+        "careernet-m51",
+        "m51-university-1",
+        "m51-university-2"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 국내 의사결정과 국가 간 협력의 질문 나누기\n\n비교정치론과 한국과 동아시아 국제관계사 과목명을 읽는다.\n\n1. 공식 교과과정에서 두 과목을 찾고 다룰 내용에 대해 떠오른 질문을 적는다.\n2. 국내에서 누가 결정을 내리는지와 국가 간 어떤 합의가 필요한지 묻는 질문을 나눈다.\n\n남길 결과물은 과목별 비교 질문 2개입니다.\n\n쉬운 대안. 공식 링크 대신 제공된 과목명 두 개로 질문을 작성한다.",
+      "worksheet_markdown": "## 국내 의사결정과 국가 간 협력의 질문 나누기\n\n비교정치론과 한국과 동아시아 국제관계사 과목명을 읽는다.\n\n| 과목 | 결정 주체 | 내 질문 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "careernet-m51",
+          "title": "대학교 학과정보 정치외교학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=492",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2021-07-01 갱신 응답의 국내외 정치와 외교의 이론·사례 및 정치학개론·국제정치·외교정책론",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "대표 학과 정보다. 학교별 교과목은 대학 공식 자료에서 확인한다."
+        },
+        {
+          "source_id": "m51-university-1",
+          "title": "학부 전공선택 교과과정",
+          "publisher": "서울대학교 정치외교학부",
+          "url": "https://psir.snu.ac.kr/undergraduate/majorsel",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "비교정치론과 국제정치 자료분석의 개설 과목 목록",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "서울대학교의 전공 과목 사례다."
+        },
+        {
+          "source_id": "m51-university-2",
+          "title": "학부 교과과정",
+          "publisher": "연세대학교 정치외교학과",
+          "url": "https://politics.yonsei.ac.kr/pagegenerater.asp?catalogid=politics&language=ko&pagecode=gradu01",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "비교정치 영역과 한국과 동아시아 국제관계사 과목",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "연세대학교 학부 교과과정 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-READ-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-READ-01",
+          "step_indexes": [
+            0
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-19"
+    },
+    {
+      "activity_id": "DRAFT-M51-02",
+      "version": "0.3.0",
+      "title": "가상의 두 도시가 공동 버스 운행에 합의하는 문장 만들기",
+      "kind": "SMALL_TASK",
+      "major_code": "MAJOR_ROW_51",
+      "major_name": "정치외교학과",
+      "exploration_group": "SOC",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 10,
+        "max": 15,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "경험할 주제: 정책 협의와 이해관계. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
+      "scenario": "두 가상 지역이 공동 시설의 예산과 이용 시간을 나누려는 상황",
+      "steps": [
+        "각 도시의 요구와 공동 목표를 적고, 할 수 있는 양보 하나씩을 생각한다.",
+        "두 도시가 확인할 수 있는 시험 운행 합의와 확인 기준을 한 문장씩 적는다."
+      ],
+      "artifacts": [
+        "요구·공동 목표·시험 운행 기준이 있는 합의안"
+      ],
+      "example_output": "한 달 동안 평일 첫차만 15분 앞당겨 운행하고, 두 도시가 이용자 수와 추가 운행 비용을 함께 확인한다.",
+      "worksheet_columns": "당사자/목표/대안/추가 정보 표",
+      "reflection_question": "서로 다른 이해관계를 조정하는 일이 흥미로운가?",
+      "alternative": "역할을 나눌 사람이 없어도 두 도시의 관점에서 한 줄씩 적는다.",
+      "safety_boundary": "현실 외교 사건의 사실·정책을 추정하지 않음",
+      "source_ids": [
+        "careernet-m51",
+        "m51-university-1",
+        "m51-university-2"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 가상의 두 도시가 공동 버스 운행에 합의하는 문장 만들기\n\n도시 A는 첫차를 앞당기고 싶고, 도시 B는 비용 상한을 지키고 싶다. 가상의 두 도시 모두 통학 시간을 줄이려 한다.\n\n1. 각 도시의 요구와 공동 목표를 적고, 할 수 있는 양보 하나씩을 생각한다.\n2. 두 도시가 확인할 수 있는 시험 운행 합의와 확인 기준을 한 문장씩 적는다.\n\n남길 결과물은 요구·공동 목표·시험 운행 기준이 있는 합의안입니다.\n\n쉬운 대안. 역할을 나눌 사람이 없어도 두 도시의 관점에서 한 줄씩 적는다.",
+      "worksheet_markdown": "## 가상의 두 도시가 공동 버스 운행에 합의하는 문장 만들기\n\n도시 A는 첫차를 앞당기고 싶고, 도시 B는 비용 상한을 지키고 싶다. 가상의 두 도시 모두 통학 시간을 줄이려 한다.\n\n| 주체 | 요구 | 양보 | 공동 확인 기준 |\n|---|---|---|---|\n| | | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "careernet-m51",
+          "title": "대학교 학과정보 정치외교학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=492",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2021-07-01 갱신 응답의 국내외 정치와 외교의 이론·사례 및 정치학개론·국제정치·외교정책론",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "대표 학과 정보다. 학교별 교과목은 대학 공식 자료에서 확인한다."
+        },
+        {
+          "source_id": "m51-university-1",
+          "title": "학부 전공선택 교과과정",
+          "publisher": "서울대학교 정치외교학부",
+          "url": "https://psir.snu.ac.kr/undergraduate/majorsel",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "비교정치론과 국제정치 자료분석의 개설 과목 목록",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "서울대학교의 전공 과목 사례다."
+        },
+        {
+          "source_id": "m51-university-2",
+          "title": "학부 교과과정",
+          "publisher": "연세대학교 정치외교학과",
+          "url": "https://politics.yonsei.ac.kr/pagegenerater.asp?catalogid=politics&language=ko&pagecode=gradu01",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "비교정치 영역과 한국과 동아시아 국제관계사 과목",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "연세대학교 학부 교과과정 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-PROJECT-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-PROJECT-01",
+          "step_indexes": [
+            0,
+            1
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-19"
+    },
+    {
+      "activity_id": "DRAFT-M51-03",
+      "version": "0.3.0",
+      "title": "합의안을 바꿀 수 있는 자료와 관점 찾기",
+      "kind": "REFLECTION_AND_NEXT_STEP",
+      "major_code": "MAJOR_ROW_51",
+      "major_name": "정치외교학과",
+      "exploration_group": "SOC",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
+      "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
+      "steps": [
+        "합의안에 관점이 빠진 이해관계자를 한 명 또는 집단 고른다.",
+        "그들의 요구와 관련된 정보 한 가지와 추가로 물을 질문을 적는다."
+      ],
+      "artifacts": [
+        "빠진 관점과 필요한 확인 자료 메모"
+      ],
+      "example_output": "첫차 운전 인력의 근무 일정이 빠졌다. 출발 시간 변경이 교대 일정에 어떤 영향을 줄까?",
+      "worksheet_columns": "경험한 과정 / 흥미·불편·모름 / 확인 질문 / 확인 경로 / 다음 행동",
+      "reflection_question": "서로 다른 이해관계를 조정하는 일이 흥미로운가?",
+      "alternative": "합의문 예시만 사용해 다음 질문 하나를 고른다.",
+      "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
+      "source_ids": [
+        "careernet-m51",
+        "m51-university-1",
+        "m51-university-2"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 합의안을 바꿀 수 있는 자료와 관점 찾기\n\n두 도시 시험 운행 합의 문장을 다시 읽는다.\n\n1. 합의안에 관점이 빠진 이해관계자를 한 명 또는 집단 고른다.\n2. 그들의 요구와 관련된 정보 한 가지와 추가로 물을 질문을 적는다.\n\n남길 결과물은 빠진 관점과 필요한 확인 자료 메모입니다.\n\n쉬운 대안. 합의문 예시만 사용해 다음 질문 하나를 고른다.",
+      "worksheet_markdown": "## 합의안을 바꿀 수 있는 자료와 관점 찾기\n\n두 도시 시험 운행 합의 문장을 다시 읽는다.\n\n| 빠진 관점 | 필요한 자료 | 다음 질문 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "careernet-m51",
+          "title": "대학교 학과정보 정치외교학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=492",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2021-07-01 갱신 응답의 국내외 정치와 외교의 이론·사례 및 정치학개론·국제정치·외교정책론",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "대표 학과 정보다. 학교별 교과목은 대학 공식 자료에서 확인한다."
+        },
+        {
+          "source_id": "m51-university-1",
+          "title": "학부 전공선택 교과과정",
+          "publisher": "서울대학교 정치외교학부",
+          "url": "https://psir.snu.ac.kr/undergraduate/majorsel",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "비교정치론과 국제정치 자료분석의 개설 과목 목록",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "서울대학교의 전공 과목 사례다."
+        },
+        {
+          "source_id": "m51-university-2",
+          "title": "학부 교과과정",
+          "publisher": "연세대학교 정치외교학과",
+          "url": "https://politics.yonsei.ac.kr/pagegenerater.asp?catalogid=politics&language=ko&pagecode=gradu01",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "비교정치 영역과 한국과 동아시아 국제관계사 과목",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "연세대학교 학부 교과과정 사례다."
+        }
+      ],
+      "preference_question_ids": [],
+      "preference_mapping_basis": [],
+      "revised_on": "2026-11-19"
+    }
+  ]
+}
