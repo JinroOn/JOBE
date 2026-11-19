@@ -36,7 +36,7 @@ class ProtocolClient:
         else:
             from plan12_draft_fixtures import draft_result
             assert self.schema is evaluation.Plan12Draft
-            value = draft_result('protocol_ref', 'PROTOCOL_TEST')
+            value = draft_result('PROTOCOL_TEST')
         return dict(parsed=self.schema.model_validate(value), parsing_error=None,
                     raw=SimpleNamespace(usage_metadata=dict(input_tokens=12, output_tokens=8, total_tokens=20)))
 
@@ -172,6 +172,8 @@ def test_approved_evaluation_is_readonly_rechecks_after_call_and_never_saves_a_r
             events.append('after')
             if revoke: raise binding.EvidenceNoLongerAvailable()
     class Consumer:
+        def __init__(self, *, evaluation_diagnostics):
+            assert evaluation_diagnostics
         timings = {'providerWaitMs': 12.0, 'cleanupMs': 2.0, 'totalMs': 15.0}
         metadata = {'promptVersion': 'TEST_PROMPT'}
         def generate(self, request, facts):

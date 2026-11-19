@@ -29,6 +29,33 @@ class ExplorationConsultationStartApiTest extends CompletedExplorationTestSuppor
         assertThat(count("exploration_consultation","result_id=?",result)).isEqualTo(1);
         assertThat(count("consultation_sessions","user_id=?",OWNER)).isEqualTo(legacy);
         assertThat(count("exploration_generation_task","user_id=?",OWNER)).isZero();
+        assertThat(jdbc.queryForObject("SELECT target_major_code FROM exploration_result_context WHERE result_id=? AND context_type='CONSULTATION'",String.class,result)).isNull();
+    }
+
+    @Test void newConversationPinsTheSelectedSupportTargetAndResumesWithoutChangingIt() throws Exception {
+        long result = completedResult(true);
+        var candidate = resultSnapshot(result).path("majorSummaries").get(0);
+        String target = candidate.path("majorCode").asText();
+        String name = candidate.path("majorName").asText();
+        assertThat(name).isNotBlank();
+        support.select(OWNER, result, "select-target", 0, "BOTH", target);
+
+        var opened = response(post(path(result)).header("Authorization",owner).header("Idempotency-Key","open-target")
+                .contentType(MediaType.APPLICATION_JSON).content("{}"), 200);
+        long context = jdbc.queryForObject("SELECT context_id FROM exploration_consultation WHERE id=?",
+                Long.class, opened.path("consultationId").asLong());
+        var before = contexts.readForAdapter(OWNER, context, "CONSULTATION").snapshot();
+        var conversation = mapper.createObjectNode().put("question", "SYNTHETIC QUESTION");
+        conversation.putArray("history");
+        var modelRequest = adapter.buildConversation(before, "SYNTHETIC_TURN", conversation);
+        assertThat(before.path("targetMajorCode").asText()).isEqualTo(target);
+        assertThat(modelRequest.path("input").path("targetName").asText()).isEqualTo(name);
+
+        support.select(OWNER, result, "clear-target", 1, "ACTIVITY", null);
+        var resumed = response(post(path(result)).header("Authorization",owner).header("Idempotency-Key","resume-target")
+                .contentType(MediaType.APPLICATION_JSON).content("{}"), 200);
+        assertThat(resumed).isEqualTo(opened);
+        assertThat(contexts.readForAdapter(OWNER, context, "CONSULTATION").snapshot()).isEqualTo(before);
     }
     @Test void concurrentOpensReturnSameConversation() throws Exception {
         long result=completedResult(true);

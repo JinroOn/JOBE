@@ -9,10 +9,6 @@ from test_exploration_model import settings,FakeChat,bound
 CASES=json.loads((Path(__file__).resolve().parents[2]/'datasets/exploration-plan12-contract/cases.json').read_text(encoding='utf-8'))
 
 
-def reviewed_tasks():
-    return ['준비: 종이 | 시간: 20분 내외 | 방식: 혼자',
-            '탐색 제안: 개념을 세 문장으로 정리하기. 쉬운 대안: 단어 세 개 적기.']
-
 @pytest.mark.parametrize('case',CASES['requestCases'],ids=lambda c:c['name'])
 def test_shared_plan12_request(case):
     if case['valid']:assert read_request(case['request']).model_dump()==case['request']
@@ -28,23 +24,26 @@ def test_shared_plan12_response(case):
 def test_model_uses_twelve_week_schema_prompt_budget_and_approved_references(settings):
     request,facts=bound('PLAN');request['contractVersion']='EXPLORATION_AI_CONTRACT_V1_2'
     request['input']['planSpec']={'weeks':12,'phaseLayout':'INFO_4_BASIC_4_ACTIVITY_4'};request['inputHash']=input_hash(request)
-    content=draft_result(request['evidence']['referenceKeys'][0],request['input']['targetName'])
+    content=draft_result(request['input']['targetName'])
     chat=FakeChat(content);consumer=ExplorationModel(chat);consumer.configure_request(request)
-    assert consumer.metadata['promptVersion']=='EXPLORATION_PLAN12_V1_4'
+    assert consumer.metadata['promptVersion']=='EXPLORATION_PLAN12_V1_8'
     result=consumer.generate(request,facts)
     assert len(result['result']['weeks'])==12 and chat.settings['max_tokens']==6000
     assert 'exactly weeks 1-12' in chat.messages[0].content
-    assert 'not hidden evidence excerpts' in chat.messages[0].content
-    assert 'If evidence only names a course or topic' in chat.messages[0].content
+    assert 'select the index' in chat.messages[0].content
     assert 'Never invent a URL' in chat.messages[0].content
-    assert set(json.loads(chat.messages[1].content))=={'purpose','input','evidence'}
+    payload = json.loads(chat.messages[1].content)
+    assert set(payload) == {'purpose', 'input', 'evidence'}
+    assert 'referenceKey' not in payload['evidence'][0]
+    assert payload['evidence'][0]['excerptCandidates'] == []
+    assert all(week['referenceKeys'] == request['evidence']['referenceKeys'] for week in result['result']['weeks'])
 
 
 def test_twelve_week_deadline_is_separate_from_short_consultation_deadline(settings,monkeypatch):
     monkeypatch.setenv('EXPLORATION_PLAN_LLM_TIMEOUT_SECONDS','30')
     request,facts=bound('PLAN');request['contractVersion']='EXPLORATION_AI_CONTRACT_V1_2'
     request['input']['planSpec']={'weeks':12,'phaseLayout':'INFO_4_BASIC_4_ACTIVITY_4'};request['inputHash']=input_hash(request)
-    content=draft_result(request['evidence']['referenceKeys'][0],request['input']['targetName'])
+    content=draft_result(request['input']['targetName'])
     chat=FakeChat(content);consumer=ExplorationModel(chat);consumer.generate(request,facts)
     assert chat.settings['timeout']==30 and chat.settings['max_retries']==0
     short=FakeChat({'summary':'TEST','questions':[],'referenceKeys':request['evidence']['referenceKeys']})
@@ -71,12 +70,12 @@ def test_twelve_week_timeout_still_fails_without_partial_output(settings,monkeyp
     assert failure.value.code=='MODEL_TIMEOUT' and failure.value.retryable
 
 
-@pytest.mark.parametrize('missing',['inputText','action','expectedOutput','easierAction','easierOutput','materials'])
+@pytest.mark.parametrize('missing',['task','estimatedMinutes'])
 def test_new_model_output_missing_draft_slots_is_rejected_without_repair(settings,missing):
     from app.exploration_model import ModelFault
     request,facts=bound('PLAN');request['contractVersion']='EXPLORATION_AI_CONTRACT_V1_2'
     request['input']['planSpec']={'weeks':12,'phaseLayout':'INFO_4_BASIC_4_ACTIVITY_4'};request['inputHash']=input_hash(request)
-    content=draft_result(request['evidence']['referenceKeys'][0],request['input']['targetName'])
+    content=draft_result(request['input']['targetName'])
     del content['weeks'][0][missing]
     original=copy.deepcopy(content)
     with pytest.raises(ModelFault) as error:ExplorationModel(FakeChat(content)).generate(request,facts)
@@ -87,16 +86,3 @@ def test_new_model_output_missing_draft_slots_is_rejected_without_repair(setting
 def test_old_stored_plan_contract_remains_readable_without_new_presentation_labels():
     # The generation-only check must not tighten the shared/history wire validator.
     validate_response(CASES['request'],CASES['responseCases'][0]['response'])
-
-
-def test_abstract_wording_hints_are_not_a_new_semantic_rejection_rule(settings):
-    from app.plan_review import assess_plan
-    request,facts=bound('PLAN');request['contractVersion']='EXPLORATION_AI_CONTRACT_V1_2'
-    request['input']['planSpec']={'weeks':12,'phaseLayout':'INFO_4_BASIC_4_ACTIVITY_4'};request['inputHash']=input_hash(request)
-    content=draft_result(request['evidence']['referenceKeys'][0],request['input']['targetName'])
-    content['weeks'][1]['action']='기본 원리를 설명하기'
-    original=copy.deepcopy(content)
-    result=ExplorationModel(FakeChat(content)).generate(request,facts)
-    assert content==original and '기본 원리를 설명하기' in result['result']['weeks'][1]['tasks'][1]
-    review=assess_plan(result['result'],facts)
-    assert review['semanticSupportVerified'] is False

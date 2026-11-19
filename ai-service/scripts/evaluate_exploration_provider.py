@@ -123,13 +123,13 @@ async def protocol_probe(config, factory=None):
             model = factory(model=config['model'], api_key=config['key'], base_url=config['base'],
                             timeout=deadline, max_retries=0, max_tokens=budget)
             prompt = ('Synthetic SDK schema test only; no student, diagnosis, approved source or service result. '
-                      'Use exactly the supplied literal referenceKey protocol_ref. Keep every text short. '
+                      'Keep every text short. '
                       'For consultation: summary=프로토콜 시험, questions=[], referenceKeys=[protocol_ref]. '
                       'For plan: targetName=PROTOCOL_TEST, exactly weeks 1 through 12; '
                       'phase INFO for 1-4, BASIC_LEARNING for 5-8, SMALL_ACTIVITY for 9-12. '
-                      'For every week title=시험, materials=종이, estimatedMinutes=5, inputKind=FICTIONAL_EXAMPLE, '
-                      'inputText=[A,B], action=두 칸에 나누기, expectedOutput=표, easierAction=A만 적기, '
-                      'easierOutput=단어, referenceKeys=[protocol_ref]. No public tasks field.')
+                      'For every week estimatedMinutes=5 '
+                      'and task={inputKind: FICTIONAL_EXAMPLE, inputText: 가상 자료 정리, '
+                      'optionA: 제목순, optionB: 날짜순}.')
             row['requestAttempted'] = True
             envelope = await asyncio.wait_for(model.with_structured_output(schema, include_raw=True).ainvoke(
                 [SystemMessage(content=prompt), HumanMessage(content=name)]), timeout=deadline)
@@ -140,11 +140,12 @@ async def protocol_probe(config, factory=None):
                 try:
                     parsed = envelope['parsed']
                     parsed = schema.model_validate(parsed.model_dump() if hasattr(parsed, 'model_dump') else parsed)
-                    refs = [parsed.referenceKeys] if name == 'CONSULTATION_SCHEMA' else [w.referenceKeys for w in parsed.weeks]
-                    if any(r != ['protocol_ref'] for r in refs) or (name == 'PLAN12_SCHEMA' and parsed.targetName != 'PROTOCOL_TEST'):
-                        raise ValueError()
                     if name == 'PLAN12_SCHEMA':
+                        if parsed.targetName != 'PROTOCOL_TEST':
+                            raise ValueError()
                         render_plan_draft(parsed.model_dump(), [{'referenceKey':'protocol_ref','text':'SYNTHETIC PROTOCOL'}])
+                    elif parsed.referenceKeys != ['protocol_ref']:
+                        raise ValueError()
                     row.update(status='PASS', schemaValid=True)
                 except (ValueError, TypeError):
                     row['reasonCode'] = 'MODEL_OUTPUT_INVALID'
@@ -191,7 +192,7 @@ def approved_probe(request_path, dataset_version, review_output=None):
         if request_path.stat().st_size > 65536:
             return dict(report, reasonCode='EVALUATION_REQUEST_INVALID')
         request = read_request(json.loads(request_path.read_text(encoding='utf-8'))).model_dump()
-        consumer = ExplorationModel()
+        consumer = ExplorationModel(evaluation_diagnostics=True)
         engine = create_engine(get_ai_database_settings().sqlalchemy_url,
                                connect_args={'connect_timeout': 3, 'options': '-c statement_timeout=5000'})
 
@@ -229,7 +230,12 @@ def approved_probe(request_path, dataset_version, review_output=None):
     except (EvidenceIntegrityError, EvidenceNoLongerAvailable, EvidencePolicyError):
         return dict(report, reasonCode='EVIDENCE_VALIDATION_FAILED')
     except ModelFault as error:
-        return dict(report, reasonCode=error.code, timingsMs=dict(consumer.timings) if consumer is not None else {})
+        if consumer is not None:
+            report['timingsMs'] = dict(consumer.timings)
+            report['promptVersion'] = consumer.metadata['promptVersion']
+            if consumer.output_diagnostic is not None:
+                report['outputDiagnostic'] = consumer.output_diagnostic
+        return dict(report, reasonCode=error.code)
     except (OSError, ValueError):
         return dict(report, reasonCode='EVALUATION_REQUEST_INVALID')
     except Exception:

@@ -299,7 +299,7 @@ def plan12_model(scenario,monkeypatch):
         async def ainvoke(self,messages):
             Injected.calls+=1;value=json.loads(messages[1].content);assert 'exactly weeks 1-12' in messages[0].content
             from plan12_draft_fixtures import draft_result
-            return draft_result(value['evidence'][0]['referenceKey'],value['input']['targetName'])
+            return draft_result(value['input']['targetName'])
     monkeypatch.setattr(wire,'ExplorationModel',lambda:ExplorationModel(Injected))
     return body,call,Injected
 
@@ -307,7 +307,7 @@ def plan12_model(scenario,monkeypatch):
 def test_plan12_model_transport_preserves_target_weeks_and_pinned_prompt(plan12_model):
     body,call,model=plan12_model;assert call('enqueue').status_code==200
     result=call('model-execute');assert result.status_code==200
-    assert result.json()['providerMetadata']['promptVersion']=='EXPLORATION_PLAN12_V1_4'
+    assert result.json()['providerMetadata']['promptVersion']=='EXPLORATION_PLAN12_V1_8'
     assert len(result.json()['response']['result']['weeks'])==12
     assert call('model-execute').json()==result.json() and model.calls==1
 
