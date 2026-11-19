@@ -172,6 +172,8 @@ def test_approved_evaluation_is_readonly_rechecks_after_call_and_never_saves_a_r
             events.append('after')
             if revoke: raise binding.EvidenceNoLongerAvailable()
     class Consumer:
+        def __init__(self, *, evaluation_diagnostics):
+            assert evaluation_diagnostics
         timings = {'providerWaitMs': 12.0, 'cleanupMs': 2.0, 'totalMs': 15.0}
         metadata = {'promptVersion': 'TEST_PROMPT'}
         def generate(self, request, facts):

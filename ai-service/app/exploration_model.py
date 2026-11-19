@@ -18,8 +18,10 @@ class ModelFault(RuntimeError):
 
 
 class ExplorationModel:
-    def __init__(self,factory=None):
+    def __init__(self,factory=None, *, evaluation_diagnostics=False):
         self.factory=factory
+        self.evaluation_diagnostics = evaluation_diagnostics
+        self.output_diagnostic = None
         self.timings={}
         self.conversation=False
         self.plan12=False
@@ -47,6 +49,7 @@ class ExplorationModel:
         self.plan12=version==PLAN12_VERSION
 
     def generate(self,request,facts):
+        self.output_diagnostic = None
         self.timings={name:None for name in ('preparationMs','modelSetupMs','providerWaitMs','validationAndRenderMs','cleanupMs','totalMs')}
         started=time.perf_counter()
         try:return asyncio.run(self._generate(request,facts))
@@ -83,17 +86,28 @@ class ExplorationModel:
             HumanMessage(content=payload)]
         self.timings['preparationMs']=round((time.perf_counter()-preparation_started)*1000,3)
         model=None
+        diagnose_output = self.evaluation_diagnostics and self.plan12
+        stage = 'PROVIDER_PARSING'
         try:
             factory=self.factory if self.factory is not None else ChatOpenAI
             deadline=self.plan_timeout if self.plan12 else self.timeout
             started=time.perf_counter()
             try:
                 model=factory(model=self.model,api_key=self.key,base_url=self.base,timeout=deadline,max_retries=0,max_tokens=6000 if self.plan12 else 1600)
-                structured=model.with_structured_output(schema)
+                structured=model.with_structured_output(schema, include_raw=True) if diagnose_output else model.with_structured_output(schema)
             finally:self.timings['modelSetupMs']=round((time.perf_counter()-started)*1000,3)
             started=time.perf_counter()
             try:generated=await asyncio.wait_for(structured.ainvoke(messages),timeout=deadline)
             finally:self.timings['providerWaitMs']=round((time.perf_counter()-started)*1000,3)
+            if diagnose_output:
+                from app.plan_evaluation_diagnostics import output_failure
+                parsed = generated.get('parsed')
+                error = generated.get('parsing_error')
+                if parsed is None or error is not None:
+                    self.output_diagnostic = output_failure(stage, error, generated.get('raw'))
+                    raise ModelFault('MODEL_OUTPUT_INVALID')
+                generated = parsed
+            stage = 'VALIDATION_AND_RENDER'
             started=time.perf_counter()
             try:
                 content=generated.model_dump() if hasattr(generated,'model_dump') else generated
@@ -106,7 +120,15 @@ class ExplorationModel:
             from app.exploration_contract import ContractViolation
             from pydantic import ValidationError
             from langchain_core.exceptions import OutputParserException
-            if isinstance(error,(ContractViolation,ValidationError,OutputParserException)):raise ModelFault('MODEL_OUTPUT_INVALID') from None
+            output_errors = (ContractViolation,ValidationError,OutputParserException)
+            if diagnose_output:
+                from openai import ContentFilterFinishReasonError, LengthFinishReasonError
+                from app.plan_evaluation_diagnostics import output_failure
+                output_errors += (ContentFilterFinishReasonError, LengthFinishReasonError)
+                if isinstance(error, output_errors):
+                    self.output_diagnostic = output_failure(stage, error)
+            if isinstance(error, output_errors):
+                raise ModelFault('MODEL_OUTPUT_INVALID') from None
             # Only status/category is used; never propagate provider messages, request bodies or keys.
             status=getattr(error,'status_code',None)
             if status in {401,403}:raise ModelFault('MODEL_AUTH_FAILED') from None

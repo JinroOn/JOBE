@@ -191,7 +191,7 @@ def approved_probe(request_path, dataset_version, review_output=None):
         if request_path.stat().st_size > 65536:
             return dict(report, reasonCode='EVALUATION_REQUEST_INVALID')
         request = read_request(json.loads(request_path.read_text(encoding='utf-8'))).model_dump()
-        consumer = ExplorationModel()
+        consumer = ExplorationModel(evaluation_diagnostics=True)
         engine = create_engine(get_ai_database_settings().sqlalchemy_url,
                                connect_args={'connect_timeout': 3, 'options': '-c statement_timeout=5000'})
 
@@ -229,7 +229,12 @@ def approved_probe(request_path, dataset_version, review_output=None):
     except (EvidenceIntegrityError, EvidenceNoLongerAvailable, EvidencePolicyError):
         return dict(report, reasonCode='EVIDENCE_VALIDATION_FAILED')
     except ModelFault as error:
-        return dict(report, reasonCode=error.code, timingsMs=dict(consumer.timings) if consumer is not None else {})
+        if consumer is not None:
+            report['timingsMs'] = dict(consumer.timings)
+            report['promptVersion'] = consumer.metadata['promptVersion']
+            if consumer.output_diagnostic is not None:
+                report['outputDiagnostic'] = consumer.output_diagnostic
+        return dict(report, reasonCode=error.code)
     except (OSError, ValueError):
         return dict(report, reasonCode='EVALUATION_REQUEST_INVALID')
     except Exception:

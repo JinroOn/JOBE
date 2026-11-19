@@ -1,5 +1,7 @@
 from copy import deepcopy
+from types import SimpleNamespace
 import pytest
+from pydantic import ValidationError
 
 from app.exploration_contract import ContractViolation, Plan12Result
 from app.exploration_model import ExplorationModel, ModelFault
@@ -85,3 +87,57 @@ def test_maximum_draft_field_sizes_still_fit_existing_wire_limits():
     rendered = render_plan_draft(draft, facts)
     assert max(map(len, rendered['weeks'][0]['tasks'])) <= 300
     assert rendered['weeks'][0]['expectedOutput'] == '라'*50
+
+
+class DiagnosticChat(FakeChat):
+    def with_structured_output(self, schema, *, include_raw):
+        assert include_raw
+        return super().with_structured_output(schema)
+
+
+def test_parser_diagnostics_only_keep_known_paths_and_error_codes(settings):
+    request, facts = model_request()
+    draft = draft_result(facts[0]['referenceKey'])
+    draft['weeks'][0]['estimatedMinutes'] = 'PRIVATE_VALUE'
+    draft['weeks'][0]['PRIVATE_FIELD'] = 'PRIVATE_VALUE'
+    with pytest.raises(ValidationError) as parser_failure:
+        Plan12Draft.model_validate(draft)
+
+    model = ExplorationModel(DiagnosticChat({
+        'parsed': None, 'parsing_error': parser_failure.value,
+        'raw': SimpleNamespace(content='PRIVATE_RAW', response_metadata={'finish_reason': 'tool_calls'}),
+    }), evaluation_diagnostics=True)
+    with pytest.raises(ModelFault) as failure:
+        model.generate(request, facts)
+
+    assert failure.value.code == 'MODEL_OUTPUT_INVALID' and not failure.value.retryable
+    assert model.timings['validationAndRenderMs'] is None
+    assert model.output_diagnostic == {
+        'stage': 'PROVIDER_PARSING', 'kind': 'SCHEMA_VALIDATION', 'finishReason': 'tool_calls',
+        'errorCount': 2, 'errors': [
+            {'type': 'int_type', 'path': ['weeks', 0, 'estimatedMinutes']},
+            {'type': 'extra_forbidden', 'path': ['weeks', 0]},
+        ],
+    }
+
+
+def test_diagnostic_mode_distinguishes_truncation_from_render_rejection(settings):
+    request, facts = model_request()
+    chat = DiagnosticChat({'parsed': None, 'parsing_error': None,
+                           'raw': SimpleNamespace(response_metadata={'finish_reason': 'length'})})
+    model = ExplorationModel(chat, evaluation_diagnostics=True)
+    with pytest.raises(ModelFault):
+        model.generate(request, facts)
+    assert model.output_diagnostic['kind'] == 'OUTPUT_LENGTH_LIMIT'
+
+    draft = draft_result(facts[0]['referenceKey'])
+    draft['weeks'][0].update(inputKind='EVIDENCE_EXCERPT', inputText='NOT IN SOURCE')
+    chat.result = {'parsed': Plan12Draft.model_validate(draft), 'parsing_error': None, 'raw': None}
+    with pytest.raises(ModelFault):
+        model.generate(request, facts)
+    assert model.output_diagnostic == {'stage': 'VALIDATION_AND_RENDER', 'kind': 'CONTRACT_VALIDATION'}
+
+    chat.result['parsed'] = Plan12Draft.model_validate(draft_result(facts[0]['referenceKey']))
+    response = model.generate(request, facts)
+    assert len(response['result']['weeks']) == 12
+    assert model.output_diagnostic is None and 'outputDiagnostic' not in response
