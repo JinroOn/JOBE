@@ -1,0 +1,355 @@
+{
+  "schema_version": "1.1",
+  "major_mapping_version": "MAJOR_MAPPING_V1_2_IMPLEMENTATION_CANDIDATE",
+  "content_status": "DRAFT",
+  "implementation_review_status": "PENDING",
+  "domain_review_status": "PENDING",
+  "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M14_DRAFT",
+  "provenance": {
+    "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
+    "scope": "SINGLE_MAJOR_DEV_REVIEW",
+    "parent_file_sha256": "98e0d997a7af59dfe2dab16e1156dad04933809a620b120ddd5990c8797c2e7c"
+  },
+  "activities": [
+    {
+      "activity_id": "DRAFT-M14-01",
+      "version": "0.3.0",
+      "title": "중국어 자료를 읽는 두 목적 찾기",
+      "kind": "INFORMATION",
+      "major_code": "MAJOR_ROW_14",
+      "major_name": "중어중문학과",
+      "exploration_group": "HUM",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "탐색 주제: 중국 언어·문학과 자료 확인. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
+      "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
+      "steps": [
+        "공식 자료에서 두 과목을 확인한다.",
+        "한 표현의 문장 구조와 매체에 실린 정보 가운데 각각 궁금한 것을 적는다."
+      ],
+      "artifacts": [
+        "과목별 독해 질문"
+      ],
+      "example_output": "매체 안내문에서는 누가 언제 무엇을 하라고 요청하는지 먼저 살핀다.",
+      "worksheet_columns": "공식 자료에서 확인한 명칭 / 내가 더 알아볼 주제 / 미확인 질문 / 확인 경로",
+      "reflection_question": "소개를 읽은 뒤 관심이 생긴 부분과 여전히 모르는 부분은 무엇인가요?",
+      "alternative": "제공된 과목명과 질문 예시만 사용한다.",
+      "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
+      "source_ids": [
+        "m14-careernet",
+        "m14-university",
+        "m14-extra"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 중국어 자료를 읽는 두 목적 찾기\n\n중국어학입문과 중국대중매체와문화 과목명을 읽는다.\n\n1. 공식 자료에서 두 과목을 확인한다.\n2. 한 표현의 문장 구조와 매체에 실린 정보 가운데 각각 궁금한 것을 적는다.\n\n남길 결과물은 과목별 독해 질문입니다.\n\n쉬운 대안. 제공된 과목명과 질문 예시만 사용한다.",
+      "worksheet_markdown": "## 중국어 자료를 읽는 두 목적 찾기\n\n중국어학입문과 중국대중매체와문화 과목명을 읽는다.\n\n| 과목 | 자료 | 확인할 점 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m14-careernet",
+          "title": "대학교 학과정보 중어중문학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=520",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2020-12-02 갱신 응답에서 확인한 중어중문학과는 중국어와 중국 문학·문화를 탐구한다. 커리어넷은 중국문학사, 경전강독과 중국어를 과목 사례로 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m14-university",
+          "title": "학부 교과과정",
+          "publisher": "고려대학교 중어중문학과",
+          "url": "https://kuchinese.korea.ac.kr/kuchinese/under/course.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "중국어 문장어 텍스트의 번역 실습",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m14-extra",
+          "title": "학부 전공 교과과정",
+          "publisher": "연세대학교 중어중문학과",
+          "url": "https://ycll.yonsei.ac.kr/yonseicll/department02-1.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "중국어학입문과 중국대중매체와문화",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-READ-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-READ-01",
+          "step_indexes": [
+            0
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M14-02",
+      "version": "0.3.0",
+      "title": "중국어 행사 안내에서 필수 정보 골라 옮기기",
+      "kind": "SMALL_TASK",
+      "major_code": "MAJOR_ROW_14",
+      "major_name": "중어중문학과",
+      "exploration_group": "HUM",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 10,
+        "max": 15,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "경험할 주제: 중국 언어·문학과 자료 확인. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
+      "scenario": "실제 고전 대신 가상 이야기의 제목 달빛 편지와 사건 요약 세 줄을 제공",
+      "steps": [
+        "정보 네 가지를 표에 옮겨 빠진 항목이 없는지 확인한다.",
+        "학교 게시판용 우리말 안내 한 문장과 예상 독자의 질문을 적는다."
+      ],
+      "artifacts": [
+        "필수 정보를 담은 번역 카드"
+      ],
+      "example_output": "토요일 오후 두 시, 도서관에서 독서 모임이 열립니다.",
+      "worksheet_columns": "줄거리/해석/독자별 설명/확인 표현 표",
+      "reflection_question": "문학의 해석과 언어 표현 중 무엇을 더 보고 싶은가?",
+      "alternative": "한자를 읽기 어려우면 제공된 낱말 풀이를 순서대로 배열한다.",
+      "safety_boundary": "가상 이야기를 실제 중국 고전이나 역사 자료로 표시하지 않음",
+      "source_ids": [
+        "m14-careernet",
+        "m14-university",
+        "m14-extra"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 중국어 행사 안내에서 필수 정보 골라 옮기기\n\n가상 중국어 안내는 ‘周六下午两点，图书馆有读书会。’이고 낱말 풀이에는 토요일·오후 두 시·도서관·독서 모임이 들어 있다.\n\n1. 정보 네 가지를 표에 옮겨 빠진 항목이 없는지 확인한다.\n2. 학교 게시판용 우리말 안내 한 문장과 예상 독자의 질문을 적는다.\n\n남길 결과물은 필수 정보를 담은 번역 카드입니다.\n\n쉬운 대안. 한자를 읽기 어려우면 제공된 낱말 풀이를 순서대로 배열한다.",
+      "worksheet_markdown": "## 중국어 행사 안내에서 필수 정보 골라 옮기기\n\n가상 중국어 안내는 ‘周六下午两点，图书馆有读书会。’이고 낱말 풀이에는 토요일·오후 두 시·도서관·독서 모임이 들어 있다.\n\n| 시간 | 장소 | 행사 | 번역 |\n|---|---|---|---|\n| | | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m14-careernet",
+          "title": "대학교 학과정보 중어중문학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=520",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2020-12-02 갱신 응답에서 확인한 중어중문학과는 중국어와 중국 문학·문화를 탐구한다. 커리어넷은 중국문학사, 경전강독과 중국어를 과목 사례로 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m14-university",
+          "title": "학부 교과과정",
+          "publisher": "고려대학교 중어중문학과",
+          "url": "https://kuchinese.korea.ac.kr/kuchinese/under/course.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "중국어 문장어 텍스트의 번역 실습",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m14-extra",
+          "title": "학부 전공 교과과정",
+          "publisher": "연세대학교 중어중문학과",
+          "url": "https://ycll.yonsei.ac.kr/yonseicll/department02-1.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "중국어학입문과 중국대중매체와문화",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-PROJECT-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-PROJECT-01",
+          "step_indexes": [
+            0,
+            1
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M14-03",
+      "version": "0.3.0",
+      "title": "번역에 추가할 정보의 출처 고르기",
+      "kind": "REFLECTION_AND_NEXT_STEP",
+      "major_code": "MAJOR_ROW_14",
+      "major_name": "중어중문학과",
+      "exploration_group": "HUM",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
+      "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
+      "steps": [
+        "독자가 더 알고 싶을 항목을 고른다.",
+        "번역에 넣으려면 무엇을 먼저 확인할지 적는다."
+      ],
+      "artifacts": [
+        "추가 정보 확인 카드"
+      ],
+      "example_output": "신청 여부를 넣으려면 행사 주최 안내의 등록 방법을 먼저 확인한다.",
+      "worksheet_columns": "경험한 과정 / 흥미·불편·모름 / 확인 질문 / 확인 경로 / 다음 행동",
+      "reflection_question": "문학의 해석과 언어 표현 중 무엇을 더 보고 싶은가?",
+      "alternative": "앞 결과 대신 예시 한 문장만 사용한다.",
+      "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
+      "source_ids": [
+        "m14-careernet",
+        "m14-university",
+        "m14-extra"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 번역에 추가할 정보의 출처 고르기\n\n앞 안내문에서 회비나 신청 여부는 제시되지 않았다.\n\n1. 독자가 더 알고 싶을 항목을 고른다.\n2. 번역에 넣으려면 무엇을 먼저 확인할지 적는다.\n\n남길 결과물은 추가 정보 확인 카드입니다.\n\n쉬운 대안. 앞 결과 대신 예시 한 문장만 사용한다.",
+      "worksheet_markdown": "## 번역에 추가할 정보의 출처 고르기\n\n앞 안내문에서 회비나 신청 여부는 제시되지 않았다.\n\n| 추가 항목 | 출처 | 확인 방법 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m14-careernet",
+          "title": "대학교 학과정보 중어중문학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=520",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2020-12-02 갱신 응답에서 확인한 중어중문학과는 중국어와 중국 문학·문화를 탐구한다. 커리어넷은 중국문학사, 경전강독과 중국어를 과목 사례로 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m14-university",
+          "title": "학부 교과과정",
+          "publisher": "고려대학교 중어중문학과",
+          "url": "https://kuchinese.korea.ac.kr/kuchinese/under/course.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "중국어 문장어 텍스트의 번역 실습",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m14-extra",
+          "title": "학부 전공 교과과정",
+          "publisher": "연세대학교 중어중문학과",
+          "url": "https://ycll.yonsei.ac.kr/yonseicll/department02-1.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "중국어학입문과 중국대중매체와문화",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [],
+      "preference_mapping_basis": [],
+      "revised_on": "2026-11-20"
+    }
+  ]
+}
