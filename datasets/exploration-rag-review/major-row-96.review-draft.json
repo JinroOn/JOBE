@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M96_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_96",
+  "majorName": "체육교육과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "체육교육과는 신체 활동을 이해하고 움직임과 스포츠 활동을 지도하는 방법을 배운다. 커리어넷은 체육교과교육론, 운동생리학과 체육측정평가를 소개한다.",
+      "sourceIds": [
+        "m96-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "한국교원대 체육교육과에는 운동학습과 체육실기 및 지도법Ⅰ이 있다. 서울대 교과 안내는 감각과 운동 체계를 바탕으로 기술 습득과 움직임 제어를 살피는 과목 사례를 소개한다.",
+      "sourceIds": [
+        "m96-university",
+        "m96-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m96-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 체육교육과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=551",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2020-12-02 갱신 응답에서 확인한 체육교육과는 신체 활동을 이해하고 움직임과 스포츠 활동을 지도하는 방법을 배운다. 커리어넷은 체육교과교육론, 운동생리학과 체육측정평가를 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m96-university",
+      "publisher": "한국교원대학교 체육교육과",
+      "title": "교육과정안내",
+      "url": "https://www.knue.ac.kr/phy/contents.do?key=1324",
+      "supports": "운동학습과 체육실기 및 지도법Ⅰ",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m96-extra",
+      "publisher": "서울대학교 중앙도서관",
+      "title": "체육교육과 교과목 안내 M1886.004200",
+      "url": "https://likesnu.snu.ac.kr/usr/course/courseDetail.do?course_cd=M1886.004200&lang=ko",
+      "supports": "움직임 제어 및 운동 기술 학습",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}
