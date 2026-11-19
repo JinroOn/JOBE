@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M126_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_126",
+  "majorName": "로봇공학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "로봇공학과는 기계, 전자와 컴퓨터를 활용해 로봇을 설계하고 제어하는 방법을 공부한다. 커리어넷은 제어로봇공학과 센서공학을 소개한다.",
+      "sourceIds": [
+        "m126-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "광운대 로봇학부 교육과정에 센서공학이 있으며 로봇공학 연계전공 안내에는 모바일로봇의이해와 모터제어가 있다.",
+      "sourceIds": [
+        "m126-university",
+        "m126-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m126-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 로봇공학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=10116",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2020-12-02 갱신 응답에서 확인한 로봇공학과는 기계, 전자와 컴퓨터를 활용해 로봇을 설계하고 제어하는 방법을 공부한다. 커리어넷은 제어로봇공학과 센서공학을 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m126-university",
+      "publisher": "광운대학교",
+      "title": "로봇학부 정보제어·지능시스템전공 교육과정",
+      "url": "https://www.kw.ac.kr/ko/univ/ai05_4.jsp",
+      "supports": "센서공학 교과목",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m126-extra",
+      "publisher": "광운대학교",
+      "title": "다전공 이수제도 안내",
+      "url": "https://www.kw.ac.kr/ko/life/bachelor_info11.jsp",
+      "supports": "로봇공학전공의 모바일로봇의이해·모터제어",
+      "limitation": "다전공 사례이며 개설은 해당 학기 자료에서 확인한다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}
