@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M93_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_93",
+  "majorName": "유아교육학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "유아교육학과는 영유아의 발달과 놀이를 이해하고 교육과정을 설계하는 방법을 배운다. 커리어넷은 영·유아발달과 유아교육과정을 과목 사례로 소개한다.",
+      "sourceIds": [
+        "m93-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "한국교원대 유아교육과의 교육과정에는 놀이지도와 유아관찰및실습이 있다. 삼육대 유아교육과는 연령별 놀이 발달과 교사의 놀이지도 전략을 관련 교과에서 다룬다.",
+      "sourceIds": [
+        "m93-university",
+        "m93-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m93-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 유아교육학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=391",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2020-12-02 갱신 응답에서 확인한 유아교육학과는 영유아의 발달과 놀이를 이해하고 교육과정을 설계하는 방법을 배운다. 커리어넷은 영·유아발달과 유아교육과정을 과목 사례로 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m93-university",
+      "publisher": "한국교원대학교 유아교육과",
+      "title": "교육과정안내",
+      "url": "https://www.knue.ac.kr/ece/contents.do?key=1006",
+      "supports": "놀이지도·유아관찰및실습",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m93-extra",
+      "publisher": "삼육대학교 유아교육과",
+      "title": "교과목 소개",
+      "url": "https://www.syu.ac.kr/ece/curriculum/introduction-of-subject/",
+      "supports": "놀이의 발달 특성과 지도 전략",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}
