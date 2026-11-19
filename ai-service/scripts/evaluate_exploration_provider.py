@@ -127,9 +127,9 @@ async def protocol_probe(config, factory=None):
                       'For consultation: summary=프로토콜 시험, questions=[], referenceKeys=[protocol_ref]. '
                       'For plan: targetName=PROTOCOL_TEST, exactly weeks 1 through 12; '
                       'phase INFO for 1-4, BASIC_LEARNING for 5-8, SMALL_ACTIVITY for 9-12. '
-                      'For every week title=시험, materials=종이, estimatedMinutes=5, inputKind=FICTIONAL_EXAMPLE, '
-                      'inputText=[A,B], action=두 칸에 나누기, expectedOutput=표, easierAction=A만 적기, '
-                      'easierOutput=단어, referenceKeys=[protocol_ref]. No public tasks field.')
+                      'For every week estimatedMinutes=5, inputKind=FICTIONAL_EXAMPLE, '
+                      'inputText=가상 자료 정리, activity=CHOOSE_OPTION, options=[제목순, 날짜순], '
+                      'and referenceKeys=[protocol_ref].')
             row['requestAttempted'] = True
             envelope = await asyncio.wait_for(model.with_structured_output(schema, include_raw=True).ainvoke(
                 [SystemMessage(content=prompt), HumanMessage(content=name)]), timeout=deadline)

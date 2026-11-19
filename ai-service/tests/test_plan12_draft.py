@@ -25,16 +25,17 @@ def test_rendered_tasks_embed_the_actual_input_and_retain_public_shape():
     original = deepcopy(draft)
     rendered = render_plan_draft(draft, facts)
     assert set(rendered['weeks'][0]) == {'week', 'phase', 'title', 'tasks', 'expectedOutput', 'referenceKeys'}
-    assert '[책, 공책, 펜]' in rendered['weeks'][0]['tasks'][1]
-    assert '가상 예시:' in rendered['weeks'][0]['tasks'][1]
-    assert '같은 입력으로' in rendered['weeks'][0]['tasks'][1]
-    assert '단어 한 개' in rendered['weeks'][0]['tasks'][1]
+    assert '가상 예시: 「문구류 정리하기」' in rendered['weeks'][0]['tasks'][1]
+    assert 'A 「종이 재료로 나누기」 / B 「사용 목적별로 나누기」' in rendered['weeks'][0]['tasks'][1]
+    assert 'A 또는 B 한 글자' in rendered['weeks'][0]['tasks'][1]
+    assert rendered['weeks'][0]['expectedOutput'] == '고른 선택지 하나와 고른 이유 한 문장'
     assert draft == original
     Plan12Result.model_validate(rendered)
 
 
-@pytest.mark.parametrize('change', ['blank_input', 'blank_alternative', 'different_input', 'extra_tasks',
-                                  'too_long_input', 'missing_output', 'reorder', 'wrong_phase',
+@pytest.mark.parametrize('change', ['blank_input', 'blank_option', 'duplicate_options', 'missing_option',
+                                  'excerpt_with_options', 'fictional_without_choice', 'extra_tasks',
+                                  'too_long_input', 'reorder', 'wrong_phase',
                                   'string_minutes', 'zero_minutes', 'excessive_minutes', 'unknown_reference',
                                   'fabricated_excerpt', 'uncited_excerpt', 'public_only'])
 def test_invalid_drafts_fail_without_partial_output_or_silent_repair(settings, change):
@@ -42,22 +43,24 @@ def test_invalid_drafts_fail_without_partial_output_or_silent_repair(settings, c
     draft = draft_result(facts[0]['referenceKey'])
     week = draft['weeks'][0]
     if change == 'blank_input': week['inputText'] = '  '
-    elif change == 'blank_alternative': week['easierAction'] = '  '
-    elif change == 'different_input': week['easierInput'] = 'ANOTHER RESOURCE'
+    elif change == 'blank_option': week['options'][0] = '  '
+    elif change == 'duplicate_options': week['options'] = ['A B', ' a  b ']
+    elif change == 'missing_option': week['options'].pop()
+    elif change == 'excerpt_with_options': week.update(inputKind='EVIDENCE_EXCERPT', activity='MARK_KEYWORD', inputText=facts[0]['text'])
+    elif change == 'fictional_without_choice': week['activity'] = 'MARK_KEYWORD'
     elif change == 'extra_tasks': week['tasks'] = ['OLD FREE TEXT']
     elif change == 'too_long_input': week['inputText'] = 'x'*71
-    elif change == 'missing_output': del week['expectedOutput']
     elif change == 'reorder': draft['weeks'][0], draft['weeks'][1] = draft['weeks'][1], draft['weeks'][0]
     elif change == 'wrong_phase': week['phase'] = 'SMALL_ACTIVITY'
     elif change == 'string_minutes': week['estimatedMinutes'] = '5'
     elif change == 'zero_minutes': week['estimatedMinutes'] = 0
     elif change == 'excessive_minutes': week['estimatedMinutes'] = 21
     elif change == 'unknown_reference': week['referenceKeys'] = ['forged']
-    elif change == 'fabricated_excerpt': week.update(inputKind='EVIDENCE_EXCERPT', inputText='NOT PRESENT IN FACT')
+    elif change == 'fabricated_excerpt': week.update(inputKind='EVIDENCE_EXCERPT', inputText='NOT PRESENT IN FACT', activity='MARK_KEYWORD', options=[])
     elif change == 'uncited_excerpt':
         facts.append(dict(facts[0], referenceKey='other', text='ONLY IN ANOTHER FACT'))
         # Test renderer separately: consumer correctly rejects an input with extra unrelated facts first.
-        week.update(inputKind='EVIDENCE_EXCERPT', inputText='ONLY IN ANOTHER FACT')
+        week.update(inputKind='EVIDENCE_EXCERPT', inputText='ONLY IN ANOTHER FACT', activity='MARK_KEYWORD', options=[])
         with pytest.raises(ContractViolation): render_plan_draft(draft, facts)
         return
     elif change == 'public_only':
@@ -72,21 +75,48 @@ def test_invalid_drafts_fail_without_partial_output_or_silent_repair(settings, c
 def test_literal_excerpt_must_come_from_the_cited_fact(settings):
     request, facts = model_request()
     draft = draft_result(facts[0]['referenceKey'])
-    draft['weeks'][0].update(inputKind='EVIDENCE_EXCERPT', inputText='APPROVED EDUCATIONAL')
+    draft['weeks'][0].update(inputKind='EVIDENCE_EXCERPT', inputText='APPROVED EDUCATIONAL', activity='MARK_KEYWORD', options=[])
     chat = FakeChat(draft)
     result = ExplorationModel(chat).generate(request, facts)
     assert chat.schema is Plan12Draft
-    assert '근거 발췌: APPROVED EDUCATIONAL' in result['result']['weeks'][0]['tasks'][1]
+    assert '근거 발췌: 「APPROVED EDUCATIONAL」' in result['result']['weeks'][0]['tasks'][1]
 
 
 def test_maximum_draft_field_sizes_still_fit_existing_wire_limits():
     request, facts = model_request()
     draft = draft_result(facts[0]['referenceKey'])
-    draft['weeks'][0].update(materials='가'*35, inputText='나'*70, action='다'*40,
-                             expectedOutput='라'*50, easierAction='마'*30, easierOutput='바'*30)
+    draft['weeks'][0].update(inputText='나'*70, options=['다'*30, '라'*30])
     rendered = render_plan_draft(draft, facts)
     assert max(map(len, rendered['weeks'][0]['tasks'])) <= 300
-    assert rendered['weeks'][0]['expectedOutput'] == '라'*50
+    assert '다'*30 in rendered['weeks'][0]['tasks'][1] and '라'*30 in rendered['weeks'][0]['tasks'][1]
+
+
+@pytest.mark.parametrize('number,excerpt,allowed,prohibited,expected', [
+    (4, 'IT 관련 글과 뉴스를 읽거나 관련 영상을 살펴보는 방법', 'WRITE_QUESTION', 'IT 관련 기사 한 개 요약하기', '고른 말 하나와 질문 한 문장'),
+    (9, '운영체제의 구조와 작동 방식', 'MARK_KEYWORD', '운영체제 구조를 그려보기', '표시한 말 하나와 고른 이유 한 문장'),
+])
+def test_short_excerpts_cannot_be_used_to_assign_unsupported_work(settings, number, excerpt, allowed, prohibited, expected):
+    request, facts = model_request()
+    facts[0]['text'] = excerpt
+    draft = draft_result(facts[0]['referenceKey'])
+    week = draft['weeks'][number - 1]
+    week.update(inputKind='EVIDENCE_EXCERPT', inputText=excerpt, activity=allowed, options=[])
+    model = ExplorationModel(FakeChat(draft))
+    rendered = model.generate(request, facts)['result']['weeks'][number - 1]
+    assert f'「{excerpt}」' in rendered['tasks'][1]
+    assert rendered['expectedOutput'] == expected
+    assert '쉬운 대안: 발췌에서' in rendered['tasks'][1]
+
+    week['action'] = prohibited
+    with pytest.raises(ModelFault) as failure:
+        model.generate(request, facts)
+    assert failure.value.code == 'MODEL_OUTPUT_INVALID'
+
+    del week['action']
+    week.update(activity='CHOOSE_OPTION', options=['가', '나'])
+    with pytest.raises(ModelFault) as failure:
+        model.generate(request, facts)
+    assert failure.value.code == 'MODEL_OUTPUT_INVALID'
 
 
 class DiagnosticChat(FakeChat):
@@ -131,7 +161,7 @@ def test_diagnostic_mode_distinguishes_truncation_from_render_rejection(settings
     assert model.output_diagnostic['kind'] == 'OUTPUT_LENGTH_LIMIT'
 
     draft = draft_result(facts[0]['referenceKey'])
-    draft['weeks'][0].update(inputKind='EVIDENCE_EXCERPT', inputText='NOT IN SOURCE')
+    draft['weeks'][0].update(inputKind='EVIDENCE_EXCERPT', inputText='NOT IN SOURCE', activity='MARK_KEYWORD', options=[])
     chat.result = {'parsed': Plan12Draft.model_validate(draft), 'parsing_error': None, 'raw': None}
     with pytest.raises(ModelFault):
         model.generate(request, facts)

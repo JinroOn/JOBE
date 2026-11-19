@@ -9,16 +9,23 @@ from app.exploration_contract import ContractViolation, Plan12Result, References
 class PlanWeekDraft(StrictModel):
     week: Annotated[int, Field(ge=1, le=12)]
     phase: Literal['INFO', 'BASIC_LEARNING', 'SMALL_ACTIVITY']
-    title: text(100)
-    materials: text(35)
     estimatedMinutes: Annotated[int, Field(ge=1, le=20)]
     inputKind: Literal['EVIDENCE_EXCERPT', 'FICTIONAL_EXAMPLE']
     inputText: text(70)
-    action: text(40)
-    expectedOutput: text(50)
-    easierAction: text(30)
-    easierOutput: text(30)
+    activity: Literal['MARK_KEYWORD', 'WRITE_QUESTION', 'CHOOSE_OPTION']
+    options: Annotated[list[text(30)], Field(max_length=2)]
     referenceKeys: References
+
+    @model_validator(mode='after')
+    def activity_matches_input(self):
+        if self.inputKind == 'EVIDENCE_EXCERPT':
+            if self.activity == 'CHOOSE_OPTION' or self.options:
+                raise ValueError('Evidence excerpts only support marking or writing a question')
+        else:
+            distinct_options = {' '.join(option.split()).casefold() for option in self.options}
+            if self.activity != 'CHOOSE_OPTION' or len(distinct_options) != 2:
+                raise ValueError('A fictional example requires two distinct options')
+        return self
 
 
 class Plan12Draft(StrictModel):
@@ -34,6 +41,31 @@ class Plan12Draft(StrictModel):
         return self
 
 
+ACTIVITY_TEXT = {
+    'MARK_KEYWORD': (
+        '낯선 말 표시하기',
+        '발췌에서 낯설거나 눈에 띄는 말 하나에 표시하고 고른 이유를 한 문장으로 적기',
+        '표시한 말 하나와 고른 이유 한 문장',
+        '발췌에서 눈에 띄는 말 하나만 옮겨 적기',
+        '옮겨 적은 말 하나',
+    ),
+    'WRITE_QUESTION': (
+        '탐색 질문 만들기',
+        '발췌에서 말 하나를 골라 더 알고 싶은 점을 질문 한 문장으로 적기',
+        '고른 말 하나와 질문 한 문장',
+        '발췌에서 질문해 보고 싶은 말 하나만 표시하기',
+        '표시한 말 하나',
+    ),
+    'CHOOSE_OPTION': (
+        '두 선택지 살펴보기',
+        '가상 상황에서 먼저 살펴볼 선택지를 하나 고르고 고른 이유를 한 문장으로 적기',
+        '고른 선택지 하나와 고른 이유 한 문장',
+        '제시된 선택지 A와 B 중 하나의 글자만 적기',
+        'A 또는 B 한 글자',
+    ),
+}
+
+
 def render_plan_draft(value, facts) -> dict:
     """Validate slots and literal excerpt provenance, not meaning or educational quality."""
     draft = Plan12Draft.model_validate(value)
@@ -42,42 +74,38 @@ def render_plan_draft(value, facts) -> dict:
     for week in draft.weeks:
         if any(ref not in references for ref in week.referenceKeys):
             raise ContractViolation('Invalid plan draft evidence')
+        input_text = ' '.join(week.inputText.split())
         if week.inputKind == 'EVIDENCE_EXCERPT':
-            excerpt = ' '.join(week.inputText.split())
-            if not any(excerpt in references[ref] for ref in week.referenceKeys):
+            if not any(input_text in references[ref] for ref in week.referenceKeys):
                 raise ContractViolation('Invalid plan draft evidence')
-        label = '근거 발췌' if week.inputKind == 'EVIDENCE_EXCERPT' else '가상 예시'
+            provided_input = f'근거 발췌: 「{input_text}」'
+        else:
+            first, second = (' '.join(option.split()) for option in week.options)
+            provided_input = f'가상 예시: 「{input_text}」 (A 「{first}」 / B 「{second}」)'
+        title, action, output, easier_action, easier_output = ACTIVITY_TEXT[week.activity]
         weeks.append({
-            'week': week.week, 'phase': week.phase, 'title': week.title,
+            'week': week.week, 'phase': week.phase, 'title': title,
             'tasks': [
-                f'준비: {week.materials} | 시간: 약 {week.estimatedMinutes}분, 부담되면 줄이기 | 방식: 혼자',
-                f'탐색 제안: {label}: {week.inputText} | 행동: {week.action}. '
-                f'쉬운 대안: 같은 입력으로 {week.easierAction} (결과: {week.easierOutput}).',
+                f'준비: 종이와 펜 | 시간: 약 {week.estimatedMinutes}분, 부담되면 줄이기 | 방식: 혼자',
+                f'탐색 제안: {provided_input} | 행동: {action}. 쉬운 대안: {easier_action} (결과: {easier_output}).',
             ],
-            'expectedOutput': week.expectedOutput, 'referenceKeys': week.referenceKeys,
+            'expectedOutput': output, 'referenceKeys': week.referenceKeys,
         })
     return Plan12Result.model_validate({'targetName': draft.targetName, 'weeks': weeks}).model_dump()
 
 
 PLAN12_INSTRUCTIONS = (
     'Produce exactly weeks 1-12: weeks 1-4 INFO, 5-8 BASIC_LEARNING, 9-12 SMALL_ACTIVITY. '
-    'Return the provider-only Plan12Draft fields, not public tasks strings. '
-    'Every week needs materials, estimatedMinutes (1-20, a flexible suggestion), inputKind, inputText, '
-    'action, expectedOutput, easierAction, easierOutput and referenceKeys. '
-    'Students see the rendered task input and source titles/versions, not hidden evidence excerpts. '
-    'For EVIDENCE_EXCERPT, inputText must be a short exact substring of one cited supplied fact; '
-    'do not paraphrase it or quote a different reference. For FICTIONAL_EXAMPLE, provide tiny invented '
-    'task material explicitly treated as fictional, never an approved fact or official activity. '
-    'Cite only supplied referenceKey values and keep topics within the approved evidence. '
-    'If evidence only names a course or topic, do not assume its principles, methods or features are known. '
-    'Use the supplied names to sort familiar/unknown words or write one question instead. '
-    'The action and easierAction must use inputText only; the easier action must reduce the work '
-    'without another input, device, explanation or source. Make each output small and observable. '
-    'Default to paper, a pen and a short solo action. Do not require a website, article, video, login, '
-    'payment, installation, partner, prior lesson or university-level exercise. Never invent a URL. '
-    'No admissions preparation, aptitude judgments, guaranteed outcomes, unsupported careers or rankings. '
-    'Keep fields within their character limits; do not add public tasks, audit fields or identities. '
-    'Example fictional task material: inputText="[책, 공책, 펜]", action="종이 물건/그 외 두 칸에 나누기", '
-    'expectedOutput="물건 세 개를 나눈 표", easierAction="책 하나만 해당 칸에 적기", easierOutput="단어 한 개". '
-    'Use an example relevant to the supplied topic; source membership alone never proves all actions are supported.'
+    'Return targetName and the Plan12Draft week fields only. The server writes titles, actions, alternatives and outputs. '
+    'For EVIDENCE_EXCERPT, copy an exact substring of up to 70 characters from a cited supplied fact. '
+    'Set options to [] and choose MARK_KEYWORD (pick a word and explain why it drew attention) '
+    'or WRITE_QUESTION (pick a word and write a question, without answering it). '
+    'For FICTIONAL_EXAMPLE choose CHOOSE_OPTION. Supply a short imaginary situation (up to 70 characters) '
+    'and exactly two distinct options (up to 30 characters each). Options are short labels, not instructions. '
+    'For example, inputText="동아리 소식을 정리하는 가상 상황", options=["제목으로 분류", "날짜 순서로 정리"]. '
+    'Use varied topics actually present in the approved evidence and cite only supplied referenceKey values. '
+    'Use names and excerpts for information and questions, and small fictional choices for activities when suitable. '
+    'Suggest a small estimatedMinutes value between 1 and 20. Each task uses paper and a pen. '
+    'Keep all input and options self-contained. Never invent a URL or require an article, lesson, device or partner. '
+    'Keep fictional examples separate from factual claims and avoid admissions, aptitude, forecasts and rankings.'
 )
