@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M237_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_237",
+  "majorName": "무용학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "무용학과는 움직임으로 표현하는 다양한 무용의 실기와 이론을 공부한다. 커리어넷은 안무법, 무용작품해설과 현대무용을 소개한다.",
+      "sourceIds": [
+        "m237-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "경성대 무용학과 교과에는 창작춤메소드, 즉흥과 무용미학이 있다. 경희대 무용학부 시행세칙은 안무와 실기, 무용 이론과 연구를 제시한다.",
+      "sourceIds": [
+        "m237-university",
+        "m237-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m237-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 무용학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=162",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2020-12-02 갱신 응답에서 확인한 무용학과는 움직임으로 표현하는 다양한 무용의 실기와 이론을 공부한다. 커리어넷은 안무법, 무용작품해설과 현대무용을 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m237-university",
+      "publisher": "경성대학교 무용학과",
+      "title": "교과과정",
+      "url": "https://kscms.ks.ac.kr/dance/CMS/Contents/Contents.do?mCode=MN028",
+      "supports": "창작춤메소드·즉흥·무용미학",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m237-extra",
+      "publisher": "경희대학교 무용학부",
+      "title": "교육과정 시행세칙",
+      "url": "https://dance.khu.ac.kr/upload/contents/202402/202402290427222180.pdf",
+      "supports": "안무·실기 및 무용 이론",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}
