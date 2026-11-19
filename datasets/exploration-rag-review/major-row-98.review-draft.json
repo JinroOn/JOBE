@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M98_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_98",
+  "majorName": "특수교육과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "커리어넷 특수교육학과 안내는 장애학생통합교육론과 특수교육공학 등 교과 사례를 소개한다. 특수교육과의 구체적 내용과 이수 조건은 대학 공식 자료에서 확인한다.",
+      "sourceIds": [
+        "m98-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "한국교원대 특수교육과에는 개별화교육과교수설계가 있다. 공식 학과 소개는 특수교육 교육과정과 교육공학 적용, 전환교육과 가족지원 등을 학습한다고 안내한다.",
+      "sourceIds": [
+        "m98-university",
+        "m98-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m98-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 특수교육학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=592",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2020-12-02 갱신 응답에서 확인한 커리어넷 특수교육학과 안내는 장애학생통합교육론과 특수교육공학 등 교과 사례를 소개한다. 특수교육과의 구체적 내용과 이수 조건은 대학 공식 자료에서 확인한다.",
+      "limitation": "커리어넷의 명칭은 특수교육학과이며 이 자료는 연결되는 내용의 참고 사례다. 전공별 범위는 대학 공식 자료로 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m98-university",
+      "publisher": "한국교원대학교 특수교육과",
+      "title": "학부 교육과정안내",
+      "url": "https://www.knue.ac.kr/sped/contents.do?key=1023",
+      "supports": "개별화교육과교수설계 과목",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m98-extra",
+      "publisher": "한국교원대학교 특수교육과",
+      "title": "학과소개",
+      "url": "https://www.knue.ac.kr/sped/contents.do?key=1018",
+      "supports": "특수교육 교육과정 및 공학·전환교육·가족지원",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}
