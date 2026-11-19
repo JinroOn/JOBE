@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M47_20261119",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-19",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_47",
+  "majorName": "사회학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "사회학과는 일상 속 경험과 행동을 사회구조와 연결해 사회 현상을 이해한다. 커리어넷은 노동사회학과 문화사회학, 사회통계론과 사회조사분석론을 과목 사례로 든다.",
+      "sourceIds": [
+        "careernet-m47"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "서울대 사회학과 안내는 사회조사방법론 및 사회통계학을 통해 자료를 수집하고 사회구조를 해석하는 방법을 소개한다. 연세대 사회학과 학부 안내에는 사회학의 이해, 사회조사분석 및 사회통계학이 제시된다.",
+      "sourceIds": [
+        "m47-university-1",
+        "m47-university-2"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "careernet-m47",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 사회학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=243",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2021-07-01 갱신 응답의 사회현상과 사회구조의 관계 및 사회통계론·사회조사분석론",
+      "limitation": "대표 학과 정보다. 학교별 교과목은 대학 공식 자료에서 확인한다.",
+      "accessedAt": "2026-11-19"
+    },
+    {
+      "sourceId": "m47-university-1",
+      "publisher": "서울대학교 사회학과",
+      "title": "학과소개",
+      "url": "https://sociology.snu.ac.kr/about/",
+      "supports": "사회조사방법론·사회통계학과 체계적인 자료 수집 및 분석",
+      "limitation": "서울대학교 학과소개 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-19"
+    },
+    {
+      "sourceId": "m47-university-2",
+      "publisher": "연세대학교 사회학과",
+      "title": "10학번 이후 학부 전공 종별구분 표",
+      "url": "https://sociology.yonsei.ac.kr/%EB%AC%B8%EC%84%9C-%EC%84%9C%EC%8B%9D%EC%9E%90%EB%A3%8C%EC%8B%A4/?mod=document&pageid=1&uid=11",
+      "supports": "사회학의 이해·사회조사분석·사회통계학 교과목",
+      "limitation": "공지의 과목명만 인용하고 현재 졸업요건의 일반화에는 사용하지 않는다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-19"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}
