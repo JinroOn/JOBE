@@ -14,15 +14,12 @@ public class OwnedMockExecutionService {
     private final ExplorationJobOwnerService owners;
     private final OwnedGenerationStore store;
     private final ExplorationJobClient client;
+    private final ExplorationModelAvailability availability;
     @Value("${exploration.jobs.mock-enabled:false}") private boolean enabled;
-    @Value("${exploration.jobs.erasure.enabled:false}") private boolean erasureEnabled;
-    @Value("${exploration.enabled:false}") private boolean explorationEnabled;
-    @Value("${exploration.runtime.run-mode:PUBLIC}") private String runMode;
-    @Value("${exploration.jobs.model-enabled:false}") private boolean modelEnabled;
     private final com.jinroon.jobe.domain.exploration.context.ResultContextService contexts;
     private final ExplorationAiInputAdapter adapter;
     public void requireModelEnabled(){
-        if(!modelEnabled || !erasureEnabled || !explorationEnabled || !"DEV".equals(runMode))throw new ExplorationJobClient.Unavailable(ExplorationJobClient.Failure.CONFIGURATION);
+        if (!availability.modelExecutionEnabled()) throw new ExplorationJobClient.Unavailable(ExplorationJobClient.Failure.CONFIGURATION);
     }
     @Transactional(propagation=Propagation.NEVER)
     public JsonNode executePlan(long user,long context,String mutation,JsonNode request){
@@ -44,7 +41,7 @@ public class OwnedMockExecutionService {
     }
     @Transactional(propagation=Propagation.NEVER)
     public JsonNode executeModel(long user,long context,String purpose,String mutation){
-        if(!modelEnabled || !erasureEnabled || !explorationEnabled || !"DEV".equals(runMode))throw new ExplorationJobClient.Unavailable(ExplorationJobClient.Failure.CONFIGURATION);
+        requireModelEnabled();
         if(mutation==null || !mutation.matches("[A-Za-z0-9_-]{1,80}"))throw new ExplorationJobClient.Unavailable(ExplorationJobClient.Failure.INVALID_REQUEST);
         var snapshot=contexts.readForAdapter(user,context,purpose).snapshot();String owner=owners.ownedKey(user);
         String id=java.util.UUID.nameUUIDFromBytes((owner+":"+mutation).getBytes(java.nio.charset.StandardCharsets.UTF_8)).toString();
@@ -53,7 +50,7 @@ public class OwnedMockExecutionService {
         var lease=store.claimModel(user,context,purpose,mutation);
         return compute(new OwnedGenerationStore.Candidate(user,context,purpose,mutation),lease,true,true);
     }
-    public boolean readyForDispatch(){return enabled && erasureEnabled && explorationEnabled && "DEV".equals(runMode) && client.readyForMock();}
+    public boolean readyForDispatch(){return enabled && availability.devJobsEnabled() && client.readyForMock();}
     @Transactional(propagation=Propagation.NEVER)
     public JsonNode execute(long user,long context,String purpose,String mutation){
         if(!enabled)throw new ExplorationJobClient.Unavailable();

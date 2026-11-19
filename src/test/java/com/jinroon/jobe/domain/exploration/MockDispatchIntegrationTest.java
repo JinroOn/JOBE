@@ -17,6 +17,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 class MockDispatchIntegrationTest extends CompletedExplorationTestSupport {
     @Autowired OwnedGenerationStore store;
     @Autowired OwnedMockExecutionService execution;
+    @Autowired ExplorationModelAvailability availability;
     @Autowired MockGenerationDispatcher dispatch;
     @Autowired ExplorationJobService jobs;
     @Autowired ResultContextService contexts;
@@ -24,14 +25,14 @@ class MockDispatchIntegrationTest extends CompletedExplorationTestSupport {
     @MockitoBean ExplorationJobClient remote;
     Set<String> owners=new HashSet<>();
     @BeforeEach void configure(){
-        ReflectionTestUtils.setField(execution,"enabled",true);ReflectionTestUtils.setField(execution,"erasureEnabled",true);ReflectionTestUtils.setField(dispatch,"enabled",true);
+        ReflectionTestUtils.setField(execution,"enabled",true);ReflectionTestUtils.setField(availability,"erasureEnabled",true);ReflectionTestUtils.setField(dispatch,"enabled",true);
         when(remote.readyForMock()).thenReturn(true);
         when(remote.command(anyString(),anyString(),anyString(),any())).thenReturn(mapper.createObjectNode().put("status","QUEUED"));
         when(remote.executeMock(anyString(),anyString(),any())).thenAnswer(call->envelope(call.getArgument(2)).put("mutationKey",call.<String>getArgument(1)));
     }
     @Override @AfterEach void cleanup(){
         owners.addAll(jdbc.queryForList("SELECT owner_key FROM exploration_ai_owner WHERE user_id=?",String.class,OWNER));super.cleanup();for(String owner:owners)jdbc.update("DELETE FROM exploration_ai_erasure_outbox WHERE owner_key=?",owner);
-        ReflectionTestUtils.setField(dispatch,"enabled",false);ReflectionTestUtils.setField(execution,"enabled",false);ReflectionTestUtils.setField(execution,"erasureEnabled",false);
+        ReflectionTestUtils.setField(dispatch,"enabled",false);ReflectionTestUtils.setField(execution,"enabled",false);ReflectionTestUtils.setField(availability,"erasureEnabled",false);
     }
     long enqueue()throws Exception{long context=contexts.prepare(OWNER,completedResult(true),"context","CONSULTATION",0,null).body().path("contextId").asLong();jobs.command(OWNER,context,"CONSULTATION","m","enqueue");clearInvocations(remote);return context;}
     ObjectNode envelope(JsonNode original){
@@ -71,7 +72,7 @@ class MockDispatchIntegrationTest extends CompletedExplorationTestSupport {
     }
     @Test void activeWorkerIsNotReselectedByAnotherDispatcher()throws Exception{long c=enqueue();store.claim(OWNER,c,"CONSULTATION","m");assertThat(dispatch.drain()).isZero();verify(remote,never()).executeMock(anyString(),anyString(),any());}
     @Test void disabledDispatcherOrMissingErasureDeliveryDoesNotClaim()throws Exception{
-        enqueue();ReflectionTestUtils.setField(dispatch,"enabled",false);assertThat(dispatch.drain()).isZero();ReflectionTestUtils.setField(dispatch,"enabled",true);ReflectionTestUtils.setField(execution,"erasureEnabled",false);assertThat(dispatch.drain()).isZero();assertThat(((Number)row().get("attempt")).intValue()).isZero();verify(remote,never()).executeMock(anyString(),anyString(),any());
+        enqueue();ReflectionTestUtils.setField(dispatch,"enabled",false);assertThat(dispatch.drain()).isZero();ReflectionTestUtils.setField(dispatch,"enabled",true);ReflectionTestUtils.setField(availability,"erasureEnabled",false);assertThat(dispatch.drain()).isZero();assertThat(((Number)row().get("attempt")).intValue()).isZero();verify(remote,never()).executeMock(anyString(),anyString(),any());
     }
     @Test void ownerReadsRetryAndFinalStateWithoutDependingOnUpstream()throws Exception{
         long c=enqueue();doThrow(new ExplorationJobClient.Unavailable()).when(remote).executeMock(anyString(),anyString(),any());dispatch.drain();
