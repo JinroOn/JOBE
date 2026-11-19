@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M239_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_239",
+  "majorName": "산업디자인학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "산업디자인학과는 사용 목적과 환경을 고려해 제품과 도구의 형태와 쓰임을 설계한다. 커리어넷은 제품디자인과 인간공학을 소개한다.",
+      "sourceIds": [
+        "m239-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "경성대 제품디자인 교과는 도구의 기능과 구조 등을 살펴 시제품에 이르는 과정을 소개한다. 경희대 교육자료는 산업디자인리서치와 제품·환경디자인의 연계를 제시한다.",
+      "sourceIds": [
+        "m239-university",
+        "m239-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m239-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 산업디자인학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=253",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2022-04-12 갱신 응답에서 확인한 산업디자인학과는 사용 목적과 환경을 고려해 제품과 도구의 형태와 쓰임을 설계한다. 커리어넷은 제품디자인과 인간공학을 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m239-university",
+      "publisher": "경성대학교 산업디자인학과",
+      "title": "교과목 소개",
+      "url": "https://kscms.ks.ac.kr/ksid/CMS/Contents/Contents.do?mCode=MN023",
+      "supports": "제품디자인(1)의 제품 문제 분석과 시제품",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m239-extra",
+      "publisher": "경희대학교",
+      "title": "산업디자인학과 교육과정 운영 안내",
+      "url": "https://com.khu.ac.kr/and_kor/cmmn/file/fileDown.do?atchFileId=88baf5905f044a6bab600478e5bc8fd9&bbsId=&fileSn=1&menuNo=14900150",
+      "supports": "산업디자인리서치·제품 및 환경디자인",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}
