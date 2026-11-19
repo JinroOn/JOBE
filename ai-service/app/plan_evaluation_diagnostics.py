@@ -6,17 +6,21 @@ from openai import ContentFilterFinishReasonError, LengthFinishReasonError
 from pydantic import ValidationError
 
 from app.exploration_contract import ContractViolation
-from app.exploration_plan_draft import PlanWeekDraft
+from app.exploration_plan_draft import EvidenceTask, FictionalChoiceTask, PlanWeekDraft
 
 
 ERROR_TYPES = frozenset({
     'missing', 'extra_forbidden', 'string_type', 'string_too_short', 'string_too_long',
     'string_pattern_mismatch', 'literal_error', 'int_type', 'greater_than_equal',
     'less_than_equal', 'list_type', 'too_short', 'too_long', 'model_type', 'value_error',
-    'json_invalid',
+    'json_invalid', 'duplicate_options',
 })
 FINISH_REASONS = frozenset({'stop', 'tool_calls', 'function_call', 'length', 'content_filter'})
 WEEK_FIELDS = frozenset(PlanWeekDraft.model_fields) | {'tasks'}
+TASK_FIELDS = {
+    EvidenceTask.__name__: frozenset(EvidenceTask.model_fields),
+    FictionalChoiceTask.__name__: frozenset(FictionalChoiceTask.model_fields),
+}
 
 
 def field_path(location):
@@ -29,6 +33,11 @@ def field_path(location):
             path.append(index)
             if len(location) > 2 and location[2] in WEEK_FIELDS:
                 path.append(location[2])
+                if location[2] == 'task' and len(location) > 3 and location[3] in TASK_FIELDS:
+                    branch = location[3]
+                    path.append(branch)
+                    if len(location) > 4 and location[4] in TASK_FIELDS[branch]:
+                        path.append(location[4])
     return path
 
 

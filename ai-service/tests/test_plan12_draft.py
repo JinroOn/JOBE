@@ -1,6 +1,7 @@
 from copy import deepcopy
 from types import SimpleNamespace
 import pytest
+from langchain_core.utils.function_calling import convert_to_openai_tool
 from pydantic import ValidationError
 
 from app.exploration_contract import ContractViolation, Plan12Result
@@ -17,6 +18,22 @@ def model_request():
     request['input']['planSpec'] = {'weeks': 12, 'phaseLayout': 'INFO_4_BASIC_4_ACTIVITY_4'}
     request['inputHash'] = input_hash(request)
     return request, facts
+
+
+def excerpt_task(text, activity='MARK_KEYWORD'):
+    return {'inputKind': 'EVIDENCE_EXCERPT', 'inputText': text, 'activity': activity}
+
+
+def test_provider_tool_schema_describes_both_allowed_task_shapes():
+    parameters = convert_to_openai_tool(Plan12Draft)['function']['parameters']
+    branches = parameters['properties']['weeks']['items']['properties']['task']['anyOf']
+    by_kind = {item['properties']['inputKind']['const']: item for item in branches}
+    evidence = by_kind['EVIDENCE_EXCERPT']
+    fictional = by_kind['FICTIONAL_EXAMPLE']
+    assert set(evidence['required']) == {'inputKind', 'inputText', 'activity'}
+    assert set(evidence['properties']['activity']['enum']) == {'MARK_KEYWORD', 'WRITE_QUESTION'}
+    assert set(fictional['required']) == {'inputKind', 'inputText', 'optionA', 'optionB'}
+    assert all(branch['additionalProperties'] is False for branch in branches)
 
 
 def test_rendered_tasks_embed_the_actual_input_and_retain_public_shape():
@@ -42,25 +59,25 @@ def test_invalid_drafts_fail_without_partial_output_or_silent_repair(settings, c
     request, facts = model_request()
     draft = draft_result(facts[0]['referenceKey'])
     week = draft['weeks'][0]
-    if change == 'blank_input': week['inputText'] = '  '
-    elif change == 'blank_option': week['options'][0] = '  '
-    elif change == 'duplicate_options': week['options'] = ['A B', ' a  b ']
-    elif change == 'missing_option': week['options'].pop()
-    elif change == 'excerpt_with_options': week.update(inputKind='EVIDENCE_EXCERPT', activity='MARK_KEYWORD', inputText=facts[0]['text'])
-    elif change == 'fictional_without_choice': week['activity'] = 'MARK_KEYWORD'
+    if change == 'blank_input': week['task']['inputText'] = '  '
+    elif change == 'blank_option': week['task']['optionA'] = '  '
+    elif change == 'duplicate_options': week['task'].update(optionA='A B', optionB=' a  b ')
+    elif change == 'missing_option': del week['task']['optionB']
+    elif change == 'excerpt_with_options': week['task'] = {**excerpt_task(facts[0]['text']), 'optionA': 'A'}
+    elif change == 'fictional_without_choice': week['task']['activity'] = 'MARK_KEYWORD'
     elif change == 'extra_tasks': week['tasks'] = ['OLD FREE TEXT']
-    elif change == 'too_long_input': week['inputText'] = 'x'*71
+    elif change == 'too_long_input': week['task']['inputText'] = 'x'*71
     elif change == 'reorder': draft['weeks'][0], draft['weeks'][1] = draft['weeks'][1], draft['weeks'][0]
     elif change == 'wrong_phase': week['phase'] = 'SMALL_ACTIVITY'
     elif change == 'string_minutes': week['estimatedMinutes'] = '5'
     elif change == 'zero_minutes': week['estimatedMinutes'] = 0
     elif change == 'excessive_minutes': week['estimatedMinutes'] = 21
     elif change == 'unknown_reference': week['referenceKeys'] = ['forged']
-    elif change == 'fabricated_excerpt': week.update(inputKind='EVIDENCE_EXCERPT', inputText='NOT PRESENT IN FACT', activity='MARK_KEYWORD', options=[])
+    elif change == 'fabricated_excerpt': week['task'] = excerpt_task('NOT PRESENT IN FACT')
     elif change == 'uncited_excerpt':
         facts.append(dict(facts[0], referenceKey='other', text='ONLY IN ANOTHER FACT'))
         # Test renderer separately: consumer correctly rejects an input with extra unrelated facts first.
-        week.update(inputKind='EVIDENCE_EXCERPT', inputText='ONLY IN ANOTHER FACT', activity='MARK_KEYWORD', options=[])
+        week['task'] = excerpt_task('ONLY IN ANOTHER FACT')
         with pytest.raises(ContractViolation): render_plan_draft(draft, facts)
         return
     elif change == 'public_only':
@@ -75,7 +92,7 @@ def test_invalid_drafts_fail_without_partial_output_or_silent_repair(settings, c
 def test_literal_excerpt_must_come_from_the_cited_fact(settings):
     request, facts = model_request()
     draft = draft_result(facts[0]['referenceKey'])
-    draft['weeks'][0].update(inputKind='EVIDENCE_EXCERPT', inputText='APPROVED EDUCATIONAL', activity='MARK_KEYWORD', options=[])
+    draft['weeks'][0]['task'] = excerpt_task('APPROVED EDUCATIONAL')
     chat = FakeChat(draft)
     result = ExplorationModel(chat).generate(request, facts)
     assert chat.schema is Plan12Draft
@@ -85,7 +102,7 @@ def test_literal_excerpt_must_come_from_the_cited_fact(settings):
 def test_maximum_draft_field_sizes_still_fit_existing_wire_limits():
     request, facts = model_request()
     draft = draft_result(facts[0]['referenceKey'])
-    draft['weeks'][0].update(inputText='나'*70, options=['다'*30, '라'*30])
+    draft['weeks'][0]['task'].update(inputText='나'*70, optionA='다'*30, optionB='라'*30)
     rendered = render_plan_draft(draft, facts)
     assert max(map(len, rendered['weeks'][0]['tasks'])) <= 300
     assert '다'*30 in rendered['weeks'][0]['tasks'][1] and '라'*30 in rendered['weeks'][0]['tasks'][1]
@@ -100,23 +117,42 @@ def test_short_excerpts_cannot_be_used_to_assign_unsupported_work(settings, numb
     facts[0]['text'] = excerpt
     draft = draft_result(facts[0]['referenceKey'])
     week = draft['weeks'][number - 1]
-    week.update(inputKind='EVIDENCE_EXCERPT', inputText=excerpt, activity=allowed, options=[])
+    week['task'] = excerpt_task(excerpt, allowed)
     model = ExplorationModel(FakeChat(draft))
     rendered = model.generate(request, facts)['result']['weeks'][number - 1]
     assert f'「{excerpt}」' in rendered['tasks'][1]
     assert rendered['expectedOutput'] == expected
     assert '쉬운 대안: 발췌에서' in rendered['tasks'][1]
 
-    week['action'] = prohibited
+    week['task']['action'] = prohibited
     with pytest.raises(ModelFault) as failure:
         model.generate(request, facts)
     assert failure.value.code == 'MODEL_OUTPUT_INVALID'
 
-    del week['action']
-    week.update(activity='CHOOSE_OPTION', options=['가', '나'])
+    week['task'] = excerpt_task(excerpt, 'CHOOSE_OPTION')
     with pytest.raises(ModelFault) as failure:
         model.generate(request, facts)
     assert failure.value.code == 'MODEL_OUTPUT_INVALID'
+
+
+def test_nested_diagnostics_identify_known_paths_and_remove_arbitrary_keys():
+    from app.plan_evaluation_diagnostics import output_failure
+
+    draft = draft_result('ref')
+    draft['weeks'][0]['task'].update(optionB=4, PRIVATE_KEY='PRIVATE_VALUE')
+    with pytest.raises(ValidationError) as failure:
+        Plan12Draft.model_validate(draft)
+    errors = output_failure('PROVIDER_PARSING', failure.value)['errors']
+    assert {'type': 'string_type', 'path': ['weeks', 0, 'task', 'FictionalChoiceTask', 'optionB']} in errors
+    assert 'PRIVATE' not in str(errors)
+
+    draft['weeks'][0]['task'] = {
+        'inputKind': 'FICTIONAL_EXAMPLE', 'inputText': '상황', 'optionA': 'x', 'optionB': ' X ',
+    }
+    with pytest.raises(ValidationError) as failure:
+        Plan12Draft.model_validate(draft)
+    errors = output_failure('PROVIDER_PARSING', failure.value)['errors']
+    assert {'type': 'duplicate_options', 'path': ['weeks', 0, 'task', 'FictionalChoiceTask', 'optionB']} in errors
 
 
 class DiagnosticChat(FakeChat):
@@ -161,7 +197,7 @@ def test_diagnostic_mode_distinguishes_truncation_from_render_rejection(settings
     assert model.output_diagnostic['kind'] == 'OUTPUT_LENGTH_LIMIT'
 
     draft = draft_result(facts[0]['referenceKey'])
-    draft['weeks'][0].update(inputKind='EVIDENCE_EXCERPT', inputText='NOT IN SOURCE', activity='MARK_KEYWORD', options=[])
+    draft['weeks'][0]['task'] = excerpt_task('NOT IN SOURCE')
     chat.result = {'parsed': Plan12Draft.model_validate(draft), 'parsing_error': None, 'raw': None}
     with pytest.raises(ModelFault):
         model.generate(request, facts)

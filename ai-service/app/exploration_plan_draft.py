@@ -1,31 +1,39 @@
 """Provider-only plan draft; public and historical Plan12Result stays unchanged."""
 from typing import Annotated, Literal
 
-from pydantic import Field, model_validator
+from pydantic import Field, ValidationInfo, field_validator, model_validator
+from pydantic_core import PydanticCustomError
 
 from app.exploration_contract import ContractViolation, Plan12Result, References, StrictModel, text
+
+
+class EvidenceTask(StrictModel):
+    inputKind: Literal['EVIDENCE_EXCERPT']
+    inputText: text(70)
+    activity: Literal['MARK_KEYWORD', 'WRITE_QUESTION']
+
+
+class FictionalChoiceTask(StrictModel):
+    inputKind: Literal['FICTIONAL_EXAMPLE']
+    inputText: text(70)
+    optionA: text(30)
+    optionB: text(30)
+
+    @field_validator('optionB')
+    @classmethod
+    def distinct_options(cls, option, info: ValidationInfo):
+        first = info.data.get('optionA')
+        if first is not None and ' '.join(first.split()).casefold() == ' '.join(option.split()).casefold():
+            raise PydanticCustomError('duplicate_options', 'The two options must be distinct')
+        return option
 
 
 class PlanWeekDraft(StrictModel):
     week: Annotated[int, Field(ge=1, le=12)]
     phase: Literal['INFO', 'BASIC_LEARNING', 'SMALL_ACTIVITY']
     estimatedMinutes: Annotated[int, Field(ge=1, le=20)]
-    inputKind: Literal['EVIDENCE_EXCERPT', 'FICTIONAL_EXAMPLE']
-    inputText: text(70)
-    activity: Literal['MARK_KEYWORD', 'WRITE_QUESTION', 'CHOOSE_OPTION']
-    options: Annotated[list[text(30)], Field(max_length=2)]
+    task: EvidenceTask | FictionalChoiceTask
     referenceKeys: References
-
-    @model_validator(mode='after')
-    def activity_matches_input(self):
-        if self.inputKind == 'EVIDENCE_EXCERPT':
-            if self.activity == 'CHOOSE_OPTION' or self.options:
-                raise ValueError('Evidence excerpts only support marking or writing a question')
-        else:
-            distinct_options = {' '.join(option.split()).casefold() for option in self.options}
-            if self.activity != 'CHOOSE_OPTION' or len(distinct_options) != 2:
-                raise ValueError('A fictional example requires two distinct options')
-        return self
 
 
 class Plan12Draft(StrictModel):
@@ -74,15 +82,18 @@ def render_plan_draft(value, facts) -> dict:
     for week in draft.weeks:
         if any(ref not in references for ref in week.referenceKeys):
             raise ContractViolation('Invalid plan draft evidence')
-        input_text = ' '.join(week.inputText.split())
-        if week.inputKind == 'EVIDENCE_EXCERPT':
+        task = week.task
+        input_text = ' '.join(task.inputText.split())
+        if isinstance(task, EvidenceTask):
             if not any(input_text in references[ref] for ref in week.referenceKeys):
                 raise ContractViolation('Invalid plan draft evidence')
             provided_input = f'근거 발췌: 「{input_text}」'
+            activity = task.activity
         else:
-            first, second = (' '.join(option.split()) for option in week.options)
+            first, second = (' '.join(option.split()) for option in (task.optionA, task.optionB))
             provided_input = f'가상 예시: 「{input_text}」 (A 「{first}」 / B 「{second}」)'
-        title, action, output, easier_action, easier_output = ACTIVITY_TEXT[week.activity]
+            activity = 'CHOOSE_OPTION'
+        title, action, output, easier_action, easier_output = ACTIVITY_TEXT[activity]
         weeks.append({
             'week': week.week, 'phase': week.phase, 'title': title,
             'tasks': [
@@ -97,12 +108,12 @@ def render_plan_draft(value, facts) -> dict:
 PLAN12_INSTRUCTIONS = (
     'Produce exactly weeks 1-12: weeks 1-4 INFO, 5-8 BASIC_LEARNING, 9-12 SMALL_ACTIVITY. '
     'Return targetName and the Plan12Draft week fields only. The server writes titles, actions, alternatives and outputs. '
-    'For EVIDENCE_EXCERPT, copy an exact substring of up to 70 characters from a cited supplied fact. '
-    'Set options to [] and choose MARK_KEYWORD (pick a word and explain why it drew attention) '
-    'or WRITE_QUESTION (pick a word and write a question, without answering it). '
-    'For FICTIONAL_EXAMPLE choose CHOOSE_OPTION. Supply a short imaginary situation (up to 70 characters) '
-    'and exactly two distinct options (up to 30 characters each). Options are short labels, not instructions. '
-    'For example, inputText="동아리 소식을 정리하는 가상 상황", options=["제목으로 분류", "날짜 순서로 정리"]. '
+    'Fill each week\'s task with one of the two schema shapes. '
+    'For EVIDENCE_EXCERPT, copy an exact substring of up to 70 characters from a cited supplied fact '
+    'into inputText and choose MARK_KEYWORD or WRITE_QUESTION for activity. '
+    'For FICTIONAL_EXAMPLE, supply inputText as an imaginary situation of up to 70 characters '
+    'and optionA and optionB as two distinct labels of up to 30 characters each. '
+    'For example, inputText="동아리 소식을 정리하는 가상 상황", optionA="제목으로 분류", optionB="날짜 순서로 정리". '
     'Use varied topics actually present in the approved evidence and cite only supplied referenceKey values. '
     'Use names and excerpts for information and questions, and small fictional choices for activities when suitable. '
     'Suggest a small estimatedMinutes value between 1 and 20. Each task uses paper and a pen. '

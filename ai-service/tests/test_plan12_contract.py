@@ -26,7 +26,7 @@ def test_model_uses_twelve_week_schema_prompt_budget_and_approved_references(set
     request['input']['planSpec']={'weeks':12,'phaseLayout':'INFO_4_BASIC_4_ACTIVITY_4'};request['inputHash']=input_hash(request)
     content=draft_result(request['evidence']['referenceKeys'][0],request['input']['targetName'])
     chat=FakeChat(content);consumer=ExplorationModel(chat);consumer.configure_request(request)
-    assert consumer.metadata['promptVersion']=='EXPLORATION_PLAN12_V1_5'
+    assert consumer.metadata['promptVersion']=='EXPLORATION_PLAN12_V1_6'
     result=consumer.generate(request,facts)
     assert len(result['result']['weeks'])==12 and chat.settings['max_tokens']==6000
     assert 'exactly weeks 1-12' in chat.messages[0].content
@@ -66,7 +66,7 @@ def test_twelve_week_timeout_still_fails_without_partial_output(settings,monkeyp
     assert failure.value.code=='MODEL_TIMEOUT' and failure.value.retryable
 
 
-@pytest.mark.parametrize('missing',['inputText','activity','options','inputKind','estimatedMinutes','referenceKeys'])
+@pytest.mark.parametrize('missing',['task','estimatedMinutes','referenceKeys'])
 def test_new_model_output_missing_draft_slots_is_rejected_without_repair(settings,missing):
     from app.exploration_model import ModelFault
     request,facts=bound('PLAN');request['contractVersion']='EXPLORATION_AI_CONTRACT_V1_2'

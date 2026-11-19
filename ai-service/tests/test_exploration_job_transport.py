@@ -307,7 +307,7 @@ def plan12_model(scenario,monkeypatch):
 def test_plan12_model_transport_preserves_target_weeks_and_pinned_prompt(plan12_model):
     body,call,model=plan12_model;assert call('enqueue').status_code==200
     result=call('model-execute');assert result.status_code==200
-    assert result.json()['providerMetadata']['promptVersion']=='EXPLORATION_PLAN12_V1_5'
+    assert result.json()['providerMetadata']['promptVersion']=='EXPLORATION_PLAN12_V1_6'
     assert len(result.json()['response']['result']['weeks'])==12
     assert call('model-execute').json()==result.json() and model.calls==1
 
