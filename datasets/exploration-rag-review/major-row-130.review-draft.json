@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M130_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_130",
+  "majorName": "전기공학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "전기공학과는 전기 에너지와 회로, 제어 원리를 공부한다. 커리어넷은 회로이론, 전기공학실험과 제어공학을 소개한다.",
+      "sourceIds": [
+        "m130-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "광주대 전기공학과에는 전기기기와 전력전자공학이 있다. 국립창원대 전기공학과 교육과정은 전기기기와 전력 에너지 시스템 설계를 안내한다.",
+      "sourceIds": [
+        "m130-university",
+        "m130-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m130-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 전기공학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=459",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2020-12-02 갱신 응답에서 확인한 전기공학과는 전기 에너지와 회로, 제어 원리를 공부한다. 커리어넷은 회로이론, 전기공학실험과 제어공학을 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m130-university",
+      "publisher": "광주대학교 전기공학과",
+      "title": "교과과정",
+      "url": "https://elec.gwangju.ac.kr/bbs/content.php?co_id=s0105",
+      "supports": "전기기기와 전력전자공학",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m130-extra",
+      "publisher": "국립창원대학교",
+      "title": "2026 전기공학과 교육과정",
+      "url": "https://www.changwon.ac.kr/electric/cm/cntnts/cntntsView.do?cntntsId=5289&mi=6029",
+      "supports": "전기기기 및 전력 에너지 시스템 설계",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

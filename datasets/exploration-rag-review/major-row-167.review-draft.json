@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M167_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_167",
+  "majorName": "미생물학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "미생물학과는 미생물의 다양성과 생명 현상, 환경에서의 역할을 공부한다. 커리어넷은 바이오다양성과 진균학을 과목 사례로 소개한다.",
+      "sourceIds": [
+        "m167-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "부산대 교육과정은 일반미생물학을 제시하며, 펜토미노 교육과정의 환경 분야는 미생물과 환경의 상호작용을 소개한다.",
+      "sourceIds": [
+        "m167-university",
+        "m167-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m167-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 미생물학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=21010",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2023-06-02 갱신 응답에서 확인한 미생물학과는 미생물의 다양성과 생명 현상, 환경에서의 역할을 공부한다. 커리어넷은 바이오다양성과 진균학을 과목 사례로 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m167-university",
+      "publisher": "부산대학교 미생물학과",
+      "title": "학과 교육과정",
+      "url": "https://microbio.pusan.ac.kr/bbs/microbio/1313/1118381/artclView.do",
+      "supports": "일반미생물학 학부 과목",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m167-extra",
+      "publisher": "부산대학교",
+      "title": "2026 PNU 펜토미노 교육과정",
+      "url": "https://microbio.pusan.ac.kr/bbs/microbio/222/1525348/download.do",
+      "supports": "환경 분야 모듈에서 미생물의 생태적 역할을 살핌",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

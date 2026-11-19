@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M1002_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_1002",
+  "majorName": "데이터사이언스학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "데이터사이언스학과는 통계학, 컴퓨터과학 등 여러 분야를 이용해 데이터에서 질문을 만들고 답을 찾는 방법을 배운다. 서울여대 교과목 안내는 관련 분야의 융합 관점과 전공 학습 로드맵을 소개한다.",
+      "sourceIds": [
+        "m1002-primary"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "대입정보포털의 서울여대 데이터사이언스학과 자료에는 데이터시각화와 캡스톤디자인이 있다. 고려대 빅데이터사이언스학부 편람은 데이터시각화입문과 데이터사이언스방법론을 소개한다.",
+      "sourceIds": [
+        "m1002-university",
+        "m1002-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m1002-primary",
+      "publisher": "서울여자대학교 데이터사이언스학과",
+      "title": "교과목 소개",
+      "url": "https://ds.swu.ac.kr/page/department02_05",
+      "supports": "데이터사이언스 개론은 통계학·컴퓨터과학 등 융합 분야의 기초를 다룬다.",
+      "limitation": "동일명 학과의 공식 학부 자료다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m1002-university",
+      "publisher": "대입정보포털 어디가",
+      "title": "서울여대 데이터사이언스학과 학과정보",
+      "url": "https://www.adiga.kr/ucp/cls/uni/classUnivDetail.do?menuId=PCCLSINF2000&ruCd=0231201&searchSyr=2026&unvCd=0000126",
+      "supports": "데이터시각화 및 데이터사이언스캡스톤디자인",
+      "limitation": "대학 입학정보에 등록된 과목 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m1002-extra",
+      "publisher": "고려대학교",
+      "title": "2024 교육과정편람 빅데이터사이언스학부",
+      "url": "https://emse.korea.ac.kr/bbs/koreaSejong/656/165615/download.do",
+      "supports": "데이터시각화입문과 데이터사이언스방법론",
+      "limitation": "이름이 다른 학부의 비교 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

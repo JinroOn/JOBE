@@ -1,0 +1,355 @@
+{
+  "schema_version": "1.1",
+  "major_mapping_version": "MAJOR_MAPPING_V1_2_IMPLEMENTATION_CANDIDATE",
+  "content_status": "DRAFT",
+  "implementation_review_status": "PENDING",
+  "domain_review_status": "PENDING",
+  "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M212_DRAFT",
+  "provenance": {
+    "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
+    "scope": "SINGLE_MAJOR_DEV_REVIEW",
+    "parent_file_sha256": "98e0d997a7af59dfe2dab16e1156dad04933809a620b120ddd5990c8797c2e7c"
+  },
+  "activities": [
+    {
+      "activity_id": "DRAFT-M212-01",
+      "version": "0.3.0",
+      "title": "한의학 교과에서 역사 질문과 용어 질문 나누기",
+      "kind": "INFORMATION",
+      "major_code": "MAJOR_ROW_212",
+      "major_name": "한의예과",
+      "exploration_group": "BIO",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "탐색 주제: 한의학 관련 자료의 범위 구분. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
+      "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
+      "steps": [
+        "공식 교과자료에서 역사와 용어에 관한 과목을 읽는다.",
+        "옛 문헌의 표현을 만났을 때 시기와 뜻을 확인할 질문을 적는다."
+      ],
+      "artifacts": [
+        "역사와 용어 확인 질문"
+      ],
+      "example_output": "어떤 시대의 기록이며 그 표현이 당시 어떤 맥락에서 쓰였는가?",
+      "worksheet_columns": "공식 자료에서 확인한 명칭 / 내가 더 알아볼 주제 / 미확인 질문 / 확인 경로",
+      "reflection_question": "소개를 읽은 뒤 관심이 생긴 부분과 여전히 모르는 부분은 무엇인가요?",
+      "alternative": "제공 과목명으로 질문을 만든다.",
+      "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
+      "source_ids": [
+        "m212-careernet",
+        "m212-university",
+        "m212-extra"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 한의학 교과에서 역사 질문과 용어 질문 나누기\n\n한의학개론Ⅰ, 의학용어와 한의학의역사와현대사회를 참고한다.\n\n1. 공식 교과자료에서 역사와 용어에 관한 과목을 읽는다.\n2. 옛 문헌의 표현을 만났을 때 시기와 뜻을 확인할 질문을 적는다.\n\n남길 결과물은 역사와 용어 확인 질문입니다.\n\n쉬운 대안. 제공 과목명으로 질문을 만든다.",
+      "worksheet_markdown": "## 한의학 교과에서 역사 질문과 용어 질문 나누기\n\n한의학개론Ⅰ, 의학용어와 한의학의역사와현대사회를 참고한다.\n\n| 과목 | 자료 | 질문 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m212-careernet",
+          "title": "대학교 학과정보 한의예과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=619",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2020-12-02 갱신 응답에서 확인한 한의예과는 한의학의 기초 용어와 역사, 관련 기초 과학을 공부하는 과정이다. 커리어넷은 한의학개론과 의철학을 과목 사례로 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m212-university",
+          "title": "2026학년도 한의예과 전공교육과정 총괄표",
+          "publisher": "동국대학교 한의과대학",
+          "url": "https://class.dongguk.ac.kr/HOME/orient/sub.htm?hmode=p&nav_code=ori1587953689",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "한의학개론Ⅰ",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m212-extra",
+          "title": "원광대 한의예과 학과정보",
+          "publisher": "대입정보포털 어디가",
+          "url": "https://www.adiga.kr/ucp/cls/uni/classUnivDetail.do?menuId=PCCLSINF2000&ruCd=0009715&searchSyr=2026&unvCd=0000159",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "의철학·의학용어·한의학의역사와현대사회",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-READ-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-READ-01",
+          "step_indexes": [
+            0
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M212-02",
+      "version": "0.3.0",
+      "title": "가상 전시 자료에서 역사 기록과 현재 설명 구분하기",
+      "kind": "SMALL_TASK",
+      "major_code": "MAJOR_ROW_212",
+      "major_name": "한의예과",
+      "exploration_group": "BIO",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 10,
+        "max": 15,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "경험할 주제: 한의학 관련 자료의 범위 구분. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
+      "scenario": "가상 문장A는 문서가 특정 시기에 쓰였다는 기록, B는 어떤 방법이 효과 있다는 주장으로 구성",
+      "steps": [
+        "각 카드가 지칭하는 시점과 목적을 표시한다.",
+        "옛 기록과 현대의 설명을 혼동하지 않도록 출처를 붙인 문장을 쓴다."
+      ],
+      "artifacts": [
+        "두 가상 자료의 시점·출처 비교표"
+      ],
+      "example_output": "A는 역사 용어 사례이고 B는 현대 용어를 비교하도록 만든 설명이다.",
+      "worksheet_columns": "문장/주장 종류/필요 근거/미확인 표",
+      "reflection_question": "여러 종류의 근거를 구분하는 일이 흥미로운가?",
+      "alternative": "실제 건강 판단이나 치료 없이 가상 전시 문장만 비교한다.",
+      "safety_boundary": "실제 한약·경혈·치료·섭취·효능 판단을 하지 않음",
+      "source_ids": [
+        "m212-careernet",
+        "m212-university",
+        "m212-extra"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 가상 전시 자료에서 역사 기록과 현재 설명 구분하기\n\n가상 전시 카드 A는 ‘옛 교재에서 질병을 표현하던 용어를 소개한다’, B는 ‘지금은 다른 용어 체계를 쓰는 사례를 보여 준다’라고 적혀 있다.\n\n1. 각 카드가 지칭하는 시점과 목적을 표시한다.\n2. 옛 기록과 현대의 설명을 혼동하지 않도록 출처를 붙인 문장을 쓴다.\n\n남길 결과물은 두 가상 자료의 시점·출처 비교표입니다.\n\n쉬운 대안. 실제 건강 판단이나 치료 없이 가상 전시 문장만 비교한다.",
+      "worksheet_markdown": "## 가상 전시 자료에서 역사 기록과 현재 설명 구분하기\n\n가상 전시 카드 A는 ‘옛 교재에서 질병을 표현하던 용어를 소개한다’, B는 ‘지금은 다른 용어 체계를 쓰는 사례를 보여 준다’라고 적혀 있다.\n\n| 자료 | 시점 | 목적 | 요약 |\n|---|---|---|---|\n| | | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m212-careernet",
+          "title": "대학교 학과정보 한의예과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=619",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2020-12-02 갱신 응답에서 확인한 한의예과는 한의학의 기초 용어와 역사, 관련 기초 과학을 공부하는 과정이다. 커리어넷은 한의학개론과 의철학을 과목 사례로 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m212-university",
+          "title": "2026학년도 한의예과 전공교육과정 총괄표",
+          "publisher": "동국대학교 한의과대학",
+          "url": "https://class.dongguk.ac.kr/HOME/orient/sub.htm?hmode=p&nav_code=ori1587953689",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "한의학개론Ⅰ",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m212-extra",
+          "title": "원광대 한의예과 학과정보",
+          "publisher": "대입정보포털 어디가",
+          "url": "https://www.adiga.kr/ucp/cls/uni/classUnivDetail.do?menuId=PCCLSINF2000&ruCd=0009715&searchSyr=2026&unvCd=0000159",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "의철학·의학용어·한의학의역사와현대사회",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-PROJECT-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-PROJECT-01",
+          "step_indexes": [
+            0,
+            1
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M212-03",
+      "version": "0.3.0",
+      "title": "역사 용어의 풀이가 어디서 왔는지 묻기",
+      "kind": "REFLECTION_AND_NEXT_STEP",
+      "major_code": "MAJOR_ROW_212",
+      "major_name": "한의예과",
+      "exploration_group": "BIO",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
+      "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
+      "steps": [
+        "용어의 해석을 확인할 자료 한 가지를 고른다.",
+        "한 역사 기록에서 현재의 어떤 결론을 낼 수 있는지 구분해 적는다."
+      ],
+      "artifacts": [
+        "출처 확인과 해석 범위 메모"
+      ],
+      "example_output": "당시 쓰임을 확인할 주석이 필요하다. 역사 용어가 등장한다는 사실만으로 오늘의 효능은 판단할 수 없다.",
+      "worksheet_columns": "경험한 과정 / 흥미·불편·모름 / 확인 질문 / 확인 경로 / 다음 행동",
+      "reflection_question": "여러 종류의 근거를 구분하는 일이 흥미로운가?",
+      "alternative": "가상 카드의 출처 칸만 작성한다.",
+      "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
+      "source_ids": [
+        "m212-careernet",
+        "m212-university",
+        "m212-extra"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 역사 용어의 풀이가 어디서 왔는지 묻기\n\n앞의 가상 요약을 읽는다.\n\n1. 용어의 해석을 확인할 자료 한 가지를 고른다.\n2. 한 역사 기록에서 현재의 어떤 결론을 낼 수 있는지 구분해 적는다.\n\n남길 결과물은 출처 확인과 해석 범위 메모입니다.\n\n쉬운 대안. 가상 카드의 출처 칸만 작성한다.",
+      "worksheet_markdown": "## 역사 용어의 풀이가 어디서 왔는지 묻기\n\n앞의 가상 요약을 읽는다.\n\n| 확인할 말 | 참고 자료 | 해석 한계 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m212-careernet",
+          "title": "대학교 학과정보 한의예과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=619",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2020-12-02 갱신 응답에서 확인한 한의예과는 한의학의 기초 용어와 역사, 관련 기초 과학을 공부하는 과정이다. 커리어넷은 한의학개론과 의철학을 과목 사례로 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m212-university",
+          "title": "2026학년도 한의예과 전공교육과정 총괄표",
+          "publisher": "동국대학교 한의과대학",
+          "url": "https://class.dongguk.ac.kr/HOME/orient/sub.htm?hmode=p&nav_code=ori1587953689",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "한의학개론Ⅰ",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m212-extra",
+          "title": "원광대 한의예과 학과정보",
+          "publisher": "대입정보포털 어디가",
+          "url": "https://www.adiga.kr/ucp/cls/uni/classUnivDetail.do?menuId=PCCLSINF2000&ruCd=0009715&searchSyr=2026&unvCd=0000159",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "의철학·의학용어·한의학의역사와현대사회",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [],
+      "preference_mapping_basis": [],
+      "revised_on": "2026-11-20"
+    }
+  ]
+}

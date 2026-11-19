@@ -1,0 +1,355 @@
+{
+  "schema_version": "1.1",
+  "major_mapping_version": "MAJOR_MAPPING_V1_2_IMPLEMENTATION_CANDIDATE",
+  "content_status": "DRAFT",
+  "implementation_review_status": "PENDING",
+  "domain_review_status": "PENDING",
+  "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M126_DRAFT",
+  "provenance": {
+    "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
+    "scope": "SINGLE_MAJOR_DEV_REVIEW",
+    "parent_file_sha256": "98e0d997a7af59dfe2dab16e1156dad04933809a620b120ddd5990c8797c2e7c"
+  },
+  "activities": [
+    {
+      "activity_id": "DRAFT-M126-01",
+      "version": "0.3.0",
+      "title": "센서가 읽는 값과 로봇의 동작 구분하기",
+      "kind": "INFORMATION",
+      "major_code": "MAJOR_ROW_126",
+      "major_name": "로봇공학과",
+      "exploration_group": "ENG",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "탐색 주제: 로봇 제어와 조건 분기. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
+      "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
+      "steps": [
+        "공식 자료에서 센서와 제어에 해당하는 과목을 찾는다.",
+        "장난감 로봇에서 관찰할 입력과 그에 맞춘 동작을 하나씩 정한다."
+      ],
+      "artifacts": [
+        "입력과 동작 질문표"
+      ],
+      "example_output": "바닥 표시를 읽으면 앞 방향으로 이동한다.",
+      "worksheet_columns": "공식 자료에서 확인한 명칭 / 내가 더 알아볼 주제 / 미확인 질문 / 확인 경로",
+      "reflection_question": "소개를 읽은 뒤 관심이 생긴 부분과 여전히 모르는 부분은 무엇인가요?",
+      "alternative": "제공 과목명과 가상 장난감으로 설명한다.",
+      "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
+      "source_ids": [
+        "m126-careernet",
+        "m126-university",
+        "m126-extra"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 센서가 읽는 값과 로봇의 동작 구분하기\n\n센서공학과 모터제어 과목명을 참고한다.\n\n1. 공식 자료에서 센서와 제어에 해당하는 과목을 찾는다.\n2. 장난감 로봇에서 관찰할 입력과 그에 맞춘 동작을 하나씩 정한다.\n\n남길 결과물은 입력과 동작 질문표입니다.\n\n쉬운 대안. 제공 과목명과 가상 장난감으로 설명한다.",
+      "worksheet_markdown": "## 센서가 읽는 값과 로봇의 동작 구분하기\n\n센서공학과 모터제어 과목명을 참고한다.\n\n| 과목 | 입력 | 동작 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m126-careernet",
+          "title": "대학교 학과정보 로봇공학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=10116",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2020-12-02 갱신 응답에서 확인한 로봇공학과는 기계, 전자와 컴퓨터를 활용해 로봇을 설계하고 제어하는 방법을 공부한다. 커리어넷은 제어로봇공학과 센서공학을 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m126-university",
+          "title": "로봇학부 정보제어·지능시스템전공 교육과정",
+          "publisher": "광운대학교",
+          "url": "https://www.kw.ac.kr/ko/univ/ai05_4.jsp",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "센서공학 교과목",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m126-extra",
+          "title": "다전공 이수제도 안내",
+          "publisher": "광운대학교",
+          "url": "https://www.kw.ac.kr/ko/life/bachelor_info11.jsp",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "로봇공학전공의 모바일로봇의이해·모터제어",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "다전공 사례이며 개설은 해당 학기 자료에서 확인한다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-READ-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-READ-01",
+          "step_indexes": [
+            0
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M126-02",
+      "version": "0.3.0",
+      "title": "종이 지도에서 로봇 이동 규칙 시험하기",
+      "kind": "SMALL_TASK",
+      "major_code": "MAJOR_ROW_126",
+      "major_name": "로봇공학과",
+      "exploration_group": "ENG",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 10,
+        "max": 15,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "경험할 주제: 로봇 제어와 조건 분기. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
+      "scenario": "가상 센서는 앞이 막힘·안 막힘 두 값만 주며 격자 로봇은 전진·정지 가능",
+      "steps": [
+        "첫 칸에서 순서대로 입력과 동작을 표에 적는다.",
+        "어느 칸에서 멈추는지 예측하고 장애물 위치를 바꿔 확인한다."
+      ],
+      "artifacts": [
+        "가상 센서·동작 실행표"
+      ],
+      "example_output": "둘째 칸에서 앞 칸에 장애물이 있어 정지한다.",
+      "worksheet_columns": "입력/상태/행동/예외 표",
+      "reflection_question": "조건을 나누고 예상 밖 입력을 처리하는 일이 흥미로운가?",
+      "alternative": "실제 로봇이나 코드 없이 종이에서만 시험한다.",
+      "safety_boundary": "실제 로봇 구동·전기 배선 없이 격자 모형 사용",
+      "source_ids": [
+        "m126-careernet",
+        "m126-university",
+        "m126-extra"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 종이 지도에서 로봇 이동 규칙 시험하기\n\n직선 네 칸 중 세 번째 칸에 장애물 기호를 표시한다. 가상 로봇은 ‘앞이 비면 한 칸 전진, 막히면 정지’로 이동한다.\n\n1. 첫 칸에서 순서대로 입력과 동작을 표에 적는다.\n2. 어느 칸에서 멈추는지 예측하고 장애물 위치를 바꿔 확인한다.\n\n남길 결과물은 가상 센서·동작 실행표입니다.\n\n쉬운 대안. 실제 로봇이나 코드 없이 종이에서만 시험한다.",
+      "worksheet_markdown": "## 종이 지도에서 로봇 이동 규칙 시험하기\n\n직선 네 칸 중 세 번째 칸에 장애물 기호를 표시한다. 가상 로봇은 ‘앞이 비면 한 칸 전진, 막히면 정지’로 이동한다.\n\n| 현재 칸 | 다음 칸 | 입력 | 동작 |\n|---|---|---|---|\n| | | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m126-careernet",
+          "title": "대학교 학과정보 로봇공학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=10116",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2020-12-02 갱신 응답에서 확인한 로봇공학과는 기계, 전자와 컴퓨터를 활용해 로봇을 설계하고 제어하는 방법을 공부한다. 커리어넷은 제어로봇공학과 센서공학을 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m126-university",
+          "title": "로봇학부 정보제어·지능시스템전공 교육과정",
+          "publisher": "광운대학교",
+          "url": "https://www.kw.ac.kr/ko/univ/ai05_4.jsp",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "센서공학 교과목",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m126-extra",
+          "title": "다전공 이수제도 안내",
+          "publisher": "광운대학교",
+          "url": "https://www.kw.ac.kr/ko/life/bachelor_info11.jsp",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "로봇공학전공의 모바일로봇의이해·모터제어",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "다전공 사례이며 개설은 해당 학기 자료에서 확인한다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-PROJECT-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-PROJECT-01",
+          "step_indexes": [
+            0,
+            1
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M126-03",
+      "version": "0.3.0",
+      "title": "센서 입력을 모를 때 동작 정하기",
+      "kind": "REFLECTION_AND_NEXT_STEP",
+      "major_code": "MAJOR_ROW_126",
+      "major_name": "로봇공학과",
+      "exploration_group": "ENG",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
+      "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
+      "steps": [
+        "현재 규칙에 입력을 읽지 못하는 상태가 있는지 확인한다.",
+        "불명확한 신호에서 정지와 재확인 같은 행동을 한 줄 정한다."
+      ],
+      "artifacts": [
+        "새 입력과 대응 규칙"
+      ],
+      "example_output": "입력을 모르면 정지한 뒤 표시를 다시 확인한다.",
+      "worksheet_columns": "경험한 과정 / 흥미·불편·모름 / 확인 질문 / 확인 경로 / 다음 행동",
+      "reflection_question": "조건을 나누고 예상 밖 입력을 처리하는 일이 흥미로운가?",
+      "alternative": "가상 동작을 화살표 대신 말로 설명한다.",
+      "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
+      "source_ids": [
+        "m126-careernet",
+        "m126-university",
+        "m126-extra"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 센서 입력을 모를 때 동작 정하기\n\n앞 활동의 가상 지도에서 장애물 표시가 지워졌는지 분명하지 않다.\n\n1. 현재 규칙에 입력을 읽지 못하는 상태가 있는지 확인한다.\n2. 불명확한 신호에서 정지와 재확인 같은 행동을 한 줄 정한다.\n\n남길 결과물은 새 입력과 대응 규칙입니다.\n\n쉬운 대안. 가상 동작을 화살표 대신 말로 설명한다.",
+      "worksheet_markdown": "## 센서 입력을 모를 때 동작 정하기\n\n앞 활동의 가상 지도에서 장애물 표시가 지워졌는지 분명하지 않다.\n\n| 불명확한 입력 | 동작 | 다음 확인 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m126-careernet",
+          "title": "대학교 학과정보 로봇공학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=10116",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2020-12-02 갱신 응답에서 확인한 로봇공학과는 기계, 전자와 컴퓨터를 활용해 로봇을 설계하고 제어하는 방법을 공부한다. 커리어넷은 제어로봇공학과 센서공학을 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m126-university",
+          "title": "로봇학부 정보제어·지능시스템전공 교육과정",
+          "publisher": "광운대학교",
+          "url": "https://www.kw.ac.kr/ko/univ/ai05_4.jsp",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "센서공학 교과목",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m126-extra",
+          "title": "다전공 이수제도 안내",
+          "publisher": "광운대학교",
+          "url": "https://www.kw.ac.kr/ko/life/bachelor_info11.jsp",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "로봇공학전공의 모바일로봇의이해·모터제어",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "다전공 사례이며 개설은 해당 학기 자료에서 확인한다."
+        }
+      ],
+      "preference_question_ids": [],
+      "preference_mapping_basis": [],
+      "revised_on": "2026-11-20"
+    }
+  ]
+}

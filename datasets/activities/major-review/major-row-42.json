@@ -1,0 +1,313 @@
+{
+  "schema_version": "1.1",
+  "major_mapping_version": "MAJOR_MAPPING_V1_2_IMPLEMENTATION_CANDIDATE",
+  "content_status": "DRAFT",
+  "implementation_review_status": "PENDING",
+  "domain_review_status": "PENDING",
+  "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M42_DRAFT",
+  "provenance": {
+    "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
+    "scope": "SINGLE_MAJOR_DEV_REVIEW",
+    "parent_file_sha256": "98e0d997a7af59dfe2dab16e1156dad04933809a620b120ddd5990c8797c2e7c"
+  },
+  "activities": [
+    {
+      "activity_id": "DRAFT-M42-01",
+      "version": "0.3.0",
+      "title": "대상과 매체를 연결하는 질문 적기",
+      "kind": "INFORMATION",
+      "major_code": "MAJOR_ROW_42",
+      "major_name": "광고홍보학과",
+      "exploration_group": "MED",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "탐색 주제: 광고 기획과 메시지 설계. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
+      "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
+      "steps": [
+        "공식 편람에서 두 과목이 어떤 점을 다루는지 읽는다.",
+        "신입생과 보호자 중 한 대상을 고르고 장소·시간 정보를 볼 매체를 생각한다."
+      ],
+      "artifacts": [
+        "가상 안내 대상과 매체 메모"
+      ],
+      "example_output": "신입생은 당일 동선을 학교 게시판의 안내 카드에서 확인할 수 있다.",
+      "worksheet_columns": "공식 자료에서 확인한 명칭 / 내가 더 알아볼 주제 / 미확인 질문 / 확인 경로",
+      "reflection_question": "소개를 읽은 뒤 관심이 생긴 부분과 여전히 모르는 부분은 무엇인가요?",
+      "alternative": "제공된 과목명과 대상만 활용한다.",
+      "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
+      "source_ids": [
+        "m42-careernet",
+        "m42-university"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 대상과 매체를 연결하는 질문 적기\n\n카피라이팅과 매스미디어와 광고 과목을 참고한다.\n\n1. 공식 편람에서 두 과목이 어떤 점을 다루는지 읽는다.\n2. 신입생과 보호자 중 한 대상을 고르고 장소·시간 정보를 볼 매체를 생각한다.\n\n남길 결과물은 가상 안내 대상과 매체 메모입니다.\n\n쉬운 대안. 제공된 과목명과 대상만 활용한다.",
+      "worksheet_markdown": "## 대상과 매체를 연결하는 질문 적기\n\n카피라이팅과 매스미디어와 광고 과목을 참고한다.\n\n| 대상 | 궁금한 정보 | 볼 만한 매체 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m42-careernet",
+          "title": "대학교 학과정보 광고홍보학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=54",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2021-06-30 갱신 응답에서 확인한 광고홍보학과는 전달 대상과 매체를 고려해 광고와 홍보를 기획하고 제작하는 방법을 배운다. 커리어넷은 광고매체기획과 광고제작론을 사례로 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m42-university",
+          "title": "광고홍보학과 편람",
+          "publisher": "평택대학교",
+          "url": "https://www.ptu.ac.kr/bbs/www/340/20668/download.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "광고홍보조사론·매스미디어와 광고·카피라이팅",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-READ-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-READ-01",
+          "step_indexes": [
+            0
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M42-02",
+      "version": "0.3.0",
+      "title": "한 행사를 안내문과 게시판 문구로 바꾸기",
+      "kind": "SMALL_TASK",
+      "major_code": "MAJOR_ROW_42",
+      "major_name": "광고홍보학과",
+      "exploration_group": "MED",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 10,
+        "max": 15,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "경험할 주제: 광고 기획과 메시지 설계. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
+      "scenario": "주제는 학교 분실물 보관함 알리기이며 실제 기관 캠페인은 아님",
+      "steps": [
+        "같은 사실을 게시판용 한 문장과 보호자가 볼 안내용 두 문장으로 쓴다.",
+        "대상별로 먼저 보이게 한 정보와 두 문구에 모두 남긴 필수 사실을 표시한다."
+      ],
+      "artifacts": [
+        "두 홍보 문구와 비교표"
+      ],
+      "example_output": "게시판에는 ‘금요일 3시 도서관, 책 한 권으로 교환에 참여하세요’라고 쓴다.",
+      "worksheet_columns": "대상/핵심 사실/문구/매체/확인점 표",
+      "reflection_question": "문구를 만드는 일과 전달 경로를 고르는 일 중 무엇이 흥미로운가?",
+      "alternative": "그림을 만들거나 게시할 필요 없이 종이에 문구만 작성한다.",
+      "safety_boundary": "실제 사람에게 광고를 발송하거나 행동 데이터를 수집하지 않음",
+      "source_ids": [
+        "m42-careernet",
+        "m42-university"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 한 행사를 안내문과 게시판 문구로 바꾸기\n\n가상 책 교환 행사는 금요일 3시 도서관, 참가 준비물은 교환할 책 한 권이다.\n\n1. 같은 사실을 게시판용 한 문장과 보호자가 볼 안내용 두 문장으로 쓴다.\n2. 대상별로 먼저 보이게 한 정보와 두 문구에 모두 남긴 필수 사실을 표시한다.\n\n남길 결과물은 두 홍보 문구와 비교표입니다.\n\n쉬운 대안. 그림을 만들거나 게시할 필요 없이 종이에 문구만 작성한다.",
+      "worksheet_markdown": "## 한 행사를 안내문과 게시판 문구로 바꾸기\n\n가상 책 교환 행사는 금요일 3시 도서관, 참가 준비물은 교환할 책 한 권이다.\n\n| 대상 | 매체 | 문구 | 필수 정보 |\n|---|---|---|---|\n| | | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m42-careernet",
+          "title": "대학교 학과정보 광고홍보학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=54",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2021-06-30 갱신 응답에서 확인한 광고홍보학과는 전달 대상과 매체를 고려해 광고와 홍보를 기획하고 제작하는 방법을 배운다. 커리어넷은 광고매체기획과 광고제작론을 사례로 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m42-university",
+          "title": "광고홍보학과 편람",
+          "publisher": "평택대학교",
+          "url": "https://www.ptu.ac.kr/bbs/www/340/20668/download.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "광고홍보조사론·매스미디어와 광고·카피라이팅",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-PROJECT-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-PROJECT-01",
+          "step_indexes": [
+            0,
+            1
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M42-03",
+      "version": "0.3.0",
+      "title": "문구를 읽은 뒤 행동이 분명한지 확인하기",
+      "kind": "REFLECTION_AND_NEXT_STEP",
+      "major_code": "MAJOR_ROW_42",
+      "major_name": "광고홍보학과",
+      "exploration_group": "MED",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
+      "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
+      "steps": [
+        "처음 보는 독자가 행동하기 전에 궁금해할 점을 고른다.",
+        "과장 없이 더 분명하게 바꿀 표현을 한 곳 표시한다."
+      ],
+      "artifacts": [
+        "수정 문구와 확인 기준"
+      ],
+      "example_output": "‘책을 가져오세요’를 ‘교환할 책 한 권을 가져오세요’로 바꾼다.",
+      "worksheet_columns": "경험한 과정 / 흥미·불편·모름 / 확인 질문 / 확인 경로 / 다음 행동",
+      "reflection_question": "문구를 만드는 일과 전달 경로를 고르는 일 중 무엇이 흥미로운가?",
+      "alternative": "제공 예시에서 한 단어만 골라 고쳐 본다.",
+      "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
+      "source_ids": [
+        "m42-careernet",
+        "m42-university"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 문구를 읽은 뒤 행동이 분명한지 확인하기\n\n작성한 가상 문구를 다시 읽는다.\n\n1. 처음 보는 독자가 행동하기 전에 궁금해할 점을 고른다.\n2. 과장 없이 더 분명하게 바꿀 표현을 한 곳 표시한다.\n\n남길 결과물은 수정 문구와 확인 기준입니다.\n\n쉬운 대안. 제공 예시에서 한 단어만 골라 고쳐 본다.",
+      "worksheet_markdown": "## 문구를 읽은 뒤 행동이 분명한지 확인하기\n\n작성한 가상 문구를 다시 읽는다.\n\n| 기존 문구 | 독자가 물을 점 | 수정 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m42-careernet",
+          "title": "대학교 학과정보 광고홍보학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=54",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2021-06-30 갱신 응답에서 확인한 광고홍보학과는 전달 대상과 매체를 고려해 광고와 홍보를 기획하고 제작하는 방법을 배운다. 커리어넷은 광고매체기획과 광고제작론을 사례로 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m42-university",
+          "title": "광고홍보학과 편람",
+          "publisher": "평택대학교",
+          "url": "https://www.ptu.ac.kr/bbs/www/340/20668/download.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "광고홍보조사론·매스미디어와 광고·카피라이팅",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [],
+      "preference_mapping_basis": [],
+      "revised_on": "2026-11-20"
+    }
+  ]
+}

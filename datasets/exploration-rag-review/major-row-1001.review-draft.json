@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M1001_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_1001",
+  "majorName": "소프트웨어학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "커리어넷 컴퓨터소프트웨어과는 소프트웨어 설계·개발·관리와 프로그램의 학습을 소개한다. 소프트웨어학과의 대학별 교과 범위는 공식 학부 자료에서 확인한다.",
+      "sourceIds": [
+        "m1001-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "성균관대 소프트웨어학과 로드맵은 실생활 문제를 알고리즘으로 해결하는 교과를 소개한다. 숭실대 소프트웨어학부의 교과에는 소프트웨어공학, 소프트웨어분석및설계와 소프트웨어프로젝트가 있다.",
+      "sourceIds": [
+        "m1001-university",
+        "m1001-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m1001-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 컴퓨터소프트웨어과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=578",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2020-12-02 갱신 응답에서 확인한 커리어넷 컴퓨터소프트웨어과는 소프트웨어 설계·개발·관리와 프로그램의 학습을 소개한다. 소프트웨어학과의 대학별 교과 범위는 공식 학부 자료에서 확인한다.",
+      "limitation": "커리어넷의 명칭은 컴퓨터소프트웨어과이며 이 자료는 연결되는 내용의 참고 사례다. 전공별 범위는 대학 공식 자료로 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m1001-university",
+      "publisher": "성균관대학교 AI중심대학사업단",
+      "title": "소프트웨어학과 교육과정 및 로드맵",
+      "url": "https://aiuniv.skku.edu/aiuniv/SW-MAJOR-ROADMAP.do",
+      "supports": "알고리즘과 실생활 문제 해결",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m1001-extra",
+      "publisher": "숭실대학교 소프트웨어학부",
+      "title": "교과목 소개",
+      "url": "https://sw.ssu.ac.kr/page/subject_info.php",
+      "supports": "소프트웨어공학·소프트웨어분석및설계·소프트웨어프로젝트",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

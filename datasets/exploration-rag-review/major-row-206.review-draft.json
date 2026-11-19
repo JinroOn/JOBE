@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M206_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_206",
+  "majorName": "응급구조학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "응급구조학과는 응급의료체계와 응급 상황에서 필요한 평가·이송·의사소통을 공부한다. 커리어넷은 응급구조학개론과 응급환자관리학을 소개한다.",
+      "sourceIds": [
+        "m206-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "동명대 응급구조학과에는 재난관리학및실습과 응급처치시뮬레이션이 있다. 신라대 교과목 안내는 응급구조학개론과 구조및이송을 제시한다.",
+      "sourceIds": [
+        "m206-university",
+        "m206-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m206-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 응급구조학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=10014",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2020-12-02 갱신 응답에서 확인한 응급구조학과는 응급의료체계와 응급 상황에서 필요한 평가·이송·의사소통을 공부한다. 커리어넷은 응급구조학개론과 응급환자관리학을 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m206-university",
+      "publisher": "동명대학교 응급구조학과",
+      "title": "교과과정",
+      "url": "https://www.tu.ac.kr/emergency/sub02_01.do",
+      "supports": "재난관리학및실습·응급처치시뮬레이션",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m206-extra",
+      "publisher": "신라대학교 응급구조학과",
+      "title": "교과목 안내",
+      "url": "https://emt119.silla.ac.kr/emt119/index.php?pCode=SUB2000003",
+      "supports": "응급구조학개론·구조및이송",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

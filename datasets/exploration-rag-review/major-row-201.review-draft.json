@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M201_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_201",
+  "majorName": "간호학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "간호학과는 사람의 건강과 돌봄을 이해하고 환자와 소통하며 간호하는 방법을 공부한다. 커리어넷은 기본간호학·성인간호학·아동간호학을 소개한다.",
+      "sourceIds": [
+        "m201-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "서울대 간호대학에는 기본간호학실습과 의사소통/인간관계 및 실습이 있다. 연세대 간호대학은 환자안전과 보건의료의협력적탐구를 제시한다.",
+      "sourceIds": [
+        "m201-university",
+        "m201-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m201-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 간호학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=10",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2022-04-12 갱신 응답에서 확인한 간호학과는 사람의 건강과 돌봄을 이해하고 환자와 소통하며 간호하는 방법을 공부한다. 커리어넷은 기본간호학·성인간호학·아동간호학을 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m201-university",
+      "publisher": "서울대학교 간호대학",
+      "title": "학부 교과과정",
+      "url": "https://nursing.snu.ac.kr/education/undergraduate/curriculum",
+      "supports": "기본간호학실습·의사소통/인간관계 및 실습",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m201-extra",
+      "publisher": "연세대학교 간호대학",
+      "title": "학부 교육과정",
+      "url": "https://nursingcollege.yonsei.ac.kr/nursing/education/college.do",
+      "supports": "환자안전·보건의료 협력 과목",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

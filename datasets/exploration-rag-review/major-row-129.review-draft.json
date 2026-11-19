@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M129_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_129",
+  "majorName": "신소재공학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "신소재공학과는 재료의 구조와 성질을 이해하고 용도에 맞는 재료를 개발하거나 선택하는 방법을 배운다. 커리어넷은 재료과학, 세라믹스개론과 전자재료개론을 소개한다.",
+      "sourceIds": [
+        "m129-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "한양대 신소재공학부 교육과정에는 세라믹재료및공정과 재료의기계적거동이 있다. 조선대 신소재공학과 교과목 자료는 재료과학1과 첨단소재의 이해를 제시한다.",
+      "sourceIds": [
+        "m129-university",
+        "m129-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m129-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 신소재공학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=324",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2020-12-02 갱신 응답에서 확인한 신소재공학과는 재료의 구조와 성질을 이해하고 용도에 맞는 재료를 개발하거나 선택하는 방법을 배운다. 커리어넷은 재료과학, 세라믹스개론과 전자재료개론을 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m129-university",
+      "publisher": "한양대학교 신소재공학부",
+      "title": "2024–2027 교육과정",
+      "url": "https://mse.hanyang.ac.kr/index.php?hCode=EDUCATION_03_02",
+      "supports": "세라믹재료및공정·재료의기계적거동",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m129-extra",
+      "publisher": "조선대학교 신소재공학과",
+      "title": "2026학년도 전공교과목 프로파일",
+      "url": "https://mse.chosun.ac.kr/pdfView/mse/133/fileDownload.do",
+      "supports": "재료과학1과 첨단소재의 이해",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

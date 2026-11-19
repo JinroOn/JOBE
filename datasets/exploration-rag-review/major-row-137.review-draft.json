@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M137_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_137",
+  "majorName": "환경공학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "환경공학과는 물, 공기와 폐기물 관련 환경 문제를 측정하고 처리·개선하는 공학 방법을 배운다. 커리어넷은 대기오염 제어공학설계와 일반폐기물처리를 소개한다.",
+      "sourceIds": [
+        "m137-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "국립목포대 환경공학과에는 물리화학적폐수처리공학과 대기질분석및실험이 있다. 부산가톨릭대 교과과정에는 수질관리 및 모델링과 대기오염제어공학이 있다.",
+      "sourceIds": [
+        "m137-university",
+        "m137-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m137-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 환경공학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=653",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2023-06-02 갱신 응답에서 확인한 환경공학과는 물, 공기와 폐기물 관련 환경 문제를 측정하고 처리·개선하는 공학 방법을 배운다. 커리어넷은 대기오염 제어공학설계와 일반폐기물처리를 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m137-university",
+      "publisher": "국립목포대학교 환경공학과",
+      "title": "학부 교과과정",
+      "url": "https://mnuenvi.mokpo.ac.kr/mnuenvi/14772/subview.do",
+      "supports": "물리화학적폐수처리공학 및 대기질분석및실험",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m137-extra",
+      "publisher": "부산가톨릭대학교 환경공학과",
+      "title": "교과과정 이수체계도",
+      "url": "https://cls.cup.ac.kr/dept/ee/front/conts/102002001000000.do",
+      "supports": "수질관리 및 모델링·대기오염제어공학I",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M202_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_202",
+  "majorName": "물리치료학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "물리치료학과는 몸의 움직임과 기능을 이해하고 평가하는 방법을 배운다. 커리어넷은 신체진단학, 응용운동치료학과 근골격계 물리치료학을 소개한다.",
+      "sourceIds": [
+        "m202-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "부산가톨릭대 물리치료학과 2026 교과정에는 기능 해부학 및 실습, 운동치료학및실습과 측정평가및실습이 있다.",
+      "sourceIds": [
+        "m202-university"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m202-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 물리치료학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=176",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2020-12-02 갱신 응답에서 확인한 물리치료학과는 몸의 움직임과 기능을 이해하고 평가하는 방법을 배운다. 커리어넷은 신체진단학, 응용운동치료학과 근골격계 물리치료학을 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m202-university",
+      "publisher": "부산가톨릭대학교 물리치료학과",
+      "title": "2026 교과과정 이수체계도",
+      "url": "https://www.cup.ac.kr/dept/pt/front/conts/102002001000000.do",
+      "supports": "기능 해부학 및 실습·운동치료학·측정평가",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M43_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_43",
+  "majorName": "국제통상학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "국제통상학과는 국가 간 거래와 통상 제도, 실무를 공부한다. 커리어넷은 국제무역론, 국제통상교섭론, 무역상무론을 과목 사례로 소개한다.",
+      "sourceIds": [
+        "m43-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "국민대 국제통상학과 교과과정은 국제통상 정책이 만들어지고 시행된 뒤 어떻게 평가되는지 다룬다. 한신대 글로벌통상리더십 편성표에는 국제통상정책론과 국제무역통상실무가 나온다.",
+      "sourceIds": [
+        "m43-university",
+        "m43-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m43-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 국제통상학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=70",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2023-05-09 갱신 응답에서 확인한 국제통상학과는 국가 간 거래와 통상 제도, 실무를 공부한다. 커리어넷은 국제무역론, 국제통상교섭론, 무역상무론을 과목 사례로 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m43-university",
+      "publisher": "국민대학교 국제통상학과",
+      "title": "교과과정",
+      "url": "https://kyungsang.kookmin.ac.kr/commerce/curriculum",
+      "supports": "국제통상 정책 수립·실행·평가",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m43-extra",
+      "publisher": "한신대학교",
+      "title": "글로벌통상리더십 교육과정",
+      "url": "https://www.hs.ac.kr/link/16745/subview.do",
+      "supports": "국제통상정책론과 국제무역통상실무",
+      "limitation": "글로벌통상리더십 편성표 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

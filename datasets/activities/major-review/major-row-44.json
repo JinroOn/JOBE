@@ -1,0 +1,355 @@
+{
+  "schema_version": "1.1",
+  "major_mapping_version": "MAJOR_MAPPING_V1_2_IMPLEMENTATION_CANDIDATE",
+  "content_status": "DRAFT",
+  "implementation_review_status": "PENDING",
+  "domain_review_status": "PENDING",
+  "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M44_DRAFT",
+  "provenance": {
+    "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
+    "scope": "SINGLE_MAJOR_DEV_REVIEW",
+    "parent_file_sha256": "98e0d997a7af59dfe2dab16e1156dad04933809a620b120ddd5990c8797c2e7c"
+  },
+  "activities": [
+    {
+      "activity_id": "DRAFT-M44-01",
+      "version": "0.3.0",
+      "title": "채널에 따라 달라지는 안내의 형식 관찰하기",
+      "kind": "INFORMATION",
+      "major_code": "MAJOR_ROW_44",
+      "major_name": "미디어커뮤니케이션학과",
+      "exploration_group": "MED",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "탐색 주제: 미디어 형식과 이용자 경험. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
+      "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
+      "steps": [
+        "공식 로드맵에서 사이버커뮤니케이션론을 찾아 적는다.",
+        "두 채널에서 이용자가 어디를 먼저 보는지 비교할 질문을 만든다."
+      ],
+      "artifacts": [
+        "채널별 관찰 질문 두 개"
+      ],
+      "example_output": "앱 알림을 잠금 화면에서 보면 날짜가 끝까지 보일까?",
+      "worksheet_columns": "공식 자료에서 확인한 명칭 / 내가 더 알아볼 주제 / 미확인 질문 / 확인 경로",
+      "reflection_question": "소개를 읽은 뒤 관심이 생긴 부분과 여전히 모르는 부분은 무엇인가요?",
+      "alternative": "제공 과목명과 가상 채널로 작성한다.",
+      "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
+      "source_ids": [
+        "m44-careernet",
+        "m44-university",
+        "m44-extra"
+      ],
+      "major_source_relationship": "RELATED_NAME_NOT_EQUIVALENT",
+      "major_connection_note": "명칭/범위 차이: 기준 전공은 미디어커뮤니케이션학과, 출처는 미디어학과. 관련 분야 참고이며 동일성은 미승인.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 채널에 따라 달라지는 안내의 형식 관찰하기\n\n가상의 휴관 안내를 종이 게시판과 앱 알림에서 읽는다고 가정한다.\n\n1. 공식 로드맵에서 사이버커뮤니케이션론을 찾아 적는다.\n2. 두 채널에서 이용자가 어디를 먼저 보는지 비교할 질문을 만든다.\n\n남길 결과물은 채널별 관찰 질문 두 개입니다.\n\n쉬운 대안. 제공 과목명과 가상 채널로 작성한다.",
+      "worksheet_markdown": "## 채널에 따라 달라지는 안내의 형식 관찰하기\n\n가상의 휴관 안내를 종이 게시판과 앱 알림에서 읽는다고 가정한다.\n\n| 채널 | 먼저 보일 부분 | 질문 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m44-careernet",
+          "title": "대학교 학과정보 미디어학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=181",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2021-07-01 갱신 응답에서 확인한 커리어넷 미디어학과 안내에는 미디어와 사회, 방송콘텐츠기획, 디지털미디어개론이 소개된다. 미디어커뮤니케이션학과의 범위는 사회적 소통과 자료 분석을 포함하는 공식 교과과정 사례를 기준으로 살핀다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "커리어넷의 명칭은 미디어학과이며 이 자료는 연결되는 내용의 참고 사례다. 전공별 범위는 대학 공식 자료로 확인한다."
+        },
+        {
+          "source_id": "m44-university",
+          "title": "2024학년도 학과별 교육과정 로드맵",
+          "publisher": "성균관대학교",
+          "url": "https://www.skku.edu/_res/skku/etc/y241028_1.pdf",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "미디어산업과데이터과학입문·사이버커뮤니케이션론",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "2024 편성 사례다."
+        },
+        {
+          "source_id": "m44-extra",
+          "title": "미디어학부 교과목 소개",
+          "publisher": "고려대학교 미디어대학",
+          "url": "https://mediacom.korea.ac.kr/undergraduate/subject.html",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "영상의 사회문화적 의미와 미디어 데이터 분석의 교과 사례",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "미디어학부의 비교 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-READ-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-READ-01",
+          "step_indexes": [
+            0
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M44-02",
+      "version": "0.3.0",
+      "title": "같은 휴관 정보를 두 가지 채널 형태로 배치하기",
+      "kind": "SMALL_TASK",
+      "major_code": "MAJOR_ROW_44",
+      "major_name": "미디어커뮤니케이션학과",
+      "exploration_group": "MED",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 10,
+        "max": 15,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "경험할 주제: 미디어 형식과 이용자 경험. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
+      "scenario": "학교 내 가상 우산 대여 안내를 세 매체로 전달한다고 가정",
+      "steps": [
+        "종이 안내와 제한된 길이의 앱 알림 문구를 작성한다.",
+        "이용 불가 시간과 반납 방법이 두 채널에서 어떻게 보이는지 표시한다."
+      ],
+      "artifacts": [
+        "채널 두 개의 안내 초안과 변경 이유"
+      ],
+      "example_output": "앱 첫 줄을 ‘12일 10~12시 휴관’으로 쓰고 이어서 ‘반납함 이용 가능’을 표시한다.",
+      "worksheet_columns": "공통 사실/매체별 구성/누락점 표",
+      "reflection_question": "매체별 표현을 바꾸는 일이 흥미로운가?",
+      "alternative": "종이 한 장에 두 채널의 화면 영역만 그려도 된다.",
+      "safety_boundary": "실제 게시·촬영·플랫폼 계정 없이 종이 기획으로 완료",
+      "source_ids": [
+        "m44-careernet",
+        "m44-university",
+        "m44-extra"
+      ],
+      "major_source_relationship": "RELATED_NAME_NOT_EQUIVALENT",
+      "major_connection_note": "명칭/범위 차이: 기준 전공은 미디어커뮤니케이션학과, 출처는 미디어학과. 관련 분야 참고이며 동일성은 미승인.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 같은 휴관 정보를 두 가지 채널 형태로 배치하기\n\n가상 공공도서관은 12일 오전 10시부터 정오까지 열지 않는다. 반납함은 이용할 수 있다.\n\n1. 종이 안내와 제한된 길이의 앱 알림 문구를 작성한다.\n2. 이용 불가 시간과 반납 방법이 두 채널에서 어떻게 보이는지 표시한다.\n\n남길 결과물은 채널 두 개의 안내 초안과 변경 이유입니다.\n\n쉬운 대안. 종이 한 장에 두 채널의 화면 영역만 그려도 된다.",
+      "worksheet_markdown": "## 같은 휴관 정보를 두 가지 채널 형태로 배치하기\n\n가상 공공도서관은 12일 오전 10시부터 정오까지 열지 않는다. 반납함은 이용할 수 있다.\n\n| 채널 | 첫 줄 | 시간 표시 | 반납 정보 |\n|---|---|---|---|\n| | | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m44-careernet",
+          "title": "대학교 학과정보 미디어학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=181",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2021-07-01 갱신 응답에서 확인한 커리어넷 미디어학과 안내에는 미디어와 사회, 방송콘텐츠기획, 디지털미디어개론이 소개된다. 미디어커뮤니케이션학과의 범위는 사회적 소통과 자료 분석을 포함하는 공식 교과과정 사례를 기준으로 살핀다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "커리어넷의 명칭은 미디어학과이며 이 자료는 연결되는 내용의 참고 사례다. 전공별 범위는 대학 공식 자료로 확인한다."
+        },
+        {
+          "source_id": "m44-university",
+          "title": "2024학년도 학과별 교육과정 로드맵",
+          "publisher": "성균관대학교",
+          "url": "https://www.skku.edu/_res/skku/etc/y241028_1.pdf",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "미디어산업과데이터과학입문·사이버커뮤니케이션론",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "2024 편성 사례다."
+        },
+        {
+          "source_id": "m44-extra",
+          "title": "미디어학부 교과목 소개",
+          "publisher": "고려대학교 미디어대학",
+          "url": "https://mediacom.korea.ac.kr/undergraduate/subject.html",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "영상의 사회문화적 의미와 미디어 데이터 분석의 교과 사례",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "미디어학부의 비교 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-PROJECT-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-PROJECT-01",
+          "step_indexes": [
+            0,
+            1
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M44-03",
+      "version": "0.3.0",
+      "title": "알림 반응으로 확인할 수 있는 범위 적기",
+      "kind": "REFLECTION_AND_NEXT_STEP",
+      "major_code": "MAJOR_ROW_44",
+      "major_name": "미디어커뮤니케이션학과",
+      "exploration_group": "MED",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
+      "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
+      "steps": [
+        "알림을 본 횟수와 실제 내용을 이해한 정도를 구분한다.",
+        "이해를 확인할 짧은 질문과 원하는 응답을 적는다."
+      ],
+      "artifacts": [
+        "노출과 이해를 구분한 확인 메모"
+      ],
+      "example_output": "알림을 읽은 사람이 반납 방법까지 알았는지 ‘휴관 중 어디에 반납할 수 있나요?’로 확인한다.",
+      "worksheet_columns": "경험한 과정 / 흥미·불편·모름 / 확인 질문 / 확인 경로 / 다음 행동",
+      "reflection_question": "매체별 표현을 바꾸는 일이 흥미로운가?",
+      "alternative": "설문을 실행할 필요 없이 가상 문항만 쓴다.",
+      "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
+      "source_ids": [
+        "m44-careernet",
+        "m44-university",
+        "m44-extra"
+      ],
+      "major_source_relationship": "RELATED_NAME_NOT_EQUIVALENT",
+      "major_connection_note": "명칭/범위 차이: 기준 전공은 미디어커뮤니케이션학과, 출처는 미디어학과. 관련 분야 참고이며 동일성은 미승인.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 알림 반응으로 확인할 수 있는 범위 적기\n\n앞 활동에서 만든 가상 알림을 본다.\n\n1. 알림을 본 횟수와 실제 내용을 이해한 정도를 구분한다.\n2. 이해를 확인할 짧은 질문과 원하는 응답을 적는다.\n\n남길 결과물은 노출과 이해를 구분한 확인 메모입니다.\n\n쉬운 대안. 설문을 실행할 필요 없이 가상 문항만 쓴다.",
+      "worksheet_markdown": "## 알림 반응으로 확인할 수 있는 범위 적기\n\n앞 활동에서 만든 가상 알림을 본다.\n\n| 확인 항목 | 질문 | 기대 응답 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m44-careernet",
+          "title": "대학교 학과정보 미디어학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=181",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2021-07-01 갱신 응답에서 확인한 커리어넷 미디어학과 안내에는 미디어와 사회, 방송콘텐츠기획, 디지털미디어개론이 소개된다. 미디어커뮤니케이션학과의 범위는 사회적 소통과 자료 분석을 포함하는 공식 교과과정 사례를 기준으로 살핀다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "커리어넷의 명칭은 미디어학과이며 이 자료는 연결되는 내용의 참고 사례다. 전공별 범위는 대학 공식 자료로 확인한다."
+        },
+        {
+          "source_id": "m44-university",
+          "title": "2024학년도 학과별 교육과정 로드맵",
+          "publisher": "성균관대학교",
+          "url": "https://www.skku.edu/_res/skku/etc/y241028_1.pdf",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "미디어산업과데이터과학입문·사이버커뮤니케이션론",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "2024 편성 사례다."
+        },
+        {
+          "source_id": "m44-extra",
+          "title": "미디어학부 교과목 소개",
+          "publisher": "고려대학교 미디어대학",
+          "url": "https://mediacom.korea.ac.kr/undergraduate/subject.html",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "영상의 사회문화적 의미와 미디어 데이터 분석의 교과 사례",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "미디어학부의 비교 사례다."
+        }
+      ],
+      "preference_question_ids": [],
+      "preference_mapping_basis": [],
+      "revised_on": "2026-11-20"
+    }
+  ]
+}

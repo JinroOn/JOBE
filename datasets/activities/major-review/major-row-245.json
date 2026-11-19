@@ -1,0 +1,313 @@
+{
+  "schema_version": "1.1",
+  "major_mapping_version": "MAJOR_MAPPING_V1_2_IMPLEMENTATION_CANDIDATE",
+  "content_status": "DRAFT",
+  "implementation_review_status": "PENDING",
+  "domain_review_status": "PENDING",
+  "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M245_DRAFT",
+  "provenance": {
+    "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
+    "scope": "SINGLE_MAJOR_DEV_REVIEW",
+    "parent_file_sha256": "98e0d997a7af59dfe2dab16e1156dad04933809a620b120ddd5990c8797c2e7c"
+  },
+  "activities": [
+    {
+      "activity_id": "DRAFT-M245-01",
+      "version": "0.3.0",
+      "title": "음악에서 반복과 변화를 묻는 질문 적기",
+      "kind": "INFORMATION",
+      "major_code": "MAJOR_ROW_245",
+      "major_name": "음악학과",
+      "exploration_group": "ART",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "탐색 주제: 음악의 반복·대비·구성. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
+      "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
+      "steps": [
+        "공식 안내에서 음악의 구조를 해석하는 과목을 찾아 적는다.",
+        "짧은 리듬 두 줄에서 어떤 부분이 반복됐는지 묻는 질문을 만든다."
+      ],
+      "artifacts": [
+        "반복을 듣거나 읽는 질문"
+      ],
+      "example_output": "처음 두 박이 마지막에도 같은 순서로 나오는가?",
+      "worksheet_columns": "공식 자료에서 확인한 명칭 / 내가 더 알아볼 주제 / 미확인 질문 / 확인 경로",
+      "reflection_question": "소개를 읽은 뒤 관심이 생긴 부분과 여전히 모르는 부분은 무엇인가요?",
+      "alternative": "악보 없이 제공 기호를 활용한다.",
+      "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
+      "source_ids": [
+        "m245-careernet",
+        "m245-university"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 음악에서 반복과 변화를 묻는 질문 적기\n\n음악이론 및 형식과 분석 과목명을 참고한다.\n\n1. 공식 안내에서 음악의 구조를 해석하는 과목을 찾아 적는다.\n2. 짧은 리듬 두 줄에서 어떤 부분이 반복됐는지 묻는 질문을 만든다.\n\n남길 결과물은 반복을 듣거나 읽는 질문입니다.\n\n쉬운 대안. 악보 없이 제공 기호를 활용한다.",
+      "worksheet_markdown": "## 음악에서 반복과 변화를 묻는 질문 적기\n\n음악이론 및 형식과 분석 과목명을 참고한다.\n\n| 과목 | 관찰 요소 | 질문 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m245-careernet",
+          "title": "대학교 학과정보 음악학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=396",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2020-12-02 갱신 응답에서 확인한 음악학과는 음악의 원리와 역사, 음악을 분석하고 연주하는 방법을 공부한다. 커리어넷은 시창·청음과 대위법, 앙상블을 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m245-university",
+          "title": "교육목표 및 내용",
+          "publisher": "상명대학교 음악학부",
+          "url": "https://www.smu.ac.kr/music/intro/objective.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "음악사·시창청음·음악이론·형식과 분석",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-READ-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-READ-01",
+          "step_indexes": [
+            0
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M245-02",
+      "version": "0.3.0",
+      "title": "가상 리듬 두 줄의 반복과 변형 표시하기",
+      "kind": "SMALL_TASK",
+      "major_code": "MAJOR_ROW_245",
+      "major_name": "음악학과",
+      "exploration_group": "ART",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 10,
+        "max": 15,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "경험할 주제: 음악의 반복·대비·구성. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
+      "scenario": "종이에서 소리A·소리B·쉼을 기호로 나타내고 실제 연주는 선택",
+      "steps": [
+        "같은 위치를 밑줄로 표시하고 다른 위치에 표시한다.",
+        "B를 A와 연결되는 변형으로 느낄 이유를 적는다."
+      ],
+      "artifacts": [
+        "기호 악보와 형식 메모"
+      ],
+      "example_output": "처음 세 박이 같고 마지막 박만 쉼에서 소리로 바뀐다.",
+      "worksheet_columns": "패턴 악보/반복·변화/구성 설명 표",
+      "reflection_question": "연주 능력과 별개로 소리의 구성 원리를 생각하는 일이 흥미로운가?",
+      "alternative": "악기를 쓰지 않고 기호만 읽어도 된다.",
+      "safety_boundary": "음감·청력·연주 평가 없이 시각 기호로도 완료",
+      "source_ids": [
+        "m245-careernet",
+        "m245-university"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 가상 리듬 두 줄의 반복과 변형 표시하기\n\nA는 ‘● ○ ● ○’, B는 ‘● ○ ● ●’다. ●은 소리, ○는 쉼이다.\n\n1. 같은 위치를 밑줄로 표시하고 다른 위치에 표시한다.\n2. B를 A와 연결되는 변형으로 느낄 이유를 적는다.\n\n남길 결과물은 기호 악보와 형식 메모입니다.\n\n쉬운 대안. 악기를 쓰지 않고 기호만 읽어도 된다.",
+      "worksheet_markdown": "## 가상 리듬 두 줄의 반복과 변형 표시하기\n\nA는 ‘● ○ ● ○’, B는 ‘● ○ ● ●’다. ●은 소리, ○는 쉼이다.\n\n| 묶음 | 같은 박 | 다른 박 | 설명 |\n|---|---|---|---|\n| | | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m245-careernet",
+          "title": "대학교 학과정보 음악학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=396",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2020-12-02 갱신 응답에서 확인한 음악학과는 음악의 원리와 역사, 음악을 분석하고 연주하는 방법을 공부한다. 커리어넷은 시창·청음과 대위법, 앙상블을 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m245-university",
+          "title": "교육목표 및 내용",
+          "publisher": "상명대학교 음악학부",
+          "url": "https://www.smu.ac.kr/music/intro/objective.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "음악사·시창청음·음악이론·형식과 분석",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-PROJECT-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-PROJECT-01",
+          "step_indexes": [
+            0,
+            1
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M245-03",
+      "version": "0.3.0",
+      "title": "가상 리듬에 변화를 한 군데 더 주기",
+      "kind": "REFLECTION_AND_NEXT_STEP",
+      "major_code": "MAJOR_ROW_245",
+      "major_name": "음악학과",
+      "exploration_group": "ART",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
+      "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
+      "steps": [
+        "박 하나만 바꾼 C를 만든다.",
+        "어느 부분이 유지돼 같은 주제처럼 느껴지는지 적는다."
+      ],
+      "artifacts": [
+        "리듬 변형과 비교 기록"
+      ],
+      "example_output": "마지막 두 박을 그대로 두고 첫 박만 바꾸어 비교한다.",
+      "worksheet_columns": "경험한 과정 / 흥미·불편·모름 / 확인 질문 / 확인 경로 / 다음 행동",
+      "reflection_question": "연주 능력과 별개로 소리의 구성 원리를 생각하는 일이 흥미로운가?",
+      "alternative": "새 패턴을 말로 설명한다.",
+      "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
+      "source_ids": [
+        "m245-careernet",
+        "m245-university"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 가상 리듬에 변화를 한 군데 더 주기\n\n앞에서 본 A와 B 중 하나를 고른다.\n\n1. 박 하나만 바꾼 C를 만든다.\n2. 어느 부분이 유지돼 같은 주제처럼 느껴지는지 적는다.\n\n남길 결과물은 리듬 변형과 비교 기록입니다.\n\n쉬운 대안. 새 패턴을 말로 설명한다.",
+      "worksheet_markdown": "## 가상 리듬에 변화를 한 군데 더 주기\n\n앞에서 본 A와 B 중 하나를 고른다.\n\n| 원래 패턴 | 새 패턴 | 유지된 요소 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m245-careernet",
+          "title": "대학교 학과정보 음악학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=396",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2020-12-02 갱신 응답에서 확인한 음악학과는 음악의 원리와 역사, 음악을 분석하고 연주하는 방법을 공부한다. 커리어넷은 시창·청음과 대위법, 앙상블을 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m245-university",
+          "title": "교육목표 및 내용",
+          "publisher": "상명대학교 음악학부",
+          "url": "https://www.smu.ac.kr/music/intro/objective.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "음악사·시창청음·음악이론·형식과 분석",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [],
+      "preference_mapping_basis": [],
+      "revised_on": "2026-11-20"
+    }
+  ]
+}

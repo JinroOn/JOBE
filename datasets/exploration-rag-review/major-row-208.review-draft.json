@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M208_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_208",
+  "majorName": "임상병리학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "임상병리학과는 의료 검사의 원리와 기록·결과가 신뢰할 만한지 확인하는 방법을 배운다. 커리어넷은 임상 생리학, 임상 화학과 진단 세포학을 소개한다.",
+      "sourceIds": [
+        "m208-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "충북보건과학대 임상병리학과는 진단검사 교과와 현장실습을 제시한다. 경복대 임상병리학과 교육과정의 직무인증 안내에는 임상검사 품질관리와 데이터 해석이 포함된다.",
+      "sourceIds": [
+        "m208-university",
+        "m208-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m208-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 임상병리학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=440",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2020-12-02 갱신 응답에서 확인한 임상병리학과는 의료 검사의 원리와 기록·결과가 신뢰할 만한지 확인하는 방법을 배운다. 커리어넷은 임상 생리학, 임상 화학과 진단 세포학을 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m208-university",
+      "publisher": "충북보건과학대학교 임상병리학과",
+      "title": "교육과정",
+      "url": "https://clip.chsu.ac.kr/defaultCallPage.do?S_DEPART_CODE=C198&jspPage=%2Fcommon%2FcurriView&menuId=3000000240",
+      "supports": "진단검사 관련 과목과 임상병리사현장실습",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m208-extra",
+      "publisher": "경복대학교 임상병리학과",
+      "title": "교육과정 및 직무인증 안내",
+      "url": "https://manage.kbu.ac.kr/bls/CMS/Contents/Contents.do?mCode=MN052",
+      "supports": "임상검사 품질관리와 데이터 해석",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

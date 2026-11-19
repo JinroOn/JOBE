@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M45_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_45",
+  "majorName": "법학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "법학과는 법의 기본 원리와 규칙을 해석하고 사례에 적용하는 방법을 배운다. 커리어넷은 민법총칙, 헌법, 형법총론을 교과 사례로 소개한다.",
+      "sourceIds": [
+        "m45-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "동국대 법학과 2024 교과목에는 헌법총론, 민법총칙과 계약법이 있다. 전주대 2026 교육과정 편람은 법학 입문에서 법률 해석·적용과 기초 이론을 배운다고 안내한다.",
+      "sourceIds": [
+        "m45-university",
+        "m45-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m45-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 법학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=203",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2021-07-01 갱신 응답에서 확인한 법학과는 법의 기본 원리와 규칙을 해석하고 사례에 적용하는 방법을 배운다. 커리어넷은 민법총칙, 헌법, 형법총론을 교과 사례로 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m45-university",
+      "publisher": "동국대학교 법과대학",
+      "title": "2024 법학과 교과 교육과정",
+      "url": "https://en.dongguk.edu/resources/files/curriculum/2024/4.law.pdf",
+      "supports": "헌법총론·민법총칙·계약법",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m45-extra",
+      "publisher": "전주대학교",
+      "title": "2026학년도 교육과정 편람",
+      "url": "https://superstar.jj.ac.kr/sc/community/repository.do?articleNo=95533&attachNo=202294&mode=download",
+      "supports": "법학 입문의 법률 해석 및 적용",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M244_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_244",
+  "majorName": "연극영화학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "연극영화학과는 공연과 영상의 이론을 배우고 대본 분석, 연기와 연출을 익힌다. 커리어넷은 희곡분석, 즉흥연기와 영화사를 소개한다.",
+      "sourceIds": [
+        "m244-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "디지털서울문화예술대는 희곡을 무대화할 때 장면·인물 구현과 제작 협력을 다룬다. 대입정보포털 연극영화학과 코스에는 기초연출실습과 디지털영상편집이 포함된다.",
+      "sourceIds": [
+        "m244-university",
+        "m244-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m244-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 연극영화학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=352",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2022-03-23 갱신 응답에서 확인한 연극영화학과는 공연과 영상의 이론을 배우고 대본 분석, 연기와 연출을 익힌다. 커리어넷은 희곡분석, 즉흥연기와 영화사를 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m244-university",
+      "publisher": "디지털서울문화예술대학교 연극영화학과",
+      "title": "교과과정",
+      "url": "https://scau.ac.kr/Application/11_ConClass/CC_View.aspx?CRID=58&MRID=86&TPID=2",
+      "supports": "희곡의 무대화와 제작 과정",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m244-extra",
+      "publisher": "대입정보포털 어디가",
+      "title": "연극영화학과 학과정보",
+      "url": "https://www.adiga.kr/ucp/cls/uni/classUnivDetail.do?menuId=PCCLSINF2000&ruCd=0234819&searchSyr=2027&unvCd=0000169",
+      "supports": "기초연출실습·디지털영상편집",
+      "limitation": "2027 학과 정보의 과목 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M205_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_205",
+  "majorName": "약학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "커리어넷 약학부 안내는 의약품에 관한 지식과 약학개론 등 교과를 소개한다. 약학과의 교과 범위는 대학의 공식 편람에서 확인한다.",
+      "sourceIds": [
+        "m205-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "고려대 교육과정편람에는 의약정보학과 의약품분석학 I, 의약품품질과학이 있다. 중앙대 학과 자료는 약학 연구와 약국 등에서의 실습 사례를 소개한다.",
+      "sourceIds": [
+        "m205-university",
+        "m205-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m205-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 약학부",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=341",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2023-06-16 갱신 응답에서 확인한 커리어넷 약학부 안내는 의약품에 관한 지식과 약학개론 등 교과를 소개한다. 약학과의 교과 범위는 대학의 공식 편람에서 확인한다.",
+      "limitation": "커리어넷의 명칭은 약학부이며 이 자료는 연결되는 내용의 참고 사례다. 전공별 범위는 대학 공식 자료로 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m205-university",
+      "publisher": "고려대학교",
+      "title": "2024 교육과정편람",
+      "url": "https://kuedu.korea.ac.kr/educa/notice/notice01.do?articleNo=801408&attachNo=308537&mode=download&totalBoardNo=&totalNoticeYn=",
+      "supports": "의약정보학·의약품분석학 I·의약품품질과학",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m205-extra",
+      "publisher": "중앙대학교",
+      "title": "2023 학생부전형 가이드북",
+      "url": "https://admission.cau.ac.kr/file/download.do?ofn=2023%ED%95%99%EB%85%84%EB%8F%84+%ED%95%99%EC%83%9D%EB%B6%80%EC%A0%84%ED%98%95+%EA%B0%80%EC%9D%B4%EB%93%9C%EB%B6%81_%EB%8B%A8%EB%A9%B4.pdf&sfn=guide_20220621133058_7558.pdf",
+      "supports": "약학연구세미나와 지역약국실습 사례",
+      "limitation": "2023 학과 안내의 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

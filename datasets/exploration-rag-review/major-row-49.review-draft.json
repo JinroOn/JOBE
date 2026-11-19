@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M49_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_49",
+  "majorName": "신문방송학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "신문방송학과는 뉴스와 방송 콘텐츠가 취재·제작돼 전달되는 과정과 언론의 역할을 배운다. 커리어넷은 취재보도론, 방송저널리즘과 언론윤리를 소개한다.",
+      "sourceIds": [
+        "m49-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "건국대 글로컬캠퍼스 신문방송학과는 기획취재보도실습종합설계와 방송영상제작실습을 소개한다. 청주대 편람에는 취재보도실습과 출판편집과글쓰기실습이 있다.",
+      "sourceIds": [
+        "m49-university",
+        "m49-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m49-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 신문방송학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=322",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2023-05-11 갱신 응답에서 확인한 신문방송학과는 뉴스와 방송 콘텐츠가 취재·제작돼 전달되는 과정과 언론의 역할을 배운다. 커리어넷은 취재보도론, 방송저널리즘과 언론윤리를 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m49-university",
+      "publisher": "건국대학교 글로컬캠퍼스",
+      "title": "신문방송학과 개설과목",
+      "url": "https://masscom.kku.ac.kr/cms/FR_CON/index.do?MENU_ID=320",
+      "supports": "기획취재보도실습종합설계와 방송영상제작실습",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m49-extra",
+      "publisher": "청주대학교",
+      "title": "신문방송학과 편람",
+      "url": "https://www.cju.ac.kr/DATA/download/www/cts4500_file7_3.pdf",
+      "supports": "취재보도실습·출판편집과글쓰기실습",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

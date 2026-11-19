@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M177_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_177",
+  "majorName": "환경과학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "환경과학과는 인간 활동과 환경 변화의 관계를 살피고 관측 자료로 환경 문제를 분석한다. 커리어넷은 환경과학개론과 기초환경통계학을 소개한다.",
+      "sourceIds": [
+        "m177-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "서울대 지구환경과학부에는 대기분석 및 실험과 표영환경생태학이 있다. 부산대 대기환경과학과는 빅데이터자료처리실습을 편성한다.",
+      "sourceIds": [
+        "m177-university",
+        "m177-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m177-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 환경과학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=654",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2023-06-02 갱신 응답에서 확인한 환경과학과는 인간 활동과 환경 변화의 관계를 살피고 관측 자료로 환경 문제를 분석한다. 커리어넷은 환경과학개론과 기초환경통계학을 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m177-university",
+      "publisher": "서울대학교 지구환경과학부",
+      "title": "대학 교과과정",
+      "url": "https://sees.snu.ac.kr/academics/undergraduate/courses",
+      "supports": "대기분석 및 실험과 표영환경생태학",
+      "limitation": "관련 학부의 환경과학 분야 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m177-extra",
+      "publisher": "부산대학교 대기환경과학과",
+      "title": "학부 교육과정표",
+      "url": "https://atmos.pusan.ac.kr/atmos/4940/subview.do",
+      "supports": "빅데이터자료처리실습",
+      "limitation": "대기환경과학과의 비교 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}
