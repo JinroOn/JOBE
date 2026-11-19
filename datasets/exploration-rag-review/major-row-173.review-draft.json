@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M173_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_173",
+  "majorName": "천문학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "천문학과는 관측과 물리학을 바탕으로 별, 은하와 우주를 연구한다. 커리어넷은 관측천문학, 천체물리학과 천체역학 개론을 소개한다.",
+      "sourceIds": [
+        "m173-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "서울대 천문학전공 과목으로 천문관측 및 실험, 전산천문학, 천체물리학개론이 제시된다. 학사과정 과목 개요는 망원경 활용과 관측 자료 분석을 학습한다고 설명한다.",
+      "sourceIds": [
+        "m173-university",
+        "m173-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m173-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 천문학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=541",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2023-05-15 갱신 응답에서 확인한 천문학과는 관측과 물리학을 바탕으로 별, 은하와 우주를 연구한다. 커리어넷은 관측천문학, 천체물리학과 천체역학 개론을 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m173-university",
+      "publisher": "서울대학교",
+      "title": "2024 학사과정 교과목 과목개요",
+      "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_Summary_2024.pdf",
+      "supports": "천문 관측과 관측 자료 분석",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m173-extra",
+      "publisher": "대입정보포털 어디가",
+      "title": "서울대 물리·천문학부 천문학전공",
+      "url": "https://www.adiga.kr/ucp/cls/uni/classUnivDetail.do?menuId=PCCLSINF2000&ruCd=0204113&searchSyr=2026&unvCd=0000019",
+      "supports": "천문관측 및 실험·전산천문학·천체물리학개론",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}
