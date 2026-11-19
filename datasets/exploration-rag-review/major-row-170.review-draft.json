@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M170_20261119",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-19",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_170",
+  "majorName": "수학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "수학과는 수학적 개념과 사고를 익혀 자연·사회 현상을 설명하고 문제를 분석하는 방법을 배운다. 커리어넷의 대표 과목에는 대수학, 해석학과 수치해석이 있다.",
+      "sourceIds": [
+        "careernet-mathematics"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "서울대 수리과학부 교과목 개요에는 선형대수학과 해석개론이 있다. 연세대 2026 대학요람의 수학과 교과과정은 집합론과 정수론을 전공기초에, 조합론과 수치해석을 전공심화에 편성한 사례다.",
+      "sourceIds": [
+        "snu-mathematics",
+        "yonsei-mathematics"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "careernet-mathematics",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 수학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=298",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2020-12-02 갱신 응답의 수학과 설명, 해석학·대수학·수치해석, 수학 퀴즈 만들기",
+      "limitation": "대표 학과 정보이며 학교별 과목과 일치 여부는 개별 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-19"
+    },
+    {
+      "sourceId": "snu-mathematics",
+      "publisher": "서울대학교 수리과학부",
+      "title": "학부 교과목 개요",
+      "url": "https://www.math.snu.ac.kr/bbs/board.php?bo_table=Math_Courses",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "supports": "선형대수학과 해석개론의 교과목 명칭 및 내용",
+      "limitation": "서울대학교 학부 사례다.",
+      "accessedAt": "2026-11-19"
+    },
+    {
+      "sourceId": "yonsei-mathematics",
+      "publisher": "연세대학교",
+      "title": "2026 연세대학교 대학요람 대학별 교과과정",
+      "url": "https://www.yonsei.ac.kr/bbs/sc/61/1013218/download.do",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "supports": "2026 수학과 전공기초의 정수론·집합론과 전공심화의 조합론·수치해석",
+      "limitation": "2026 연세대학교 책자의 편성 사례다.",
+      "accessedAt": "2026-11-19"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}
