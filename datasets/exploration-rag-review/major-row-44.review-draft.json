@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M44_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_44",
+  "majorName": "미디어커뮤니케이션학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "커리어넷 미디어학과 안내에는 미디어와 사회, 방송콘텐츠기획, 디지털미디어개론이 소개된다. 미디어커뮤니케이션학과의 범위는 사회적 소통과 자료 분석을 포함하는 공식 교과과정 사례를 기준으로 살핀다.",
+      "sourceIds": [
+        "m44-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "성균관대 미디어커뮤니케이션학과 로드맵은 미디어산업과데이터과학입문 및 사이버커뮤니케이션론을 예로 든다. 고려대 미디어학부 교과목 소개는 영상이 가지는 사회문화적 의미와 미디어 데이터 분석 학습을 소개한다.",
+      "sourceIds": [
+        "m44-university",
+        "m44-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m44-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 미디어학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=181",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2021-07-01 갱신 응답에서 확인한 커리어넷 미디어학과 안내에는 미디어와 사회, 방송콘텐츠기획, 디지털미디어개론이 소개된다. 미디어커뮤니케이션학과의 범위는 사회적 소통과 자료 분석을 포함하는 공식 교과과정 사례를 기준으로 살핀다.",
+      "limitation": "커리어넷의 명칭은 미디어학과이며 이 자료는 연결되는 내용의 참고 사례다. 전공별 범위는 대학 공식 자료로 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m44-university",
+      "publisher": "성균관대학교",
+      "title": "2024학년도 학과별 교육과정 로드맵",
+      "url": "https://www.skku.edu/_res/skku/etc/y241028_1.pdf",
+      "supports": "미디어산업과데이터과학입문·사이버커뮤니케이션론",
+      "limitation": "2024 편성 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m44-extra",
+      "publisher": "고려대학교 미디어대학",
+      "title": "미디어학부 교과목 소개",
+      "url": "https://mediacom.korea.ac.kr/undergraduate/subject.html",
+      "supports": "영상의 사회문화적 의미와 미디어 데이터 분석의 교과 사례",
+      "limitation": "미디어학부의 비교 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}
