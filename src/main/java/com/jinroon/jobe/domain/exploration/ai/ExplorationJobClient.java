@@ -40,6 +40,9 @@ public class ExplorationJobClient {
     public static class Conflict extends Unavailable {public Conflict(){super(Failure.CONFLICT);}}
     private static Unavailable invalid(){return new Unavailable(Failure.INVALID_RESPONSE);}
     public boolean readyForMock(){return enabled && token!=null && !token.isBlank() && base!=null && !base.isBlank() && datasetVersion!=null && datasetVersion.matches("[A-Za-z0-9][A-Za-z0-9_.-]{0,79}");}
+    boolean readyForModel() {
+        return modelEnabled && readyForMock() && modelName != null && !modelName.isBlank();
+    }
     private static final String VERSION="EXPLORATION_JOB_TRANSPORT_V1_0";
     public JsonNode command(String operation,String owner,String mutation,JsonNode request) {
         if(!enabled)throw new Unavailable(Failure.CONFIGURATION);
@@ -82,7 +85,7 @@ public class ExplorationJobClient {
         return post(operation,payload,VERSION);
     }
     public JsonNode executeModel(String owner,String mutation,JsonNode request){
-        if(!modelEnabled || !readyForMock() || modelName==null || modelName.isBlank())throw new Unavailable(Failure.CONFIGURATION);
+        if (!readyForModel()) throw new Unavailable(Failure.CONFIGURATION);
         contract.request(request);if(!request.path("evidence").path("bindingStatus").asText().equals("NOT_BOUND"))throw invalid();
         var payload=mapper.createObjectNode().put("ownerKey",owner).put("mutationKey",mutation);payload.set("request",request.deepCopy());
         var result=post("model-execute",payload,"EXPLORATION_MODEL_EXECUTION_V1_0");

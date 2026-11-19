@@ -20,7 +20,7 @@ class TwelveWeekPlanApiTest extends CompletedExplorationTestSupport {
     @Autowired ExplorationPlanStore plans;
     @Autowired ExplorationPlanReservation reservations;
     @Autowired PostResultSupportService support;
-    @Autowired OwnedMockExecutionService execution;
+    @Autowired ExplorationModelAvailability availability;
     @Autowired ExplorationAiContract contract;
     @Autowired ExplorationJobService jobs;
     @Autowired com.jinroon.jobe.domain.exploration.consultation.ExplorationConsultationService chat;
@@ -28,10 +28,10 @@ class TwelveWeekPlanApiTest extends CompletedExplorationTestSupport {
     @MockitoBean ExplorationJobClient remote;
     Set<String> owners=new HashSet<>();
     record Input(long result,String major,long revision){}
-    @BeforeEach void config(){ReflectionTestUtils.setField(execution,"modelEnabled",true);ReflectionTestUtils.setField(execution,"erasureEnabled",true);
+    @BeforeEach void config(){ReflectionTestUtils.setField(availability,"modelEnabled",true);ReflectionTestUtils.setField(availability,"erasureEnabled",true);
         when(remote.command(anyString(),anyString(),anyString(),any())).thenReturn(mapper.createObjectNode().put("status","QUEUED"));
         doAnswer(c->envelope(c.getArgument(1),c.getArgument(2))).when(remote).executeModel(anyString(),anyString(),any());}
-    @Override @AfterEach void cleanup(){owners.addAll(jdbc.queryForList("SELECT owner_key FROM exploration_ai_owner WHERE user_id=?",String.class,OWNER));super.cleanup();for(String owner:owners)jdbc.update("DELETE FROM exploration_ai_erasure_outbox WHERE owner_key=?",owner);ReflectionTestUtils.setField(execution,"modelEnabled",false);ReflectionTestUtils.setField(execution,"erasureEnabled",false);}
+    @Override @AfterEach void cleanup(){owners.addAll(jdbc.queryForList("SELECT owner_key FROM exploration_ai_owner WHERE user_id=?",String.class,OWNER));super.cleanup();for(String owner:owners)jdbc.update("DELETE FROM exploration_ai_erasure_outbox WHERE owner_key=?",owner);ReflectionTestUtils.setField(availability,"modelEnabled",false);ReflectionTestUtils.setField(availability,"erasureEnabled",false);}
     String major(long result,int index)throws Exception{return resultSnapshot(result).path("rankedCandidates").get(index).path("majorCode").asText();}
     Input input()throws Exception{long r=completedResult(true);String m=major(r,0);support.select(OWNER,r,"support",0,"PLAN",m);return new Input(r,m,1);}
     String path(long result){return "/api/exploration/v1/results/"+result+"/plans";}
@@ -57,7 +57,7 @@ class TwelveWeekPlanApiTest extends CompletedExplorationTestSupport {
         assertThat(plan.path("supportRevision").asLong()).isEqualTo(1);assertThat(plan.path("sources").size()).isEqualTo(1);
         assertThat(plan.toString()).doesNotContain("referenceKeys","providerMetadata","inputHash","bindingHash");assertThat(plan.path("createdAt").asText()).endsWith("Z");
         assertThat(response(get(detail(id)).header("Authorization",owner),200)).isEqualTo(plan);
-        ReflectionTestUtils.setField(execution,"modelEnabled",false);assertThat(create(in,"one",null,200)).isEqualTo(plan);assertThat(retry(id)).isEqualTo(plan);
+        ReflectionTestUtils.setField(availability,"modelEnabled",false);assertThat(create(in,"one",null,200)).isEqualTo(plan);assertThat(retry(id)).isEqualTo(plan);
         var list=response(get(path(in.result())).header("Authorization",owner),200);assertThat(list.size()).isEqualTo(1);assertThat(list.get(0).has("weeks")).isFalse();
         assertThat(jdbc.queryForObject("SELECT result_json FROM exploration_result WHERE id=?",String.class,in.result())).isEqualTo(original);
         assertThat(jdbc.queryForMap("SELECT * FROM major_weekly_plans WHERE id=?",legacy)).isEqualTo(legacyRow);
@@ -136,9 +136,9 @@ class TwelveWeekPlanApiTest extends CompletedExplorationTestSupport {
         var list=response(get(path(in.result())).header("Authorization",owner),200);assertThat(list.size()).isEqualTo(2);assertThat(list.get(0).path("status").asText()).isEqualTo("READY");assertThat(list.get(1).path("failureCode").asText()).isEqualTo("PLAN_INTEGRITY_ERROR");
     }
     @Test void disabledModelDoesNotCreatePlanAndCompletedPlanCannotBeCancelled()throws Exception{
-        var in=input();ReflectionTestUtils.setField(execution,"modelEnabled",false);create(in,"disabled",null,503);assertThat(count("exploration_plan","result_id=?",in.result())).isZero();
+        var in=input();ReflectionTestUtils.setField(availability,"modelEnabled",false);create(in,"disabled",null,503);assertThat(count("exploration_plan","result_id=?",in.result())).isZero();
         long none=completedResult(false);response(post(path(none)).header("Authorization",owner).header("Idempotency-Key","none").contentType(MediaType.APPLICATION_JSON).content(body("OUTSIDE",0L)),409);
-        ReflectionTestUtils.setField(execution,"modelEnabled",true);var p=create(in,"ok",null,200);response(delete(detail(p.path("planId").asLong())+"/generation").header("Authorization",owner),409);
+        ReflectionTestUtils.setField(availability,"modelEnabled",true);var p=create(in,"ok",null,200);response(delete(detail(p.path("planId").asLong())+"/generation").header("Authorization",owner),409);
     }
     @Test void expiredLeaseCanBeExplicitlyRetriedWithoutAcceptingLateOutput()throws Exception{
         var in=input();doAnswer(c->{jdbc.update("UPDATE exploration_generation_task SET lease_until=DATE_SUB(UTC_TIMESTAMP(6),INTERVAL 1 SECOND) WHERE mutation_key=?",(Object)c.getArgument(1));return envelope(c.getArgument(1),c.getArgument(2));}).when(remote).executeModel(anyString(),anyString(),any());

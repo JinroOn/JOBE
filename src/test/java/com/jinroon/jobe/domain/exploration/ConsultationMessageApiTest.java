@@ -19,21 +19,21 @@ class ConsultationMessageApiTest extends CompletedExplorationTestSupport {
     @Autowired ExplorationConsultationService consultations;
     @Autowired ConsultationMessageService messages;
     @Autowired ConsultationMessageReservation reservations;
-    @Autowired OwnedMockExecutionService execution;
+    @Autowired ExplorationModelAvailability availability;
     @Autowired OwnedGenerationStore generations;
     @Autowired ExplorationJobService jobs;
     @Autowired ExplorationAiContract contract;
     @MockitoBean ExplorationJobClient remote;
     final Set<String> owners=new HashSet<>();
     @BeforeEach void model(){
-        ReflectionTestUtils.setField(execution,"modelEnabled",true);ReflectionTestUtils.setField(execution,"erasureEnabled",true);
+        ReflectionTestUtils.setField(availability,"modelEnabled",true);ReflectionTestUtils.setField(availability,"erasureEnabled",true);
         when(remote.command(anyString(),anyString(),anyString(),any())).thenReturn(mapper.createObjectNode().put("status","QUEUED"));
         doAnswer(c->envelope(c.getArgument(1),c.getArgument(2),"SYNTHETIC ANSWER")).when(remote).executeModel(anyString(),anyString(),any());
     }
     @Override @AfterEach void cleanup(){
         owners.addAll(jdbc.queryForList("SELECT owner_key FROM exploration_ai_owner WHERE user_id=?",String.class,OWNER));
         super.cleanup();for(String owner:owners)jdbc.update("DELETE FROM exploration_ai_erasure_outbox WHERE owner_key=?",owner);
-        ReflectionTestUtils.setField(execution,"modelEnabled",false);ReflectionTestUtils.setField(execution,"erasureEnabled",false);
+        ReflectionTestUtils.setField(availability,"modelEnabled",false);ReflectionTestUtils.setField(availability,"erasureEnabled",false);
     }
     long open()throws Exception{return consultations.open(OWNER,completedResult(true),"open").consultationId();}
     String path(long c){return "/api/exploration/v1/consultations/"+c+"/messages";}
@@ -58,7 +58,7 @@ class ConsultationMessageApiTest extends CompletedExplorationTestSupport {
         assertThat(first.path("userMessage").path("evidenceStatus").isNull()).isTrue();
         assertThat(first.path("assistantMessage").path("evidenceStatus").asText()).isEqualTo("GROUNDED");
         assertThat(first.path("assistantMessage").path("sources").get(0).path("version").asText()).isEqualTo("TEST_CHAT_DATA");
-        ReflectionTestUtils.setField(execution,"modelEnabled",false);assertThat(send(c,"q1","무엇을 확인할까요?",200)).isEqualTo(first);
+        ReflectionTestUtils.setField(availability,"modelEnabled",false);assertThat(send(c,"q1","무엇을 확인할까요?",200)).isEqualTo(first);
         long result=jdbc.queryForObject("SELECT result_id FROM exploration_consultation WHERE id=?",Long.class,c);
         var resume=response(post("/api/exploration/v1/results/"+result+"/consultations").header("Authorization",owner).header("Idempotency-Key","resume").contentType(MediaType.APPLICATION_JSON).content("{}"),200);
         assertThat(resume.path("messages").size()).isEqualTo(2);assertThat(resume.path("messages").get(1)).isEqualTo(first.path("assistantMessage"));
@@ -86,9 +86,9 @@ class ConsultationMessageApiTest extends CompletedExplorationTestSupport {
         verify(remote,times(1)).executeModel(anyString(),anyString(),any());
     }
     @Test void disabledModelDoesNotReserveAnyTurnAndUnicodeQuestionUsesCodepoints()throws Exception{
-        long c=open();ReflectionTestUtils.setField(execution,"modelEnabled",false);send(c,"q","Q",503);
+        long c=open();ReflectionTestUtils.setField(availability,"modelEnabled",false);send(c,"q","Q",503);
         assertThat(count("exploration_consultation_turn","consultation_id=?",c)).isZero();
-        ReflectionTestUtils.setField(execution,"modelEnabled",true);send(c,"unicode","😀".repeat(2000),200);
+        ReflectionTestUtils.setField(availability,"modelEnabled",true);send(c,"unicode","😀".repeat(2000),200);
     }
     @Test void transientFailureKeepsOneQuestionAndRetriesSameTaskWithinBudget()throws Exception{
         long c=open();doThrow(new ExplorationJobClient.Unavailable()).when(remote).executeModel(anyString(),anyString(),any());send(c,"q","Q",503);

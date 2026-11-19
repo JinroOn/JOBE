@@ -2,6 +2,7 @@ package com.jinroon.jobe.domain.exploration.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.jinroon.jobe.domain.exploration.ai.ExplorationModelAvailability;
 import com.jinroon.jobe.domain.exploration.api.ExplorationApiException;
 import com.jinroon.jobe.domain.exploration.entity.ExplorationResult;
 import com.jinroon.jobe.domain.exploration.enums.ExplorationEnums.ExplorationResultStatus;
@@ -22,6 +23,7 @@ public class ExplorationResultStore {
     private final com.jinroon.jobe.domain.exploration.display.ExplorationResultDisplay resultDisplay;
     private final com.jinroon.jobe.domain.exploration.sharing.ExplorationSharePolicy sharing;
     private final com.jinroon.jobe.domain.exploration.repository.ExplorationSessionRepository sessions;
+    private final ExplorationModelAvailability modelAvailability;
 
     public ExplorationResult save(long sessionId, ObjectNode payload) {
         if (!payload.path("inputHash").asText().equals(json.hex(payload.path("input")))) throw ExplorationApiException.integrity();
@@ -88,8 +90,13 @@ public class ExplorationResultStore {
         ObjectNode capabilities = dto.putObject("capabilities");
         dto.put("comparisonEndpoint", "/api/exploration/v1/results/"+result.getId()+"/comparison");
         capabilities.put("comparisonAvailable",payload.path("rankedCandidates").size()>=2);
-        capabilities.put("supportAvailable", true); capabilities.put("planAvailable", false);
+        capabilities.put("supportAvailable", true);
         var session=sessions.findById(result.getSessionId()).orElseThrow(ExplorationApiException::integrity);
+        boolean consultationAvailable = modelAvailability.availableFor(session.getRunMode());
+        capabilities.put("consultationAvailable", consultationAvailable);
+        capabilities.put("planAvailable", consultationAvailable
+                && result.getResultStatus() != ExplorationResultStatus.NO_SUPPORTED_CANDIDATE
+                && !payload.path("rankedCandidates").isEmpty());
         capabilities.put("sharingAvailable",sharing.available(session.getUserId(),session.getRunMode()));
         dto.put("sharingEndpoint","/api/exploration/v1/results/"+result.getId()+"/share");
         dto.put("contextsEndpoint","/api/exploration/v1/results/"+result.getId()+"/contexts");
