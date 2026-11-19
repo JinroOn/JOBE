@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M247_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_247",
+  "majorName": "패션디자인학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "패션디자인학과는 의복과 장신구의 형태를 구상하고 소재와 제작 방법을 공부한다. 커리어넷은 색채연구, 의복구성과 패션 패턴 메이킹을 소개한다.",
+      "sourceIds": [
+        "m247-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "한남대 2026 패션디자인학과 교육과정에는 의복재료학, 기초의복구성, 패션디자인발상과 패션소재의이해와활용이 있다.",
+      "sourceIds": [
+        "m247-university"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m247-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 패션디자인학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=10156",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2024-12-23 갱신 응답에서 확인한 패션디자인학과는 의복과 장신구의 형태를 구상하고 소재와 제작 방법을 공부한다. 커리어넷은 색채연구, 의복구성과 패션 패턴 메이킹을 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m247-university",
+      "publisher": "한남대학교",
+      "title": "2026 학사요람 패션디자인학과 교육과정 편성표",
+      "url": "https://hnu.kr/kor/about/ACollegeBulletin2026/ACollegeBulletin13.pdf",
+      "supports": "의복재료학·기초의복구성·패션디자인발상·패션소재의이해와활용",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}
