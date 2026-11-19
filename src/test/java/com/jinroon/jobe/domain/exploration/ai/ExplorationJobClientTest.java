@@ -73,17 +73,22 @@ class ExplorationJobClientTest {
     ObjectNode modelEnvelope(){var body=mockEnvelope().put("transportVersion","EXPLORATION_MODEL_EXECUTION_V1_0").put("mode","MODEL").put("generationAuthorized",true);body.putObject("providerMetadata").put("provider","openai").put("model","TEST_MODEL").put("promptVersion","EXPLORATION_MODEL_V1_0");return body;}
     @Test void modelConsumerRequiresItsOwnFlag(){assertThatThrownBy(()->client.executeModel("owner","m",request)).isInstanceOf(ExplorationJobClient.Unavailable.class);server.verify();}
     @Test void acceptsOnlyConfiguredModelAndProvenance(){modelReady();reply("model-execute",modelEnvelope().toString());assertThat(client.executeModel("owner","m",request).path("mode").asText()).isEqualTo("MODEL");server.verify();}
-    @Test void conversationRequestAndPromptVersionSurviveAuthenticatedTransport(){
+    @ParameterizedTest @ValueSource(strings={"EXPLORATION_CONVERSATION_V1_0", "EXPLORATION_CONVERSATION_V1_1", "EXPLORATION_CONVERSATION_V1_2"})
+    void conversationRequestAndPromptVersionSurviveAuthenticatedTransport(String prompt){
         var r=(ObjectNode)request.deepCopy();r.put("contractVersion",ExplorationAiContract.CONVERSATION_VERSION);
         var conversation=((ObjectNode)r.path("input")).putObject("conversation").put("question","SYNTHETIC question");conversation.putArray("history");
         r.put("inputHash",new ExplorationAiContract(new ExplorationJson(mapper)).inputHash(r));request=r;modelReady();
-        var body=modelEnvelope();((ObjectNode)body.path("providerMetadata")).put("promptVersion","EXPLORATION_CONVERSATION_V1_0");reply("model-execute",body.toString());
-        var result=client.executeModel("owner","m",request);assertThat(result.path("boundRequest").path("input").path("conversation")).isEqualTo(conversation);server.verify();
+        var body=modelEnvelope();((ObjectNode)body.path("providerMetadata")).put("promptVersion",prompt);reply("model-execute",body.toString());
+        if(prompt.equals("EXPLORATION_CONVERSATION_V1_2")){
+            var result=client.executeModel("owner","m",request);
+            assertThat(result.path("boundRequest").path("input").path("conversation")).isEqualTo(conversation);
+        }else assertThatThrownBy(()->client.executeModel("owner","m",request)).isInstanceOf(ExplorationJobClient.Unavailable.class);
+        server.verify();
     }
     @ParameterizedTest @ValueSource(strings={"mode","permission","provider","model","prompt","hash","extra"})
     void rejectsModelEnvelopeMismatch(String field){modelReady();var body=modelEnvelope();switch(field){case "mode"->body.put("mode","MOCK");case "permission"->body.put("generationAuthorized",false);case "provider"->((ObjectNode)body.path("providerMetadata")).put("provider","other");case "model"->((ObjectNode)body.path("providerMetadata")).put("model","OTHER");case "prompt"->((ObjectNode)body.path("providerMetadata")).put("promptVersion","OTHER");case "hash"->body.put("originalInputHash","0".repeat(64));case "extra"->body.put("extra","PRIVATE");}reply("model-execute",body.toString());assertThatThrownBy(()->client.executeModel("owner","m",request)).isInstanceOf(ExplorationJobClient.Unavailable.class);}
 
-    @ParameterizedTest @ValueSource(strings={"EXPLORATION_PLAN12_V1_0","EXPLORATION_PLAN12_V1_1","EXPLORATION_PLAN12_V1_2","EXPLORATION_PLAN12_V1_3","EXPLORATION_PLAN12_V1_4","EXPLORATION_PLAN12_V1_5","EXPLORATION_PLAN12_V1_6","EXPLORATION_PLAN12_V1_7","EXPLORATION_PLAN12_V1_8"})
+    @ParameterizedTest @ValueSource(strings={"EXPLORATION_PLAN12_V1_0","EXPLORATION_PLAN12_V1_1","EXPLORATION_PLAN12_V1_2","EXPLORATION_PLAN12_V1_3","EXPLORATION_PLAN12_V1_4","EXPLORATION_PLAN12_V1_5","EXPLORATION_PLAN12_V1_6","EXPLORATION_PLAN12_V1_7","EXPLORATION_PLAN12_V1_8","EXPLORATION_PLAN12_V1_9","EXPLORATION_PLAN12_V1_10"})
     void newPlanRepliesRequireTheUpdatedPromptWithoutChangingTheWireContract(String prompt)throws Exception{
         var cases=mapper.readTree(Files.readString(Path.of("datasets/exploration-plan12-contract/cases.json")));
         ObjectNode bound=cases.path("request").deepCopy();
@@ -93,7 +98,7 @@ class ExplorationJobClientTest {
         modelReady();ReflectionTestUtils.setField(client,"datasetVersion",bound.path("evidence").path("datasetVersion").asText());
         var body=modelEnvelope();body.set("boundRequest",bound);body.set("response",cases.path("responseCases").get(0).path("response"));
         ((ObjectNode)body.path("providerMetadata")).put("promptVersion",prompt);reply("model-execute",body.toString());
-        if(prompt.equals("EXPLORATION_PLAN12_V1_8"))assertThat(client.executeModel("owner","m",request).path("response").path("contractVersion").asText()).isEqualTo(ExplorationAiContract.PLAN12_VERSION);
+        if(prompt.equals("EXPLORATION_PLAN12_V1_10"))assertThat(client.executeModel("owner","m",request).path("response").path("contractVersion").asText()).isEqualTo(ExplorationAiContract.PLAN12_VERSION);
         else assertThatThrownBy(()->client.executeModel("owner","m",request)).isInstanceOf(ExplorationJobClient.Unavailable.class);
         server.verify();
     }

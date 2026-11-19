@@ -277,7 +277,7 @@ def test_real_conversation_consumer_selects_and_pins_dialogue_prompt_before_clai
     monkeypatch.setattr(wire,'ExplorationModel',lambda:ExplorationModel(Injected))
     assert call('enqueue').status_code==200
     response=call('model-execute');assert response.status_code==200
-    assert response.json()['providerMetadata']['promptVersion']=='EXPLORATION_CONVERSATION_V1_0'
+    assert response.json()['providerMetadata']['promptVersion']=='EXPLORATION_CONVERSATION_V1_2'
     assert call('model-execute').json()==response.json()
 
 
@@ -307,7 +307,7 @@ def plan12_model(scenario,monkeypatch):
 def test_plan12_model_transport_preserves_target_weeks_and_pinned_prompt(plan12_model):
     body,call,model=plan12_model;assert call('enqueue').status_code==200
     result=call('model-execute');assert result.status_code==200
-    assert result.json()['providerMetadata']['promptVersion']=='EXPLORATION_PLAN12_V1_8'
+    assert result.json()['providerMetadata']['promptVersion']=='EXPLORATION_PLAN12_V1_10'
     assert len(result.json()['response']['result']['weeks'])==12
     assert call('model-execute').json()==result.json() and model.calls==1
 

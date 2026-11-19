@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jinroon.jobe.domain.exploration.review.CatalogActivationService.Scope;
 import com.jinroon.jobe.domain.exploration.review.CatalogReviewService.TargetType;
+import com.jinroon.jobe.domain.exploration.service.ExplorationJson;
 import com.jinroon.jobe.global.exception.CustomException;
 import com.jinroon.jobe.global.exception.error.ErrorCode;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -26,11 +28,16 @@ import org.springframework.transaction.annotation.Transactional;
 public class AdminCatalogQueryService {
 
     private static final List<TargetType> ROOTS = List.of(TargetType.CATALOG, TargetType.RULESET, TargetType.ACTIVITY_CATALOG);
+    private static final String ACTIVITY_FIELDS = "id,activity_code,version,major_code,content_hash,content_status,"
+            + "implementation_review_status,domain_review_status,"
+            + "JSON_UNQUOTE(JSON_EXTRACT(payload_json,'$.title')) AS title,"
+            + "JSON_UNQUOTE(JSON_EXTRACT(payload_json,'$.kind')) AS kind";
 
     private final JdbcTemplate jdbc;
     private final ObjectMapper mapper;
     private final CatalogReviewService reviews;
     private final CatalogActivationService activations;
+    private final ExplorationJson json;
 
     public record CatalogSummary(String targetType, long targetId, String catalogType, String version, String contentStatus,
                                  String implementationReviewStatus, String domainReviewStatus, String contentHash,
@@ -43,6 +50,12 @@ public class AdminCatalogQueryService {
 
     public record CatalogDetail(CatalogSummary catalog, List<CatalogReviewService.Review> reviews,
                                 List<CatalogActivationService.Activation> activations, List<CatalogQuestion> questions) {}
+
+    public record ActivitySummary(String targetType, long targetId, String activityCode, String version, String majorCode,
+                                  String title, String kind, String contentHash, String contentStatus,
+                                  String implementationReviewStatus, String domainReviewStatus) {}
+
+    public record ActivityDetail(ActivitySummary activity, Object content, List<CatalogReviewService.Review> reviews) {}
 
     @Transactional(readOnly = true)
     public List<CatalogSummary> list(long adminId, TargetType filterType, String contentStatus) {
@@ -68,6 +81,44 @@ public class AdminCatalogQueryService {
                 ? questions(targetId) : List.of();
         return new CatalogDetail(summary(adminId, type, row), reviews.history(type, targetId).reviews(),
                 activations.history(type, targetId).activations(), questions);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ActivitySummary> activities(long catalogId) {
+        if (rows(TargetType.ACTIVITY_CATALOG, catalogId).isEmpty()) throw new CustomException(ErrorCode.NOT_FOUND);
+        return jdbc.queryForList("SELECT " + ACTIVITY_FIELDS + " FROM exploration_activity WHERE catalog_id=? "
+                        + "ORDER BY activity_code, id", catalogId)
+                .stream().map(this::activitySummary).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public ActivityDetail activity(long catalogId, long activityId) {
+        var found = jdbc.queryForList("SELECT " + ACTIVITY_FIELDS + ",payload_json FROM exploration_activity "
+                + "WHERE catalog_id=? AND id=?", catalogId, activityId);
+        if (found.isEmpty()) throw new CustomException(ErrorCode.NOT_FOUND);
+        var row = found.get(0);
+        ActivitySummary summary = activitySummary(row);
+        JsonNode payload;
+        try {
+            payload = mapper.readTree(row.get("payload_json").toString());
+        } catch (IOException e) {
+            throw new CustomException(ErrorCode.CATALOG_INTEGRITY_ERROR);
+        }
+        if (payload == null || !payload.isObject() || !summary.contentHash().equals(json.hex(payload))
+                || !summary.activityCode().equals(payload.path("activity_id").asText())
+                || !summary.version().equals(payload.path("version").asText())
+                || !Objects.equals(summary.majorCode(), payload.path("major_code").textValue())) {
+            throw new CustomException(ErrorCode.CATALOG_INTEGRITY_ERROR);
+        }
+        return new ActivityDetail(summary, json.responseValue(payload), reviews.history(TargetType.ACTIVITY, activityId).reviews());
+    }
+
+    private ActivitySummary activitySummary(Map<String, Object> row) {
+        return new ActivitySummary(TargetType.ACTIVITY.name(), number(row, "id"),
+                (String) row.get("activity_code"), (String) row.get("version"), (String) row.get("major_code"),
+                (String) row.get("title"), (String) row.get("kind"), (String) row.get("content_hash"),
+                (String) row.get("content_status"), (String) row.get("implementation_review_status"),
+                (String) row.get("domain_review_status"));
     }
 
     private CatalogSummary summary(long adminId, TargetType type, Map<String, Object> row) {

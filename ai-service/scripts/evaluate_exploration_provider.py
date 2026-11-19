@@ -127,9 +127,8 @@ async def protocol_probe(config, factory=None):
                       'For consultation: summary=프로토콜 시험, questions=[], referenceKeys=[protocol_ref]. '
                       'For plan: targetName=PROTOCOL_TEST, exactly weeks 1 through 12; '
                       'phase INFO for 1-4, BASIC_LEARNING for 5-8, SMALL_ACTIVITY for 9-12. '
-                      'For every week estimatedMinutes=5 '
-                      'and task={inputKind: FICTIONAL_EXAMPLE, inputText: 가상 자료 정리, '
-                      'optionA: 제목순, optionB: 날짜순}.')
+                      'For every week estimatedMinutes=5 and task={inputKind: FICTIONAL_EXAMPLE, scenarioIndex}. '
+                      'Use scenarioIndex 6, 7, 8, 9, 2, 3, 4, 5, 1, 10, 11, 12 for weeks 1 through 12 respectively.')
             row['requestAttempted'] = True
             envelope = await asyncio.wait_for(model.with_structured_output(schema, include_raw=True).ainvoke(
                 [SystemMessage(content=prompt), HumanMessage(content=name)]), timeout=deadline)

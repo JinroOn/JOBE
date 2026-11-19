@@ -1,0 +1,794 @@
+{
+  "schema_version": "1.1",
+  "version": "ACTIVITY_CATALOG_V3_DEV_REVIEW_DRAFT",
+  "major_mapping_version": "MAJOR_MAPPING_V1_2_IMPLEMENTATION_CANDIDATE",
+  "content_status": "DRAFT",
+  "implementation_review_status": "PENDING",
+  "domain_review_status": "PENDING",
+  "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
+  "provenance": {
+    "source_scope": "COMPUTER_SCIENCE_THREE_AND_GENERAL_SIX_DEV_REVIEW_CANDIDATES",
+    "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
+    "parent_file_sha256": "98e0d997a7af59dfe2dab16e1156dad04933809a620b120ddd5990c8797c2e7c",
+    "import_policy": "EXPLICIT_DEV_REVIEW_DRAFT_NO_AUTOMATIC_APPROVAL"
+  },
+  "activities": [
+    {
+      "activity_id": "DRAFT-CS-01",
+      "version": "0.3.0",
+      "title": "공식 목록의 과목명과 내 질문 나누기",
+      "kind": "INFORMATION",
+      "major_code": "MAJOR_ROW_133",
+      "major_name": "컴퓨터공학과",
+      "exploration_group": "DAT",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "전공 탐색 중인 고등학생. 대상 적절성 검토 전",
+      "duration_minutes_proposal": {
+        "min": 8,
+        "max": 15,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "steps": [
+        "위 과목 목록을 읽고 궁금한 과목명 하나에 표시한다.",
+        "확인한 사실을 “목록에 ___ 과목이 있다”처럼 적는다. 공식 페이지를 열었으면 열람 날짜를 적는다.",
+        "과목명만으로 알 수 없는 점을 질문 한 개로 적는다."
+      ],
+      "artifacts": [
+        "과목명·확인한 사실·질문이 담긴 한 줄 기록"
+      ],
+      "alternative": "이 활동지의 과목 목록에서 하나를 골라 이름과 질문만 적는다. 공식 페이지를 직접 열람하지 않았으면 그렇게 표시한다.",
+      "source_ids": [
+        "SRC-SNU-COURSES",
+        "SRC-UCAS"
+      ],
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 공식 목록의 과목명과 내 질문 나누기\n\n서울대학교 컴퓨터공학부 공식 교과과정에 표시된 과목명 사례는 자료구조, 알고리즘, 소프트웨어 개발의 원리와 실습, 인간컴퓨터상호작용이다. 이 과제에는 과목 목록을 옮겨 두었다. 목록만 보고 과목에서 하는 실습을 확정할 수 없다.\n\n1. 위 과목 목록을 읽고 궁금한 과목명 하나에 표시한다.\n2. 확인한 사실을 “목록에 ___ 과목이 있다”처럼 적는다. 공식 페이지를 열었으면 열람 날짜를 적는다.\n3. 과목명만으로 알 수 없는 점을 질문 한 개로 적는다.\n\n남길 결과물: 과목명·확인한 사실·질문이 담긴 한 줄 기록\n\n쉬운 대안: 이 활동지의 과목 목록에서 하나를 골라 이름과 질문만 적는다. 공식 페이지를 직접 열람하지 않았으면 그렇게 표시한다.",
+      "worksheet_markdown": "## 공식 목록의 과목명과 내 질문 나누기\n\n서울대학교 컴퓨터공학부 공식 교과과정에 표시된 과목명 사례는 자료구조, 알고리즘, 소프트웨어 개발의 원리와 실습, 인간컴퓨터상호작용이다. 이 과제에는 과목 목록을 옮겨 두었다. 목록만 보고 과목에서 하는 실습을 확정할 수 없다.\n\n| 과목명 | 목록에서 확인한 사실 | 더 알고 싶은 질문 | 페이지 직접 열람 여부 |\n|---|---|---|---|\n| | | | |",
+      "review_record_markdown": "DRAFT-CS-01 0.3.0 편집 초안. 이전 0.2.0의 출처를 유지했다. 종이에서 시작할 입력, 결과물과 대안을 점검할 대상이다. 검토자, 승인 판정, 학생 수행 기록은 아직 없다.",
+      "example_output": "작성한 예시: 알고리즘 / 공식 목록에 과목명이 있다 / 이 수업에서 어떤 예제를 다룰까? / 활동지 목록만 읽음.",
+      "sources": [
+        {
+          "source_id": "SRC-SNU-COURSES",
+          "title": "서울대학교 컴퓨터공학부 교과과정",
+          "publisher": "서울대학교 컴퓨터공학부",
+          "url": "https://cse.snu.ac.kr/ko/academics/undergraduate/courses",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "자료구조·알고리즘·소프트웨어 개발·인간컴퓨터상호작용 관련 과목이 공식 목록에 존재함",
+          "application": "전공 연결에 사용. 자체 도서 예약 과제가 실제 수업 내용이라는 주장은 하지 않음",
+          "reuse_scope": "과목명과 링크, 간단한 사실 요약. 강의 자료·이미지 복제 없음",
+          "checked_on": "2026-11-14"
+        },
+        {
+          "source_id": "SRC-UCAS",
+          "title": "Subject tasters",
+          "publisher": "UCAS",
+          "url": "https://www.ucas.com/applying/before-you-apply/what-and-where-to-study/subject-tasters",
+          "language": "en",
+          "role": "PROGRAM_STRUCTURE_REFERENCE",
+          "verified_claim": "University subject tasters developed with universities and delivered by lecturers; account linking described",
+          "application": "Provide subject context before a small experience; local activity sequence is our proposal",
+          "reuse_scope": "Public description paraphrase and link; no course assets copied",
+          "checked_on": "2026-11-14"
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-READ-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-READ-01",
+          "step_indexes": [
+            0,
+            1
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 실제 수행하는 단계에 연결했다."
+        }
+      ],
+      "revised_on": "2026-11-19"
+    },
+    {
+      "activity_id": "DRAFT-CS-02",
+      "version": "0.3.0",
+      "title": "종이에 도서 예약 순서 그리기",
+      "kind": "SMALL_TASK",
+      "major_code": "MAJOR_ROW_133",
+      "major_name": "컴퓨터공학과",
+      "exploration_group": "DAT",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "전공 탐색 중인 고등학생. 대상 적절성 검토 전",
+      "duration_minutes_proposal": {
+        "min": 12,
+        "max": 20,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "steps": [
+        "책 A와 책 B 칸을 만들고 사건 E01부터 순서대로 읽는다.",
+        "각 사건 뒤의 두 책 대기 줄을 표에 적고, 줄이 바뀌지 않은 사건에 표시한다.",
+        "기록을 한 번 대조하고, 추가로 정하고 싶은 규칙이나 예외 하나를 적는다."
+      ],
+      "artifacts": [
+        "가상 사건별 대기 줄 기록표",
+        "추가 규칙 질문 한 개"
+      ],
+      "alternative": "책 A 칸만 그려 E01·E02·E03을 차례대로 기록한다. 중복 신청 뒤 줄이 그대로인지 확인한다.",
+      "source_ids": [
+        "SRC-SNU-COURSES",
+        "SRC-FORAGE",
+        "SRC-SPRINGPOD-CS"
+      ],
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 종이에 도서 예약 순서 그리기\n\n가상 규칙은 세 가지다. 새 신청은 해당 책 줄의 끝에 붙인다. 이미 줄에 있는 사람이 같은 책을 또 신청하면 줄을 그대로 둔다. 취소한 사람은 그 책의 줄에서 지운다. 책마다 줄을 따로 그린다.\n\n| 사건 | 요청 |\n|---|---|\n| E01 | 가람이 책 A를 신청 |\n| E02 | 누리가 책 A를 신청 |\n| E03 | 가람이 책 A를 다시 신청 |\n| E04 | 다온이 책 B를 신청 |\n| E05 | 누리가 책 A 신청을 취소 |\n| E06 | 누리가 책 A를 새로 신청 |\n\n1. 책 A와 책 B 칸을 만들고 사건 E01부터 순서대로 읽는다.\n2. 각 사건 뒤의 두 책 대기 줄을 표에 적고, 줄이 바뀌지 않은 사건에 표시한다.\n3. 기록을 한 번 대조하고, 추가로 정하고 싶은 규칙이나 예외 하나를 적는다.\n\n남길 결과물: 가상 사건별 대기 줄 기록표 · 추가 규칙 질문 한 개\n\n쉬운 대안: 책 A 칸만 그려 E01·E02·E03을 차례대로 기록한다. 중복 신청 뒤 줄이 그대로인지 확인한다.",
+      "worksheet_markdown": "## 종이에 도서 예약 순서 그리기\n\n가상 규칙은 세 가지다. 새 신청은 해당 책 줄의 끝에 붙인다. 이미 줄에 있는 사람이 같은 책을 또 신청하면 줄을 그대로 둔다. 취소한 사람은 그 책의 줄에서 지운다. 책마다 줄을 따로 그린다.\n\n| 사건 | 요청 |\n|---|---|\n| E01 | 가람이 책 A를 신청 |\n| E02 | 누리가 책 A를 신청 |\n| E03 | 가람이 책 A를 다시 신청 |\n| E04 | 다온이 책 B를 신청 |\n| E05 | 누리가 책 A 신청을 취소 |\n| E06 | 누리가 책 A를 새로 신청 |\n\n| 사건 | 책 A 대기 줄 | 책 B 대기 줄 | 달라진 점 |\n|---|---|---|---|\n| E01 | | | |\n| E02 | | | |\n| E03 | | | |\n| E04 | | | |\n| E05 | | | |\n| E06 | | | |",
+      "review_record_markdown": "DRAFT-CS-02 0.3.0 편집 초안. 이전 0.2.0의 출처를 유지했다. 종이에서 시작할 입력, 결과물과 대안을 점검할 대상이다. 검토자, 승인 판정, 학생 수행 기록은 아직 없다.",
+      "example_output": "작성한 예시: 비교용 예시. E03을 처리해도 책 A의 줄은 ‘가람, 누리’다. E04에서 책 B는 ‘다온’이 된다. E05에서 책 A의 줄은 ‘가람’만 남고 E06 뒤에는 ‘가람, 누리’가 된다.",
+      "sources": [
+        {
+          "source_id": "SRC-SNU-COURSES",
+          "title": "서울대학교 컴퓨터공학부 교과과정",
+          "publisher": "서울대학교 컴퓨터공학부",
+          "url": "https://cse.snu.ac.kr/ko/academics/undergraduate/courses",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "자료구조·알고리즘·소프트웨어 개발·인간컴퓨터상호작용 관련 과목이 공식 목록에 존재함",
+          "application": "전공 연결에 사용. 자체 도서 예약 과제가 실제 수업 내용이라는 주장은 하지 않음",
+          "reuse_scope": "과목명과 링크, 간단한 사실 요약. 강의 자료·이미지 복제 없음",
+          "checked_on": "2026-11-14"
+        },
+        {
+          "source_id": "SRC-FORAGE",
+          "title": "Forage — official job simulations introduction",
+          "publisher": "Forage",
+          "url": "https://www.theforage.com/",
+          "language": "en",
+          "role": "TASK_FORMAT_REFERENCE",
+          "verified_claim": "Official page describes self-paced simulations, task completion, model answers, and registration",
+          "application": "Small fictional task and an illustrative artifact; no recruitment or aptitude claims adopted",
+          "reuse_scope": "Public structure paraphrase and link only; no employer task or model answer copied",
+          "checked_on": "2026-11-14"
+        },
+        {
+          "source_id": "SRC-SPRINGPOD-CS",
+          "title": "Computer Science Subject Spotlight — Coventry University",
+          "publisher": "Springpod; lecturer Terry Richards, Coventry University",
+          "url": "https://www.springpod.com/subject-spotlights/coventry-university/computer-science-terry-richards/SS-00298",
+          "language": "en",
+          "role": "PUBLIC_PROGRAM_EXAMPLE",
+          "verified_claim": "Public overview describes computing/security context, an activity, and reflection",
+          "application": "Context-task-reflection structure only; library reservation scenario is independently authored",
+          "reuse_scope": "Public overview and link only; no video, exercise, or solution copied",
+          "checked_on": "2026-11-14"
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-PROJECT-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-PROJECT-01",
+          "step_indexes": [
+            1,
+            2
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 실제 수행하는 단계에 연결했다."
+        }
+      ],
+      "revised_on": "2026-11-19"
+    },
+    {
+      "activity_id": "DRAFT-CS-03",
+      "version": "0.3.0",
+      "title": "해 본 일이나 과목 목록에서 다음 질문 만들기",
+      "kind": "REFLECTION_AND_NEXT_STEP",
+      "major_code": "MAJOR_ROW_133",
+      "major_name": "컴퓨터공학과",
+      "exploration_group": "DAT",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "전공 탐색 중인 고등학생. 대상 적절성 검토 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 12,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "steps": [
+        "기록 한 줄 또는 과목명 하나를 고른다.",
+        "흥미로웠거나 아직 모르는 점 하나를 적고, 그것을 질문 한 문장으로 바꾼다.",
+        "나중에 확인할 경로나 행동을 적고 끝낸다. 지금 자료를 찾거나 사람에게 물어볼 필요는 없다."
+      ],
+      "artifacts": [
+        "관찰 또는 선택 한 줄",
+        "확인 질문 한 개와 다음 행동"
+      ],
+      "alternative": "과목명 하나를 골라 궁금한 점만 적거나, 질문을 적기 어려우면 “___의 뜻 알아보기”를 다음 행동으로 남긴다.",
+      "source_ids": [
+        "SRC-MYFUTURE",
+        "SRC-SNU-COURSES",
+        "SRC-CSFG"
+      ],
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 해 본 일이나 과목 목록에서 다음 질문 만들기\n\n예약 활동을 했다면 내가 적은 대기 줄 기록을 펼친다. 기록이 없다면 이 두 과목명 사례 중 하나를 읽는다. 자료구조, 알고리즘. 아래 메모는 내 생각과 질문을 남기는 용도다.\n\n1. 기록 한 줄 또는 과목명 하나를 고른다.\n2. 흥미로웠거나 아직 모르는 점 하나를 적고, 그것을 질문 한 문장으로 바꾼다.\n3. 나중에 확인할 경로나 행동을 적고 끝낸다. 지금 자료를 찾거나 사람에게 물어볼 필요는 없다.\n\n남길 결과물: 관찰 또는 선택 한 줄 · 확인 질문 한 개와 다음 행동\n\n쉬운 대안: 과목명 하나를 골라 궁금한 점만 적거나, 질문을 적기 어려우면 “___의 뜻 알아보기”를 다음 행동으로 남긴다.",
+      "worksheet_markdown": "## 해 본 일이나 과목 목록에서 다음 질문 만들기\n\n예약 활동을 했다면 내가 적은 대기 줄 기록을 펼친다. 기록이 없다면 이 두 과목명 사례 중 하나를 읽는다. 자료구조, 알고리즘. 아래 메모는 내 생각과 질문을 남기는 용도다.\n\n| 고른 자료 | 흥미롭거나 아직 모르는 점 | 확인 질문 | 다음 행동 |\n|---|---|---|---|\n| | | | |",
+      "review_record_markdown": "DRAFT-CS-03 0.3.0 편집 초안. 이전 0.2.0의 출처를 유지했다. 종이에서 시작할 입력, 결과물과 대안을 점검할 대상이다. 검토자, 승인 판정, 학생 수행 기록은 아직 없다.",
+      "example_output": "작성한 예시: 대기 줄 기록 / 중복 신청 때 줄이 그대로였다 / 다른 책에 중복 신청하면 어떻게 될까? / 두 책의 규칙을 한 번 더 대조한다.",
+      "sources": [
+        {
+          "source_id": "SRC-MYFUTURE",
+          "title": "My career profile — printable workbook",
+          "publisher": "Education Services Australia Ltd / myfuture",
+          "url": "https://myfuture.edu.au/docs/default-source/default-document-library/myfuture_my-career-profile-printable_complete%20.pdf",
+          "language": "en",
+          "role": "EXPLORATION_FLOW_REFERENCE",
+          "verified_claim": "Introductory page connects self-knowledge activities to career exploration; online profile requires login",
+          "application": "Reflect and choose a next exploration step; no psychometric questions or scoring imported",
+          "reuse_scope": "Introductory purpose paraphrase and link only; no workbook reproduction or translation",
+          "checked_on": "2026-11-14"
+        },
+        {
+          "source_id": "SRC-SNU-COURSES",
+          "title": "서울대학교 컴퓨터공학부 교과과정",
+          "publisher": "서울대학교 컴퓨터공학부",
+          "url": "https://cse.snu.ac.kr/ko/academics/undergraduate/courses",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "자료구조·알고리즘·소프트웨어 개발·인간컴퓨터상호작용 관련 과목이 공식 목록에 존재함",
+          "application": "전공 연결에 사용. 자체 도서 예약 과제가 실제 수업 내용이라는 주장은 하지 않음",
+          "reuse_scope": "과목명과 링크, 간단한 사실 요약. 강의 자료·이미지 복제 없음",
+          "checked_on": "2026-11-14"
+        },
+        {
+          "source_id": "SRC-CSFG",
+          "title": "Computer Science Field Guide — Algorithms / Searching",
+          "publisher": "Computer Science Education Research Group, University of Canterbury",
+          "url": "https://www.csfieldguide.org.nz/en/chapters/algorithms/searching/",
+          "language": "en",
+          "role": "OPTIONAL_FURTHER_READING",
+          "verified_claim": "Explains linear and binary search and the sorted-input requirement",
+          "application": "Optional next-step reading after reflection; not required for the paper-based task",
+          "reuse_scope": "Link and topic description only; page identifies CC BY-SA 4.0 but no licensed assets are redistributed here",
+          "checked_on": "2026-11-14"
+        }
+      ],
+      "preference_question_ids": [],
+      "preference_mapping_basis": [],
+      "revised_on": "2026-11-19"
+    },
+    {
+      "activity_id": "DRAFT-GENERAL-01",
+      "version": "0.3.0",
+      "major_code": null,
+      "major_name": null,
+      "exploration_group": null,
+      "title": "짧은 안내에서 사실과 질문 고르기",
+      "kind": "INFORMATION",
+      "catalog_membership": "GENERAL_EXPLORATION_DRAFT",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "전공 후보 없음/미선택도 가능한 개인 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "전공을 추정하지 않고 명시한 활동 방식을 직접 탐색한다.",
+      "scenario": "전공 후보 없이도 스스로 고른 일상 주제로 수행한다.",
+      "steps": [
+        "위 짧은 안내를 읽고 제목과 가상 발행처를 적는다.",
+        "안내에서 확인할 수 있는 사실 한 줄과 안내에 쓰이지 않은 질문 한 줄을 구분한다."
+      ],
+      "artifacts": [
+        "자료 이름·확인한 사실·질문 기록표"
+      ],
+      "example_output": "작성한 예시: 교실 책장 이용 안내·별빛학교 / 합성 안내 / 제목을 빌림표에 적는다 / 연장이 가능한가?",
+      "worksheet_markdown": "## 짧은 안내에서 사실과 질문 고르기\n\n합성 안내 「교실 책장 이용 안내」 / 가상 발행처 ‘별빛학교’. “책을 빌리려면 제목을 빌림표에 적습니다. 다음 주 수요일까지 같은 책장에 돌려놓습니다.” 실제 기관의 규정은 아니다.\n\n| 자료 제목·발행처 | 합성/직접 열람 | 확인한 사실 | 남은 질문 |\n|---|---|---|---|\n| | | | |",
+      "body_markdown": "## 짧은 안내에서 사실과 질문 고르기\n\n합성 안내 「교실 책장 이용 안내」 / 가상 발행처 ‘별빛학교’. “책을 빌리려면 제목을 빌림표에 적습니다. 다음 주 수요일까지 같은 책장에 돌려놓습니다.” 실제 기관의 규정은 아니다.\n\n1. 위 짧은 안내를 읽고 제목과 가상 발행처를 적는다.\n2. 안내에서 확인할 수 있는 사실 한 줄과 안내에 쓰이지 않은 질문 한 줄을 구분한다.\n\n남길 결과물: 자료 이름·확인한 사실·질문 기록표\n\n쉬운 대안: 같은 안내의 두 문장 중 하나에 밑줄을 긋고 그 문장이 말하는 사실만 적는다.",
+      "alternative": "같은 안내의 두 문장 중 하나에 밑줄을 긋고 그 문장이 말하는 사실만 적는다.",
+      "safety_boundary": "유료 도구/외부 계정/개인정보 제출/위험 실험/공개 게시 불필요. 진로·적성·합격 가능성 판정 없음.",
+      "sources": [
+        {
+          "source_id": "SRC-UCAS",
+          "title": "Subject tasters",
+          "publisher": "UCAS",
+          "url": "https://www.ucas.com/applying/before-you-apply/what-and-where-to-study/subject-tasters",
+          "language": "en",
+          "role": "PROGRAM_STRUCTURE_REFERENCE",
+          "verified_claim": "University subject tasters developed with universities and delivered by lecturers; account linking described",
+          "application": "Provide subject context before a small experience; local activity sequence is our proposal",
+          "reuse_scope": "Public description paraphrase and link; no course assets copied",
+          "checked_on": "2026-11-14",
+          "usage_scope": "전공 탐색을 작은 체험과 질문으로 이어가는 방식의 참고. 아래 공통 활동은 서비스가 작성한 초안이며 기관의 공식 과제를 전재하거나 승인을 받은 것이 아님.",
+          "verification_status": "PREVIOUS_REFERENCE_REUSED_NOT_RECHECKED_20261118"
+        }
+      ],
+      "source_ids": [
+        "SRC-UCAS"
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-READ-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-READ-01",
+          "step_indexes": [
+            0
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 실제 수행하는 단계에 연결했다."
+        }
+      ],
+      "review_record_markdown": "DRAFT-GENERAL-01 0.3.0 편집 초안. 이전 0.1.0의 출처를 유지했다. 종이에서 시작할 입력, 결과물과 대안을 점검할 대상이다. 검토자, 승인 판정, 학생 수행 기록은 아직 없다.",
+      "revised_on": "2026-11-19"
+    },
+    {
+      "activity_id": "DRAFT-GENERAL-02",
+      "version": "0.3.0",
+      "major_code": null,
+      "major_name": null,
+      "exploration_group": null,
+      "title": "두 안내의 차이를 짧은 탐구 기록으로 쓰기",
+      "kind": "INFORMATION",
+      "catalog_membership": "GENERAL_EXPLORATION_DRAFT",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "전공 후보 없음/미선택도 가능한 개인 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 7,
+        "max": 15,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "전공을 추정하지 않고 명시한 활동 방식을 직접 탐색한다.",
+      "scenario": "전공 후보 없이도 스스로 고른 일상 주제로 수행한다.",
+      "steps": [
+        "“두 곳에서 지도는 어디에서 받을까?”라는 질문을 적는다.",
+        "A와 B에서 안내하는 장소를 표에 옮겨 적는다.",
+        "질문, 읽은 두 자료, 확인된 차이, 더 확인할 점을 짧은 탐구 기록으로 정리한다."
+      ],
+      "artifacts": [
+        "질문·자료·차이·추가 질문이 담긴 짧은 탐구 기록"
+      ],
+      "example_output": "작성한 예시: 지도 위치 비교 / A는 안내대 / B는 전시실 입구 / 받는 장소가 다르다 / 두 곳 모두 아무 때나 받을 수 있는지는 안내에 없다.",
+      "worksheet_markdown": "## 두 안내의 차이를 짧은 탐구 기록으로 쓰기\n\n합성 안내 A 「가상 해솔관」은 종이 지도 1장을 안내대에서 준다고 설명한다. 합성 안내 B 「가상 모래관」은 종이 지도가 전시실 입구에 비치돼 있다고 설명한다. 기관명과 안내는 작성한 예시다.\n\n| 질문 | A에서 확인 | B에서 확인 | 관찰한 차이 | 더 확인할 점 |\n|---|---|---|---|---|\n| | | | | |",
+      "body_markdown": "## 두 안내의 차이를 짧은 탐구 기록으로 쓰기\n\n합성 안내 A 「가상 해솔관」은 종이 지도 1장을 안내대에서 준다고 설명한다. 합성 안내 B 「가상 모래관」은 종이 지도가 전시실 입구에 비치돼 있다고 설명한다. 기관명과 안내는 작성한 예시다.\n\n1. “두 곳에서 지도는 어디에서 받을까?”라는 질문을 적는다.\n2. A와 B에서 안내하는 장소를 표에 옮겨 적는다.\n3. 질문, 읽은 두 자료, 확인된 차이, 더 확인할 점을 짧은 탐구 기록으로 정리한다.\n\n남길 결과물: 질문·자료·차이·추가 질문이 담긴 짧은 탐구 기록\n\n쉬운 대안: 같은 두 안내에서 지도 위치의 차이 한 줄과 남은 질문 한 줄만 적는다.",
+      "alternative": "같은 두 안내에서 지도 위치의 차이 한 줄과 남은 질문 한 줄만 적는다.",
+      "safety_boundary": "유료 도구/외부 계정/개인정보 제출/위험 실험/공개 게시 불필요. 진로·적성·합격 가능성 판정 없음.",
+      "sources": [
+        {
+          "source_id": "SRC-UCAS",
+          "title": "Subject tasters",
+          "publisher": "UCAS",
+          "url": "https://www.ucas.com/applying/before-you-apply/what-and-where-to-study/subject-tasters",
+          "language": "en",
+          "role": "PROGRAM_STRUCTURE_REFERENCE",
+          "verified_claim": "University subject tasters developed with universities and delivered by lecturers; account linking described",
+          "application": "Provide subject context before a small experience; local activity sequence is our proposal",
+          "reuse_scope": "Public description paraphrase and link; no course assets copied",
+          "checked_on": "2026-11-14",
+          "usage_scope": "전공 탐색을 작은 체험과 질문으로 이어가는 방식의 참고. 아래 공통 활동은 서비스가 작성한 초안이며 기관의 공식 과제를 전재하거나 승인을 받은 것이 아님.",
+          "verification_status": "PREVIOUS_REFERENCE_REUSED_NOT_RECHECKED_20261118"
+        }
+      ],
+      "source_ids": [
+        "SRC-UCAS"
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-REPORT-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-REPORT-01",
+          "step_indexes": [
+            2
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 실제 수행하는 단계에 연결했다."
+        }
+      ],
+      "review_record_markdown": "DRAFT-GENERAL-02 0.3.0 편집 초안. 이전 0.1.0의 출처를 유지했다. 종이에서 시작할 입력, 결과물과 대안을 점검할 대상이다. 검토자, 승인 판정, 학생 수행 기록은 아직 없다.",
+      "revised_on": "2026-11-19"
+    },
+    {
+      "activity_id": "DRAFT-GENERAL-03",
+      "version": "0.3.0",
+      "major_code": null,
+      "major_name": null,
+      "exploration_group": null,
+      "title": "필기구를 찾기 쉽게 종이 분류표 만들기",
+      "kind": "SMALL_TASK",
+      "catalog_membership": "GENERAL_EXPLORATION_DRAFT",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "전공 후보 없음/미선택도 가능한 개인 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 8,
+        "max": 15,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "전공을 추정하지 않고 명시한 활동 방식을 직접 탐색한다.",
+      "scenario": "전공 후보 없이도 스스로 고른 일상 주제로 수행한다.",
+      "steps": [
+        "종이에 두 칸을 그리고 용도 이름을 적어 분류표 초안을 만든다.",
+        "연필·지우개·자의 이름을 초안의 칸에 넣어 써 본다.",
+        "찾기 쉬워지도록 바꾸고 싶은 칸 이름이나 순서를 한 가지 적는다."
+      ],
+      "artifacts": [
+        "종이 분류표 초안",
+        "수정 메모 한 줄"
+      ],
+      "example_output": "작성한 예시: 쓰거나 지우는 것 칸에 연필·지우개, 길이를 재는 것 칸에 자를 적었다. 첫 칸 이름을 ‘필기·수정’으로 줄일 수 있을지 생각했다.",
+      "worksheet_markdown": "## 필기구를 찾기 쉽게 종이 분류표 만들기\n\n가상 책상 위에 연필, 지우개, 자가 있다. ‘쓰거나 지우는 것’과 ‘길이를 재는 것’을 먼저 표시해 두면 필요한 물건을 찾기 쉽다. 실제 물건이 없어도 종이에 이름만 써서 사용한다.\n\n| 쓰거나 지우는 것 | 길이를 재는 것 |\n|---|---|\n| | |\n\n바꾸고 싶은 점: __________",
+      "body_markdown": "## 필기구를 찾기 쉽게 종이 분류표 만들기\n\n가상 책상 위에 연필, 지우개, 자가 있다. ‘쓰거나 지우는 것’과 ‘길이를 재는 것’을 먼저 표시해 두면 필요한 물건을 찾기 쉽다. 실제 물건이 없어도 종이에 이름만 써서 사용한다.\n\n1. 종이에 두 칸을 그리고 용도 이름을 적어 분류표 초안을 만든다.\n2. 연필·지우개·자의 이름을 초안의 칸에 넣어 써 본다.\n3. 찾기 쉬워지도록 바꾸고 싶은 칸 이름이나 순서를 한 가지 적는다.\n\n남길 결과물: 종이 분류표 초안 · 수정 메모 한 줄\n\n쉬운 대안: 자 하나만 넣을 칸을 그리고 칸 이름을 적는다.",
+      "alternative": "자 하나만 넣을 칸을 그리고 칸 이름을 적는다.",
+      "safety_boundary": "유료 도구/외부 계정/개인정보 제출/위험 실험/공개 게시 불필요. 진로·적성·합격 가능성 판정 없음.",
+      "sources": [
+        {
+          "source_id": "SRC-UCAS",
+          "title": "Subject tasters",
+          "publisher": "UCAS",
+          "url": "https://www.ucas.com/applying/before-you-apply/what-and-where-to-study/subject-tasters",
+          "language": "en",
+          "role": "PROGRAM_STRUCTURE_REFERENCE",
+          "verified_claim": "University subject tasters developed with universities and delivered by lecturers; account linking described",
+          "application": "Provide subject context before a small experience; local activity sequence is our proposal",
+          "reuse_scope": "Public description paraphrase and link; no course assets copied",
+          "checked_on": "2026-11-14",
+          "usage_scope": "전공 탐색을 작은 체험과 질문으로 이어가는 방식의 참고. 아래 공통 활동은 서비스가 작성한 초안이며 기관의 공식 과제를 전재하거나 승인을 받은 것이 아님.",
+          "verification_status": "PREVIOUS_REFERENCE_REUSED_NOT_RECHECKED_20261118"
+        }
+      ],
+      "source_ids": [
+        "SRC-UCAS"
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-PROJECT-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-PROJECT-01",
+          "step_indexes": [
+            0,
+            1
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 실제 수행하는 단계에 연결했다."
+        }
+      ],
+      "review_record_markdown": "DRAFT-GENERAL-03 0.3.0 편집 초안. 이전 0.1.0의 출처를 유지했다. 종이에서 시작할 입력, 결과물과 대안을 점검할 대상이다. 검토자, 승인 판정, 학생 수행 기록은 아직 없다.",
+      "revised_on": "2026-11-19"
+    },
+    {
+      "activity_id": "DRAFT-GENERAL-04",
+      "version": "0.3.0",
+      "major_code": null,
+      "major_name": null,
+      "exploration_group": null,
+      "title": "같은 종이 카드를 두 기준으로 분류하기",
+      "kind": "SMALL_TASK",
+      "catalog_membership": "GENERAL_EXPLORATION_DRAFT",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "전공 후보 없음/미선택도 가능한 개인 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 6,
+        "max": 12,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "전공을 추정하지 않고 명시한 활동 방식을 직접 탐색한다.",
+      "scenario": "전공 후보 없이도 스스로 고른 일상 주제로 수행한다.",
+      "steps": [
+        "표의 첫 줄에는 카드를 A/B에 따라 나눠 각 묶음의 번호를 적는다.",
+        "같은 카드를 삼각형/네모에 따라 다시 나눠 번호를 적는다.",
+        "같이 있던 카드 중 서로 다른 묶음으로 간 사례를 하나 적는다."
+      ],
+      "artifacts": [
+        "두 기준의 분류 결과와 관찰 메모 한 줄"
+      ],
+      "example_output": "작성한 예시: A/B로 보면 ①·②가 한 묶음이다. 모양으로 보면 ①과 ②가 다른 묶음에 들어간다.",
+      "worksheet_markdown": "## 같은 종이 카드를 두 기준으로 분류하기\n\n가상 카드 네 장은 ① 삼각형 A, ② 네모 A, ③ 삼각형 B, ④ 네모 B다. 종이에 번호와 글자를 쓰면 되고 색을 구분할 필요는 없다.\n\n| 기준 | 첫째 묶음 | 둘째 묶음 | 함께 묶인 번호의 변화 |\n|---|---|---|---|\n| A/B | | | |\n| 모양 | | | |",
+      "body_markdown": "## 같은 종이 카드를 두 기준으로 분류하기\n\n가상 카드 네 장은 ① 삼각형 A, ② 네모 A, ③ 삼각형 B, ④ 네모 B다. 종이에 번호와 글자를 쓰면 되고 색을 구분할 필요는 없다.\n\n1. 표의 첫 줄에는 카드를 A/B에 따라 나눠 각 묶음의 번호를 적는다.\n2. 같은 카드를 삼각형/네모에 따라 다시 나눠 번호를 적는다.\n3. 같이 있던 카드 중 서로 다른 묶음으로 간 사례를 하나 적는다.\n\n남길 결과물: 두 기준의 분류 결과와 관찰 메모 한 줄\n\n쉬운 대안: 카드 ①·②·③만 사용해 A/B와 모양으로 각각 분류하고, ①이 함께하는 카드 하나만 비교한다.",
+      "alternative": "카드 ①·②·③만 사용해 A/B와 모양으로 각각 분류하고, ①이 함께하는 카드 하나만 비교한다.",
+      "safety_boundary": "유료 도구/외부 계정/개인정보 제출/위험 실험/공개 게시 불필요. 진로·적성·합격 가능성 판정 없음.",
+      "sources": [
+        {
+          "source_id": "SRC-UCAS",
+          "title": "Subject tasters",
+          "publisher": "UCAS",
+          "url": "https://www.ucas.com/applying/before-you-apply/what-and-where-to-study/subject-tasters",
+          "language": "en",
+          "role": "PROGRAM_STRUCTURE_REFERENCE",
+          "verified_claim": "University subject tasters developed with universities and delivered by lecturers; account linking described",
+          "application": "Provide subject context before a small experience; local activity sequence is our proposal",
+          "reuse_scope": "Public description paraphrase and link; no course assets copied",
+          "checked_on": "2026-11-14",
+          "usage_scope": "전공 탐색을 작은 체험과 질문으로 이어가는 방식의 참고. 아래 공통 활동은 서비스가 작성한 초안이며 기관의 공식 과제를 전재하거나 승인을 받은 것이 아님.",
+          "verification_status": "PREVIOUS_REFERENCE_REUSED_NOT_RECHECKED_20261118"
+        }
+      ],
+      "source_ids": [
+        "SRC-UCAS"
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-EXPERIMENT-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-EXPERIMENT-01",
+          "step_indexes": [
+            0,
+            1
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 실제 수행하는 단계에 연결했다."
+        }
+      ],
+      "review_record_markdown": "DRAFT-GENERAL-04 0.3.0 편집 초안. 이전 0.1.0의 출처를 유지했다. 종이에서 시작할 입력, 결과물과 대안을 점검할 대상이다. 검토자, 승인 판정, 학생 수행 기록은 아직 없다.",
+      "revised_on": "2026-11-19"
+    },
+    {
+      "activity_id": "DRAFT-GENERAL-05",
+      "version": "0.3.0",
+      "major_code": null,
+      "major_name": null,
+      "exploration_group": null,
+      "title": "가상 안내를 내 말로 읽어 보기",
+      "kind": "REFLECTION_AND_NEXT_STEP",
+      "catalog_membership": "GENERAL_EXPLORATION_DRAFT",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "전공 후보 없음/미선택도 가능한 개인 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "전공을 추정하지 않고 명시한 활동 방식을 직접 탐색한다.",
+      "scenario": "전공 후보 없이도 스스로 고른 일상 주제로 수행한다.",
+      "steps": [
+        "안내를 읽고 첫 방문자에게 알려 줄 내용 하나를 고른다.",
+        "그 내용을 내 말 한 문장으로 적고 혼자 천천히 읽어 본다.",
+        "안내로 알 수 없는 점 하나를 질문으로 기록한다."
+      ],
+      "artifacts": [
+        "혼자 읽을 문장 한 개와 확인할 질문 한 개"
+      ],
+      "example_output": "작성한 예시: 종이 안내 반납 / 다 보고 나면 입구의 종이함에 넣으면 돼요. / 다른 언어로 된 안내도 있나요?",
+      "worksheet_markdown": "## 가상 안내를 내 말로 읽어 보기\n\n가상 「작은 전시실 안내」에는 “들어오면 책상 위 종이 안내를 한 장 가져갈 수 있다. 보고 나서 종이는 입구 종이함에 넣는다.”라고 쓰여 있다.\n\n| 알릴 내용 | 내가 읽을 문장 | 아직 모르는 점 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 가상 안내를 내 말로 읽어 보기\n\n가상 「작은 전시실 안내」에는 “들어오면 책상 위 종이 안내를 한 장 가져갈 수 있다. 보고 나서 종이는 입구 종이함에 넣는다.”라고 쓰여 있다.\n\n1. 안내를 읽고 첫 방문자에게 알려 줄 내용 하나를 고른다.\n2. 그 내용을 내 말 한 문장으로 적고 혼자 천천히 읽어 본다.\n3. 안내로 알 수 없는 점 하나를 질문으로 기록한다.\n\n남길 결과물: 혼자 읽을 문장 한 개와 확인할 질문 한 개\n\n쉬운 대안: 같은 안내에서 말 하나에 밑줄을 긋고 첫 방문자에게 그 말이 뜻하는 바를 한 문장으로 설명해 본다.",
+      "alternative": "같은 안내에서 말 하나에 밑줄을 긋고 첫 방문자에게 그 말이 뜻하는 바를 한 문장으로 설명해 본다.",
+      "safety_boundary": "유료 도구/외부 계정/개인정보 제출/위험 실험/공개 게시 불필요. 진로·적성·합격 가능성 판정 없음.",
+      "sources": [
+        {
+          "source_id": "SRC-UCAS",
+          "title": "Subject tasters",
+          "publisher": "UCAS",
+          "url": "https://www.ucas.com/applying/before-you-apply/what-and-where-to-study/subject-tasters",
+          "language": "en",
+          "role": "PROGRAM_STRUCTURE_REFERENCE",
+          "verified_claim": "University subject tasters developed with universities and delivered by lecturers; account linking described",
+          "application": "Provide subject context before a small experience; local activity sequence is our proposal",
+          "reuse_scope": "Public description paraphrase and link; no course assets copied",
+          "checked_on": "2026-11-14",
+          "usage_scope": "전공 탐색을 작은 체험과 질문으로 이어가는 방식의 참고. 아래 공통 활동은 서비스가 작성한 초안이며 기관의 공식 과제를 전재하거나 승인을 받은 것이 아님.",
+          "verification_status": "PREVIOUS_REFERENCE_REUSED_NOT_RECHECKED_20261118"
+        }
+      ],
+      "source_ids": [
+        "SRC-UCAS"
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-PRESENT-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-PRESENT-01",
+          "step_indexes": [
+            1
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 실제 수행하는 단계에 연결했다."
+        }
+      ],
+      "review_record_markdown": "DRAFT-GENERAL-05 0.3.0 편집 초안. 이전 0.1.0의 출처를 유지했다. 종이에서 시작할 입력, 결과물과 대안을 점검할 대상이다. 검토자, 승인 판정, 학생 수행 기록은 아직 없다.",
+      "revised_on": "2026-11-19"
+    },
+    {
+      "activity_id": "DRAFT-GENERAL-06",
+      "version": "0.3.0",
+      "major_code": null,
+      "major_name": null,
+      "exploration_group": null,
+      "title": "가상 안내를 네 칸짜리 카드로 만들기",
+      "kind": "REFLECTION_AND_NEXT_STEP",
+      "catalog_membership": "GENERAL_EXPLORATION_DRAFT",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "전공 후보 없음/미선택도 가능한 개인 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 7,
+        "max": 14,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": [
+          "종이와 펜"
+        ]
+      },
+      "purpose": "전공을 추정하지 않고 명시한 활동 방식을 직접 탐색한다.",
+      "scenario": "전공 후보 없이도 스스로 고른 일상 주제로 수행한다.",
+      "steps": [
+        "종이에 ‘사실’, ‘내 표현’, ‘확인 질문’, ‘출처’ 네 칸을 만든다.",
+        "안내에 나온 사실 하나와 쉽게 다시 쓴 한 줄을 각 칸에 적는다. 자료 제목과 가상 발행처를 출처 칸에 쓴다.",
+        "원문에 없는 점을 확인 질문으로 적고 카드 초안에 합성 안내라고 표시한다."
+      ],
+      "artifacts": [
+        "사실·내 표현·질문·출처가 구분된 종이 안내 카드"
+      ],
+      "example_output": "작성한 예시: 들어갈 때 사용 시간을 적는다 / 기록표에 시간을 써 주세요 / 연습을 연장할 수 있나요? / 합성 연습실 안내·별빛센터.",
+      "worksheet_markdown": "## 가상 안내를 네 칸짜리 카드로 만들기\n\n가상 자료 「연습실 안내」 / 가상 발행처 ‘별빛센터’. 안내에는 “입장할 때 종이 기록표에 사용 시간을 적는다. 연습이 끝나면 쓰던 연필을 제자리에 둔다.”라고 적혀 있다.\n\n| 사실 | 내 표현 |\n|---|---|\n| | |\n\n| 확인 질문 | 출처 |\n|---|---|\n| | |",
+      "body_markdown": "## 가상 안내를 네 칸짜리 카드로 만들기\n\n가상 자료 「연습실 안내」 / 가상 발행처 ‘별빛센터’. 안내에는 “입장할 때 종이 기록표에 사용 시간을 적는다. 연습이 끝나면 쓰던 연필을 제자리에 둔다.”라고 적혀 있다.\n\n1. 종이에 ‘사실’, ‘내 표현’, ‘확인 질문’, ‘출처’ 네 칸을 만든다.\n2. 안내에 나온 사실 하나와 쉽게 다시 쓴 한 줄을 각 칸에 적는다. 자료 제목과 가상 발행처를 출처 칸에 쓴다.\n3. 원문에 없는 점을 확인 질문으로 적고 카드 초안에 합성 안내라고 표시한다.\n\n남길 결과물: 사실·내 표현·질문·출처가 구분된 종이 안내 카드\n\n쉬운 대안: 같은 자료에서 확인한 사실 한 줄과 출처만 두 칸에 적는다.",
+      "alternative": "같은 자료에서 확인한 사실 한 줄과 출처만 두 칸에 적는다.",
+      "safety_boundary": "유료 도구/외부 계정/개인정보 제출/위험 실험/공개 게시 불필요. 진로·적성·합격 가능성 판정 없음.",
+      "sources": [
+        {
+          "source_id": "SRC-UCAS",
+          "title": "Subject tasters",
+          "publisher": "UCAS",
+          "url": "https://www.ucas.com/applying/before-you-apply/what-and-where-to-study/subject-tasters",
+          "language": "en",
+          "role": "PROGRAM_STRUCTURE_REFERENCE",
+          "verified_claim": "University subject tasters developed with universities and delivered by lecturers; account linking described",
+          "application": "Provide subject context before a small experience; local activity sequence is our proposal",
+          "reuse_scope": "Public description paraphrase and link; no course assets copied",
+          "checked_on": "2026-11-14",
+          "usage_scope": "전공 탐색을 작은 체험과 질문으로 이어가는 방식의 참고. 아래 공통 활동은 서비스가 작성한 초안이며 기관의 공식 과제를 전재하거나 승인을 받은 것이 아님.",
+          "verification_status": "PREVIOUS_REFERENCE_REUSED_NOT_RECHECKED_20261118"
+        }
+      ],
+      "source_ids": [
+        "SRC-UCAS"
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-CONTENT-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-CONTENT-01",
+          "step_indexes": [
+            0,
+            1,
+            2
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 실제 수행하는 단계에 연결했다."
+        }
+      ],
+      "review_record_markdown": "DRAFT-GENERAL-06 0.3.0 편집 초안. 이전 0.1.0의 출처를 유지했다. 종이에서 시작할 입력, 결과물과 대안을 점검할 대상이다. 검토자, 승인 판정, 학생 수행 기록은 아직 없다.",
+      "revised_on": "2026-11-19"
+    }
+  ]
+}

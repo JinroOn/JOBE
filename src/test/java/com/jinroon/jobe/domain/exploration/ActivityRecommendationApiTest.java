@@ -5,6 +5,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.jinroon.jobe.domain.exploration.activity.ActivityCatalogLoader;
+import com.jinroon.jobe.domain.exploration.review.CatalogReviewService;
+import com.jinroon.jobe.domain.exploration.review.CatalogReviewService.TargetType;
 import com.jinroon.jobe.domain.exploration.support.PostResultSupportService;
 import java.nio.file.Path;
 import java.util.*;
@@ -18,6 +20,7 @@ import com.jinroon.jobe.domain.exploration.activity.ActivityRecommendationServic
 @TestPropertySource(properties="exploration.activities.catalog-version=TEST_ACTIVITY_RECOMMENDATION_V1")
 class ActivityRecommendationApiTest extends CompletedExplorationTestSupport {
     @Autowired ActivityCatalogLoader activityLoader;
+    @Autowired CatalogReviewService reviewService;
     @Autowired PostResultSupportService support;
     @Autowired ActivityRecommendationService recommendations;
     private static final String VERSION="TEST_ACTIVITY_RECOMMENDATION_V1";
@@ -107,6 +110,40 @@ class ActivityRecommendationApiTest extends CompletedExplorationTestSupport {
         assertThat(jdbc.queryForObject("SELECT result_json FROM exploration_result WHERE id=?",String.class,rid)).isEqualTo(raw);
         review("exploration_activity","ACTIVITY","DOMAIN","REJECTED");
         assertThat(activities(rid,200).path("nextActivities").isEmpty()).isTrue();
+    }
+
+    @Test void reviewDraftImportsNineActivitiesButOnlyTheReviewedItemCanBeOffered() throws Exception {
+        long result = completedResult(false);
+        var draft = activityLoader.validate(Path.of("datasets/activities/catalog-v3-dev-review-draft.json"));
+        assertThat(draft.path("version").asText()).isEqualTo("ACTIVITY_CATALOG_V3_DEV_REVIEW_DRAFT");
+        assertThat(loadCatalog(draft).activities()).isEqualTo(9);
+        assertThat(loadCatalog(draft).inserted()).isFalse();
+        long catalog = jdbc.queryForObject("SELECT id FROM exploration_activity_catalog WHERE version=?",
+                Long.class, draft.path("version").asText());
+        assertThat(count("exploration_activity", "catalog_id=? AND major_code='MAJOR_ROW_133'", catalog)).isEqualTo(3);
+        assertThat(count("exploration_activity", "catalog_id=? AND major_code IS NULL", catalog)).isEqualTo(6);
+        assertThat(count("exploration_activity", "catalog_id=? AND content_status='DRAFT' AND "
+                + "implementation_review_status='PENDING' AND domain_review_status='PENDING'", catalog)).isEqualTo(9);
+        assertThat(reviewsFor(catalog)).isEmpty();
+
+        ReflectionTestUtils.setField(recommendations, "selectedVersion", draft.path("version").asText());
+        try {
+            assertThat(activities(result, 200).path("reasonCode").asText()).isEqualTo("NO_APPROVED_ACTIVITIES");
+            var target = jdbc.queryForObject("SELECT id FROM exploration_activity WHERE catalog_id=? AND activity_code=?",
+                    Long.class, catalog, "DRAFT-GENERAL-04");
+            approveReviewDraftTarget(TargetType.ACTIVITY_CATALOG, catalog);
+            assertThat(ids(activities(result, 200))).isEmpty();
+            approveReviewDraftTarget(TargetType.ACTIVITY, target);
+            assertThat(ids(activities(result, 200))).containsExactly("DRAFT-GENERAL-04");
+        } finally {
+            ReflectionTestUtils.setField(recommendations, "selectedVersion", VERSION);
+        }
+    }
+
+    private void approveReviewDraftTarget(TargetType type, long id) {
+        for (var kind : List.of(CatalogReviewService.ReviewKind.IMPLEMENTATION, CatalogReviewService.ReviewKind.DOMAIN)) {
+            reviewService.record(OTHER, type, id, kind, CatalogReviewService.Decision.APPROVED, "SYNTHETIC-TEST-ONLY");
+        }
     }
     @Test void authoredMajorReadingAndProjectStepsDrivePreferenceWithoutChangingCandidateOrder()throws Exception {
         long rid=completedResult(true);String code=major(rid,0);
