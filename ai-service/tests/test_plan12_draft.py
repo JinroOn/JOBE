@@ -117,6 +117,29 @@ def test_candidates_are_bounded_deduplicated_and_never_truncated():
     assert excerpt_candidates(source) == [full, *sentences[:11]]
 
 
+@pytest.mark.parametrize('count', [1, 3, 4])
+def test_info_weeks_vary_actions_and_exhaust_distinct_approved_excerpts_first(count):
+    _, facts = model_request()
+    excerpts = [f'교과목 사례 {i}: ' + '가' * 108 + '.' for i in range(1, count + 1)]
+    facts[0]['text'] = ' '.join(excerpts)
+    draft = draft_result()
+    for week in draft['weeks'][:4]:
+        week['task'] = excerpt_task(count)
+    week_nine = draft['weeks'][8]
+    week_nine['task'] = excerpt_task(count)
+
+    weeks = render_plan_draft(draft, facts)['weeks']
+    info = weeks[:4]
+    assert len({week['title'] for week in info}) == 4
+    assert len({week['expectedOutput'] for week in info}) == 4
+    expected_order = [excerpts[-1], *excerpts[:-1]]
+    for week, excerpt in zip(info, expected_order + [excerpts[-1]] * (4 - count)):
+        assert f'근거 발췌: 「{excerpt}」' in week['tasks'][1]
+        assert week['referenceKeys'] == [facts[0]['referenceKey']]
+    assert weeks[8]['title'] == '낯선 말 표시하기'
+    assert f'근거 발췌: 「{excerpts[-1]}」' in weeks[8]['tasks'][1]
+
+
 def test_index_must_exist_in_the_current_approved_candidates():
     _, facts = model_request()
     facts[0]['text'] = '이 과목은 컴퓨터를 다룬다.'

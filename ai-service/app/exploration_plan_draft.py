@@ -32,6 +32,7 @@ class EvidenceTask(StrictModel):
 
 
 VARIED_ACTIVITIES = frozenset({'CLASSIFY_ITEMS', 'OBSERVE_DIFFERENCE', 'ORDER_STEPS', 'SKETCH_LABELS'})
+INFO_ACTIVITIES = ('MARK_KEYWORD', 'PARAPHRASE_EXCERPT', 'NOTE_INFORMATION_GAP', 'WRITE_QUESTION')
 
 
 class FictionalTask(StrictModel):
@@ -81,6 +82,20 @@ ACTIVITY_TEXT = {
         '발췌에서 질문해 보고 싶은 말 하나만 표시하기',
         '표시한 말 하나',
     ),
+    'PARAPHRASE_EXCERPT': (
+        '발췌를 내 말로 바꾸기',
+        '발췌에서 직접 알 수 있는 내용을 내 말로 한 문장에 옮겨 적기',
+        '내 말로 옮긴 한 문장',
+        '발췌에서 중요한 짧은 구절 하나를 골라 옮겨 적기',
+        '옮겨 적은 구절 하나',
+    ),
+    'NOTE_INFORMATION_GAP': (
+        '확인한 내용과 더 볼 내용 나누기',
+        '종이를 두 칸으로 나누고 발췌에서 확인한 내용과 아직 확인이 필요한 내용을 하나씩 적기',
+        '확인한 내용과 더 확인할 내용을 정리한 두 칸',
+        '발췌만으로 알기 어려운 점 하나를 낱말로 적기',
+        '더 확인할 낱말 하나',
+    ),
     'CHOOSE_OPTION': (
         '두 선택지 살펴보기',
         '가상 상황에서 먼저 살펴볼 선택지를 하나 고르고 고른 이유를 한 문장으로 적기',
@@ -127,15 +142,22 @@ def render_plan_draft(value, facts) -> dict:
     reference_key = fact['referenceKey']
     candidates = excerpt_candidates(fact['text'])
     draft = Plan12Draft.model_validate(value)
+    unused_info_indices = dict.fromkeys(range(1, len(candidates) + 1))
     weeks = []
     for week in draft.weeks:
         task = week.task
         if isinstance(task, EvidenceTask):
             if task.excerptIndex > len(candidates):
                 raise ContractViolation('Plan draft excerpt index is not available')
-            input_text = candidates[task.excerptIndex - 1]
-            provided_input = f'근거 발췌: 「{input_text}」'
+            index = task.excerptIndex
             activity = task.activity
+            if week.phase == 'INFO':
+                activity = INFO_ACTIVITIES[week.week - 1]
+                if unused_info_indices and index not in unused_info_indices:
+                    index = next(iter(unused_info_indices))
+                unused_info_indices.pop(index, None)
+            input_text = candidates[index - 1]
+            provided_input = f'근거 발췌: 「{input_text}」'
         else:
             scenario = FICTIONAL_SCENARIOS[task.scenarioIndex - 1]
             provided_input = f'가상 예시: 「{scenario.situation}」 (A 「{scenario.first}」 / B 「{scenario.second}」)'
