@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M86_DRAFT_V3",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M86_DRAFT_V3_SCOPE_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M86-01",
-      "version": "0.4.0",
+      "version": "0.4.2",
       "title": "과학 개념과 탐구를 가르치는 질문 나누기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_86",
@@ -56,11 +56,10 @@
       "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
       "source_ids": [
         "m86-careernet",
-        "m86-university",
-        "m86-extra"
+        "m86-university"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "이 활동에서는 해당 전공의 자료를 사용한다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -97,19 +96,6 @@
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
           "usage_scope": "통합과학 전공 교과목 사례다."
-        },
-        {
-          "source_id": "m86-extra",
-          "title": "지구과학교육전공 교과과정",
-          "publisher": "전북대학교 과학교육학부",
-          "url": "https://earthedu.jbnu.ac.kr/earthedu/13783/subview.do",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "지구과학탐구방법 및 프로젝트지도",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "2023학년도 재학생 기준 지구과학교육전공 사례다."
         }
       ],
       "preference_question_ids": [
@@ -128,7 +114,7 @@
     },
     {
       "activity_id": "DRAFT-M86-02",
-      "version": "0.4.1",
+      "version": "0.4.2",
       "title": "그림자 관찰 기록에서 수업 질문 만들기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_86",
@@ -174,7 +160,7 @@
         "m86-extra"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 전북대학교 과학교육학부 지구과학교육전공 교과과정이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -220,10 +206,10 @@
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
           "verified_claim": "지구과학탐구방법 및 프로젝트지도",
-          "application": "전공 소개와 과목명 사례 대조",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "2023학년도 재학생 기준 지구과학교육전공 사례다."
+          "usage_scope": "전북대 지구과학교육전공의 관찰·탐구 지도 사례로 사용한다."
         }
       ],
       "preference_question_ids": [
@@ -243,7 +229,7 @@
     },
     {
       "activity_id": "DRAFT-M86-03",
-      "version": "0.4.0",
+      "version": "0.4.2",
       "title": "학생 답변을 보고 다음 관찰 안내하기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_86",
@@ -289,7 +275,7 @@
         "m86-extra"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 전북대학교 과학교육학부 지구과학교육전공 교과과정이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -335,10 +321,10 @@
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
           "verified_claim": "지구과학탐구방법 및 프로젝트지도",
-          "application": "전공 소개와 과목명 사례 대조",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "2023학년도 재학생 기준 지구과학교육전공 사례다."
+          "usage_scope": "전북대 지구과학교육전공의 관찰·탐구 지도 사례로 사용한다."
         }
       ],
       "preference_question_ids": [],

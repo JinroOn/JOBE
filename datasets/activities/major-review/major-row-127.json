@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M127_DRAFT_V3",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M127_DRAFT_V3_SCOPE_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M127-01",
-      "version": "0.4.0",
+      "version": "0.4.2",
       "title": "소자와 회로, 제조를 묻는 질문 나누기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_127",
@@ -60,7 +60,7 @@
         "m127-extra"
       ],
       "major_source_relationship": "RELATED_NAME_NOT_EQUIVALENT",
-      "major_connection_note": "명칭/범위 차이: 기준 전공은 반도체공학과, 출처는 반도체학과. 관련 분야 참고이며 동일성은 미승인.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 커리어넷 대학교 학과정보 반도체학과이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -79,11 +79,11 @@
           "url": "https://www.career.go.kr/cloud/w/major/uView?seq=195",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "2020-12-02 갱신 응답에서 확인한 커리어넷 반도체학과 안내는 반도체물리학, 전자회로설계와 반도체공정을 과목 사례로 소개한다. 반도체공학과의 학부 이수 범위는 대학별 자료에서 확인한다.",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "반도체물리학, 전자회로설계, 반도체공정",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "커리어넷의 명칭은 반도체학과이며 이 자료는 연결되는 내용의 참고 사례다. 전공별 범위는 대학 공식 자료로 확인한다."
+          "usage_scope": "소자·회로·공정의 공통 주제를 설명하는 데 사용한다. 이수 범위는 반도체공학과의 대학별 교육과정에서 확인한다."
         },
         {
           "source_id": "m127-university",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M127-02",
-      "version": "0.4.1",
+      "version": "0.4.2",
       "title": "가상 칩 검수 결과의 패턴 찾기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_127",
@@ -169,12 +169,11 @@
       "alternative": "가상 표만 사용하고 실제 장비를 조작하지 않는다.",
       "safety_boundary": "화학약품·고온 공정·실제 제조 실습을 하지 않음",
       "source_ids": [
-        "m127-careernet",
         "m127-university",
         "m127-extra"
       ],
       "major_source_relationship": "RELATED_NAME_NOT_EQUIVALENT",
-      "major_connection_note": "명칭/범위 차이: 기준 전공은 반도체공학과, 출처는 반도체학과. 관련 분야 참고이며 동일성은 미승인.",
+      "major_connection_note": "이 활동에서는 해당 전공의 자료를 사용한다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -186,19 +185,6 @@
       "worksheet_markdown": "## 가상 칩 검수 결과의 패턴 찾기\n\n메모에 가상 칩 2행 3열을 표시한다. 첫 행은 모두 통과, 둘째 행은 통과·실패·실패이다.\n\n| 행 | 통과 수 | 실패 수 | 더 필요한 기록 |\n|---|---|---|---|\n| | | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
-        {
-          "source_id": "m127-careernet",
-          "title": "대학교 학과정보 반도체학과",
-          "publisher": "커리어넷",
-          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=195",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "2020-12-02 갱신 응답에서 확인한 커리어넷 반도체학과 안내는 반도체물리학, 전자회로설계와 반도체공정을 과목 사례로 소개한다. 반도체공학과의 학부 이수 범위는 대학별 자료에서 확인한다.",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "커리어넷의 명칭은 반도체학과이며 이 자료는 연결되는 내용의 참고 사례다. 전공별 범위는 대학 공식 자료로 확인한다."
-        },
         {
           "source_id": "m127-university",
           "title": "2026 반도체공학과 학부 교육과정",
@@ -243,7 +229,7 @@
     },
     {
       "activity_id": "DRAFT-M127-03",
-      "version": "0.4.0",
+      "version": "0.4.2",
       "title": "추가 검사가 구분할 가상 원인 생각하기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_127",
@@ -284,12 +270,11 @@
       "alternative": "추가 측정은 하지 않고 확인 질문만 쓴다.",
       "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
       "source_ids": [
-        "m127-careernet",
         "m127-university",
         "m127-extra"
       ],
       "major_source_relationship": "RELATED_NAME_NOT_EQUIVALENT",
-      "major_connection_note": "명칭/범위 차이: 기준 전공은 반도체공학과, 출처는 반도체학과. 관련 분야 참고이며 동일성은 미승인.",
+      "major_connection_note": "이 활동에서는 해당 전공의 자료를 사용한다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -301,19 +286,6 @@
       "worksheet_markdown": "## 추가 검사가 구분할 가상 원인 생각하기\n\n앞의 검수 기록을 읽는다.\n\n| 가능성 | 필요 자료 | 확인 기준 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
-        {
-          "source_id": "m127-careernet",
-          "title": "대학교 학과정보 반도체학과",
-          "publisher": "커리어넷",
-          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=195",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "2020-12-02 갱신 응답에서 확인한 커리어넷 반도체학과 안내는 반도체물리학, 전자회로설계와 반도체공정을 과목 사례로 소개한다. 반도체공학과의 학부 이수 범위는 대학별 자료에서 확인한다.",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "커리어넷의 명칭은 반도체학과이며 이 자료는 연결되는 내용의 참고 사례다. 전공별 범위는 대학 공식 자료로 확인한다."
-        },
         {
           "source_id": "m127-university",
           "title": "2026 반도체공학과 학부 교육과정",

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
-  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M177_20261120",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M177_20261120_SCOPE_V2",
   "status": "PENDING_HUMAN_REVIEW",
   "scope": "DEV",
   "preparedBy": "Codex",
@@ -22,7 +22,7 @@
     },
     {
       "chunkType": "major_overview",
-      "text": "서울대 지구환경과학부에는 대기분석 및 실험과 표영환경생태학이 있다. 부산대 대기환경과학과는 빅데이터자료처리실습을 편성한다.",
+      "text": "환경 관측 자료를 분석하는 사례로 서울대 지구환경과학부의 대기분석 및 실험과 부산대 대기환경과학과의 빅데이터자료처리실습을 살펴볼 수 있다. 두 사례는 대기와 관련된 관측·자료 분석 영역을 보여 준다.",
       "sourceIds": [
         "m177-university",
         "m177-extra"
@@ -45,8 +45,8 @@
       "publisher": "서울대학교 지구환경과학부",
       "title": "대학 교과과정",
       "url": "https://sees.snu.ac.kr/academics/undergraduate/courses",
-      "supports": "대기분석 및 실험과 표영환경생태학",
-      "limitation": "관련 학부의 환경과학 분야 사례다.",
+      "supports": "대기분석 및 실험",
+      "limitation": "서울대 지구환경과학부에서 대기 자료를 분석하는 교과 사례다.",
       "verification": "PUBLIC_PAGE_BODY_CHECKED",
       "accessedAt": "2026-11-20"
     },
@@ -56,14 +56,15 @@
       "title": "학부 교육과정표",
       "url": "https://atmos.pusan.ac.kr/atmos/4940/subview.do",
       "supports": "빅데이터자료처리실습",
-      "limitation": "대기환경과학과의 비교 사례다.",
+      "limitation": "부산대 대기환경과학과의 대기 관련 데이터 처리 교과 사례다.",
       "verification": "PUBLIC_PAGE_BODY_CHECKED",
       "accessedAt": "2026-11-20"
     }
   ],
   "excludedClaims": [
     "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
-    "자료에 없는 수업 방식 및 공식 과제"
+    "자료에 없는 수업 방식 및 공식 과제",
+    "유사 학과·세부 전공 자료에서 확인한 사례의 전공 전체 일반화, 필수 교과·이수·자격 요건 단정"
   ],
   "beforeApproval": [
     "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",

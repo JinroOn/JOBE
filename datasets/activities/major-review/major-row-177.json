@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M177_DRAFT_V3",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M177_DRAFT_V3_SCOPE_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M177-01",
-      "version": "0.4.0",
+      "version": "0.4.2",
       "title": "환경 관측값과 관측 조건에 질문 붙이기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_177",
@@ -56,11 +56,10 @@
       "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
       "source_ids": [
         "m177-careernet",
-        "m177-university",
-        "m177-extra"
+        "m177-university"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 서울대학교 지구환경과학부 대학 교과과정이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -92,24 +91,11 @@
           "url": "https://sees.snu.ac.kr/academics/undergraduate/courses",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "대기분석 및 실험과 표영환경생태학",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "대기분석 및 실험",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "관련 학부의 환경과학 분야 사례다."
-        },
-        {
-          "source_id": "m177-extra",
-          "title": "학부 교육과정표",
-          "publisher": "부산대학교 대기환경과학과",
-          "url": "https://atmos.pusan.ac.kr/atmos/4940/subview.do",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "빅데이터자료처리실습",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "대기환경과학과의 비교 사례다."
+          "usage_scope": "서울대 지구환경과학부에서 대기 자료를 분석하는 교과 사례다."
         }
       ],
       "preference_question_ids": [
@@ -128,7 +114,7 @@
     },
     {
       "activity_id": "DRAFT-M177-02",
-      "version": "0.4.1",
+      "version": "0.4.2",
       "title": "가상의 그늘 유무에 따른 온도 비교하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_177",
@@ -170,11 +156,10 @@
       "safety_boundary": "실제 지역의 오염·건강·정책 효과를 판정하지 않음",
       "source_ids": [
         "m177-careernet",
-        "m177-university",
-        "m177-extra"
+        "m177-university"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 서울대학교 지구환경과학부 대학 교과과정이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -206,24 +191,11 @@
           "url": "https://sees.snu.ac.kr/academics/undergraduate/courses",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "대기분석 및 실험과 표영환경생태학",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "대기분석 및 실험",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "관련 학부의 환경과학 분야 사례다."
-        },
-        {
-          "source_id": "m177-extra",
-          "title": "학부 교육과정표",
-          "publisher": "부산대학교 대기환경과학과",
-          "url": "https://atmos.pusan.ac.kr/atmos/4940/subview.do",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "빅데이터자료처리실습",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "대기환경과학과의 비교 사례다."
+          "usage_scope": "서울대 지구환경과학부에서 대기 자료를 분석하는 교과 사례다."
         }
       ],
       "preference_question_ids": [
@@ -243,7 +215,7 @@
     },
     {
       "activity_id": "DRAFT-M177-03",
-      "version": "0.4.0",
+      "version": "0.4.2",
       "title": "다른 조건을 줄인 관측 계획 적기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_177",
@@ -285,11 +257,10 @@
       "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
       "source_ids": [
         "m177-careernet",
-        "m177-university",
-        "m177-extra"
+        "m177-university"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 서울대학교 지구환경과학부 대학 교과과정이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -321,24 +292,11 @@
           "url": "https://sees.snu.ac.kr/academics/undergraduate/courses",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "대기분석 및 실험과 표영환경생태학",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "대기분석 및 실험",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "관련 학부의 환경과학 분야 사례다."
-        },
-        {
-          "source_id": "m177-extra",
-          "title": "학부 교육과정표",
-          "publisher": "부산대학교 대기환경과학과",
-          "url": "https://atmos.pusan.ac.kr/atmos/4940/subview.do",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "빅데이터자료처리실습",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "대기환경과학과의 비교 사례다."
+          "usage_scope": "서울대 지구환경과학부에서 대기 자료를 분석하는 교과 사례다."
         }
       ],
       "preference_question_ids": [],

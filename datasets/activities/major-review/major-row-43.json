@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M43_DRAFT_V3",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M43_DRAFT_V3_SCOPE_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M43-01",
-      "version": "0.4.0",
+      "version": "0.4.2",
       "title": "통상 정책과 거래 실무에서 묻는 질문 나누기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_43",
@@ -60,7 +60,7 @@
         "m43-extra"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 한신대학교 글로벌통상리더십 교육과정이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -106,10 +106,10 @@
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
           "verified_claim": "국제통상정책론과 국제무역통상실무",
-          "application": "전공 소개와 과목명 사례 대조",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "글로벌통상리더십 편성표 사례다."
+          "usage_scope": "한신대 글로벌통상리더십 과정의 통상 정책·거래 실무 사례로 사용한다."
         }
       ],
       "preference_question_ids": [
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M43-02",
-      "version": "0.4.1",
+      "version": "0.4.2",
       "title": "가상 해외 주문의 동일 조건 견적표 만들기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_43",
@@ -174,7 +174,7 @@
         "m43-extra"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 한신대학교 글로벌통상리더십 교육과정이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -220,10 +220,10 @@
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
           "verified_claim": "국제통상정책론과 국제무역통상실무",
-          "application": "전공 소개와 과목명 사례 대조",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "글로벌통상리더십 편성표 사례다."
+          "usage_scope": "한신대 글로벌통상리더십 과정의 통상 정책·거래 실무 사례로 사용한다."
         }
       ],
       "preference_question_ids": [
@@ -243,7 +243,7 @@
     },
     {
       "activity_id": "DRAFT-M43-03",
-      "version": "0.4.1",
+      "version": "0.4.2",
       "title": "거래 조건이 달라질 때 재비교하는 방법 쓰기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_43",
@@ -289,7 +289,7 @@
         "m43-extra"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 한신대학교 글로벌통상리더십 교육과정이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -335,10 +335,10 @@
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
           "verified_claim": "국제통상정책론과 국제무역통상실무",
-          "application": "전공 소개와 과목명 사례 대조",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "글로벌통상리더십 편성표 사례다."
+          "usage_scope": "한신대 글로벌통상리더십 과정의 통상 정책·거래 실무 사례로 사용한다."
         }
       ],
       "preference_question_ids": [],

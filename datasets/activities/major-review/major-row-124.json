@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M124_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M124_DRAFT_V2_SCOPE_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M124-01",
-      "version": "0.4.0",
+      "version": "0.4.2",
       "title": "같은 공간의 이용자별 요구 읽어 내기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_124",
@@ -56,11 +56,10 @@
       "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
       "source_ids": [
         "careernet-m124",
-        "m124-university-1",
-        "m124-university-2"
+        "m124-university-1"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "이 활동에서는 해당 전공의 자료를 사용한다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -97,19 +96,6 @@
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-19",
           "usage_scope": "편람의 과목 사례다."
-        },
-        {
-          "source_id": "m124-university-2",
-          "title": "ARC2103 교과목명 변경 관련 공지",
-          "publisher": "연세대학교 건축공학과",
-          "url": "https://arch.yonsei.ac.kr/notice/arc2103-%EA%B1%B4%EC%B6%95%EC%84%A4%EA%B3%841-%EA%B5%90%EA%B3%BC%EB%AA%A9%EB%AA%85-%EB%B3%80%EA%B2%BD-%EA%B4%80%EB%A0%A8-%EA%B3%B5%EC%A7%80/page/237",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "건축학 건축설계1과 건축공학설계의 구분",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-19",
-          "usage_scope": "해당 공지의 전공·과목 구분만 인용한다."
         }
       ],
       "preference_question_ids": [
@@ -128,7 +114,7 @@
     },
     {
       "activity_id": "DRAFT-M124-02",
-      "version": "0.4.0",
+      "version": "0.4.2",
       "title": "도서관 평면도에 이용 동선 두 개 그리기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_124",
@@ -170,11 +156,10 @@
       "safety_boundary": "실제 건축 설계·구조 안전·법정 기준 판단이 아닌 격자 모형",
       "source_ids": [
         "careernet-m124",
-        "m124-university-1",
-        "m124-university-2"
+        "m124-university-1"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "이 활동에서는 해당 전공의 자료를 사용한다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -211,19 +196,6 @@
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-19",
           "usage_scope": "편람의 과목 사례다."
-        },
-        {
-          "source_id": "m124-university-2",
-          "title": "ARC2103 교과목명 변경 관련 공지",
-          "publisher": "연세대학교 건축공학과",
-          "url": "https://arch.yonsei.ac.kr/notice/arc2103-%EA%B1%B4%EC%B6%95%EC%84%A4%EA%B3%841-%EA%B5%90%EA%B3%BC%EB%AA%A9%EB%AA%85-%EB%B3%80%EA%B2%BD-%EA%B4%80%EB%A0%A8-%EA%B3%B5%EC%A7%80/page/237",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "건축학 건축설계1과 건축공학설계의 구분",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-19",
-          "usage_scope": "해당 공지의 전공·과목 구분만 인용한다."
         }
       ],
       "preference_question_ids": [
@@ -243,7 +215,7 @@
     },
     {
       "activity_id": "DRAFT-M124-03",
-      "version": "0.4.0",
+      "version": "0.4.2",
       "title": "동선이 짧아져도 남는 설계 조건 찾기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_124",
@@ -285,11 +257,10 @@
       "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
       "source_ids": [
         "careernet-m124",
-        "m124-university-1",
-        "m124-university-2"
+        "m124-university-1"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "이 활동에서는 해당 전공의 자료를 사용한다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -326,19 +297,6 @@
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-19",
           "usage_scope": "편람의 과목 사례다."
-        },
-        {
-          "source_id": "m124-university-2",
-          "title": "ARC2103 교과목명 변경 관련 공지",
-          "publisher": "연세대학교 건축공학과",
-          "url": "https://arch.yonsei.ac.kr/notice/arc2103-%EA%B1%B4%EC%B6%95%EC%84%A4%EA%B3%841-%EA%B5%90%EA%B3%BC%EB%AA%A9%EB%AA%85-%EB%B3%80%EA%B2%BD-%EA%B4%80%EB%A0%A8-%EA%B3%B5%EC%A7%80/page/237",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "건축학 건축설계1과 건축공학설계의 구분",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-19",
-          "usage_scope": "해당 공지의 전공·과목 구분만 인용한다."
         }
       ],
       "preference_question_ids": [],

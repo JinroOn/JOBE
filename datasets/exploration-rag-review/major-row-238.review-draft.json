@@ -1,6 +1,6 @@
 {
   "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
-  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M238_20261120",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M238_20261120_SCOPE_V2",
   "status": "PENDING_HUMAN_REVIEW",
   "scope": "DEV",
   "preparedBy": "Codex",
@@ -22,7 +22,7 @@
     },
     {
       "chunkType": "major_overview",
-      "text": "국민대 미술학부 회화전공에는 드로잉으로사고하기와 미학과담론이 있다. 경희대 미술학부 교육과정에는 시각예술론이 있다.",
+      "text": "국민대 미술학부 회화전공의 드로잉으로사고하기는 미술 활동 중 드로잉을 다루는 교과 사례다. 경희대 미술학부 교육과정에는 시각예술론이 있다.",
       "sourceIds": [
         "m238-university",
         "m238-extra"
@@ -45,8 +45,8 @@
       "publisher": "국민대학교 미술학부",
       "title": "회화전공 교과과정",
       "url": "https://art.kookmin.ac.kr/finearts/painting/curriculum",
-      "supports": "드로잉으로사고하기와 미학과담론",
-      "limitation": "해당 대학의 학부 교과 사례다.",
+      "supports": "드로잉으로사고하기",
+      "limitation": "국민대 미술학부 회화전공에서 드로잉을 다루는 교과 사례다.",
       "verification": "PUBLIC_PAGE_BODY_CHECKED",
       "accessedAt": "2026-11-20"
     },
@@ -63,7 +63,8 @@
   ],
   "excludedClaims": [
     "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
-    "자료에 없는 수업 방식 및 공식 과제"
+    "자료에 없는 수업 방식 및 공식 과제",
+    "유사 학과·세부 전공 자료에서 확인한 사례의 전공 전체 일반화, 필수 교과·이수·자격 요건 단정"
   ],
   "beforeApproval": [
     "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",

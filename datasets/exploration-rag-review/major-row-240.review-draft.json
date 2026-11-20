@@ -1,6 +1,6 @@
 {
   "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
-  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M240_20261120",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M240_20261120_SCOPE_V2",
   "status": "PENDING_HUMAN_REVIEW",
   "scope": "DEV",
   "preparedBy": "Codex",
@@ -15,14 +15,14 @@
   "chunks": [
     {
       "chunkType": "description",
-      "text": "스포츠산업학과는 스포츠 활동을 운영하고 관람·참여 서비스를 기획하는 산업을 공부한다. 국민대 스포츠산업레저 교육과정에는 스포츠경영 및 마케팅이 있다.",
+      "text": "스포츠산업을 탐색할 때 행사를 운영하고 관람·참여 서비스를 기획하는 일을 살펴볼 수 있다. 국민대 스포츠산업레저학과의 스포츠경영 및 마케팅은 관련 교과 사례다.",
       "sourceIds": [
         "m240-primary"
       ]
     },
     {
       "chunkType": "major_overview",
-      "text": "고려대 스포츠비즈니스전공에는 스포츠마케팅, 스포츠시장조사론과 스포츠이벤트실습이 있다.",
+      "text": "고려대 스포츠비즈니스전공의 스포츠마케팅, 스포츠시장조사론과 스포츠이벤트실습은 시장과 행사 운영을 이해하는 교과 사례다.",
       "sourceIds": [
         "m240-extra"
       ]
@@ -34,8 +34,8 @@
       "publisher": "국민대학교 체육대학",
       "title": "스포츠산업레저 교육과정",
       "url": "https://sport.kookmin.ac.kr/sports/department/curriculum02.do",
-      "supports": "스포츠산업·레저 직무 교육과 스포츠경영 및 마케팅",
-      "limitation": "관련 학과 사례다.",
+      "supports": "스포츠경영 및 마케팅",
+      "limitation": "국민대 스포츠산업레저학과에서 스포츠 경영·마케팅과 겹치는 주제를 참고한다.",
       "verification": "PUBLIC_PAGE_BODY_CHECKED",
       "accessedAt": "2026-11-20"
     },
@@ -45,14 +45,15 @@
       "title": "스포츠비즈니스전공 교과과정 및 이수체계도",
       "url": "https://gpa.korea.ac.kr/sfa/4943/subview.do",
       "supports": "스포츠마케팅·스포츠시장조사론·스포츠이벤트실습",
-      "limitation": "관련 전공 사례다.",
+      "limitation": "고려대 스포츠비즈니스전공의 시장 조사·마케팅·행사 운영 교과 사례다.",
       "verification": "PUBLIC_PAGE_BODY_CHECKED",
       "accessedAt": "2026-11-20"
     }
   ],
   "excludedClaims": [
     "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
-    "자료에 없는 수업 방식 및 공식 과제"
+    "자료에 없는 수업 방식 및 공식 과제",
+    "유사 학과·세부 전공 자료에서 확인한 사례의 전공 전체 일반화, 필수 교과·이수·자격 요건 단정"
   ],
   "beforeApproval": [
     "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",

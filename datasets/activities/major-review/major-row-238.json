@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M238_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M238_DRAFT_V2_SCOPE_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M238-01",
-      "version": "0.4.0",
+      "version": "0.4.2",
       "title": "정물화에서 먼저 볼 특징 고르기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_238",
@@ -61,7 +61,7 @@
         "m238-met-10997"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 국민대학교 미술학부 회화전공 교과과정이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -93,11 +93,11 @@
           "url": "https://art.kookmin.ac.kr/finearts/painting/curriculum",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "드로잉으로사고하기와 미학과담론",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "드로잉으로사고하기",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "해당 대학의 학부 교과 사례다."
+          "usage_scope": "국민대 미술학부 회화전공에서 드로잉을 다루는 교과 사례다."
         },
         {
           "source_id": "m238-extra",
@@ -144,7 +144,7 @@
     },
     {
       "activity_id": "DRAFT-M238-02",
-      "version": "0.4.0",
+      "version": "0.4.2",
       "title": "정물화에서 깊이를 보여 주는 단서 비교하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_238",
@@ -186,12 +186,11 @@
       "safety_boundary": "유명 작품 복제·그림 실력 채점 없이 자체 도형 사용",
       "source_ids": [
         "m238-careernet",
-        "m238-university",
         "m238-extra",
         "m238-met-10997"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "이 활동에서는 해당 전공의 자료를 사용한다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -215,19 +214,6 @@
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
           "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
-        },
-        {
-          "source_id": "m238-university",
-          "title": "회화전공 교과과정",
-          "publisher": "국민대학교 미술학부",
-          "url": "https://art.kookmin.ac.kr/finearts/painting/curriculum",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "드로잉으로사고하기와 미학과담론",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "해당 대학의 학부 교과 사례다."
         },
         {
           "source_id": "m238-extra",
@@ -275,7 +261,7 @@
     },
     {
       "activity_id": "DRAFT-M238-03",
-      "version": "0.4.0",
+      "version": "0.4.2",
       "title": "정물화의 깊이를 전할 표현 하나 고르기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_238",
@@ -317,12 +303,11 @@
       "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
       "source_ids": [
         "m238-careernet",
-        "m238-university",
         "m238-extra",
         "m238-met-10997"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "이 활동에서는 해당 전공의 자료를 사용한다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -346,19 +331,6 @@
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
           "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
-        },
-        {
-          "source_id": "m238-university",
-          "title": "회화전공 교과과정",
-          "publisher": "국민대학교 미술학부",
-          "url": "https://art.kookmin.ac.kr/finearts/painting/curriculum",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "드로잉으로사고하기와 미학과담론",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "해당 대학의 학부 교과 사례다."
         },
         {
           "source_id": "m238-extra",

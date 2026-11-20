@@ -1,6 +1,6 @@
 {
   "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
-  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M131_20261120",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M131_20261120_SCOPE_V2",
   "status": "PENDING_HUMAN_REVIEW",
   "scope": "DEV",
   "preparedBy": "Codex",
@@ -22,7 +22,7 @@
     },
     {
       "chunkType": "major_overview",
-      "text": "경상국립대 전자공학부에는 전자회로, 신호및시스템, 디지털시스템설계및실습이 있다. KAIST 전기 및 전자공학부 학부 교과목은 연속·이산 신호와 시스템을 소개한다.",
+      "text": "경상국립대 전자공학부에는 전자회로, 신호및시스템과 디지털시스템설계및실습이 있다. KAIST 전기 및 전자공학부는 같은 신호 분야에서 연속·이산 신호와 시스템을 다루는 교과 사례를 제공한다.",
       "sourceIds": [
         "m131-university",
         "m131-extra"
@@ -55,15 +55,16 @@
       "publisher": "KAIST 전기 및 전자공학부",
       "title": "학부 교과과정 리스트",
       "url": "https://ee.kaist.ac.kr/under-curr-list/",
-      "supports": "연속·이산 신호 및 시스템 학습",
-      "limitation": "해당 대학의 학부 교과 사례다.",
+      "supports": "연속·이산 신호와 시스템",
+      "limitation": "KAIST 전기 및 전자공학부의 신호 처리 교과 사례다.",
       "verification": "PUBLIC_PAGE_BODY_CHECKED",
       "accessedAt": "2026-11-20"
     }
   ],
   "excludedClaims": [
     "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
-    "자료에 없는 수업 방식 및 공식 과제"
+    "자료에 없는 수업 방식 및 공식 과제",
+    "유사 학과·세부 전공 자료에서 확인한 사례의 전공 전체 일반화, 필수 교과·이수·자격 요건 단정"
   ],
   "beforeApproval": [
     "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",

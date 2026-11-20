@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M10_DRAFT_V3",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M10_DRAFT_V3_SCOPE_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M10-01",
-      "version": "0.4.0",
+      "version": "0.4.2",
       "title": "언어 현상에 맞는 질문 유형 고르기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_10",
@@ -60,7 +60,7 @@
         "m10-extra"
       ],
       "major_source_relationship": "RELATED_NAME_NOT_EQUIVALENT",
-      "major_connection_note": "명칭/범위 차이: 기준 전공은 언어학과, 출처는 언어과학과. 관련 분야 참고이며 동일성은 미승인.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 커리어넷 대학교 학과정보 언어과학과이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -79,11 +79,11 @@
           "url": "https://www.career.go.kr/cloud/w/major/uView?seq=345",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "2020-12-02 갱신 응답에서 확인한 커리어넷 언어과학과 안내는 언어 현상을 관찰하고 언어의 구조와 사용을 연구하는 접근을 소개한다. 언어학과의 과목 사례는 대학 공식 안내에서 확인한다.",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "언어의 구조와 사용을 연구하는 접근",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "커리어넷의 명칭은 언어과학과이며 이 자료는 연결되는 내용의 참고 사례다. 전공별 범위는 대학 공식 자료로 확인한다."
+          "usage_scope": "언어학과와 겹치는 언어 구조·사용의 일반 배경으로 사용한다."
         },
         {
           "source_id": "m10-university",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M10-02",
-      "version": "0.4.1",
+      "version": "0.4.2",
       "title": "가상 언어 예문에서 낱말 순서 추정하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_10",
@@ -169,12 +169,11 @@
       "alternative": "색을 두 가지로 써서 앞 낱말과 뒤 낱말만 구분해도 된다.",
       "safety_boundary": "실제 언어 자료나 언어능력 평가가 아닌 자체 인공 언어 사용",
       "source_ids": [
-        "m10-careernet",
         "m10-university",
         "m10-extra"
       ],
       "major_source_relationship": "RELATED_NAME_NOT_EQUIVALENT",
-      "major_connection_note": "명칭/범위 차이: 기준 전공은 언어학과, 출처는 언어과학과. 관련 분야 참고이며 동일성은 미승인.",
+      "major_connection_note": "이 활동에서는 해당 전공의 자료를 사용한다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -186,19 +185,6 @@
       "worksheet_markdown": "## 가상 언어 예문에서 낱말 순서 추정하기\n\n가상 예문 ‘mipa tomo’는 ‘작은 집’, ‘selo tomo’는 ‘큰 집’, ‘mipa kavi’는 ‘작은 가방’이다.\n\n| 가상 표현 | 반복 부분 | 추정 뜻 | 근거 |\n|---|---|---|---|\n| | | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
-        {
-          "source_id": "m10-careernet",
-          "title": "대학교 학과정보 언어과학과",
-          "publisher": "커리어넷",
-          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=345",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "2020-12-02 갱신 응답에서 확인한 커리어넷 언어과학과 안내는 언어 현상을 관찰하고 언어의 구조와 사용을 연구하는 접근을 소개한다. 언어학과의 과목 사례는 대학 공식 안내에서 확인한다.",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "커리어넷의 명칭은 언어과학과이며 이 자료는 연결되는 내용의 참고 사례다. 전공별 범위는 대학 공식 자료로 확인한다."
-        },
         {
           "source_id": "m10-university",
           "title": "학부 전공안내",
@@ -243,7 +229,7 @@
     },
     {
       "activity_id": "DRAFT-M10-03",
-      "version": "0.4.0",
+      "version": "0.4.2",
       "title": "추정한 순서를 다시 시험할 예문 정하기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_10",
@@ -284,12 +270,11 @@
       "alternative": "새 표현을 만들기 어렵다면 확인할 질문만 적는다.",
       "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
       "source_ids": [
-        "m10-careernet",
         "m10-university",
         "m10-extra"
       ],
       "major_source_relationship": "RELATED_NAME_NOT_EQUIVALENT",
-      "major_connection_note": "명칭/범위 차이: 기준 전공은 언어학과, 출처는 언어과학과. 관련 분야 참고이며 동일성은 미승인.",
+      "major_connection_note": "이 활동에서는 해당 전공의 자료를 사용한다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -301,19 +286,6 @@
       "worksheet_markdown": "## 추정한 순서를 다시 시험할 예문 정하기\n\n앞에서 제안한 가상 언어 규칙을 본다.\n\n| 가설 | 새 예문 | 확인 점 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
-        {
-          "source_id": "m10-careernet",
-          "title": "대학교 학과정보 언어과학과",
-          "publisher": "커리어넷",
-          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=345",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "2020-12-02 갱신 응답에서 확인한 커리어넷 언어과학과 안내는 언어 현상을 관찰하고 언어의 구조와 사용을 연구하는 접근을 소개한다. 언어학과의 과목 사례는 대학 공식 안내에서 확인한다.",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "커리어넷의 명칭은 언어과학과이며 이 자료는 연결되는 내용의 참고 사례다. 전공별 범위는 대학 공식 자료로 확인한다."
-        },
         {
           "source_id": "m10-university",
           "title": "학부 전공안내",

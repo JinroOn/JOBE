@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M126_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M126_DRAFT_V2_SCOPE_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M126-01",
-      "version": "0.4.0",
+      "version": "0.4.2",
       "title": "센서가 읽는 값과 로봇의 동작 구분하기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_126",
@@ -56,11 +56,10 @@
       "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
       "source_ids": [
         "m126-careernet",
-        "m126-university",
-        "m126-extra"
+        "m126-university"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 광운대학교 로봇학부 정보제어·지능시스템전공 교육과정이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -92,24 +91,11 @@
           "url": "https://www.kw.ac.kr/ko/univ/ai05_4.jsp",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "센서공학 교과목",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "센서공학",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "해당 대학의 학부 교과 사례다."
-        },
-        {
-          "source_id": "m126-extra",
-          "title": "다전공 이수제도 안내",
-          "publisher": "광운대학교",
-          "url": "https://www.kw.ac.kr/ko/life/bachelor_info11.jsp",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "로봇공학전공의 모바일로봇의이해·모터제어",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "다전공 사례이며 개설은 해당 학기 자료에서 확인한다."
+          "usage_scope": "광운대 로봇학부 정보제어·지능시스템전공의 센서 교과 사례다."
         }
       ],
       "preference_question_ids": [
@@ -128,7 +114,7 @@
     },
     {
       "activity_id": "DRAFT-M126-02",
-      "version": "0.4.0",
+      "version": "0.4.2",
       "title": "종이 지도에서 로봇 이동 규칙 시험하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_126",
@@ -170,11 +156,10 @@
       "safety_boundary": "실제 로봇 구동·전기 배선 없이 격자 모형 사용",
       "source_ids": [
         "m126-careernet",
-        "m126-university",
         "m126-extra"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 광운대학교 다전공 이수제도 안내이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -200,30 +185,17 @@
           "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
         },
         {
-          "source_id": "m126-university",
-          "title": "로봇학부 정보제어·지능시스템전공 교육과정",
-          "publisher": "광운대학교",
-          "url": "https://www.kw.ac.kr/ko/univ/ai05_4.jsp",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "센서공학 교과목",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "해당 대학의 학부 교과 사례다."
-        },
-        {
           "source_id": "m126-extra",
           "title": "다전공 이수제도 안내",
           "publisher": "광운대학교",
           "url": "https://www.kw.ac.kr/ko/life/bachelor_info11.jsp",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "로봇공학전공의 모바일로봇의이해·모터제어",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "모바일로봇의이해와 모터제어",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "다전공 사례이며 개설은 해당 학기 자료에서 확인한다."
+          "usage_scope": "광운대 로봇공학 연계전공의 이동·제어 교과 사례다."
         }
       ],
       "preference_question_ids": [
@@ -243,7 +215,7 @@
     },
     {
       "activity_id": "DRAFT-M126-03",
-      "version": "0.4.0",
+      "version": "0.4.2",
       "title": "센서 입력을 모를 때 동작 정하기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_126",
@@ -285,11 +257,10 @@
       "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
       "source_ids": [
         "m126-careernet",
-        "m126-university",
-        "m126-extra"
+        "m126-university"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 광운대학교 로봇학부 정보제어·지능시스템전공 교육과정이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -321,24 +292,11 @@
           "url": "https://www.kw.ac.kr/ko/univ/ai05_4.jsp",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "센서공학 교과목",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "센서공학",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "해당 대학의 학부 교과 사례다."
-        },
-        {
-          "source_id": "m126-extra",
-          "title": "다전공 이수제도 안내",
-          "publisher": "광운대학교",
-          "url": "https://www.kw.ac.kr/ko/life/bachelor_info11.jsp",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "로봇공학전공의 모바일로봇의이해·모터제어",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "다전공 사례이며 개설은 해당 학기 자료에서 확인한다."
+          "usage_scope": "광운대 로봇학부 정보제어·지능시스템전공의 센서 교과 사례다."
         }
       ],
       "preference_question_ids": [],

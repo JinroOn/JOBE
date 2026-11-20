@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M172_DRAFT_V3",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M172_DRAFT_V3_SCOPE_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M172-01",
-      "version": "0.4.0",
+      "version": "0.4.2",
       "title": "같은 장소의 지질과 날씨에 다른 질문 붙이기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_172",
@@ -59,7 +59,7 @@
         "m172-university"
       ],
       "major_source_relationship": "RELATED_NAME_NOT_EQUIVALENT",
-      "major_connection_note": "명칭/범위 차이: 기준 전공은 지구과학과, 출처는 지구환경과학과. 관련 분야 참고이며 동일성은 미승인.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 커리어넷 대학교 학과정보 지구환경과학과, 서울대학교 지구환경과학부 대학 교과과정이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -78,11 +78,11 @@
           "url": "https://www.career.go.kr/cloud/w/major/uView?seq=523",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "2023-06-02 갱신 응답에서 확인한 커리어넷 지구환경과학과 안내는 지구의 구성과 대기·해양 환경 변화의 이해를 소개한다. 관련 과목에는 기후학개론과 지구시스템진화가 있다.",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "지구의 구성과 대기·해양 환경 변화",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "커리어넷의 명칭은 지구환경과학과이며 이 자료는 연결되는 내용의 참고 사례다. 전공별 범위는 대학 공식 자료로 확인한다."
+          "usage_scope": "지구환경과학 안내 중 지구 시스템의 공통 주제로 사용한다."
         },
         {
           "source_id": "m172-university",
@@ -91,11 +91,11 @@
           "url": "https://sees.snu.ac.kr/academics/undergraduate/courses",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "물리해양학 및 실험·미기상학 개론 및 실습·행성지질학",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "미기상학 개론 및 실습·물리해양학 및 실험·행성지질학",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "지구환경과학부의 학부 사례다."
+          "usage_scope": "서울대 지구환경과학부의 대기 관측·해양·지질 교과 사례다."
         }
       ],
       "preference_question_ids": [
@@ -114,7 +114,7 @@
     },
     {
       "activity_id": "DRAFT-M172-02",
-      "version": "0.4.1",
+      "version": "0.4.2",
       "title": "가상 기온표에서 비교 조건 찾기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_172",
@@ -155,11 +155,10 @@
       "alternative": "숫자를 그대로 옮기고 빈칸만 표시한다.",
       "safety_boundary": "실제 기상·기후 결론이나 현장 관측을 요구하지 않음",
       "source_ids": [
-        "m172-careernet",
         "m172-university"
       ],
       "major_source_relationship": "RELATED_NAME_NOT_EQUIVALENT",
-      "major_connection_note": "명칭/범위 차이: 기준 전공은 지구과학과, 출처는 지구환경과학과. 관련 분야 참고이며 동일성은 미승인.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 서울대학교 지구환경과학부 대학 교과과정이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -172,30 +171,17 @@
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {
-          "source_id": "m172-careernet",
-          "title": "대학교 학과정보 지구환경과학과",
-          "publisher": "커리어넷",
-          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=523",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "2023-06-02 갱신 응답에서 확인한 커리어넷 지구환경과학과 안내는 지구의 구성과 대기·해양 환경 변화의 이해를 소개한다. 관련 과목에는 기후학개론과 지구시스템진화가 있다.",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "커리어넷의 명칭은 지구환경과학과이며 이 자료는 연결되는 내용의 참고 사례다. 전공별 범위는 대학 공식 자료로 확인한다."
-        },
-        {
           "source_id": "m172-university",
           "title": "대학 교과과정",
           "publisher": "서울대학교 지구환경과학부",
           "url": "https://sees.snu.ac.kr/academics/undergraduate/courses",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "물리해양학 및 실험·미기상학 개론 및 실습·행성지질학",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "미기상학 개론 및 실습·물리해양학 및 실험·행성지질학",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "지구환경과학부의 학부 사례다."
+          "usage_scope": "서울대 지구환경과학부의 대기 관측·해양·지질 교과 사례다."
         }
       ],
       "preference_question_ids": [
@@ -215,7 +201,7 @@
     },
     {
       "activity_id": "DRAFT-M172-03",
-      "version": "0.4.0",
+      "version": "0.4.2",
       "title": "하루 관측을 다른 날로 일반화하기 전에 확인하기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_172",
@@ -256,11 +242,10 @@
       "alternative": "실제 야외 활동 없이 가상 계획만 작성한다.",
       "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
       "source_ids": [
-        "m172-careernet",
         "m172-university"
       ],
       "major_source_relationship": "RELATED_NAME_NOT_EQUIVALENT",
-      "major_connection_note": "명칭/범위 차이: 기준 전공은 지구과학과, 출처는 지구환경과학과. 관련 분야 참고이며 동일성은 미승인.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 서울대학교 지구환경과학부 대학 교과과정이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -273,30 +258,17 @@
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {
-          "source_id": "m172-careernet",
-          "title": "대학교 학과정보 지구환경과학과",
-          "publisher": "커리어넷",
-          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=523",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "2023-06-02 갱신 응답에서 확인한 커리어넷 지구환경과학과 안내는 지구의 구성과 대기·해양 환경 변화의 이해를 소개한다. 관련 과목에는 기후학개론과 지구시스템진화가 있다.",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "커리어넷의 명칭은 지구환경과학과이며 이 자료는 연결되는 내용의 참고 사례다. 전공별 범위는 대학 공식 자료로 확인한다."
-        },
-        {
           "source_id": "m172-university",
           "title": "대학 교과과정",
           "publisher": "서울대학교 지구환경과학부",
           "url": "https://sees.snu.ac.kr/academics/undergraduate/courses",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "물리해양학 및 실험·미기상학 개론 및 실습·행성지질학",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "미기상학 개론 및 실습·물리해양학 및 실험·행성지질학",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "지구환경과학부의 학부 사례다."
+          "usage_scope": "서울대 지구환경과학부의 대기 관측·해양·지질 교과 사례다."
         }
       ],
       "preference_question_ids": [],

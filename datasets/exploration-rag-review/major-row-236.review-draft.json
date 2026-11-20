@@ -1,6 +1,6 @@
 {
   "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
-  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M236_20261120",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M236_20261120_SCOPE_V2",
   "status": "PENDING_HUMAN_REVIEW",
   "scope": "DEV",
   "preparedBy": "Codex",
@@ -22,7 +22,7 @@
     },
     {
       "chunkType": "major_overview",
-      "text": "숭실대 과거 요람의 디지털디자인학과 과정에는 인터페이스디자인이 있다. 경희대 시각디자인 교과 체계도에는 디지털디자인과 사용자경험 영역이 제시된다.",
+      "text": "숭실대 2009–2010 요람의 디지털디자인학과에는 인터페이스디자인이 수록되어 있다. 경희대 시각디자인전공 교육과정의 디지털디자인·사용자경험 영역은 공통 주제의 사례다.",
       "sourceIds": [
         "m236-university",
         "m236-extra"
@@ -45,8 +45,8 @@
       "publisher": "숭실대학교",
       "title": "2009–2010 요람 디지털디자인학과 교과과정",
       "url": "https://ssu.ac.kr/wp-content/uploads/2021/12/2009_2010-%EC%88%AD%EC%8B%A4%EB%8C%80%ED%95%99%EA%B5%90-%EC%9A%94%EB%9E%8C%EC%B5%9C%EC%A2%85.pdf",
-      "supports": "인터페이스디자인 과목",
-      "limitation": "과거 요람의 교과 사례다.",
+      "supports": "숭실대 2009–2010 요람의 인터페이스디자인",
+      "limitation": "2009–2010년 요람에 수록된 교과 사례로만 사용한다.",
       "verification": "PUBLIC_PAGE_BODY_CHECKED",
       "accessedAt": "2026-11-20"
     },
@@ -56,14 +56,15 @@
       "title": "시각디자인 전공 교육과정 체계도",
       "url": "https://vd.khu.ac.kr/upload/contents/202510/202510100513225530.pdf",
       "supports": "디지털디자인과 사용자경험 영역",
-      "limitation": "관련 전공의 비교 사례다.",
+      "limitation": "경희대 시각디자인전공의 디지털 화면과 사용자경험에 해당하는 범위만 사용한다.",
       "verification": "PUBLIC_PAGE_BODY_CHECKED",
       "accessedAt": "2026-11-20"
     }
   ],
   "excludedClaims": [
     "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
-    "자료에 없는 수업 방식 및 공식 과제"
+    "자료에 없는 수업 방식 및 공식 과제",
+    "유사 학과·세부 전공 자료에서 확인한 사례의 전공 전체 일반화, 필수 교과·이수·자격 요건 단정"
   ],
   "beforeApproval": [
     "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",

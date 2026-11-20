@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M169_DRAFT_V3",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M169_DRAFT_V3_SCOPE_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M169-01",
-      "version": "0.4.0",
+      "version": "0.4.2",
       "title": "생물 형태를 비교할 관찰 기준 정하기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_169",
@@ -60,7 +60,7 @@
         "m169-extra"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 부산대학교 자연과학대학 생명과학과 소개, 부산대학교 학부교과과정이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -92,11 +92,11 @@
           "url": "https://natural.pusan.ac.kr/natural/14101/subview.do",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "생물학의 동식물 형태 분류·생리·생태",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "생물의 형태·분류",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "명칭이 다른 생명과학과에서 설명한 생물학 분야다."
+          "usage_scope": "부산대 생명과학과 소개에서 생물학의 관찰·분류와 겹치는 주제를 참고한다."
         },
         {
           "source_id": "m169-extra",
@@ -106,10 +106,10 @@
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
           "verified_claim": "식물계통분류학·동물계통분류학·식물형태학",
-          "application": "전공 소개와 과목명 사례 대조",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "수록 교과 사례다."
+          "usage_scope": "부산대 생명과학과의 형태 관찰과 분류 관련 교과 사례다."
         }
       ],
       "preference_question_ids": [
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M169-02",
-      "version": "0.4.1",
+      "version": "0.4.2",
       "title": "가상 잎 세 장을 두 기준으로 분류하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_169",
@@ -170,11 +170,10 @@
       "safety_boundary": "실제 종 동정·생물 채집·서식지 접근 없음",
       "source_ids": [
         "m169-careernet",
-        "m169-university",
         "m169-extra"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 부산대학교 학부교과과정이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -200,19 +199,6 @@
           "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
         },
         {
-          "source_id": "m169-university",
-          "title": "생명과학과 소개",
-          "publisher": "부산대학교 자연과학대학",
-          "url": "https://natural.pusan.ac.kr/natural/14101/subview.do",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "생물학의 동식물 형태 분류·생리·생태",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "명칭이 다른 생명과학과에서 설명한 생물학 분야다."
-        },
-        {
           "source_id": "m169-extra",
           "title": "학부교과과정",
           "publisher": "부산대학교",
@@ -220,10 +206,10 @@
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
           "verified_claim": "식물계통분류학·동물계통분류학·식물형태학",
-          "application": "전공 소개와 과목명 사례 대조",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "수록 교과 사례다."
+          "usage_scope": "부산대 생명과학과의 형태 관찰과 분류 관련 교과 사례다."
         }
       ],
       "preference_question_ids": [
@@ -243,7 +229,7 @@
     },
     {
       "activity_id": "DRAFT-M169-03",
-      "version": "0.4.0",
+      "version": "0.4.2",
       "title": "겉모양 분류가 말해 주는 범위 적기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_169",
@@ -285,11 +271,10 @@
       "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
       "source_ids": [
         "m169-careernet",
-        "m169-university",
         "m169-extra"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 부산대학교 학부교과과정이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -315,19 +300,6 @@
           "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
         },
         {
-          "source_id": "m169-university",
-          "title": "생명과학과 소개",
-          "publisher": "부산대학교 자연과학대학",
-          "url": "https://natural.pusan.ac.kr/natural/14101/subview.do",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "생물학의 동식물 형태 분류·생리·생태",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "명칭이 다른 생명과학과에서 설명한 생물학 분야다."
-        },
-        {
           "source_id": "m169-extra",
           "title": "학부교과과정",
           "publisher": "부산대학교",
@@ -335,10 +307,10 @@
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
           "verified_claim": "식물계통분류학·동물계통분류학·식물형태학",
-          "application": "전공 소개와 과목명 사례 대조",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "수록 교과 사례다."
+          "usage_scope": "부산대 생명과학과의 형태 관찰과 분류 관련 교과 사례다."
         }
       ],
       "preference_question_ids": [],

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
-  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M124_20261119",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M124_20261119_SCOPE_V2",
   "status": "PENDING_HUMAN_REVIEW",
   "scope": "DEV",
   "preparedBy": "Codex",
@@ -22,10 +22,9 @@
     },
     {
       "chunkType": "major_overview",
-      "text": "서울대 건축학전공 학사과정 자료에는 건축설계스튜디오가 있다. 연세대 공지는 건축학전공의 건축설계1과 이름이 비슷한 건축공학설계를 별도 과목으로 안내한다.",
+      "text": "서울대 건축학전공 학사과정의 건축설계스튜디오는 건축 공간을 설계하는 교과 사례다.",
       "sourceIds": [
-        "m124-university-1",
-        "m124-university-2"
+        "m124-university-1"
       ]
     }
   ],
@@ -49,21 +48,12 @@
       "limitation": "편람의 과목 사례다.",
       "verification": "PUBLIC_PAGE_BODY_CHECKED",
       "accessedAt": "2026-11-19"
-    },
-    {
-      "sourceId": "m124-university-2",
-      "publisher": "연세대학교 건축공학과",
-      "title": "ARC2103 교과목명 변경 관련 공지",
-      "url": "https://arch.yonsei.ac.kr/notice/arc2103-%EA%B1%B4%EC%B6%95%EC%84%A4%EA%B3%841-%EA%B5%90%EA%B3%BC%EB%AA%A9%EB%AA%85-%EB%B3%80%EA%B2%BD-%EA%B4%80%EB%A0%A8-%EA%B3%B5%EC%A7%80/page/237",
-      "supports": "건축학 건축설계1과 건축공학설계의 구분",
-      "limitation": "해당 공지의 전공·과목 구분만 인용한다.",
-      "verification": "PUBLIC_PAGE_BODY_CHECKED",
-      "accessedAt": "2026-11-19"
     }
   ],
   "excludedClaims": [
     "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
-    "자료에 없는 수업 방식 및 공식 과제"
+    "자료에 없는 수업 방식 및 공식 과제",
+    "유사 학과·세부 전공 자료에서 확인한 사례의 전공 전체 일반화, 필수 교과·이수·자격 요건 단정"
   ],
   "beforeApproval": [
     "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",

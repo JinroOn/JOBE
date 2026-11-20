@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M7_DRAFT_V3",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M7_DRAFT_V3_SCOPE_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M7-01",
-      "version": "0.4.0",
+      "version": "0.4.2",
       "title": "보존 기록에서 필요한 항목 찾기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_7",
@@ -56,11 +56,10 @@
       "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
       "source_ids": [
         "m7-careernet",
-        "m7-university",
-        "m7-extra"
+        "m7-university"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 한국전통문화대학교 보존과학과 교과과정이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -92,24 +91,11 @@
           "url": "https://www.knuh.ac.kr/cs/content.do?mnuBaseId=MNU0000352&topBaseId=MNU0000351&tplBaseId=TPL0000108",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "문화재검진및기록화실습과 유기재료학",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "문화재검진및기록화실습",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "해당 대학의 학부 교과 사례다."
-        },
-        {
-          "source_id": "m7-extra",
-          "title": "진로진학 가이드북",
-          "publisher": "국립공주대학교",
-          "url": "https://ipsi.kongju.ac.kr/download/1558252368262/index.html",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "문화유산진단기술론과 금속문화재보존실습",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "가이드북에서 소개한 교과목 사례다."
+          "usage_scope": "보존과학과의 상태 관찰·기록 교과 사례로 사용한다."
         }
       ],
       "preference_question_ids": [
@@ -128,7 +114,7 @@
     },
     {
       "activity_id": "DRAFT-M7-02",
-      "version": "0.4.1",
+      "version": "0.4.2",
       "title": "가상 종이 카드 상태도 그리기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_7",
@@ -170,11 +156,10 @@
       "safety_boundary": "실제 문화재 세척·약품 처리·복원 실습은 하지 않음",
       "source_ids": [
         "m7-careernet",
-        "m7-university",
-        "m7-extra"
+        "m7-university"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 한국전통문화대학교 보존과학과 교과과정이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -206,24 +191,11 @@
           "url": "https://www.knuh.ac.kr/cs/content.do?mnuBaseId=MNU0000352&topBaseId=MNU0000351&tplBaseId=TPL0000108",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "문화재검진및기록화실습과 유기재료학",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "문화재검진및기록화실습",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "해당 대학의 학부 교과 사례다."
-        },
-        {
-          "source_id": "m7-extra",
-          "title": "진로진학 가이드북",
-          "publisher": "국립공주대학교",
-          "url": "https://ipsi.kongju.ac.kr/download/1558252368262/index.html",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "문화유산진단기술론과 금속문화재보존실습",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "가이드북에서 소개한 교과목 사례다."
+          "usage_scope": "보존과학과의 상태 관찰·기록 교과 사례로 사용한다."
         }
       ],
       "preference_question_ids": [
@@ -243,7 +215,7 @@
     },
     {
       "activity_id": "DRAFT-M7-03",
-      "version": "0.4.0",
+      "version": "0.4.2",
       "title": "다음 관찰에서 같은 조건 맞추기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_7",
@@ -285,11 +257,10 @@
       "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
       "source_ids": [
         "m7-careernet",
-        "m7-university",
-        "m7-extra"
+        "m7-university"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 한국전통문화대학교 보존과학과 교과과정이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -321,24 +292,11 @@
           "url": "https://www.knuh.ac.kr/cs/content.do?mnuBaseId=MNU0000352&topBaseId=MNU0000351&tplBaseId=TPL0000108",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "문화재검진및기록화실습과 유기재료학",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "문화재검진및기록화실습",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "해당 대학의 학부 교과 사례다."
-        },
-        {
-          "source_id": "m7-extra",
-          "title": "진로진학 가이드북",
-          "publisher": "국립공주대학교",
-          "url": "https://ipsi.kongju.ac.kr/download/1558252368262/index.html",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "문화유산진단기술론과 금속문화재보존실습",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "가이드북에서 소개한 교과목 사례다."
+          "usage_scope": "보존과학과의 상태 관찰·기록 교과 사례로 사용한다."
         }
       ],
       "preference_question_ids": [],

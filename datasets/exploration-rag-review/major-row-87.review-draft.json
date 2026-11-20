@@ -1,6 +1,6 @@
 {
   "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
-  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M87_20261119",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M87_20261119_SCOPE_V2",
   "status": "PENDING_HUMAN_REVIEW",
   "scope": "DEV",
   "preparedBy": "Codex",
@@ -15,17 +15,16 @@
   "chunks": [
     {
       "chunkType": "description",
-      "text": "교육학과는 학습과 수업을 둘러싼 이론을 공부하고 교육 현장의 문제를 분석한다. 커리어넷은 교육학개론, 교육사회학과 교육심리를 대표 과목으로 소개한다.",
+      "text": "교육학과에서는 학습과 수업을 둘러싼 이론을 공부하고 교육 현장의 문제를 분석한다. 커리어넷은 교육학개론, 교육사회학과 교육심리를 교과 사례로 소개한다.",
       "sourceIds": [
         "careernet-m87"
       ]
     },
     {
       "chunkType": "major_overview",
-      "text": "고려대 교육학과 학부 교수요목은 교육과정, 교육평가와 교육공학에서 다루는 내용을 설명한다. 서울대 학사편람의 사범대학 교직이론 과목에도 교육과정, 교육평가와 교육심리가 제시된다.",
+      "text": "고려대 교육학과의 학부 교수요목에서는 교육과정, 교육평가와 교육공학에서 다루는 내용을 살펴볼 수 있다.",
       "sourceIds": [
-        "m87-university-1",
-        "m87-university-2"
+        "m87-university-1"
       ]
     }
   ],
@@ -49,21 +48,12 @@
       "limitation": "고려대 교육학과 개설 과목 사례다.",
       "verification": "PUBLIC_PAGE_BODY_CHECKED",
       "accessedAt": "2026-11-19"
-    },
-    {
-      "sourceId": "m87-university-2",
-      "publisher": "서울대학교",
-      "title": "2024 학사과정 교과목 편람",
-      "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2025/04/Undergraduate_Course_List_2024.pdf",
-      "supports": "사범대학 교직이론 목록의 교육과정·교육평가·교육심리",
-      "limitation": "교육학과 전체 교과과정이 아닌 사범대학 교직이론의 비교 사례다.",
-      "verification": "PUBLIC_PAGE_BODY_CHECKED",
-      "accessedAt": "2026-11-19"
     }
   ],
   "excludedClaims": [
     "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
-    "자료에 없는 수업 방식 및 공식 과제"
+    "자료에 없는 수업 방식 및 공식 과제",
+    "유사 학과·세부 전공 자료에서 확인한 사례의 전공 전체 일반화, 필수 교과·이수·자격 요건 단정"
   ],
   "beforeApproval": [
     "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",

@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M174_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M174_DRAFT_V2_SCOPE_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M174-01",
-      "version": "0.4.0",
+      "version": "0.4.2",
       "title": "조사 설계와 자료 분석 과목 비교하기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_174",
@@ -56,11 +56,10 @@
       "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
       "source_ids": [
         "careernet-m174",
-        "m174-university-1",
-        "m174-university-2"
+        "m174-university-1"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "이 활동에서는 해당 전공의 자료를 사용한다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -97,19 +96,6 @@
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-19",
           "usage_scope": "2024 편람의 통계학과 과목 사례다."
-        },
-        {
-          "source_id": "m174-university-2",
-          "title": "학부교육과정",
-          "publisher": "연세대학교 응용통계학과",
-          "url": "https://stat.yonsei.ac.kr/stat/education/process.do",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "회귀분석과 실제 자료에 적용하는 통계 방법",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-19",
-          "usage_scope": "명칭이 다른 응용통계학과의 비교 사례다."
         }
       ],
       "preference_question_ids": [
@@ -128,7 +114,7 @@
     },
     {
       "activity_id": "DRAFT-M174-02",
-      "version": "0.4.0",
+      "version": "0.4.2",
       "title": "비율을 비교하기 전에 응답 수 확인하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_174",
@@ -170,11 +156,10 @@
       "safety_boundary": "실제 집단의 성향·건강·성과를 추정하지 않음",
       "source_ids": [
         "careernet-m174",
-        "m174-university-1",
-        "m174-university-2"
+        "m174-university-1"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "이 활동에서는 해당 전공의 자료를 사용한다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -211,19 +196,6 @@
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-19",
           "usage_scope": "2024 편람의 통계학과 과목 사례다."
-        },
-        {
-          "source_id": "m174-university-2",
-          "title": "학부교육과정",
-          "publisher": "연세대학교 응용통계학과",
-          "url": "https://stat.yonsei.ac.kr/stat/education/process.do",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "회귀분석과 실제 자료에 적용하는 통계 방법",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-19",
-          "usage_scope": "명칭이 다른 응용통계학과의 비교 사례다."
         }
       ],
       "preference_question_ids": [
@@ -243,7 +215,7 @@
     },
     {
       "activity_id": "DRAFT-M174-03",
-      "version": "0.4.0",
+      "version": "0.4.2",
       "title": "조사 결과가 설명하는 사람의 범위 적기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_174",
@@ -285,11 +257,10 @@
       "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
       "source_ids": [
         "careernet-m174",
-        "m174-university-1",
-        "m174-university-2"
+        "m174-university-1"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "이 활동에서는 해당 전공의 자료를 사용한다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -326,19 +297,6 @@
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-19",
           "usage_scope": "2024 편람의 통계학과 과목 사례다."
-        },
-        {
-          "source_id": "m174-university-2",
-          "title": "학부교육과정",
-          "publisher": "연세대학교 응용통계학과",
-          "url": "https://stat.yonsei.ac.kr/stat/education/process.do",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "회귀분석과 실제 자료에 적용하는 통계 방법",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-19",
-          "usage_scope": "명칭이 다른 응용통계학과의 비교 사례다."
         }
       ],
       "preference_question_ids": [],

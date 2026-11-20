@@ -1,6 +1,6 @@
 {
   "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
-  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M7_20261120",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M7_20261120_SCOPE_V2",
   "status": "PENDING_HUMAN_REVIEW",
   "scope": "DEV",
   "preparedBy": "Codex",
@@ -22,7 +22,7 @@
     },
     {
       "chunkType": "major_overview",
-      "text": "한국전통문화대 보존과학과 교과과정에는 문화재검진및기록화실습과 유기재료학이 있다. 공주대 진로진학 가이드북은 문화유산진단기술론과 금속문화재보존실습을 소개한다.",
+      "text": "한국전통문화대 보존과학과의 문화재검진및기록화실습은 유산 상태를 관찰하고 기록하는 교과 사례다. 공주대 가이드북에는 유산의 상태 진단과 관련된 문화유산진단기술론이 소개된다.",
       "sourceIds": [
         "m7-university",
         "m7-extra"
@@ -45,8 +45,8 @@
       "publisher": "한국전통문화대학교 보존과학과",
       "title": "교과과정",
       "url": "https://www.knuh.ac.kr/cs/content.do?mnuBaseId=MNU0000352&topBaseId=MNU0000351&tplBaseId=TPL0000108",
-      "supports": "문화재검진및기록화실습과 유기재료학",
-      "limitation": "해당 대학의 학부 교과 사례다.",
+      "supports": "문화재검진및기록화실습",
+      "limitation": "보존과학과의 상태 관찰·기록 교과 사례로 사용한다.",
       "verification": "PUBLIC_PAGE_BODY_CHECKED",
       "accessedAt": "2026-11-20"
     },
@@ -55,15 +55,16 @@
       "publisher": "국립공주대학교",
       "title": "진로진학 가이드북",
       "url": "https://ipsi.kongju.ac.kr/download/1558252368262/index.html",
-      "supports": "문화유산진단기술론과 금속문화재보존실습",
-      "limitation": "가이드북에서 소개한 교과목 사례다.",
+      "supports": "문화유산진단기술론",
+      "limitation": "문화유산 상태를 진단하는 교과 사례로 사용한다.",
       "verification": "PUBLIC_PAGE_BODY_CHECKED",
       "accessedAt": "2026-11-20"
     }
   ],
   "excludedClaims": [
     "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
-    "자료에 없는 수업 방식 및 공식 과제"
+    "자료에 없는 수업 방식 및 공식 과제",
+    "유사 학과·세부 전공 자료에서 확인한 사례의 전공 전체 일반화, 필수 교과·이수·자격 요건 단정"
   ],
   "beforeApproval": [
     "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
-  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M3_20261120",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M3_20261120_SCOPE_V2",
   "status": "PENDING_HUMAN_REVIEW",
   "scope": "DEV",
   "preparedBy": "Codex",
@@ -15,7 +15,7 @@
   "chunks": [
     {
       "chunkType": "description",
-      "text": "커리어넷 사학과 안내는 과거의 역사와 의미를 연구하는 전공의 공통 배경을 설명한다. 국사학과의 한국사 학습 범위와 실제 과목은 대학의 한국사 전공 자료로 확인한다.",
+      "text": "커리어넷 사학과 자료는 역사 자료로 과거를 해석하는 접근을 소개한다. 국사학과 탐색에서는 이 접근을 한국사 사료에 적용한다.",
       "sourceIds": [
         "m3-careernet"
       ]
@@ -36,8 +36,8 @@
       "title": "대학교 학과정보 사학과",
       "url": "https://www.career.go.kr/cloud/w/major/uView?seq=236",
       "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
-      "supports": "2020-12-02 갱신 응답에서 확인한 커리어넷 사학과 안내는 과거의 역사와 의미를 연구하는 전공의 공통 배경을 설명한다. 국사학과의 한국사 학습 범위와 실제 과목은 대학의 한국사 전공 자료로 확인한다.",
-      "limitation": "커리어넷의 명칭은 사학과이며 이 자료는 연결되는 내용의 참고 사례다. 전공별 범위는 대학 공식 자료로 확인한다.",
+      "supports": "역사 자료를 바탕으로 과거를 해석하는 접근",
+      "limitation": "사학과 일반 안내를 역사 연구 방법의 배경으로만 사용한다. 한국사 교과의 근거는 한국사 전공 자료다.",
       "accessedAt": "2026-11-20"
     },
     {
@@ -63,7 +63,8 @@
   ],
   "excludedClaims": [
     "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
-    "자료에 없는 수업 방식 및 공식 과제"
+    "자료에 없는 수업 방식 및 공식 과제",
+    "유사 학과·세부 전공 자료에서 확인한 사례의 전공 전체 일반화, 필수 교과·이수·자격 요건 단정"
   ],
   "beforeApproval": [
     "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",

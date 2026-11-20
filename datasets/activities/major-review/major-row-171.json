@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M171_DRAFT_V3",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M171_DRAFT_V3_SCOPE_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M171-01",
-      "version": "0.4.0",
+      "version": "0.4.2",
       "title": "식품의 성분과 제품의 특징을 나눠 보기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_171",
@@ -60,7 +60,7 @@
         "m171-extra"
       ],
       "major_source_relationship": "RELATED_NAME_NOT_EQUIVALENT",
-      "major_connection_note": "명칭/범위 차이: 기준 전공은 식품과학과, 출처는 식품공학과. 관련 분야 참고이며 동일성은 미승인.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 커리어넷 대학교 학과정보 식품공학과, 경희대학교 식품생명공학과 교육과정 요약표(2024), 중앙대학교 식품영양전공 교과목 소개이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -79,11 +79,11 @@
           "url": "https://www.career.go.kr/cloud/w/major/uView?seq=314",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "2020-12-02 갱신 응답에서 확인한 커리어넷 식품공학과 자료는 식품 성분 분석, 가공과 품질관리를 공부하는 사례를 소개한다. 식품과학에 공통되는 성분·물성 관련 교과는 대학의 편성 자료로 확인한다.",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "식품의 성분 분석",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "커리어넷의 명칭은 식품공학과이며 이 자료는 연결되는 내용의 참고 사례다. 전공별 범위는 대학 공식 자료로 확인한다."
+          "usage_scope": "식품공학과 안내 중 식품 성분 분석의 공통 배경으로 사용한다."
         },
         {
           "source_id": "m171-university",
@@ -93,10 +93,10 @@
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
           "verified_claim": "식품학개론·분석화학및실험·식품물리화학",
-          "application": "전공 소개와 과목명 사례 대조",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "식품생명공학과 교과에서 식품과학과 겹치는 내용을 인용한다."
+          "usage_scope": "경희대 식품생명공학과의 성분·물성·분석 관련 교과 사례다."
         },
         {
           "source_id": "m171-extra",
@@ -105,11 +105,11 @@
           "url": "https://www.cau.ac.kr/cms/FR_CON/index.do?CONTENTS_NO=2&MENU_ID=1020&P_TAB_NO=2&TAB_NO=0",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "식품분석및실험·식품가공저장학",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "식품분석및실험",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "식품영양전공의 비교 사례다."
+          "usage_scope": "중앙대 식품영양전공의 성분 분석 실험 교과 사례다."
         }
       ],
       "preference_question_ids": [
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M171-02",
-      "version": "0.4.1",
+      "version": "0.4.2",
       "title": "가상 음료의 당류 표시를 같은 기준으로 비교하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_171",
@@ -170,11 +170,10 @@
       "safety_boundary": "조리·시식·실제 식품 안전 판단 없이 가상 문서 사용",
       "source_ids": [
         "m171-careernet",
-        "m171-university",
-        "m171-extra"
+        "m171-university"
       ],
       "major_source_relationship": "RELATED_NAME_NOT_EQUIVALENT",
-      "major_connection_note": "명칭/범위 차이: 기준 전공은 식품과학과, 출처는 식품공학과. 관련 분야 참고이며 동일성은 미승인.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 커리어넷 대학교 학과정보 식품공학과, 경희대학교 식품생명공학과 교육과정 요약표(2024)이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -193,11 +192,11 @@
           "url": "https://www.career.go.kr/cloud/w/major/uView?seq=314",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "2020-12-02 갱신 응답에서 확인한 커리어넷 식품공학과 자료는 식품 성분 분석, 가공과 품질관리를 공부하는 사례를 소개한다. 식품과학에 공통되는 성분·물성 관련 교과는 대학의 편성 자료로 확인한다.",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "식품의 성분 분석",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "커리어넷의 명칭은 식품공학과이며 이 자료는 연결되는 내용의 참고 사례다. 전공별 범위는 대학 공식 자료로 확인한다."
+          "usage_scope": "식품공학과 안내 중 식품 성분 분석의 공통 배경으로 사용한다."
         },
         {
           "source_id": "m171-university",
@@ -207,23 +206,10 @@
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
           "verified_claim": "식품학개론·분석화학및실험·식품물리화학",
-          "application": "전공 소개와 과목명 사례 대조",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "식품생명공학과 교과에서 식품과학과 겹치는 내용을 인용한다."
-        },
-        {
-          "source_id": "m171-extra",
-          "title": "식품영양전공 교과목 소개",
-          "publisher": "중앙대학교",
-          "url": "https://www.cau.ac.kr/cms/FR_CON/index.do?CONTENTS_NO=2&MENU_ID=1020&P_TAB_NO=2&TAB_NO=0",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "식품분석및실험·식품가공저장학",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "식품영양전공의 비교 사례다."
+          "usage_scope": "경희대 식품생명공학과의 성분·물성·분석 관련 교과 사례다."
         }
       ],
       "preference_question_ids": [
@@ -243,7 +229,7 @@
     },
     {
       "activity_id": "DRAFT-M171-03",
-      "version": "0.4.0",
+      "version": "0.4.2",
       "title": "성분표만으로 설명할 수 없는 질문 찾기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_171",
@@ -285,11 +271,10 @@
       "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
       "source_ids": [
         "m171-careernet",
-        "m171-university",
-        "m171-extra"
+        "m171-university"
       ],
       "major_source_relationship": "RELATED_NAME_NOT_EQUIVALENT",
-      "major_connection_note": "명칭/범위 차이: 기준 전공은 식품과학과, 출처는 식품공학과. 관련 분야 참고이며 동일성은 미승인.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 커리어넷 대학교 학과정보 식품공학과, 경희대학교 식품생명공학과 교육과정 요약표(2024)이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -308,11 +293,11 @@
           "url": "https://www.career.go.kr/cloud/w/major/uView?seq=314",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "2020-12-02 갱신 응답에서 확인한 커리어넷 식품공학과 자료는 식품 성분 분석, 가공과 품질관리를 공부하는 사례를 소개한다. 식품과학에 공통되는 성분·물성 관련 교과는 대학의 편성 자료로 확인한다.",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "식품의 성분 분석",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "커리어넷의 명칭은 식품공학과이며 이 자료는 연결되는 내용의 참고 사례다. 전공별 범위는 대학 공식 자료로 확인한다."
+          "usage_scope": "식품공학과 안내 중 식품 성분 분석의 공통 배경으로 사용한다."
         },
         {
           "source_id": "m171-university",
@@ -322,23 +307,10 @@
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
           "verified_claim": "식품학개론·분석화학및실험·식품물리화학",
-          "application": "전공 소개와 과목명 사례 대조",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "식품생명공학과 교과에서 식품과학과 겹치는 내용을 인용한다."
-        },
-        {
-          "source_id": "m171-extra",
-          "title": "식품영양전공 교과목 소개",
-          "publisher": "중앙대학교",
-          "url": "https://www.cau.ac.kr/cms/FR_CON/index.do?CONTENTS_NO=2&MENU_ID=1020&P_TAB_NO=2&TAB_NO=0",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "식품분석및실험·식품가공저장학",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "식품영양전공의 비교 사례다."
+          "usage_scope": "경희대 식품생명공학과의 성분·물성·분석 관련 교과 사례다."
         }
       ],
       "preference_question_ids": [],
