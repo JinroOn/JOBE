@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M8_DRAFT_V3_ISSUE130_V1",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M8_DRAFT_V3_ISSUE130_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M8-01",
-      "version": "0.4.3",
+      "version": "0.4.4",
       "title": "프랑스어권 텍스트에 두 가지 질문 만들기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_8",
@@ -49,8 +49,8 @@
       "artifacts": [
         "문학·번역 독해 질문표"
       ],
-      "example_output": "문학에서는 왜 인물의 시간이 천천히 흐르는 것처럼 느껴지는지 묻는다.",
-      "worksheet_columns": "공식 자료에서 확인한 명칭 / 내가 더 알아볼 주제 / 미확인 질문 / 확인 경로",
+      "example_output": "뜻 질문: ‘La ville se réveille.’에서 무엇이 잠에서 깨나요? 표현 질문: 도시가 사람처럼 잠에서 깬다고 쓰면 도시의 아침이 어떻게 느껴지나요?",
+      "worksheet_columns": "영역 / 읽을 자료 / 질문",
       "reflection_question": "소개를 읽은 뒤 관심이 생긴 부분과 여전히 모르는 부분은 무엇인가요?",
       "alternative": "공식 페이지가 열리지 않으면 제공 과목 두 개를 활용한다.",
       "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",

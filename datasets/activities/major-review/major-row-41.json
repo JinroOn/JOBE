@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M41_DRAFT_V3_SCOPE_V2_ISSUE130_V1",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M41_DRAFT_V3_SCOPE_V2_ISSUE130_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -243,7 +243,7 @@
     },
     {
       "activity_id": "DRAFT-M41-03",
-      "version": "0.4.3",
+      "version": "0.4.4",
       "title": "지원 안내의 다음 확인 항목 정하기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_41",
@@ -278,8 +278,8 @@
       "artifacts": [
         "가상 기관의 안내 점검 질문"
       ],
-      "example_output": "신고가 접수됐는지 어디서 확인할 수 있는지 명확하게 안내하는가?",
-      "worksheet_columns": "경험한 과정 / 흥미·불편·모름 / 확인 질문 / 확인 경로 / 다음 행동",
+      "example_output": "분실 신고 접수가 끝난 사람에게 진행 상황을 어디서 확인할 수 있는지 안내하고 있는가?",
+      "worksheet_columns": "이용자 상황 / 필요한 안내 / 확인할 질문",
       "reflection_question": "사실을 정확히 기록하고 절차를 설명하는 과정이 흥미로운가?",
       "alternative": "다른 사람의 신고나 개인정보를 열람하지 않고 질문만 작성한다.",
       "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
