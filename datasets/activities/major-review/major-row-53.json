@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M53_DRAFT_V3",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M53_DRAFT_V3_ISSUE130_V1",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -243,7 +243,7 @@
     },
     {
       "activity_id": "DRAFT-M53-03",
-      "version": "0.4.0",
+      "version": "0.4.3",
       "title": "차이를 발견한 뒤 수정을 기록하는 방법 생각하기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_53",
@@ -270,7 +270,7 @@
         "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
-      "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
+      "scenario": "가상 동아리 장부의 예상 현금은 35점, 실제로 센 금액은 33점이다. 차이 2점의 지출 기록은 아직 확인되지 않았다.",
       "steps": [
         "추가 기록이 확인된 경우와 확인되지 않은 경우를 구분한다.",
         "다음 기록 담당자가 알 수 있게 이유와 상태를 한 줄 적는다."
@@ -297,8 +297,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 차이를 발견한 뒤 수정을 기록하는 방법 생각하기\n\n가상의 차이 2점을 다시 본다.\n\n1. 추가 기록이 확인된 경우와 확인되지 않은 경우를 구분한다.\n2. 다음 기록 담당자가 알 수 있게 이유와 상태를 한 줄 적는다.\n\n남길 결과물은 차이 확인과 보류 상태 기록입니다.\n\n쉬운 대안. 표를 만들지 않고 확인 이유만 말한다.",
-      "worksheet_markdown": "## 차이를 발견한 뒤 수정을 기록하는 방법 생각하기\n\n가상의 차이 2점을 다시 본다.\n\n| 차이 | 확인 자료 | 다음 처리 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 차이를 발견한 뒤 수정을 기록하는 방법 생각하기\n\n가상 동아리 장부의 예상 현금은 35점, 실제로 센 금액은 33점이다. 차이 2점의 지출 기록은 아직 확인되지 않았다.\n\n1. 추가 기록이 확인된 경우와 확인되지 않은 경우를 구분한다.\n2. 다음 기록 담당자가 알 수 있게 이유와 상태를 한 줄 적는다.\n\n남길 결과물은 차이 확인과 보류 상태 기록입니다.\n\n쉬운 대안. 표를 만들지 않고 확인 이유만 말한다.",
+      "worksheet_markdown": "## 차이를 발견한 뒤 수정을 기록하는 방법 생각하기\n\n가상 동아리 장부의 예상 현금은 35점, 실제로 센 금액은 33점이다. 차이 2점의 지출 기록은 아직 확인되지 않았다.\n\n| 차이 | 확인 자료 | 다음 처리 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {

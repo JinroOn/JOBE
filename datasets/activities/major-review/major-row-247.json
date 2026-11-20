@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M247_DRAFT_V3",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M247_DRAFT_V3_ISSUE130_V1",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -215,7 +215,7 @@
     },
     {
       "activity_id": "DRAFT-M247-03",
-      "version": "0.4.0",
+      "version": "0.4.3",
       "title": "소재 설명만으로 결정하기 어려운 점 적기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_247",
@@ -242,7 +242,7 @@
         "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
-      "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
+      "scenario": "가상 이동용 겉옷의 소재 A는 얇고 잘 접히며, B는 두껍고 모양을 잘 유지한다. 접어 들고 다니기 쉬운 것을 기준으로 A를 고른 예를 살펴본다.",
       "steps": [
         "편안함이나 내구성처럼 자료에 없는 특성 하나를 고른다.",
         "어떤 관찰 자료가 있으면 소재 선택을 재검토할지 적는다."
@@ -268,8 +268,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 소재 설명만으로 결정하기 어려운 점 적기\n\n앞의 가상 소재 비교와 시안을 본다.\n\n1. 편안함이나 내구성처럼 자료에 없는 특성 하나를 고른다.\n2. 어떤 관찰 자료가 있으면 소재 선택을 재검토할지 적는다.\n\n남길 결과물은 다음 소재 확인 계획입니다.\n\n쉬운 대안. 제공 예시에서 질문 하나만 적는다.",
-      "worksheet_markdown": "## 소재 설명만으로 결정하기 어려운 점 적기\n\n앞의 가상 소재 비교와 시안을 본다.\n\n| 가상 용도 | 모르는 특성 | 다음 자료 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 소재 설명만으로 결정하기 어려운 점 적기\n\n가상 이동용 겉옷의 소재 A는 얇고 잘 접히며, B는 두껍고 모양을 잘 유지한다. 접어 들고 다니기 쉬운 것을 기준으로 A를 고른 예를 살펴본다.\n\n1. 편안함이나 내구성처럼 자료에 없는 특성 하나를 고른다.\n2. 어떤 관찰 자료가 있으면 소재 선택을 재검토할지 적는다.\n\n남길 결과물은 다음 소재 확인 계획입니다.\n\n쉬운 대안. 제공 예시에서 질문 하나만 적는다.",
+      "worksheet_markdown": "## 소재 설명만으로 결정하기 어려운 점 적기\n\n가상 이동용 겉옷의 소재 A는 얇고 잘 접히며, B는 두껍고 모양을 잘 유지한다. 접어 들고 다니기 쉬운 것을 기준으로 A를 고른 예를 살펴본다.\n\n| 가상 용도 | 모르는 특성 | 다음 자료 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {

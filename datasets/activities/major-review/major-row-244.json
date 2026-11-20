@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M244_DRAFT_V3",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M244_DRAFT_V3_ISSUE130_V1",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -243,7 +243,7 @@
     },
     {
       "activity_id": "DRAFT-M244-03",
-      "version": "0.4.0",
+      "version": "0.4.3",
       "title": "관객이 놓칠 수 있는 장면 단서 보완하기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_244",
@@ -270,7 +270,7 @@
         "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
-      "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
+      "scenario": "가상 인물이 출발을 기다리며 ‘아직 시간이 있어’라고 말한다. A는 동료를 바라보며 차분히 말하고, B는 아무 표정 없이 같은 대사를 말한다.",
       "steps": [
         "대사가 같아 혼동이 생길 부분을 찾는다.",
         "배우의 위치나 화면에 들어갈 소품 하나를 바꾼다."
@@ -297,8 +297,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 관객이 놓칠 수 있는 장면 단서 보완하기\n\n앞의 두 가상 연출안을 본다.\n\n1. 대사가 같아 혼동이 생길 부분을 찾는다.\n2. 배우의 위치나 화면에 들어갈 소품 하나를 바꾼다.\n\n남길 결과물은 연출 선택 수정안입니다.\n\n쉬운 대안. 예시에서 행동 하나만 바꾼다.",
-      "worksheet_markdown": "## 관객이 놓칠 수 있는 장면 단서 보완하기\n\n앞의 두 가상 연출안을 본다.\n\n| 혼동 지점 | 바꿀 단서 | 이유 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 관객이 놓칠 수 있는 장면 단서 보완하기\n\n가상 인물이 출발을 기다리며 ‘아직 시간이 있어’라고 말한다. A는 동료를 바라보며 차분히 말하고, B는 아무 표정 없이 같은 대사를 말한다.\n\n1. 대사가 같아 혼동이 생길 부분을 찾는다.\n2. 배우의 위치나 화면에 들어갈 소품 하나를 바꾼다.\n\n남길 결과물은 연출 선택 수정안입니다.\n\n쉬운 대안. 예시에서 행동 하나만 바꾼다.",
+      "worksheet_markdown": "## 관객이 놓칠 수 있는 장면 단서 보완하기\n\n가상 인물이 출발을 기다리며 ‘아직 시간이 있어’라고 말한다. A는 동료를 바라보며 차분히 말하고, B는 아무 표정 없이 같은 대사를 말한다.\n\n| 혼동 지점 | 바꿀 단서 | 이유 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {

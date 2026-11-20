@@ -1,6 +1,6 @@
 {
   "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
-  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M208_20261120",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M208_20261120_ISSUE130_V1",
   "status": "PENDING_HUMAN_REVIEW",
   "scope": "DEV",
   "preparedBy": "Codex",
@@ -22,7 +22,7 @@
     },
     {
       "chunkType": "major_overview",
-      "text": "충북보건과학대 임상병리학과는 진단검사 교과와 현장실습을 제시한다. 경복대 임상병리학과 교육과정의 직무인증 안내에는 임상검사 품질관리와 데이터 해석이 포함된다.",
+      "text": "순천향대 임상병리학과의 교육과정에는 스마트진단검사학, 정도관리학과 임상병리학현장실습1이 있다. 경복대 임상병리학과 교육과정의 직무인증 안내에는 임상검사 품질관리와 데이터 해석이 포함된다.",
       "sourceIds": [
         "m208-university",
         "m208-extra"
@@ -42,11 +42,11 @@
     },
     {
       "sourceId": "m208-university",
-      "publisher": "충북보건과학대학교 임상병리학과",
-      "title": "교육과정",
-      "url": "https://clip.chsu.ac.kr/defaultCallPage.do?S_DEPART_CODE=C198&jspPage=%2Fcommon%2FcurriView&menuId=3000000240",
-      "supports": "진단검사 관련 과목과 임상병리사현장실습",
-      "limitation": "해당 대학의 학부 교과 사례다.",
+      "publisher": "순천향대학교 임상병리학과",
+      "title": "교육과정안내",
+      "url": "https://home.sch.ac.kr/schbmls/02/0101.jsp",
+      "supports": "스마트진단검사학·정도관리학·임상병리학현장실습1",
+      "limitation": "순천향대학교 임상병리학과의 학부 교과 사례다.",
       "verification": "PUBLIC_PAGE_BODY_CHECKED",
       "accessedAt": "2026-11-20"
     },

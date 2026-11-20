@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M126_DRAFT_V2_SCOPE_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M126_DRAFT_V2_SCOPE_V2_ISSUE130_V1",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -215,7 +215,7 @@
     },
     {
       "activity_id": "DRAFT-M126-03",
-      "version": "0.4.2",
+      "version": "0.4.3",
       "title": "센서 입력을 모를 때 동작 정하기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_126",
@@ -242,7 +242,7 @@
         "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
-      "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
+      "scenario": "직선 네 칸에서 로봇은 둘째 칸에 있다. 규칙은 ‘앞이 비면 한 칸 전진, 막히면 정지’다. 셋째 칸의 장애물 표시가 지워졌는지는 분명하지 않다.",
       "steps": [
         "현재 규칙에 입력을 읽지 못하는 상태가 있는지 확인한다.",
         "불명확한 신호에서 정지와 재확인 같은 행동을 한 줄 정한다."
@@ -268,8 +268,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 센서 입력을 모를 때 동작 정하기\n\n앞 활동의 가상 지도에서 장애물 표시가 지워졌는지 분명하지 않다.\n\n1. 현재 규칙에 입력을 읽지 못하는 상태가 있는지 확인한다.\n2. 불명확한 신호에서 정지와 재확인 같은 행동을 한 줄 정한다.\n\n남길 결과물은 새 입력과 대응 규칙입니다.\n\n쉬운 대안. 가상 동작을 화살표 대신 말로 설명한다.",
-      "worksheet_markdown": "## 센서 입력을 모를 때 동작 정하기\n\n앞 활동의 가상 지도에서 장애물 표시가 지워졌는지 분명하지 않다.\n\n| 불명확한 입력 | 동작 | 다음 확인 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 센서 입력을 모를 때 동작 정하기\n\n직선 네 칸에서 로봇은 둘째 칸에 있다. 규칙은 ‘앞이 비면 한 칸 전진, 막히면 정지’다. 셋째 칸의 장애물 표시가 지워졌는지는 분명하지 않다.\n\n1. 현재 규칙에 입력을 읽지 못하는 상태가 있는지 확인한다.\n2. 불명확한 신호에서 정지와 재확인 같은 행동을 한 줄 정한다.\n\n남길 결과물은 새 입력과 대응 규칙입니다.\n\n쉬운 대안. 가상 동작을 화살표 대신 말로 설명한다.",
+      "worksheet_markdown": "## 센서 입력을 모를 때 동작 정하기\n\n직선 네 칸에서 로봇은 둘째 칸에 있다. 규칙은 ‘앞이 비면 한 칸 전진, 막히면 정지’다. 셋째 칸의 장애물 표시가 지워졌는지는 분명하지 않다.\n\n| 불명확한 입력 | 동작 | 다음 확인 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {

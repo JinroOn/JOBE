@@ -1,6 +1,6 @@
 {
   "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
-  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M207_20261120_SCOPE_V2",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M207_20261120_SCOPE_V2_ISSUE130_V1",
   "status": "PENDING_HUMAN_REVIEW",
   "scope": "DEV",
   "preparedBy": "Codex",
@@ -22,7 +22,7 @@
     },
     {
       "chunkType": "major_overview",
-      "text": "연세대 전공가이드북은 의예과와 의학과를 구분하며, 의학과에서는 주요 임상 분야의 실습을 안내한다. 성균관대 의과대학의 2024학년도 로드맵에서 의료윤리 교과 사례를 살펴볼 수 있다.",
+      "text": "연세대 전공가이드북은 의예과와 의학과를 구분하며, 의학과에서는 주요 임상 분야의 실습을 안내한다. 성균관대 의학과의 2024학년도 로드맵에는 의료윤리1과 의료윤리2가 있다.",
       "sourceIds": [
         "m207-university",
         "m207-extra"
@@ -54,9 +54,9 @@
       "sourceId": "m207-extra",
       "publisher": "성균관대학교",
       "title": "2024학년도 학과별 교육과정 로드맵 의과대학",
-      "url": "https://sungkyun.ac.kr/_res/skku/etc/y241028_1.pdf",
-      "supports": "의료윤리 교과목",
-      "limitation": "해당 대학의 학부 교과 사례다.",
+      "url": "https://www.skku.edu/_res/skku/etc/y241028_1.pdf",
+      "supports": "의학과 의료윤리1·의료윤리2",
+      "limitation": "성균관대학교 의학과의 2024학년도 교과 편성 사례다.",
       "verification": "PUBLIC_PAGE_BODY_CHECKED",
       "accessedAt": "2026-11-20"
     }

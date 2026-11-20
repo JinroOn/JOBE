@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M177_DRAFT_V3_SCOPE_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M177_DRAFT_V3_SCOPE_V2_ISSUE130_V1",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -215,7 +215,7 @@
     },
     {
       "activity_id": "DRAFT-M177-03",
-      "version": "0.4.2",
+      "version": "0.4.3",
       "title": "다른 조건을 줄인 관측 계획 적기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_177",
@@ -242,7 +242,7 @@
         "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
-      "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
+      "scenario": "가상 오전 온도는 그늘 20도·햇빛 21도, 오후는 그늘 23도·햇빛 27도다. 두 위치의 바닥 조건은 주어지지 않았다.",
       "steps": [
         "가능한 같은 조건을 하나 고른다.",
         "여러 날 비교할 시간과 적을 값을 정한다."
@@ -268,8 +268,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 다른 조건을 줄인 관측 계획 적기\n\n앞 비교에서 바닥이나 시각이 결과에 영향을 줄 수 있다고 가정한다.\n\n1. 가능한 같은 조건을 하나 고른다.\n2. 여러 날 비교할 시간과 적을 값을 정한다.\n\n남길 결과물은 조건을 맞춘 환경 관찰 계획입니다.\n\n쉬운 대안. 실제 측정을 하지 않고 표 머리글만 정한다.",
-      "worksheet_markdown": "## 다른 조건을 줄인 관측 계획 적기\n\n앞 비교에서 바닥이나 시각이 결과에 영향을 줄 수 있다고 가정한다.\n\n| 맞출 조건 | 비교 시간 | 기록 항목 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 다른 조건을 줄인 관측 계획 적기\n\n가상 오전 온도는 그늘 20도·햇빛 21도, 오후는 그늘 23도·햇빛 27도다. 두 위치의 바닥 조건은 주어지지 않았다.\n\n1. 가능한 같은 조건을 하나 고른다.\n2. 여러 날 비교할 시간과 적을 값을 정한다.\n\n남길 결과물은 조건을 맞춘 환경 관찰 계획입니다.\n\n쉬운 대안. 실제 측정을 하지 않고 표 머리글만 정한다.",
+      "worksheet_markdown": "## 다른 조건을 줄인 관측 계획 적기\n\n가상 오전 온도는 그늘 20도·햇빛 21도, 오후는 그늘 23도·햇빛 27도다. 두 위치의 바닥 조건은 주어지지 않았다.\n\n| 맞출 조건 | 비교 시간 | 기록 항목 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {

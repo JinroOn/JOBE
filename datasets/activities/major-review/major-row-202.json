@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M202_DRAFT_V3",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M202_DRAFT_V3_ISSUE130_V1",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -215,7 +215,7 @@
     },
     {
       "activity_id": "DRAFT-M202-03",
-      "version": "0.4.0",
+      "version": "0.4.3",
       "title": "관찰만으로 말할 수 없는 항목 적기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_202",
@@ -242,7 +242,7 @@
         "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
-      "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
+      "scenario": "가상 A는 2칸 높이의 선반에 손이 닿았고 B는 3칸 높이에 닿지 않았다. 시작 위치와 각자의 목표는 주어지지 않았다.",
       "steps": [
         "아직 모르는 사유나 목표를 하나 고른다.",
         "확인을 위한 가상의 질문을 한 문장 쓴다."
@@ -268,8 +268,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 관찰만으로 말할 수 없는 항목 적기\n\n도달 기록의 결과를 다시 본다.\n\n1. 아직 모르는 사유나 목표를 하나 고른다.\n2. 확인을 위한 가상의 질문을 한 문장 쓴다.\n\n남길 결과물은 가상 평가 범위와 다음 질문입니다.\n\n쉬운 대안. 결과와 이유를 두 칸에 구분한다.",
-      "worksheet_markdown": "## 관찰만으로 말할 수 없는 항목 적기\n\n도달 기록의 결과를 다시 본다.\n\n| 관찰 | 알 수 없는 점 | 다음 질문 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 관찰만으로 말할 수 없는 항목 적기\n\n가상 A는 2칸 높이의 선반에 손이 닿았고 B는 3칸 높이에 닿지 않았다. 시작 위치와 각자의 목표는 주어지지 않았다.\n\n1. 아직 모르는 사유나 목표를 하나 고른다.\n2. 확인을 위한 가상의 질문을 한 문장 쓴다.\n\n남길 결과물은 가상 평가 범위와 다음 질문입니다.\n\n쉬운 대안. 결과와 이유를 두 칸에 구분한다.",
+      "worksheet_markdown": "## 관찰만으로 말할 수 없는 항목 적기\n\n가상 A는 2칸 높이의 선반에 손이 닿았고 B는 3칸 높이에 닿지 않았다. 시작 위치와 각자의 목표는 주어지지 않았다.\n\n| 관찰 | 알 수 없는 점 | 다음 질문 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {

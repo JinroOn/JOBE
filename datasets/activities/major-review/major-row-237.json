@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M237_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M237_DRAFT_V2_ISSUE130_V1",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -243,7 +243,7 @@
     },
     {
       "activity_id": "DRAFT-M237-03",
-      "version": "0.4.0",
+      "version": "0.4.3",
       "title": "안무 기록을 처음 읽는 사람이 알기 쉽게 고치기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_237",
@@ -270,7 +270,7 @@
         "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
-      "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
+      "scenario": "가상 안무는 오른쪽으로 한 박, 왼쪽으로 한 박, 두 박 멈춤이다. 화살표는 이동, 점은 멈춤을 뜻하며 오른쪽과 왼쪽의 기준은 표시되지 않았다.",
       "steps": [
         "방향이나 박을 오해할 곳을 표시한다.",
         "동작의 시작 방향이나 기호 설명을 한 줄 추가한다."
@@ -297,8 +297,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 안무 기록을 처음 읽는 사람이 알기 쉽게 고치기\n\n앞의 가상 안무표를 본다.\n\n1. 방향이나 박을 오해할 곳을 표시한다.\n2. 동작의 시작 방향이나 기호 설명을 한 줄 추가한다.\n\n남길 결과물은 안무 기호 설명과 수정 기록입니다.\n\n쉬운 대안. 예시 기호 한 개의 설명만 적는다.",
-      "worksheet_markdown": "## 안무 기록을 처음 읽는 사람이 알기 쉽게 고치기\n\n앞의 가상 안무표를 본다.\n\n| 기호 | 오해 지점 | 추가 설명 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 안무 기록을 처음 읽는 사람이 알기 쉽게 고치기\n\n가상 안무는 오른쪽으로 한 박, 왼쪽으로 한 박, 두 박 멈춤이다. 화살표는 이동, 점은 멈춤을 뜻하며 오른쪽과 왼쪽의 기준은 표시되지 않았다.\n\n1. 방향이나 박을 오해할 곳을 표시한다.\n2. 동작의 시작 방향이나 기호 설명을 한 줄 추가한다.\n\n남길 결과물은 안무 기호 설명과 수정 기록입니다.\n\n쉬운 대안. 예시 기호 한 개의 설명만 적는다.",
+      "worksheet_markdown": "## 안무 기록을 처음 읽는 사람이 알기 쉽게 고치기\n\n가상 안무는 오른쪽으로 한 박, 왼쪽으로 한 박, 두 박 멈춤이다. 화살표는 이동, 점은 멈춤을 뜻하며 오른쪽과 왼쪽의 기준은 표시되지 않았다.\n\n| 기호 | 오해 지점 | 추가 설명 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {

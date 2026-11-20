@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M207_DRAFT_V3_SCOPE_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M207_DRAFT_V3_SCOPE_V2_ISSUE130_V1",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M207-01",
-      "version": "0.4.2",
+      "version": "0.4.3",
       "title": "의과대학 교육 단계와 관심 질문 적기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_207",
@@ -41,15 +41,15 @@
         "materials": []
       },
       "purpose": "탐색 주제: 의학적 근거와 불확실성. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
-      "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
+      "scenario": "연세대 의과대학 안내는 준비 단계인 의예과와 임상실습을 포함하는 의학과 과정을 구분한다. 성균관대 의학과 교육과정에는 의료윤리1이 있다.",
       "steps": [
-        "가이드북에서 두 교육 단계의 설명을 나눠 읽는다.",
-        "환자에게 정보를 어떻게 전달하는지처럼 관심 질문을 하나 적는다."
+        "의예과와 의학과에서 알아볼 주제를 각각 하나씩 나눈다.",
+        "임상실습에서 배울 점이나 의료윤리 시간에 토론할 질문 하나를 적는다."
       ],
       "artifacts": [
         "교육 단계와 질문 요약"
       ],
-      "example_output": "의학과에서는 환자에게 선택을 설명하는 방법을 어떻게 연습할까?",
+      "example_output": "의예과에서는 어떤 기초 공부를 하나? 의학과 의료윤리 수업에서는 교육에 필요한 정보와 개인정보를 어떻게 구분할까?",
       "worksheet_columns": "공식 자료에서 확인한 명칭 / 내가 더 알아볼 주제 / 미확인 질문 / 확인 경로",
       "reflection_question": "소개를 읽은 뒤 관심이 생긴 부분과 여전히 모르는 부분은 무엇인가요?",
       "alternative": "제공된 교육 단계와 과목명만 사용한다.",
@@ -68,8 +68,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 의과대학 교육 단계와 관심 질문 적기\n\n의예과·의학과와 의료윤리 과목이 나오는 공식 자료를 참고한다.\n\n1. 가이드북에서 두 교육 단계의 설명을 나눠 읽는다.\n2. 환자에게 정보를 어떻게 전달하는지처럼 관심 질문을 하나 적는다.\n\n남길 결과물은 교육 단계와 질문 요약입니다.\n\n쉬운 대안. 제공된 교육 단계와 과목명만 사용한다.",
-      "worksheet_markdown": "## 의과대학 교육 단계와 관심 질문 적기\n\n의예과·의학과와 의료윤리 과목이 나오는 공식 자료를 참고한다.\n\n| 단계 | 공식 설명 | 내 질문 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 의과대학 교육 단계와 관심 질문 적기\n\n연세대 의과대학 안내는 준비 단계인 의예과와 임상실습을 포함하는 의학과 과정을 구분한다. 성균관대 의학과 교육과정에는 의료윤리1이 있다.\n\n1. 의예과와 의학과에서 알아볼 주제를 각각 하나씩 나눈다.\n2. 임상실습에서 배울 점이나 의료윤리 시간에 토론할 질문 하나를 적는다.\n\n남길 결과물은 교육 단계와 질문 요약입니다.\n\n쉬운 대안. 제공된 교육 단계와 과목명만 사용한다.",
+      "worksheet_markdown": "## 의과대학 교육 단계와 관심 질문 적기\n\n연세대 의과대학 안내는 준비 단계인 의예과와 임상실습을 포함하는 의학과 과정을 구분한다. 성균관대 의학과 교육과정에는 의료윤리1이 있다.\n\n| 단계 | 공식 설명 | 내 질문 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {
@@ -102,14 +102,14 @@
           "source_id": "m207-extra",
           "title": "2024학년도 학과별 교육과정 로드맵 의과대학",
           "publisher": "성균관대학교",
-          "url": "https://sungkyun.ac.kr/_res/skku/etc/y241028_1.pdf",
+          "url": "https://www.skku.edu/_res/skku/etc/y241028_1.pdf",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "의료윤리 교과목",
+          "verified_claim": "의학과 의료윤리1·의료윤리2",
           "application": "전공 소개와 과목명 사례 대조",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "해당 대학의 학부 교과 사례다."
+          "usage_scope": "성균관대학교 의학과의 2024학년도 교과 편성 사례다."
         }
       ],
       "preference_question_ids": [
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M207-02",
-      "version": "0.4.2",
+      "version": "0.4.3",
       "title": "가상 검사 안내에서 의료 용어를 쉬운 말로 고치기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_207",
@@ -202,14 +202,14 @@
           "source_id": "m207-extra",
           "title": "2024학년도 학과별 교육과정 로드맵 의과대학",
           "publisher": "성균관대학교",
-          "url": "https://sungkyun.ac.kr/_res/skku/etc/y241028_1.pdf",
+          "url": "https://www.skku.edu/_res/skku/etc/y241028_1.pdf",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "의료윤리 교과목",
+          "verified_claim": "의학과 의료윤리1·의료윤리2",
           "application": "전공 소개와 과목명 사례 대조",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "해당 대학의 학부 교과 사례다."
+          "usage_scope": "성균관대학교 의학과의 2024학년도 교과 편성 사례다."
         }
       ],
       "preference_question_ids": [
@@ -229,8 +229,8 @@
     },
     {
       "activity_id": "DRAFT-M207-03",
-      "version": "0.4.2",
-      "title": "자료에서 확인할 수 있는 사실만 남기기",
+      "version": "0.4.3",
+      "title": "의료윤리 사례에서 발표에 필요한 정보 나누기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_207",
       "major_name": "의학과",
@@ -255,20 +255,20 @@
         "coding_experience": false,
         "materials": []
       },
-      "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
-      "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
+      "purpose": "탐색 주제: 의료윤리에서 정보 사용 목적과 개인정보를 구분하는 질문 만들기.",
+      "scenario": "의료윤리 수업의 주제를 살펴보는 가상 상황이다. 체험 수업의 기록에 이름과 연락처가 포함되어 있다. 발표는 교육 절차만 설명하면 되고 개인 식별 정보는 필요하지 않다.",
       "steps": [
-        "검사 결과나 치료를 추측하는 표현이 있는지 확인한다.",
-        "정해진 정보와 담당자에게 물어볼 정보를 구분한다."
+        "가상 상황에서 발표 목적상 필요한 정보와 빼도 되는 개인정보를 구분한다.",
+        "개인정보를 포함하자는 의견을 받았을 때 확인할 윤리 질문 하나를 적는다."
       ],
       "artifacts": [
-        "가상 설명 검토 메모"
+        "발표에 필요한 정보와 윤리 질문 메모"
       ],
-      "example_output": "다음 방문에 안내문을 읽는다는 사실만 확인했다. 검사 준비는 담당자에게 묻는다.",
-      "worksheet_columns": "경험한 과정 / 흥미·불편·모름 / 확인 질문 / 확인 경로 / 다음 행동",
-      "reflection_question": "원인을 성급히 정하지 않고 근거를 확인하는 일이 흥미로운가?",
-      "alternative": "예시 문장 한 줄을 분류한다.",
-      "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
+      "example_output": "교육 절차만 설명하고 이름과 연락처는 발표 자료에서 제외한다. 같은 교육 목적을 개인을 식별할 수 없는 예시로 달성할 수 있을까?",
+      "worksheet_columns": "발표에 필요한 정보 / 빼도 되는 개인정보 / 윤리 질문",
+      "reflection_question": "교육 목적을 달성하면서 개인을 식별할 정보의 사용을 줄일 방법은 무엇인가요?",
+      "alternative": "가상 상황을 읽고 발표에 꼭 필요한 정보 하나만 적는다.",
+      "safety_boundary": "가상 문장만 사용한다. 실제 환자 정보, 질병·진단·치료 판단을 다루지 않는다.",
       "source_ids": [
         "m207-university",
         "m207-extra"
@@ -282,8 +282,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 자료에서 확인할 수 있는 사실만 남기기\n\n앞에서 고친 가상 문장을 다시 읽는다.\n\n1. 검사 결과나 치료를 추측하는 표현이 있는지 확인한다.\n2. 정해진 정보와 담당자에게 물어볼 정보를 구분한다.\n\n남길 결과물은 가상 설명 검토 메모입니다.\n\n쉬운 대안. 예시 문장 한 줄을 분류한다.",
-      "worksheet_markdown": "## 자료에서 확인할 수 있는 사실만 남기기\n\n앞에서 고친 가상 문장을 다시 읽는다.\n\n| 확인 사실 | 모르는 점 | 질문 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 의료윤리 사례에서 발표에 필요한 정보 나누기\n\n의료윤리 수업의 주제를 살펴보는 가상 상황이다. 체험 수업의 기록에 이름과 연락처가 포함되어 있다. 발표는 교육 절차만 설명하면 되고 개인 식별 정보는 필요하지 않다.\n\n1. 가상 상황에서 발표 목적상 필요한 정보와 빼도 되는 개인정보를 구분한다.\n2. 개인정보를 포함하자는 의견을 받았을 때 확인할 윤리 질문 하나를 적는다.\n\n남길 결과물은 발표에 필요한 정보와 윤리 질문 메모입니다.\n\n쉬운 대안. 가상 상황을 읽고 발표에 꼭 필요한 정보 하나만 적는다.",
+      "worksheet_markdown": "## 의료윤리 사례에서 발표에 필요한 정보 나누기\n\n의료윤리 수업의 주제를 살펴보는 가상 상황이다. 체험 수업의 기록에 이름과 연락처가 포함되어 있다. 발표는 교육 절차만 설명하면 되고 개인 식별 정보는 필요하지 않다.\n\n| 발표에 필요한 정보 | 빼도 되는 개인정보 | 윤리 질문 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {
@@ -303,14 +303,14 @@
           "source_id": "m207-extra",
           "title": "2024학년도 학과별 교육과정 로드맵 의과대학",
           "publisher": "성균관대학교",
-          "url": "https://sungkyun.ac.kr/_res/skku/etc/y241028_1.pdf",
+          "url": "https://www.skku.edu/_res/skku/etc/y241028_1.pdf",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "의료윤리 교과목",
+          "verified_claim": "의학과 의료윤리1·의료윤리2",
           "application": "전공 소개와 과목명 사례 대조",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "해당 대학의 학부 교과 사례다."
+          "usage_scope": "성균관대학교 의학과의 2024학년도 교과 편성 사례다."
         }
       ],
       "preference_question_ids": [],

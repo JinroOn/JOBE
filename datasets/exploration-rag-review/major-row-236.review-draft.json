@@ -1,6 +1,6 @@
 {
   "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
-  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M236_20261120_SCOPE_V2",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M236_20261120_SCOPE_V2_ISSUE130_V1",
   "status": "PENDING_HUMAN_REVIEW",
   "scope": "DEV",
   "preparedBy": "Codex",
@@ -22,7 +22,7 @@
     },
     {
       "chunkType": "major_overview",
-      "text": "숭실대 2009–2010 요람의 디지털디자인학과에는 인터페이스디자인이 수록되어 있다. 경희대 시각디자인전공 교육과정의 디지털디자인·사용자경험 영역은 공통 주제의 사례다.",
+      "text": "한국공학대 미디어디자인공학전공의 2026학년도 인터페이스디자인과 모바일디자인은 사용자 요구와 화면 구성을 살펴보는 과목 사례다. 경희대 시각디자인전공의 디지털디자인·사용자경험도 이 주제와 겹치는 교과 영역이다.",
       "sourceIds": [
         "m236-university",
         "m236-extra"
@@ -42,11 +42,11 @@
     },
     {
       "sourceId": "m236-university",
-      "publisher": "숭실대학교",
-      "title": "2009–2010 요람 디지털디자인학과 교과과정",
-      "url": "https://ssu.ac.kr/wp-content/uploads/2021/12/2009_2010-%EC%88%AD%EC%8B%A4%EB%8C%80%ED%95%99%EA%B5%90-%EC%9A%94%EB%9E%8C%EC%B5%9C%EC%A2%85.pdf",
-      "supports": "숭실대 2009–2010 요람의 인터페이스디자인",
-      "limitation": "2009–2010년 요람에 수록된 교과 사례로만 사용한다.",
+      "publisher": "한국공학대학교 디자인공학부",
+      "title": "미디어디자인공학전공 교과목 개요",
+      "url": "https://design.tukorea.ac.kr/design/3859/subview.do",
+      "supports": "2026학년도 인터페이스디자인·모바일디자인",
+      "limitation": "한국공학대 미디어디자인공학전공의 화면 구성·사용자 요구와 직접 연결되는 교과 사례다.",
       "verification": "PUBLIC_PAGE_BODY_CHECKED",
       "accessedAt": "2026-11-20"
     },
