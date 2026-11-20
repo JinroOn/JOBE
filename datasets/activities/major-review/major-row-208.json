@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M208_DRAFT_V3_ISSUE130_V1",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M208_DRAFT_V3_ISSUE130_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M208-01",
-      "version": "0.4.3",
+      "version": "0.4.4",
       "title": "가상 검사 기록에 필요한 식별 칸 고르기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_208",
@@ -49,10 +49,10 @@
       "artifacts": [
         "가상 기록 확인표"
       ],
-      "example_output": "자료 ID와 기록 순서가 원본 표와 같은지 확인한다.",
-      "worksheet_columns": "공식 자료에서 확인한 명칭 / 내가 더 알아볼 주제 / 미확인 질문 / 확인 경로",
+      "example_output": "자료 ID에 D14, 측정 순서에 1을 적는다. 결과표를 옮길 때 두 값이 원본 카드와 모두 일치하는지 대조한다.",
+      "worksheet_columns": "자료 ID / 측정 순서 / 대조할 칸",
       "reflection_question": "소개를 읽은 뒤 관심이 생긴 부분과 여전히 모르는 부분은 무엇인가요?",
-      "alternative": "자료명과 숫자를 메모에 적는다.",
+      "alternative": "D14와 측정 순서 1을 메모에 적고 가상 카드와 대조한다.",
       "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
       "source_ids": [
         "m208-careernet",
@@ -68,8 +68,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 가상 검사 기록에 필요한 식별 칸 고르기\n\n순천향대 임상병리학과의 정도관리학을 과목 사례로 읽는다. 모의 학습 카드 A에는 자료 ID D14와 측정 순서 1이 적혀 있다. 결과를 옮기는 빈 표에는 자료 ID와 측정 순서를 기록할 칸이 있다.\n\n1. 가상 카드 A에서 자료 ID와 측정 순서를 확인한다.\n2. 서로 다른 기록이 섞이지 않도록 결과표에 옮기고 대조할 칸을 적는다.\n\n남길 결과물은 가상 기록 확인표입니다.\n\n쉬운 대안. 자료명과 숫자를 메모에 적는다.",
-      "worksheet_markdown": "## 가상 검사 기록에 필요한 식별 칸 고르기\n\n순천향대 임상병리학과의 정도관리학을 과목 사례로 읽는다. 모의 학습 카드 A에는 자료 ID D14와 측정 순서 1이 적혀 있다. 결과를 옮기는 빈 표에는 자료 ID와 측정 순서를 기록할 칸이 있다.\n\n| 자료 | 식별 항목 | 질문 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 가상 검사 기록에 필요한 식별 칸 고르기\n\n순천향대 임상병리학과의 정도관리학을 과목 사례로 읽는다. 모의 학습 카드 A에는 자료 ID D14와 측정 순서 1이 적혀 있다. 결과를 옮기는 빈 표에는 자료 ID와 측정 순서를 기록할 칸이 있다.\n\n1. 가상 카드 A에서 자료 ID와 측정 순서를 확인한다.\n2. 서로 다른 기록이 섞이지 않도록 결과표에 옮기고 대조할 칸을 적는다.\n\n남길 결과물은 가상 기록 확인표입니다.\n\n쉬운 대안. D14와 측정 순서 1을 메모에 적고 가상 카드와 대조한다.",
+      "worksheet_markdown": "## 가상 검사 기록에 필요한 식별 칸 고르기\n\n순천향대 임상병리학과의 정도관리학을 과목 사례로 읽는다. 모의 학습 카드 A에는 자료 ID D14와 측정 순서 1이 적혀 있다. 결과를 옮기는 빈 표에는 자료 ID와 측정 순서를 기록할 칸이 있다.\n\n| 자료 ID | 측정 순서 | 대조할 칸 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {

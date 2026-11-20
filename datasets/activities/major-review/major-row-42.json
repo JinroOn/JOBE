@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M42_DRAFT_V3_ISSUE130_V1",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M42_DRAFT_V3_ISSUE130_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -215,7 +215,7 @@
     },
     {
       "activity_id": "DRAFT-M42-03",
-      "version": "0.4.3",
+      "version": "0.4.4",
       "title": "문구를 읽은 뒤 행동이 분명한지 확인하기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_42",
@@ -250,8 +250,8 @@
       "artifacts": [
         "수정 문구와 확인 기준"
       ],
-      "example_output": "‘책을 가져오세요’를 ‘교환할 책 한 권을 가져오세요’로 바꾼다.",
-      "worksheet_columns": "경험한 과정 / 흥미·불편·모름 / 확인 질문 / 확인 경로 / 다음 행동",
+      "example_output": "‘책 한 권으로 교환에 참여하세요’를 ‘교환할 책 한 권을 가져오세요’로 바꾼다. 처음 읽은 사람이 무엇을 준비해야 하는지 알 수 있는지 확인한다.",
+      "worksheet_columns": "기존 문구 / 독자가 물을 점 / 수정",
       "reflection_question": "문구를 만드는 일과 전달 경로를 고르는 일 중 무엇이 흥미로운가?",
       "alternative": "제공 예시에서 한 단어만 골라 고쳐 본다.",
       "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
