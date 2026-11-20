@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M167_DRAFT",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M167_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M167-01",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "미생물과 환경의 관계에 관한 질문 고르기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_167",
@@ -38,9 +38,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "탐색 주제: 미생물 자료와 관찰 조건. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
       "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
@@ -130,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M167-02",
-      "version": "0.3.0",
+      "version": "0.4.1",
       "title": "가상 환경 기록에서 종류 수와 관찰 수를 비교하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_167",
@@ -154,12 +152,10 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "경험할 주제: 미생물 자료와 관찰 조건. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "실제 생물 대신 가상 대상A/B/C의 크기·형태·관찰 조건 표를 제공",
+      "scenario": "가상의 분류 기록에서 장소 A는 유형 X 2개·Y 2개, B는 X 4개만 기록됐다. 유형 기호는 실제 생물 이름을 뜻하지 않는다.",
       "steps": [
         "두 장소의 전체 관찰 수와 기록된 유형의 수를 따로 센다.",
         "수를 비교하고 이 자료가 장소 전체를 대표할 수 있는지 검토한다."
@@ -168,7 +164,7 @@
         "두 가지 집계의 비교표"
       ],
       "example_output": "둘 다 관찰 수는 4개지만 유형은 A가 2종, B가 1종이다.",
-      "worksheet_columns": "대상/관찰/조건/가설/추가 정보 표",
+      "worksheet_columns": "장소 / 유형 수 / 관찰 수 / 한계",
       "reflection_question": "작은 차이와 관찰 조건을 기록하는 일이 흥미로운가?",
       "alternative": "가상 기록만 사용하고 채취나 배양은 하지 않는다.",
       "safety_boundary": "실제 채집·배양·검체·현미경 실습 없이 가상 표 사용",
@@ -247,7 +243,7 @@
     },
     {
       "activity_id": "DRAFT-M167-03",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "종류 차이를 다시 확인할 자료 고르기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_167",
@@ -271,9 +267,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
       "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",

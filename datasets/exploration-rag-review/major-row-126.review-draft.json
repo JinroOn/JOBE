@@ -1,6 +1,6 @@
 {
   "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
-  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M126_20261120",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M126_20261120_SCOPE_V2",
   "status": "PENDING_HUMAN_REVIEW",
   "scope": "DEV",
   "preparedBy": "Codex",
@@ -22,7 +22,7 @@
     },
     {
       "chunkType": "major_overview",
-      "text": "광운대 로봇학부 교육과정에 센서공학이 있으며 로봇공학 연계전공 안내에는 모바일로봇의이해와 모터제어가 있다.",
+      "text": "광운대 로봇학부 정보제어·지능시스템전공에는 센서공학이 있다. 같은 대학 로봇공학 연계전공의 모바일로봇의이해와 모터제어는 로봇의 이동과 제어에 관한 교과 사례다.",
       "sourceIds": [
         "m126-university",
         "m126-extra"
@@ -45,8 +45,8 @@
       "publisher": "광운대학교",
       "title": "로봇학부 정보제어·지능시스템전공 교육과정",
       "url": "https://www.kw.ac.kr/ko/univ/ai05_4.jsp",
-      "supports": "센서공학 교과목",
-      "limitation": "해당 대학의 학부 교과 사례다.",
+      "supports": "센서공학",
+      "limitation": "광운대 로봇학부 정보제어·지능시스템전공의 센서 교과 사례다.",
       "verification": "PUBLIC_PAGE_BODY_CHECKED",
       "accessedAt": "2026-11-20"
     },
@@ -55,15 +55,16 @@
       "publisher": "광운대학교",
       "title": "다전공 이수제도 안내",
       "url": "https://www.kw.ac.kr/ko/life/bachelor_info11.jsp",
-      "supports": "로봇공학전공의 모바일로봇의이해·모터제어",
-      "limitation": "다전공 사례이며 개설은 해당 학기 자료에서 확인한다.",
+      "supports": "모바일로봇의이해와 모터제어",
+      "limitation": "광운대 로봇공학 연계전공의 이동·제어 교과 사례다.",
       "verification": "PUBLIC_PAGE_BODY_CHECKED",
       "accessedAt": "2026-11-20"
     }
   ],
   "excludedClaims": [
     "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
-    "자료에 없는 수업 방식 및 공식 과제"
+    "자료에 없는 수업 방식 및 공식 과제",
+    "유사 학과·세부 전공 자료에서 확인한 사례의 전공 전체 일반화, 필수 교과·이수·자격 요건 단정"
   ],
   "beforeApproval": [
     "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",

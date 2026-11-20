@@ -1,6 +1,6 @@
 {
   "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
-  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M243_20261120",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M243_20261120_SCOPE_V2",
   "status": "PENDING_HUMAN_REVIEW",
   "scope": "DEV",
   "preparedBy": "Codex",
@@ -15,7 +15,7 @@
   "chunks": [
     {
       "chunkType": "description",
-      "text": "커리어넷 만화애니메이션학과 안내는 애니메이션 기초·제작기법과 시나리오연구를 소개한다. 애니메이션 제작 교육의 범위는 대학 공식 교과 자료에서 확인한다.",
+      "text": "커리어넷 만화애니메이션학과 안내에서 애니메이션 제작의 기초·제작기법과 시나리오연구를 공통 주제로 참고할 수 있다.",
       "sourceIds": [
         "m243-careernet"
       ]
@@ -36,8 +36,8 @@
       "title": "대학교 학과정보 만화애니메이션학과",
       "url": "https://www.career.go.kr/cloud/w/major/uView?seq=144",
       "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
-      "supports": "2020-12-02 갱신 응답에서 확인한 커리어넷 만화애니메이션학과 안내는 애니메이션 기초·제작기법과 시나리오연구를 소개한다. 애니메이션 제작 교육의 범위는 대학 공식 교과 자료에서 확인한다.",
-      "limitation": "커리어넷의 명칭은 만화애니메이션학과이며 이 자료는 연결되는 내용의 참고 사례다. 전공별 범위는 대학 공식 자료로 확인한다.",
+      "supports": "애니메이션 기초·제작기법과 시나리오연구",
+      "limitation": "만화애니메이션학과 안내 중 애니메이션 제작 주제만 참고한다.",
       "accessedAt": "2026-11-20"
     },
     {
@@ -45,8 +45,8 @@
       "publisher": "한서대학교 영상애니메이션학과",
       "title": "교과과정",
       "url": "https://ani.hanseo.ac.kr/sub/info.do?m=0402&page=0402&s=dept20",
-      "supports": "스토리보드의 장면 구분·화면 구성·연결",
-      "limitation": "해당 대학의 학부 교과 사례다.",
+      "supports": "스토리보드에서 대본을 화면과 시간으로 시각화하는 과정",
+      "limitation": "한서대 영상애니메이션학과에서 스토리보드를 다루는 교과 사례다.",
       "verification": "PUBLIC_PAGE_BODY_CHECKED",
       "accessedAt": "2026-11-20"
     },
@@ -63,7 +63,8 @@
   ],
   "excludedClaims": [
     "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
-    "자료에 없는 수업 방식 및 공식 과제"
+    "자료에 없는 수업 방식 및 공식 과제",
+    "유사 학과·세부 전공 자료에서 확인한 사례의 전공 전체 일반화, 필수 교과·이수·자격 요건 단정"
   ],
   "beforeApproval": [
     "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",

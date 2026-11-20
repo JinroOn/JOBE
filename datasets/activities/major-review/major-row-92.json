@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M92_DRAFT",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M92_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M92-01",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "말하기 수업에서 확인할 행동 정하기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_92",
@@ -38,9 +38,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "탐색 주제: 영어 사용 맥락과 교수법. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
       "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
@@ -130,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M92-02",
-      "version": "0.3.0",
+      "version": "0.4.1",
       "title": "길 묻기 대화의 짧은 수업 카드 만들기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_92",
@@ -154,23 +152,21 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "경험할 주제: 영어 사용 맥락과 교수법. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "자체 표현 Open the window와 Could you open the window를 비교",
+      "scenario": "가상 지도에는 왼쪽부터 A칸, 체육관, B칸이 있다. 대화는 ‘Where is the library?’(도서관이 어디에 있나요?)와 ‘It is next to the gym, on the right.’(체육관 옆 오른쪽에 있어요.)이다.",
       "steps": [
-        "간단한 지도에서 장소 두 곳을 표시하고 질문·답변 순서를 만든다.",
-        "응답을 듣고 맞는 곳을 표시하도록 하고 성공 기준을 한 문장으로 쓴다."
+        "답변에서 가까움을 나타내는 말과 어느 쪽인지 나타내는 말을 찾는다.",
+        "A칸과 B칸 중 도서관의 위치를 고르게 하는 질문과 답을 준비한다."
       ],
       "artifacts": [
         "수업 카드와 답 확인 기준"
       ],
-      "example_output": "체육관 옆 두 칸 중 도서관 칸을 선택하고 next to의 뜻을 설명한다.",
-      "worksheet_columns": "표현/상황/활동/확인 질문 표",
+      "example_output": "‘next to the gym’은 체육관 바로 옆, ‘on the right’는 오른쪽이라는 뜻이다. 도서관은 체육관 오른쪽의 B칸이다.",
+      "worksheet_columns": "질문 / 위치를 알려 주는 말 / 도서관 칸 / 고른 이유",
       "reflection_question": "영어 사용과 학습 활동 설계 중 무엇이 흥미로운가?",
-      "alternative": "영어 쓰기가 어려우면 제시 표현을 그대로 써도 된다.",
+      "alternative": "지도 설명과 뜻풀이를 보고 A칸과 B칸 중 하나만 고른다.",
       "safety_boundary": "문화권 전체의 예절을 단정하거나 영어 능력을 채점하지 않음",
       "source_ids": [
         "m92-careernet",
@@ -186,8 +182,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 길 묻기 대화의 짧은 수업 카드 만들기\n\n창작 표현 ‘Where is the library?’와 ‘It is next to the gym.’에 뜻풀이를 제공한다. 도서관은 체육관 옆이다.\n\n1. 간단한 지도에서 장소 두 곳을 표시하고 질문·답변 순서를 만든다.\n2. 응답을 듣고 맞는 곳을 표시하도록 하고 성공 기준을 한 문장으로 쓴다.\n\n남길 결과물은 수업 카드와 답 확인 기준입니다.\n\n쉬운 대안. 영어 쓰기가 어려우면 제시 표현을 그대로 써도 된다.",
-      "worksheet_markdown": "## 길 묻기 대화의 짧은 수업 카드 만들기\n\n창작 표현 ‘Where is the library?’와 ‘It is next to the gym.’에 뜻풀이를 제공한다. 도서관은 체육관 옆이다.\n\n| 표현 | 학습자 행동 | 자료 | 확인 기준 |\n|---|---|---|---|\n| | | | |",
+      "body_markdown": "## 길 묻기 대화의 짧은 수업 카드 만들기\n\n가상 지도에는 왼쪽부터 A칸, 체육관, B칸이 있다. 대화는 ‘Where is the library?’(도서관이 어디에 있나요?)와 ‘It is next to the gym, on the right.’(체육관 옆 오른쪽에 있어요.)이다.\n\n1. 답변에서 가까움을 나타내는 말과 어느 쪽인지 나타내는 말을 찾는다.\n2. A칸과 B칸 중 도서관의 위치를 고르게 하는 질문과 답을 준비한다.\n\n남길 결과물은 수업 카드와 답 확인 기준입니다.\n\n쉬운 대안. 지도 설명과 뜻풀이를 보고 A칸과 B칸 중 하나만 고른다.",
+      "worksheet_markdown": "## 길 묻기 대화의 짧은 수업 카드 만들기\n\n가상 지도에는 왼쪽부터 A칸, 체육관, B칸이 있다. 대화는 ‘Where is the library?’(도서관이 어디에 있나요?)와 ‘It is next to the gym, on the right.’(체육관 옆 오른쪽에 있어요.)이다.\n\n| 질문 | 위치를 알려 주는 말 | 도서관 칸 | 고른 이유 |\n|---|---|---|---|\n| | | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {
@@ -247,7 +243,7 @@
     },
     {
       "activity_id": "DRAFT-M92-03",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "질문이 외우기와 이해를 모두 확인하는지 돌아보기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_92",
@@ -271,9 +267,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
       "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
@@ -287,7 +281,7 @@
       "example_output": "체육관과 도서관 위치를 바꾼 새 지도에서 next to를 써서 새 장소를 설명한다.",
       "worksheet_columns": "경험한 과정 / 흥미·불편·모름 / 확인 질문 / 확인 경로 / 다음 행동",
       "reflection_question": "영어 사용과 학습 활동 설계 중 무엇이 흥미로운가?",
-      "alternative": "제공 지도 예시 없이 종이에 네모 두 개만 그려 본다.",
+      "alternative": "제공 지도 예시 없이 메모에 네모 두 개만 그려 본다.",
       "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
       "source_ids": [
         "m92-careernet",
@@ -303,7 +297,7 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 질문이 외우기와 이해를 모두 확인하는지 돌아보기\n\n앞에서 만든 길 묻기 카드의 지도를 참고한다.\n\n1. 문장을 그대로 기억해도 답하기 어려운 변형 사례를 정한다.\n2. 어떤 답이면 위치 표현의 뜻을 이해한 것으로 볼지 적는다.\n\n남길 결과물은 변형 문항과 확인 근거입니다.\n\n쉬운 대안. 제공 지도 예시 없이 종이에 네모 두 개만 그려 본다.",
+      "body_markdown": "## 질문이 외우기와 이해를 모두 확인하는지 돌아보기\n\n앞에서 만든 길 묻기 카드의 지도를 참고한다.\n\n1. 문장을 그대로 기억해도 답하기 어려운 변형 사례를 정한다.\n2. 어떤 답이면 위치 표현의 뜻을 이해한 것으로 볼지 적는다.\n\n남길 결과물은 변형 문항과 확인 근거입니다.\n\n쉬운 대안. 제공 지도 예시 없이 메모에 네모 두 개만 그려 본다.",
       "worksheet_markdown": "## 질문이 외우기와 이해를 모두 확인하는지 돌아보기\n\n앞에서 만든 길 묻기 카드의 지도를 참고한다.\n\n| 변형 조건 | 새 문항 | 확인 기준 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [

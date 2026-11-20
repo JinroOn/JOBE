@@ -73,13 +73,13 @@ class ExplorationJobClientTest {
     ObjectNode modelEnvelope(){var body=mockEnvelope().put("transportVersion","EXPLORATION_MODEL_EXECUTION_V1_0").put("mode","MODEL").put("generationAuthorized",true);body.putObject("providerMetadata").put("provider","openai").put("model","TEST_MODEL").put("promptVersion","EXPLORATION_MODEL_V1_0");return body;}
     @Test void modelConsumerRequiresItsOwnFlag(){assertThatThrownBy(()->client.executeModel("owner","m",request)).isInstanceOf(ExplorationJobClient.Unavailable.class);server.verify();}
     @Test void acceptsOnlyConfiguredModelAndProvenance(){modelReady();reply("model-execute",modelEnvelope().toString());assertThat(client.executeModel("owner","m",request).path("mode").asText()).isEqualTo("MODEL");server.verify();}
-    @ParameterizedTest @ValueSource(strings={"EXPLORATION_CONVERSATION_V1_0", "EXPLORATION_CONVERSATION_V1_1", "EXPLORATION_CONVERSATION_V1_2"})
+    @ParameterizedTest @ValueSource(strings={"EXPLORATION_CONVERSATION_V1_0", "EXPLORATION_CONVERSATION_V1_1", "EXPLORATION_CONVERSATION_V1_2", "EXPLORATION_CONVERSATION_V1_3"})
     void conversationRequestAndPromptVersionSurviveAuthenticatedTransport(String prompt){
         var r=(ObjectNode)request.deepCopy();r.put("contractVersion",ExplorationAiContract.CONVERSATION_VERSION);
         var conversation=((ObjectNode)r.path("input")).putObject("conversation").put("question","SYNTHETIC question");conversation.putArray("history");
         r.put("inputHash",new ExplorationAiContract(new ExplorationJson(mapper)).inputHash(r));request=r;modelReady();
         var body=modelEnvelope();((ObjectNode)body.path("providerMetadata")).put("promptVersion",prompt);reply("model-execute",body.toString());
-        if(prompt.equals("EXPLORATION_CONVERSATION_V1_2")){
+        if(prompt.equals("EXPLORATION_CONVERSATION_V1_3")){
             var result=client.executeModel("owner","m",request);
             assertThat(result.path("boundRequest").path("input").path("conversation")).isEqualTo(conversation);
         }else assertThatThrownBy(()->client.executeModel("owner","m",request)).isInstanceOf(ExplorationJobClient.Unavailable.class);

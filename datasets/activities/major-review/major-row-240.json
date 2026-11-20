@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M240_DRAFT",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M240_DRAFT_V3_SCOPE_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M240-01",
-      "version": "0.3.0",
+      "version": "0.4.2",
       "title": "경기 참가자와 관람자가 필요한 정보 나누기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_240",
@@ -38,9 +38,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "탐색 주제: 스포츠경영과 행사 운영. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
       "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
@@ -61,7 +59,7 @@
         "m240-extra"
       ],
       "major_source_relationship": "RELATED_PROGRAM_NOT_EQUIVALENT",
-      "major_connection_note": "명칭/범위 차이: 기준 전공은 스포츠산업학과, 출처는 스포츠산업과학부 스포츠매니지먼트전공. 관련 분야 참고이며 동일성은 미승인.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 국민대학교 체육대학 스포츠산업레저 교육과정, 고려대학교 스포츠비즈니스전공 교과과정 및 이수체계도이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -80,11 +78,11 @@
           "url": "https://sport.kookmin.ac.kr/sports/department/curriculum02.do",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "스포츠산업·레저 직무 교육과 스포츠경영 및 마케팅",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "스포츠경영 및 마케팅",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "관련 학과 사례다."
+          "usage_scope": "국민대 스포츠산업레저학과에서 스포츠 경영·마케팅과 겹치는 주제를 참고한다."
         },
         {
           "source_id": "m240-extra",
@@ -94,10 +92,10 @@
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
           "verified_claim": "스포츠마케팅·스포츠시장조사론·스포츠이벤트실습",
-          "application": "전공 소개와 과목명 사례 대조",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "관련 전공 사례다."
+          "usage_scope": "고려대 스포츠비즈니스전공의 시장 조사·마케팅·행사 운영 교과 사례다."
         }
       ],
       "preference_question_ids": [
@@ -116,7 +114,7 @@
     },
     {
       "activity_id": "DRAFT-M240-02",
-      "version": "0.3.0",
+      "version": "0.4.2",
       "title": "가상 대회의 예상 수입과 운영비 비교하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_240",
@@ -140,12 +138,10 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "경험할 주제: 스포츠경영과 행사 운영. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "가상 소규모 관람 행사의 예산100단위와 운영 인력4명을 제공",
+      "scenario": "가상 A는 예상 참가 20명·인당 3점·비용 48점이다. B는 30명·인당 2점·비용 55점이다.",
       "steps": [
         "두 안의 수입과 비용 차이를 계산한다.",
         "운영 목적이 많은 참가인지 수입 여유인지에 따라 판단이 다른지 적는다."
@@ -154,7 +150,7 @@
         "가상 참여 규모와 운영비 비교표"
       ],
       "example_output": "두 안 모두 수입 60점이다. A의 비용 차감 후 금액은 12점, B는 5점이지만 B의 예상 참여가 더 많다.",
-      "worksheet_columns": "업무/예산/인력/이용 조건/대안 표",
+      "worksheet_columns": "안 / 예상 인원 / 예상 수입 / 비용 / 차이",
       "reflection_question": "경기 자체보다 행사와 참여 조건을 기획하는 일이 흥미로운가?",
       "alternative": "실제 비용과 참여자 정보를 모으지 않는다.",
       "safety_boundary": "실제 대회 개최·신체활동·수익 예측이 아닌 종이 기획",
@@ -163,7 +159,7 @@
         "m240-extra"
       ],
       "major_source_relationship": "RELATED_PROGRAM_NOT_EQUIVALENT",
-      "major_connection_note": "명칭/범위 차이: 기준 전공은 스포츠산업학과, 출처는 스포츠산업과학부 스포츠매니지먼트전공. 관련 분야 참고이며 동일성은 미승인.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 국민대학교 체육대학 스포츠산업레저 교육과정, 고려대학교 스포츠비즈니스전공 교과과정 및 이수체계도이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -182,11 +178,11 @@
           "url": "https://sport.kookmin.ac.kr/sports/department/curriculum02.do",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "스포츠산업·레저 직무 교육과 스포츠경영 및 마케팅",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "스포츠경영 및 마케팅",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "관련 학과 사례다."
+          "usage_scope": "국민대 스포츠산업레저학과에서 스포츠 경영·마케팅과 겹치는 주제를 참고한다."
         },
         {
           "source_id": "m240-extra",
@@ -196,10 +192,10 @@
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
           "verified_claim": "스포츠마케팅·스포츠시장조사론·스포츠이벤트실습",
-          "application": "전공 소개와 과목명 사례 대조",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "관련 전공 사례다."
+          "usage_scope": "고려대 스포츠비즈니스전공의 시장 조사·마케팅·행사 운영 교과 사례다."
         }
       ],
       "preference_question_ids": [
@@ -219,7 +215,7 @@
     },
     {
       "activity_id": "DRAFT-M240-03",
-      "version": "0.3.0",
+      "version": "0.4.2",
       "title": "예상이 빗나갈 때 확인할 운영 자료 고르기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_240",
@@ -243,9 +239,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
       "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
@@ -266,7 +260,7 @@
         "m240-extra"
       ],
       "major_source_relationship": "RELATED_PROGRAM_NOT_EQUIVALENT",
-      "major_connection_note": "명칭/범위 차이: 기준 전공은 스포츠산업학과, 출처는 스포츠산업과학부 스포츠매니지먼트전공. 관련 분야 참고이며 동일성은 미승인.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 국민대학교 체육대학 스포츠산업레저 교육과정, 고려대학교 스포츠비즈니스전공 교과과정 및 이수체계도이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -285,11 +279,11 @@
           "url": "https://sport.kookmin.ac.kr/sports/department/curriculum02.do",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "스포츠산업·레저 직무 교육과 스포츠경영 및 마케팅",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "스포츠경영 및 마케팅",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "관련 학과 사례다."
+          "usage_scope": "국민대 스포츠산업레저학과에서 스포츠 경영·마케팅과 겹치는 주제를 참고한다."
         },
         {
           "source_id": "m240-extra",
@@ -299,10 +293,10 @@
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
           "verified_claim": "스포츠마케팅·스포츠시장조사론·스포츠이벤트실습",
-          "application": "전공 소개와 과목명 사례 대조",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "관련 전공 사례다."
+          "usage_scope": "고려대 스포츠비즈니스전공의 시장 조사·마케팅·행사 운영 교과 사례다."
         }
       ],
       "preference_question_ids": [],

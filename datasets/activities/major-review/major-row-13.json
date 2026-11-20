@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M13_DRAFT",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M13_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M13-01",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "종교문화 자료를 설명하는 질문 만들기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_13",
@@ -38,9 +38,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "탐색 주제: 종교문화 이해와 관점 비교. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
       "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
@@ -130,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M13-02",
-      "version": "0.3.0",
+      "version": "0.4.1",
       "title": "가상의 두 행사 안내문을 같은 기준으로 비교하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_13",
@@ -154,12 +152,10 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "경험할 주제: 종교문화 이해와 관점 비교. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "가상 전시 카드에는 건축물 그림, 의례 날짜 미상, 제작자 기록 없음이 적혀 있음",
+      "scenario": "A는 해마다 봄에 마을회관에서 방문객과 함께 등불을 켠다. B는 매달 문화관에서 신청자와 함께 노래를 부른다. 둘 다 활동용 창작 사례다.",
       "steps": [
         "언제, 어디서, 누가, 무엇을 하는지 같은 항목으로 적는다.",
         "안내문에 적힌 사실과 참여자가 어떤 의미를 느끼는지처럼 확인하지 못한 질문을 나눈다."
@@ -168,7 +164,7 @@
         "가상 문화 행사 비교표"
       ],
       "example_output": "두 행사는 반복해서 열리지만 주기는 다르다. 참여자가 행동에 부여한 의미는 안내문에 없다.",
-      "worksheet_columns": "확인 사실/관점별 질문/미확인/소개문",
+      "worksheet_columns": "사례 / 시간·공간 / 기록된 행동 / 남은 질문",
       "reflection_question": "다른 관점을 읽고 표현을 조정하는 과정이 흥미로운가?",
       "alternative": "그림 없이 설명을 읽고 네 가지 단어만 적는다.",
       "safety_boundary": "특정 종교의 옳고 그름을 평가하거나 신앙을 조사하지 않음",
@@ -247,7 +243,7 @@
     },
     {
       "activity_id": "DRAFT-M13-03",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "당사자 관점이 드러나는 자료 고르기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_13",
@@ -271,9 +267,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
       "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",

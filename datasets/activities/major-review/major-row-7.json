@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M7_DRAFT",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M7_DRAFT_V3_SCOPE_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M7-01",
-      "version": "0.3.0",
+      "version": "0.4.2",
       "title": "보존 기록에서 필요한 항목 찾기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_7",
@@ -38,9 +38,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "탐색 주제: 문화재 기록과 보존의 질문. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
       "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
@@ -58,11 +56,10 @@
       "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
       "source_ids": [
         "m7-careernet",
-        "m7-university",
-        "m7-extra"
+        "m7-university"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 한국전통문화대학교 보존과학과 교과과정이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -94,24 +91,11 @@
           "url": "https://www.knuh.ac.kr/cs/content.do?mnuBaseId=MNU0000352&topBaseId=MNU0000351&tplBaseId=TPL0000108",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "문화재검진및기록화실습과 유기재료학",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "문화재검진및기록화실습",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "해당 대학의 학부 교과 사례다."
-        },
-        {
-          "source_id": "m7-extra",
-          "title": "진로진학 가이드북",
-          "publisher": "국립공주대학교",
-          "url": "https://ipsi.kongju.ac.kr/download/1558252368262/index.html",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "문화유산진단기술론과 금속문화재보존실습",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "가이드북에서 소개한 교과목 사례다."
+          "usage_scope": "보존과학과의 상태 관찰·기록 교과 사례로 사용한다."
         }
       ],
       "preference_question_ids": [
@@ -130,7 +114,7 @@
     },
     {
       "activity_id": "DRAFT-M7-02",
-      "version": "0.3.0",
+      "version": "0.4.2",
       "title": "가상 종이 카드 상태도 그리기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_7",
@@ -154,12 +138,10 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "경험할 주제: 문화재 기록과 보존의 질문. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "종이 모형을 소장품으로 가정하고 가상 상태카드에 얼룩 위치·접힌 흔적·기록 누락을 표시",
+      "scenario": "가상 카드의 왼쪽 위에 접힘, 아래에 작은 얼룩, 오른쪽 가장자리에 찢김이 표시돼 있다.",
       "steps": [
         "사각형을 그려 세 흔적의 위치에 다른 기호를 붙인다.",
         "각 기호의 뜻을 표에 적고, 관찰로 확인한 것과 모르는 원인을 구분한다."
@@ -168,17 +150,16 @@
         "위치와 상태를 담은 보존 기록도"
       ],
       "example_output": "아래쪽에 얼룩이 보인다. 얼룩의 원인은 가상 그림만으로 알 수 없다.",
-      "worksheet_columns": "위치 도식/상태/사진 필요 항목/질문 표",
+      "worksheet_columns": "번호 / 위치 / 관찰 / 확인하지 못한 점",
       "reflection_question": "작은 변화를 기록하는 일에 관심이 생기는가?",
       "alternative": "실물 유물 대신 가상 기록을 읽고 글로 위치를 표시한다.",
       "safety_boundary": "실제 문화재 세척·약품 처리·복원 실습은 하지 않음",
       "source_ids": [
         "m7-careernet",
-        "m7-university",
-        "m7-extra"
+        "m7-university"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 한국전통문화대학교 보존과학과 교과과정이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -210,24 +191,11 @@
           "url": "https://www.knuh.ac.kr/cs/content.do?mnuBaseId=MNU0000352&topBaseId=MNU0000351&tplBaseId=TPL0000108",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "문화재검진및기록화실습과 유기재료학",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "문화재검진및기록화실습",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "해당 대학의 학부 교과 사례다."
-        },
-        {
-          "source_id": "m7-extra",
-          "title": "진로진학 가이드북",
-          "publisher": "국립공주대학교",
-          "url": "https://ipsi.kongju.ac.kr/download/1558252368262/index.html",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "문화유산진단기술론과 금속문화재보존실습",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "가이드북에서 소개한 교과목 사례다."
+          "usage_scope": "보존과학과의 상태 관찰·기록 교과 사례로 사용한다."
         }
       ],
       "preference_question_ids": [
@@ -247,7 +215,7 @@
     },
     {
       "activity_id": "DRAFT-M7-03",
-      "version": "0.3.0",
+      "version": "0.4.2",
       "title": "다음 관찰에서 같은 조건 맞추기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_7",
@@ -271,9 +239,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
       "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
@@ -291,11 +257,10 @@
       "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
       "source_ids": [
         "m7-careernet",
-        "m7-university",
-        "m7-extra"
+        "m7-university"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 한국전통문화대학교 보존과학과 교과과정이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -327,24 +292,11 @@
           "url": "https://www.knuh.ac.kr/cs/content.do?mnuBaseId=MNU0000352&topBaseId=MNU0000351&tplBaseId=TPL0000108",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "문화재검진및기록화실습과 유기재료학",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "문화재검진및기록화실습",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "해당 대학의 학부 교과 사례다."
-        },
-        {
-          "source_id": "m7-extra",
-          "title": "진로진학 가이드북",
-          "publisher": "국립공주대학교",
-          "url": "https://ipsi.kongju.ac.kr/download/1558252368262/index.html",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "문화유산진단기술론과 금속문화재보존실습",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "가이드북에서 소개한 교과목 사례다."
+          "usage_scope": "보존과학과의 상태 관찰·기록 교과 사례로 사용한다."
         }
       ],
       "preference_question_ids": [],

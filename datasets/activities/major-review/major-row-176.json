@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M176_DRAFT",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M176_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M176-01",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "물질을 분석하는 질문과 변화를 설명하는 질문 만들기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_176",
@@ -38,9 +38,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "탐색 주제: 화학 분석과 측정의 한계. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
       "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
@@ -126,11 +124,11 @@
           "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
         }
       ],
-      "revised_on": "2026-11-19"
+      "revised_on": "2026-11-20"
     },
     {
       "activity_id": "DRAFT-M176-02",
-      "version": "0.3.0",
+      "version": "0.4.1",
       "title": "가상 관찰 기록에서 보이는 변화와 해석 구분하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_176",
@@ -154,12 +152,10 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "경험할 주제: 화학 분석과 측정의 한계. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "가상 시료A/B에 색·측정값·기기 조건을 표로 제공",
+      "scenario": "가상 기록에서 같은 물을 사용했다. A에서는 저은 뒤 가루 알갱이가 보이지 않았고, B에서는 알갱이가 일부 바닥에 남았다.",
       "steps": [
         "두 기록에서 눈으로 확인한 내용만 비교표에 옮긴다.",
         "관찰만으로 물질 정체나 남은 양을 확정할 수 있는지 검토하고, 더 필요한 자료를 한 가지 적는다."
@@ -168,7 +164,7 @@
         "두 관찰과 해석의 한계를 나눈 표"
       ],
       "example_output": "A에서 알갱이가 보이지 않았다는 점은 확인했다. 눈에 보이지 않는다는 이유만으로 물질이 사라졌다고 결론 낼 수 없다.",
-      "worksheet_columns": "시료/관찰/조건/해석/추가 자료 표",
+      "worksheet_columns": "기록 / 직접 관찰 / 아직 모르는 내용 / 추가 자료",
       "reflection_question": "보이지 않는 성질을 기록으로 확인하는 과정이 흥미로운가?",
       "alternative": "가상의 관찰 기록만 읽는다. 물질을 섞는 실험은 필요 없다.",
       "safety_boundary": "약품 혼합·가열·냄새 맡기·가정 화학 실험 없이 가상 자료 사용",
@@ -243,11 +239,11 @@
           "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
         }
       ],
-      "revised_on": "2026-11-19"
+      "revised_on": "2026-11-20"
     },
     {
       "activity_id": "DRAFT-M176-03",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "다른 설명을 비교할 다음 관찰 제안하기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_176",
@@ -271,9 +267,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
       "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
@@ -349,7 +343,7 @@
       ],
       "preference_question_ids": [],
       "preference_mapping_basis": [],
-      "revised_on": "2026-11-19"
+      "revised_on": "2026-11-20"
     }
   ]
 }

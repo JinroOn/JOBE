@@ -1,6 +1,6 @@
 {
   "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
-  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M41_20261120",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M41_20261120_SCOPE_V2",
   "status": "PENDING_HUMAN_REVIEW",
   "scope": "DEV",
   "preparedBy": "Codex",
@@ -22,7 +22,7 @@
     },
     {
       "chunkType": "major_overview",
-      "text": "순천향대 교육과정에는 경찰학개론, 형사사법행정론과 경찰생활안전론이 있다. 동국대 경찰행정학부 범죄과학전공은 피해자학 및 범죄통계 자료의 성격을 다루는 수업을 소개한다.",
+      "text": "순천향대 경찰행정학과 교육과정에는 경찰학개론, 형사사법행정론과 경찰생활안전론이 있다. 피해자 지원과 자료 해석을 더 살펴보는 사례로 동국대 경찰행정학부 범죄과학전공의 피해자학과 범죄통계 관련 교과를 참고할 수 있다.",
       "sourceIds": [
         "m41-university",
         "m41-extra"
@@ -55,15 +55,16 @@
       "publisher": "동국대학교 경찰행정학부",
       "title": "범죄과학전공 교과과정",
       "url": "https://police.dongguk.edu/page/322",
-      "supports": "피해자학과 범죄통계 활용의 학습 사례",
-      "limitation": "해당 대학의 학부 교과 사례다.",
+      "supports": "피해자학과 범죄통계 자료의 성격",
+      "limitation": "동국대 경찰행정학부 범죄과학전공에서 피해자 지원과 자료 해석을 다루는 사례다.",
       "verification": "PUBLIC_PAGE_BODY_CHECKED",
       "accessedAt": "2026-11-20"
     }
   ],
   "excludedClaims": [
     "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
-    "자료에 없는 수업 방식 및 공식 과제"
+    "자료에 없는 수업 방식 및 공식 과제",
+    "유사 학과·세부 전공 자료에서 확인한 사례의 전공 전체 일반화, 필수 교과·이수·자격 요건 단정"
   ],
   "beforeApproval": [
     "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
-  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M205_20261120",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M205_20261120_SCOPE_V2",
   "status": "PENDING_HUMAN_REVIEW",
   "scope": "DEV",
   "preparedBy": "Codex",
@@ -15,7 +15,7 @@
   "chunks": [
     {
       "chunkType": "description",
-      "text": "커리어넷 약학부 안내는 의약품에 관한 지식과 약학개론 등 교과를 소개한다. 약학과의 교과 범위는 대학의 공식 편람에서 확인한다.",
+      "text": "의약품에 관한 기초 지식은 약학을 탐색할 때 살펴볼 주제다. 커리어넷 약학부 안내에서는 약학개론을 사례로 제시한다.",
       "sourceIds": [
         "m205-careernet"
       ]
@@ -36,8 +36,8 @@
       "title": "대학교 학과정보 약학부",
       "url": "https://www.career.go.kr/cloud/w/major/uView?seq=341",
       "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
-      "supports": "2023-06-16 갱신 응답에서 확인한 커리어넷 약학부 안내는 의약품에 관한 지식과 약학개론 등 교과를 소개한다. 약학과의 교과 범위는 대학의 공식 편람에서 확인한다.",
-      "limitation": "커리어넷의 명칭은 약학부이며 이 자료는 연결되는 내용의 참고 사례다. 전공별 범위는 대학 공식 자료로 확인한다.",
+      "supports": "의약품에 관한 지식과 약학개론",
+      "limitation": "약학부 안내 중 약학과와 겹치는 기초 학습 내용을 참고한다.",
       "accessedAt": "2026-11-20"
     },
     {
@@ -63,7 +63,8 @@
   ],
   "excludedClaims": [
     "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
-    "자료에 없는 수업 방식 및 공식 과제"
+    "자료에 없는 수업 방식 및 공식 과제",
+    "유사 학과·세부 전공 자료에서 확인한 사례의 전공 전체 일반화, 필수 교과·이수·자격 요건 단정"
   ],
   "beforeApproval": [
     "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",

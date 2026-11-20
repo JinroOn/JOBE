@@ -277,7 +277,7 @@ def test_real_conversation_consumer_selects_and_pins_dialogue_prompt_before_clai
     monkeypatch.setattr(wire,'ExplorationModel',lambda:ExplorationModel(Injected))
     assert call('enqueue').status_code==200
     response=call('model-execute');assert response.status_code==200
-    assert response.json()['providerMetadata']['promptVersion']=='EXPLORATION_CONVERSATION_V1_2'
+    assert response.json()['providerMetadata']['promptVersion']=='EXPLORATION_CONVERSATION_V1_3'
     assert call('model-execute').json()==response.json()
 
 

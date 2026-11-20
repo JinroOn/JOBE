@@ -1,6 +1,6 @@
 {
   "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
-  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M1002_20261120",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M1002_20261120_SCOPE_V2",
   "status": "PENDING_HUMAN_REVIEW",
   "scope": "DEV",
   "preparedBy": "Codex",
@@ -22,7 +22,7 @@
     },
     {
       "chunkType": "major_overview",
-      "text": "대입정보포털의 서울여대 데이터사이언스학과 자료에는 데이터시각화와 캡스톤디자인이 있다. 고려대 빅데이터사이언스학부 편람은 데이터시각화입문과 데이터사이언스방법론을 소개한다.",
+      "text": "대입정보포털의 서울여대 데이터사이언스학과 자료에는 데이터시각화와 캡스톤디자인이 있다. 고려대 세종캠퍼스 빅데이터사이언스학부의 데이터시각화입문은 시각화의 교과 사례다.",
       "sourceIds": [
         "m1002-university",
         "m1002-extra"
@@ -55,15 +55,16 @@
       "publisher": "고려대학교",
       "title": "2024 교육과정편람 빅데이터사이언스학부",
       "url": "https://emse.korea.ac.kr/bbs/koreaSejong/656/165615/download.do",
-      "supports": "데이터시각화입문과 데이터사이언스방법론",
-      "limitation": "이름이 다른 학부의 비교 사례다.",
+      "supports": "데이터시각화입문",
+      "limitation": "고려대 세종캠퍼스 빅데이터사이언스학부의 시각화 교과 사례다.",
       "verification": "PUBLIC_PAGE_BODY_CHECKED",
       "accessedAt": "2026-11-20"
     }
   ],
   "excludedClaims": [
     "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
-    "자료에 없는 수업 방식 및 공식 과제"
+    "자료에 없는 수업 방식 및 공식 과제",
+    "유사 학과·세부 전공 자료에서 확인한 사례의 전공 전체 일반화, 필수 교과·이수·자격 요건 단정"
   ],
   "beforeApproval": [
     "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",

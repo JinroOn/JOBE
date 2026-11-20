@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M245_DRAFT",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M245_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M245-01",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "음악에서 반복과 변화를 묻는 질문 적기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_245",
@@ -38,9 +38,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "탐색 주제: 음악의 반복·대비·구성. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
       "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
@@ -116,7 +114,7 @@
     },
     {
       "activity_id": "DRAFT-M245-02",
-      "version": "0.3.0",
+      "version": "0.4.1",
       "title": "가상 리듬 두 줄의 반복과 변형 표시하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_245",
@@ -140,12 +138,10 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "경험할 주제: 음악의 반복·대비·구성. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "종이에서 소리A·소리B·쉼을 기호로 나타내고 실제 연주는 선택",
+      "scenario": "A는 ‘● ○ ● ○’, B는 ‘● ○ ● ●’다. ●은 소리, ○는 쉼이다.",
       "steps": [
         "같은 위치를 밑줄로 표시하고 다른 위치에 표시한다.",
         "B를 A와 연결되는 변형으로 느낄 이유를 적는다."
@@ -154,7 +150,7 @@
         "기호 악보와 형식 메모"
       ],
       "example_output": "처음 세 박이 같고 마지막 박만 쉼에서 소리로 바뀐다.",
-      "worksheet_columns": "패턴 악보/반복·변화/구성 설명 표",
+      "worksheet_columns": "묶음 / 같은 박 / 다른 박 / 설명",
       "reflection_question": "연주 능력과 별개로 소리의 구성 원리를 생각하는 일이 흥미로운가?",
       "alternative": "악기를 쓰지 않고 기호만 읽어도 된다.",
       "safety_boundary": "음감·청력·연주 평가 없이 시각 기호로도 완료",
@@ -219,7 +215,7 @@
     },
     {
       "activity_id": "DRAFT-M245-03",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "가상 리듬에 변화를 한 군데 더 주기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_245",
@@ -243,9 +239,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
       "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",

@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M96_DRAFT",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M96_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M96-01",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "운동 기술을 익히는 과정을 볼 기준 고르기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_96",
@@ -38,9 +38,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "탐색 주제: 체육 수업과 참여 조건. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
       "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
@@ -130,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M96-02",
-      "version": "0.3.0",
+      "version": "0.4.1",
       "title": "공 굴리기 가상 기록으로 피드백 만들기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_96",
@@ -154,12 +152,10 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "경험할 주제: 체육 수업과 참여 조건. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "가상 공 전달 놀이를 서서 이동하는 안과 앉아서 전달하는 안으로 설계",
+      "scenario": "가상 A는 목표선 왼쪽에 3번, 가상 B는 왼쪽 1번과 목표 구역 2번이다.",
       "steps": [
         "두 기록을 표에 옮겨 목표 구역에 멈춘 횟수를 비교한다.",
         "선수의 성격을 평가하지 않고 다음 시도에서 확인할 행동을 설명한다."
@@ -168,7 +164,7 @@
         "두 가상 기록과 다음 피드백"
       ],
       "example_output": "A에게는 시작할 때 목표선 방향을 먼저 확인하도록 제안하고 다음 기록을 비교한다.",
-      "worksheet_columns": "놀이안/참여 조건/대체/관찰 표",
+      "worksheet_columns": "시도 / 관찰 / 비교 / 다음 안내",
       "reflection_question": "운동하기와 참여를 돕는 수업 설계 중 무엇이 흥미로운가?",
       "alternative": "직접 운동하지 않고 가상 기록만 비교한다.",
       "safety_boundary": "실제 운동·체력검사·학생 지도 없이 문서 기획만 진행",
@@ -247,7 +243,7 @@
     },
     {
       "activity_id": "DRAFT-M96-03",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "같은 목표에 맞는 쉬운 참여 방식 설계하기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_96",
@@ -271,9 +267,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
       "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",

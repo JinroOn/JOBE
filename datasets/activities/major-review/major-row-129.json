@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M129_DRAFT",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M129_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M129-01",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "같은 물건에 필요한 재료 성질 고르기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_129",
@@ -38,9 +38,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "탐색 주제: 재료의 성질과 설계 선택. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
       "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
@@ -130,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M129-02",
-      "version": "0.3.0",
+      "version": "0.4.1",
       "title": "가상 시편 기록으로 용도에 맞는 재료 선택하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_129",
@@ -154,12 +152,10 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "경험할 주제: 재료의 성질과 설계 선택. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "가상 재료A는 무게1·내구3·가공2, B는2·4·1, C는1·2·4의 모형 점수",
+      "scenario": "같은 크기의 가상 시편에서 A는 가벼움·덜 휨·물에 약함, B는 무거움·덜 휨·물에 강함으로 관찰됐다.",
       "steps": [
         "휴대용 받침과 젖을 수 있는 공간의 받침이 우선하는 성질을 표시한다.",
         "각 용도에 적합한 시편을 고르고 불리한 점도 하나 적는다."
@@ -168,7 +164,7 @@
         "성질과 선택 근거 카드"
       ],
       "example_output": "젖을 수 있는 곳은 B를 고른다. 물에 강하지만 휴대할 때 더 무겁다.",
-      "worksheet_columns": "목적/특성/우선순위/후보/추가 시험 표",
+      "worksheet_columns": "용도 / 우선 성질 / 재료 / 불리한 점",
       "reflection_question": "성질을 비교하고 선택 근거를 만드는 일이 흥미로운가?",
       "alternative": "가상 기록만 쓴다. 시편을 준비할 필요는 없다.",
       "safety_boundary": "가상 점수를 실제 재료의 물성값으로 사용하지 않음",
@@ -247,7 +243,7 @@
     },
     {
       "activity_id": "DRAFT-M129-03",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "선택이 바뀔 수 있는 조건 찾기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_129",
@@ -271,9 +267,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
       "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",

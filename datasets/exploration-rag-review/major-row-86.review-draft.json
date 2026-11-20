@@ -1,6 +1,6 @@
 {
   "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
-  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M86_20261120",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M86_20261120_SCOPE_V2",
   "status": "PENDING_HUMAN_REVIEW",
   "scope": "DEV",
   "preparedBy": "Codex",
@@ -22,7 +22,7 @@
     },
     {
       "chunkType": "major_overview",
-      "text": "단국대 과학교육과의 통합과학 교과 사례에는 통합과학교육의실제, 과학탐구의실제와 중등과학실험지도가 있다. 전북대 과학교육학부 지구과학교육전공에는 지구과학탐구방법 및 프로젝트지도가 있다.",
+      "text": "단국대 과학교육과의 통합과학 교과 사례에는 통합과학교육의실제, 과학탐구의실제와 중등과학실험지도가 있다. 지구과학 탐구 지도 사례는 전북대 과학교육학부 지구과학교육전공의 지구과학탐구방법 및 프로젝트지도에서 살펴볼 수 있다.",
       "sourceIds": [
         "m86-university",
         "m86-extra"
@@ -56,14 +56,15 @@
       "title": "지구과학교육전공 교과과정",
       "url": "https://earthedu.jbnu.ac.kr/earthedu/13783/subview.do",
       "supports": "지구과학탐구방법 및 프로젝트지도",
-      "limitation": "2023학년도 재학생 기준 지구과학교육전공 사례다.",
+      "limitation": "전북대 지구과학교육전공의 관찰·탐구 지도 사례로 사용한다.",
       "verification": "PUBLIC_PAGE_BODY_CHECKED",
       "accessedAt": "2026-11-20"
     }
   ],
   "excludedClaims": [
     "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
-    "자료에 없는 수업 방식 및 공식 과제"
+    "자료에 없는 수업 방식 및 공식 과제",
+    "유사 학과·세부 전공 자료에서 확인한 사례의 전공 전체 일반화, 필수 교과·이수·자격 요건 단정"
   ],
   "beforeApproval": [
     "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",

@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M3_DRAFT",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M3_DRAFT_V3_SCOPE_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M3-01",
-      "version": "0.3.0",
+      "version": "0.4.2",
       "title": "한국사 사료를 읽을 때 먼저 확인할 항목 정하기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_3",
@@ -38,9 +38,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "탐색 주제: 한국사 자료의 시점과 관점. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
       "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
@@ -57,12 +55,11 @@
       "alternative": "한문을 읽지 않아도 제공된 한국어 설명으로 질문을 작성한다.",
       "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
       "source_ids": [
-        "m3-careernet",
         "m3-university",
         "m3-extra"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "이 활동에서는 해당 전공의 자료를 사용한다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -74,19 +71,6 @@
       "worksheet_markdown": "## 한국사 사료를 읽을 때 먼저 확인할 항목 정하기\n\n한국사한문강독과 한문사료강독 1을 소개한 서울대 자료를 참고한다.\n\n| 과목 | 먼저 확인할 것 | 이유 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
-        {
-          "source_id": "m3-careernet",
-          "title": "대학교 학과정보 사학과",
-          "publisher": "커리어넷",
-          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=236",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "2020-12-02 갱신 응답에서 확인한 커리어넷 사학과 안내는 과거의 역사와 의미를 연구하는 전공의 공통 배경을 설명한다. 국사학과의 한국사 학습 범위와 실제 과목은 대학의 한국사 전공 자료로 확인한다.",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "커리어넷의 명칭은 사학과이며 이 자료는 연결되는 내용의 참고 사례다. 전공별 범위는 대학 공식 자료로 확인한다."
-        },
         {
           "source_id": "m3-university",
           "title": "졸업 안내",
@@ -130,7 +114,7 @@
     },
     {
       "activity_id": "DRAFT-M3-02",
-      "version": "0.3.0",
+      "version": "0.4.2",
       "title": "가상 지방 문서와 개인 일기를 연표에 놓기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_3",
@@ -154,12 +138,10 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "경험할 주제: 한국사 자료의 시점과 관점. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "가상 자료A는 행사 다음 날의 개인 기록, B는 20년 뒤의 회고이며 사건 세부 내용은 제시하지 않음",
+      "scenario": "가상의 기록이다. 문서 A는 음력 4월 3일 고을 관청의 곡식 배분 공지다. 일기 B는 같은 해 음력 4월 6일 주민이 일부 이웃만 곡식을 받았다고 기록했다.",
       "steps": [
         "날짜, 작성자와 기록 목적을 각각 표시하고 먼저 쓴 기록과 나중 기록을 배열한다.",
         "공지가 뒷받침하는 정책과 일기가 뒷받침하는 경험을 구분하고 실제 배분 범위를 확인할 자료를 적는다."
@@ -168,17 +150,16 @@
         "발표와 집행을 구분한 연표"
       ],
       "example_output": "관청이 정책을 알렸다는 사실과 한 주민이 관찰한 지급 사례를 구분한다. 지급 명부를 확인하면 배분 범위를 더 살필 수 있다.",
-      "worksheet_columns": "자료/작성 시점/확인할 점/전시 문구 표",
+      "worksheet_columns": "날짜 / 기록 종류 / 알 수 있는 사실 / 추가 사료",
       "reflection_question": "시간 차이를 따지는 과정과 전시 문구를 쓰는 과정 중 무엇이 흥미로운가?",
       "alternative": "한국어로 제공된 가상 기록 두 줄만 사용한다.",
       "safety_boundary": "가상 사례를 실제 한국사 사건으로 제시하지 않음",
       "source_ids": [
-        "m3-careernet",
         "m3-university",
         "m3-extra"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "이 활동에서는 해당 전공의 자료를 사용한다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -190,19 +171,6 @@
       "worksheet_markdown": "## 가상 지방 문서와 개인 일기를 연표에 놓기\n\n가상의 기록이다. 문서 A는 음력 4월 3일 고을 관청의 곡식 배분 공지다. 일기 B는 같은 해 음력 4월 6일 주민이 일부 이웃만 곡식을 받았다고 기록했다.\n\n| 날짜 | 기록 종류 | 알 수 있는 사실 | 추가 사료 |\n|---|---|---|---|\n| | | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
-        {
-          "source_id": "m3-careernet",
-          "title": "대학교 학과정보 사학과",
-          "publisher": "커리어넷",
-          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=236",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "2020-12-02 갱신 응답에서 확인한 커리어넷 사학과 안내는 과거의 역사와 의미를 연구하는 전공의 공통 배경을 설명한다. 국사학과의 한국사 학습 범위와 실제 과목은 대학의 한국사 전공 자료로 확인한다.",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "커리어넷의 명칭은 사학과이며 이 자료는 연결되는 내용의 참고 사례다. 전공별 범위는 대학 공식 자료로 확인한다."
-        },
         {
           "source_id": "m3-university",
           "title": "졸업 안내",
@@ -247,7 +215,7 @@
     },
     {
       "activity_id": "DRAFT-M3-03",
-      "version": "0.3.0",
+      "version": "0.4.2",
       "title": "다른 지역과 비교하기 전에 자료 조건 점검하기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_3",
@@ -271,9 +239,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
       "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
@@ -290,12 +256,11 @@
       "alternative": "연표 예시만 보고 비교 기준 하나를 말로 정리한다.",
       "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
       "source_ids": [
-        "m3-careernet",
         "m3-university",
         "m3-extra"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "이 활동에서는 해당 전공의 자료를 사용한다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -307,19 +272,6 @@
       "worksheet_markdown": "## 다른 지역과 비교하기 전에 자료 조건 점검하기\n\n앞 활동에서 만든 연표를 참고한다.\n\n| 비교 기준 | 빠진 관점 | 찾을 자료 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
-        {
-          "source_id": "m3-careernet",
-          "title": "대학교 학과정보 사학과",
-          "publisher": "커리어넷",
-          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=236",
-          "language": "ko",
-          "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "2020-12-02 갱신 응답에서 확인한 커리어넷 사학과 안내는 과거의 역사와 의미를 연구하는 전공의 공통 배경을 설명한다. 국사학과의 한국사 학습 범위와 실제 과목은 대학의 한국사 전공 자료로 확인한다.",
-          "application": "전공 소개와 과목명 사례 대조",
-          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "커리어넷의 명칭은 사학과이며 이 자료는 연결되는 내용의 참고 사례다. 전공별 범위는 대학 공식 자료로 확인한다."
-        },
         {
           "source_id": "m3-university",
           "title": "졸업 안내",

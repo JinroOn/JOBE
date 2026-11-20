@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M41_DRAFT",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M41_DRAFT_V3_SCOPE_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M41-01",
-      "version": "0.3.0",
+      "version": "0.4.2",
       "title": "생활안전과 피해자 지원의 질문 나누기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_41",
@@ -38,9 +38,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "탐색 주제: 공공 안전 업무의 기록과 절차. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
       "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
@@ -62,7 +60,7 @@
         "m41-extra"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 동국대학교 경찰행정학부 범죄과학전공 교과과정이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -107,11 +105,11 @@
           "url": "https://police.dongguk.edu/page/322",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "피해자학과 범죄통계 활용의 학습 사례",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "피해자학과 범죄통계 자료의 성격",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "해당 대학의 학부 교과 사례다."
+          "usage_scope": "동국대 경찰행정학부 범죄과학전공에서 피해자 지원과 자료 해석을 다루는 사례다."
         }
       ],
       "preference_question_ids": [
@@ -130,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M41-02",
-      "version": "0.3.0",
+      "version": "0.4.2",
       "title": "가상 분실 신고 표의 범위를 확인하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_41",
@@ -154,12 +152,10 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "경험할 주제: 공공 안전 업무의 기록과 절차. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "가상 접수 메모에 물건 종류·장소는 있으나 시간과 인계 기록은 빠져 있음",
+      "scenario": "가상 기관 두 곳에 한 주 동안 분실 신고가 A 6건, B 9건 접수됐다. 각 시설의 이용자 수와 신고 시간은 주어지지 않았다.",
       "steps": [
         "지역별로 확인된 신고 건수를 적는다.",
         "신고 건수 차이로 시설의 위험을 단정하기 전에 필요한 추가 항목을 정한다."
@@ -168,7 +164,7 @@
         "집계 사실과 해석의 한계 비교표"
       ],
       "example_output": "B는 신고 3건이 더 많다. 이용자 수와 접수 가능 시간이 달랐는지 확인해야 비교할 수 있다.",
-      "worksheet_columns": "접수 항목/확인 질문/인계 흐름 표",
+      "worksheet_columns": "지역 / 신고 수 / 빠진 정보 / 다음 질문",
       "reflection_question": "사실을 정확히 기록하고 절차를 설명하는 과정이 흥미로운가?",
       "alternative": "실제 사건을 찾거나 신고하지 않고 제공된 숫자만 활용한다.",
       "safety_boundary": "현장 출동·수사·신체 제압·실제 개인정보 수집을 하지 않음",
@@ -178,7 +174,7 @@
         "m41-extra"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 동국대학교 경찰행정학부 범죄과학전공 교과과정이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -223,11 +219,11 @@
           "url": "https://police.dongguk.edu/page/322",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "피해자학과 범죄통계 활용의 학습 사례",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "피해자학과 범죄통계 자료의 성격",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "해당 대학의 학부 교과 사례다."
+          "usage_scope": "동국대 경찰행정학부 범죄과학전공에서 피해자 지원과 자료 해석을 다루는 사례다."
         }
       ],
       "preference_question_ids": [
@@ -247,7 +243,7 @@
     },
     {
       "activity_id": "DRAFT-M41-03",
-      "version": "0.3.0",
+      "version": "0.4.2",
       "title": "지원 안내의 다음 확인 항목 정하기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_41",
@@ -271,9 +267,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
       "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
@@ -295,7 +289,7 @@
         "m41-extra"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 동국대학교 경찰행정학부 범죄과학전공 교과과정이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -340,11 +334,11 @@
           "url": "https://police.dongguk.edu/page/322",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "피해자학과 범죄통계 활용의 학습 사례",
-          "application": "전공 소개와 과목명 사례 대조",
+          "verified_claim": "피해자학과 범죄통계 자료의 성격",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "해당 대학의 학부 교과 사례다."
+          "usage_scope": "동국대 경찰행정학부 범죄과학전공에서 피해자 지원과 자료 해석을 다루는 사례다."
         }
       ],
       "preference_question_ids": [],

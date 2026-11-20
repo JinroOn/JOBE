@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M210_DRAFT",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M210_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M210-01",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "구강보건 교육 안내에서 대상과 목표를 구분하기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_210",
@@ -38,9 +38,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "탐색 주제: 구강보건 교육과 자료 확인. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
       "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
@@ -130,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M210-02",
-      "version": "0.3.0",
+      "version": "0.4.1",
       "title": "가상 구강보건 교육 안내를 읽기 쉽게 재배치하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_210",
@@ -154,12 +152,10 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "경험할 주제: 구강보건 교육과 자료 확인. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "건강 행동의 정답 대신 가상 안내물의 대상·출처·확인일·질문 창구 항목을 제공",
+      "scenario": "가상 안내에는 금요일 2시, 교실 B, 구강 건강 교육, 질문 카드 준비가 들어 있다.",
       "steps": [
         "네 가지 정보를 제목, 시간·장소, 준비물로 나눈다.",
         "처음 읽는 사람이 준비물을 찾도록 한 문장으로 바꾼다."
@@ -168,7 +164,7 @@
         "가상 구강보건 교육 카드"
       ],
       "example_output": "제목은 ‘구강 건강 교육’. 마지막에 ‘궁금한 점을 질문 카드에 적어 오세요’를 붙인다.",
-      "worksheet_columns": "독자/안내 구조/출처/검토 질문 표",
+      "worksheet_columns": "항목 / 기존 정보 / 표시 위치",
       "reflection_question": "교육 내용을 쉽게 전달하고 확인하는 일이 흥미로운가?",
       "alternative": "구강 처치나 개인 상태를 다루지 않고 안내문만 쓴다.",
       "safety_boundary": "구강 검사·치석 제거·양치 처방·실제 건강 조언 없음",
@@ -247,7 +243,7 @@
     },
     {
       "activity_id": "DRAFT-M210-03",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "교육 안내를 읽은 뒤 이해를 확인할 질문 만들기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_210",
@@ -271,9 +267,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
       "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",

@@ -14,7 +14,7 @@ public class ExplorationAiContract {
     public static final String VERSION="EXPLORATION_AI_CONTRACT_V1_0";
     public static final String CONVERSATION_VERSION="EXPLORATION_AI_CONTRACT_V1_1";
     public static final String PLAN12_VERSION="EXPLORATION_AI_CONTRACT_V1_2";
-    public static String promptVersion(JsonNode request){return PLAN12_VERSION.equals(request.path("contractVersion").asText())?"EXPLORATION_PLAN12_V1_10":CONVERSATION_VERSION.equals(request.path("contractVersion").asText())?"EXPLORATION_CONVERSATION_V1_2":"EXPLORATION_MODEL_V1_0";}
+    public static String promptVersion(JsonNode request){return PLAN12_VERSION.equals(request.path("contractVersion").asText())?"EXPLORATION_PLAN12_V1_10":CONVERSATION_VERSION.equals(request.path("contractVersion").asText())?"EXPLORATION_CONVERSATION_V1_3":"EXPLORATION_MODEL_V1_0";}
     private final ExplorationJson json;
     private static final Set<String> TOPICS=Set.of("READINESS-INFO-01","READINESS-CMP-01","READINESS-SELF-01","READINESS-ACT-02","READINESS-ACT-01","READINESS-CON-01","READINESS-INFO-02","READINESS-SELF-02","ACTIVITY-REPORT-01","ACTIVITY-PROJECT-01","ACTIVITY-READ-01","ACTIVITY-EXPERIMENT-01","ACTIVITY-PRESENT-01","ACTIVITY-CONTENT-01");
     public static final class Invalid extends RuntimeException {public Invalid(){super("Invalid exploration AI contract");}}
