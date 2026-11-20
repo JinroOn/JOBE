@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M124_DRAFT_V2_SCOPE_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M124_DRAFT_V2_SCOPE_V2_PREAPPROVAL_V1",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M124-01",
-      "version": "0.4.2",
+      "version": "0.4.5",
       "title": "같은 공간의 이용자별 요구 읽어 내기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_124",
@@ -41,18 +41,18 @@
         "materials": []
       },
       "purpose": "탐색 주제: 공간 구성과 이용 조건. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
-      "scenario": "서울대 건축설계스튜디오와 연세대 건축설계1을 참고한다. 가상의 작은 도서관에는 책을 반납하러 온 사람과 조용히 책을 읽으려는 사람이 있다.",
+      "scenario": "서울대 건축학전공의 건축설계스튜디오 3-1을 설계 과목 사례로 참고한다. 가상의 작은 도서관에는 책을 반납하러 온 사람과 조용히 책을 읽으려는 사람이 있다.",
       "steps": [
-        "두 대학 자료에서 건축학전공의 설계 과목을 찾아 적는다.",
+        "위 건축학전공 교과 사례에서 설계 과목명을 적는다.",
         "책을 반납하는 사람과 조용히 읽는 사람에게 필요한 공간 조건을 하나씩 적는다."
       ],
       "artifacts": [
         "설계 과목과 이용자 두 유형의 공간 조건"
       ],
-      "example_output": "반납자는 출입문에서 반납대를 쉽게 찾아야 하고, 독자는 통행 소음이 적은 곳에 앉고 싶다.",
+      "example_output": "건축설계스튜디오 3-1 / 반납자는 입구에서 반납대를 쉽게 찾아야 한다. 읽으러 온 사람에게는 통행 소음이 적은 자리가 필요하다.",
       "worksheet_columns": "과목 / 이용자 / 필요한 공간 조건",
       "reflection_question": "소개를 읽은 뒤 관심이 생긴 부분과 여전히 모르는 부분은 무엇인가요?",
-      "alternative": "공식 링크가 열리지 않으면 제시 과목명과 가상 상황을 읽는다.",
+      "alternative": "제시된 서울대 과목명과 가상 도서관의 이용자 두 유형을 읽고 공간 조건을 적는다.",
       "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
       "source_ids": [
         "careernet-m124",
@@ -67,8 +67,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 같은 공간의 이용자별 요구 읽어 내기\n\n서울대 건축설계스튜디오와 연세대 건축설계1을 참고한다. 가상의 작은 도서관에는 책을 반납하러 온 사람과 조용히 책을 읽으려는 사람이 있다.\n\n1. 두 대학 자료에서 건축학전공의 설계 과목을 찾아 적는다.\n2. 책을 반납하는 사람과 조용히 읽는 사람에게 필요한 공간 조건을 하나씩 적는다.\n\n남길 결과물은 설계 과목과 이용자 두 유형의 공간 조건입니다.\n\n쉬운 대안. 공식 링크가 열리지 않으면 제시 과목명과 가상 상황을 읽는다.",
-      "worksheet_markdown": "## 같은 공간의 이용자별 요구 읽어 내기\n\n서울대 건축설계스튜디오와 연세대 건축설계1을 참고한다. 가상의 작은 도서관에는 책을 반납하러 온 사람과 조용히 책을 읽으려는 사람이 있다.\n\n| 과목 | 이용자 | 필요한 공간 조건 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 같은 공간의 이용자별 요구 읽어 내기\n\n서울대 건축학전공의 건축설계스튜디오 3-1을 설계 과목 사례로 참고한다. 가상의 작은 도서관에는 책을 반납하러 온 사람과 조용히 책을 읽으려는 사람이 있다.\n\n1. 위 건축학전공 교과 사례에서 설계 과목명을 적는다.\n2. 책을 반납하는 사람과 조용히 읽는 사람에게 필요한 공간 조건을 하나씩 적는다.\n\n남길 결과물은 설계 과목과 이용자 두 유형의 공간 조건입니다.\n\n쉬운 대안. 제시된 서울대 과목명과 가상 도서관의 이용자 두 유형을 읽고 공간 조건을 적는다.",
+      "worksheet_markdown": "## 같은 공간의 이용자별 요구 읽어 내기\n\n서울대 건축학전공의 건축설계스튜디오 3-1을 설계 과목 사례로 참고한다. 가상의 작은 도서관에는 책을 반납하러 온 사람과 조용히 책을 읽으려는 사람이 있다.\n\n| 과목 | 이용자 | 필요한 공간 조건 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {

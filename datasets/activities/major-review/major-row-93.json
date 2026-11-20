@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M93_DRAFT_V3_ISSUE130_V1",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M93_DRAFT_V3_ISSUE130_V1_PREAPPROVAL_V1",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M93-01",
-      "version": "0.4.0",
+      "version": "0.4.5",
       "title": "놀이 관찰에서 행동과 추측 나누기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_93",
@@ -41,16 +41,16 @@
         "materials": []
       },
       "purpose": "탐색 주제: 놀이·발달을 고려한 활동 기획. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
-      "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
+      "scenario": "놀이지도와 유아관찰및실습을 과목 사례로 읽는다. 가상 놀이에서 아이가 같은 색 블록 세 개를 옆으로 옮겨 모았다. 아이가 왜 블록을 옮겼는지는 말하지 않았다.",
       "steps": [
-        "공식 자료에서 놀이와 관찰 관련 과목을 읽는다.",
-        "가상 어린이가 블록을 옮기는 행동과 옮긴 이유에 대한 추측을 따로 적는다."
+        "위 두 과목명에서 놀이와 관찰에 해당하는 내용을 찾아 적는다.",
+        "가상 어린이가 실제로 한 행동과 블록을 옮긴 이유에 대한 추측을 나누어 적는다."
       ],
       "artifacts": [
         "관찰과 추측을 구분한 기록"
       ],
-      "example_output": "블록 세 개를 옮겼다는 건 관찰이고 색이 좋아서 옮겼다는 건 가설이다.",
-      "worksheet_columns": "공식 자료에서 확인한 명칭 / 내가 더 알아볼 주제 / 미확인 질문 / 확인 경로",
+      "example_output": "같은 색 블록 세 개를 옆으로 옮겨 모았다는 건 관찰이다. 그 색을 좋아해서 옮겼다는 설명은 확인하지 않은 추측이다.",
+      "worksheet_columns": "과목 / 관찰한 행동 / 이유에 대한 추측",
       "reflection_question": "소개를 읽은 뒤 관심이 생긴 부분과 여전히 모르는 부분은 무엇인가요?",
       "alternative": "제공 과목명과 가상 사례를 활용한다.",
       "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
@@ -68,8 +68,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 놀이 관찰에서 행동과 추측 나누기\n\n놀이지도와 유아관찰및실습 과목과 가상의 블록 놀이를 참고한다.\n\n1. 공식 자료에서 놀이와 관찰 관련 과목을 읽는다.\n2. 가상 어린이가 블록을 옮기는 행동과 옮긴 이유에 대한 추측을 따로 적는다.\n\n남길 결과물은 관찰과 추측을 구분한 기록입니다.\n\n쉬운 대안. 제공 과목명과 가상 사례를 활용한다.",
-      "worksheet_markdown": "## 놀이 관찰에서 행동과 추측 나누기\n\n놀이지도와 유아관찰및실습 과목과 가상의 블록 놀이를 참고한다.\n\n| 과목 | 관찰 행동 | 궁금한 점 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 놀이 관찰에서 행동과 추측 나누기\n\n놀이지도와 유아관찰및실습을 과목 사례로 읽는다. 가상 놀이에서 아이가 같은 색 블록 세 개를 옆으로 옮겨 모았다. 아이가 왜 블록을 옮겼는지는 말하지 않았다.\n\n1. 위 두 과목명에서 놀이와 관찰에 해당하는 내용을 찾아 적는다.\n2. 가상 어린이가 실제로 한 행동과 블록을 옮긴 이유에 대한 추측을 나누어 적는다.\n\n남길 결과물은 관찰과 추측을 구분한 기록입니다.\n\n쉬운 대안. 제공 과목명과 가상 사례를 활용한다.",
+      "worksheet_markdown": "## 놀이 관찰에서 행동과 추측 나누기\n\n놀이지도와 유아관찰및실습을 과목 사례로 읽는다. 가상 놀이에서 아이가 같은 색 블록 세 개를 옆으로 옮겨 모았다. 아이가 왜 블록을 옮겼는지는 말하지 않았다.\n\n| 과목 | 관찰한 행동 | 이유에 대한 추측 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {
