@@ -27,6 +27,11 @@ MANIFEST_VERSION = "EXPLORATION_REVIEW_MANIFEST_V1_0"
 BINDING_VERSION = "EXPLORATION_EVIDENCE_BINDING_V1_0"
 ALLOWED_CHUNKS = {"description": 0, "major_overview": 1, "related_jobs": 2}
 ALLOWED_SOURCES = {"service_json": 0, "rag_jsonl": 1, "manual": 2, "public_data": 3}
+CURRICULUM_QUESTION = re.compile(
+    r"교과\s*과정|교육\s*과정|과목|수업|강의|학습\s*(?:예시|사례)|(?:무엇을|뭘|어떤\s*걸)\s*배우"
+    r"|\b(?:courses?|curricul(?:um|a)|syllab(?:us|i)|learning examples?)\b",
+    re.IGNORECASE,
+)
 
 
 class EvidencePolicyError(ValueError):
@@ -212,14 +217,20 @@ class ExplorationEvidenceBinder:
         keys = [normalize_major_key(name) for name in subjects]
         if any(not key for key in keys) or len(set(keys)) != len(keys): raise EvidencePolicyError()
         approved = self._approved_documents(self._rows(keys=keys))
+        conversation = original["input"].get("conversation")
+        prefer_curriculum = bool(conversation and CURRICULUM_QUESTION.search(conversation["question"]))
         refs = []
         for name, key in zip(subjects, keys):
             candidates = [(doc, chunk, review, manifest) for doc, chunks, review, manifest in approved if doc.major_key == key
                           for chunk in chunks if chunk.chunk_type in ALLOWED_CHUNKS and chunk.source_type in ALLOWED_SOURCES and chunk.chunk_text.strip()]
-            candidates.sort(key=lambda r: (ALLOWED_SOURCES[r[0].source_type], ALLOWED_CHUNKS[r[1].chunk_type], r[0].id, r[1].chunk_index, r[1].id))
             if not candidates:
                 return PreparedEvidence("INSUFFICIENT_EVIDENCE", "APPROVED_EVIDENCE_UNAVAILABLE", _json(original), None)
-            refs.append(self._reference(*candidates[0], name))
+            selected = min(candidates, key=lambda row: (
+                prefer_curriculum and row[1].chunk_type != "major_overview",
+                ALLOWED_SOURCES[row[0].source_type], ALLOWED_CHUNKS[row[1].chunk_type],
+                row[0].id, row[1].chunk_index, row[1].id,
+            ))
+            refs.append(self._reference(*selected, name))
         bound = json.loads(_json(original))
         bound["evidence"] = {"approvedOnly": True, "bindingStatus": "BOUND", "datasetVersion": self.policy.dataset_version,
                              "referenceKeys": [ref["referenceKey"] for ref in refs]}

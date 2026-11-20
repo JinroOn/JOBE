@@ -12,7 +12,7 @@ from sqlalchemy import create_engine, delete, func, select, update
 from sqlalchemy.exc import DBAPIError, OperationalError
 from sqlalchemy.orm import Session
 
-from app.exploration_contract import ContractViolation, input_hash, read_request, validate_response
+from app.exploration_contract import CONVERSATION_VERSION, ContractViolation, input_hash, read_request, validate_response
 from app.rag.approval import AiEvidenceReview
 from app.rag.exploration_binding import (
     EvidenceIntegrityError, EvidenceNoLongerAvailable, EvidencePolicy, EvidencePolicyError,
@@ -79,6 +79,39 @@ def review(db, doc, *, manifest=True, **overrides):
 
 
 def binder(db): return ExplorationEvidenceBinder(db, EvidencePolicy(VERSION))
+
+
+@pytest.mark.parametrize(("question", "overview_approved", "expected_type"), [
+    ("제공된 자료에서 국사학과와 관련한 학습 예시를 하나만 알려 주세요.", True, "major_overview"),
+    ("교육 과정에서 어떤 교과목을 배우나요?", True, "major_overview"),
+    ("이 전공의 특징을 알려 주세요.", True, "description"),
+    ("학습 예시를 알려 주세요.", False, "description"),
+])
+def test_consultation_selects_approved_evidence_for_current_question(db, question, overview_approved, expected_type):
+    description, default_chunk = document(db, source_type="service_json")
+    overview, curriculum_chunk = document(db, name=description.major_name, chunk_type="major_overview")
+    review(db, description)
+    if overview_approved:
+        review(db, overview)
+    name = description.major_name
+    legacy_request = request([name], target=name)
+    evidence_binder = binder(db)
+    saved = evidence_binder.prepare(legacy_request).binding
+    value = deepcopy(legacy_request)
+    value["contractVersion"] = CONVERSATION_VERSION
+    value["input"]["conversation"] = {
+        "history": [{"role": "user", "content": "전공 수업을 알려 주세요."},
+                    {"role": "assistant", "content": "이전 상담 답변입니다."}],
+        "question": question,
+    }
+    value["inputHash"] = input_hash(value)
+
+    prepared = evidence_binder.prepare(value).binding
+    expected_chunk = curriculum_chunk if expected_type == "major_overview" else default_chunk
+    assert [ref["chunkId"] for ref in prepared.references] == [expected_chunk.id]
+    assert evidence_binder.validated_model_evidence(prepared)[0]["chunkType"] == expected_type
+    assert [ref["chunkId"] for ref in saved.references] == [default_chunk.id]
+    assert evidence_binder.revalidate(saved)
 
 
 @pytest.mark.parametrize("values", [{"dataset_version": ""}, {"dataset_version": " latest "}, {"dataset_version": "x" * 81},
