@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M1002_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M1002_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M1002-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "빠진 값이 있는 가상 이용 기록 시각화하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_1002",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 데이터 정리와 해석. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "가상 이용시간 데이터는10·12·미기록·1000이며 단위는 분이라고 표시",
+      "scenario": "가상 방문 기록은 월 2명, 화 0명, 수 미기록, 목 4명이다.",
       "steps": [
         "0명과 자료가 없는 날을 구분한 표를 적는다.",
         "메모에 막대를 그리고 미기록 날짜를 다른 기호로 표시한다."
@@ -164,7 +164,7 @@
         "가상 이용 기록과 간단한 막대 그림"
       ],
       "example_output": "화요일은 0명으로 기록한다. 수요일은 빈 막대를 0으로 해석하지 않도록 ‘미기록’이라고 쓴다.",
-      "worksheet_columns": "원자료/결측/확인 질문/처리안/해석 표",
+      "worksheet_columns": "요일 / 방문 수 / 자료 상태 / 표시",
       "reflection_question": "자료를 정리하고 해석의 한계를 설명하는 일이 흥미로운가?",
       "alternative": "그림 대신 표의 상태 칸만 완성한다.",
       "safety_boundary": "실제 개인정보·공개 모델 학습·정확도 경쟁 없이 가상 데이터 사용",

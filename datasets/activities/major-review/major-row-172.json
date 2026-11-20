@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M172_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M172_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -114,7 +114,7 @@
     },
     {
       "activity_id": "DRAFT-M172-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "가상 기온표에서 비교 조건 찾기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_172",
@@ -141,7 +141,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 지구환경 관측과 변화 해석. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "가상 지점A는 월요일15·화요일18, 지점B는 월요일12·화요일16이며 온도 단위 표기",
+      "scenario": "가상 장소 A: 오전 14도·오후 22도. B: 오전 미기록·오후 19도다.",
       "steps": [
         "시간별 표에서 관측된 값과 미기록을 표시한다.",
         "두 장소의 오후 온도와 하루 기온 차이 가운데 비교할 수 있는 것을 구분한다."
@@ -150,7 +150,7 @@
         "기온 비교와 자료 한계 표"
       ],
       "example_output": "오후는 A가 3도 높다. B 오전 값이 없으므로 오전·오후 차이를 비교하기 어렵다.",
-      "worksheet_columns": "장소/시각/값/비교/한계 표",
+      "worksheet_columns": "장소 / 오전 / 오후 / 비교 가능 항목",
       "reflection_question": "큰 지구 현상을 기록의 조건부터 읽는 일이 흥미로운가?",
       "alternative": "숫자를 그대로 옮기고 빈칸만 표시한다.",
       "safety_boundary": "실제 기상·기후 결론이나 현장 관측을 요구하지 않음",

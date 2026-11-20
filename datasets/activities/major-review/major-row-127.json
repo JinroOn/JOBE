@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M127_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M127_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M127-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "가상 칩 검수 결과의 패턴 찾기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_127",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 공정 순서와 품질 기록. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "가상 공정A·B·C와 샘플S1/S2를 주고 실제 제조 조건은 제공하지 않음",
+      "scenario": "메모에 가상 칩 2행 3열을 표시한다. 첫 행은 모두 통과, 둘째 행은 통과·실패·실패이다.",
       "steps": [
         "통과와 실패를 위치별로 표에 옮기고 각 행의 개수를 세어 본다.",
         "결과에서 확인한 위치와 원인을 알려면 필요한 자료를 구분해 적는다."
@@ -164,7 +164,7 @@
         "칩 위치별 검수 기록"
       ],
       "example_output": "둘째 행에서 2개가 실패했다. 다른 판에서도 같은 위치에 실패가 반복되는지 확인한다.",
-      "worksheet_columns": "샘플/공정/기록/누락/확인 표",
+      "worksheet_columns": "행 / 통과 수 / 실패 수 / 더 필요한 기록",
       "reflection_question": "작은 기록 차이와 공정 순서를 추적하는 일이 흥미로운가?",
       "alternative": "가상 표만 사용하고 실제 장비를 조작하지 않는다.",
       "safety_boundary": "화학약품·고온 공정·실제 제조 실습을 하지 않음",

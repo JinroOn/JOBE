@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M244_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M244_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M244-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "가상 대사 한 줄의 연출안 두 개 쓰기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_244",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 연극·영화의 표현 방식. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "자체 상황: 인물이 잃어버린 우산을 발견하지만 주인을 모른다",
+      "scenario": "가상 인물이 출발 시각을 기다리며 ‘아직 시간이 있어’라고 말한다.",
       "steps": [
         "안심시키는 장면과 자신에게 말하는 장면의 말투를 적는다.",
         "두 경우에 관객이 의도를 다르게 읽을 행동 또는 화면 정보를 표시한다."
@@ -164,7 +164,7 @@
         "두 연출안과 연기 단서"
       ],
       "example_output": "동료를 바라보고 차분히 말하면 상대를 안심시키는 의도를 줄 수 있다.",
-      "worksheet_columns": "무대안/영화 컷/전달 정보/차이 표",
+      "worksheet_columns": "안 / 말투 / 행동·화면 / 읽히는 의미",
       "reflection_question": "이야기 쓰기·연출·관객 시점 중 무엇이 흥미로운가?",
       "alternative": "실제 촬영이나 연기 없이 메모만 쓴다.",
       "safety_boundary": "실제 촬영·배우 섭외·공개 공연 없이 문서 기획",

@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M42_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M42_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -114,7 +114,7 @@
     },
     {
       "activity_id": "DRAFT-M42-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "한 행사를 안내문과 게시판 문구로 바꾸기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_42",
@@ -141,7 +141,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 광고 기획과 메시지 설계. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "주제는 학교 분실물 보관함 알리기이며 실제 기관 캠페인은 아님",
+      "scenario": "가상 책 교환 행사는 금요일 3시 도서관, 참가 준비물은 교환할 책 한 권이다.",
       "steps": [
         "같은 사실을 게시판용 한 문장과 보호자가 볼 안내용 두 문장으로 쓴다.",
         "대상별로 먼저 보이게 한 정보와 두 문구에 모두 남긴 필수 사실을 표시한다."
@@ -150,7 +150,7 @@
         "두 홍보 문구와 비교표"
       ],
       "example_output": "게시판에는 ‘금요일 3시 도서관, 책 한 권으로 교환에 참여하세요’라고 쓴다.",
-      "worksheet_columns": "대상/핵심 사실/문구/매체/확인점 표",
+      "worksheet_columns": "대상 / 매체 / 문구 / 필수 정보",
       "reflection_question": "문구를 만드는 일과 전달 경로를 고르는 일 중 무엇이 흥미로운가?",
       "alternative": "그림을 만들거나 게시할 필요 없이 메모에 문구만 작성한다.",
       "safety_boundary": "실제 사람에게 광고를 발송하거나 행동 데이터를 수집하지 않음",

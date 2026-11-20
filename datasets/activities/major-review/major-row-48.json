@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M48_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M48_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M48-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "가상 과제용 규칙에 맞춰 계산 기준 표시하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_48",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 세무 기록의 분류와 근거 관리. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "가상 영수증A는 금액30·날짜 있음, B는 금액20·날짜 없음, C는 환불5 표시",
+      "scenario": "모의 거래 기록은 판매 80점, 비용 영수증 20점, 확인되지 않은 비용 10점이다. 활동 규칙은 자료가 확인된 비용만 빼고 남은 점수의 10%를 계산하는 것이다.",
       "steps": [
         "세 기록을 나누어 확인된 비용을 표시한다.",
         "활동 규칙에 해당하는 금액과 결과를 계산해 출처가 없는 지출을 표시한다."
@@ -164,7 +164,7 @@
         "가상 자료와 규칙을 대응시킨 계산표"
       ],
       "example_output": "80에서 근거가 있는 20을 빼 60점으로 두고, 모의 계산 결과는 6점이다.",
-      "worksheet_columns": "증빙/금액/누락/가정/확인 요청 표",
+      "worksheet_columns": "기록 / 근거 확인 / 반영 값 / 계산",
       "reflection_question": "계산보다 근거와 예외를 확인하는 과정이 흥미로운가?",
       "alternative": "실제 세율이나 신고 자료는 사용하지 않고 가상 점수로만 푼다.",
       "safety_boundary": "실제 세율·공제·신고 판단을 제공하지 않음",

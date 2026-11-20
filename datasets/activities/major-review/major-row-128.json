@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M128_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M128_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M128-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "처리량이 가장 적은 단계 찾기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_128",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 생산계획과 과정 개선. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "독립 작업A는3칸·B는1칸·C는2칸이며 한 번에 하나씩 처리",
+      "scenario": "가상 작업에서 5분 동안 분류 8묶음, 포장 4묶음, 검수 6묶음을 처리한다. 세 단계는 순서대로 진행하며 중간 재고 없이 시작한다.",
       "steps": [
         "세 단계의 처리 한도를 그림에 적고 연속 운영에서 처리량이 가장 낮은 단계를 고른다.",
         "포장 한도를 7묶음으로 높였을 때 다음으로 처리량을 제한할 단계를 찾는다."
@@ -164,7 +164,7 @@
         "단계별 한도와 두 경우의 병목 표시"
       ],
       "example_output": "기존 포장은 5분당 최대 4묶음이다. 포장을 7묶음으로 높이면 검수의 6묶음이 가장 낮다.",
-      "worksheet_columns": "작업/처리 순서/시작/대기/조건 표",
+      "worksheet_columns": "단계 / 기존 한도 / 변경 한도 / 병목 여부",
       "reflection_question": "작은 순서 변경의 영향을 계산하는 일이 흥미로운가?",
       "alternative": "화면의 세 숫자 중 가장 작은 값을 찾아 무엇이 달라질지 생각한다.",
       "safety_boundary": "가상 처리시간이며 실제 사업장 생산성을 보장하지 않음",

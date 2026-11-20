@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M92_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M92_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M92-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "길 묻기 대화의 짧은 수업 카드 만들기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_92",
@@ -155,18 +155,18 @@
         "materials": []
       },
       "purpose": "경험할 주제: 영어 사용 맥락과 교수법. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "자체 표현 Open the window와 Could you open the window를 비교",
+      "scenario": "가상 지도에는 왼쪽부터 A칸, 체육관, B칸이 있다. 대화는 ‘Where is the library?’(도서관이 어디에 있나요?)와 ‘It is next to the gym, on the right.’(체육관 옆 오른쪽에 있어요.)이다.",
       "steps": [
-        "간단한 지도에서 장소 두 곳을 표시하고 질문·답변 순서를 만든다.",
-        "응답을 듣고 맞는 곳을 표시하도록 하고 성공 기준을 한 문장으로 쓴다."
+        "답변에서 가까움을 나타내는 말과 어느 쪽인지 나타내는 말을 찾는다.",
+        "A칸과 B칸 중 도서관의 위치를 고르게 하는 질문과 답을 준비한다."
       ],
       "artifacts": [
         "수업 카드와 답 확인 기준"
       ],
-      "example_output": "체육관 옆 두 칸 중 도서관 칸을 선택하고 next to의 뜻을 설명한다.",
-      "worksheet_columns": "표현/상황/활동/확인 질문 표",
+      "example_output": "‘next to the gym’은 체육관 바로 옆, ‘on the right’는 오른쪽이라는 뜻이다. 도서관은 체육관 오른쪽의 B칸이다.",
+      "worksheet_columns": "질문 / 위치를 알려 주는 말 / 도서관 칸 / 고른 이유",
       "reflection_question": "영어 사용과 학습 활동 설계 중 무엇이 흥미로운가?",
-      "alternative": "영어 쓰기가 어려우면 제시 표현을 그대로 써도 된다.",
+      "alternative": "지도 설명과 뜻풀이를 보고 A칸과 B칸 중 하나만 고른다.",
       "safety_boundary": "문화권 전체의 예절을 단정하거나 영어 능력을 채점하지 않음",
       "source_ids": [
         "m92-careernet",
@@ -182,8 +182,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 길 묻기 대화의 짧은 수업 카드 만들기\n\n창작 표현 ‘Where is the library?’와 ‘It is next to the gym.’에 뜻풀이를 제공한다. 도서관은 체육관 옆이다.\n\n1. 간단한 지도에서 장소 두 곳을 표시하고 질문·답변 순서를 만든다.\n2. 응답을 듣고 맞는 곳을 표시하도록 하고 성공 기준을 한 문장으로 쓴다.\n\n남길 결과물은 수업 카드와 답 확인 기준입니다.\n\n쉬운 대안. 영어 쓰기가 어려우면 제시 표현을 그대로 써도 된다.",
-      "worksheet_markdown": "## 길 묻기 대화의 짧은 수업 카드 만들기\n\n창작 표현 ‘Where is the library?’와 ‘It is next to the gym.’에 뜻풀이를 제공한다. 도서관은 체육관 옆이다.\n\n| 표현 | 학습자 행동 | 자료 | 확인 기준 |\n|---|---|---|---|\n| | | | |",
+      "body_markdown": "## 길 묻기 대화의 짧은 수업 카드 만들기\n\n가상 지도에는 왼쪽부터 A칸, 체육관, B칸이 있다. 대화는 ‘Where is the library?’(도서관이 어디에 있나요?)와 ‘It is next to the gym, on the right.’(체육관 옆 오른쪽에 있어요.)이다.\n\n1. 답변에서 가까움을 나타내는 말과 어느 쪽인지 나타내는 말을 찾는다.\n2. A칸과 B칸 중 도서관의 위치를 고르게 하는 질문과 답을 준비한다.\n\n남길 결과물은 수업 카드와 답 확인 기준입니다.\n\n쉬운 대안. 지도 설명과 뜻풀이를 보고 A칸과 B칸 중 하나만 고른다.",
+      "worksheet_markdown": "## 길 묻기 대화의 짧은 수업 카드 만들기\n\n가상 지도에는 왼쪽부터 A칸, 체육관, B칸이 있다. 대화는 ‘Where is the library?’(도서관이 어디에 있나요?)와 ‘It is next to the gym, on the right.’(체육관 옆 오른쪽에 있어요.)이다.\n\n| 질문 | 위치를 알려 주는 말 | 도서관 칸 | 고른 이유 |\n|---|---|---|---|\n| | | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {

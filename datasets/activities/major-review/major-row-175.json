@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M175_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M175_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M175-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "가상 수온 기록을 깊이에 따라 배열하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_175",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 해양 관측과 조건 비교. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "가상 정점A/B와 깊이표면/아래층의 값 네 개를 제공하며 단위는 모형단위",
+      "scenario": "한 장소의 가상 값은 수면 21도, 10m 19도, 20m 16도, 30m 미기록이다.",
       "steps": [
         "깊이가 얕은 순서로 표를 만들고 수온 감소량을 계산한다.",
         "기록이 있는 구간과 30m에서 말할 수 없는 내용을 표시한다."
@@ -164,7 +164,7 @@
         "깊이와 수온 관찰표"
       ],
       "example_output": "수면에서 20m까지 5도 낮아졌다. 30m의 수온은 자료가 없다.",
-      "worksheet_columns": "정점/깊이/모형값/비교 조건/추가 질문 표",
+      "worksheet_columns": "깊이 / 수온 / 앞값과 차이 / 상태",
       "reflection_question": "공간과 깊이를 함께 생각하며 자료를 읽는 일이 흥미로운가?",
       "alternative": "실제 바다에 가지 않고 가상 표를 정리한다.",
       "safety_boundary": "실제 해양 수질 채취·해안 현장 활동 없음",

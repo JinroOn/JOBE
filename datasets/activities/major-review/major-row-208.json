@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M208_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M208_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M208-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "가상 실습 기록 두 장의 번호 대조하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_208",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 임상병리 자료의 기록과 추적. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "실제 검체·검사값 없이 가상 접수번호A01/A02와 결과파일F1/F2의 연결표 제공",
+      "scenario": "가상 입력표는 카드 D14·측정 1, 결과표는 D41·측정 1이라 적혀 있다. 값은 제공되지 않는다.",
       "steps": [
         "두 표의 기록 번호에서 일치와 불일치를 표시한다.",
         "같은 자료라고 판단하기 전에 어떤 원본과 대조할지 설명한다."
@@ -164,7 +164,7 @@
         "기록 불일치와 보류 메모"
       ],
       "example_output": "번호가 달라 짝이 맞는지 보류하고 가상 원본 등록 목록을 확인한다.",
-      "worksheet_columns": "접수번호/단계/결과파일/불일치/확인 표",
+      "worksheet_columns": "입력 번호 / 결과 번호 / 판정 / 추가 확인",
       "reflection_question": "정밀한 대조와 기록을 확인하는 과정이 흥미로운가?",
       "alternative": "실제 검체와 장비 없이 기호만 비교한다.",
       "safety_boundary": "채혈·검체 취급·검사 시행·수치 해석을 하지 않음",

@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M51_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M51_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M51-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "가상의 두 도시가 공동 버스 운행에 합의하는 문장 만들기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_51",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 정책 협의와 이해관계. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "두 가상 지역이 공동 시설의 예산과 이용 시간을 나누려는 상황",
+      "scenario": "도시 A는 첫차를 앞당기고 싶고, 도시 B는 비용 상한을 지키고 싶다. 가상의 두 도시 모두 통학 시간을 줄이려 한다.",
       "steps": [
         "각 도시의 요구와 공동 목표를 적고, 할 수 있는 양보 하나씩을 생각한다.",
         "두 도시가 확인할 수 있는 시험 운행 합의와 확인 기준을 한 문장씩 적는다."
@@ -164,7 +164,7 @@
         "요구·공동 목표·시험 운행 기준이 있는 합의안"
       ],
       "example_output": "한 달 동안 평일 첫차만 15분 앞당겨 운행하고, 두 도시가 이용자 수와 추가 운행 비용을 함께 확인한다.",
-      "worksheet_columns": "당사자/목표/대안/추가 정보 표",
+      "worksheet_columns": "주체 / 요구 / 양보 / 공동 확인 기준",
       "reflection_question": "서로 다른 이해관계를 조정하는 일이 흥미로운가?",
       "alternative": "역할을 나눌 사람이 없어도 두 도시의 관점에서 한 줄씩 적는다.",
       "safety_boundary": "현실 외교 사건의 사실·정책을 추정하지 않음",

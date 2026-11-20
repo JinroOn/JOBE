@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M86_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M86_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M86-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "그림자 관찰 기록에서 수업 질문 만들기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_86",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 과학 학습의 질문과 설명 설계. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "자료는 가상의 세 관찰문이며 물체가 빨라졌다·세 번 측정했다·원인은 미상으로 제시",
+      "scenario": "가상 기록에서 빛이 왼쪽에 있을 때 그림자는 오른쪽, 빛이 오른쪽에 있을 때 그림자는 왼쪽으로 표시된다.",
       "steps": [
         "두 기록의 빛과 그림자 방향을 표에 옮긴다.",
         "관찰 결과를 말하는 질문과 그 이유를 생각하는 질문을 각각 작성한다."
@@ -164,7 +164,7 @@
         "관찰·설명 질문 활동지"
       ],
       "example_output": "‘방향이 어디로 바뀌었나요?’ 다음에 ‘빛과 그림자 방향 사이에 어떤 관계가 있나요?’를 묻는다.",
-      "worksheet_columns": "관찰/추론/질문/확인 방법 표",
+      "worksheet_columns": "기록 / 빛 방향 / 그림자 방향 / 수업 질문",
       "reflection_question": "과학 내용을 아는 것과 다른 사람이 생각하도록 돕는 것 중 무엇이 흥미로운가?",
       "alternative": "가상 기록만 사용하고 실험 기구를 준비할 필요는 없다.",
       "safety_boundary": "실제 실험·학생 대상 수업 없이 종이 수업안으로 완료",

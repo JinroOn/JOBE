@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M9_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M9_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M9-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "가상의 두 기록에서 확인 가능한 사실 찾기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_9",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 역사 자료 비판과 시대 맥락. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "가상 자료A는 개인 일기, B는 기관 발표, C는 뒤늦게 작성된 전시 설명",
+      "scenario": "가상 시장 이전 이야기. A는 이전 전 안내문 ‘5월 2일 시장을 새 광장으로 옮길 예정’. B는 5월 3일 상인 일기 ‘새 광장에서 장을 열었으나 예전보다 손님이 적었다’.",
       "steps": [
         "각 기록의 작성 시점, 기록을 남긴 사람과 그 사람이 직접 말한 내용을 적는다.",
         "두 자료가 함께 뒷받침하는 설명과 추가 자료가 필요한 주장을 나눠 표로 만든다."
@@ -164,7 +164,7 @@
         "두 기록의 공통점과 한계를 비교한 사료 카드"
       ],
       "example_output": "장소 이전 계획과 새 광장에서 장이 열린 사례는 보인다. 시장 전체의 손님이 줄었는지는 상인 한 명의 기록만으로 판단하기 어렵다.",
-      "worksheet_columns": "자료 목적/공통점/충돌/추가 근거 표",
+      "worksheet_columns": "기록 / 누가·언제 / 확인할 수 있는 점 / 더 필요한 자료",
       "reflection_question": "자료를 대조하고 설명을 고치는 과정이 흥미로운가?",
       "alternative": "메모에 두 칸을 그려 ‘계획’과 ‘관찰’에 해당하는 문장을 옮겨 적거나 말한다.",
       "safety_boundary": "가상 자료를 실제 역사 사료처럼 인용하지 않음",

@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M137_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M137_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M137-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "가상 수질 관찰표에서 측정 전후 비교하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_137",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 환경공학적 과정 설계. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "가상 구역의 수거량A20·B30·C10, 처리 가능량40단위를 제공",
+      "scenario": "같은 단위로 잰 가상 탁도 값은 A 처리 전 12·후 6, B 처리 전 9·후 6이다.",
       "steps": [
         "두 기록의 전후 차이와 마지막 값을 각각 적는다.",
         "감소량과 처리 후 상태가 같은 비교 기준인지 설명한다."
@@ -164,7 +164,7 @@
         "가상 처리 전후 기록표"
       ],
       "example_output": "A는 6, B는 3 감소했다. 처리 후 값은 둘 다 6이어서 감소량과 최종값은 서로 다른 정보다.",
-      "worksheet_columns": "단계/양/한도/대안/추가 자료 표",
+      "worksheet_columns": "사례 / 전 / 후 / 감소량",
       "reflection_question": "문제의 원인을 과정별로 나누어 보는 일이 흥미로운가?",
       "alternative": "가상 숫자만 활용한다. 실제 물을 채취하거나 처리하지 않는다.",
       "safety_boundary": "실제 폐기물 접촉·수질 채취·처리 설비 실험 없음",

@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M93_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M93_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M93-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "가상 블록 놀이에 선택 가능한 활동 추가하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_93",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 놀이·발달을 고려한 활동 기획. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "자체 그림카드 세 장: 씨앗·화분·새싹을 쓰되 실제 아동은 참여하지 않음",
+      "scenario": "가상의 놀이 장면은 아이가 같은 색 블록을 옆으로 모으는 모습이다.",
       "steps": [
         "직접 고칠 필요 없이 이어갈 수 있는 질문 두 가지를 생각한다.",
         "재료 하나를 더 제안하고 어떤 행동을 관찰할지 정한다."
@@ -164,7 +164,7 @@
         "놀이 질문과 관찰 기록지"
       ],
       "example_output": "‘다른 모양도 여기 둘까요?’라고 제안한 다음 아이가 계속 색을 기준으로 고르는지 기록한다.",
-      "worksheet_columns": "그림/열린 질문/참여 대안/관찰 표",
+      "worksheet_columns": "보이는 행동 / 지원 제안 / 다시 볼 항목",
       "reflection_question": "놀이를 만들고 다양한 참여를 생각하는 일이 흥미로운가?",
       "alternative": "아동을 관찰하거나 접촉하지 않고 가상 장면으로 작성한다.",
       "safety_boundary": "발달 단계·연령 적합성을 검증했다고 표시하지 않음",

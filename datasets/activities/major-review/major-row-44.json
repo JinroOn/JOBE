@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M44_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M44_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M44-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "같은 휴관 정보를 두 가지 채널 형태로 배치하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_44",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 미디어 형식과 이용자 경험. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "학교 내 가상 우산 대여 안내를 세 매체로 전달한다고 가정",
+      "scenario": "가상 공공도서관은 12일 오전 10시부터 정오까지 열지 않는다. 반납함은 이용할 수 있다.",
       "steps": [
         "종이 안내와 제한된 길이의 앱 알림 문구를 작성한다.",
         "이용 불가 시간과 반납 방법이 두 채널에서 어떻게 보이는지 표시한다."
@@ -164,7 +164,7 @@
         "채널 두 개의 안내 초안과 변경 이유"
       ],
       "example_output": "앱 첫 줄을 ‘12일 10~12시 휴관’으로 쓰고 이어서 ‘반납함 이용 가능’을 표시한다.",
-      "worksheet_columns": "공통 사실/매체별 구성/누락점 표",
+      "worksheet_columns": "채널 / 첫 줄 / 시간 표시 / 반납 정보",
       "reflection_question": "매체별 표현을 바꾸는 일이 흥미로운가?",
       "alternative": "종이 한 장에 두 채널의 화면 영역만 그려도 된다.",
       "safety_boundary": "실제 게시·촬영·플랫폼 계정 없이 종이 기획으로 완료",

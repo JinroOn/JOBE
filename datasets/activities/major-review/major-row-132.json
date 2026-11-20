@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M132_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M132_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M132-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "순서가 뒤섞인 가상 메시지 조각 복원하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_132",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 통신의 순서와 누락 확인. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "메시지 ABCDEFGH를 번호 붙은 조각1:AB,2:CD,3:EF,4:GH로 제공",
+      "scenario": "모두 3조각인 메시지에서 2번 ‘오후’, 1번 ‘금요일’, 2번 ‘오후’가 이 순서로 도착했다.",
       "steps": [
         "도착 조각을 번호순으로 정리하고 중복·누락을 표시한다.",
         "누락된 조각만 다시 요청하는 가상 확인 메시지를 적는다."
@@ -164,7 +164,7 @@
         "순서·중복·누락 기록표"
       ],
       "example_output": "1번과 2번을 확보했고 2번은 중복이다. 3번을 다시 요청한다.",
-      "worksheet_columns": "송신/수신 순서/누락/복원/확인 표",
+      "worksheet_columns": "도착 순서 / 조각 번호 / 상태 / 요청",
       "reflection_question": "정보를 나누고 다시 맞추는 과정이 흥미로운가?",
       "alternative": "실제 네트워크에 연결하지 않고 카드 세 장만 쓴다.",
       "safety_boundary": "실제 통신망·보안 취약점 시험 없이 가상 문자 사용",

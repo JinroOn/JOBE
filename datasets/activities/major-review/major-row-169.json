@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M169_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M169_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M169-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "가상 잎 세 장을 두 기준으로 분류하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_169",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 생물 다양성과 생태 기록. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "가상 생물카드 여섯 장에 색·모양·활동 시간만 표시",
+      "scenario": "가상 잎 A는 톱니·평행 잎맥, B는 매끈·그물 잎맥, C는 톱니·그물 잎맥이다.",
       "steps": [
         "가장자리로 한 번, 잎맥으로 다시 묶는다.",
         "같은 잎이 어느 기준에서 다른 묶음으로 들어갔는지 표시한다."
@@ -164,7 +164,7 @@
         "두 기준으로 만든 형태 분류표"
       ],
       "example_output": "A와 C는 가장자리로 묶인다. B와 C는 잎맥으로 묶인다.",
-      "worksheet_columns": "카드/분류 기준A/B/차이/추가 자료 표",
+      "worksheet_columns": "잎 / 가장자리 / 잎맥 / 묶음",
       "reflection_question": "분류 기준과 관찰의 한계를 따지는 일이 흥미로운가?",
       "alternative": "가상 표에서 하나의 기준만 표시하고 다른 기준은 예시로 본다.",
       "safety_boundary": "실제 종 동정·생물 채집·서식지 접근 없음",

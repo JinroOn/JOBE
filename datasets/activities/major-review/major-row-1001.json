@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M1001_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M1001_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M1001-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "가상 예약 규칙의 시험 사례 세 개 만들기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_1001",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 소프트웨어 요구와 검증. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "가상 분실물 앱은 등록·검색·수정 기능이 필요하며 같은 항목 중복이 문제라고 가정",
+      "scenario": "가상 규칙은 ‘대출 중인 책은 최대 두 권까지 예약’이다. 현재 예약 수가 1·2권인 사람과 대출 가능 책을 비교한다.",
       "steps": [
         "책 상태와 현재 수를 바꾼 사례를 세 줄 적는다.",
         "정상과 경계의 예상 결과를 미리 정한다."
@@ -164,7 +164,7 @@
         "기능 시험표"
       ],
       "example_output": "대출 중이고 기존 예약이 2권이면 추가 예약을 거절한다.",
-      "worksheet_columns": "요구/입력/예상 동작/예외/화면 표",
+      "worksheet_columns": "책 상태 / 기존 예약 수 / 기대 결과 / 이유",
       "reflection_question": "요구를 명확히 쓰기와 동작을 시험하기 중 무엇이 흥미로운가?",
       "alternative": "코드 작성 없이 조건과 기대 상태만 적는다.",
       "safety_boundary": "실제 서비스 배포·계정·코딩을 필수로 하지 않음",

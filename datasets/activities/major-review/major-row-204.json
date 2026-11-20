@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M204_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M204_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M204-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "가상 방문 흐름에서 접수 단계 비교하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_204",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 보건행정의 과정·자료 관리. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "가상 접수A는 대기5·처리3, B는 대기8·처리2, C는 대기2·처리5분",
+      "scenario": "가상 센터의 오전 접수는 8건이고 안내 완료는 6건이다. 오후 접수 4건, 안내 완료 4건이다.",
       "steps": [
         "시간대별로 접수와 안내 완료를 적고, 완료하지 않은 수를 계산한다.",
         "대기가 실제로 발생했는지 확인하기 위해 추가 기록을 정한다."
@@ -164,7 +164,7 @@
         "시간대별 서비스 흐름 표"
       ],
       "example_output": "오전에는 2건이 완료되지 않은 것으로 집계된다. 실제 대기 시간과 사유는 별도 확인한다.",
-      "worksheet_columns": "접수/대기/처리/총시간/한계 표",
+      "worksheet_columns": "시간대 / 접수 / 안내 완료 / 추가 기록",
       "reflection_question": "이용 과정과 자료를 연결해 개선 질문을 만드는 일이 흥미로운가?",
       "alternative": "사람 이름이나 의료정보 없이 가상 건수만 사용한다.",
       "safety_boundary": "실제 병원 성과·의료 질·보험 기준을 평가하지 않음",

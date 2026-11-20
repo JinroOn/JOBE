@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M6_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M6_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M6-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "같은 기다림을 두 가지 초안으로 쓰기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_6",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 서사 구성과 퇴고. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "가상 상황: 두 사람이 같은 시간에 하나의 연습실을 예약했다",
+      "scenario": "가상 상황은 정류장에서 친구를 기다리는 장면이다.",
       "steps": [
         "기다림을 직접 말하는 문장과 행동이나 물건으로 보여 주는 문장을 각각 쓴다.",
         "두 번째 문장을 읽고 감정이 잘 전달되는 단어 하나를 골라 더 구체적으로 바꾼다."
@@ -164,7 +164,7 @@
         "문장 두 가지와 수정 기록"
       ],
       "example_output": "‘지루했다’를 ‘아이는 전광판의 남은 시간을 세 번 다시 읽었다’로 바꿨다.",
-      "worksheet_columns": "인물 목표/갈등/결말A/결말B/퇴고 이유",
+      "worksheet_columns": "직접 표현 / 보여 주는 표현 / 수정 이유",
       "reflection_question": "처음 구상하기와 이미 쓴 글 고치기 중 무엇이 더 흥미로운가?",
       "alternative": "혼자 두 문장을 하루 뒤 다시 읽거나 소리 내어 비교한다.",
       "safety_boundary": "개인 경험 공개 없이 가상 인물 사용",

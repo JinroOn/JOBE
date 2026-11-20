@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M177_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M177_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M177-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "가상의 그늘 유무에 따른 온도 비교하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_177",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 환경과학 자료와 설명의 범위. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "가상 안내문은 녹지가 늘면 모든 환경 문제가 해결된다고 주장함",
+      "scenario": "가상 자료의 같은 시각 오전은 그늘 20·햇빛 21도, 오후는 그늘 23·햇빛 27도다.",
       "steps": [
         "같은 시각의 두 위치 온도 차이를 각각 계산한다.",
         "관찰한 관계와 이 자료로 단정할 수 없는 원인을 적는다."
@@ -164,7 +164,7 @@
         "시간대별 그늘과 햇빛 비교표"
       ],
       "example_output": "오전 차이는 1도, 오후는 4도다. 바람이나 바닥 조건이 달랐는지는 알 수 없다.",
-      "worksheet_columns": "주장/문제 범위/필요 자료/수정문 표",
+      "worksheet_columns": "시각 / 그늘 온도 / 햇빛 온도 / 차이",
       "reflection_question": "환경 문제를 여러 자료로 확인하는 일이 흥미로운가?",
       "alternative": "야외에 나가지 않고 제공 수치만 비교한다.",
       "safety_boundary": "실제 지역의 오염·건강·정책 효과를 판정하지 않음",

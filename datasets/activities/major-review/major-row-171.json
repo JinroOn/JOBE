@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M171_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M171_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M171-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "가상 음료의 당류 표시를 같은 기준으로 비교하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_171",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 식품 재료·제품개발과 정보 확인. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "가상 간식A는 보관 조건 표시 있음·원재료 기록 없음, B는 두 정보가 모두 있음",
+      "scenario": "가상 A는 200mL에 당류 10g, B는 100mL에 당류 6g으로 표시됐다.",
       "steps": [
         "제품 전체와 100mL당 당류를 각각 표에 적는다.",
         "총량 비교와 같은 부피 비교에서 결과가 어떻게 다른지 적는다."
@@ -164,7 +164,7 @@
         "용량 기준을 밝힌 가상 성분표"
       ],
       "example_output": "A는 총 10g으로 더 크지만 100mL 기준 5g으로 B의 6g보다 작다.",
-      "worksheet_columns": "제품/표시 정보/누락/요구/확인 표",
+      "worksheet_columns": "제품 / 총 용량 / 당류 총량 / 100mL당",
       "reflection_question": "제품 조건과 자료를 함께 살피는 일이 흥미로운가?",
       "alternative": "실제 음식 섭취 없이 제공 수치만 비교한다.",
       "safety_boundary": "조리·시식·실제 식품 안전 판단 없이 가상 문서 사용",

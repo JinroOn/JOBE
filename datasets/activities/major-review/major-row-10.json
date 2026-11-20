@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M10_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M10_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M10-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "가상 언어 예문에서 낱말 순서 추정하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_10",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 언어의 구조와 규칙 가설. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "가상 언어 예: mi na=나는 간다, tu na=너는 간다, mi la=나는 본다",
+      "scenario": "가상 예문 ‘mipa tomo’는 ‘작은 집’, ‘selo tomo’는 ‘큰 집’, ‘mipa kavi’는 ‘작은 가방’이다.",
       "steps": [
         "예문에서 반복되는 낱말과 달라지는 낱말을 비교한다.",
         "‘큰 가방’의 가상 표현과 그 순서를 예상한 근거를 쓴다."
@@ -164,7 +164,7 @@
         "낱말별 가설과 새 표현"
       ],
       "example_output": "tomo는 집, kavi는 가방으로 가정한다. ‘큰 가방’은 selo kavi라고 예측한다.",
-      "worksheet_columns": "자료/규칙 가설/예측/추가 확인 표",
+      "worksheet_columns": "가상 표현 / 반복 부분 / 추정 뜻 / 근거",
       "reflection_question": "예외를 찾고 규칙을 수정하는 일이 흥미로운가?",
       "alternative": "색을 두 가지로 써서 앞 낱말과 뒤 낱말만 구분해도 된다.",
       "safety_boundary": "실제 언어 자료나 언어능력 평가가 아닌 자체 인공 언어 사용",

@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M207_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M207_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M207-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "가상 검사 안내에서 의료 용어를 쉬운 말로 고치기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_207",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 의학적 근거와 불확실성. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "가상 주장: 가상의 방법X를 한 뒤 생활이 좋아졌다는 단일 기록을 제공",
+      "scenario": "모의 안내는 ‘다음 방문 시 검사 안내문을 확인합니다. 이해되지 않은 항목은 담당자에게 문의해 주세요’이다.",
       "steps": [
         "가상의 방문자가 묻고 싶은 상황을 한 가지 정한다.",
         "의학 판단 없이 안내 절차를 일상어로 바꾸고 이해 확인 질문을 덧붙인다."
@@ -164,7 +164,7 @@
         "가상 설명 문장과 질문"
       ],
       "example_output": "다음 방문 때 검사 안내를 함께 읽습니다. 궁금한 부분을 표시해 두셨나요?",
-      "worksheet_columns": "주장/관찰/다른 설명/필요 자료/설명문 표",
+      "worksheet_columns": "기존 표현 / 쉬운 말 / 확인 질문",
       "reflection_question": "원인을 성급히 정하지 않고 근거를 확인하는 일이 흥미로운가?",
       "alternative": "실제 환자·질병·검사 방법 없이 가상 문장만 다룬다.",
       "safety_boundary": "실제 질병·진단·치료 선택·건강 상담을 하지 않음",

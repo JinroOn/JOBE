@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M39_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M39_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M39-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "책 교환 행사 두 운영안 비교하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_39",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 조직 운영과 자원 배분. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "예산100단위, 안내 인력4명, 행사 준비시간2일인 가상 동아리 행사",
+      "scenario": "가상 운영안 A는 접수 2명·교환 1명이고 B는 접수 1명·교환 2명이다. 한 명은 5분에 3명을 처리할 수 있으며, 5분에 접수 5명과 교환 2명이 도착한다.",
       "steps": [
         "각 운영안의 접수·교환 처리 가능 인원을 계산한다.",
         "두 창구에서 대기 인원이 생기는지 비교해 선택 이유를 한 줄 적는다."
@@ -164,7 +164,7 @@
         "두 운영안의 용량과 선택 이유 표"
       ],
       "example_output": "A는 접수 6명·교환 3명, B는 접수 3명·교환 6명이다. 이 가정에서는 A가 두 수요를 모두 처리할 수 있다.",
-      "worksheet_columns": "목표/예산/인력/위험/대안 표",
+      "worksheet_columns": "운영안 / 접수 처리 / 교환 처리 / 판단",
       "reflection_question": "사람·예산·일정을 조정하는 과정 중 무엇이 흥미로운가?",
       "alternative": "접수와 교환 상자를 그려 사람 한 명마다 세 칸을 추가해 비교한다.",
       "safety_boundary": "가상 수치이며 실제 창업·투자 성과를 예측하지 않음",

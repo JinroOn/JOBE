@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M88_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M88_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M88-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "짧은 글로 근거를 찾는 읽기 문제 만들기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_88",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 국어 표현과 학습자 이해. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "자체 안내문: 반납한 우산은 오른쪽 통에 넣어주세요",
+      "scenario": "가상 글 ‘밖에 비가 오기 시작했다. 민서는 창틀에 놓인 종이 상자를 방 안으로 옮겼다.’를 활용한다.",
       "steps": [
         "글에 직접 답이 나오는 질문과 글의 단서로 추론해야 하는 질문을 하나씩 쓴다.",
         "각 질문의 답 예시와 답을 뒷받침하는 단서를 표시한다."
@@ -164,7 +164,7 @@
         "서로 다른 읽기 질문 2개와 답 예시"
       ],
       "example_output": "직접 질문은 ‘무엇을 옮겼나요?’다. 추론 질문은 ‘왜 안으로 옮겼을까요?’이고 답의 단서는 비가 시작됐다는 첫 문장이다.",
-      "worksheet_columns": "원문/오해/수정문/확인 질문 표",
+      "worksheet_columns": "질문 / 답 예시 / 근거 단서",
       "reflection_question": "문장을 잘 쓰는 일과 이해를 돕는 질문 만들기 중 무엇이 흥미로운가?",
       "alternative": "읽어 준 글을 듣고 질문과 답을 말로 정리한다.",
       "safety_boundary": "실제 아동의 언어능력을 평가하지 않음",

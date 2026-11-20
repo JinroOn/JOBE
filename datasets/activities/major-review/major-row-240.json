@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M240_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M240_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -114,7 +114,7 @@
     },
     {
       "activity_id": "DRAFT-M240-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "가상 대회의 예상 수입과 운영비 비교하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_240",
@@ -141,7 +141,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 스포츠경영과 행사 운영. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "가상 소규모 관람 행사의 예산100단위와 운영 인력4명을 제공",
+      "scenario": "가상 A는 예상 참가 20명·인당 3점·비용 48점이다. B는 30명·인당 2점·비용 55점이다.",
       "steps": [
         "두 안의 수입과 비용 차이를 계산한다.",
         "운영 목적이 많은 참가인지 수입 여유인지에 따라 판단이 다른지 적는다."
@@ -150,7 +150,7 @@
         "가상 참여 규모와 운영비 비교표"
       ],
       "example_output": "두 안 모두 수입 60점이다. A의 비용 차감 후 금액은 12점, B는 5점이지만 B의 예상 참여가 더 많다.",
-      "worksheet_columns": "업무/예산/인력/이용 조건/대안 표",
+      "worksheet_columns": "안 / 예상 인원 / 예상 수입 / 비용 / 차이",
       "reflection_question": "경기 자체보다 행사와 참여 조건을 기획하는 일이 흥미로운가?",
       "alternative": "실제 비용과 참여자 정보를 모으지 않는다.",
       "safety_boundary": "실제 대회 개최·신체활동·수익 예측이 아닌 종이 기획",

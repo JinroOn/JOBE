@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M45_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M45_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M45-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "가상의 대여 규칙을 두 신청 사례에 적용하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_45",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 규칙 해석과 논거 정리. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "동아리 공간 예약을 둘러싼 가상 갈등에서 당사자A와 B의 주장만 제공",
+      "scenario": "활동용 규칙은 ‘반납일 오후 5시 전에 한 번만 연장 가능’이다. 가상 A는 오후 4시 첫 신청, B는 오후 3시 두 번째 신청이다.",
       "steps": [
         "규칙을 마감 시간과 신청 횟수 기준으로 나눠 적는다.",
         "각 사례가 두 기준을 충족하는지 표시하고 판단 근거를 한 줄 쓴다."
@@ -164,7 +164,7 @@
         "규칙 요건과 사실 대응표"
       ],
       "example_output": "A는 두 요건을 충족한다. B는 시간 조건을 충족하지만 이미 한 번 신청했다.",
-      "worksheet_columns": "사실/주장/쟁점/추가 자료 표",
+      "worksheet_columns": "사례 / 시간 요건 / 횟수 요건 / 근거",
       "reflection_question": "서로 다른 주장을 공정하게 정리하는 일이 흥미로운가?",
       "alternative": "가상의 규칙 문장만 이용하고 실제 법적 권리 판단에는 적용하지 않는다.",
       "safety_boundary": "실제 법률·판례를 적용하거나 법적 결론을 제공하지 않음",

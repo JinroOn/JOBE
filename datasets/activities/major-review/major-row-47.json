@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M47_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M47_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M47-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "같은 설문 질문을 중립적으로 고쳐 보기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_47",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 사회조사와 해석의 한계. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "가상 응답6개: 버스 이용 예·예·아니오·예·아니오·미응답",
+      "scenario": "가상의 조사 문항 ‘오래 기다려야 하는 불편한 버스를 계속 이용하고 싶나요?’를 검토한다.",
       "steps": [
         "응답을 특정 방향으로 이끄는 표현에 밑줄을 친다.",
         "이용 의향과 기다린 시간을 별도 문항으로 쓰고 누가 답할 수 있는지 적는다."
@@ -164,7 +164,7 @@
         "수정 전후 문항과 응답 기준을 담은 카드"
       ],
       "example_output": "지난 일주일 동안 하교 후 버스를 이용했나요? 이용했다면 마지막 이용 때 출발까지 몇 분 기다렸나요?",
-      "worksheet_columns": "질문/집계/미응답/해석 한계 표",
+      "worksheet_columns": "기존 표현 / 바꾼 문항 / 답할 수 있는 대상",
       "reflection_question": "숫자와 사회적 맥락을 함께 읽는 일이 흥미로운가?",
       "alternative": "실제 사람에게 질문하지 않고 메모에 문항만 작성한다.",
       "safety_boundary": "실제 사람에게 설문하지 않고 표본 전체를 대표한다고 주장하지 않음",

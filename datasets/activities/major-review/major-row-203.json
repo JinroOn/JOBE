@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M203_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M203_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -114,7 +114,7 @@
     },
     {
       "activity_id": "DRAFT-M203-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "가상 도형 영상의 방향 표기 점검하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_203",
@@ -141,7 +141,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 영상정보의 식별과 기록 관리. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "영상 자체 대신 가상 파일A는 대상코드·시각 있음, B는 대상코드 누락인 표를 제공",
+      "scenario": "메모에 비대칭 도형 하나를 그린다. 자료 A는 위쪽에 ‘위’ 표식이 있고 자료 B는 같은 도형을 뒤집은 그림에 표식이 없다.",
       "steps": [
         "두 그림의 모양과 방향 표기 유무를 표에 적는다.",
         "자료를 전달할 때 해석이 혼동되지 않도록 필요한 표식을 설명한다."
@@ -150,7 +150,7 @@
         "영상 표기 확인 카드"
       ],
       "example_output": "B는 어느 방향에서 본 그림인지 표시가 없다. 전달 전에 방향 기록을 확인한다.",
-      "worksheet_columns": "파일/식별 항목/누락/중복/확인 흐름 표",
+      "worksheet_columns": "자료 / 표식 / 비교 가능성 / 필요 항목",
       "reflection_question": "자료의 정확한 연결과 기록을 확인하는 일이 흥미로운가?",
       "alternative": "의료 영상이나 장비 없이 종이의 가상 도형만 사용한다.",
       "safety_boundary": "실제 의료 영상 판독·장비 사용·방사선 노출·환자정보 사용 없음",

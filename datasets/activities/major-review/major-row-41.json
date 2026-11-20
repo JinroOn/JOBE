@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M41_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M41_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M41-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "가상 분실 신고 표의 범위를 확인하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_41",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 공공 안전 업무의 기록과 절차. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "가상 접수 메모에 물건 종류·장소는 있으나 시간과 인계 기록은 빠져 있음",
+      "scenario": "가상 기관 두 곳에 한 주 동안 분실 신고가 A 6건, B 9건 접수됐다. 각 시설의 이용자 수와 신고 시간은 주어지지 않았다.",
       "steps": [
         "지역별로 확인된 신고 건수를 적는다.",
         "신고 건수 차이로 시설의 위험을 단정하기 전에 필요한 추가 항목을 정한다."
@@ -164,7 +164,7 @@
         "집계 사실과 해석의 한계 비교표"
       ],
       "example_output": "B는 신고 3건이 더 많다. 이용자 수와 접수 가능 시간이 달랐는지 확인해야 비교할 수 있다.",
-      "worksheet_columns": "접수 항목/확인 질문/인계 흐름 표",
+      "worksheet_columns": "지역 / 신고 수 / 빠진 정보 / 다음 질문",
       "reflection_question": "사실을 정확히 기록하고 절차를 설명하는 과정이 흥미로운가?",
       "alternative": "실제 사건을 찾거나 신고하지 않고 제공된 숫자만 활용한다.",
       "safety_boundary": "현장 출동·수사·신체 제압·실제 개인정보 수집을 하지 않음",

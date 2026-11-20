@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M201_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M201_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M201-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "가상 교대 인계 메모에서 사실과 확인 사항 나누기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_201",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 간호 업무의 관찰·기록·의사소통. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "가상 메모에 이용자A의 요청 시간·물건 위치·미확인 사항을 제공하고 임상 증상은 제시하지 않음",
+      "scenario": "활동 사례는 방문자가 접수했고 안내 장소가 바뀌었으나 새 장소를 확인했는지 아직 모르는 상황이다.",
       "steps": [
         "확인된 사실과 다음 담당자가 물어볼 내용을 나눈다.",
         "한 문장으로 전달하고 오해하기 쉬운 부분을 표시한다."
@@ -164,7 +164,7 @@
         "가상 인계 메모"
       ],
       "example_output": "접수는 완료했다. 바뀐 안내 장소를 이해했는지는 확인이 필요하다.",
-      "worksheet_columns": "확인 사실/요청/미확인/전달 항목 표",
+      "worksheet_columns": "확인 사실 / 미확인 정보 / 후속 담당자 질문",
       "reflection_question": "상태를 정확히 기록하고 다른 사람에게 전달하는 일이 흥미로운가?",
       "alternative": "진료나 간호를 수행하지 않고 가상 문장만 작성한다.",
       "safety_boundary": "실제 환자 기록·처치·활력징후 측정 없이 비임상 가상 메모 사용",

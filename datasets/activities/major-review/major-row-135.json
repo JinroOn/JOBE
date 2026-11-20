@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M135_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M135_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M135-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "가상 종이 글라이더의 관찰 표 비교하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_135",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 항공우주 시스템과 제약. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "총 자원10단위를 통신·관측·이동에 나누는 가상 임무",
+      "scenario": "가상 기록 A는 직진 거리 3·3·4칸, B는 2·4·4칸이다. 그림상 A는 중앙선에서 1칸 이내, B는 한 번 3칸 벗어났다.",
       "steps": [
         "각 기록에서 가장 긴 거리와 가장 짧은 거리, 중앙선 이탈을 표시한다.",
         "중앙 부근에 고르게 도착하는 목표와 최장 거리 목표에서 판단이 같은지 설명한다."
@@ -164,7 +164,7 @@
         "두 가상 모델의 비행 관찰표"
       ],
       "example_output": "두 모델의 최장 거리는 4칸이다. A가 중앙선 가까이에 더 일정하게 있었다.",
-      "worksheet_columns": "목표/기능/자원/배분/확인 표",
+      "worksheet_columns": "모델 / 거리 범위 / 이탈 / 판단",
       "reflection_question": "여러 하위 기능을 함께 설계하는 일이 흥미로운가?",
       "alternative": "실제 비행 없이 가상 기록만 활용한다.",
       "safety_boundary": "비행체 제작·발사·실제 항공 성능 계산 없이 가상 시스템 계획",

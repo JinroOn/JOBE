@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M212_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M212_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M212-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "가상 전시 자료에서 역사 기록과 현재 설명 구분하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_212",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 한의학 관련 자료의 범위 구분. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "가상 문장A는 문서가 특정 시기에 쓰였다는 기록, B는 어떤 방법이 효과 있다는 주장으로 구성",
+      "scenario": "가상 전시 카드 A는 ‘옛 교재에서 질병을 표현하던 용어를 소개한다’, B는 ‘지금은 다른 용어 체계를 쓰는 사례를 보여 준다’라고 적혀 있다.",
       "steps": [
         "각 카드가 지칭하는 시점과 목적을 표시한다.",
         "옛 기록과 현대의 설명을 혼동하지 않도록 출처를 붙인 문장을 쓴다."
@@ -164,7 +164,7 @@
         "두 가상 자료의 시점·출처 비교표"
       ],
       "example_output": "A는 역사 용어 사례이고 B는 현대 용어를 비교하도록 만든 설명이다.",
-      "worksheet_columns": "문장/주장 종류/필요 근거/미확인 표",
+      "worksheet_columns": "자료 / 시점 / 목적 / 요약",
       "reflection_question": "여러 종류의 근거를 구분하는 일이 흥미로운가?",
       "alternative": "실제 건강 판단이나 치료 없이 가상 전시 문장만 비교한다.",
       "safety_boundary": "실제 한약·경혈·치료·섭취·효능 판단을 하지 않음",

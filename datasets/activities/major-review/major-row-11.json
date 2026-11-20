@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M11_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M11_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M11-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "같은 영어 대사가 장면에 따라 달리 읽히는지 비교하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_11",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 영문 읽기와 표현의 해석. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "자체 문장: The door was open. Mina waited outside.",
+      "scenario": "직접 만든 문장 ‘It is cold in here.’를 사용한다. 장면 A는 친구가 열린 창 옆에 서 있고, 장면 B는 등장인물이 빈 방에 혼자 들어간 상황이다.",
       "steps": [
         "문장의 직접 뜻을 한국어로 적고 두 장면의 다른 단서에 표시한다.",
         "각 장면에서 가능한 화자의 의도를 적고 해석이 달라지는 이유를 한 줄로 설명한다."
@@ -164,7 +164,7 @@
         "영어 대사 한 줄과 두 장면 해석 표"
       ],
       "example_output": "A에서는 창을 닫아 달라는 간접 요청으로 읽힐 수 있다. B에서는 인물이 방의 상태를 알아차린 말로 읽힌다.",
-      "worksheet_columns": "본문 사실/해석A/해석B/추가 문맥 표",
+      "worksheet_columns": "장면 / 단서 / 가능한 의도 / 이유",
       "reflection_question": "영어 표현을 읽는 것과 문맥을 해석하는 것 중 무엇이 흥미로운가?",
       "alternative": "번역 ‘여기는 춥다’를 함께 보고 영어 작문 없이 우리말로 작성한다.",
       "safety_boundary": "자체 문장을 사용하고 영어 실력 점수로 전환하지 않음",

@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M12_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M12_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M12-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "일본어 부탁 표현 두 개의 사용 장면 고르기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_12",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 일본어 표현과 문화 설명. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "가상 문화행사 안내를 처음 방문하는 사람과 익숙한 사람에게 각각 쓴다고 가정",
+      "scenario": "창작 예시 ‘窓を閉めて’는 ‘창문 닫아 줘’, ‘窓を閉めてください’는 ‘창문을 닫아 주세요’로 풀이한다.",
       "steps": [
         "두 말이 공통으로 요청하는 행동과 다른 말끝을 표시한다.",
         "친한 친구와 처음 보는 행사 안내 담당자 중 각각 어울릴 가상 장면을 고르고 이유를 쓴다."
@@ -164,7 +164,7 @@
         "두 표현의 상황 비교표"
       ],
       "example_output": "친한 친구에게는 첫 표현을 쓸 수 있다. 안내 담당자에게는 더 공손한 두 번째 표현을 고른다.",
-      "worksheet_columns": "독자/배경 설명/안내 순서/확인 경로",
+      "worksheet_columns": "표현 / 공통 요청 / 가상 장면 / 이유",
       "reflection_question": "표현과 독자 배경을 함께 생각하는 일이 흥미로운가?",
       "alternative": "일본어 대신 제공된 우리말 풀이 두 개를 비교한다.",
       "safety_boundary": "가상 안내를 일본의 실제 관습이나 예절 규정으로 단정하지 않음",

@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M243_DRAFT_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M243_DRAFT_V3",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M243-02",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "title": "공의 움직임을 세 칸 스토리보드로 그리기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_243",
@@ -155,7 +155,7 @@
         "materials": []
       },
       "purpose": "경험할 주제: 애니메이션의 시간과 장면 구성. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
-      "scenario": "자체 도형인 원 하나가 왼쪽에서 오른쪽으로 이동하는 상황",
+      "scenario": "같은 메모에 세 칸과 경사면을 표시한다.",
       "steps": [
         "시작·이동·멈춤 그림을 각각 배치한다.",
         "각 칸의 행동과 다음 그림으로 읽히는 단서를 붙인다."
@@ -164,7 +164,7 @@
         "가상 세 칸 스토리보드"
       ],
       "example_output": "둘째 칸의 공을 경사 아래쪽에 두고 뒤에 짧은 이동선을 그린다.",
-      "worksheet_columns": "스토리보드A/B/장면 간격/관찰 질문 표",
+      "worksheet_columns": "컷 / 공의 위치 / 움직임 단서 / 다음 컷",
       "reflection_question": "그림 하나보다 장면 사이 변화를 설계하는 일이 흥미로운가?",
       "alternative": "영상 제작 없이 원과 화살표만 그린다.",
       "safety_boundary": "외부 캐릭터 복제·영상 도구 구매 없이 자체 도형 사용",
