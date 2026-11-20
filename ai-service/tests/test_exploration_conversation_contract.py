@@ -82,8 +82,12 @@ def test_v0_fixture_keeps_identical_shape_and_hash():
 
 @pytest.mark.parametrize('example, result_kind', [
     ('한문사료강독 1', 'example'),
+    ('표본설계 및 조사실습', 'example'),
+    ('회귀분석 및 실습', 'example'),
     (None, 'unavailable'),
     ('역사학 논문쓰기 1과 한문사료강독 1', 'invalid'),
+    ('확률론 및 통계학', 'invalid'),
+    ('표본설계 및 조사실습과 회귀분석 및 실습', 'invalid'),
     ('조선시대 연구 1', 'invalid'),
 ])
 def test_one_learning_example_is_rendered_from_one_approved_span(settings, example, result_kind):
@@ -94,7 +98,8 @@ def test_one_learning_example_is_rendered_from_one_approved_span(settings, examp
     request['contractVersion'] = 'EXPLORATION_AI_CONTRACT_V1_1'
     request['input']['conversation'] = {'history': [], 'question': '학습 예시를 하나만 알려 주세요.'}
     request['inputHash'] = input_hash(request)
-    facts[0]['text'] = '역사학 논문쓰기 1과 한문사료강독 1이 나온다.'
+    facts[0]['text'] = ('역사학 논문쓰기 1과 한문사료강독 1이 나온다. '
+                       '표본설계 및 조사실습과 회귀분석 및 실습이 있다. 확률론 및 통계학도 확인할 수 있다.')
     reference = facts[0]['referenceKey']
     chat = FakeChat({'example': example, 'referenceKey': reference if example is not None else None})
     model = ExplorationModel(chat)
@@ -107,8 +112,8 @@ def test_one_learning_example_is_rendered_from_one_approved_span(settings, examp
         result = model.generate(request, facts)['result']
         assert not result['questions'] and result['referenceKeys'] == [reference]
         if result_kind == 'example':
-            assert result['summary'].endswith('「한문사료강독 1」')
-            assert '역사학 논문쓰기' not in result['summary']
+            assert result['summary'].endswith(f'「{example}」')
+            assert result['summary'].count('「') == result['summary'].count('」') == 1
         else:
             assert '확인하기 어려워요' in result['summary']
     assert chat.schema is SingleExampleDraft
