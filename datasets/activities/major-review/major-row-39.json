@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M39_DRAFT_V3_ISSUE130_V1",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M39_DRAFT_V3_ISSUE130_V1_PREAPPROVAL_V1",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -243,7 +243,7 @@
     },
     {
       "activity_id": "DRAFT-M39-03",
-      "version": "0.4.3",
+      "version": "0.4.5",
       "title": "수요가 달라졌을 때 운영안을 다시 보기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_39",
@@ -272,16 +272,16 @@
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
       "scenario": "가상 운영안 A는 접수 2명과 교환 1명, B는 접수 1명과 교환 2명이다. 한 명은 5분에 3명을 처리한다. 첫 5분에는 A를 선택했다. 다음 5분에는 접수 2명과 교환 5명이 온다.",
       "steps": [
-        "앞에서 추천한 운영안으로 처리할 수 있는지 점검한다.",
-        "인력 배치를 바꿀 기준과 확인할 숫자를 기록한다."
+        "현재 카드에 제시된 인원으로 A와 B가 5분 동안 처리할 수 있는 접수·교환 인원을 각각 계산한다.",
+        "새 수요를 두 운영안의 처리 가능 인원과 비교하고 언제 배치를 바꿀지 적는다."
       ],
       "artifacts": [
         "운영안을 재검토할 조건 한 가지"
       ],
-      "example_output": "교환 수요가 3명을 넘고 접수 수요가 3명 이하면 B로 바꾸는 것을 검토한다.",
-      "worksheet_columns": "경험한 과정 / 흥미·불편·모름 / 확인 질문 / 확인 경로 / 다음 행동",
+      "example_output": "A는 교환 5명 중 3명만 처리하고, B는 접수 2명과 교환 5명을 모두 처리할 수 있어 B를 고른다. 접수가 3명 또는 교환이 6명을 넘으면 B에서도 기다리는 사람이 생길 수 있으므로 다시 계산한다.",
+      "worksheet_columns": "바뀐 수요 / 확인할 숫자 / 대응 기준",
       "reflection_question": "사람·예산·일정을 조정하는 과정 중 무엇이 흥미로운가?",
-      "alternative": "앞 표에서 A와 B의 처리 가능 인원을 읽고 바뀐 수요만 비교한다.",
+      "alternative": "5분 처리 기준은 A가 접수 6명·교환 3명, B가 접수 3명·교환 6명이다. 이 숫자를 새 수요인 접수 2명·교환 5명과 비교한다.",
       "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
       "source_ids": [
         "careernet-m39",
@@ -297,7 +297,7 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 수요가 달라졌을 때 운영안을 다시 보기\n\n가상 운영안 A는 접수 2명과 교환 1명, B는 접수 1명과 교환 2명이다. 한 명은 5분에 3명을 처리한다. 첫 5분에는 A를 선택했다. 다음 5분에는 접수 2명과 교환 5명이 온다.\n\n1. 앞에서 추천한 운영안으로 처리할 수 있는지 점검한다.\n2. 인력 배치를 바꿀 기준과 확인할 숫자를 기록한다.\n\n남길 결과물은 운영안을 재검토할 조건 한 가지입니다.\n\n쉬운 대안. 앞 표에서 A와 B의 처리 가능 인원을 읽고 바뀐 수요만 비교한다.",
+      "body_markdown": "## 수요가 달라졌을 때 운영안을 다시 보기\n\n가상 운영안 A는 접수 2명과 교환 1명, B는 접수 1명과 교환 2명이다. 한 명은 5분에 3명을 처리한다. 첫 5분에는 A를 선택했다. 다음 5분에는 접수 2명과 교환 5명이 온다.\n\n1. 현재 카드에 제시된 인원으로 A와 B가 5분 동안 처리할 수 있는 접수·교환 인원을 각각 계산한다.\n2. 새 수요를 두 운영안의 처리 가능 인원과 비교하고 언제 배치를 바꿀지 적는다.\n\n남길 결과물은 운영안을 재검토할 조건 한 가지입니다.\n\n쉬운 대안. 5분 처리 기준은 A가 접수 6명·교환 3명, B가 접수 3명·교환 6명이다. 이 숫자를 새 수요인 접수 2명·교환 5명과 비교한다.",
       "worksheet_markdown": "## 수요가 달라졌을 때 운영안을 다시 보기\n\n가상 운영안 A는 접수 2명과 교환 1명, B는 접수 1명과 교환 2명이다. 한 명은 5분에 3명을 처리한다. 첫 5분에는 A를 선택했다. 다음 5분에는 접수 2명과 교환 5명이 온다.\n\n| 바뀐 수요 | 확인할 숫자 | 대응 기준 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [

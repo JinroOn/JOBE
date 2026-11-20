@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M169_DRAFT_V3_SCOPE_V2_ISSUE130_V1",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M169_DRAFT_V3_SCOPE_V2_ISSUE130_V1_PREAPPROVAL_V1",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M169-01",
-      "version": "0.4.2",
+      "version": "0.4.5",
       "title": "생물 형태를 비교할 관찰 기준 정하기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_169",
@@ -41,16 +41,16 @@
         "materials": []
       },
       "purpose": "탐색 주제: 생물 다양성과 생태 기록. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
-      "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
+      "scenario": "부산대 생명과학과의 식물형태학을 형태 관찰 과목 사례로 참고한다. 가상 잎 A에는 톱니 모양 가장자리와 평행 잎맥이 있고, B에는 매끈한 가장자리와 그물 모양 잎맥이 있다.",
       "steps": [
-        "과목을 읽고 생김새에서 기록할 수 있는 부분을 생각한다.",
-        "두 가상 잎의 가장자리와 잎맥 중 비교 기준을 고른다."
+        "위 과목 사례를 읽고 잎의 생김새에서 기록할 수 있는 특징을 고른다.",
+        "가상 잎 A와 B를 같은 기준 하나로 비교하고 관찰한 차이를 적는다."
       ],
       "artifacts": [
         "형태 관찰 계획"
       ],
-      "example_output": "가장자리의 톱니 유무를 같은 방향의 그림에서 확인한다.",
-      "worksheet_columns": "공식 자료에서 확인한 명칭 / 내가 더 알아볼 주제 / 미확인 질문 / 확인 경로",
+      "example_output": "가장자리의 톱니 유무로 비교한다. A에는 톱니가 있고, B에는 없다.",
+      "worksheet_columns": "대상 / 기준 / 확인 방법",
       "reflection_question": "소개를 읽은 뒤 관심이 생긴 부분과 여전히 모르는 부분은 무엇인가요?",
       "alternative": "실물 식물 없이 제공된 이름과 가상 예시를 사용한다.",
       "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
@@ -68,8 +68,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 생물 형태를 비교할 관찰 기준 정하기\n\n공식 교과자료의 식물형태학을 참고한다.\n\n1. 과목을 읽고 생김새에서 기록할 수 있는 부분을 생각한다.\n2. 두 가상 잎의 가장자리와 잎맥 중 비교 기준을 고른다.\n\n남길 결과물은 형태 관찰 계획입니다.\n\n쉬운 대안. 실물 식물 없이 제공된 이름과 가상 예시를 사용한다.",
-      "worksheet_markdown": "## 생물 형태를 비교할 관찰 기준 정하기\n\n공식 교과자료의 식물형태학을 참고한다.\n\n| 대상 | 기준 | 확인 방법 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 생물 형태를 비교할 관찰 기준 정하기\n\n부산대 생명과학과의 식물형태학을 형태 관찰 과목 사례로 참고한다. 가상 잎 A에는 톱니 모양 가장자리와 평행 잎맥이 있고, B에는 매끈한 가장자리와 그물 모양 잎맥이 있다.\n\n1. 위 과목 사례를 읽고 잎의 생김새에서 기록할 수 있는 특징을 고른다.\n2. 가상 잎 A와 B를 같은 기준 하나로 비교하고 관찰한 차이를 적는다.\n\n남길 결과물은 형태 관찰 계획입니다.\n\n쉬운 대안. 실물 식물 없이 제공된 이름과 가상 예시를 사용한다.",
+      "worksheet_markdown": "## 생물 형태를 비교할 관찰 기준 정하기\n\n부산대 생명과학과의 식물형태학을 형태 관찰 과목 사례로 참고한다. 가상 잎 A에는 톱니 모양 가장자리와 평행 잎맥이 있고, B에는 매끈한 가장자리와 그물 모양 잎맥이 있다.\n\n| 대상 | 기준 | 확인 방법 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {

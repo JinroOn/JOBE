@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M47_DRAFT_V3_ISSUE130_V1",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M47_DRAFT_V3_ISSUE130_V1_PREAPPROVAL_V1",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M47-02",
-      "version": "0.4.1",
+      "version": "0.4.5",
       "title": "같은 설문 질문을 중립적으로 고쳐 보기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_47",
@@ -158,12 +158,12 @@
       "scenario": "가상의 조사 문항 ‘오래 기다려야 하는 불편한 버스를 계속 이용하고 싶나요?’를 검토한다.",
       "steps": [
         "응답을 특정 방향으로 이끄는 표현에 밑줄을 친다.",
-        "이용 의향과 기다린 시간을 별도 문항으로 쓰고 누가 답할 수 있는지 적는다."
+        "앞으로의 이용 의향, 최근 이용 여부, 실제 기다린 시간을 각각 묻는다. 대기 시간 문항에 누가 답할 수 있는지도 적는다."
       ],
       "artifacts": [
         "수정 전후 문항과 응답 기준을 담은 카드"
       ],
-      "example_output": "지난 일주일 동안 하교 후 버스를 이용했나요? 이용했다면 마지막 이용 때 출발까지 몇 분 기다렸나요?",
+      "example_output": "이용 의향: 앞으로 하교할 때 버스를 이용할 의향이 있나요? 최근 이용 여부: 지난 일주일 동안 하교 후 버스를 이용했나요? 대기 시간: 이용했다면 마지막 이용 때 출발까지 몇 분 기다렸나요? 앞의 두 문항은 모두, 마지막 문항은 최근 이용자만 답한다.",
       "worksheet_columns": "기존 표현 / 바꾼 문항 / 답할 수 있는 대상",
       "reflection_question": "숫자와 사회적 맥락을 함께 읽는 일이 흥미로운가?",
       "alternative": "실제 사람에게 질문하지 않고 메모에 문항만 작성한다.",
@@ -182,7 +182,7 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 같은 설문 질문을 중립적으로 고쳐 보기\n\n가상의 조사 문항 ‘오래 기다려야 하는 불편한 버스를 계속 이용하고 싶나요?’를 검토한다.\n\n1. 응답을 특정 방향으로 이끄는 표현에 밑줄을 친다.\n2. 이용 의향과 기다린 시간을 별도 문항으로 쓰고 누가 답할 수 있는지 적는다.\n\n남길 결과물은 수정 전후 문항과 응답 기준을 담은 카드입니다.\n\n쉬운 대안. 실제 사람에게 질문하지 않고 메모에 문항만 작성한다.",
+      "body_markdown": "## 같은 설문 질문을 중립적으로 고쳐 보기\n\n가상의 조사 문항 ‘오래 기다려야 하는 불편한 버스를 계속 이용하고 싶나요?’를 검토한다.\n\n1. 응답을 특정 방향으로 이끄는 표현에 밑줄을 친다.\n2. 앞으로의 이용 의향, 최근 이용 여부, 실제 기다린 시간을 각각 묻는다. 대기 시간 문항에 누가 답할 수 있는지도 적는다.\n\n남길 결과물은 수정 전후 문항과 응답 기준을 담은 카드입니다.\n\n쉬운 대안. 실제 사람에게 질문하지 않고 메모에 문항만 작성한다.",
       "worksheet_markdown": "## 같은 설문 질문을 중립적으로 고쳐 보기\n\n가상의 조사 문항 ‘오래 기다려야 하는 불편한 버스를 계속 이용하고 싶나요?’를 검토한다.\n\n| 기존 표현 | 바꾼 문항 | 답할 수 있는 대상 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [

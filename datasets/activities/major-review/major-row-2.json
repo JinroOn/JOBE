@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M2_DRAFT_V3_ISSUE130_V1",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M2_DRAFT_V3_ISSUE130_V1_PREAPPROVAL_V1",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M2-01",
-      "version": "0.4.0",
+      "version": "0.4.5",
       "title": "유물과 함께 기록할 정보 고르기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_2",
@@ -41,16 +41,16 @@
         "materials": []
       },
       "purpose": "탐색 주제: 유물 관찰과 해석 근거 구분. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
-      "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
+      "scenario": "서울대 고고학전공 교과 사례는 유적과 유물에서 선사시대 생활과 기술을 살핀다. 가상 토기 조각 A에는 둥근 가장자리와 검은 얼룩이 있다. 불을 땐 흔적 옆에서 발견됐다.",
       "steps": [
-        "서울대 교과목 설명에서 유물로 확인하려는 과거 생활의 한 측면을 찾아 적는다.",
-        "가상 토기 조각을 볼 때 모양 외에 어느 장소에서 나왔는지처럼 함께 기록할 정보를 고른다."
+        "위 교과 사례를 읽고 유물로 알고 싶은 과거 생활을 한 가지 적는다.",
+        "가상 토기 조각 A에서 관찰한 특징과 모양 외에 함께 기록할 정보를 적는다."
       ],
       "artifacts": [
         "생활 질문과 필요한 기록이 담긴 메모"
       ],
-      "example_output": "무엇을 보관했는지 궁금하다. 토기가 나온 공간과 주변 흔적도 살핀다.",
-      "worksheet_columns": "공식 자료에서 확인한 명칭 / 내가 더 알아볼 주제 / 미확인 질문 / 확인 경로",
+      "example_output": "이 토기가 어떤 용도로 쓰였는지 궁금하다. 둥근 가장자리와 검은 얼룩을 적고, 불을 땐 흔적 옆에서 발견됐다는 위치 정보도 남긴다.",
+      "worksheet_columns": "질문 / 유물 / 함께 볼 정보",
       "reflection_question": "소개를 읽은 뒤 관심이 생긴 부분과 여전히 모르는 부분은 무엇인가요?",
       "alternative": "링크를 열기 어렵다면 제공된 토기 사례로 기록 항목을 적는다.",
       "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
@@ -68,8 +68,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 유물과 함께 기록할 정보 고르기\n\n공식 교과자료의 유적·유물 설명과 가상의 토기 조각 하나를 활용한다.\n\n1. 서울대 교과목 설명에서 유물로 확인하려는 과거 생활의 한 측면을 찾아 적는다.\n2. 가상 토기 조각을 볼 때 모양 외에 어느 장소에서 나왔는지처럼 함께 기록할 정보를 고른다.\n\n남길 결과물은 생활 질문과 필요한 기록이 담긴 메모입니다.\n\n쉬운 대안. 링크를 열기 어렵다면 제공된 토기 사례로 기록 항목을 적는다.",
-      "worksheet_markdown": "## 유물과 함께 기록할 정보 고르기\n\n공식 교과자료의 유적·유물 설명과 가상의 토기 조각 하나를 활용한다.\n\n| 질문 | 유물 | 함께 볼 정보 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 유물과 함께 기록할 정보 고르기\n\n서울대 고고학전공 교과 사례는 유적과 유물에서 선사시대 생활과 기술을 살핀다. 가상 토기 조각 A에는 둥근 가장자리와 검은 얼룩이 있다. 불을 땐 흔적 옆에서 발견됐다.\n\n1. 위 교과 사례를 읽고 유물로 알고 싶은 과거 생활을 한 가지 적는다.\n2. 가상 토기 조각 A에서 관찰한 특징과 모양 외에 함께 기록할 정보를 적는다.\n\n남길 결과물은 생활 질문과 필요한 기록이 담긴 메모입니다.\n\n쉬운 대안. 링크를 열기 어렵다면 제공된 토기 사례로 기록 항목을 적는다.",
+      "worksheet_markdown": "## 유물과 함께 기록할 정보 고르기\n\n서울대 고고학전공 교과 사례는 유적과 유물에서 선사시대 생활과 기술을 살핀다. 가상 토기 조각 A에는 둥근 가장자리와 검은 얼룩이 있다. 불을 땐 흔적 옆에서 발견됐다.\n\n| 질문 | 유물 | 함께 볼 정보 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {
