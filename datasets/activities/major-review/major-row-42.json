@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M42_DRAFT_V3",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M42_DRAFT_V3_ISSUE130_V1",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M42-01",
-      "version": "0.4.0",
+      "version": "0.4.3",
       "title": "대상과 매체를 연결하는 질문 적기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_42",
@@ -41,10 +41,10 @@
         "materials": []
       },
       "purpose": "탐색 주제: 광고 기획과 메시지 설계. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
-      "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
+      "scenario": "카피라이팅과 매스미디어와 광고를 과목 사례로 읽는다. 가상 책 교환 행사는 금요일 오후 3시 도서관에서 열리며, 참가자는 교환할 책 한 권을 가져온다.",
       "steps": [
-        "공식 편람에서 두 과목이 어떤 점을 다루는지 읽는다.",
-        "신입생과 보호자 중 한 대상을 고르고 장소·시간 정보를 볼 매체를 생각한다."
+        "무엇을 쓸지와 어디에 안내할지를 두 과목명과 연결한다.",
+        "신입생과 보호자 중 한 대상을 고르고 장소와 시간 정보를 전할 매체를 정한다."
       ],
       "artifacts": [
         "가상 안내 대상과 매체 메모"
@@ -67,8 +67,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 대상과 매체를 연결하는 질문 적기\n\n카피라이팅과 매스미디어와 광고 과목을 참고한다.\n\n1. 공식 편람에서 두 과목이 어떤 점을 다루는지 읽는다.\n2. 신입생과 보호자 중 한 대상을 고르고 장소·시간 정보를 볼 매체를 생각한다.\n\n남길 결과물은 가상 안내 대상과 매체 메모입니다.\n\n쉬운 대안. 제공된 과목명과 대상만 활용한다.",
-      "worksheet_markdown": "## 대상과 매체를 연결하는 질문 적기\n\n카피라이팅과 매스미디어와 광고 과목을 참고한다.\n\n| 대상 | 궁금한 정보 | 볼 만한 매체 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 대상과 매체를 연결하는 질문 적기\n\n카피라이팅과 매스미디어와 광고를 과목 사례로 읽는다. 가상 책 교환 행사는 금요일 오후 3시 도서관에서 열리며, 참가자는 교환할 책 한 권을 가져온다.\n\n1. 무엇을 쓸지와 어디에 안내할지를 두 과목명과 연결한다.\n2. 신입생과 보호자 중 한 대상을 고르고 장소와 시간 정보를 전할 매체를 정한다.\n\n남길 결과물은 가상 안내 대상과 매체 메모입니다.\n\n쉬운 대안. 제공된 과목명과 대상만 활용한다.",
+      "worksheet_markdown": "## 대상과 매체를 연결하는 질문 적기\n\n카피라이팅과 매스미디어와 광고를 과목 사례로 읽는다. 가상 책 교환 행사는 금요일 오후 3시 도서관에서 열리며, 참가자는 교환할 책 한 권을 가져온다.\n\n| 대상 | 궁금한 정보 | 볼 만한 매체 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {
@@ -215,7 +215,7 @@
     },
     {
       "activity_id": "DRAFT-M42-03",
-      "version": "0.4.0",
+      "version": "0.4.3",
       "title": "문구를 읽은 뒤 행동이 분명한지 확인하기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_42",
@@ -242,7 +242,7 @@
         "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
-      "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
+      "scenario": "가상 게시판 문구는 ‘금요일 3시 도서관, 책 한 권으로 교환에 참여하세요’이다.",
       "steps": [
         "처음 보는 독자가 행동하기 전에 궁금해할 점을 고른다.",
         "과장 없이 더 분명하게 바꿀 표현을 한 곳 표시한다."
@@ -268,8 +268,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 문구를 읽은 뒤 행동이 분명한지 확인하기\n\n작성한 가상 문구를 다시 읽는다.\n\n1. 처음 보는 독자가 행동하기 전에 궁금해할 점을 고른다.\n2. 과장 없이 더 분명하게 바꿀 표현을 한 곳 표시한다.\n\n남길 결과물은 수정 문구와 확인 기준입니다.\n\n쉬운 대안. 제공 예시에서 한 단어만 골라 고쳐 본다.",
-      "worksheet_markdown": "## 문구를 읽은 뒤 행동이 분명한지 확인하기\n\n작성한 가상 문구를 다시 읽는다.\n\n| 기존 문구 | 독자가 물을 점 | 수정 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 문구를 읽은 뒤 행동이 분명한지 확인하기\n\n가상 게시판 문구는 ‘금요일 3시 도서관, 책 한 권으로 교환에 참여하세요’이다.\n\n1. 처음 보는 독자가 행동하기 전에 궁금해할 점을 고른다.\n2. 과장 없이 더 분명하게 바꿀 표현을 한 곳 표시한다.\n\n남길 결과물은 수정 문구와 확인 기준입니다.\n\n쉬운 대안. 제공 예시에서 한 단어만 골라 고쳐 본다.",
+      "worksheet_markdown": "## 문구를 읽은 뒤 행동이 분명한지 확인하기\n\n가상 게시판 문구는 ‘금요일 3시 도서관, 책 한 권으로 교환에 참여하세요’이다.\n\n| 기존 문구 | 독자가 물을 점 | 수정 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {

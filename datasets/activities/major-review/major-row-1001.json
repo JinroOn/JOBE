@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M1001_DRAFT_V3_SCOPE_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M1001_DRAFT_V3_SCOPE_V2_ISSUE130_V1",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -229,7 +229,7 @@
     },
     {
       "activity_id": "DRAFT-M1001-03",
-      "version": "0.4.2",
+      "version": "0.4.3",
       "title": "요구사항이 빠뜨린 오류 안내 생각하기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_1001",
@@ -256,7 +256,7 @@
         "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
-      "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
+      "scenario": "가상 규칙은 대출 중인 책을 최대 두 권까지 예약할 수 있다는 것이다. 이미 두 권을 예약한 사용자가 대출 중인 책을 한 권 더 신청해 거절됐다.",
       "steps": [
         "사용자가 다음 행동을 알 수 있는 안내를 적는다.",
         "안내가 모호했던 부분에 확인 기준을 하나 추가한다."
@@ -282,8 +282,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 요구사항이 빠뜨린 오류 안내 생각하기\n\n앞 시험표에서 거절 사례를 고른다.\n\n1. 사용자가 다음 행동을 알 수 있는 안내를 적는다.\n2. 안내가 모호했던 부분에 확인 기준을 하나 추가한다.\n\n남길 결과물은 오류 문구와 다음 행동입니다.\n\n쉬운 대안. 제공 예시의 설명 한 줄만 고친다.",
-      "worksheet_markdown": "## 요구사항이 빠뜨린 오류 안내 생각하기\n\n앞 시험표에서 거절 사례를 고른다.\n\n| 사례 | 안내 | 확인 기준 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 요구사항이 빠뜨린 오류 안내 생각하기\n\n가상 규칙은 대출 중인 책을 최대 두 권까지 예약할 수 있다는 것이다. 이미 두 권을 예약한 사용자가 대출 중인 책을 한 권 더 신청해 거절됐다.\n\n1. 사용자가 다음 행동을 알 수 있는 안내를 적는다.\n2. 안내가 모호했던 부분에 확인 기준을 하나 추가한다.\n\n남길 결과물은 오류 문구와 다음 행동입니다.\n\n쉬운 대안. 제공 예시의 설명 한 줄만 고친다.",
+      "worksheet_markdown": "## 요구사항이 빠뜨린 오류 안내 생각하기\n\n가상 규칙은 대출 중인 책을 최대 두 권까지 예약할 수 있다는 것이다. 이미 두 권을 예약한 사용자가 대출 중인 책을 한 권 더 신청해 거절됐다.\n\n| 사례 | 안내 | 확인 기준 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {

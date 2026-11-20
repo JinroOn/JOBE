@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M98_DRAFT_V3_SCOPE_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M98_DRAFT_V3_SCOPE_V2_ISSUE130_V1",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -229,7 +229,7 @@
     },
     {
       "activity_id": "DRAFT-M98-03",
-      "version": "0.4.2",
+      "version": "0.4.3",
       "title": "참여 방법을 선택할 때 확인할 질문 쓰기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_98",
@@ -256,7 +256,7 @@
         "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
-      "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
+      "scenario": "가상 활동지의 목표는 모양별 묶음을 구분하는 것이다. 한 줄에 있던 ‘네모를 찾고 묶은 뒤 개수를 세기’를 세 줄로 나눈 예를 읽는다.",
       "steps": [
         "누가 어떤 방식으로 참여하기를 원하는지 먼저 확인하는 질문을 만든다.",
         "지원 방식을 바꾸어도 남길 학습 근거를 적는다."
@@ -282,8 +282,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 참여 방법을 선택할 때 확인할 질문 쓰기\n\n앞에서 고친 활동지를 살펴본다.\n\n1. 누가 어떤 방식으로 참여하기를 원하는지 먼저 확인하는 질문을 만든다.\n2. 지원 방식을 바꾸어도 남길 학습 근거를 적는다.\n\n남길 결과물은 선택권과 확인 근거 메모입니다.\n\n쉬운 대안. 가상 답으로만 질문을 점검한다.",
-      "worksheet_markdown": "## 참여 방법을 선택할 때 확인할 질문 쓰기\n\n앞에서 고친 활동지를 살펴본다.\n\n| 물어볼 점 | 지원 방식 | 학습 근거 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 참여 방법을 선택할 때 확인할 질문 쓰기\n\n가상 활동지의 목표는 모양별 묶음을 구분하는 것이다. 한 줄에 있던 ‘네모를 찾고 묶은 뒤 개수를 세기’를 세 줄로 나눈 예를 읽는다.\n\n1. 누가 어떤 방식으로 참여하기를 원하는지 먼저 확인하는 질문을 만든다.\n2. 지원 방식을 바꾸어도 남길 학습 근거를 적는다.\n\n남길 결과물은 선택권과 확인 근거 메모입니다.\n\n쉬운 대안. 가상 답으로만 질문을 점검한다.",
+      "worksheet_markdown": "## 참여 방법을 선택할 때 확인할 질문 쓰기\n\n가상 활동지의 목표는 모양별 묶음을 구분하는 것이다. 한 줄에 있던 ‘네모를 찾고 묶은 뒤 개수를 세기’를 세 줄로 나눈 예를 읽는다.\n\n| 물어볼 점 | 지원 방식 | 학습 근거 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {

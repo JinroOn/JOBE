@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M45_DRAFT_V3",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M45_DRAFT_V3_ISSUE130_V1",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M45-01",
-      "version": "0.4.0",
+      "version": "0.4.3",
       "title": "규칙 문장과 실제 사례의 사실 구분하기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_45",
@@ -41,10 +41,10 @@
         "materials": []
       },
       "purpose": "탐색 주제: 규칙 해석과 논거 정리. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
-      "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
+      "scenario": "법학 입문에서는 규칙 문장을 읽고 구체적인 사실에 적용하는 방법을 살핀다. 가상 도서 대출 규칙은 ‘반납일 오후 5시 전에 한 번만 연장 가능’이다.",
       "steps": [
-        "전주대 법학 입문 설명에서 법률을 사례에 적용한다는 부분을 찾아 적는다.",
-        "가상의 도서 반납 규칙을 적용하려면 어떤 날짜와 사실이 필요한지 생각한다."
+        "규칙에서 시간 조건과 횟수 조건을 찾는다.",
+        "연장 신청에 이 규칙을 적용하려면 어떤 날짜와 사실이 필요한지 생각한다."
       ],
       "artifacts": [
         "규칙과 확인 사실 메모"
@@ -68,8 +68,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 규칙 문장과 실제 사례의 사실 구분하기\n\n공식 안내의 법률 해석·적용 설명과 가상의 도서 대출 규칙을 읽는다.\n\n1. 전주대 법학 입문 설명에서 법률을 사례에 적용한다는 부분을 찾아 적는다.\n2. 가상의 도서 반납 규칙을 적용하려면 어떤 날짜와 사실이 필요한지 생각한다.\n\n남길 결과물은 규칙과 확인 사실 메모입니다.\n\n쉬운 대안. 공식 링크 대신 예시 규칙 설명으로 작성한다.",
-      "worksheet_markdown": "## 규칙 문장과 실제 사례의 사실 구분하기\n\n공식 안내의 법률 해석·적용 설명과 가상의 도서 대출 규칙을 읽는다.\n\n| 교과 내용 | 규칙 | 필요한 사실 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 규칙 문장과 실제 사례의 사실 구분하기\n\n법학 입문에서는 규칙 문장을 읽고 구체적인 사실에 적용하는 방법을 살핀다. 가상 도서 대출 규칙은 ‘반납일 오후 5시 전에 한 번만 연장 가능’이다.\n\n1. 규칙에서 시간 조건과 횟수 조건을 찾는다.\n2. 연장 신청에 이 규칙을 적용하려면 어떤 날짜와 사실이 필요한지 생각한다.\n\n남길 결과물은 규칙과 확인 사실 메모입니다.\n\n쉬운 대안. 공식 링크 대신 예시 규칙 설명으로 작성한다.",
+      "worksheet_markdown": "## 규칙 문장과 실제 사례의 사실 구분하기\n\n법학 입문에서는 규칙 문장을 읽고 구체적인 사실에 적용하는 방법을 살핀다. 가상 도서 대출 규칙은 ‘반납일 오후 5시 전에 한 번만 연장 가능’이다.\n\n| 교과 내용 | 규칙 | 필요한 사실 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {
@@ -243,7 +243,7 @@
     },
     {
       "activity_id": "DRAFT-M45-03",
-      "version": "0.4.0",
+      "version": "0.4.3",
       "title": "모호한 규칙을 분명하게 질문하기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_45",
@@ -270,7 +270,7 @@
         "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
-      "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
+      "scenario": "가상 도서 대출 규칙은 ‘반납일 오후 5시 전에 한 번만 연장 가능’이다.",
       "steps": [
         "오후 5시 정각 신청이라는 새 사례를 만든다.",
         "경계 조건을 더 명확하게 안내할 대체 문구를 작성한다."
@@ -297,8 +297,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 모호한 규칙을 분명하게 질문하기\n\n가상 규칙의 ‘오후 5시 전’ 문구를 다시 읽는다.\n\n1. 오후 5시 정각 신청이라는 새 사례를 만든다.\n2. 경계 조건을 더 명확하게 안내할 대체 문구를 작성한다.\n\n남길 결과물은 판단 경계와 문구 수정안입니다.\n\n쉬운 대안. 규칙을 읽고 경계 사례 하나를 말한다.",
-      "worksheet_markdown": "## 모호한 규칙을 분명하게 질문하기\n\n가상 규칙의 ‘오후 5시 전’ 문구를 다시 읽는다.\n\n| 경계 사례 | 현재 문구 | 수정 문구 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 모호한 규칙을 분명하게 질문하기\n\n가상 도서 대출 규칙은 ‘반납일 오후 5시 전에 한 번만 연장 가능’이다.\n\n1. 오후 5시 정각 신청이라는 새 사례를 만든다.\n2. 경계 조건을 더 명확하게 안내할 대체 문구를 작성한다.\n\n남길 결과물은 판단 경계와 문구 수정안입니다.\n\n쉬운 대안. 규칙을 읽고 경계 사례 하나를 말한다.",
+      "worksheet_markdown": "## 모호한 규칙을 분명하게 질문하기\n\n가상 도서 대출 규칙은 ‘반납일 오후 5시 전에 한 번만 연장 가능’이다.\n\n| 경계 사례 | 현재 문구 | 수정 문구 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {

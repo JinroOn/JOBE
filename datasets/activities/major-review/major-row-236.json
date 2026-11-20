@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M236_DRAFT_V3_SCOPE_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M236_DRAFT_V3_SCOPE_V2_ISSUE130_V1",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M236-01",
-      "version": "0.4.2",
+      "version": "0.4.3",
       "title": "작은 화면의 첫 행동 정하기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_236",
@@ -41,9 +41,9 @@
         "materials": []
       },
       "purpose": "탐색 주제: 디지털 정보 구조와 화면 설계. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
-      "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
+      "scenario": "한국공학대 미디어디자인공학전공의 인터페이스디자인을 화면 구성의 과목 사례로 읽는다. 가상 학교 책 교환 행사의 장소는 학교 도서관이고 신청은 6월 12일 오후 3시에 열린다. 첫 화면에는 장소·신청 시간·신청 버튼을 넣을 수 있다.",
       "steps": [
-        "공식 자료의 인터페이스디자인을 찾아 읽는다.",
+        "제시된 과목명과 가상 행사 정보를 읽는다.",
         "신청자가 첫 화면에서 먼저 찾을 정보와 행동을 정한다."
       ],
       "artifacts": [
@@ -60,7 +60,7 @@
         "m236-extra"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 숭실대학교 2009–2010 요람 디지털디자인학과 교과과정, 경희대학교 시각디자인 전공 교육과정 체계도이다.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 한국공학대학교 디자인공학부 미디어디자인공학전공 교과목 개요, 경희대학교 시각디자인 전공 교육과정 체계도이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -68,8 +68,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 작은 화면의 첫 행동 정하기\n\n가상 학교 행사 신청 화면을 참고한다.\n\n1. 공식 자료의 인터페이스디자인을 찾아 읽는다.\n2. 신청자가 첫 화면에서 먼저 찾을 정보와 행동을 정한다.\n\n남길 결과물은 화면 목표와 정보 카드입니다.\n\n쉬운 대안. 제공 과목과 상황으로 질문한다.",
-      "worksheet_markdown": "## 작은 화면의 첫 행동 정하기\n\n가상 학교 행사 신청 화면을 참고한다.\n\n| 사용자 | 정보 | 첫 행동 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 작은 화면의 첫 행동 정하기\n\n한국공학대 미디어디자인공학전공의 인터페이스디자인을 화면 구성의 과목 사례로 읽는다. 가상 학교 책 교환 행사의 장소는 학교 도서관이고 신청은 6월 12일 오후 3시에 열린다. 첫 화면에는 장소·신청 시간·신청 버튼을 넣을 수 있다.\n\n1. 제시된 과목명과 가상 행사 정보를 읽는다.\n2. 신청자가 첫 화면에서 먼저 찾을 정보와 행동을 정한다.\n\n남길 결과물은 화면 목표와 정보 카드입니다.\n\n쉬운 대안. 제공 과목과 상황으로 질문한다.",
+      "worksheet_markdown": "## 작은 화면의 첫 행동 정하기\n\n한국공학대 미디어디자인공학전공의 인터페이스디자인을 화면 구성의 과목 사례로 읽는다. 가상 학교 책 교환 행사의 장소는 학교 도서관이고 신청은 6월 12일 오후 3시에 열린다. 첫 화면에는 장소·신청 시간·신청 버튼을 넣을 수 있다.\n\n| 사용자 | 정보 | 첫 행동 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {
@@ -87,16 +87,16 @@
         },
         {
           "source_id": "m236-university",
-          "title": "2009–2010 요람 디지털디자인학과 교과과정",
-          "publisher": "숭실대학교",
-          "url": "https://ssu.ac.kr/wp-content/uploads/2021/12/2009_2010-%EC%88%AD%EC%8B%A4%EB%8C%80%ED%95%99%EA%B5%90-%EC%9A%94%EB%9E%8C%EC%B5%9C%EC%A2%85.pdf",
+          "title": "미디어디자인공학전공 교과목 개요",
+          "publisher": "한국공학대학교 디자인공학부",
+          "url": "https://design.tukorea.ac.kr/design/3859/subview.do",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "숭실대 2009–2010 요람의 인터페이스디자인",
+          "verified_claim": "2026학년도 인터페이스디자인·모바일디자인",
           "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "2009–2010년 요람에 수록된 교과 사례로만 사용한다."
+          "usage_scope": "한국공학대 미디어디자인공학전공의 화면 구성·사용자 요구와 직접 연결되는 교과 사례다."
         },
         {
           "source_id": "m236-extra",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M236-02",
-      "version": "0.4.2",
+      "version": "0.4.3",
       "title": "같은 행사 신청 화면의 두 시안 비교하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_236",
@@ -174,7 +174,7 @@
         "m236-extra"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 숭실대학교 2009–2010 요람 디지털디자인학과 교과과정, 경희대학교 시각디자인 전공 교육과정 체계도이다.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 한국공학대학교 디자인공학부 미디어디자인공학전공 교과목 개요, 경희대학교 시각디자인 전공 교육과정 체계도이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -201,16 +201,16 @@
         },
         {
           "source_id": "m236-university",
-          "title": "2009–2010 요람 디지털디자인학과 교과과정",
-          "publisher": "숭실대학교",
-          "url": "https://ssu.ac.kr/wp-content/uploads/2021/12/2009_2010-%EC%88%AD%EC%8B%A4%EB%8C%80%ED%95%99%EA%B5%90-%EC%9A%94%EB%9E%8C%EC%B5%9C%EC%A2%85.pdf",
+          "title": "미디어디자인공학전공 교과목 개요",
+          "publisher": "한국공학대학교 디자인공학부",
+          "url": "https://design.tukorea.ac.kr/design/3859/subview.do",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "숭실대 2009–2010 요람의 인터페이스디자인",
+          "verified_claim": "2026학년도 인터페이스디자인·모바일디자인",
           "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "2009–2010년 요람에 수록된 교과 사례로만 사용한다."
+          "usage_scope": "한국공학대 미디어디자인공학전공의 화면 구성·사용자 요구와 직접 연결되는 교과 사례다."
         },
         {
           "source_id": "m236-extra",
@@ -243,7 +243,7 @@
     },
     {
       "activity_id": "DRAFT-M236-03",
-      "version": "0.4.2",
+      "version": "0.4.3",
       "title": "화면 수정에서 버튼 문구 검토하기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_236",
@@ -270,7 +270,7 @@
         "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
-      "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
+      "scenario": "가상 책 교환 행사 신청은 6월 12일 오후 3시에 열린다. 화면 A는 시간을 버튼 위에, B는 버튼 아래에 둔다. 두 화면의 버튼은 ‘다음’으로 표시되고 누르면 신청서가 열린다.",
       "steps": [
         "버튼 동작을 오해할 문구를 고른다.",
         "다음에 어떤 화면이 열릴지 나타내는 문장으로 바꾼다."
@@ -289,7 +289,7 @@
         "m236-extra"
       ],
       "major_source_relationship": "EXACT_NAME",
-      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 숭실대학교 2009–2010 요람 디지털디자인학과 교과과정, 경희대학교 시각디자인 전공 교육과정 체계도이다.",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 한국공학대학교 디자인공학부 미디어디자인공학전공 교과목 개요, 경희대학교 시각디자인 전공 교육과정 체계도이다.",
       "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
       "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
       "created_on": "2026-11-14",
@@ -297,8 +297,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 화면 수정에서 버튼 문구 검토하기\n\n두 가상 화면을 읽는다.\n\n1. 버튼 동작을 오해할 문구를 고른다.\n2. 다음에 어떤 화면이 열릴지 나타내는 문장으로 바꾼다.\n\n남길 결과물은 버튼 문구 수정안입니다.\n\n쉬운 대안. 예시 한 단어만 고친다.",
-      "worksheet_markdown": "## 화면 수정에서 버튼 문구 검토하기\n\n두 가상 화면을 읽는다.\n\n| 기존 문구 | 다음 동작 | 새 문구 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 화면 수정에서 버튼 문구 검토하기\n\n가상 책 교환 행사 신청은 6월 12일 오후 3시에 열린다. 화면 A는 시간을 버튼 위에, B는 버튼 아래에 둔다. 두 화면의 버튼은 ‘다음’으로 표시되고 누르면 신청서가 열린다.\n\n1. 버튼 동작을 오해할 문구를 고른다.\n2. 다음에 어떤 화면이 열릴지 나타내는 문장으로 바꾼다.\n\n남길 결과물은 버튼 문구 수정안입니다.\n\n쉬운 대안. 예시 한 단어만 고친다.",
+      "worksheet_markdown": "## 화면 수정에서 버튼 문구 검토하기\n\n가상 책 교환 행사 신청은 6월 12일 오후 3시에 열린다. 화면 A는 시간을 버튼 위에, B는 버튼 아래에 둔다. 두 화면의 버튼은 ‘다음’으로 표시되고 누르면 신청서가 열린다.\n\n| 기존 문구 | 다음 동작 | 새 문구 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {
@@ -316,16 +316,16 @@
         },
         {
           "source_id": "m236-university",
-          "title": "2009–2010 요람 디지털디자인학과 교과과정",
-          "publisher": "숭실대학교",
-          "url": "https://ssu.ac.kr/wp-content/uploads/2021/12/2009_2010-%EC%88%AD%EC%8B%A4%EB%8C%80%ED%95%99%EA%B5%90-%EC%9A%94%EB%9E%8C%EC%B5%9C%EC%A2%85.pdf",
+          "title": "미디어디자인공학전공 교과목 개요",
+          "publisher": "한국공학대학교 디자인공학부",
+          "url": "https://design.tukorea.ac.kr/design/3859/subview.do",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "숭실대 2009–2010 요람의 인터페이스디자인",
+          "verified_claim": "2026학년도 인터페이스디자인·모바일디자인",
           "application": "활동과 직접 겹치는 주제의 배경 사례",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "2009–2010년 요람에 수록된 교과 사례로만 사용한다."
+          "usage_scope": "한국공학대 미디어디자인공학전공의 화면 구성·사용자 요구와 직접 연결되는 교과 사례다."
         },
         {
           "source_id": "m236-extra",

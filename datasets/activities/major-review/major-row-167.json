@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M167_DRAFT_V3",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M167_DRAFT_V3_ISSUE130_V1",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M167-01",
-      "version": "0.4.0",
+      "version": "0.4.3",
       "title": "미생물과 환경의 관계에 관한 질문 고르기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_167",
@@ -41,9 +41,9 @@
         "materials": []
       },
       "purpose": "탐색 주제: 미생물 자료와 관찰 조건. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
-      "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
+      "scenario": "일반미생물학에서는 미생물의 다양성을, 환경 분야에서는 미생물의 생태적 역할을 살펴본다. 가상 관찰 기록은 장소 A에서 유형 X와 Y, 장소 B에서는 유형 X만 기록된 사례다. X와 Y는 활동용 기호다.",
       "steps": [
-        "교과자료에서 미생물의 다양성과 생태적 역할 설명을 읽는다.",
+        "제공된 설명과 가상 관찰 기록을 읽는다.",
         "환경에서의 역할을 설명하기 전에 어떤 관찰 정보가 필요한지 쓴다."
       ],
       "artifacts": [
@@ -68,8 +68,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 미생물과 환경의 관계에 관한 질문 고르기\n\n공식 자료의 일반미생물학과 환경 분야 모듈을 참고한다.\n\n1. 교과자료에서 미생물의 다양성과 생태적 역할 설명을 읽는다.\n2. 환경에서의 역할을 설명하기 전에 어떤 관찰 정보가 필요한지 쓴다.\n\n남길 결과물은 생태 관찰 질문 카드입니다.\n\n쉬운 대안. 제공 설명과 예시만 읽는다.",
-      "worksheet_markdown": "## 미생물과 환경의 관계에 관한 질문 고르기\n\n공식 자료의 일반미생물학과 환경 분야 모듈을 참고한다.\n\n| 자료 | 관찰할 항목 | 질문 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 미생물과 환경의 관계에 관한 질문 고르기\n\n일반미생물학에서는 미생물의 다양성을, 환경 분야에서는 미생물의 생태적 역할을 살펴본다. 가상 관찰 기록은 장소 A에서 유형 X와 Y, 장소 B에서는 유형 X만 기록된 사례다. X와 Y는 활동용 기호다.\n\n1. 제공된 설명과 가상 관찰 기록을 읽는다.\n2. 환경에서의 역할을 설명하기 전에 어떤 관찰 정보가 필요한지 쓴다.\n\n남길 결과물은 생태 관찰 질문 카드입니다.\n\n쉬운 대안. 제공 설명과 예시만 읽는다.",
+      "worksheet_markdown": "## 미생물과 환경의 관계에 관한 질문 고르기\n\n일반미생물학에서는 미생물의 다양성을, 환경 분야에서는 미생물의 생태적 역할을 살펴본다. 가상 관찰 기록은 장소 A에서 유형 X와 Y, 장소 B에서는 유형 X만 기록된 사례다. X와 Y는 활동용 기호다.\n\n| 자료 | 관찰할 항목 | 질문 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {
@@ -243,7 +243,7 @@
     },
     {
       "activity_id": "DRAFT-M167-03",
-      "version": "0.4.0",
+      "version": "0.4.3",
       "title": "종류 차이를 다시 확인할 자료 고르기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_167",
@@ -270,7 +270,7 @@
         "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
-      "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
+      "scenario": "가상으로 두 장소를 각각 한 번 관찰했다. 장소 A는 유형 X 2개·Y 2개, B는 유형 X 4개였다. 기호는 실제 생물 이름이 아니다.",
       "steps": [
         "관찰 범위가 달라질 수 있는 상황을 고른다.",
         "직접 시료를 다루지 않고 확인할 공개 관찰 자료의 항목을 정한다."
@@ -297,8 +297,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 종류 차이를 다시 확인할 자료 고르기\n\n한 번씩만 관찰한 가상 기록을 본다.\n\n1. 관찰 범위가 달라질 수 있는 상황을 고른다.\n2. 직접 시료를 다루지 않고 확인할 공개 관찰 자료의 항목을 정한다.\n\n남길 결과물은 자료 해석의 후속 질문입니다.\n\n쉬운 대안. 예시 질문 한 줄만 작성한다.",
-      "worksheet_markdown": "## 종류 차이를 다시 확인할 자료 고르기\n\n한 번씩만 관찰한 가상 기록을 본다.\n\n| 현재 결론 | 빠진 정보 | 다음 자료 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 종류 차이를 다시 확인할 자료 고르기\n\n가상으로 두 장소를 각각 한 번 관찰했다. 장소 A는 유형 X 2개·Y 2개, B는 유형 X 4개였다. 기호는 실제 생물 이름이 아니다.\n\n1. 관찰 범위가 달라질 수 있는 상황을 고른다.\n2. 직접 시료를 다루지 않고 확인할 공개 관찰 자료의 항목을 정한다.\n\n남길 결과물은 자료 해석의 후속 질문입니다.\n\n쉬운 대안. 예시 질문 한 줄만 작성한다.",
+      "worksheet_markdown": "## 종류 차이를 다시 확인할 자료 고르기\n\n가상으로 두 장소를 각각 한 번 관찰했다. 장소 A는 유형 X 2개·Y 2개, B는 유형 X 4개였다. 기호는 실제 생물 이름이 아니다.\n\n| 현재 결론 | 빠진 정보 | 다음 자료 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {

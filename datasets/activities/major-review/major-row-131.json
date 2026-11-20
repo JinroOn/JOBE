@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M131_DRAFT_V3_SCOPE_V2",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M131_DRAFT_V3_SCOPE_V2_ISSUE130_V1",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -243,7 +243,7 @@
     },
     {
       "activity_id": "DRAFT-M131-03",
-      "version": "0.4.2",
+      "version": "0.4.3",
       "title": "판정 기준 주변에서 출력 변화를 살피기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_131",
@@ -270,9 +270,9 @@
         "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
-      "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
+      "scenario": "가상 밝기 입력은 2·3·2다. 값이 3보다 작으면 켜지고, 3 이상이면 꺼지는 규칙을 사용한다.",
       "steps": [
-        "앞서 쓴 기준에서 출력이 바뀌는 횟수를 표시한다.",
+        "제시된 기준에서 세 입력의 결과를 적고, 출력이 바뀌는 횟수를 표시한다.",
         "안정적인 동작인지 판단하기 위해 추가로 볼 시간 기록을 고른다."
       ],
       "artifacts": [
@@ -297,8 +297,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 판정 기준 주변에서 출력 변화를 살피기\n\n가상의 후속 입력 2·3·2를 본다.\n\n1. 앞서 쓴 기준에서 출력이 바뀌는 횟수를 표시한다.\n2. 안정적인 동작인지 판단하기 위해 추가로 볼 시간 기록을 고른다.\n\n남길 결과물은 입력과 출력 변화 기록입니다.\n\n쉬운 대안. 예시 순서에서 바뀌는 지점만 표시한다.",
-      "worksheet_markdown": "## 판정 기준 주변에서 출력 변화를 살피기\n\n가상의 후속 입력 2·3·2를 본다.\n\n| 입력 | 출력 | 더 볼 기록 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 판정 기준 주변에서 출력 변화를 살피기\n\n가상 밝기 입력은 2·3·2다. 값이 3보다 작으면 켜지고, 3 이상이면 꺼지는 규칙을 사용한다.\n\n1. 제시된 기준에서 세 입력의 결과를 적고, 출력이 바뀌는 횟수를 표시한다.\n2. 안정적인 동작인지 판단하기 위해 추가로 볼 시간 기록을 고른다.\n\n남길 결과물은 입력과 출력 변화 기록입니다.\n\n쉬운 대안. 예시 순서에서 바뀌는 지점만 표시한다.",
+      "worksheet_markdown": "## 판정 기준 주변에서 출력 변화를 살피기\n\n가상 밝기 입력은 2·3·2다. 값이 3보다 작으면 켜지고, 3 이상이면 꺼지는 규칙을 사용한다.\n\n| 입력 | 출력 | 더 볼 기록 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
-  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M11_20261119",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M11_20261119_ISSUE130_V1",
   "status": "PENDING_HUMAN_REVIEW",
   "scope": "DEV",
   "preparedBy": "Codex",
@@ -22,7 +22,7 @@
     },
     {
       "chunkType": "major_overview",
-      "text": "서울대 영어영문학과 학부 공지에 영어담화분석과 최근 영어권 소설이 나온다. 연세대 로드맵은 대화분석의 기초와 단편소설의 예술을 서로 다른 영역의 과목으로 제시한다.",
+      "text": "국립군산대 영어영문학과의 2026학년도 교과과정에는 담화분석종합설계와 미문학특강이 있다. 연세대 로드맵은 대화분석의 기초와 단편소설의 예술을 서로 다른 영역의 과목으로 제시한다.",
       "sourceIds": [
         "m11-university-1",
         "m11-university-2"
@@ -42,13 +42,13 @@
     },
     {
       "sourceId": "m11-university-1",
-      "publisher": "서울대학교 영어영문학과",
-      "title": "학부 교과목 공지",
-      "url": "https://english.snu.ac.kr/18255/",
-      "supports": "영어담화분석과 최근 영어권 소설 과목 사례",
-      "limitation": "2014년 공지에서 과목 사례만 인용한다.",
+      "publisher": "국립군산대학교 영어영문학과",
+      "title": "교과과정(2026학년도)",
+      "url": "https://www.kunsan.ac.kr/knuenglish/index.kunsan?menuCd=DOM_000004401002000000",
+      "supports": "2026학년도 2학기 담화분석종합설계·미문학특강",
+      "limitation": "국립군산대학교 영어영문학전공의 2026학년도 교과 편성 사례다.",
       "verification": "PUBLIC_PAGE_BODY_CHECKED",
-      "accessedAt": "2026-11-19"
+      "accessedAt": "2026-11-20"
     },
     {
       "sourceId": "m11-university-2",

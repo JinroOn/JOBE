@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M208_DRAFT_V3",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M208_DRAFT_V3_ISSUE130_V1",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M208-01",
-      "version": "0.4.0",
+      "version": "0.4.3",
       "title": "가상 검사 기록에 필요한 식별 칸 고르기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_208",
@@ -41,10 +41,10 @@
         "materials": []
       },
       "purpose": "탐색 주제: 임상병리 자료의 기록과 추적. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
-      "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
+      "scenario": "순천향대 임상병리학과의 정도관리학을 과목 사례로 읽는다. 모의 학습 카드 A에는 자료 ID D14와 측정 순서 1이 적혀 있다. 결과를 옮기는 빈 표에는 자료 ID와 측정 순서를 기록할 칸이 있다.",
       "steps": [
-        "공식 안내에서 기록·품질 확인에 가까운 부분을 읽는다.",
-        "가상 자료에서 서로 다른 기록이 섞이지 않도록 확인할 칸을 적는다."
+        "가상 카드 A에서 자료 ID와 측정 순서를 확인한다.",
+        "서로 다른 기록이 섞이지 않도록 결과표에 옮기고 대조할 칸을 적는다."
       ],
       "artifacts": [
         "가상 기록 확인표"
@@ -68,8 +68,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 가상 검사 기록에 필요한 식별 칸 고르기\n\n공식 품질관리 교과 설명을 읽고 익명의 모의 학습 카드 A를 가정한다.\n\n1. 공식 안내에서 기록·품질 확인에 가까운 부분을 읽는다.\n2. 가상 자료에서 서로 다른 기록이 섞이지 않도록 확인할 칸을 적는다.\n\n남길 결과물은 가상 기록 확인표입니다.\n\n쉬운 대안. 자료명과 숫자를 메모에 적는다.",
-      "worksheet_markdown": "## 가상 검사 기록에 필요한 식별 칸 고르기\n\n공식 품질관리 교과 설명을 읽고 익명의 모의 학습 카드 A를 가정한다.\n\n| 자료 | 식별 항목 | 질문 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 가상 검사 기록에 필요한 식별 칸 고르기\n\n순천향대 임상병리학과의 정도관리학을 과목 사례로 읽는다. 모의 학습 카드 A에는 자료 ID D14와 측정 순서 1이 적혀 있다. 결과를 옮기는 빈 표에는 자료 ID와 측정 순서를 기록할 칸이 있다.\n\n1. 가상 카드 A에서 자료 ID와 측정 순서를 확인한다.\n2. 서로 다른 기록이 섞이지 않도록 결과표에 옮기고 대조할 칸을 적는다.\n\n남길 결과물은 가상 기록 확인표입니다.\n\n쉬운 대안. 자료명과 숫자를 메모에 적는다.",
+      "worksheet_markdown": "## 가상 검사 기록에 필요한 식별 칸 고르기\n\n순천향대 임상병리학과의 정도관리학을 과목 사례로 읽는다. 모의 학습 카드 A에는 자료 ID D14와 측정 순서 1이 적혀 있다. 결과를 옮기는 빈 표에는 자료 ID와 측정 순서를 기록할 칸이 있다.\n\n| 자료 | 식별 항목 | 질문 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {
@@ -87,16 +87,16 @@
         },
         {
           "source_id": "m208-university",
-          "title": "교육과정",
-          "publisher": "충북보건과학대학교 임상병리학과",
-          "url": "https://clip.chsu.ac.kr/defaultCallPage.do?S_DEPART_CODE=C198&jspPage=%2Fcommon%2FcurriView&menuId=3000000240",
+          "title": "교육과정안내",
+          "publisher": "순천향대학교 임상병리학과",
+          "url": "https://home.sch.ac.kr/schbmls/02/0101.jsp",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "진단검사 관련 과목과 임상병리사현장실습",
+          "verified_claim": "스마트진단검사학·정도관리학·임상병리학현장실습1",
           "application": "전공 소개와 과목명 사례 대조",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "해당 대학의 학부 교과 사례다."
+          "usage_scope": "순천향대학교 임상병리학과의 학부 교과 사례다."
         },
         {
           "source_id": "m208-extra",
@@ -128,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M208-02",
-      "version": "0.4.1",
+      "version": "0.4.3",
       "title": "가상 실습 기록 두 장의 번호 대조하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_208",
@@ -201,16 +201,16 @@
         },
         {
           "source_id": "m208-university",
-          "title": "교육과정",
-          "publisher": "충북보건과학대학교 임상병리학과",
-          "url": "https://clip.chsu.ac.kr/defaultCallPage.do?S_DEPART_CODE=C198&jspPage=%2Fcommon%2FcurriView&menuId=3000000240",
+          "title": "교육과정안내",
+          "publisher": "순천향대학교 임상병리학과",
+          "url": "https://home.sch.ac.kr/schbmls/02/0101.jsp",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "진단검사 관련 과목과 임상병리사현장실습",
+          "verified_claim": "스마트진단검사학·정도관리학·임상병리학현장실습1",
           "application": "전공 소개와 과목명 사례 대조",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "해당 대학의 학부 교과 사례다."
+          "usage_scope": "순천향대학교 임상병리학과의 학부 교과 사례다."
         },
         {
           "source_id": "m208-extra",
@@ -243,7 +243,7 @@
     },
     {
       "activity_id": "DRAFT-M208-03",
-      "version": "0.4.0",
+      "version": "0.4.3",
       "title": "기록을 수정할 때 이유와 근거 남기기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_208",
@@ -270,7 +270,7 @@
         "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
-      "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
+      "scenario": "가상 입력표는 카드 D14·측정 1이고 결과표는 D41·측정 1이다. 실제 검사 값은 없으며 두 기록이 같은 카드인지 아직 확인하지 않았다.",
       "steps": [
         "원본 확인 전과 확인 후에 표시할 상태를 정한다.",
         "다음 사람이 수정 이력을 이해할 한 문장을 적는다."
@@ -297,8 +297,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 기록을 수정할 때 이유와 근거 남기기\n\n앞의 가상 불일치 사례를 본다.\n\n1. 원본 확인 전과 확인 후에 표시할 상태를 정한다.\n2. 다음 사람이 수정 이력을 이해할 한 문장을 적는다.\n\n남길 결과물은 가상 기록 추적 계획입니다.\n\n쉬운 대안. 예시 메모의 상태 한 칸만 작성한다.",
-      "worksheet_markdown": "## 기록을 수정할 때 이유와 근거 남기기\n\n앞의 가상 불일치 사례를 본다.\n\n| 기존 상태 | 확인 원본 | 수정 이력 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 기록을 수정할 때 이유와 근거 남기기\n\n가상 입력표는 카드 D14·측정 1이고 결과표는 D41·측정 1이다. 실제 검사 값은 없으며 두 기록이 같은 카드인지 아직 확인하지 않았다.\n\n1. 원본 확인 전과 확인 후에 표시할 상태를 정한다.\n2. 다음 사람이 수정 이력을 이해할 한 문장을 적는다.\n\n남길 결과물은 가상 기록 추적 계획입니다.\n\n쉬운 대안. 예시 메모의 상태 한 칸만 작성한다.",
+      "worksheet_markdown": "## 기록을 수정할 때 이유와 근거 남기기\n\n가상 입력표는 카드 D14·측정 1이고 결과표는 D41·측정 1이다. 실제 검사 값은 없으며 두 기록이 같은 카드인지 아직 확인하지 않았다.\n\n| 기존 상태 | 확인 원본 | 수정 이력 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {
@@ -316,16 +316,16 @@
         },
         {
           "source_id": "m208-university",
-          "title": "교육과정",
-          "publisher": "충북보건과학대학교 임상병리학과",
-          "url": "https://clip.chsu.ac.kr/defaultCallPage.do?S_DEPART_CODE=C198&jspPage=%2Fcommon%2FcurriView&menuId=3000000240",
+          "title": "교육과정안내",
+          "publisher": "순천향대학교 임상병리학과",
+          "url": "https://home.sch.ac.kr/schbmls/02/0101.jsp",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "진단검사 관련 과목과 임상병리사현장실습",
+          "verified_claim": "스마트진단검사학·정도관리학·임상병리학현장실습1",
           "application": "전공 소개와 과목명 사례 대조",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
-          "usage_scope": "해당 대학의 학부 교과 사례다."
+          "usage_scope": "순천향대학교 임상병리학과의 학부 교과 사례다."
         },
         {
           "source_id": "m208-extra",
