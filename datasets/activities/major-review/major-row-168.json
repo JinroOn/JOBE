@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M168_DRAFT",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M168_DRAFT_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M168-01",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "세포와 생태계가 묻는 질문 구분하기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_168",
@@ -38,9 +38,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "탐색 주제: 생명과학의 관찰 수준과 설명. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
       "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
@@ -130,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M168-02",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "가상 연못의 생물 관계를 그림으로 연결하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_168",
@@ -154,9 +152,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "경험할 주제: 생명과학의 관찰 수준과 설명. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
       "scenario": "가상 식물A가 다른 조건에서 자랐다는 기록만 제공하고 원인은 제시하지 않음",
@@ -247,7 +243,7 @@
     },
     {
       "activity_id": "DRAFT-M168-03",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "관찰 범위의 차이를 설명하기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_168",
@@ -271,9 +267,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
       "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",

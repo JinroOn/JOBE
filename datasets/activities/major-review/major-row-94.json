@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M94_DRAFT",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M94_DRAFT_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M94-01",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "도덕 수업에서 여러 관점이 나오는 질문 만들기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_94",
@@ -38,9 +38,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "탐색 주제: 도덕적 이유와 대화 설계. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
       "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
@@ -130,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M94-02",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "공동 물품 이용 기준 두 개로 토론 카드 만들기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_94",
@@ -154,9 +152,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "경험할 주제: 도덕적 이유와 대화 설계. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
       "scenario": "가상 학급의 한정된 발표 시간을 나누는 상황",
@@ -247,7 +243,7 @@
     },
     {
       "activity_id": "DRAFT-M94-03",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "더 많은 학생이 이유를 말할 수 있도록 질문 바꾸기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_94",
@@ -271,9 +267,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
       "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",

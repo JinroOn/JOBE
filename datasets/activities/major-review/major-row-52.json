@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M52_DRAFT",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M52_DRAFT_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M52-01",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "공공서비스 목표를 이용자 관점에서 읽기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_52",
@@ -38,9 +38,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "탐색 주제: 공공관리와 정책 대안 비교. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
       "scenario": "연세대 학부 과목명에 ‘정책집행 및 평가론’이 있다. 가상 주민센터에서 서류 접수 전에 주민들이 오래 기다린다.",
@@ -126,11 +124,11 @@
           "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
         }
       ],
-      "revised_on": "2026-11-19"
+      "revised_on": "2026-11-20"
     },
     {
       "activity_id": "DRAFT-M52-02",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "대기 줄을 줄이는 두 정책안 비교하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_52",
@@ -154,9 +152,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "경험할 주제: 공공관리와 정책 대안 비교. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
       "scenario": "가상 주민센터가 번호표를 도입하는 방안과 혼잡 시간에 추가 창구를 여는 방안을 검토하고 있다.",
@@ -243,11 +239,11 @@
           "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
         }
       ],
-      "revised_on": "2026-11-19"
+      "revised_on": "2026-11-20"
     },
     {
       "activity_id": "DRAFT-M52-03",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "평가 전에 비교할 시간과 집단 정하기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_52",
@@ -271,9 +267,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
       "scenario": "앞 과제에서 고른 방안을 사용한다. 앞 과제를 하지 않았다면 가상의 주민센터가 월요일 오후에 번호표를 처음 도입한다고 가정한다.",
@@ -349,7 +343,7 @@
       ],
       "preference_question_ids": [],
       "preference_mapping_basis": [],
-      "revised_on": "2026-11-19"
+      "revised_on": "2026-11-20"
     }
   ]
 }

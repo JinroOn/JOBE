@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M241_DRAFT",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M241_DRAFT_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M241-01",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "안내 표지에서 먼저 읽힐 정보 고르기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_241",
@@ -38,9 +38,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "탐색 주제: 시각적 위계와 정보 전달. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
       "scenario": "국민대 교과자료는 대비와 강조를 소개한다. 가상 표지는 ‘책 교환 행사, 오후 2시’이며, 보는 사람은 오늘 어떤 행사가 열리는지 알고 싶어 한다.",
@@ -130,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M241-02",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "같은 장소 안내의 글자 위계 두 가지 그리기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_241",
@@ -154,9 +152,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "경험할 주제: 시각적 위계와 정보 전달. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
       "scenario": "가상 표지는 ‘전시실 B, 2층, 오른쪽 화살표’로 구성된다. 같은 문구를 써서 장소를 먼저 보이는 안과 방향을 먼저 보이는 안을 그린다.",
@@ -247,7 +243,7 @@
     },
     {
       "activity_id": "DRAFT-M241-03",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "인쇄 색상이 줄어도 구분되는 표지 만들기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_241",
@@ -271,9 +267,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
       "scenario": "직접 그린 시안이나 다음 가상 표지를 사용한다. ‘전시실 B, 2층’ 아래에 방향 표시가 있고, 표시의 초록색만 오른쪽을 뜻한다.",

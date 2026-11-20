@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M4_DRAFT",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M4_DRAFT_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M4-01",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "과목 이름을 읽고 내 질문 만들기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_4",
@@ -38,9 +38,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "탐색 주제: 국어 표현과 문학적 시점. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
       "scenario": "커리어넷 학과 안내의 과목명 사례는 ‘한국 고전 문학 개론’, ‘한국 현대 문학 개론’, ‘한국어 문법의 이해’다. 과목명으로 알 수 있는 것과 더 확인할 내용을 구분한다.",
@@ -126,11 +124,11 @@
           "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
         }
       ],
-      "revised_on": "2026-11-19"
+      "revised_on": "2026-11-20"
     },
     {
       "activity_id": "DRAFT-M4-02",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "누가 보고 말하는지 비교하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_4",
@@ -154,9 +152,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "경험할 주제: 국어 표현과 문학적 시점. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
       "scenario": "가상 문장 A는 ‘나는 열린 창문 옆에 있는 쪽지를 보았다.’이다. B는 ‘복도에 서 있던 민지는 창문이 열려 있는 것만 보았다.’이다.",
@@ -242,11 +238,11 @@
           "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
         }
       ],
-      "revised_on": "2026-11-19"
+      "revised_on": "2026-11-20"
     },
     {
       "activity_id": "DRAFT-M4-03",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "읽고 난 뒤 더 확인할 점 남기기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_4",
@@ -270,9 +266,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
       "scenario": "앞 활동에서 두 문장을 비교했으면 그 기록을 읽는다. 기록이 없으면 가상 메모 ‘한 사람은 창문만 봤고 다른 사람은 쪽지까지 봤다’를 사용한다.",
@@ -348,7 +342,7 @@
       ],
       "preference_question_ids": [],
       "preference_mapping_basis": [],
-      "revised_on": "2026-11-19"
+      "revised_on": "2026-11-20"
     }
   ]
 }

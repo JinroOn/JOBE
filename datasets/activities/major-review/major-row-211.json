@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M211_DRAFT",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M211_DRAFT_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M211-01",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "치의학의 기초와 심화 교육에서 질문 고르기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_211",
@@ -38,9 +38,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "탐색 주제: 치의학 기초 학습과 형태 기록. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
       "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
@@ -130,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M211-02",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "가상 치아 모형 그림을 관찰 기준으로 정리하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_211",
@@ -154,9 +152,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "경험할 주제: 치의학 기초 학습과 형태 기록. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
       "scenario": "실제 치아 대신 자체 추상 도형A는 둥근면2·모서리1, B는 둥근면1·모서리3으로 제공",
@@ -247,7 +243,7 @@
     },
     {
       "activity_id": "DRAFT-M211-03",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "모형의 관찰 관점에 따른 차이를 적기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_211",
@@ -271,9 +267,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
       "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",

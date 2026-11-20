@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M174_DRAFT",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M174_DRAFT_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M174-01",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "조사 설계와 자료 분석 과목 비교하기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_174",
@@ -38,9 +38,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "탐색 주제: 통계 요약과 분포. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
       "scenario": "서울대 2024 편람의 과목 사례는 ‘표본설계 및 조사실습’과 ‘회귀분석 및 실습’이다. 연세대 응용통계학과도 회귀분석을 안내한다.",
@@ -126,11 +124,11 @@
           "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
         }
       ],
-      "revised_on": "2026-11-19"
+      "revised_on": "2026-11-20"
     },
     {
       "activity_id": "DRAFT-M174-02",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "비율을 비교하기 전에 응답 수 확인하기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_174",
@@ -154,9 +152,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "경험할 주제: 통계 요약과 분포. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
       "scenario": "가상 도서관 설문에서 A모둠 4명 중 3명, B모둠 12명 중 6명이 운영 시간 연장에 찬성했다. 두 모둠에 중복 참여한 응답자는 없다.",
@@ -243,11 +239,11 @@
           "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
         }
       ],
-      "revised_on": "2026-11-19"
+      "revised_on": "2026-11-20"
     },
     {
       "activity_id": "DRAFT-M174-03",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "조사 결과가 설명하는 사람의 범위 적기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_174",
@@ -271,9 +267,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
       "scenario": "가상 도서관 설문에 응답한 사람은 A모둠 4명과 B모둠 12명이다. 시간 연장에 찬성한 사람은 각각 3명과 6명이다. 두 모둠의 응답자는 서로 다르다.",
@@ -349,7 +343,7 @@
       ],
       "preference_question_ids": [],
       "preference_mapping_basis": [],
-      "revised_on": "2026-11-19"
+      "revised_on": "2026-11-20"
     }
   ]
 }

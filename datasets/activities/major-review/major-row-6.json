@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M6_DRAFT",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M6_DRAFT_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M6-01",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "합평에서 확인하고 싶은 표현 고르기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_6",
@@ -38,9 +38,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "탐색 주제: 서사 구성과 퇴고. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
       "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
@@ -130,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M6-02",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "같은 기다림을 두 가지 초안으로 쓰기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_6",
@@ -154,9 +152,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "경험할 주제: 서사 구성과 퇴고. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
       "scenario": "가상 상황: 두 사람이 같은 시간에 하나의 연습실을 예약했다",
@@ -247,7 +243,7 @@
     },
     {
       "activity_id": "DRAFT-M6-03",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "받고 싶은 합평을 한 문장으로 정하기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_6",
@@ -271,9 +267,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
       "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",

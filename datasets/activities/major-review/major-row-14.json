@@ -5,7 +5,7 @@
   "implementation_review_status": "PENDING",
   "domain_review_status": "PENDING",
   "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
-  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M14_DRAFT",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M14_DRAFT_V2",
   "provenance": {
     "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
     "scope": "SINGLE_MAJOR_DEV_REVIEW",
@@ -14,7 +14,7 @@
   "activities": [
     {
       "activity_id": "DRAFT-M14-01",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "중국어 자료를 읽는 두 목적 찾기",
       "kind": "INFORMATION",
       "major_code": "MAJOR_ROW_14",
@@ -38,9 +38,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "탐색 주제: 중국 언어·문학과 자료 확인. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
       "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
@@ -130,7 +128,7 @@
     },
     {
       "activity_id": "DRAFT-M14-02",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "중국어 행사 안내에서 필수 정보 골라 옮기기",
       "kind": "SMALL_TASK",
       "major_code": "MAJOR_ROW_14",
@@ -154,9 +152,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "경험할 주제: 중국 언어·문학과 자료 확인. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
       "scenario": "실제 고전 대신 가상 이야기의 제목 달빛 편지와 사건 요약 세 줄을 제공",
@@ -247,7 +243,7 @@
     },
     {
       "activity_id": "DRAFT-M14-03",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "title": "번역에 추가할 정보의 출처 고르기",
       "kind": "REFLECTION_AND_NEXT_STEP",
       "major_code": "MAJOR_ROW_14",
@@ -271,9 +267,7 @@
         "paid_tools": false,
         "external_account": false,
         "coding_experience": false,
-        "materials": [
-          "종이와 펜"
-        ]
+        "materials": []
       },
       "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
       "scenario": "실제 학생 소감이나 인터뷰를 제공하지 않는다. 사용자의 선택적 개인 기록이다.",
