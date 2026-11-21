@@ -150,6 +150,16 @@ public class OwnedGenerationStore {
         if(limit<1 || limit>25)throw conflict();
         return jdbc.query("SELECT user_id,context_id,purpose,mutation_key FROM exploration_generation_task WHERE execution_mode='MOCK' AND attempt<3 AND (next_attempt_at IS NULL OR next_attempt_at<=UTC_TIMESTAMP(6)) AND (state='QUEUED' OR (state='RUNNING' AND lease_until<=UTC_TIMESTAMP(6))) ORDER BY COALESCE(next_attempt_at,'1000-01-01'),id LIMIT ?",(rs,n)->new Candidate(rs.getLong(1),rs.getLong(2),rs.getString(3),rs.getString(4)),limit);
     }
+    @Transactional(readOnly = true)
+    public List<Candidate> explanationCandidates() {
+        return jdbc.query("""
+                SELECT user_id,context_id,purpose,mutation_key FROM exploration_generation_task
+                WHERE execution_mode='MODEL' AND purpose='EXPLANATION' AND attempt<3
+                  AND (next_attempt_at IS NULL OR next_attempt_at<=UTC_TIMESTAMP(6))
+                  AND (state='QUEUED' OR (state='RUNNING' AND lease_until<=UTC_TIMESTAMP(6)))
+                ORDER BY COALESCE(next_attempt_at,'1000-01-01'),id LIMIT 5
+                """, (rs, n) -> new Candidate(rs.getLong(1), rs.getLong(2), rs.getString(3), rs.getString(4)));
+    }
     @Transactional public int exhaustExpired(){
         return jdbc.update("UPDATE exploration_generation_task SET state='FAILED',failure_code='ATTEMPTS_EXHAUSTED',lease_token=NULL,lease_until=NULL,next_attempt_at=NULL WHERE state='RUNNING' AND attempt>=3 AND lease_until<=UTC_TIMESTAMP(6) LIMIT 25");
     }

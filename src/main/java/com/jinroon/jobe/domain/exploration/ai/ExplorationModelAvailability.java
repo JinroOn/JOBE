@@ -15,6 +15,7 @@ public class ExplorationModelAvailability {
     @Value("${exploration.jobs.erasure.enabled:false}") private boolean erasureEnabled;
     @Value("${exploration.jobs.model-enabled:false}") private boolean modelEnabled;
     @Value("${exploration.evidence.enabled:false}") private boolean evidenceEnabled;
+    @Value("${exploration.explanation.enabled:false}") private boolean explanationEnabled;
 
     boolean devJobsEnabled() {
         return explorationEnabled && erasureEnabled && "DEV".equals(runMode);
@@ -28,5 +29,9 @@ public class ExplorationModelAvailability {
     public boolean availableFor(ExplorationRunMode sessionMode) {
         return sessionMode == ExplorationRunMode.DEV && modelExecutionEnabled()
                 && evidenceEnabled && client.readyForModel();
+    }
+
+    public boolean explanationAvailableFor(ExplorationRunMode sessionMode) {
+        return explanationEnabled && availableFor(sessionMode);
     }
 }

@@ -29,6 +29,7 @@ public class ResultContextService {
     private final ExplorationRuntimePolicy policy;
     private final ExplorationRuntimeCatalog catalogs;
     private final PostResultSupportService support;
+    private final MajorExplanationEvidence majorExplanationEvidence;
     private final ExplorationJson json;
     private final JdbcTemplate jdbc;
     public record Reply(int status,JsonNode body){}
@@ -45,7 +46,7 @@ public class ResultContextService {
 
     @Transactional
     public Reply prepare(long user,long resultId,String key,String type,long expected,String target){
-        validateKey(key);validateType(type);users.requireActive(user);Source source=owned(user,resultId,true);
+        validateKey(key);validateSupportType(type);users.requireActive(user);Source source=owned(user,resultId,true);
         ObjectNode body=json.object();body.put("contextType",type);body.put("expectedSupportRevision",expected);body.put("targetMajorCode",target);
         var request=reserve(user,resultId,key,json.hash(body));
         if(request.getResponseStatus()!=null){JsonNode response=json.read(request.getResponseJson());checked(row(response.path("contextId").asLong(),false),source);return new Reply(request.getResponseStatus(),response);}
@@ -92,13 +93,65 @@ public class ResultContextService {
     }
 
     @Transactional(readOnly=true)
-    public JsonNode get(long user,long contextId){var row=row(contextId,false);Source source=owned(user,number(row,"result_id"),false);return view(row,checked(row,source));}
+    public JsonNode get(long user,long contextId){var row=row(contextId,false);Source source=owned(user,number(row,"result_id"),false);if("EXPLANATION".equals(row.get("context_type")))throw missing();return view(row,checked(row,source));}
 
     @Transactional(readOnly=true)
     public JsonNode list(long user,long resultId,int limit,Long before){
-        Source source=owned(user,resultId,false);List<Map<String,Object>> rows=jdbc.queryForList("SELECT * FROM exploration_result_context WHERE result_id=?"+(before==null?"":" AND id<?")+" ORDER BY id DESC LIMIT ?",before==null?new Object[]{resultId,limit+1}:new Object[]{resultId,before,limit+1});
+        Source source=owned(user,resultId,false);List<Map<String,Object>> rows=jdbc.queryForList("SELECT * FROM exploration_result_context WHERE result_id=? AND context_type IN ('CONSULTATION','PLAN')"+(before==null?"":" AND id<?")+" ORDER BY id DESC LIMIT ?",before==null?new Object[]{resultId,limit+1}:new Object[]{resultId,before,limit+1});
         var out=json.object();var items=out.putArray("items");for(var row:rows.subList(0,Math.min(rows.size(),limit)))items.add(view(row,checked(row,source)));
         boolean more=rows.size()>limit;out.put("hasMore",more);out.set("nextBeforeContextId",json.tree(more?number(rows.get(limit-1),"id"):null));return out;
+    }
+
+    @Transactional
+    public LockedInput prepareExplanation(long user, long resultId, String target) {
+        users.requireActive(user);
+        var source = owned(user, resultId, true);
+        var previous = explanationContext(source, target, true);
+        if (previous != null) return previous;
+        var evidence = majorExplanationEvidence.prepare(user, resultId, target);
+        if (evidence.signals().isEmpty()) {
+            throw new ExplorationApiException(422, "EXPLANATION_ANSWER_EVIDENCE_UNAVAILABLE",
+                    "이 전공에 연결해 설명할 응답 근거가 충분하지 않아요.");
+        }
+        var input = json.object().put("contractVersion", CONTRACT).put("resultType", "EXPLORATION_V1")
+                .put("contextType", "EXPLANATION").put("targetMajorCode", target)
+                .put("runMode", source.session().getRunMode().name()).put("testOnly", evidence.testOnly())
+                .put("generationStatus", "NOT_REQUESTED");
+        var provenance = input.putObject("source").put("resultId", resultId)
+                .put("sessionId", source.session().getId()).put("resultHash", evidence.resultHash())
+                .put("resultContractVersion", source.result().getResultContractVersion())
+                .put("inputHash", source.snapshot().path("inputHash").asText())
+                .put("bundleHash", source.snapshot().path("bundleHash").asText());
+        provenance.set("versions", source.snapshot().path("versions").deepCopy());
+        input.putObject("support").put("revision", 0);
+        var draft = input.putObject("explanation").put("targetName", evidence.majorName());
+        draft.set("signals", json.tree(evidence.signals()));
+        jdbc.update("""
+                INSERT INTO exploration_result_context
+                (result_type,result_id,context_type,target_major_code,support_revision,contract_version,result_hash,input_hash,snapshot_json,created_at)
+                VALUES ('EXPLORATION_V1',?,'EXPLANATION',?,0,?,?,?,?,?)
+                """, resultId, target, CONTRACT, evidence.resultHash(), json.hash(input), json.write(input), LocalDateTime.now());
+        return Objects.requireNonNull(explanationContext(source, target, true));
+    }
+
+    @Transactional(readOnly = true)
+    public LockedInput findExplanation(long user, long resultId, String target) {
+        return explanationContext(owned(user, resultId, false), target, false);
+    }
+
+    private LockedInput explanationContext(Source source, String target, boolean lock) {
+        if (target == null || !target.matches("MAJOR_ROW_[0-9]{1,9}")) {
+            throw new ExplorationApiException(400, "INVALID_REQUEST", "전공 코드 형식을 확인해 주세요.");
+        }
+        validateTarget(source.snapshot(), null, "EXPLANATION", target);
+        var rows = jdbc.queryForList("""
+                SELECT * FROM exploration_result_context
+                WHERE result_id=? AND context_type='EXPLANATION' AND target_major_code=? ORDER BY id DESC LIMIT 2
+                """ + (lock ? " FOR UPDATE" : ""), source.result().getId(), target);
+        if (rows.size() > 1) throw ExplorationApiException.integrity();
+        if (rows.isEmpty()) return null;
+        var row = rows.get(0);
+        return new LockedInput(number(row, "id"), "EXPLANATION", checked(row, source));
     }
 
     /** Short ownership/snapshot read for preparation. No external call occurs while these locks are held. */
@@ -108,7 +161,8 @@ public class ResultContextService {
     /** Future callback must call this inside its final persistence transaction, after the external call. */
     @Transactional(propagation=Propagation.MANDATORY)
     public LockedInput lockForUse(long user,long contextId,String type){
-        validateType(type);users.requireActive(user);var reference=row(contextId,false);Source source=owned(user,number(reference,"result_id"),true);
+        if (!"EXPLANATION".equals(type)) validateSupportType(type);
+        users.requireActive(user);var reference=row(contextId,false);Source source=owned(user,number(reference,"result_id"),true);
         var locked=row(contextId,true);if(!type.equals(locked.get("context_type")))throw new ExplorationApiException(409,"CONTEXT_TYPE_MISMATCH","입력 컨텍스트 용도가 다릅니다.");
         return new LockedInput(contextId,type,checked(locked,source).deepCopy());
     }
@@ -140,7 +194,7 @@ public class ResultContextService {
     private JsonNode view(Map<String,Object> row,JsonNode input){var out=json.object();long id=number(row,"id"),result=number(row,"result_id");out.put("contextId",id);out.put("contextKey","EXPLORATION_V1:CONTEXT:"+id);out.put("contextType",row.get("context_type").toString());out.put("resultType","EXPLORATION_V1");out.put("resultId",result);out.put("resultKey","EXPLORATION_V1:RESULT:"+result);out.put("contractVersion",CONTRACT);out.put("status","PREPARED");out.put("generationStatus","NOT_REQUESTED");out.put("generationAvailable",false);out.put("targetMajorCode",(String)row.get("target_major_code"));out.put("supportRevision",number(row,"support_revision"));out.put("appliedAnswerCount",input.path("support").path("appliedAnswers").size());out.set("versions",input.path("source").path("versions").deepCopy());out.put("inputHash",HexFormat.of().formatHex((byte[])row.get("input_hash")));out.put("createdAt",row.get("created_at").toString());out.put("runMode",input.path("runMode").asText());out.put("testOnly",true);return out;}
     private ExplorationIdempotency reserve(long user,long resultId,String key,byte[] hash){var old=requests.findByUserIdAndOperationAndResourceIdAndIdempotencyKey(user,"CONTEXT_PREPARE",resultId,key);if(old.isPresent()){if(!old.get().hasSameRequest(hash))throw new ExplorationApiException(409,"IDEMPOTENCY_CONFLICT","같은 멱등 키의 요청 내용이 다릅니다.");if(old.get().getResponseStatus()==null)throw ExplorationApiException.integrity();return old.get();}return requests.save(ExplorationIdempotency.reserve(user,"CONTEXT_PREPARE",resultId,key,hash));}
     private static void validateKey(String key){if(key==null||!key.matches("[!-~]{1,128}"))throw new ExplorationApiException(400,"INVALID_REQUEST","멱등 키 형식을 확인해 주세요.");}
-    private static void validateType(String type){if(type==null||!Set.of("PLAN","CONSULTATION").contains(type))throw new ExplorationApiException(400,"INVALID_REQUEST","입력 컨텍스트 용도를 확인해 주세요.");}
+    private static void validateSupportType(String type){if(type==null||!Set.of("PLAN","CONSULTATION").contains(type))throw new ExplorationApiException(400,"INVALID_REQUEST","입력 컨텍스트 용도를 확인해 주세요.");}
     private static long number(Map<String,Object> row,String key){return ((Number)row.get(key)).longValue();}
     private static ExplorationApiException missing(){return new ExplorationApiException(404,"RESOURCE_NOT_FOUND","입력 컨텍스트 또는 결과를 찾을 수 없습니다.");}
 }

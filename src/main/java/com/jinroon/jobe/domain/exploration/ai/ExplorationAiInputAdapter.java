@@ -30,6 +30,7 @@ public class ExplorationAiInputAdapter {
     }
     public JsonNode build(JsonNode context,String requestId){
         if(!ResultContextService.CONTRACT.equals(context.path("contractVersion").asText())||!"EXPLORATION_V1".equals(context.path("resultType").asText())||!"SEMANTIC_CONTRACT_V1_0".equals(context.path("source").path("versions").path("semanticContract").asText())||!context.path("runMode").asText().equals("DEV")||!context.path("testOnly").asBoolean())throw new ExplorationAiContract.Invalid();
+        if ("EXPLANATION".equals(context.path("contextType").asText())) return buildExplanation(context, requestId);
         var r=json.object();r.put("contractVersion",ExplorationAiContract.VERSION);r.put("requestId",requestId);r.put("sourceContextHash",json.hex(context));r.put("purpose",context.path("contextType").asText());r.put("mode","DEV");r.put("testOnly",true);
         var input=r.putObject("input");input.put("diagnosisStatus",context.path("result").path("status").asText());
         var candidates=input.putArray("candidateNames");Set<String> names=new LinkedHashSet<>();context.path("result").path("majorSummaries").forEach(m->names.add(m.path("majorName").asText()));
@@ -39,5 +40,18 @@ public class ExplorationAiInputAdapter {
         var collection=input.putObject("collection");collection.put("initialized",context.path("support").path("initialized").asBoolean());collection.put("applicableAnswerCount",prefs.size());collection.put("budgetLimited",context.path("support").path("collectionBudgetLimited").asBoolean());collection.put("omittedQuestionCount",context.path("support").path("omittedQuestionIds").size());
         var evidence=r.putObject("evidence");evidence.put("approvedOnly",true);evidence.put("bindingStatus","NOT_BOUND");evidence.putNull("datasetVersion");evidence.putArray("referenceKeys");
         r.put("inputHash",contract.inputHash(r));contract.request(r);return r;
+    }
+
+    private JsonNode buildExplanation(JsonNode context, String requestId) {
+        var request = json.object().put("contractVersion", ExplorationAiContract.EXPLANATION_VERSION)
+                .put("requestId", requestId).put("sourceContextHash", json.hex(context))
+                .put("purpose", "EXPLANATION").put("mode", "DEV").put("testOnly", true);
+        request.set("input", context.path("explanation").deepCopy());
+        var evidence = request.putObject("evidence").put("approvedOnly", true).put("bindingStatus", "NOT_BOUND");
+        evidence.putNull("datasetVersion");
+        evidence.putArray("referenceKeys");
+        request.put("inputHash", contract.inputHash(request));
+        contract.request(request);
+        return request;
     }
 }

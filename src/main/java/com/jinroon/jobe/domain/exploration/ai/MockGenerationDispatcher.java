@@ -15,6 +15,22 @@ public class MockGenerationDispatcher {
     @Value("${exploration.jobs.dispatch.enabled:false}") private boolean enabled;
     @Scheduled(fixedDelayString="${exploration.jobs.dispatch.delay-ms:5000}",initialDelayString="${exploration.jobs.dispatch.initial-delay-ms:5000}")
     public void scheduledDrain(){if(enabled)try{drain();}catch(RuntimeException ignored){/* DB unavailable: keep durable work and try a later tick. */}}
+    @Scheduled(fixedDelayString="${exploration.jobs.dispatch.delay-ms:5000}",initialDelayString="${exploration.jobs.dispatch.initial-delay-ms:5000}")
+    public void scheduledExplanationDrain() {
+        if (!execution.readyForExplanationDispatch()) return;
+        try {
+            store.exhaustExpired();
+            for (var task : store.explanationCandidates()) {
+                try {
+                    execution.executeQueuedExplanation(task);
+                } catch (RuntimeException ignored) {
+                    // The durable task tracks the attempt. Do not log personal inputs.
+                }
+            }
+        } catch (RuntimeException ignored) {
+            // A later tick can recover from temporary database unavailability.
+        }
+    }
     @Transactional(propagation=Propagation.NEVER)
     public int drain(){
         if(!enabled || !execution.readyForDispatch())return 0;

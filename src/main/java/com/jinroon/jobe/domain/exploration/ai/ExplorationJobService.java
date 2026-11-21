@@ -20,6 +20,7 @@ public class ExplorationJobService {
     private final OwnedGenerationStore generations;
     @Transactional(propagation=Propagation.NEVER)
     public JsonNode command(long user,long context,String purpose,String mutation,String operation) {
+        if ("EXPLANATION".equals(purpose)) throw new ExplorationJobClient.Unavailable(ExplorationJobClient.Failure.INVALID_REQUEST);
         if(mutation==null || !mutation.matches("[A-Za-z0-9_-]{1,80}"))throw new ExplorationJobClient.Unavailable();
         var snapshot=contexts.readForAdapter(user,context,purpose).snapshot();
         String owner=owners.ownedKey(user);

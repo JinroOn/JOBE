@@ -41,6 +41,7 @@ public class OwnedMockExecutionService {
     }
     @Transactional(propagation=Propagation.NEVER)
     public JsonNode executeModel(long user,long context,String purpose,String mutation){
+        if ("EXPLANATION".equals(purpose)) throw new ExplorationJobClient.Unavailable(ExplorationJobClient.Failure.INVALID_REQUEST);
         requireModelEnabled();
         if(mutation==null || !mutation.matches("[A-Za-z0-9_-]{1,80}"))throw new ExplorationJobClient.Unavailable(ExplorationJobClient.Failure.INVALID_REQUEST);
         var snapshot=contexts.readForAdapter(user,context,purpose).snapshot();String owner=owners.ownedKey(user);
@@ -51,6 +52,27 @@ public class OwnedMockExecutionService {
         return compute(new OwnedGenerationStore.Candidate(user,context,purpose,mutation),lease,true,true);
     }
     public boolean readyForDispatch(){return enabled && availability.devJobsEnabled() && client.readyForMock();}
+    public boolean readyForExplanationDispatch() {
+        return availability.explanationAvailableFor(com.jinroon.jobe.domain.exploration.enums.ExplorationEnums.ExplorationRunMode.DEV);
+    }
+
+    @Transactional(propagation = Propagation.NEVER)
+    public JsonNode executeQueuedExplanation(OwnedGenerationStore.Candidate task) {
+        if (!readyForExplanationDispatch() || !"EXPLANATION".equals(task.purpose())) {
+            throw new ExplorationJobClient.Unavailable(ExplorationJobClient.Failure.CONFIGURATION);
+        }
+        OwnedGenerationStore.Lease lease;
+        try {
+            lease = store.claimModel(task.user(), task.context(), task.purpose(), task.mutation());
+        } catch (org.springframework.dao.TransientDataAccessException | org.springframework.dao.DataAccessResourceFailureException
+                 | org.springframework.transaction.TransactionException e) {
+            throw e;
+        } catch (RuntimeException e) {
+            store.rejectUnclaimed(task);
+            throw e;
+        }
+        return compute(task, lease, true, true);
+    }
     @Transactional(propagation=Propagation.NEVER)
     public JsonNode execute(long user,long context,String purpose,String mutation){
         if(!enabled)throw new ExplorationJobClient.Unavailable();
