@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.jinroon.jobe.domain.exploration.api.ExplorationApiException;
 import com.jinroon.jobe.domain.exploration.catalog.BranchCatalog;
+import com.jinroon.jobe.domain.exploration.display.ComparisonQuestionDisplayCatalog;
+import com.jinroon.jobe.domain.exploration.display.ResultDisplayCatalog;
 import com.jinroon.jobe.domain.exploration.entity.ExplorationSession.VersionBundle;
 import java.util.*;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +20,8 @@ import org.springframework.stereotype.Component;
 public class ExplorationRuntimeCatalog {
     private final JdbcTemplate jdbc;
     private final ExplorationJson json;
-    private final com.jinroon.jobe.domain.exploration.display.ResultDisplayCatalog displayCatalog;
+    private final ResultDisplayCatalog displayCatalog;
+    private final ComparisonQuestionDisplayCatalog comparisonQuestionDisplay;
     @Value("${exploration.runtime.ruleset-version:RULESET_V1_5_IMPLEMENTATION_CANDIDATE}")
     private String rulesetVersion;
 
@@ -74,6 +77,7 @@ public class ExplorationRuntimeCatalog {
         mapping.set("majors", majors);
         payload.set("semantic", json.read(catalogs.get("SEMANTIC_CONTRACT").get("metadata_json").toString()));
         payload.set("displayContent", displayCatalog.snapshot());
+        payload.set("comparisonQuestionDisplay", comparisonQuestionDisplay.snapshot());
         payload.set("cautionTags", json.tree(jdbc.queryForList("SELECT m.major_code AS majorCode,t.tag_code AS tagCode,"
                 + "t.proposal_status AS proposalStatus,t.content_status AS contentStatus,"
                 + "t.implementation_review_status AS implementationReviewStatus,t.domain_review_status AS domainReviewStatus,t.evidence "
@@ -106,7 +110,13 @@ public class ExplorationRuntimeCatalog {
         JsonNode question = null;
         for (JsonNode row : frozen.payload().path("questions")) if (row.path("question_id").asText().equals(key.questionId())) question = row;
         if (question == null) throw ExplorationApiException.integrity();
-        out.set("question", question.deepCopy());
+        ObjectNode displayedQuestion = question.deepCopy();
+        String original = question.path("question_text").asText();
+        if (!key.comparisonSet().isEmpty()) {
+            displayedQuestion.put("question_text", ComparisonQuestionDisplayCatalog.text(
+                    frozen.payload().path("comparisonQuestionDisplay"), key.comparisonSet(), original));
+        }
+        out.set("question", displayedQuestion);
         ArrayNode options = out.putArray("options");
         for (JsonNode row : frozen.payload().path("options")) {
             if (row.path("question_id").asText().equals(key.questionId())

@@ -4,12 +4,18 @@ import static org.assertj.core.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.jinroon.jobe.domain.exploration.api.ExplorationApiException;
+import com.jinroon.jobe.domain.exploration.service.ExplorationJson;
+import com.jinroon.jobe.domain.exploration.service.ExplorationRuntimeCatalog;
 import java.util.*;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
 class ExplorationStageApiTest extends ExplorationApiTestSupport {
+    @Autowired ExplorationRuntimeCatalog catalogs;
+    @Autowired ExplorationJson json;
     private record Run(long id, JsonNode advance) {}
 
     @Test void advanceRejectsUnissuedAndUnansweredRequiredQuestionsWithoutLeavingReservation() throws Exception {
@@ -72,6 +78,10 @@ class ExplorationStageApiTest extends ExplorationApiTestSupport {
         for (JsonNode q : next.path("issuedQuestions")) if (!q.path("comparisonSet").isNull()) {
             comparisons++;
             assertThat(q.path("comparisonSet").asText()).startsWith("CMP-").doesNotContain("_");
+            String label = catalogs.load(id).payload().path("comparisonQuestionDisplay")
+                    .path("labels").path(q.path("comparisonSet").asText()).asText();
+            assertThat(label).isNotBlank();
+            assertThat(q.path("text").asText()).startsWith(label + " 분야를 비교할 때 ");
             assertThat(q.path("optionVariantVersion").asText()).isNotBlank();
             assertThat(q.toString()).doesNotContain("numeric_value", "meaning_code");
             assertThat(q.path("options").toString()).contains("UNSURE");
@@ -80,6 +90,28 @@ class ExplorationStageApiTest extends ExplorationApiTestSupport {
             save(run.id(), q, q.path("options").get(0).path("code").asText(), UUID.randomUUID().toString(), 200);
         }
         assertThat(comparisons).isBetween(1, 3);
+    }
+
+    @Test void comparisonFamiliesUseDifferentPinnedWordingAndKeepLegacyQuestionText() {
+        var current = catalogs.selectForDevelopment();
+        ObjectNode payload = current.payload().deepCopy();
+        payload.remove("comparisonQuestionDisplay");
+        var legacy = new ExplorationRuntimeCatalog.Frozen(current.ids(), json.hex(payload), payload, current.branch());
+        var clinical = current.branch().key(current.branch().question("CMP-BIO-01"), "CMP-CLINICAL");
+        var diagnostics = current.branch().key(current.branch().question("CMP-BIO-01"), "CMP-CLINICAL-TECH");
+        var originalClinical = catalogs.questionSnapshot(legacy, clinical);
+        var originalDiagnostics = catalogs.questionSnapshot(legacy, diagnostics);
+        var newClinical = catalogs.questionSnapshot(current, clinical);
+        var newDiagnostics = catalogs.questionSnapshot(current, diagnostics);
+        assertThat(originalClinical.path("question")).isEqualTo(originalDiagnostics.path("question"));
+        assertThat(newClinical.path("question").path("question_text").asText()).startsWith("임상 돌봄·응급 대응·구강 예방");
+        assertThat(newDiagnostics.path("question").path("question_text").asText()).startsWith("의료 영상·검체 검사");
+        assertThat(newClinical.path("options")).isEqualTo(originalClinical.path("options"));
+        assertThat(newDiagnostics.path("options")).isEqualTo(originalDiagnostics.path("options"));
+
+        var covered = new HashSet<String>();
+        current.payload().path("comparisonQuestionDisplay").path("labels").fieldNames().forEachRemaining(covered::add);
+        assertThat(covered).containsExactlyInAnyOrderElementsOf(current.branch().variants().keySet());
     }
 
     @Test void currentStageAnswersKeepEntryPlanAndFixedCandidatesStable() throws Exception {
