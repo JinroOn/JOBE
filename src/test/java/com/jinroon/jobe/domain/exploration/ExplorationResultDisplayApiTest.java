@@ -15,7 +15,7 @@ class ExplorationResultDisplayApiTest extends CompletedExplorationTestSupport {
     @Test void completionFreezesDisplayAndBothRoutesExposeNamesEvidenceReasonsAndNoRawScores() throws Exception {
         long rid = completedResult(true);
         JsonNode stored = resultSnapshot(rid), result = result(rid, owner, 200);
-        assertThat(stored.path("display").path("version").asText()).isEqualTo("RESULT_DISPLAY_V1_0");
+        assertThat(stored.path("display").path("version").asText()).isEqualTo("RESULT_DISPLAY_V1_1");
         assertThat(result.path("displaySource").asText()).isEqualTo("COMPLETION_SNAPSHOT");
         assertThat(result.path("groups").size()).isBetween(1, 3); assertThat(result.path("majors").size()).isBetween(1, 7);
         assertThat(result.path("majors").findValuesAsText("majorCode")).isEqualTo(stored.path("majorSummaries").findValuesAsText("majorCode"));

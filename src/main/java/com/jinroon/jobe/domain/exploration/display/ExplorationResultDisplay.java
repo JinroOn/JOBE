@@ -28,7 +28,7 @@ public class ExplorationResultDisplay {
 
     public JsonNode project(JsonNode result) {
         if (result.has("display")) return result.path("display").deepCopy();
-        ObjectNode display = build(result, catalog.snapshot());
+        ObjectNode display = build(result, catalog.legacySnapshot());
         display.put("source", "SEALED_RESULT_PROJECTION");
         display.put("cautionAvailability", "UNAVAILABLE");
         display.put("cautionUnavailableReason", "APPROVAL_SNAPSHOT_NOT_AVAILABLE");
