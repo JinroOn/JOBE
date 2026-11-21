@@ -10,22 +10,23 @@ from pydantic import Field, ValidationError, create_model
 from app.exploration_consultation_example import (
     SINGLE_EXAMPLE_INSTRUCTIONS, SINGLE_LEARNING_EXAMPLE, SingleExampleDraft, render_single_example,
 )
-from app.exploration_plan_draft import Plan12Draft, PLAN12_INSTRUCTIONS, excerpt_candidates, render_plan_draft
+from app.exploration_plan_draft import (
+    Plan12Draft, PLAN12_INSTRUCTIONS, SENTENCE_BOUNDARY, excerpt_candidates, render_plan_draft,
+)
 from app.exploration_plan_scenarios import FICTIONAL_SCENARIOS
 from app.exploration_contract import (
-    ConsultationResult, PlanResult, Plan12Result, References, StrictModel, text, validate_response,
+    ConsultationResult, PlanResult, Plan12Result, StrictModel, text, validate_response,
 )
 
 PROMPT_VERSION='EXPLORATION_MODEL_V1_0'
 CONVERSATION_PROMPT_VERSION='EXPLORATION_CONVERSATION_V1_3'
 PLAN12_PROMPT_VERSION='EXPLORATION_PLAN12_V1_10'
-EXPLANATION_PROMPT_VERSION = 'EXPLORATION_MAJOR_EXPLANATION_V1_2'
+EXPLANATION_PROMPT_VERSION = 'EXPLORATION_MAJOR_EXPLANATION_V1_3'
 
 EXPLANATION_INSTRUCTIONS = (
     ' Explain how a supplied answer connects to a concrete topic or activity supported by the approved major text. '
-    'For each connection, select one answerChoice from the supplied answers and cite its approved major evidence. '
-    'Set evidenceExcerpt to a short, exact phrase from the cited fact. '
-    'If a fact only names a course, repeat its exact course name as an exploration example. '
+    'For each connection, select one answerChoice and one evidenceChoice from the supplied options. '
+    'The server will quote the exact selected source text. Do not output a quotation or a reference identifier. '
     'Do not infer course content, methods, competencies, or outcomes from a course name. '
     'Read the question and answer together rather than inferring intent from a metric or a rating direction alone. '
     'Treat neutral, negative, inconsistent, or single responses as tentative or open questions for exploration. '
@@ -39,8 +40,7 @@ EXPLANATION_INSTRUCTIONS = (
 
 class ExplanationDraftConnection(StrictModel):
     answerChoice: str
-    referenceKeys: References
-    evidenceExcerpt: text(180)
+    evidenceChoice: str
     explorationQuestion: text(170)
 
 
@@ -49,10 +49,11 @@ class ExplanationDraft(StrictModel):
     connections: Annotated[list[ExplanationDraftConnection], Field(max_length=2)]
 
 
-def explanation_draft_schema(choices: tuple[str, ...]):
+def explanation_draft_schema(answers: tuple[str, ...], excerpts: tuple[str, ...]):
     connection = create_model(
         'MajorExplanationConnection', __base__=ExplanationDraftConnection,
-        answerChoice=(Literal[choices], ...),
+        answerChoice=(Literal[answers], ...),
+        evidenceChoice=(Literal[excerpts], ...),
     )
     return create_model(
         'MajorExplanationDraft', __base__=ExplanationDraft,
@@ -83,7 +84,6 @@ class ExplanationOutputIssue(StrEnum):
     TARGET = 'EXPLANATION_TARGET_MISMATCH'
     UNKNOWN_ANSWER = 'EXPLANATION_ANSWER_REFERENCE_UNKNOWN'
     DUPLICATE_ANSWER = 'EXPLANATION_ANSWER_REFERENCE_DUPLICATE'
-    REFERENCE = 'EXPLANATION_APPROVED_REFERENCE_INVALID'
     EXCERPT = 'EXPLANATION_EXCERPT_MISMATCH'
     QUESTION_FORMAT = 'EXPLANATION_QUESTION_FORMAT_INVALID'
     RESPONSE_CONTRACT = 'EXPLANATION_RESPONSE_CONTRACT_INVALID'
@@ -94,6 +94,25 @@ class ModelFault(RuntimeError):
         super().__init__('Exploration model consumer failed')
         self.code,self.retryable=code,retryable
         self.output_issue = output_issue
+
+
+EXPLANATION_RECOVERABLE_OUTPUT = {
+    ExplanationOutputIssue.PROVIDER_PARSE, ExplanationOutputIssue.DRAFT_SCHEMA,
+    ExplanationOutputIssue.EXCERPT, ExplanationOutputIssue.QUESTION_FORMAT,
+}
+
+
+def explanation_excerpts(facts: list[dict]) -> dict[str, tuple[str, str]]:
+    choices = {}
+    for fact in facts:
+        for sentence in SENTENCE_BOUNDARY.split(fact['text']):
+            excerpt = sentence.strip()[:180].rstrip()
+            if not excerpt:
+                continue
+            choices[f'E{len(choices) + 1}'] = (fact['referenceKey'], excerpt)
+            if len(choices) == 8:
+                return choices
+    return choices
 
 
 class ExplorationModel:
@@ -138,10 +157,28 @@ class ExplorationModel:
         self.output_diagnostic = None
         self.timings={name:None for name in ('preparationMs','modelSetupMs','providerWaitMs','validationAndRenderMs','cleanupMs','totalMs')}
         started=time.perf_counter()
-        try:return asyncio.run(self._generate(request,facts))
+        try:return asyncio.run(self._generate_with_recovery(request,facts))
         finally:self.timings['totalMs']=round((time.perf_counter()-started)*1000,3)
 
-    async def _generate(self,request,facts):
+    async def _generate_with_recovery(self, request, facts):
+        from app.exploration_contract import EXPLANATION_VERSION
+        version = request.get('contractVersion') if isinstance(request, dict) else getattr(request, 'contractVersion', None)
+        if version != EXPLANATION_VERSION:
+            return await self._generate(request, facts)
+        cutoff = time.perf_counter() + min(28, 2 * self.explanation_timeout)
+        try:
+            return await self._generate(request, facts, cutoff=cutoff)
+        except ModelFault as first:
+            if first.output_issue not in EXPLANATION_RECOVERABLE_OUTPUT or time.perf_counter() >= cutoff:
+                raise
+            try:
+                return await self._generate(request, facts, cutoff=cutoff, retry_output=True)
+            except ModelFault as last:
+                if last.retryable:
+                    raise first from None
+                raise
+
+    async def _generate(self,request,facts, *, cutoff=None, retry_output=False):
         preparation_started=time.perf_counter()
         from langchain_core.messages import SystemMessage,HumanMessage
         from langchain_openai import ChatOpenAI
@@ -159,6 +196,7 @@ class ExplorationModel:
         single_example = self.conversation and SINGLE_LEARNING_EXAMPLE.search(request['input']['conversation']['question'])
         model_input = request['input']
         answer_choices = {}
+        excerpts = {}
         if self.explanation:
             model_signals = []
             for index, signal in enumerate(model_input['signals'], 1):
@@ -168,12 +206,15 @@ class ExplorationModel:
                     key: value for key, value in signal.items() if key != 'questionId'
                 }))
             model_input = {'targetName': model_input['targetName'], 'signals': model_signals}
+            excerpts = explanation_excerpts(facts)
         schema = SingleExampleDraft if single_example else (
-            explanation_draft_schema(tuple(answer_choices)) if self.explanation
+            explanation_draft_schema(tuple(answer_choices), tuple(excerpts)) if self.explanation
             else ConsultationResult if request['purpose']=='CONSULTATION'
             else Plan12Draft if self.plan12 else PlanResult
         )
         evidence = facts
+        if self.explanation:
+            evidence = [{'evidenceChoice': choice, 'text': excerpt} for choice, (_, excerpt) in excerpts.items()]
         if self.plan12:
             fact = {key: value for key, value in facts[0].items() if key != 'referenceKey'}
             fact['excerptCandidates'] = [{'index': index, 'text': sentence}
@@ -194,7 +235,8 @@ class ExplorationModel:
             'Return only the requested structured result. Do not output identities, internal paths or audit metadata.'
             + (SINGLE_EXAMPLE_INSTRUCTIONS if single_example else CONVERSATION_INSTRUCTIONS if self.conversation else '')
             + (EXPLANATION_INSTRUCTIONS if self.explanation else '')
-            + (PLAN12_INSTRUCTIONS if self.plan12 else ' Cite only supplied referenceKey values.'))),
+            + (PLAN12_INSTRUCTIONS if self.plan12 else '' if self.explanation else ' Cite only supplied referenceKey values.')
+            + (' Correct the output format using only listed choices and one short question per connection.' if retry_output else ''))),
             HumanMessage(content=payload)]
         self.timings['preparationMs']=round((time.perf_counter()-preparation_started)*1000,3)
         model=None
@@ -203,12 +245,20 @@ class ExplorationModel:
         try:
             factory=self.factory if self.factory is not None else ChatOpenAI
             deadline=self.plan_timeout if self.plan12 else self.explanation_timeout if self.explanation else self.timeout
+            if cutoff is not None:
+                deadline = min(deadline, cutoff - time.perf_counter())
+                if deadline <= 0:
+                    raise ModelFault('MODEL_TIMEOUT', True)
             started=time.perf_counter()
             try:
                 model=factory(model=self.model,api_key=self.key,base_url=self.base,timeout=deadline,max_retries=0,max_tokens=6000 if self.plan12 else 1600)
                 structured=model.with_structured_output(schema, include_raw=True) if diagnose_output else model.with_structured_output(schema)
             finally:self.timings['modelSetupMs']=round((time.perf_counter()-started)*1000,3)
             started=time.perf_counter()
+            if cutoff is not None:
+                deadline = min(deadline, cutoff - started)
+                if deadline <= 0:
+                    raise ModelFault('MODEL_TIMEOUT', True)
             try:generated=await asyncio.wait_for(structured.ainvoke(messages),timeout=deadline)
             finally:self.timings['providerWaitMs']=round((time.perf_counter()-started)*1000,3)
             if diagnose_output:
@@ -225,7 +275,7 @@ class ExplorationModel:
                 content=generated.model_dump() if hasattr(generated,'model_dump') else generated
                 if self.plan12:content=render_plan_draft(content,facts)
                 if single_example:content=render_single_example(content,facts)
-                if self.explanation:content=self._render_explanation(content, facts, model_input['targetName'], answer_choices)
+                if self.explanation:content=self._render_explanation(content, excerpts, model_input['targetName'], answer_choices)
                 return self._validated_result(request,content)
             finally:self.timings['validationAndRenderMs']=round((time.perf_counter()-started)*1000,3)
         except (asyncio.TimeoutError,TimeoutError):raise ModelFault('MODEL_TIMEOUT',True) from None
@@ -244,11 +294,14 @@ class ExplorationModel:
                 if self.explanation:
                     reason = (ExplanationOutputIssue.PROVIDER_PARSE if stage == 'PROVIDER_PARSING'
                               else ExplanationOutputIssue.RESPONSE_CONTRACT)
-                    if isinstance(error, ValidationError) and any(
-                        item['type'] == 'literal_error' and item['loc'][-1:] == ('answerChoice',)
-                        for item in error.errors(include_input=False, include_context=False, include_url=False)
-                    ):
-                        reason = ExplanationOutputIssue.UNKNOWN_ANSWER
+                    if isinstance(error, ValidationError):
+                        invalid = {item['loc'][-1:] for item in
+                                   error.errors(include_input=False, include_context=False, include_url=False)
+                                   if item['type'] == 'literal_error'}
+                        if ('answerChoice',) in invalid:
+                            reason = ExplanationOutputIssue.UNKNOWN_ANSWER
+                        elif ('evidenceChoice',) in invalid:
+                            reason = ExplanationOutputIssue.EXCERPT
                     raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=reason) from None
                 raise ModelFault('MODEL_OUTPUT_INVALID') from None
             # Only status/category is used; never propagate provider messages, request bodies or keys.
@@ -270,14 +323,13 @@ class ExplorationModel:
 
             self.timings['cleanupMs']=round((time.perf_counter()-cleanup_started)*1000,3)
 
-    def _render_explanation(self, content, facts, target_name, answer_choices):
+    def _render_explanation(self, content, excerpts, target_name, answer_choices):
         try:
             draft = ExplanationDraft.model_validate(content)
         except ValidationError:
             raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.DRAFT_SCHEMA) from None
         if draft.targetName != target_name:
             raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.TARGET)
-        texts = {fact['referenceKey']: fact['text'] for fact in facts}
         used_answers = set()
         connections = []
         for row in draft.connections:
@@ -287,17 +339,17 @@ class ExplorationModel:
             if question_id in used_answers:
                 raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.DUPLICATE_ANSWER)
             used_answers.add(question_id)
-            if len(set(row.referenceKeys)) != len(row.referenceKeys) or any(key not in texts for key in row.referenceKeys):
-                raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.REFERENCE)
             question = row.explorationQuestion.strip()
-            if not any(row.evidenceExcerpt in texts.get(key, '') for key in row.referenceKeys):
+            selected_excerpt = excerpts.get(row.evidenceChoice)
+            if selected_excerpt is None:
                 raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.EXCERPT)
+            reference, quote = selected_excerpt
             if not question.endswith('?') or any(mark in question[:-1] for mark in ('.', '!', '?', '\n')):
                 raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.QUESTION_FORMAT)
             connections.append({
                 'questionId': question_id,
-                'referenceKeys': row.referenceKeys,
-                'connection': f'전공 자료에서 확인한 내용은 “{row.evidenceExcerpt}”예요. {question}',
+                'referenceKeys': [reference],
+                'connection': f'전공 자료에서 확인한 내용은 “{quote}”예요. {question}',
             })
         return {'targetName': draft.targetName, 'connections': connections}
 

@@ -19,7 +19,7 @@ public class ExplorationAiContract {
         return switch (request.path("contractVersion").asText()) {
             case PLAN12_VERSION -> "EXPLORATION_PLAN12_V1_10";
             case CONVERSATION_VERSION -> "EXPLORATION_CONVERSATION_V1_3";
-            case EXPLANATION_VERSION -> "EXPLORATION_MAJOR_EXPLANATION_V1_2";
+            case EXPLANATION_VERSION -> "EXPLORATION_MAJOR_EXPLANATION_V1_3";
             default -> "EXPLORATION_MODEL_V1_0";
         };
     }
