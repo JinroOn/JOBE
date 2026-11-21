@@ -4,25 +4,26 @@ import json
 import os
 import time
 from dataclasses import asdict
-from typing import Annotated
-from pydantic import Field
+from enum import StrEnum
+from typing import Annotated, Literal
+from pydantic import Field, ValidationError, create_model
 from app.exploration_consultation_example import (
     SINGLE_EXAMPLE_INSTRUCTIONS, SINGLE_LEARNING_EXAMPLE, SingleExampleDraft, render_single_example,
 )
 from app.exploration_plan_draft import Plan12Draft, PLAN12_INSTRUCTIONS, excerpt_candidates, render_plan_draft
 from app.exploration_plan_scenarios import FICTIONAL_SCENARIOS
 from app.exploration_contract import (
-    ConsultationResult, PlanResult, Plan12Result, QuestionId, References, StrictModel, text, validate_response,
+    ConsultationResult, PlanResult, Plan12Result, References, StrictModel, text, validate_response,
 )
 
 PROMPT_VERSION='EXPLORATION_MODEL_V1_0'
 CONVERSATION_PROMPT_VERSION='EXPLORATION_CONVERSATION_V1_3'
 PLAN12_PROMPT_VERSION='EXPLORATION_PLAN12_V1_10'
-EXPLANATION_PROMPT_VERSION = 'EXPLORATION_MAJOR_EXPLANATION_V1_1'
+EXPLANATION_PROMPT_VERSION = 'EXPLORATION_MAJOR_EXPLANATION_V1_2'
 
 EXPLANATION_INSTRUCTIONS = (
     ' Explain how a supplied answer connects to a concrete topic or activity supported by the approved major text. '
-    'Each connection must identify one supplied questionId and cite its approved major evidence. '
+    'For each connection, select one answerChoice from the supplied answers and cite its approved major evidence. '
     'Set evidenceExcerpt to a short, exact phrase from the cited fact. '
     'If a fact only names a course, repeat its exact course name as an exploration example. '
     'Do not infer course content, methods, competencies, or outcomes from a course name. '
@@ -37,7 +38,7 @@ EXPLANATION_INSTRUCTIONS = (
 
 
 class ExplanationDraftConnection(StrictModel):
-    questionId: QuestionId
+    answerChoice: str
     referenceKeys: References
     evidenceExcerpt: text(180)
     explorationQuestion: text(170)
@@ -46,6 +47,17 @@ class ExplanationDraftConnection(StrictModel):
 class ExplanationDraft(StrictModel):
     targetName: text(100)
     connections: Annotated[list[ExplanationDraftConnection], Field(max_length=2)]
+
+
+def explanation_draft_schema(choices: tuple[str, ...]):
+    connection = create_model(
+        'MajorExplanationConnection', __base__=ExplanationDraftConnection,
+        answerChoice=(Literal[choices], ...),
+    )
+    return create_model(
+        'MajorExplanationDraft', __base__=ExplanationDraft,
+        connections=(Annotated[list[connection], Field(max_length=2)], ...),
+    )
 
 CONVERSATION_INSTRUCTIONS = (
     ' Answer input.conversation.question in summary first. Use history only as dialogue context, never as approved evidence. '
@@ -65,10 +77,23 @@ CONVERSATION_INSTRUCTIONS = (
 )
 
 
+class ExplanationOutputIssue(StrEnum):
+    PROVIDER_PARSE = 'EXPLANATION_PROVIDER_PARSE_FAILED'
+    DRAFT_SCHEMA = 'EXPLANATION_DRAFT_SCHEMA_INVALID'
+    TARGET = 'EXPLANATION_TARGET_MISMATCH'
+    UNKNOWN_ANSWER = 'EXPLANATION_ANSWER_REFERENCE_UNKNOWN'
+    DUPLICATE_ANSWER = 'EXPLANATION_ANSWER_REFERENCE_DUPLICATE'
+    REFERENCE = 'EXPLANATION_APPROVED_REFERENCE_INVALID'
+    EXCERPT = 'EXPLANATION_EXCERPT_MISMATCH'
+    QUESTION_FORMAT = 'EXPLANATION_QUESTION_FORMAT_INVALID'
+    RESPONSE_CONTRACT = 'EXPLANATION_RESPONSE_CONTRACT_INVALID'
+
+
 class ModelFault(RuntimeError):
-    def __init__(self,code,retryable=False):
+    def __init__(self, code, retryable=False, *, output_issue: ExplanationOutputIssue | None = None):
         super().__init__('Exploration model consumer failed')
         self.code,self.retryable=code,retryable
+        self.output_issue = output_issue
 
 
 class ExplorationModel:
@@ -132,8 +157,20 @@ class ExplorationModel:
                 if set(fact)!={'referenceKey','majorName','chunkType','text'} or fact['chunkType'] not in allowed_chunks or not isinstance(fact['text'],str) or not fact['text'].strip() or len(fact['text'])>1600:raise ValueError()
         except (ContractViolation,ValueError,TypeError,KeyError):raise ModelFault('MODEL_INPUT_INVALID') from None
         single_example = self.conversation and SINGLE_LEARNING_EXAMPLE.search(request['input']['conversation']['question'])
+        model_input = request['input']
+        answer_choices = {}
+        if self.explanation:
+            model_signals = []
+            for index, signal in enumerate(model_input['signals'], 1):
+                choice = f'A{index}'
+                answer_choices[choice] = signal['questionId']
+                model_signals.append(dict(answerChoice=choice, **{
+                    key: value for key, value in signal.items() if key != 'questionId'
+                }))
+            model_input = {'targetName': model_input['targetName'], 'signals': model_signals}
         schema = SingleExampleDraft if single_example else (
-            ExplanationDraft if self.explanation else ConsultationResult if request['purpose']=='CONSULTATION'
+            explanation_draft_schema(tuple(answer_choices)) if self.explanation
+            else ConsultationResult if request['purpose']=='CONSULTATION'
             else Plan12Draft if self.plan12 else PlanResult
         )
         evidence = facts
@@ -142,7 +179,7 @@ class ExplorationModel:
             fact['excerptCandidates'] = [{'index': index, 'text': sentence}
                                          for index, sentence in enumerate(excerpt_candidates(fact['text']), 1)]
             evidence = [fact]
-        data={'purpose':request['purpose'],'input':request['input'],'evidence':evidence}
+        data={'purpose':request['purpose'],'input':model_input,'evidence':evidence}
         if self.plan12:
             data['fictionalScenarios'] = [{'index': index, **asdict(scenario)}
                                           for index, scenario in enumerate(FICTIONAL_SCENARIOS, 1)]
@@ -188,14 +225,13 @@ class ExplorationModel:
                 content=generated.model_dump() if hasattr(generated,'model_dump') else generated
                 if self.plan12:content=render_plan_draft(content,facts)
                 if single_example:content=render_single_example(content,facts)
-                if self.explanation:content=self._render_explanation(content, facts)
+                if self.explanation:content=self._render_explanation(content, facts, model_input['targetName'], answer_choices)
                 return self._validated_result(request,content)
             finally:self.timings['validationAndRenderMs']=round((time.perf_counter()-started)*1000,3)
         except (asyncio.TimeoutError,TimeoutError):raise ModelFault('MODEL_TIMEOUT',True) from None
         except ModelFault:raise
         except Exception as error:
             from app.exploration_contract import ContractViolation
-            from pydantic import ValidationError
             from langchain_core.exceptions import OutputParserException
             output_errors = (ContractViolation,ValidationError,OutputParserException)
             if diagnose_output:
@@ -205,6 +241,15 @@ class ExplorationModel:
                 if isinstance(error, output_errors):
                     self.output_diagnostic = output_failure(stage, error)
             if isinstance(error, output_errors):
+                if self.explanation:
+                    reason = (ExplanationOutputIssue.PROVIDER_PARSE if stage == 'PROVIDER_PARSING'
+                              else ExplanationOutputIssue.RESPONSE_CONTRACT)
+                    if isinstance(error, ValidationError) and any(
+                        item['type'] == 'literal_error' and item['loc'][-1:] == ('answerChoice',)
+                        for item in error.errors(include_input=False, include_context=False, include_url=False)
+                    ):
+                        reason = ExplanationOutputIssue.UNKNOWN_ANSWER
+                    raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=reason) from None
                 raise ModelFault('MODEL_OUTPUT_INVALID') from None
             # Only status/category is used; never propagate provider messages, request bodies or keys.
             status=getattr(error,'status_code',None)
@@ -225,18 +270,32 @@ class ExplorationModel:
 
             self.timings['cleanupMs']=round((time.perf_counter()-cleanup_started)*1000,3)
 
-    def _render_explanation(self, content, facts):
-        draft = ExplanationDraft.model_validate(content)
+    def _render_explanation(self, content, facts, target_name, answer_choices):
+        try:
+            draft = ExplanationDraft.model_validate(content)
+        except ValidationError:
+            raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.DRAFT_SCHEMA) from None
+        if draft.targetName != target_name:
+            raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.TARGET)
         texts = {fact['referenceKey']: fact['text'] for fact in facts}
+        used_answers = set()
         connections = []
         for row in draft.connections:
+            question_id = answer_choices.get(row.answerChoice)
+            if question_id is None:
+                raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.UNKNOWN_ANSWER)
+            if question_id in used_answers:
+                raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.DUPLICATE_ANSWER)
+            used_answers.add(question_id)
+            if len(set(row.referenceKeys)) != len(row.referenceKeys) or any(key not in texts for key in row.referenceKeys):
+                raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.REFERENCE)
             question = row.explorationQuestion.strip()
             if not any(row.evidenceExcerpt in texts.get(key, '') for key in row.referenceKeys):
-                raise ModelFault('MODEL_OUTPUT_INVALID')
+                raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.EXCERPT)
             if not question.endswith('?') or any(mark in question[:-1] for mark in ('.', '!', '?', '\n')):
-                raise ModelFault('MODEL_OUTPUT_INVALID')
+                raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.QUESTION_FORMAT)
             connections.append({
-                'questionId': row.questionId,
+                'questionId': question_id,
                 'referenceKeys': row.referenceKeys,
                 'connection': f'전공 자료에서 확인한 내용은 “{row.evidenceExcerpt}”예요. {question}',
             })
@@ -246,8 +305,6 @@ class ExplorationModel:
         response={**{k:request[k] for k in ('contractVersion','requestId','inputHash','purpose')},
                   'status':'SUCCEEDED','changesRecommendation':False,'reasonCode':None,'result':content}
         if self.explanation:
-            if content['targetName'] != request['input']['targetName']:
-                raise ModelFault('MODEL_OUTPUT_INVALID')
             if not content['connections']:
                 response.update(status='DECLINED', reasonCode='POLICY_RESTRICTION', result=None)
         validated=validate_response(request,response)

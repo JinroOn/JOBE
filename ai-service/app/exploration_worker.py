@@ -5,6 +5,7 @@ PostgreSQL completion protects leases, cancellation, erasure and current evidenc
 it does not prove a still-active account in the other database.
 """
 from copy import deepcopy
+import logging
 from sqlalchemy import select,func
 from app.exploration_jobs import ExplorationJobStore, ExplorationJob, JobConflict
 from app.exploration_contract import ContractViolation
@@ -13,6 +14,8 @@ from app.rag.exploration_binding import (
     EvidenceBinding, EvidenceIntegrityError, EvidenceNoLongerAvailable,
     ExplorationEvidenceBinder,
 )
+
+logger = logging.getLogger(__name__)
 
 
 def mock_response(request: dict, facts: list[dict]) -> dict:
@@ -82,9 +85,15 @@ class MockExplorationWorker:
             with self.sessions() as db:
                 store=self._store(db);row=store._locked(owner,job)
                 if row.state!='LEASED' or row.lease_token!=lease:raise JobConflict()
-                if failure.retryable:store.retry(owner,job,lease)
-                else:row.state,row.reason='BLOCKED',failure.code;row.lease_token=row.lease_until=None
+                if failure.retryable:
+                    store.retry(owner,job,lease)
+                else:
+                    row.state = 'BLOCKED'
+                    row.reason = failure.output_issue.value if failure.output_issue is not None else failure.code
+                    row.lease_token = row.lease_until = None
                 db.commit()
+            if failure.output_issue is not None:
+                logger.warning("Explanation output rejected jobId=%d reason=%s", job, failure.output_issue.value)
             raise
 
 

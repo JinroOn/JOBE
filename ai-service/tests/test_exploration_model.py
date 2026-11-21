@@ -1,7 +1,8 @@
 import asyncio
 import json
 import pytest
-from app.exploration_model import ExplorationModel,ModelFault
+from pydantic import ValidationError
+from app.exploration_model import ExplanationOutputIssue, ExplorationModel, ModelFault
 from app.exploration_contract import EXPLANATION_VERSION, input_hash
 from test_exploration_evidence_binding import request
 
@@ -28,36 +29,75 @@ class FakeChat:
     async def ainvoke(self,messages):self.messages=messages;return self.result
 
 
-@pytest.mark.parametrize('outcome', ['supported', 'statement', 'no-match', 'invented-quote'])
-def test_major_explanation_uses_bound_facts_and_can_decline(settings, outcome):
+@pytest.mark.parametrize(('outcome', 'issue'), [
+    ('supported', None),
+    ('second-answer', None),
+    ('no-match', None),
+    ('statement', ExplanationOutputIssue.QUESTION_FORMAT),
+    ('invented-quote', ExplanationOutputIssue.EXCERPT),
+    ('wrong-answer', ExplanationOutputIssue.UNKNOWN_ANSWER),
+    ('provider-rejected-answer', ExplanationOutputIssue.UNKNOWN_ANSWER),
+    ('duplicate-answer', ExplanationOutputIssue.DUPLICATE_ANSWER),
+    ('wrong-reference', ExplanationOutputIssue.REFERENCE),
+    ('wrong-target', ExplanationOutputIssue.TARGET),
+    ('wrong-shape', ExplanationOutputIssue.DRAFT_SCHEMA),
+])
+def test_major_explanation_uses_bound_facts_and_reports_failed_condition(settings, outcome, issue):
     value, facts = bound()
     signal = {'kind': 'ACTIVITY', 'metricCode': 'ACT_DES', 'questionId': 'ACT-DES-01',
               'questionText': '설계에 관심이 있나요?', 'answerText': '보통이에요.',
               'direction': 'NEUTRAL', 'validResponseCount': 1, 'inconsistent': False}
     value.update(contractVersion=EXPLANATION_VERSION, purpose='EXPLANATION',
                  input={'targetName': 'TEST', 'signals': [signal]})
+    if outcome == 'second-answer':
+        value['input']['signals'].append(dict(signal, questionId='ACT-DES-02'))
     value['inputHash'] = input_hash(value)
     facts[0]['text'] = '전공에서는 설계 활동을 진행한다.'
     question = '설계 활동을 더 살펴볼까요?' if outcome != 'statement' else '이 과목을 배우면 능력이 향상됩니다.'
     quote = '실습 과정' if outcome == 'invented-quote' else '설계 활동'
-    draft = [{'questionId': 'ACT-DES-01', 'referenceKeys': [REF], 'evidenceExcerpt': quote,
+    draft = [{'answerChoice': 'A2' if outcome == 'second-answer' else 'A1',
+              'referenceKeys': [REF], 'evidenceExcerpt': quote,
               'explorationQuestion': question}] if outcome != 'no-match' else []
-    chat = FakeChat({'targetName': 'TEST', 'connections': draft})
+    if outcome in {'wrong-answer', 'provider-rejected-answer'}:
+        draft[0]['answerChoice'] = 'A2'
+    if outcome == 'duplicate-answer':
+        draft.append(draft[0].copy())
+    if outcome == 'wrong-reference':
+        draft[0]['referenceKeys'] = ['unbound-ref']
+    if outcome == 'wrong-shape':
+        draft[0].pop('evidenceExcerpt')
+    class ValidatingChat(FakeChat):
+        async def ainvoke(self, messages):
+            return self.schema.model_validate(await super().ainvoke(messages))
+
+    chat_type = ValidatingChat if outcome == 'provider-rejected-answer' else FakeChat
+    chat = chat_type({'targetName': 'OTHER' if outcome == 'wrong-target' else 'TEST', 'connections': draft})
     model = ExplorationModel(chat)
-    if outcome in {'invented-quote', 'statement'}:
+    if issue is not None:
         with pytest.raises(ModelFault) as error:
             model.generate(value, facts)
         assert error.value.code == 'MODEL_OUTPUT_INVALID'
+        assert error.value.output_issue == issue and not error.value.retryable
         return
     output = model.generate(value, facts)
-    connection = {'questionId': 'ACT-DES-01', 'referenceKeys': [REF],
+    connection = {'questionId': 'ACT-DES-02' if outcome == 'second-answer' else 'ACT-DES-01',
+                  'referenceKeys': [REF],
                   'connection': '전공 자료에서 확인한 내용은 “설계 활동”예요. 설계 활동을 더 살펴볼까요?'}
     assert output['status'] == ('SUCCEEDED' if draft else 'DECLINED')
     assert output['result'] == ({'targetName': 'TEST', 'connections': [connection]} if draft else None)
-    assert json.loads(chat.messages[1].content)['input']['signals'] == [signal]
+    provider_signals = json.loads(chat.messages[1].content)['input']['signals']
+    assert [item['answerChoice'] for item in provider_signals] == [
+        f'A{index}' for index in range(1, len(value['input']['signals']) + 1)
+    ]
+    assert all('questionId' not in item for item in provider_signals)
+    with pytest.raises(ValidationError):
+        chat.schema.model_validate({'targetName': 'TEST', 'connections': [{
+            'answerChoice': 'A3', 'referenceKeys': [REF], 'evidenceExcerpt': quote,
+            'explorationQuestion': question,
+        }]})
     assert 'Treat neutral' in chat.messages[0].content
     assert chat.settings['timeout'] == 12
-    assert model.metadata['promptVersion'] == 'EXPLORATION_MAJOR_EXPLANATION_V1_1'
+    assert model.metadata['promptVersion'] == 'EXPLORATION_MAJOR_EXPLANATION_V1_2'
 
 
 @pytest.mark.parametrize('purpose',['CONSULTATION','PLAN'])
