@@ -28,8 +28,8 @@ class FakeChat:
     async def ainvoke(self,messages):self.messages=messages;return self.result
 
 
-@pytest.mark.parametrize('connects', [True, False])
-def test_major_explanation_uses_bound_facts_and_can_decline(settings, connects):
+@pytest.mark.parametrize('outcome', ['supported', 'statement', 'no-match', 'invented-quote'])
+def test_major_explanation_uses_bound_facts_and_can_decline(settings, outcome):
     value, facts = bound()
     signal = {'kind': 'ACTIVITY', 'metricCode': 'ACT_DES', 'questionId': 'ACT-DES-01',
               'questionText': '설계에 관심이 있나요?', 'answerText': '보통이에요.',
@@ -37,16 +37,27 @@ def test_major_explanation_uses_bound_facts_and_can_decline(settings, connects):
     value.update(contractVersion=EXPLANATION_VERSION, purpose='EXPLANATION',
                  input={'targetName': 'TEST', 'signals': [signal]})
     value['inputHash'] = input_hash(value)
-    connections = [{'questionId': 'ACT-DES-01', 'connection': '설계 활동을 탐색해 볼 수 있어요.',
-                    'referenceKeys': [REF]}] if connects else []
-    chat = FakeChat({'targetName': 'TEST', 'connections': connections})
+    facts[0]['text'] = '전공에서는 설계 활동을 진행한다.'
+    question = '설계 활동을 더 살펴볼까요?' if outcome != 'statement' else '이 과목을 배우면 능력이 향상됩니다.'
+    quote = '실습 과정' if outcome == 'invented-quote' else '설계 활동'
+    draft = [{'questionId': 'ACT-DES-01', 'referenceKeys': [REF], 'evidenceExcerpt': quote,
+              'explorationQuestion': question}] if outcome != 'no-match' else []
+    chat = FakeChat({'targetName': 'TEST', 'connections': draft})
     model = ExplorationModel(chat)
+    if outcome in {'invented-quote', 'statement'}:
+        with pytest.raises(ModelFault) as error:
+            model.generate(value, facts)
+        assert error.value.code == 'MODEL_OUTPUT_INVALID'
+        return
     output = model.generate(value, facts)
-    assert output['status'] == ('SUCCEEDED' if connects else 'DECLINED')
-    assert output['result'] == ({'targetName': 'TEST', 'connections': connections} if connects else None)
+    connection = {'questionId': 'ACT-DES-01', 'referenceKeys': [REF],
+                  'connection': '전공 자료에서 확인한 내용은 “설계 활동”예요. 설계 활동을 더 살펴볼까요?'}
+    assert output['status'] == ('SUCCEEDED' if draft else 'DECLINED')
+    assert output['result'] == ({'targetName': 'TEST', 'connections': [connection]} if draft else None)
     assert json.loads(chat.messages[1].content)['input']['signals'] == [signal]
     assert 'Treat neutral' in chat.messages[0].content
-    assert model.metadata['promptVersion'] == 'EXPLORATION_MAJOR_EXPLANATION_V1_0'
+    assert chat.settings['timeout'] == 12
+    assert model.metadata['promptVersion'] == 'EXPLORATION_MAJOR_EXPLANATION_V1_1'
 
 
 @pytest.mark.parametrize('purpose',['CONSULTATION','PLAN'])
