@@ -22,7 +22,7 @@
     },
     {
       "chunkType": "major_overview",
-      "text": "동국대 법학과 2024 교과목에는 헌법총론, 민법총칙과 계약법이 있다. 전주대 2026 교육과정 편람은 법학 입문에서 법률 해석·적용과 기초 이론을 배운다고 안내한다.",
+      "text": "동국대 법학과 2024 교과목에는 헌법총론, 민법총칙과 계약법이 있다. 전주대 2026 교육과정 편람에서 법학과의 ‘법학(Introduction to Law)’ 과목은 법률 해석과 적용, 법이론을 다룬다.",
       "sourceIds": [
         "m45-university",
         "m45-extra"
@@ -55,7 +55,7 @@
       "publisher": "전주대학교",
       "title": "2026학년도 교육과정 편람",
       "url": "https://superstar.jj.ac.kr/sc/community/repository.do?articleNo=95533&attachNo=202294&mode=download",
-      "supports": "법학 입문의 법률 해석 및 적용",
+      "supports": "법학과 ‘법학(Introduction to Law, 교과목 코드 14890)’의 법률 해석 및 적용 일반론",
       "limitation": "해당 대학의 학부 교과 사례다.",
       "verification": "PUBLIC_PAGE_BODY_CHECKED",
       "accessedAt": "2026-11-20"
