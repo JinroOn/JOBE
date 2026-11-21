@@ -94,6 +94,8 @@ public class ExplorationResultStore {
         var session=sessions.findById(result.getSessionId()).orElseThrow(ExplorationApiException::integrity);
         boolean consultationAvailable = modelAvailability.availableFor(session.getRunMode());
         capabilities.put("consultationAvailable", consultationAvailable);
+        capabilities.put("explanationAvailable", modelAvailability.explanationAvailableFor(session.getRunMode())
+                && !payload.path("rankedCandidates").isEmpty());
         capabilities.put("planAvailable", consultationAvailable
                 && result.getResultStatus() != ExplorationResultStatus.NO_SUPPORTED_CANDIDATE
                 && !payload.path("rankedCandidates").isEmpty());

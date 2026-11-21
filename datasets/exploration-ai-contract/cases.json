@@ -296,6 +296,78 @@
   ],
   "requestCases": [
     {
+      "name": "major_explanation_bound",
+      "valid": true,
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_3",
+        "requestId": "synthetic-explanation",
+        "sourceContextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "inputHash": "6d5f65be34bc43679b34be813d956c108187d76db08b9be2f83154630794ec45",
+        "purpose": "EXPLANATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "targetName": "로봇공학과",
+          "signals": [
+            {
+              "kind": "ACTIVITY",
+              "metricCode": "ACT_DES",
+              "questionId": "ACT-DES-01",
+              "questionText": "구조를 설계하는 활동에 관심이 있나요?",
+              "answerText": "보통이에요.",
+              "direction": "NEUTRAL",
+              "validResponseCount": 1,
+              "inconsistent": false
+            }
+          ]
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "BOUND",
+          "datasetVersion": "TEST_ONLY",
+          "referenceKeys": [
+            "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        }
+      }
+    },
+    {
+      "name": "major_explanation_wrong_purpose",
+      "valid": false,
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_3",
+        "requestId": "synthetic-explanation",
+        "sourceContextHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "inputHash": "e1c3ee07f9f02e40c549a2a731dafc3d17b078c0960262a14a3e03b8e60da036",
+        "purpose": "PLAN",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "targetName": "로봇공학과",
+          "signals": [
+            {
+              "kind": "ACTIVITY",
+              "metricCode": "ACT_DES",
+              "questionId": "ACT-DES-01",
+              "questionText": "구조를 설계하는 활동에 관심이 있나요?",
+              "answerText": "보통이에요.",
+              "direction": "NEUTRAL",
+              "validResponseCount": 1,
+              "inconsistent": false
+            }
+          ]
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "BOUND",
+          "datasetVersion": "TEST_ONLY",
+          "referenceKeys": [
+            "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        }
+      }
+    },
+    {
       "name": "consultation",
       "request": {
         "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
@@ -1762,6 +1834,84 @@
     }
   ],
   "responseCases": [
+    {
+      "name": "major_explanation_connection",
+      "requestName": "major_explanation_bound",
+      "valid": true,
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_3",
+        "requestId": "synthetic-explanation",
+        "inputHash": "6d5f65be34bc43679b34be813d956c108187d76db08b9be2f83154630794ec45",
+        "purpose": "EXPLANATION",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "targetName": "로봇공학과",
+          "connections": [
+            {
+              "questionId": "ACT-DES-01",
+              "connection": "로봇 구조를 만드는 설계 실습을 살펴보며 관심을 확인할 수 있어요.",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "major_explanation_unknown_question",
+      "requestName": "major_explanation_bound",
+      "valid": false,
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_3",
+        "requestId": "synthetic-explanation",
+        "inputHash": "6d5f65be34bc43679b34be813d956c108187d76db08b9be2f83154630794ec45",
+        "purpose": "EXPLANATION",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "targetName": "로봇공학과",
+          "connections": [
+            {
+              "questionId": "ACT-DES-99",
+              "connection": "로봇 구조를 만드는 설계 실습을 살펴보며 관심을 확인할 수 있어요.",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "major_explanation_unknown_reference",
+      "requestName": "major_explanation_bound",
+      "valid": false,
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_3",
+        "requestId": "synthetic-explanation",
+        "inputHash": "6d5f65be34bc43679b34be813d956c108187d76db08b9be2f83154630794ec45",
+        "purpose": "EXPLANATION",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "targetName": "로봇공학과",
+          "connections": [
+            {
+              "questionId": "ACT-DES-01",
+              "connection": "로봇 구조를 만드는 설계 실습을 살펴보며 관심을 확인할 수 있어요.",
+              "referenceKeys": [
+                "unbound-reference"
+              ]
+            }
+          ]
+        }
+      }
+    },
     {
       "name": "insufficient",
       "requestName": "consultation",

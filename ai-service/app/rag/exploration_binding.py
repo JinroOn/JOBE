@@ -218,11 +218,13 @@ class ExplorationEvidenceBinder:
         if any(not key for key in keys) or len(set(keys)) != len(keys): raise EvidencePolicyError()
         approved = self._approved_documents(self._rows(keys=keys))
         conversation = original["input"].get("conversation")
-        prefer_curriculum = bool(conversation and CURRICULUM_QUESTION.search(conversation["question"]))
+        explanation = original["purpose"] == "EXPLANATION"
+        prefer_curriculum = explanation or bool(conversation and CURRICULUM_QUESTION.search(conversation["question"]))
         refs = []
         for name, key in zip(subjects, keys):
             candidates = [(doc, chunk, review, manifest) for doc, chunks, review, manifest in approved if doc.major_key == key
-                          for chunk in chunks if chunk.chunk_type in ALLOWED_CHUNKS and chunk.source_type in ALLOWED_SOURCES and chunk.chunk_text.strip()]
+                          for chunk in chunks if chunk.chunk_type in ALLOWED_CHUNKS and chunk.source_type in ALLOWED_SOURCES
+                          and (not explanation or chunk.chunk_type != "related_jobs") and chunk.chunk_text.strip()]
             if not candidates:
                 return PreparedEvidence("INSUFFICIENT_EVIDENCE", "APPROVED_EVIDENCE_UNAVAILABLE", _json(original), None)
             selected = min(candidates, key=lambda row: (

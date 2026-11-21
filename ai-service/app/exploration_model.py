@@ -4,16 +4,48 @@ import json
 import os
 import time
 from dataclasses import asdict
+from typing import Annotated
+from pydantic import Field
 from app.exploration_consultation_example import (
     SINGLE_EXAMPLE_INSTRUCTIONS, SINGLE_LEARNING_EXAMPLE, SingleExampleDraft, render_single_example,
 )
 from app.exploration_plan_draft import Plan12Draft, PLAN12_INSTRUCTIONS, excerpt_candidates, render_plan_draft
 from app.exploration_plan_scenarios import FICTIONAL_SCENARIOS
-from app.exploration_contract import ConsultationResult,PlanResult,Plan12Result,validate_response
+from app.exploration_contract import (
+    ConsultationResult, PlanResult, Plan12Result, QuestionId, References, StrictModel, text, validate_response,
+)
 
 PROMPT_VERSION='EXPLORATION_MODEL_V1_0'
 CONVERSATION_PROMPT_VERSION='EXPLORATION_CONVERSATION_V1_3'
 PLAN12_PROMPT_VERSION='EXPLORATION_PLAN12_V1_10'
+EXPLANATION_PROMPT_VERSION = 'EXPLORATION_MAJOR_EXPLANATION_V1_1'
+
+EXPLANATION_INSTRUCTIONS = (
+    ' Explain how a supplied answer connects to a concrete topic or activity supported by the approved major text. '
+    'Each connection must identify one supplied questionId and cite its approved major evidence. '
+    'Set evidenceExcerpt to a short, exact phrase from the cited fact. '
+    'If a fact only names a course, repeat its exact course name as an exploration example. '
+    'Do not infer course content, methods, competencies, or outcomes from a course name. '
+    'Read the question and answer together rather than inferring intent from a metric or a rating direction alone. '
+    'Treat neutral, negative, inconsistent, or single responses as tentative or open questions for exploration. '
+    'Do not describe a preference as a capability, or evidence use as a match judgment. '
+    'For each connection, write explorationQuestion as one Korean question ending in a question mark. '
+    'Tie the answer to something the student can look up about the quoted course or topic, without adding claims. '
+    'The selected answer and exact source quote are displayed separately. Use one or two short connections. '
+    'If no supported connection can be made, return an empty connections list with the supplied targetName.'
+)
+
+
+class ExplanationDraftConnection(StrictModel):
+    questionId: QuestionId
+    referenceKeys: References
+    evidenceExcerpt: text(180)
+    explorationQuestion: text(170)
+
+
+class ExplanationDraft(StrictModel):
+    targetName: text(100)
+    connections: Annotated[list[ExplanationDraftConnection], Field(max_length=2)]
 
 CONVERSATION_INSTRUCTIONS = (
     ' Answer input.conversation.question in summary first. Use history only as dialogue context, never as approved evidence. '
@@ -47,6 +79,7 @@ class ExplorationModel:
         self.timings={}
         self.conversation=False
         self.plan12=False
+        self.explanation=False
         self.provider=os.getenv('LLM_PROVIDER','openai').lower()
         self.model=os.getenv('EXPLORATION_LLM_MODEL') or os.getenv('LLM_MODEL','')
         self.key=os.getenv('LLM_API_KEY') or os.getenv('OPENAI_API_KEY') or os.getenv('FACTCHAT_API_KEY') or ''
@@ -54,21 +87,27 @@ class ExplorationModel:
         try:
             self.timeout=float(os.getenv('EXPLORATION_LLM_TIMEOUT_SECONDS','5'))
             self.plan_timeout=float(os.getenv('EXPLORATION_PLAN_LLM_TIMEOUT_SECONDS','30'))
+            self.explanation_timeout=float(os.getenv('EXPLORATION_EXPLANATION_LLM_TIMEOUT_SECONDS','12'))
         except ValueError:raise ModelFault('MODEL_CONFIGURATION_INVALID') from None
         if (os.getenv('EXPLORATION_MODEL_EXECUTION_ENABLED','false').lower()!='true'
                 or os.getenv('MOCK_MODE','').lower()=='true' or not self.key.strip()
                 or self.provider not in {'openai','openai_compatible','factchat'}
-                or not self.model.strip() or len(self.model)>80 or not 0<self.timeout<=5 or not 0<self.plan_timeout<=30):
+                or not self.model.strip() or len(self.model)>80 or not 0<self.timeout<=5
+                or not 0<self.plan_timeout<=30 or not 0<self.explanation_timeout<=20):
             raise ModelFault('MODEL_CONFIGURATION_INVALID')
 
     @property
-    def metadata(self):return {'provider':self.provider,'model':self.model,'promptVersion':PLAN12_PROMPT_VERSION if self.plan12 else CONVERSATION_PROMPT_VERSION if self.conversation else PROMPT_VERSION}
+    def metadata(self):
+        prompt = (EXPLANATION_PROMPT_VERSION if self.explanation else PLAN12_PROMPT_VERSION if self.plan12
+                  else CONVERSATION_PROMPT_VERSION if self.conversation else PROMPT_VERSION)
+        return {'provider': self.provider, 'model': self.model, 'promptVersion': prompt}
 
     def configure_request(self,request):
-        from app.exploration_contract import read_request,CONVERSATION_VERSION,PLAN12_VERSION
+        from app.exploration_contract import read_request, CONVERSATION_VERSION, PLAN12_VERSION, EXPLANATION_VERSION
         version=read_request(request).contractVersion
         self.conversation=version==CONVERSATION_VERSION
         self.plan12=version==PLAN12_VERSION
+        self.explanation=version==EXPLANATION_VERSION
 
     def generate(self,request,facts):
         self.output_diagnostic = None
@@ -88,12 +127,14 @@ class ExplorationModel:
             subjects=[request['input']['targetName']] if request['input']['targetName'] else request['input']['candidateNames']
             if request['evidence']['bindingStatus']!='BOUND' or not isinstance(facts,list) or not 1<=len(facts)<=8:raise ValueError()
             if [f['referenceKey'] for f in facts]!=request['evidence']['referenceKeys'] or [f['majorName'] for f in facts]!=subjects:raise ValueError()
+            allowed_chunks = {'description', 'major_overview'} if self.explanation else {'description', 'major_overview', 'related_jobs'}
             for fact in facts:
-                if set(fact)!={'referenceKey','majorName','chunkType','text'} or fact['chunkType'] not in {'description','major_overview','related_jobs'} or not isinstance(fact['text'],str) or not fact['text'].strip() or len(fact['text'])>1600:raise ValueError()
+                if set(fact)!={'referenceKey','majorName','chunkType','text'} or fact['chunkType'] not in allowed_chunks or not isinstance(fact['text'],str) or not fact['text'].strip() or len(fact['text'])>1600:raise ValueError()
         except (ContractViolation,ValueError,TypeError,KeyError):raise ModelFault('MODEL_INPUT_INVALID') from None
         single_example = self.conversation and SINGLE_LEARNING_EXAMPLE.search(request['input']['conversation']['question'])
         schema = SingleExampleDraft if single_example else (
-            ConsultationResult if request['purpose']=='CONSULTATION' else Plan12Draft if self.plan12 else PlanResult
+            ExplanationDraft if self.explanation else ConsultationResult if request['purpose']=='CONSULTATION'
+            else Plan12Draft if self.plan12 else PlanResult
         )
         evidence = facts
         if self.plan12:
@@ -115,6 +156,7 @@ class ExplorationModel:
             'Do not change candidate names or the selected plan target. '
             'Return only the requested structured result. Do not output identities, internal paths or audit metadata.'
             + (SINGLE_EXAMPLE_INSTRUCTIONS if single_example else CONVERSATION_INSTRUCTIONS if self.conversation else '')
+            + (EXPLANATION_INSTRUCTIONS if self.explanation else '')
             + (PLAN12_INSTRUCTIONS if self.plan12 else ' Cite only supplied referenceKey values.'))),
             HumanMessage(content=payload)]
         self.timings['preparationMs']=round((time.perf_counter()-preparation_started)*1000,3)
@@ -123,7 +165,7 @@ class ExplorationModel:
         stage = 'PROVIDER_PARSING'
         try:
             factory=self.factory if self.factory is not None else ChatOpenAI
-            deadline=self.plan_timeout if self.plan12 else self.timeout
+            deadline=self.plan_timeout if self.plan12 else self.explanation_timeout if self.explanation else self.timeout
             started=time.perf_counter()
             try:
                 model=factory(model=self.model,api_key=self.key,base_url=self.base,timeout=deadline,max_retries=0,max_tokens=6000 if self.plan12 else 1600)
@@ -146,6 +188,7 @@ class ExplorationModel:
                 content=generated.model_dump() if hasattr(generated,'model_dump') else generated
                 if self.plan12:content=render_plan_draft(content,facts)
                 if single_example:content=render_single_example(content,facts)
+                if self.explanation:content=self._render_explanation(content, facts)
                 return self._validated_result(request,content)
             finally:self.timings['validationAndRenderMs']=round((time.perf_counter()-started)*1000,3)
         except (asyncio.TimeoutError,TimeoutError):raise ModelFault('MODEL_TIMEOUT',True) from None
@@ -182,9 +225,31 @@ class ExplorationModel:
 
             self.timings['cleanupMs']=round((time.perf_counter()-cleanup_started)*1000,3)
 
+    def _render_explanation(self, content, facts):
+        draft = ExplanationDraft.model_validate(content)
+        texts = {fact['referenceKey']: fact['text'] for fact in facts}
+        connections = []
+        for row in draft.connections:
+            question = row.explorationQuestion.strip()
+            if not any(row.evidenceExcerpt in texts.get(key, '') for key in row.referenceKeys):
+                raise ModelFault('MODEL_OUTPUT_INVALID')
+            if not question.endswith('?') or any(mark in question[:-1] for mark in ('.', '!', '?', '\n')):
+                raise ModelFault('MODEL_OUTPUT_INVALID')
+            connections.append({
+                'questionId': row.questionId,
+                'referenceKeys': row.referenceKeys,
+                'connection': f'전공 자료에서 확인한 내용은 “{row.evidenceExcerpt}”예요. {question}',
+            })
+        return {'targetName': draft.targetName, 'connections': connections}
+
     def _validated_result(self,request,content):
         response={**{k:request[k] for k in ('contractVersion','requestId','inputHash','purpose')},
                   'status':'SUCCEEDED','changesRecommendation':False,'reasonCode':None,'result':content}
+        if self.explanation:
+            if content['targetName'] != request['input']['targetName']:
+                raise ModelFault('MODEL_OUTPUT_INVALID')
+            if not content['connections']:
+                response.update(status='DECLINED', reasonCode='POLICY_RESTRICTION', result=None)
         validated=validate_response(request,response)
         if self.plan12:
             from app.plan_review import presentation_issues

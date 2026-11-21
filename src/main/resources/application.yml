@@ -85,6 +85,8 @@ diagnosis:
       default-time-limit-sec: ${DIAGNOSIS_QUESTIONS_DEFAULT_TIME_LIMIT_SEC:60}
 
 exploration:
+  explanation:
+    enabled: ${EXPLORATION_MAJOR_EXPLANATION_ENABLED:false}
   jobs:
     model-enabled: ${EXPLORATION_MODEL_EXECUTION_ENABLED:false}
     model-name: ${EXPLORATION_LLM_MODEL:${LLM_MODEL:}}

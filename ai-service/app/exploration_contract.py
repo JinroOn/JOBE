@@ -14,6 +14,7 @@ from pydantic import AfterValidator, BaseModel, ConfigDict, Field, StrictBool, S
 VERSION = "EXPLORATION_AI_CONTRACT_V1_0"
 CONVERSATION_VERSION = "EXPLORATION_AI_CONTRACT_V1_1"
 PLAN12_VERSION = "EXPLORATION_AI_CONTRACT_V1_2"
+EXPLANATION_VERSION = "EXPLORATION_AI_CONTRACT_V1_3"
 TOPICS = {
     "READINESS-INFO-01", "READINESS-CMP-01", "READINESS-SELF-01", "READINESS-ACT-02",
     "READINESS-ACT-01", "READINESS-CON-01", "READINESS-INFO-02", "READINESS-SELF-02",
@@ -135,6 +136,32 @@ class Plan12Input(ModelInput):
     planSpec: PlanSpec
 
 
+QuestionId = Annotated[str, StringConstraints(pattern=r"^[A-Z][A-Z0-9_-]{1,79}$")]
+MetricCode = Annotated[str, StringConstraints(pattern=r"^[A-Z][A-Z0-9_]{1,79}$")]
+
+
+class ExplanationSignal(StrictModel):
+    kind: Literal["INTEREST", "ACTIVITY", "LEARNING"]
+    metricCode: MetricCode
+    questionId: QuestionId
+    questionText: text(600)
+    answerText: text(400)
+    direction: Literal["POSITIVE", "NEUTRAL", "NEGATIVE"]
+    validResponseCount: Annotated[int, Field(ge=1, le=72)]
+    inconsistent: StrictBool
+
+
+class ExplanationInput(StrictModel):
+    targetName: text(100)
+    signals: Annotated[list[ExplanationSignal], Field(min_length=1, max_length=6)]
+
+    @model_validator(mode="after")
+    def distinct_questions(self):
+        if len({signal.questionId for signal in self.signals}) != len(self.signals):
+            raise ValueError("Duplicate explanation question")
+        return self
+
+
 class Evidence(StrictModel):
     approvedOnly: StrictBool
     bindingStatus: Literal["NOT_BOUND", "BOUND"]
@@ -159,19 +186,29 @@ def input_hash(request: dict) -> str:
     return hashlib.sha256(raw).hexdigest()
 
 
+ContractVersion = Literal[
+    "EXPLORATION_AI_CONTRACT_V1_0", "EXPLORATION_AI_CONTRACT_V1_1",
+    "EXPLORATION_AI_CONTRACT_V1_2", "EXPLORATION_AI_CONTRACT_V1_3",
+]
+Purpose = Literal["CONSULTATION", "PLAN", "EXPLANATION"]
+
+
 class ExplorationRequest(StrictModel):
-    contractVersion: Literal["EXPLORATION_AI_CONTRACT_V1_0", "EXPLORATION_AI_CONTRACT_V1_1", "EXPLORATION_AI_CONTRACT_V1_2"]
+    contractVersion: ContractVersion
     requestId: Reference
     sourceContextHash: Hash
     inputHash: Hash
-    purpose: Literal["CONSULTATION", "PLAN"]
+    purpose: Purpose
     mode: Literal["DEV"]
     testOnly: StrictBool
-    input: ConversationInput | Plan12Input | ModelInput
+    input: ConversationInput | Plan12Input | ExplanationInput | ModelInput
     evidence: Evidence
 
     @model_validator(mode="after")
     def binding(self):
+        explanation = isinstance(self.input, ExplanationInput)
+        if explanation != (self.contractVersion == EXPLANATION_VERSION) or explanation != (self.purpose == "EXPLANATION"):
+            raise ValueError("Explanation version mismatch")
         conversation = isinstance(self.input, ConversationInput)
         if (self.contractVersion == CONVERSATION_VERSION) != conversation:
             raise ValueError("Conversation version mismatch")
@@ -198,6 +235,17 @@ class ConsultationResult(StrictModel):
     summary: text(4000)
     questions: Annotated[list[text(300)], Field(max_length=3)]
     referenceKeys: References
+
+
+class ExplanationConnection(StrictModel):
+    questionId: QuestionId
+    connection: text(400)
+    referenceKeys: References
+
+
+class ExplanationResult(StrictModel):
+    targetName: text(100)
+    connections: Annotated[list[ExplanationConnection], Field(max_length=3)]
 
 
 class PlanStep(StrictModel):
@@ -235,10 +283,10 @@ class Plan12Result(StrictModel):
 
 
 class ExplorationResponse(StrictModel):
-    contractVersion: Literal["EXPLORATION_AI_CONTRACT_V1_0", "EXPLORATION_AI_CONTRACT_V1_1", "EXPLORATION_AI_CONTRACT_V1_2"]
+    contractVersion: ContractVersion
     requestId: Reference
     inputHash: Hash
-    purpose: Literal["CONSULTATION", "PLAN"]
+    purpose: Purpose
     status: Literal["INSUFFICIENT_EVIDENCE", "DECLINED", "SUCCEEDED"]
     changesRecommendation: StrictBool
     reasonCode: str | None
@@ -277,6 +325,13 @@ def validate_response(request: dict | ExplorationRequest, response: dict) -> Exp
             if req.purpose == "CONSULTATION":
                 content = ConsultationResult.model_validate(result.result)
                 references = [content.referenceKeys]
+            elif req.purpose == "EXPLANATION":
+                content = ExplanationResult.model_validate(result.result)
+                questions = [row.questionId for row in content.connections]
+                if (content.targetName != req.input.targetName or not questions or len(set(questions)) != len(questions)
+                        or not set(questions).issubset(signal.questionId for signal in req.input.signals)):
+                    raise ValueError("Explanation target or answer mismatch")
+                references = [row.referenceKeys for row in content.connections]
             else:
                 content = (Plan12Result if req.contractVersion == PLAN12_VERSION else PlanResult).model_validate(result.result)
                 if content.targetName != req.input.targetName:

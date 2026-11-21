@@ -25,6 +25,12 @@ def mock_response(request: dict, facts: list[dict]) -> dict:
                 'overview':'[MOCK] Plan worker contract verification.',
                 'steps':[{'title':'[MOCK] Review evidence','description':'Synthetic step for contract verification only.',
                           'referenceKeys':keys}]}
+    elif request['purpose'] == 'EXPLANATION':
+        result = {'targetName': request['input']['targetName'], 'connections': [{
+            'questionId': request['input']['signals'][0]['questionId'],
+            'connection': '[MOCK] Explanation worker contract verification.',
+            'referenceKeys': keys,
+        }]}
     return {**{k:request[k] for k in ('contractVersion','requestId','inputHash','purpose')},
             'status':'SUCCEEDED','changesRecommendation':False,'reasonCode':None,'result':result}
 
