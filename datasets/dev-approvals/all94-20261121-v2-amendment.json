@@ -1,0 +1,240 @@
+{
+  "scope": "DEV",
+  "status": "APPROVED",
+  "sourceCommit": "0346f7503e1bec5ab9e2e0d50b460d4ac2be50bf",
+  "previousApprovedCommit": "0407f58b4df8cf3814bd9f518d24b512ad45af00",
+  "reviewerId": "JY",
+  "reviewedAt": "2026-11-21T06:34:34.409270+00:00",
+  "ragVersion": "EXPLORATION_RAG_DEV_ALL94_20261121_V2",
+  "activityVersion": "ACTIVITY_CATALOG_DEV_ALL94_20261121_V2",
+  "activityCatalogHash": "556a2aabfb6e21ef587e1ad913a90ba2881c4727ac36718590881ce76cc60c96",
+  "evidence": [
+    {
+      "majorCode": "MAJOR_ROW_45",
+      "majorName": "법학과",
+      "sourcePath": "datasets/exploration-rag-review/major-row-45.review-draft.json",
+      "previousContentHash": "8f28af025c7e8b48ee5829ba651538e3de4889fe0033644a8b9d0e976508bee3",
+      "proposedContentHash": "1966ff8c015fbaa267422963addb4b3f693c6104e8c90d0101587c0f78c9bf2f",
+      "decision": "APPROVED"
+    },
+    {
+      "majorCode": "MAJOR_ROW_48",
+      "majorName": "세무학과",
+      "sourcePath": "datasets/exploration-rag-review/major-row-48.review-draft.json",
+      "previousContentHash": "e1d8a3bb4c76379bcb8d40fd2fc1cf756a1746468650e45d806cee9e60797c11",
+      "proposedContentHash": "3b3cdc097cca97ff4e83616d790d6b19db2ab458f39c366f670a112ea1081b7d",
+      "decision": "APPROVED"
+    },
+    {
+      "majorCode": "MAJOR_ROW_51",
+      "majorName": "정치외교학과",
+      "sourcePath": "datasets/exploration-rag-review/major-row-51.review-draft.json",
+      "previousContentHash": "b12a105adc41181cd068453a7362e5ed4895039e2042bd048ea70f77d31967bc",
+      "proposedContentHash": "a55e9404f3a88a6ef97d942cb4420871a8e5b93ea0cdac15267c7b500a4ae05e",
+      "decision": "APPROVED"
+    },
+    {
+      "majorCode": "MAJOR_ROW_91",
+      "majorName": "역사교육과",
+      "sourcePath": "datasets/exploration-rag-review/major-row-91.review-draft.json",
+      "previousContentHash": "a4a5cd3f047c5de799775716b1c432f045c863b391cb585236cd5f4ec221bf42",
+      "proposedContentHash": "70228efc3cc56e34df1be182c02353e8bd8af0ac4fbee0e8e9b26d7fee0a4eee",
+      "decision": "APPROVED"
+    }
+  ],
+  "activities": [
+    {
+      "activityId": "DRAFT-M126-02",
+      "majorCode": "MAJOR_ROW_126",
+      "majorName": "로봇공학과",
+      "title": "종이 지도에서 로봇 이동 규칙 시험하기",
+      "previousContentHash": "ace54ae1edfec2c34ffb6e759dc26ae1beebbcf38d0d6c74968b6754a2b29dc2",
+      "proposedContentHash": "154a18efa59c8bea07ffcaeedde41f99849a026433a729b7878fa02b3b65b5a8",
+      "implementationDecision": "APPROVED_FOR_IMPLEMENTATION",
+      "domainDecision": "APPROVED"
+    },
+    {
+      "activityId": "DRAFT-M131-02",
+      "majorCode": "MAJOR_ROW_131",
+      "majorName": "전자공학과",
+      "title": "가상 밝기 신호를 켜짐과 꺼짐으로 바꾸기",
+      "previousContentHash": "ce269c6dfb8e7776e693eef75386a9a6b3ddc2d9f79b2fc375782a6377c15375",
+      "proposedContentHash": "d08de924080427b56756fc032647c907efb7cdfb07f387489a467f30d05621fb",
+      "implementationDecision": "APPROVED_FOR_IMPLEMENTATION",
+      "domainDecision": "APPROVED"
+    },
+    {
+      "activityId": "DRAFT-M170-01",
+      "majorCode": "MAJOR_ROW_170",
+      "majorName": "수학과",
+      "title": "과목 이름에서 수학 질문 만들기",
+      "previousContentHash": "8781c96b217d6a1a4c3d49f2e4738e6f7f8e1ba5a3983ca61da4afa721eb3931",
+      "proposedContentHash": "991ef0c9ccc07e952a6c297076ae44593acf2cf796889342d25a65e1cb7d20f0",
+      "implementationDecision": "APPROVED_FOR_IMPLEMENTATION",
+      "domainDecision": "APPROVED"
+    },
+    {
+      "activityId": "DRAFT-M237-02",
+      "majorCode": "MAJOR_ROW_237",
+      "majorName": "무용학과",
+      "title": "화살표와 쉼으로 4박 안무 기록하기",
+      "previousContentHash": "6dae0273edd2afbd5816a0509ae8bba111ec6efb02c8f70e932c899e68b68163",
+      "proposedContentHash": "6f5961d974c1ef8dfc5116bc2f767ef7e8861b4e4ba54b7ef0e07d8885da39d0",
+      "implementationDecision": "APPROVED_FOR_IMPLEMENTATION",
+      "domainDecision": "APPROVED"
+    },
+    {
+      "activityId": "DRAFT-M239-02",
+      "majorCode": "MAJOR_ROW_239",
+      "majorName": "산업디자인학과",
+      "title": "필통의 손잡이 위치 두 안 그리기",
+      "previousContentHash": "7d604f82a974e2592ae1bf9a8c09a49c5f1c0114de909e383b2b95089d99f795",
+      "proposedContentHash": "7fc40745558a26d5ea0228aaeca04469aba89a7f8720c37c58e93a6b16f530a2",
+      "implementationDecision": "APPROVED_FOR_IMPLEMENTATION",
+      "domainDecision": "APPROVED"
+    },
+    {
+      "activityId": "DRAFT-M45-01",
+      "majorCode": "MAJOR_ROW_45",
+      "majorName": "법학과",
+      "title": "규칙 문장과 실제 사례의 사실 구분하기",
+      "previousContentHash": "d002c0474356640b9f414a3bd642f80056e7ac49488a104d112bf6567f4011e2",
+      "proposedContentHash": "d3c25cbc298ef10257f9c1f5ad61158a0e79f33e52e6d2b551773ac506a19b7c",
+      "implementationDecision": "APPROVED_FOR_IMPLEMENTATION",
+      "domainDecision": "APPROVED"
+    },
+    {
+      "activityId": "DRAFT-M45-02",
+      "majorCode": "MAJOR_ROW_45",
+      "majorName": "법학과",
+      "title": "가상의 대여 규칙을 두 신청 사례에 적용하기",
+      "previousContentHash": "81c94243d144e39380a5af45d6ce835bc31aacf60f3f385ebd196cdced31aad0",
+      "proposedContentHash": "20f0158504b9e6ea83d7a643e54c93045ac775f515b7ea7b13d88ba9a232a59f",
+      "implementationDecision": "APPROVED_FOR_IMPLEMENTATION",
+      "domainDecision": "APPROVED"
+    },
+    {
+      "activityId": "DRAFT-M45-03",
+      "majorCode": "MAJOR_ROW_45",
+      "majorName": "법학과",
+      "title": "모호한 규칙을 분명하게 질문하기",
+      "previousContentHash": "ff661839a2bdcb795ccb4185b8364c33f548b3519cc70f9107ae2c683a0c83ab",
+      "proposedContentHash": "02ac83a98e35866b894e34f13920abb99dc4969ccae3fc61b7a77c9cd9e4612f",
+      "implementationDecision": "APPROVED_FOR_IMPLEMENTATION",
+      "domainDecision": "APPROVED"
+    },
+    {
+      "activityId": "DRAFT-M48-01",
+      "majorCode": "MAJOR_ROW_48",
+      "majorName": "세무학과",
+      "title": "세무 과목에서 장부와 규칙의 질문 나누기",
+      "previousContentHash": "9a7cda3c4b48a6cd27246749f67ee3b518772915984238aa29aa1e4037cbe94b",
+      "proposedContentHash": "7e207d1d1c5065489306af5a62d818a0969fce8492aa000fb6b351381e92fda2",
+      "implementationDecision": "APPROVED_FOR_IMPLEMENTATION",
+      "domainDecision": "APPROVED"
+    },
+    {
+      "activityId": "DRAFT-M48-02",
+      "majorCode": "MAJOR_ROW_48",
+      "majorName": "세무학과",
+      "title": "가상 과제용 규칙에 맞춰 계산 기준 표시하기",
+      "previousContentHash": "de11975d6f67630cb948db1597c61d622b778f57b9a1669f955c2ba1d7fe6526",
+      "proposedContentHash": "2909dbf5fc51694fb6b80e05f62af3b2b1e7dca96d0c242a390b14e78e62c3a0",
+      "implementationDecision": "APPROVED_FOR_IMPLEMENTATION",
+      "domainDecision": "APPROVED"
+    },
+    {
+      "activityId": "DRAFT-M48-03",
+      "majorCode": "MAJOR_ROW_48",
+      "majorName": "세무학과",
+      "title": "새 증빙이 생기면 다시 볼 계산 단계 적기",
+      "previousContentHash": "25f83995768ab07e7078ebeca034422037f27e0009fbbcc711684e0849ee5acf",
+      "proposedContentHash": "c498e7692922256135d2ce5a028cc06ba4277a7d66bdd4a88afffd8bc8a9fb5c",
+      "implementationDecision": "APPROVED_FOR_IMPLEMENTATION",
+      "domainDecision": "APPROVED"
+    },
+    {
+      "activityId": "DRAFT-M49-03",
+      "majorCode": "MAJOR_ROW_49",
+      "majorName": "신문방송학과",
+      "title": "새 공지가 나오면 기사 정정 문구 쓰기",
+      "previousContentHash": "105f0c1319794585aa15fab7612fa64d67de70c7aa4eaba051f35cf59e0e1d26",
+      "proposedContentHash": "c08e39f02ff6e4cb14c9bbe497b071019d46f6fd5a3d883499224e57f48cd6c6",
+      "implementationDecision": "APPROVED_FOR_IMPLEMENTATION",
+      "domainDecision": "APPROVED"
+    },
+    {
+      "activityId": "DRAFT-M51-01",
+      "majorCode": "MAJOR_ROW_51",
+      "majorName": "정치외교학과",
+      "title": "국내 의사결정과 국가 간 협력의 질문 나누기",
+      "previousContentHash": "7c6e76a53ce836ae5110fe079cda7856769a9952513888f932cf088a9a2e585f",
+      "proposedContentHash": "62217b97a538c7ac779cbc9a1f9c973ee7313070440005049bef5230046f37df",
+      "implementationDecision": "APPROVED_FOR_IMPLEMENTATION",
+      "domainDecision": "APPROVED"
+    },
+    {
+      "activityId": "DRAFT-M51-02",
+      "majorCode": "MAJOR_ROW_51",
+      "majorName": "정치외교학과",
+      "title": "가상의 두 도시가 공동 버스 운행에 합의하는 문장 만들기",
+      "previousContentHash": "94834b82ff5d9c00ba454a35b4ac124612837db8b2864410017e8c8dbdeb9ea9",
+      "proposedContentHash": "3574613b3b4b0683eff24e00f582959c239d2571345285f4f9515cdd0d7e3ec7",
+      "implementationDecision": "APPROVED_FOR_IMPLEMENTATION",
+      "domainDecision": "APPROVED"
+    },
+    {
+      "activityId": "DRAFT-M51-03",
+      "majorCode": "MAJOR_ROW_51",
+      "majorName": "정치외교학과",
+      "title": "합의안을 바꿀 수 있는 자료와 관점 찾기",
+      "previousContentHash": "e659855f5433e93114c3bddaaa46122938f99a3999b43b4c9504f57f42676d35",
+      "proposedContentHash": "db389be614e4a7ba3ea9710576ffbd4cc0f0a46037b68c3002cc6056e588f6e9",
+      "implementationDecision": "APPROVED_FOR_IMPLEMENTATION",
+      "domainDecision": "APPROVED"
+    },
+    {
+      "activityId": "DRAFT-M6-02",
+      "majorCode": "MAJOR_ROW_6",
+      "majorName": "문예창작학과",
+      "title": "같은 기다림을 두 가지 초안으로 쓰기",
+      "previousContentHash": "83130709c626ad404282e2df167440d0cd7cbfd3292787ead8c4dcede92afa46",
+      "proposedContentHash": "086a2026ce146c6e3988c92f30498b310a5705a527e9c1e734a07c20304aa91f",
+      "implementationDecision": "APPROVED_FOR_IMPLEMENTATION",
+      "domainDecision": "APPROVED"
+    },
+    {
+      "activityId": "DRAFT-M91-01",
+      "majorCode": "MAJOR_ROW_91",
+      "majorName": "역사교육과",
+      "title": "수업에서 사료를 쓰려는 이유 정하기",
+      "previousContentHash": "48fae0385fd15365fdb3ac7b08f618714692a6a50cb59b2cc4e316c03d1805e4",
+      "proposedContentHash": "76c28349253ff7599427045761156e4eb57dd405846981997565c3a8c907d9b0",
+      "implementationDecision": "APPROVED_FOR_IMPLEMENTATION",
+      "domainDecision": "APPROVED"
+    },
+    {
+      "activityId": "DRAFT-M91-02",
+      "majorCode": "MAJOR_ROW_91",
+      "majorName": "역사교육과",
+      "title": "가상 장터 안내를 수업용 사료 카드로 바꾸기",
+      "previousContentHash": "31524ccc0c8947c9eb38294679d3408e5ccfa66cf4e000e9463b4e83e10d6b7f",
+      "proposedContentHash": "d6aa7af30cdd9b08bcdba26a340c8b653287b8c00297d0497e60cc4ae763b86d",
+      "implementationDecision": "APPROVED_FOR_IMPLEMENTATION",
+      "domainDecision": "APPROVED"
+    },
+    {
+      "activityId": "DRAFT-M91-03",
+      "majorCode": "MAJOR_ROW_91",
+      "majorName": "역사교육과",
+      "title": "학생 답에 근거 표시를 요청하는 문장 쓰기",
+      "previousContentHash": "92b216963bd1ea2d30e7d8d5a047e09b4b0e145226ce60c9b8a2df1f69e4b9d7",
+      "proposedContentHash": "1f5f8d6e77f24ded6e515d1397f5ce5a1e5c9b4095826f486fc3d51a28ccb9d1",
+      "implementationDecision": "APPROVED_FOR_IMPLEMENTATION",
+      "domainDecision": "APPROVED"
+    }
+  ],
+  "schemaVersion": "DEV_APPROVAL_AMENDMENT_V1",
+  "sourceReference": "JY DEV approval for 4 revised evidence documents and 19 revised activities ? https://app.notion.com/p/41f7e16f06d2818c8d4ccc9fd1cb0b59",
+  "previousSnapshot": "all94-20261120.json"
+}
