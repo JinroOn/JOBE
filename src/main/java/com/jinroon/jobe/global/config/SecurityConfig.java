@@ -18,6 +18,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.firewall.RequestRejectedHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -102,6 +103,19 @@ public class SecurityConfig {
                         })
                 )
                 .build();
+    }
+
+    /**
+     * 방화벽이 거부한 주소(세미콜론, 인코딩된 %, 중복 슬래시, ..)는 오류 경로로 넘어가며 401로 바뀌었다.
+     * 인증 문제가 아니라 잘못된 요청이므로 400과 ErrorDto 형식으로 바로 응답한다.
+     */
+    @Bean
+    public RequestRejectedHandler requestRejectedHandler() {
+        return (request, response, rejectedException) -> {
+            response.setContentType("application/json;charset=UTF-8");
+            response.setStatus(400);
+            response.getWriter().write(objectMapper.writeValueAsString(ErrorDto.of(ErrorCode.INVALID_INPUT)));
+        };
     }
 
     @Bean

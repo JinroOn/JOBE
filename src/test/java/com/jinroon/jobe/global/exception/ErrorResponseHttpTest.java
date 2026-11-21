@@ -47,6 +47,18 @@ class ErrorResponseHttpTest {
     }
 
     @Test
+    void firewallRejectedPathReturns400InsteadOf401() throws Exception {
+        // 공개 API라도 세미콜론이 든 주소는 방화벽이 거부한다. 인증 오류(401)로 보이지 않아야 한다.
+        mockMvc.perform(get("/api/majors;x"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.code").value("INVALID_INPUT"));
+        mockMvc.perform(get("/api/exploration/v1/shared-results/abc;x").header("Authorization", token))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("INVALID_INPUT"));
+    }
+
+    @Test
     void unknownPathReturns404() throws Exception {
         mockMvc.perform(get("/api/does-not-exist").header("Authorization", token))
                 .andExpect(status().isNotFound())

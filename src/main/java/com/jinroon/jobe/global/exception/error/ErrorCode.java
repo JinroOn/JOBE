@@ -36,6 +36,7 @@ public enum ErrorCode {
     AUTH_SESSION_EXPIRED(401, "만료된 세션입니다."),
     AUTH_TOO_MANY_REQUESTS(429, "인증번호 요청이 너무 많습니다. 잠시 후 다시 시도해 주세요."),
     AUTH_TOO_MANY_ATTEMPTS(429, "인증번호 입력 횟수를 초과했습니다. 인증번호를 다시 요청해 주세요."),
+    AUTH_TOO_MANY_LOGIN_ATTEMPTS(429, "로그인 시도가 너무 많습니다. 잠시 후 다시 시도해 주세요."),
 
     // Consultation
     CONSULTATION_SESSION_NOT_FOUND(404, "상담 세션을 찾을 수 없습니다."),

@@ -77,6 +77,23 @@ class AuthServiceTest {
 
     private final PasswordHasher passwordHasher = new PasswordHasher();
     private final JwtProvider jwtProvider = new JwtProvider(JWT_SECRET);
+    private final MutableClock clock = new MutableClock(java.time.Instant.parse("2026-11-22T00:00:00Z"));
+    private final LoginAttemptLimiter loginAttemptLimiter = new LoginAttemptLimiter(clock);
+
+    /** 로그인 제한 시간 경과를 확인하기 위한 테스트용 시계. */
+    private static final class MutableClock extends java.time.Clock {
+        private java.time.Instant now;
+
+        MutableClock(java.time.Instant now) { this.now = now; }
+
+        void advance(java.time.Duration duration) { now = now.plus(duration); }
+
+        @Override public java.time.ZoneId getZone() { return java.time.ZoneOffset.UTC; }
+
+        @Override public java.time.Clock withZone(java.time.ZoneId zone) { return this; }
+
+        @Override public java.time.Instant instant() { return now; }
+    }
 
     private AuthService service;
 
@@ -91,7 +108,8 @@ class AuthServiceTest {
                 passwordHasher,
                 jwtProvider,
                 mailService,
-                org.mockito.Mockito.mock(com.jinroon.jobe.domain.user.service.UserWriteGuard.class)
+                org.mockito.Mockito.mock(com.jinroon.jobe.domain.user.service.UserWriteGuard.class),
+                loginAttemptLimiter
         );
     }
 
@@ -178,6 +196,51 @@ class AuthServiceTest {
 
         assertErrorCode(() -> service.login(loginRequest("wrong-password")), ErrorCode.USER_PASSWORD_INVALID);
         verify(sessionRepository, never()).save(any());
+    }
+
+    @Test
+    void repeatedWrongPasswordsBlockLoginEvenWithCorrectPasswordUntilWindowPasses() {
+        User user = activeUser(1L);
+        when(userRepository.findByEmail(EMAIL)).thenReturn(Optional.of(user));
+        when(sessionRepository.save(any(Session.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        for (int i = 0; i < LoginAttemptLimiter.MAX_FAILURES; i++) {
+            assertErrorCode(() -> service.login(loginRequest("wrong-password")), ErrorCode.USER_PASSWORD_INVALID);
+        }
+        // 한도에 도달하면 맞는 비밀번호여도 세션을 만들지 않는다.
+        assertErrorCode(() -> service.login(loginRequest(PASSWORD)), ErrorCode.AUTH_TOO_MANY_LOGIN_ATTEMPTS);
+        verify(sessionRepository, never()).save(any());
+
+        clock.advance(LoginAttemptLimiter.WINDOW);
+        assertThat(service.login(loginRequest(PASSWORD)).accessToken()).isNotBlank();
+    }
+
+    @Test
+    void unknownEmailIsLimitedLikeExistingEmail() {
+        when(userRepository.findByEmail(EMAIL)).thenReturn(Optional.empty());
+
+        for (int i = 0; i < LoginAttemptLimiter.MAX_FAILURES; i++) {
+            assertErrorCode(() -> service.login(loginRequest(PASSWORD)), ErrorCode.USER_PASSWORD_INVALID);
+        }
+        // 대소문자나 앞뒤 공백을 바꿔도 같은 이메일로 센다.
+        assertErrorCode(() -> service.login(new LoginRequest(" Student@Example.com ", PASSWORD, "test-device")),
+                ErrorCode.AUTH_TOO_MANY_LOGIN_ATTEMPTS);
+    }
+
+    @Test
+    void successfulLoginResetsFailureCount() {
+        User user = activeUser(1L);
+        when(userRepository.findByEmail(EMAIL)).thenReturn(Optional.of(user));
+        when(sessionRepository.save(any(Session.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        for (int i = 0; i < LoginAttemptLimiter.MAX_FAILURES - 1; i++) {
+            assertErrorCode(() -> service.login(loginRequest("wrong-password")), ErrorCode.USER_PASSWORD_INVALID);
+        }
+        service.login(loginRequest(PASSWORD));
+        for (int i = 0; i < LoginAttemptLimiter.MAX_FAILURES - 1; i++) {
+            assertErrorCode(() -> service.login(loginRequest("wrong-password")), ErrorCode.USER_PASSWORD_INVALID);
+        }
+        assertThat(service.login(loginRequest(PASSWORD)).accessToken()).isNotBlank();
     }
 
     @Test
