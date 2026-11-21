@@ -30,7 +30,33 @@ class ExplorationResultDisplayTest {
         assertThat(wording.path("scope").asText()).isEqualTo("DEV");
         assertThat(wording.path("domainReviewStatus").asText()).isEqualTo("PENDING");
         // A changed wording file must receive a new version; legacy projections must remain reproducible.
-        assertThat(json.hex(wording)).isEqualTo("6986cb77a34b4a01000a43fb805c866140137bfc0ea89deda697faea645e8a91");
+        assertThat(wording.path("version").asText()).isEqualTo(ResultDisplayCatalog.VERSION);
+        assertThat(json.hex(wording)).isEqualTo("bb47416d0fffa35704761e417f78538a075227654b3d6310fbf9265731f95880");
+        JsonNode legacy = catalog.legacySnapshot();
+        assertThat(legacy.path("version").asText()).isEqualTo(ResultDisplayCatalog.LEGACY_VERSION);
+        assertThat(json.hex(legacy)).isEqualTo("6986cb77a34b4a01000a43fb805c866140137bfc0ea89deda697faea645e8a91");
+    }
+
+    @Test void groupLabelsDescribeTheMajorsMappedToEachGroup() throws Exception {
+        JsonNode mapping = mapper.readTree(Files.readString(Path.of("datasets/exploration/major-mapping.json")));
+        Set<String> medMajors = new TreeSet<>();
+        for (JsonNode major : mapping.path("majors"))
+            if ("MED".equals(major.path("exploration_group").asText())) medMajors.add(major.path("major_name").asText());
+        assertThat(medMajors).contains("문예창작학과", "미디어커뮤니케이션학과", "광고홍보학과");
+        assertThat(medMajors).doesNotContain("간호학과", "의학과", "약학과");
+        JsonNode med = catalog.snapshot().path("groups").path("MED");
+        assertThat(med.path("name").asText()).isEqualTo("미디어·콘텐츠");
+        assertThat(med.path("summary").asText()).contains("미디어").doesNotContain("건강", "돌봄");
+        // V1_0 stays byte-identical for results sealed before the correction.
+        assertThat(catalog.legacySnapshot().path("groups").path("MED").path("name").asText()).isEqualTo("보건·의료");
+    }
+
+    @Test void legacyProjectionWithoutSealedDisplayKeepsV10Wording() {
+        ObjectNode result = result(2, false);
+        result.remove("display");
+        JsonNode view = display.project(result);
+        assertThat(view.path("version").asText()).isEqualTo(ResultDisplayCatalog.LEGACY_VERSION);
+        assertThat(view.path("source").asText()).isEqualTo("SEALED_RESULT_PROJECTION");
     }
 
     @ParameterizedTest @CsvSource({"0,false,NO_EVIDENCE", "1,false,LOW_EVIDENCE", "2,false,CONFIRMED", "2,true,LOW_EVIDENCE"})
