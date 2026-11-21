@@ -81,6 +81,24 @@ def review(db, doc, *, manifest=True, **overrides):
 def binder(db): return ExplorationEvidenceBinder(db, EvidencePolicy(VERSION))
 
 
+def test_major_explanation_requires_approved_educational_evidence(db):
+    jobs, _ = document(db, chunk_type="related_jobs")
+    curriculum, curriculum_chunk = document(db, name=jobs.major_name, chunk_type="major_overview")
+    review(db, jobs)
+    value = deepcopy(next(case["request"] for case in CASES["requestCases"]
+                          if case["name"] == "major_explanation_bound"))
+    value["input"]["targetName"] = jobs.major_name
+    value["evidence"] = {"approvedOnly": True, "bindingStatus": "NOT_BOUND", "datasetVersion": None, "referenceKeys": []}
+    value["inputHash"] = input_hash(value)
+
+    evidence_binder = binder(db)
+    assert evidence_binder.prepare(value).status == "INSUFFICIENT_EVIDENCE"
+    review(db, curriculum)
+    prepared = evidence_binder.prepare(value)
+    assert [reference["chunkId"] for reference in prepared.binding.references] == [curriculum_chunk.id]
+    assert evidence_binder.revalidate(prepared.binding)
+
+
 @pytest.mark.parametrize(("question", "overview_approved", "expected_type"), [
     ("제공된 자료에서 국사학과와 관련한 학습 예시를 하나만 알려 주세요.", True, "major_overview"),
     ("교육 과정에서 어떤 교과목을 배우나요?", True, "major_overview"),

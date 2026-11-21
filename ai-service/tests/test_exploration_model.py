@@ -2,7 +2,7 @@ import asyncio
 import json
 import pytest
 from app.exploration_model import ExplorationModel,ModelFault
-from app.exploration_contract import input_hash
+from app.exploration_contract import EXPLANATION_VERSION, input_hash
 from test_exploration_evidence_binding import request
 
 REF='ref_'+'a'*64
@@ -26,6 +26,27 @@ class FakeChat:
     def __call__(self,**settings):self.settings=settings;return self
     def with_structured_output(self,schema):self.schema=schema;return self
     async def ainvoke(self,messages):self.messages=messages;return self.result
+
+
+@pytest.mark.parametrize('connects', [True, False])
+def test_major_explanation_uses_bound_facts_and_can_decline(settings, connects):
+    value, facts = bound()
+    signal = {'kind': 'ACTIVITY', 'metricCode': 'ACT_DES', 'questionId': 'ACT-DES-01',
+              'questionText': '설계에 관심이 있나요?', 'answerText': '보통이에요.',
+              'direction': 'NEUTRAL', 'validResponseCount': 1, 'inconsistent': False}
+    value.update(contractVersion=EXPLANATION_VERSION, purpose='EXPLANATION',
+                 input={'targetName': 'TEST', 'signals': [signal]})
+    value['inputHash'] = input_hash(value)
+    connections = [{'questionId': 'ACT-DES-01', 'connection': '설계 활동을 탐색해 볼 수 있어요.',
+                    'referenceKeys': [REF]}] if connects else []
+    chat = FakeChat({'targetName': 'TEST', 'connections': connections})
+    model = ExplorationModel(chat)
+    output = model.generate(value, facts)
+    assert output['status'] == ('SUCCEEDED' if connects else 'DECLINED')
+    assert output['result'] == ({'targetName': 'TEST', 'connections': connections} if connects else None)
+    assert json.loads(chat.messages[1].content)['input']['signals'] == [signal]
+    assert 'Treat neutral' in chat.messages[0].content
+    assert model.metadata['promptVersion'] == 'EXPLORATION_MAJOR_EXPLANATION_V1_0'
 
 
 @pytest.mark.parametrize('purpose',['CONSULTATION','PLAN'])
