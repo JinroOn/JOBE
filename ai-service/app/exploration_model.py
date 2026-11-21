@@ -4,8 +4,9 @@ import json
 import os
 import time
 from dataclasses import asdict
+from enum import StrEnum
 from typing import Annotated
-from pydantic import Field
+from pydantic import Field, ValidationError
 from app.exploration_consultation_example import (
     SINGLE_EXAMPLE_INSTRUCTIONS, SINGLE_LEARNING_EXAMPLE, SingleExampleDraft, render_single_example,
 )
@@ -65,10 +66,23 @@ CONVERSATION_INSTRUCTIONS = (
 )
 
 
+class ExplanationOutputIssue(StrEnum):
+    PROVIDER_PARSE = 'EXPLANATION_PROVIDER_PARSE_FAILED'
+    DRAFT_SCHEMA = 'EXPLANATION_DRAFT_SCHEMA_INVALID'
+    TARGET = 'EXPLANATION_TARGET_MISMATCH'
+    UNKNOWN_ANSWER = 'EXPLANATION_ANSWER_REFERENCE_UNKNOWN'
+    DUPLICATE_ANSWER = 'EXPLANATION_ANSWER_REFERENCE_DUPLICATE'
+    REFERENCE = 'EXPLANATION_APPROVED_REFERENCE_INVALID'
+    EXCERPT = 'EXPLANATION_EXCERPT_MISMATCH'
+    QUESTION_FORMAT = 'EXPLANATION_QUESTION_FORMAT_INVALID'
+    RESPONSE_CONTRACT = 'EXPLANATION_RESPONSE_CONTRACT_INVALID'
+
+
 class ModelFault(RuntimeError):
-    def __init__(self,code,retryable=False):
+    def __init__(self, code, retryable=False, *, output_issue: ExplanationOutputIssue | None = None):
         super().__init__('Exploration model consumer failed')
         self.code,self.retryable=code,retryable
+        self.output_issue = output_issue
 
 
 class ExplorationModel:
@@ -188,14 +202,13 @@ class ExplorationModel:
                 content=generated.model_dump() if hasattr(generated,'model_dump') else generated
                 if self.plan12:content=render_plan_draft(content,facts)
                 if single_example:content=render_single_example(content,facts)
-                if self.explanation:content=self._render_explanation(content, facts)
+                if self.explanation:content=self._render_explanation(content, facts, request['input'])
                 return self._validated_result(request,content)
             finally:self.timings['validationAndRenderMs']=round((time.perf_counter()-started)*1000,3)
         except (asyncio.TimeoutError,TimeoutError):raise ModelFault('MODEL_TIMEOUT',True) from None
         except ModelFault:raise
         except Exception as error:
             from app.exploration_contract import ContractViolation
-            from pydantic import ValidationError
             from langchain_core.exceptions import OutputParserException
             output_errors = (ContractViolation,ValidationError,OutputParserException)
             if diagnose_output:
@@ -205,6 +218,10 @@ class ExplorationModel:
                 if isinstance(error, output_errors):
                     self.output_diagnostic = output_failure(stage, error)
             if isinstance(error, output_errors):
+                if self.explanation:
+                    reason = (ExplanationOutputIssue.PROVIDER_PARSE if stage == 'PROVIDER_PARSING'
+                              else ExplanationOutputIssue.RESPONSE_CONTRACT)
+                    raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=reason) from None
                 raise ModelFault('MODEL_OUTPUT_INVALID') from None
             # Only status/category is used; never propagate provider messages, request bodies or keys.
             status=getattr(error,'status_code',None)
@@ -225,16 +242,30 @@ class ExplorationModel:
 
             self.timings['cleanupMs']=round((time.perf_counter()-cleanup_started)*1000,3)
 
-    def _render_explanation(self, content, facts):
-        draft = ExplanationDraft.model_validate(content)
+    def _render_explanation(self, content, facts, explanation_input):
+        try:
+            draft = ExplanationDraft.model_validate(content)
+        except ValidationError:
+            raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.DRAFT_SCHEMA) from None
+        if draft.targetName != explanation_input['targetName']:
+            raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.TARGET)
         texts = {fact['referenceKey']: fact['text'] for fact in facts}
+        allowed_answers = {signal['questionId'] for signal in explanation_input['signals']}
+        used_answers = set()
         connections = []
         for row in draft.connections:
+            if row.questionId not in allowed_answers:
+                raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.UNKNOWN_ANSWER)
+            if row.questionId in used_answers:
+                raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.DUPLICATE_ANSWER)
+            used_answers.add(row.questionId)
+            if len(set(row.referenceKeys)) != len(row.referenceKeys) or any(key not in texts for key in row.referenceKeys):
+                raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.REFERENCE)
             question = row.explorationQuestion.strip()
             if not any(row.evidenceExcerpt in texts.get(key, '') for key in row.referenceKeys):
-                raise ModelFault('MODEL_OUTPUT_INVALID')
+                raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.EXCERPT)
             if not question.endswith('?') or any(mark in question[:-1] for mark in ('.', '!', '?', '\n')):
-                raise ModelFault('MODEL_OUTPUT_INVALID')
+                raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.QUESTION_FORMAT)
             connections.append({
                 'questionId': row.questionId,
                 'referenceKeys': row.referenceKeys,
@@ -246,8 +277,6 @@ class ExplorationModel:
         response={**{k:request[k] for k in ('contractVersion','requestId','inputHash','purpose')},
                   'status':'SUCCEEDED','changesRecommendation':False,'reasonCode':None,'result':content}
         if self.explanation:
-            if content['targetName'] != request['input']['targetName']:
-                raise ModelFault('MODEL_OUTPUT_INVALID')
             if not content['connections']:
                 response.update(status='DECLINED', reasonCode='POLICY_RESTRICTION', result=None)
         validated=validate_response(request,response)

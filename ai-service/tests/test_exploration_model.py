@@ -1,7 +1,7 @@
 import asyncio
 import json
 import pytest
-from app.exploration_model import ExplorationModel,ModelFault
+from app.exploration_model import ExplanationOutputIssue, ExplorationModel, ModelFault
 from app.exploration_contract import EXPLANATION_VERSION, input_hash
 from test_exploration_evidence_binding import request
 
@@ -28,8 +28,18 @@ class FakeChat:
     async def ainvoke(self,messages):self.messages=messages;return self.result
 
 
-@pytest.mark.parametrize('outcome', ['supported', 'statement', 'no-match', 'invented-quote'])
-def test_major_explanation_uses_bound_facts_and_can_decline(settings, outcome):
+@pytest.mark.parametrize(('outcome', 'issue'), [
+    ('supported', None),
+    ('no-match', None),
+    ('statement', ExplanationOutputIssue.QUESTION_FORMAT),
+    ('invented-quote', ExplanationOutputIssue.EXCERPT),
+    ('wrong-answer', ExplanationOutputIssue.UNKNOWN_ANSWER),
+    ('duplicate-answer', ExplanationOutputIssue.DUPLICATE_ANSWER),
+    ('wrong-reference', ExplanationOutputIssue.REFERENCE),
+    ('wrong-target', ExplanationOutputIssue.TARGET),
+    ('wrong-shape', ExplanationOutputIssue.DRAFT_SCHEMA),
+])
+def test_major_explanation_uses_bound_facts_and_reports_failed_condition(settings, outcome, issue):
     value, facts = bound()
     signal = {'kind': 'ACTIVITY', 'metricCode': 'ACT_DES', 'questionId': 'ACT-DES-01',
               'questionText': '설계에 관심이 있나요?', 'answerText': '보통이에요.',
@@ -42,12 +52,21 @@ def test_major_explanation_uses_bound_facts_and_can_decline(settings, outcome):
     quote = '실습 과정' if outcome == 'invented-quote' else '설계 활동'
     draft = [{'questionId': 'ACT-DES-01', 'referenceKeys': [REF], 'evidenceExcerpt': quote,
               'explorationQuestion': question}] if outcome != 'no-match' else []
-    chat = FakeChat({'targetName': 'TEST', 'connections': draft})
+    if outcome == 'wrong-answer':
+        draft[0]['questionId'] = 'ACT-DES-99'
+    if outcome == 'duplicate-answer':
+        draft.append(draft[0].copy())
+    if outcome == 'wrong-reference':
+        draft[0]['referenceKeys'] = ['unbound-ref']
+    if outcome == 'wrong-shape':
+        draft[0].pop('evidenceExcerpt')
+    chat = FakeChat({'targetName': 'OTHER' if outcome == 'wrong-target' else 'TEST', 'connections': draft})
     model = ExplorationModel(chat)
-    if outcome in {'invented-quote', 'statement'}:
+    if issue is not None:
         with pytest.raises(ModelFault) as error:
             model.generate(value, facts)
         assert error.value.code == 'MODEL_OUTPUT_INVALID'
+        assert error.value.output_issue == issue and not error.value.retryable
         return
     output = model.generate(value, facts)
     connection = {'questionId': 'ACT-DES-01', 'referenceKeys': [REF],
