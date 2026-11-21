@@ -1,6 +1,8 @@
 package com.jinroon.jobe.domain.exploration;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.Mockito.clearInvocations;
+import static org.mockito.Mockito.mockingDetails;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -12,7 +14,9 @@ import java.nio.file.Path;
 import java.util.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.test.util.ReflectionTestUtils;
 import com.jinroon.jobe.domain.exploration.activity.ActivityRecommendationService;
 
@@ -23,6 +27,7 @@ class ActivityRecommendationApiTest extends CompletedExplorationTestSupport {
     @Autowired CatalogReviewService reviewService;
     @Autowired PostResultSupportService support;
     @Autowired ActivityRecommendationService recommendations;
+    @MockitoSpyBean JdbcTemplate recommendationJdbc;
     private static final String VERSION="TEST_ACTIVITY_RECOMMENDATION_V1";
     private final Set<Long> createdCatalogs=Collections.synchronizedSet(new HashSet<>());
     private long protectedCatalogId;
@@ -82,6 +87,33 @@ class ActivityRecommendationApiTest extends CompletedExplorationTestSupport {
             assertThat(response.path("reasonCode").asText()).isEqualTo("NO_APPROVED_ACTIVITIES");
             assertThat(response.toString()).doesNotContain("body_markdown","worksheet_markdown","review_record_markdown");
         } finally {ReflectionTestUtils.setField(recommendations,"selectedVersion",VERSION);}
+    }
+    @Test void bothEndpointsReadReviewsInTwoQueriesForTheFullCatalog() throws Exception {
+        long resultId = completedResult(true);
+        long sessionId = resultSnapshot(resultId).path("sessionId").asLong();
+        var fixture = (ObjectNode) mapper.readTree(java.nio.file.Files.readString(Path.of("datasets/activities/catalog.json")));
+        fixture.put("version", VERSION);
+        assertThat(loadCatalog(fixture).activities()).isEqualTo(282);
+        approveAll();
+
+        clearInvocations(recommendationJdbc);
+        var activities = activities(resultId, 200);
+        assertThat(reviewQueryCount()).isEqualTo(2);
+        assertThat(activities.path("nextActivities").size()).isBetween(1, 3);
+        assertThat(activities.path("catalogReviewIds").size()).isEqualTo(2);
+        activities.path("nextActivities").forEach(card -> assertThat(card.path("reviewIds").size()).isEqualTo(2));
+
+        clearInvocations(recommendationJdbc);
+        var result = getJson("/" + sessionId + "/result", owner, 200);
+        assertThat(reviewQueryCount()).isEqualTo(2);
+        assertThat(result.path("nextActivities")).isEqualTo(activities.path("nextActivities"));
+    }
+
+    private long reviewQueryCount() {
+        return mockingDetails(recommendationJdbc).getInvocations().stream()
+                .filter(invocation -> invocation.getMethod().getName().equals("queryForList"))
+                .filter(invocation -> invocation.getArgument(0, String.class).contains("FROM exploration_review_history"))
+                .count();
     }
     @Test void statusesAloneOrOnlyRootApprovalNeverAuthorizeItems()throws Exception {
         long rid=completedResult(true);load(item("A",major(rid,0)));
