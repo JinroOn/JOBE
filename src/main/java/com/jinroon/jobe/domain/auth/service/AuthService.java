@@ -67,6 +67,7 @@ public class AuthService {
     private final MailService mailService;
     private final SecureRandom secureRandom = new SecureRandom();
     private final com.jinroon.jobe.domain.user.service.UserWriteGuard writeGuard;
+    private final LoginAttemptLimiter loginAttemptLimiter;
 
     @Transactional
     public UserResponse signUp(SignUpRequest request) {
@@ -94,12 +95,20 @@ public class AuthService {
 
     @Transactional
     public AuthResponse login(LoginRequest request) {
-        User user = userRepository.findByEmail(request.email())
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_PASSWORD_INVALID));
-        requireActive(user);
-        if (!passwordHasher.matches(request.password(), user.getPasswordHash())) {
+        if (loginAttemptLimiter.isBlocked(request.email())) {
+            throw new CustomException(ErrorCode.AUTH_TOO_MANY_LOGIN_ATTEMPTS);
+        }
+        User user = userRepository.findByEmail(request.email()).orElse(null);
+        if (user == null) {
+            loginAttemptLimiter.recordFailure(request.email());
             throw new CustomException(ErrorCode.USER_PASSWORD_INVALID);
         }
+        requireActive(user);
+        if (!passwordHasher.matches(request.password(), user.getPasswordHash())) {
+            loginAttemptLimiter.recordFailure(request.email());
+            throw new CustomException(ErrorCode.USER_PASSWORD_INVALID);
+        }
+        loginAttemptLimiter.recordSuccess(request.email());
         user.recordLogin();
         IssuedSession issued = issueSession(user, request.deviceInfo());
         String accessToken = jwtProvider.createToken(user);
