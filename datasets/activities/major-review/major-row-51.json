@@ -50,7 +50,7 @@
         "과목별 비교 질문 2개"
       ],
       "example_output": "같은 정책을 나라별로 어떻게 의결할까? 여러 나라가 공동 결정을 할 때 무엇을 먼저 합의할까?",
-      "worksheet_columns": "공식 자료에서 확인한 명칭 / 내가 더 알아볼 주제 / 미확인 질문 / 확인 경로",
+      "worksheet_columns": "과목 / 결정 주체 / 내 질문",
       "reflection_question": "소개를 읽은 뒤 관심이 생긴 부분과 여전히 모르는 부분은 무엇인가요?",
       "alternative": "공식 링크 대신 제공된 과목명 두 개로 질문을 작성한다.",
       "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
@@ -68,8 +68,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 국내 의사결정과 국가 간 협력의 질문 나누기\n\n비교정치론과 한국과 동아시아 국제관계사 과목명을 읽는다.\n\n1. 공식 교과과정에서 두 과목을 찾고 다룰 내용에 대해 떠오른 질문을 적는다.\n2. 국내에서 누가 결정을 내리는지와 국가 간 어떤 합의가 필요한지 묻는 질문을 나눈다.\n\n남길 결과물은 과목별 비교 질문 2개입니다.\n\n쉬운 대안. 공식 링크 대신 제공된 과목명 두 개로 질문을 작성한다.",
-      "worksheet_markdown": "## 국내 의사결정과 국가 간 협력의 질문 나누기\n\n비교정치론과 한국과 동아시아 국제관계사 과목명을 읽는다.\n\n| 과목 | 결정 주체 | 내 질문 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 국내 의사결정과 국가 간 협력의 질문 나누기\n\n연세대 교과이수 로드맵에서 비교정치론과 동아시아국제관계를 읽는다.\n\n1. 공식 교과과정에서 두 과목을 찾고 다룰 내용에 대해 떠오른 질문을 적는다.\n2. 국내에서 누가 결정을 내리는지와 국가 간 어떤 합의가 필요한지 묻는 질문을 나눈다.\n\n남길 결과물은 과목별 비교 질문 2개입니다.\n\n쉬운 대안. 공식 링크 대신 제공된 과목명 두 개로 질문을 작성한다.",
+      "worksheet_markdown": "## 국내 의사결정과 국가 간 협력의 질문 나누기\n\n연세대 교과이수 로드맵에서 비교정치론과 동아시아국제관계를 읽는다.\n\n| 과목 | 결정 주체 | 내 질문 |\n|---|---|---|\n| | | |\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {
@@ -100,16 +100,16 @@
         },
         {
           "source_id": "m51-university-2",
-          "title": "학부 교과과정",
-          "publisher": "연세대학교 정치외교학과",
-          "url": "https://politics.yonsei.ac.kr/pagegenerater.asp?catalogid=politics&language=ko&pagecode=gradu01",
+          "title": "2026학년도 연세대학교 교과이수 로드맵 정치외교학과",
+          "publisher": "연세대학교",
+          "url": "https://universitycollege.yonsei.ac.kr/cms/etcResourceOpen.do?key=%24cms%24EwBmDYwRmB9BPA9gOwM4FMCWACAxogVwCcNsjEBDAEwFsKAHWAM02QDp6qmg&site=%24cms%24K4YyA",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "비교정치 영역과 한국과 동아시아 국제관계사 과목",
+          "verified_claim": "비교정치 영역과 국제정치 영역의 동아시아국제관계 과목",
           "application": "전공 소개와 과목명 사례 대조",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-19",
-          "usage_scope": "연세대학교 학부 교과과정 사례다."
+          "checked_on": "2026-11-21",
+          "usage_scope": "연세대학교 2026학년도 학부 교과이수 로드맵의 사례다."
         }
       ],
       "preference_question_ids": [
@@ -214,16 +214,16 @@
         },
         {
           "source_id": "m51-university-2",
-          "title": "학부 교과과정",
-          "publisher": "연세대학교 정치외교학과",
-          "url": "https://politics.yonsei.ac.kr/pagegenerater.asp?catalogid=politics&language=ko&pagecode=gradu01",
+          "title": "2026학년도 연세대학교 교과이수 로드맵 정치외교학과",
+          "publisher": "연세대학교",
+          "url": "https://universitycollege.yonsei.ac.kr/cms/etcResourceOpen.do?key=%24cms%24EwBmDYwRmB9BPA9gOwM4FMCWACAxogVwCcNsjEBDAEwFsKAHWAM02QDp6qmg&site=%24cms%24K4YyA",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "비교정치 영역과 한국과 동아시아 국제관계사 과목",
+          "verified_claim": "비교정치 영역과 국제정치 영역의 동아시아국제관계 과목",
           "application": "전공 소개와 과목명 사례 대조",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-19",
-          "usage_scope": "연세대학교 학부 교과과정 사례다."
+          "checked_on": "2026-11-21",
+          "usage_scope": "연세대학교 2026학년도 학부 교과이수 로드맵의 사례다."
         }
       ],
       "preference_question_ids": [
@@ -329,16 +329,16 @@
         },
         {
           "source_id": "m51-university-2",
-          "title": "학부 교과과정",
-          "publisher": "연세대학교 정치외교학과",
-          "url": "https://politics.yonsei.ac.kr/pagegenerater.asp?catalogid=politics&language=ko&pagecode=gradu01",
+          "title": "2026학년도 연세대학교 교과이수 로드맵 정치외교학과",
+          "publisher": "연세대학교",
+          "url": "https://universitycollege.yonsei.ac.kr/cms/etcResourceOpen.do?key=%24cms%24EwBmDYwRmB9BPA9gOwM4FMCWACAxogVwCcNsjEBDAEwFsKAHWAM02QDp6qmg&site=%24cms%24K4YyA",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "비교정치 영역과 한국과 동아시아 국제관계사 과목",
+          "verified_claim": "비교정치 영역과 국제정치 영역의 동아시아국제관계 과목",
           "application": "전공 소개와 과목명 사례 대조",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-19",
-          "usage_scope": "연세대학교 학부 교과과정 사례다."
+          "checked_on": "2026-11-21",
+          "usage_scope": "연세대학교 2026학년도 학부 교과이수 로드맵의 사례다."
         }
       ],
       "preference_question_ids": [],

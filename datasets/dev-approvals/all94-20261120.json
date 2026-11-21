@@ -1,0 +1,1141 @@
+{
+  "schemaVersion": "DEV_APPROVAL_SNAPSHOT_V1",
+  "sourceCommit": "0407f58b4df8cf3814bd9f518d24b512ad45af00",
+  "scope": "DEV",
+  "reviewerId": "JY",
+  "reviewedAt": "2026-11-20T08:26:56.218335+00:00",
+  "sourceReference": "JY 전체 DEV 승인 · 94개 전공 근거 및 282개 활동 구현·내용 · 승인 원본 Git blob 대조 · Notion https://app.notion.com/p/84-DEV-41e7e16f06d281f0871ad2b27706525c",
+  "ragVersion": "EXPLORATION_RAG_DEV_ALL94_20261120_V1",
+  "activityVersion": "ACTIVITY_CATALOG_DEV_ALL94_20261120_V1",
+  "activityCatalogHash": "03543f60d2471e2b9255820a06e08e4a5c9eb10361bae54fb57df1d02ed3b7ed",
+  "majors": {
+    "MAJOR_ROW_10": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-10.review-draft.json",
+      "evidenceBlob": "d7d9fd1b947230e172690b04460d55256435a8e4",
+      "evidenceContentHash": "22522721226efa0dfc727ea1ed8bcb2cf73828984becea6764b40a1e0f66f4c2",
+      "activityPath": "datasets/activities/major-review/major-row-10.json",
+      "activityBlob": "94f3f837eed4d2612fb74adaac581c8de651c76a",
+      "activities": {
+        "DRAFT-M10-01": "ef9036e351a006a70d32f6167a9d6127b4367c9ffa4444aa3262236779b09ff5",
+        "DRAFT-M10-02": "b09da91e3baf51c0e2e9761bee06d350c88e908b1c14d7030a305b9b8d44db5a",
+        "DRAFT-M10-03": "7c5ceb15ffc86fe8158864f097fad6ed2af268fb80462ac9aabcfaeb2a4ef15e"
+      }
+    },
+    "MAJOR_ROW_1001": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-1001.review-draft.json",
+      "evidenceBlob": "c64e8196c2cf3e2a9c5fd27499159523795bc157",
+      "evidenceContentHash": "d6f95f782f0ad6670764a8c379705650f307b2890d7f2f30a1773f3e91fc574e",
+      "activityPath": "datasets/activities/major-review/major-row-1001.json",
+      "activityBlob": "de3e5a385a3e74cbd6d606ed5bc2947c103a83a0",
+      "activities": {
+        "DRAFT-M1001-01": "b4eaf31b152f4b1ebaaf8c14cb0925f95573e6464ac5847a852e4706cf42370c",
+        "DRAFT-M1001-02": "b8dd75594585d90e0a88a49daa48004a3014a2bac99bccd545f168081fc22bc9",
+        "DRAFT-M1001-03": "41a09371fc4563e1cd7c9deeeb351b53cd77f3c5d051f80a21cc395d7eee06e4"
+      }
+    },
+    "MAJOR_ROW_1002": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-1002.review-draft.json",
+      "evidenceBlob": "e3ca6e608464e4d95dd5abedfae31a0caf0ef0a5",
+      "evidenceContentHash": "d387919fe66b85e14ba4b2034dac070294d473662ff82ff684e009a9a4c79e4c",
+      "activityPath": "datasets/activities/major-review/major-row-1002.json",
+      "activityBlob": "634ada3185467748a0025f8213345c404b4202b0",
+      "activities": {
+        "DRAFT-M1002-01": "4f48be3138bd0380e84ab77617ebedcf2c631e96330d35ae511c0f1fff4d6b17",
+        "DRAFT-M1002-02": "bf80475070ff29f0cd53ecd47780f79f7b65e571304ac3bd1f53d3edc9840873",
+        "DRAFT-M1002-03": "23bd5fde916abdde426e82fd18062724f3119d21e36874da6fd55925dc2c4a6f"
+      }
+    },
+    "MAJOR_ROW_11": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-11.review-draft.json",
+      "evidenceBlob": "c76c3ed5589244d9aa07c001d17215203da29bf7",
+      "evidenceContentHash": "f45f6f53846b787b96c05cb964c8cad721dd8d3112a74741b0c1bfceab07694a",
+      "activityPath": "datasets/activities/major-review/major-row-11.json",
+      "activityBlob": "b46693995fc20bae110f4cc44c74585347a79427",
+      "activities": {
+        "DRAFT-M11-01": "b0d1b3d244d684d513f8c4f0d79e5a21edd892d9cf50db5b364ecdf9d058273d",
+        "DRAFT-M11-02": "998bf82a3366452878d06e5dab75ae0a5c9864566bd4054a1e8c1add0daf1d6d",
+        "DRAFT-M11-03": "0f70c0c9189b764dbb2494e438c113cb52def11ca8821c45e4a9d4235289474e"
+      }
+    },
+    "MAJOR_ROW_12": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-12.review-draft.json",
+      "evidenceBlob": "a377fdb4a90c046803924a9fd18dd26069a8ad3e",
+      "evidenceContentHash": "dc3570fd70e38cbf00da1157b362eaa04749ac86a7105bd0044c9427dc745c94",
+      "activityPath": "datasets/activities/major-review/major-row-12.json",
+      "activityBlob": "b3803a3e6193846b1b59b805ee5702f07b8506c3",
+      "activities": {
+        "DRAFT-M12-01": "7beb998c1d384afdbd484aa717a9aa1869db44f8cd79e2e1a090591deecc9773",
+        "DRAFT-M12-02": "9f0ffca345c071bec01475da495d18d6ce32c902845f7defc0af5e5433bbfe43",
+        "DRAFT-M12-03": "c9d2b153568de8cbf59dc03fea32a669d8e0714ed78601e350f94a282dd35c70"
+      }
+    },
+    "MAJOR_ROW_124": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-124.review-draft.json",
+      "evidenceBlob": "2b32914b4c5f4d780a2bcf84c070d1d3b6f20f44",
+      "evidenceContentHash": "7f1c5158d16f487c92b282397efbefad088fa9f5cdf29f517c4a6f681843b87d",
+      "activityPath": "datasets/activities/major-review/major-row-124.json",
+      "activityBlob": "0edd0bcc6a1028215945fc3006524d4245881383",
+      "activities": {
+        "DRAFT-M124-01": "5f128b5b9873ceeadfa02341d5ed9349aeff3195ab4f708ced4f6802dc093f23",
+        "DRAFT-M124-02": "cb8cc66cdc6fbd7c4e2e29f7e89cded6f6cc8d4ba22bf2e153b443a146cd07bb",
+        "DRAFT-M124-03": "bacb9289bde590236e2869fde77d138d2b1c75cab0d1c39021ab50303aeafbb1"
+      }
+    },
+    "MAJOR_ROW_125": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-125.review-draft.json",
+      "evidenceBlob": "a20d2d610edb2b9067ad220b796e7c85458c342f",
+      "evidenceContentHash": "7f0473c0f7ac2c7b98561a783427ff6af78a945a622b772366bc6db82edf4855",
+      "activityPath": "datasets/activities/major-review/major-row-125.json",
+      "activityBlob": "bfd4fdb7e564e3130c18eb1d5754d7bfe1ce7e4d",
+      "activities": {
+        "DRAFT-M125-01": "922151d1c70312aad7515e2842a1f96d0c3a43b429f82cb77d170b2182f15e08",
+        "DRAFT-M125-02": "fd6f182083aee9c7857e58bc2e5bb5b684e3d4c81a1992dd6aab547a19525ced",
+        "DRAFT-M125-03": "1044eb67eeb588afb412b3a4e59343b439fe56b818e557f4a7b5b64ba3fa63a8"
+      }
+    },
+    "MAJOR_ROW_126": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-126.review-draft.json",
+      "evidenceBlob": "b49cd679f5cfc8fc83b0b1679275c61ffa5cc01b",
+      "evidenceContentHash": "da1595ae8615f3a5a40099172fd378ba45912604adadbdbfb5476bfa1c4589b1",
+      "activityPath": "datasets/activities/major-review/major-row-126.json",
+      "activityBlob": "2e7ce063c4c294e0fd5f6a3699d7217ad2103511",
+      "activities": {
+        "DRAFT-M126-01": "1514717c8a2b50fe398b2e51d81c865ab3eb0710680028f85a2be86930662540",
+        "DRAFT-M126-02": "ace54ae1edfec2c34ffb6e759dc26ae1beebbcf38d0d6c74968b6754a2b29dc2",
+        "DRAFT-M126-03": "54a366731195a8ed1167cdfdf1454159236284a2d8718ce0cde9a6121d2939c3"
+      }
+    },
+    "MAJOR_ROW_127": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-127.review-draft.json",
+      "evidenceBlob": "7e94df26ca5d5b0d478d29b77b1cf2ff9d77b408",
+      "evidenceContentHash": "f168d82ce3a14c1764f574d01fb9945feac82cedd222359c7df06ecc439958f4",
+      "activityPath": "datasets/activities/major-review/major-row-127.json",
+      "activityBlob": "8511068285e790a717dc232b2d7f5724a4b33684",
+      "activities": {
+        "DRAFT-M127-01": "ad1473b4b4625628bc569e8fab5a4c96809e09260a4478e39d02bc0b975e7b19",
+        "DRAFT-M127-02": "1af966cb8002be3aa3e903b1323fe549e181b0cdbc4784680212f7a3361d2fe7",
+        "DRAFT-M127-03": "9cfc8c69ded7e7f1b5c09362479594783a1a3675ee32412dde60cc10d189985e"
+      }
+    },
+    "MAJOR_ROW_128": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-128.review-draft.json",
+      "evidenceBlob": "2fbd82c16283667e763a2120d89461f036878d72",
+      "evidenceContentHash": "7482ad42aef256477b65cc959a7d90d3d98aa856c392a313d8fed5193379f0c4",
+      "activityPath": "datasets/activities/major-review/major-row-128.json",
+      "activityBlob": "26218c6e0f3f65cb358348affa1572962f0d786f",
+      "activities": {
+        "DRAFT-M128-01": "669542b7b16c05fbaaeb5c3872e93bdc7356f1fa1282b78e7814bec4f1c859de",
+        "DRAFT-M128-02": "9b02e76aa9c8fe5fdbc0918f1e92263cadbbffd567f710aaa6739942c178b0a0",
+        "DRAFT-M128-03": "157cd608c88722acd7117c3f92a188f41f76ea9785ba9bd89be2cf66e8661fc6"
+      }
+    },
+    "MAJOR_ROW_129": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-129.review-draft.json",
+      "evidenceBlob": "2aadf4e82e358631e8a4d62605f9b0085f95f904",
+      "evidenceContentHash": "b883c28f12fdef21258dcee49ff1d9f89a519d1ebc71ccf59dfe9d74eb0484bd",
+      "activityPath": "datasets/activities/major-review/major-row-129.json",
+      "activityBlob": "335f8887701cf75a5715417ef7c860b26478633e",
+      "activities": {
+        "DRAFT-M129-01": "dd2441b07aff79666d27350c9f627dff038fbf866657d8bccb6d56a0985d73eb",
+        "DRAFT-M129-02": "08035b5dae1bfc67400a74c91aea06dbe3b97d39fae601e2f7ec9b82d40ebbb8",
+        "DRAFT-M129-03": "af4c32ebf19f8eeba9fd29dae8c0b651b15b2785b8302af4ee887d5f5f18998a"
+      }
+    },
+    "MAJOR_ROW_13": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-13.review-draft.json",
+      "evidenceBlob": "50784c30f6236daa8bdba0b2f58ddd3606672341",
+      "evidenceContentHash": "bf2b2df4faa76bb4eac4c8bbdd8d001f4fcc9f3dc756b9eee79fa24c5e8e9928",
+      "activityPath": "datasets/activities/major-review/major-row-13.json",
+      "activityBlob": "cf49a979a01795a8f00fc37be188b9b19322b7f6",
+      "activities": {
+        "DRAFT-M13-01": "2a8828f21e15357083d4f085f955c44dfb5c1f5485dc6993f56f1633787c6b0e",
+        "DRAFT-M13-02": "6596038b6ef594eee0f51390b5c10a946115db219019da50fb1fb45b6247b7fd",
+        "DRAFT-M13-03": "2cbb0c1e3a97c88f529a94a984ae1d97190f725bd4ad5115b6ef3a2143cc0454"
+      }
+    },
+    "MAJOR_ROW_130": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-130.review-draft.json",
+      "evidenceBlob": "c106f19593d77c4ef95ced0b4cdf3300719a4685",
+      "evidenceContentHash": "277843e149d37f95788b1cc1ab446a597f39b4cb6dc52a6b3d7efb7374ffea72",
+      "activityPath": "datasets/activities/major-review/major-row-130.json",
+      "activityBlob": "baec7e2709d6a7a593e29c255a6d5c724f655593",
+      "activities": {
+        "DRAFT-M130-01": "3de00028735b57112985509f5c0378b60337206d106213f79dfbd517f71c7dfd",
+        "DRAFT-M130-02": "98c7fbd7932dd450e17e7079fd1950872548132a5eff324f8b91321a0ee65236",
+        "DRAFT-M130-03": "bb085ed4a8b06f646a733e5597aae8b1cebfa24368f6fd915680e3c4965d6322"
+      }
+    },
+    "MAJOR_ROW_131": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-131.review-draft.json",
+      "evidenceBlob": "4d8c23619599b3063b83f4b19ef12d3902d69f98",
+      "evidenceContentHash": "b46585b4565dc81bcac2645fd8d8edbc16cce33969b5c943e7700fa91bab7a24",
+      "activityPath": "datasets/activities/major-review/major-row-131.json",
+      "activityBlob": "504c7f119029db9d127243fe0aa5266541d34697",
+      "activities": {
+        "DRAFT-M131-01": "86b5709c2aaf89b9a11ea851bc8526f726b3b8a38d3a8e5282b0770b3d539d6a",
+        "DRAFT-M131-02": "ce269c6dfb8e7776e693eef75386a9a6b3ddc2d9f79b2fc375782a6377c15375",
+        "DRAFT-M131-03": "0082e0a5c8880fd92f725cb58cb80d9891990a0d39550628ce7c29751829897e"
+      }
+    },
+    "MAJOR_ROW_132": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-132.review-draft.json",
+      "evidenceBlob": "f7e5394daa2837b0a18d3629e22772531b0dcbf6",
+      "evidenceContentHash": "cdc2c8dcb1de72490d325678d4734bd1bd666b12d5086f6c7542ab8717b1e254",
+      "activityPath": "datasets/activities/major-review/major-row-132.json",
+      "activityBlob": "c7e57b0b2648774af795fb015bcd29f9ca1b9f39",
+      "activities": {
+        "DRAFT-M132-01": "ae7f57ebcb6078ef8721002d54dd6de53db0c01e3f8815f097f4cd0e7751e89b",
+        "DRAFT-M132-02": "2c3444559875df07117dc81a283bb2796cefa9240fd57d7394fc6e186983f62c",
+        "DRAFT-M132-03": "ef43557eaf58474bee56f20655c0686ea5ef766ced09f88a0c9e49fe7e5dccd8"
+      }
+    },
+    "MAJOR_ROW_133": {
+      "evidencePath": "datasets/exploration-rag-review/computer-science.pilot-review.json",
+      "evidenceBlob": "3a86b5a81b46e54e15f96a63cf9ea0c0a70333f8",
+      "evidenceContentHash": "da6edff6fc7ed8d4e600a1c22198eb2fb64d80c4825ddcf93ce978ced7dbdf4a",
+      "activityPath": "datasets/activities/major-review/major-row-133.json",
+      "activityBlob": "2e57ab97729b7563321f59da49ec4e09943a98ed",
+      "activities": {
+        "DRAFT-CS-01": "8d3bdd0076162e73a92450d94b56bf5431e9616d33b49df1fe5f0de18b08bb2c",
+        "DRAFT-CS-02": "b2d8a03fc56512ccc880c877ae02f6c28867b000824768df4f6d8662cb58714b",
+        "DRAFT-CS-03": "c7757915171ec77c49b3967bda07af85adcf52dbf7e4eecbed9108c44d633679"
+      }
+    },
+    "MAJOR_ROW_134": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-134.review-draft.json",
+      "evidenceBlob": "4877515c107676ab37888193abb9ba271b29d442",
+      "evidenceContentHash": "743d5affa43793f4aa513956a04cbb444cfe36cfa0819c33348d02244a0e4117",
+      "activityPath": "datasets/activities/major-review/major-row-134.json",
+      "activityBlob": "c8cc9ba4bccef8d31bd0df361d5340d6cac28621",
+      "activities": {
+        "DRAFT-M134-01": "61cc75fde0807cfdec6d982076ce757ea862087059583db8ebe35effa81545e5",
+        "DRAFT-M134-02": "a043ec58eb7135a1eeea98c139008d0d2cb7f41d062f54b9570d551497fb7a72",
+        "DRAFT-M134-03": "6270405d9547f431a4cb4c0cc83a26c87b48dee7bbfb17ed28bcfbd22122a62c"
+      }
+    },
+    "MAJOR_ROW_135": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-135.review-draft.json",
+      "evidenceBlob": "2c6acb415a7377aeee4a42e0f69862d9b7811540",
+      "evidenceContentHash": "b19d8998efebeb3dcd7c1637a92a2a06dcaa0faae0c6d79983006dd7bd91625f",
+      "activityPath": "datasets/activities/major-review/major-row-135.json",
+      "activityBlob": "f9a38d84d550d07af389509061533ee421e0963b",
+      "activities": {
+        "DRAFT-M135-01": "13519fcffd1a5dd2deb4a6b8c9b5b40a0a525160d57a8b8b023d857c73118c4c",
+        "DRAFT-M135-02": "b95661fd7c6ed63c9f5421b93acec1ffd888165db4505f6052fc8bd50708951f",
+        "DRAFT-M135-03": "f3f0a739600c0a37ae5589888a881b0691ec243badf3d5de9e00bd4ee0a4f569"
+      }
+    },
+    "MAJOR_ROW_136": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-136.review-draft.json",
+      "evidenceBlob": "71e3febe3c73c14a277668753a375825f422a6bf",
+      "evidenceContentHash": "f45fa040f20841e69c4e35735ee10bfff43d117cafe6a4ad4421eccac4dd4666",
+      "activityPath": "datasets/activities/major-review/major-row-136.json",
+      "activityBlob": "55e6b5ae4a915ba350dc7493a40ef309dcd194bd",
+      "activities": {
+        "DRAFT-M136-01": "8d6037d3fc9b92bfa77b55303ea9ff7124107b14c3d62a8dba1415bc4c960e41",
+        "DRAFT-M136-02": "73e3099e66d93bf0c6fa6810555b0e99e7dbe3cc9f191ca9c8418abfa794ee6c",
+        "DRAFT-M136-03": "7a2159cd8ab672eb7da9c81d7feebfe0f05aa2fefbb1bc62f758c933a6ea4580"
+      }
+    },
+    "MAJOR_ROW_137": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-137.review-draft.json",
+      "evidenceBlob": "e0dd512417edc189e94fd499078f9cfe9fc1af94",
+      "evidenceContentHash": "3604d0cc1f796c91140aa4a5cf8ad13ec2577da3f3fe3e870cd2009668f4207d",
+      "activityPath": "datasets/activities/major-review/major-row-137.json",
+      "activityBlob": "5b58fe8c2f07e9c21e180036bdb01fc07a8b50db",
+      "activities": {
+        "DRAFT-M137-01": "fc8b165b46b1060999c10e03537467cd982f6b8a26273ee5ba8f42c0597baf01",
+        "DRAFT-M137-02": "578151c0d3625a7e9477610286a0bdf989f86706b9d9ebd7e4bc6fd1d25a9bf9",
+        "DRAFT-M137-03": "650a8d815577e375fdd8dd795599d1b01712e5dffabbc242e590409feab3f20c"
+      }
+    },
+    "MAJOR_ROW_14": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-14.review-draft.json",
+      "evidenceBlob": "f63888c57ce5805c414a2b1747aac9e7b2cf50d6",
+      "evidenceContentHash": "462b3745d28e9340bdf0edde9038e4966f99752b400994cc38abbb22c94e9e98",
+      "activityPath": "datasets/activities/major-review/major-row-14.json",
+      "activityBlob": "d1a6fdfc70afa5368d74eaa56d5501f874e21c11",
+      "activities": {
+        "DRAFT-M14-01": "104749be6a8c5f454b34c3a414c9d4a96418a06cefcb88e19c6020146beed72f",
+        "DRAFT-M14-02": "bf8c490c187abdcff382dcc1ac732cfb3c67fd239c07759063e3ff20ac0c7323",
+        "DRAFT-M14-03": "f3ee4ef067b471a0105d52b1829ec3157dc90790a47400744205d77d08d2d706"
+      }
+    },
+    "MAJOR_ROW_15": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-15.review-draft.json",
+      "evidenceBlob": "8ead626f69382dd85a9ca1c15dbe6e221dc4e2d9",
+      "evidenceContentHash": "8aa2faf5f9d075c4502bd104ed3d95b14694e079e43b9b9eaa13961895458b69",
+      "activityPath": "datasets/activities/major-review/major-row-15.json",
+      "activityBlob": "d2ea9d3d508e2d90609827c464c7cae472b35222",
+      "activities": {
+        "DRAFT-M15-01": "4869988931038cac02b14f659924c311a25eb70a22469c73b410d4bfa2cc7933",
+        "DRAFT-M15-02": "1cdb2d01f8cabcd577f76fed8429355f2b9bd28b2fabe3f478a16818557b164a",
+        "DRAFT-M15-03": "6c29a47a9d65ae5f0b91483acb475575bef38603799e57c1590542d4d263123d"
+      }
+    },
+    "MAJOR_ROW_166": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-166.review-draft.json",
+      "evidenceBlob": "8fc53862d42116d8ab3fb2d6f2f63d0ece8bce9c",
+      "evidenceContentHash": "d130554063c870f73e8b74bf15bdd84457781dcc287a1232ea36968794083f03",
+      "activityPath": "datasets/activities/major-review/major-row-166.json",
+      "activityBlob": "18137d115e94a030c963eb87d00528c7d360b110",
+      "activities": {
+        "DRAFT-M166-01": "b7e080e72c69f8115b0f97e1fea0bddc95653e8e8aa294d0c53bb4b7ba0c001f",
+        "DRAFT-M166-02": "4ca6d8ed9c574d3487acabb44a2c4d7fb96950ed42247ac483673d5b3252f5e4",
+        "DRAFT-M166-03": "3f8efa569c1f2ed86c0aba2655cba8b1191737965266e8e9b99d46535e61434c"
+      }
+    },
+    "MAJOR_ROW_167": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-167.review-draft.json",
+      "evidenceBlob": "4ae5c01d282f0c07b8c46acc44e9eaaa614f15ec",
+      "evidenceContentHash": "60284f3b720208df4822dd3638e23d94e2f30d26653c89a0c33967a8f953d485",
+      "activityPath": "datasets/activities/major-review/major-row-167.json",
+      "activityBlob": "f2c37d2c87bf79215589e761d821a2e7952f09aa",
+      "activities": {
+        "DRAFT-M167-01": "e16309c3c392b43f6ed947d950c5904648b079aede34c464f908292f849967bb",
+        "DRAFT-M167-02": "5af88ea1770ef5c0124d4fc9d2d46237701fffa63d91e42d7d2630afee247b0f",
+        "DRAFT-M167-03": "8165f9c6fbf1a4681bfd7ac2e966b5f8874533f251510e0fa3a2b628756ff44f"
+      }
+    },
+    "MAJOR_ROW_168": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-168.review-draft.json",
+      "evidenceBlob": "c97b4eac8e03bc1f4c963264faf8a69ae297d917",
+      "evidenceContentHash": "34bc5c6abe5046b4bee0ae12e913517f948fc2db5c5333b20a7a0bcf3d9018c4",
+      "activityPath": "datasets/activities/major-review/major-row-168.json",
+      "activityBlob": "edea7783d80eeeda3e5cc70b00766fba91ee7f1a",
+      "activities": {
+        "DRAFT-M168-01": "d08e55569c2fbcd046ab303a1d3e26cdbc7a2b0bafd3e45071a7e59e86bf6152",
+        "DRAFT-M168-02": "563fcb481b2514b2609304253b24a98c1f9d9258d7c6df52fa57b6ad4baf1d8c",
+        "DRAFT-M168-03": "128e51e5fdf25568fcd9039d464366aaac8acdff02164c91438e0b590a14573d"
+      }
+    },
+    "MAJOR_ROW_169": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-169.review-draft.json",
+      "evidenceBlob": "313fcadac499ea7051c1b626a82b7c24941822b7",
+      "evidenceContentHash": "3c41054c87603aaf0d04fa12baa2921bf7cd15cc7cd22bef514943931ae83c9d",
+      "activityPath": "datasets/activities/major-review/major-row-169.json",
+      "activityBlob": "28c9f66e82b126421820833a2f81914079ce2b74",
+      "activities": {
+        "DRAFT-M169-01": "9d141c7ba8c18e1e2ed5bebc022b1d08c0a41cc932dcaffabfb9b8cebee16084",
+        "DRAFT-M169-02": "4d62d978c8065d99e0183597bd78066b488946f06451ec96645d134dfaf76507",
+        "DRAFT-M169-03": "a4e53c7d51f081aa39b9231d109a60008c5ad61ce3dc8673b29f4364b2477014"
+      }
+    },
+    "MAJOR_ROW_170": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-170.review-draft.json",
+      "evidenceBlob": "b595df1b6587c5d7af1a3469b7267395f145e77f",
+      "evidenceContentHash": "3d491359ccd768f3fb5d49362f4499fcc44fa6c651b5badcbd696946d35f5f9c",
+      "activityPath": "datasets/activities/major-review/major-row-170.json",
+      "activityBlob": "f8b8959a90dbffc58c173647cb3828ad1082c97d",
+      "activities": {
+        "DRAFT-M170-01": "8781c96b217d6a1a4c3d49f2e4738e6f7f8e1ba5a3983ca61da4afa721eb3931",
+        "DRAFT-M170-02": "b7648b17d57e3459015ff7f11f085b3af4bcbecb6cd734d7a99e447420a2b0fa",
+        "DRAFT-M170-03": "a7fe74c12e63ce07deafbf090bc5e1639150a5640ead9bc96a6fc8b342746b8e"
+      }
+    },
+    "MAJOR_ROW_171": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-171.review-draft.json",
+      "evidenceBlob": "7f6bc8f2ecc1ec56b1e92a5c7c6d082634552bd1",
+      "evidenceContentHash": "0abcbd5640fd495c9721341d7de5431842d591f836274ba489c5b3d1748eff64",
+      "activityPath": "datasets/activities/major-review/major-row-171.json",
+      "activityBlob": "11be4187c34aed4e8a08b15c040fb790e4458daf",
+      "activities": {
+        "DRAFT-M171-01": "0e38630147673efc81f6f6a25dba683eda6143a0717f115746a9d5e915c07d30",
+        "DRAFT-M171-02": "6dae173a5b078a29d87799eea2a0f3ecabf7ae1da3cb65f4bfb89d180ca48be7",
+        "DRAFT-M171-03": "e4589cad5e4d7248af86c170138e31667b54ab7a2ccf79acdddc90fea429d0f7"
+      }
+    },
+    "MAJOR_ROW_172": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-172.review-draft.json",
+      "evidenceBlob": "353faece4f79b92e093f183f419d747b4fcd51c5",
+      "evidenceContentHash": "048ec2fee0ae9086dbf7f5dc86216b4da57e5220e83b1af87399e31821b6e534",
+      "activityPath": "datasets/activities/major-review/major-row-172.json",
+      "activityBlob": "e5f2d8f4fa31e62905421fca533e6aded61dd9d6",
+      "activities": {
+        "DRAFT-M172-01": "289abf0e15ab39991479022e63114c8ab0c0694295879ab64617b95c557e49bb",
+        "DRAFT-M172-02": "418582cedbbfa7c02bf153c390529780d038d184be45c00fb07b6ae0803097c9",
+        "DRAFT-M172-03": "4fd07e451b407ff63770ee36f0abe2e5a4514b49545dea9d22b84739e57d333e"
+      }
+    },
+    "MAJOR_ROW_173": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-173.review-draft.json",
+      "evidenceBlob": "6fee5626fd6413e9bdf0ee9b498e207942c4dd03",
+      "evidenceContentHash": "5e3f38a3dd25daa85d265839d1692d6c7a47c14165a6eaa7ab28e74f4763285c",
+      "activityPath": "datasets/activities/major-review/major-row-173.json",
+      "activityBlob": "dc7d3336c7a340376c8945a74db021c7bd0c8248",
+      "activities": {
+        "DRAFT-M173-01": "fb528f94ecce9f62ec7878a72b4d626812842b22bd010d4f73de7671060332e5",
+        "DRAFT-M173-02": "96dd1574d836edc725422a93aa7a0bdd0ce706dcf540146a8c79cbd160a3d175",
+        "DRAFT-M173-03": "159b0637ed42d0e29e6af8f2eec152f35662a3ae2c7f8cb2e97c32ebbc00ed83"
+      }
+    },
+    "MAJOR_ROW_174": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-174.review-draft.json",
+      "evidenceBlob": "87e0bb401922bac403af25f8a68735d9cb179774",
+      "evidenceContentHash": "45e30794dc329a5e062bf6423d7ca67a7d788cc8d49879fd59b85a596be68084",
+      "activityPath": "datasets/activities/major-review/major-row-174.json",
+      "activityBlob": "bc261d3650431daec3a53ecef3d2955f092727fe",
+      "activities": {
+        "DRAFT-M174-01": "764007a98f334880a15012567bf8f9d24d00c90990a89a680d5dcf8d5f47bb43",
+        "DRAFT-M174-02": "1533db8f2d6dd36db9cbd83fc4b50e7a6db4f361ac67bfd80c85273b3e275366",
+        "DRAFT-M174-03": "e7726bc553c5d71a567eb3d2ac961456e137f82fb4d83fd81e70ae7325a1ff49"
+      }
+    },
+    "MAJOR_ROW_175": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-175.review-draft.json",
+      "evidenceBlob": "37a518f2b895bd691d039f9c5344aa7ae6d67a50",
+      "evidenceContentHash": "e1509fe6b9df0444c4daa0da8b731c5b057a785268dcf86ac59c2e7ee5d654b0",
+      "activityPath": "datasets/activities/major-review/major-row-175.json",
+      "activityBlob": "b970ecc1398ae627975f681f690091c29f6e305e",
+      "activities": {
+        "DRAFT-M175-01": "c0c5a86b3ff7c2f1cf0b4ec67a4f703e9742b3125fcef308a6770c813955ed8b",
+        "DRAFT-M175-02": "225f6ed3496e1ab79dcdde341cfb896016754f17e44365c84c4aec53f835b009",
+        "DRAFT-M175-03": "a3f168107de44b774ce9294cfb621a8ebd26aa78dcff4b29894f1a3c2a549343"
+      }
+    },
+    "MAJOR_ROW_176": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-176.review-draft.json",
+      "evidenceBlob": "c2a9dab8afdfde570cfebce65ee4140a1e7b58f6",
+      "evidenceContentHash": "4ad215b92eed515d6a8587e14cfedc9c147e163ddc401ddda1425deac90709a7",
+      "activityPath": "datasets/activities/major-review/major-row-176.json",
+      "activityBlob": "dc4d47fa5cda6bd3b3df182ad243065c43b86af9",
+      "activities": {
+        "DRAFT-M176-01": "2dd265dd88cd72626670e43f1c279c2f0c037a365ae243523ecbe0feab3b3051",
+        "DRAFT-M176-02": "a081b988c02ba79095d1d64e7a05064a61b32eb213ba5ecf7510d8b7308b083f",
+        "DRAFT-M176-03": "aa1b9886a70349621fc0be6909927b1c5e3bea110f0266bdf5f75430e0bfc34d"
+      }
+    },
+    "MAJOR_ROW_177": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-177.review-draft.json",
+      "evidenceBlob": "29acb03e45ad3090650b27bb2664dd476271e9bd",
+      "evidenceContentHash": "c50f9326336fbdabafc64d112effea85a36e8e4b20ae2a2fd4440c9477d47e0f",
+      "activityPath": "datasets/activities/major-review/major-row-177.json",
+      "activityBlob": "99c696d8a6c2b73c479a892b3d310acab9436602",
+      "activities": {
+        "DRAFT-M177-01": "89b0bb9783b6f7a9ec54577dda9183bb27fe73f1e2f335c3d1bdebf988ed338a",
+        "DRAFT-M177-02": "fbe40b7de386ad7d261448bfd7eaaa05f29e9559f814a4c1d9376bad88a4b811",
+        "DRAFT-M177-03": "1359c27c5f563f89d745b56a2bbb700451c401f7f117a84344e63c6dc0c455d3"
+      }
+    },
+    "MAJOR_ROW_2": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-2.review-draft.json",
+      "evidenceBlob": "adf5f0034177d62babdafb8b8db249b294a358d4",
+      "evidenceContentHash": "456e51e0c0a1d3125319a2d1d25970caf10ada77b1c28b7483ae32d6180995df",
+      "activityPath": "datasets/activities/major-review/major-row-2.json",
+      "activityBlob": "fa07683aeec64427c0b4270c65eb9329c1ba2a6e",
+      "activities": {
+        "DRAFT-M2-01": "8488fa053847659d81ffd479070aafc7c4d344ad5adcb4b2835141c6f3de797d",
+        "DRAFT-M2-02": "2b7221038d23ee0897994cf143516d88f192128a60da4941042cf07f397131b8",
+        "DRAFT-M2-03": "53556e380e285be5b81e3927014e03ce2fe85bc7149dc5cc96152125c9d94efc"
+      }
+    },
+    "MAJOR_ROW_201": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-201.review-draft.json",
+      "evidenceBlob": "4e72e303c08ecf0eba3d96910f16ce70302b91af",
+      "evidenceContentHash": "3a5ccfd45e718586efaacefecbd68604502aad8e4c09ff4e97700ccd35b56be6",
+      "activityPath": "datasets/activities/major-review/major-row-201.json",
+      "activityBlob": "e568a941710bd7ababae2f8e5f2ef0c866259156",
+      "activities": {
+        "DRAFT-M201-01": "9728c1a57c1f3e63890c30c5f51c44d1c4dc83a188fc230e89e1df951882e81a",
+        "DRAFT-M201-02": "196942f3a76291c6fce64864f3f00fd7919bd71c1160cda2402e29625b4b4d04",
+        "DRAFT-M201-03": "bdcf6461a93a0ca3de415b33c6a69c93b4ea0fe6b82b7394d2a06fbb5df952c0"
+      }
+    },
+    "MAJOR_ROW_202": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-202.review-draft.json",
+      "evidenceBlob": "e0cd7ffb82f13364ce1a0af5d1b734cbbeef8970",
+      "evidenceContentHash": "01326c5015847bea0830cd974f60b013f38c468a1e19e167c9300741decec748",
+      "activityPath": "datasets/activities/major-review/major-row-202.json",
+      "activityBlob": "44f02a396ca9e4dfc3c2847e45c112acb10e8028",
+      "activities": {
+        "DRAFT-M202-01": "607f043366b509edb6824cb86af14f577f723924db7714999eed06b3c6702b21",
+        "DRAFT-M202-02": "757336d3b22f196daa415c2a1072ceecee0228ebea26578b7ebd99f8d8b20b94",
+        "DRAFT-M202-03": "6740a1ee295265df5314d7a07324847fcdd8f75d8d060ab0cf450cc9d271cae5"
+      }
+    },
+    "MAJOR_ROW_203": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-203.review-draft.json",
+      "evidenceBlob": "4c9c27d4be5f48d42adbb8ac9660d658afc888d3",
+      "evidenceContentHash": "c279455f898698ba0a27d383bfb153e83a7f0129b4d7c4e3a57011cd24b147c2",
+      "activityPath": "datasets/activities/major-review/major-row-203.json",
+      "activityBlob": "6f8def857e54be89189d63555e3285d70d962cf1",
+      "activities": {
+        "DRAFT-M203-01": "6e167f3034f418131aa3d83c2c0456df3a968a8dfa3ddc3a1f79b1d69df0a4b3",
+        "DRAFT-M203-02": "42403894e3d2f5d6ee0c50e9d721476d84adcc37f48334d227c6924ba2d7d5d0",
+        "DRAFT-M203-03": "f5d7220d8ebec80c942bee919dc021d4d0971e74956818eb2aeade6c0c4f11bb"
+      }
+    },
+    "MAJOR_ROW_204": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-204.review-draft.json",
+      "evidenceBlob": "f628bb245bdeb94251bd3b495084dd78d956a796",
+      "evidenceContentHash": "e10ffd87c28acf7c7a229ca56a11b144635fcebdd42220090c5f1edede01892b",
+      "activityPath": "datasets/activities/major-review/major-row-204.json",
+      "activityBlob": "520b42978738288992988c195dc4e11e4bb0e9b0",
+      "activities": {
+        "DRAFT-M204-01": "ff63529b59f58633c4bc9161dd130b66d7d46d9e972b31e6efdc55121f31304b",
+        "DRAFT-M204-02": "b74f663cccb8b03cc31cb8070b901d2810ffcae948bc51af059d7fa4996f713a",
+        "DRAFT-M204-03": "ba8dfc2f2268c55b9241ec28efde23056ba248c911524472aaaa942552586699"
+      }
+    },
+    "MAJOR_ROW_205": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-205.review-draft.json",
+      "evidenceBlob": "c49d5c4c4fee64a1e7d69467c16857ce2636891c",
+      "evidenceContentHash": "71c0422ab63e6ea209bb324144f3e696e7bca006e3dc3a4a211db1fda6496cb0",
+      "activityPath": "datasets/activities/major-review/major-row-205.json",
+      "activityBlob": "3d0dea049be744caa52f5a8af31a305182a7ed97",
+      "activities": {
+        "DRAFT-M205-01": "bfd9937dc5abcf4d174e1f31e394fd00bc8f9be64c82ea1bd7cc16fae4f51f03",
+        "DRAFT-M205-02": "3c1a2474580005061d1662f2c960083b6e02dbec4f406c62735c104e4e3d3d6d",
+        "DRAFT-M205-03": "b55affad988ceca1a18a348065c0774f9426e97d787b380337daebf1744eb62c"
+      }
+    },
+    "MAJOR_ROW_206": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-206.review-draft.json",
+      "evidenceBlob": "8bd3f48590dc9c01b0c9c07fccd964565bc6285a",
+      "evidenceContentHash": "5cf433effe89ba6113ca8d2affc4a78be385956b472e236940ba8ca3076643be",
+      "activityPath": "datasets/activities/major-review/major-row-206.json",
+      "activityBlob": "7993c539fb19c338add7b5538191687414b0b117",
+      "activities": {
+        "DRAFT-M206-01": "7ba74561224beb55bbdbe6828950b886875b8d8bfbe8f6939bd84b416b82d0cf",
+        "DRAFT-M206-02": "0adf2720de815e9bcf9137768f17a7cb757c234b12d163bdf0cc881a822a15ac",
+        "DRAFT-M206-03": "e4c31d3734662d397d148136f832e5ddfee41ac02c5ad576835eca469aaf370c"
+      }
+    },
+    "MAJOR_ROW_207": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-207.review-draft.json",
+      "evidenceBlob": "d09a2ba51623ebdff258b03a54602da162783d26",
+      "evidenceContentHash": "9e201402d08a8936fff526d16f4b419ce212cc54a472e9c13bc8822b3d7e295c",
+      "activityPath": "datasets/activities/major-review/major-row-207.json",
+      "activityBlob": "726099a998fba852ed608938931a0a692b65dff4",
+      "activities": {
+        "DRAFT-M207-01": "b3c0f76d8c45d99457dfb1d2e576045ab47eb6c600f34005d5e9e866a8544b94",
+        "DRAFT-M207-02": "891f2e5b0447e171678bbf5db35b33ab16c1cbd600b6a920a7baf48a39de1c5e",
+        "DRAFT-M207-03": "b1493c2fb0028b3059bc3a8501f1f985a64d031dd5f6471f0675543c19c79a09"
+      }
+    },
+    "MAJOR_ROW_208": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-208.review-draft.json",
+      "evidenceBlob": "ee2e00195be0992c15ca2a82105bef063e4fc24c",
+      "evidenceContentHash": "3a6c9f524f5bf72ec0280d2141bad7273a9e20c966aada470d45efaddd567d7c",
+      "activityPath": "datasets/activities/major-review/major-row-208.json",
+      "activityBlob": "28b760a19ebeaf371c1aea360e49040381e9c2d7",
+      "activities": {
+        "DRAFT-M208-01": "aec8d529d2437a66562d68d13d845ff639a8e7e4a84257ff7f41bfd600803d7b",
+        "DRAFT-M208-02": "67ac32a6d0f4cc06ed13bafa3af9900cec7f16fe99f3f384a98f73c933c0a15c",
+        "DRAFT-M208-03": "5ff61554228438eeaa5726d7ef510f7fec9ca001a653c06d1d9a126100818435"
+      }
+    },
+    "MAJOR_ROW_209": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-209.review-draft.json",
+      "evidenceBlob": "c7e394c2ab1bfc4b714e3eb97fb282f8554ba720",
+      "evidenceContentHash": "765b88a3aed53e3ca1380a26cfdb049c555f6f1c2f18c08ca13fc2e147084896",
+      "activityPath": "datasets/activities/major-review/major-row-209.json",
+      "activityBlob": "0abf41d5894d53b8a5aff6c979cc6d58a4f5a2b8",
+      "activities": {
+        "DRAFT-M209-01": "181f8ed277895e0dfbae47dcdebb2bf901b051a0c1f118b9e18fbd110388d492",
+        "DRAFT-M209-02": "bf8e6bddd5f3b53cb3a93d4855d5c73bb9dd74bf6f104879ceec64e04c43b1eb",
+        "DRAFT-M209-03": "1975938e7553eece6bc7bfaab55f1a1735d0503aea1a9a5ebe1962c123c84429"
+      }
+    },
+    "MAJOR_ROW_210": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-210.review-draft.json",
+      "evidenceBlob": "70625547809953c476f55292a48916cdf4e1cd6a",
+      "evidenceContentHash": "3697f7f5e4e29aa6780041f1ebd232aa3ef31b49c05c0d872ed1775825e5bc32",
+      "activityPath": "datasets/activities/major-review/major-row-210.json",
+      "activityBlob": "5682b00c21dc32871ede0f9c7f8c3f67939dbbaf",
+      "activities": {
+        "DRAFT-M210-01": "c6ab2271cb1b2a4936035cdf17371dba4bf6232114256d2f7f982f89335526dd",
+        "DRAFT-M210-02": "17b8673670f9861b3830cd95a66901e56ebdad700ab1dd9587e346aeb9daf652",
+        "DRAFT-M210-03": "199d03aa5e106ba164758375feaffb369a0b84badd4f26012fa1de466eb26652"
+      }
+    },
+    "MAJOR_ROW_211": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-211.review-draft.json",
+      "evidenceBlob": "98f52ccd7b7f8e3b59302d1c814cf59d064860ab",
+      "evidenceContentHash": "39fe4dcf1fd249ea49b9502d32fe1cfdbbe02e71d684a7c143188b4b46fc9cd4",
+      "activityPath": "datasets/activities/major-review/major-row-211.json",
+      "activityBlob": "15a7929a15e305fdc0b3874798053be9206926ce",
+      "activities": {
+        "DRAFT-M211-01": "5ec28aada5691188bb1fc140ebba2061257935c77e37918b6f3c3b6598fd7ac9",
+        "DRAFT-M211-02": "6d39dcabf13307a4b54ef9949cd2bd64d754164e0b153aed7eeb720e4bc83d2f",
+        "DRAFT-M211-03": "45a312718d944f579cdc62e510eaf7b1f0061df0727d6f024b143482c485ebf8"
+      }
+    },
+    "MAJOR_ROW_212": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-212.review-draft.json",
+      "evidenceBlob": "8d05feee6d5421345bd01abbcf96cc871d0bd50e",
+      "evidenceContentHash": "5220a5657a25043da9a7c6c98e2538eca33421cbdfa641d1fa2e2eba93f89c2d",
+      "activityPath": "datasets/activities/major-review/major-row-212.json",
+      "activityBlob": "5eb52377b8c6e39c4d5eb0e72edaf071c45ad47f",
+      "activities": {
+        "DRAFT-M212-01": "a1839a4a3d92fc867c003b33b9b7159c0003e4743a09e08e855ccf4cfe08ae09",
+        "DRAFT-M212-02": "2f82c67fdd8ceac0181463ab2702a5aa07f475b680291a804e99430a0e32a872",
+        "DRAFT-M212-03": "2144d2814fcf7dbd3ebdf6f9230de705c7cbf9b083f520a4980ac6c65cfb54db"
+      }
+    },
+    "MAJOR_ROW_236": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-236.review-draft.json",
+      "evidenceBlob": "e563e64e3febb0e14d72458e2f1871332c9b7124",
+      "evidenceContentHash": "81609d1979feed56187b1a0d6ebded6001395443dbead11a77955ea550b4aa3a",
+      "activityPath": "datasets/activities/major-review/major-row-236.json",
+      "activityBlob": "0497fb5a204181e9fb04003aac7b2cfe0721d6e0",
+      "activities": {
+        "DRAFT-M236-01": "322bfbe1161e9390140f38de763c5485b683aaf367669aafd26c10f5c99be25c",
+        "DRAFT-M236-02": "27ecde150657992ff95771f80db74a9c68345340a510c3a60f250c666cfffb64",
+        "DRAFT-M236-03": "2ec463f2b3070f880cc543dbe496dfa6029e7c75138be968e6b0891923ff21df"
+      }
+    },
+    "MAJOR_ROW_237": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-237.review-draft.json",
+      "evidenceBlob": "266c58e985a17454dd1a54430b3849dc61ac3db6",
+      "evidenceContentHash": "a9ee42b8f2f662c1b9b21394377673a1783f9c2700f4eab0cb823a00499ac554",
+      "activityPath": "datasets/activities/major-review/major-row-237.json",
+      "activityBlob": "ee023ee69b8746f3e2d9b551407e7df12c7f195c",
+      "activities": {
+        "DRAFT-M237-01": "16085d3e4436fb5914d1a50d4890a9530b5de6a0551dba555a15bacffef73230",
+        "DRAFT-M237-02": "6dae0273edd2afbd5816a0509ae8bba111ec6efb02c8f70e932c899e68b68163",
+        "DRAFT-M237-03": "1736f5a35209bb02fa62e849df6f2683266ca152c9dda4a883a8b3b2246d9c3a"
+      }
+    },
+    "MAJOR_ROW_238": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-238.review-draft.json",
+      "evidenceBlob": "09f37363255b90c16de6fcda50d535cf3b068a3a",
+      "evidenceContentHash": "6f2358b137d9722157392a4f21f43902a0d1a6ae3e5262624d98e3b6fe6d34e2",
+      "activityPath": "datasets/activities/major-review/major-row-238.json",
+      "activityBlob": "b702ec148fc5ac57e0218cac9cfc8d86d37c1485",
+      "activities": {
+        "DRAFT-M238-01": "c5700f242315081c6010059f8eb347131148a07f1dfacd67d5f47fa2441c57f3",
+        "DRAFT-M238-02": "2b83c872351cdad927b7c15364ad2980b582df79d4588671674349c864d376e5",
+        "DRAFT-M238-03": "952af463c401043d11fd1b2cac7b306b2a2fd5ea559e95ccbcf22f9d7a97a0f6"
+      }
+    },
+    "MAJOR_ROW_239": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-239.review-draft.json",
+      "evidenceBlob": "2f25235981c57a4aea4cbbe2ed6fddb46aed8a56",
+      "evidenceContentHash": "26c215d62dbe12a36d6ee02b1a26f445dc92b7bf0a912134e8f44525a3c072e1",
+      "activityPath": "datasets/activities/major-review/major-row-239.json",
+      "activityBlob": "13ccee65736c3c9ad1706479d1f73bdee37328d6",
+      "activities": {
+        "DRAFT-M239-01": "bf68c92b177f30a477036aef3ba63aed0342768c2ec132f92810360dc0d7f88e",
+        "DRAFT-M239-02": "7d604f82a974e2592ae1bf9a8c09a49c5f1c0114de909e383b2b95089d99f795",
+        "DRAFT-M239-03": "2aa85a108de35a358433c22950dc895f640a3a1b02f727b01fb6ec193145814c"
+      }
+    },
+    "MAJOR_ROW_240": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-240.review-draft.json",
+      "evidenceBlob": "bd10cf31138cf4943f7f2a9ef0bf59f2adba938a",
+      "evidenceContentHash": "0d0366a0b976478c360fb9763e1c4a256b37f38ab067b102a76efb23177a3051",
+      "activityPath": "datasets/activities/major-review/major-row-240.json",
+      "activityBlob": "317cab656d4b0790e4d6df246e6e196170724570",
+      "activities": {
+        "DRAFT-M240-01": "4e0683770c3e8db453831b2e920d6e72c51980f8c71cdb2d8b6cf950aba5a4c4",
+        "DRAFT-M240-02": "e148e99e2e46be8fdae0412dd0d980b19d9b94a1339ffacd1ed7b6ef3d67e33d",
+        "DRAFT-M240-03": "b1a9079da069f0bc144f44546642476bff0dc17f014a77da84e6a931b6daf09f"
+      }
+    },
+    "MAJOR_ROW_241": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-241.review-draft.json",
+      "evidenceBlob": "3e0e2093cd57d8c877d03371608922630f9d77fb",
+      "evidenceContentHash": "143eb8174d4463325e4d8270cb7e119a9152f215f6888f90ec718dc17cc7c98a",
+      "activityPath": "datasets/activities/major-review/major-row-241.json",
+      "activityBlob": "99b57fe5ed180a92ad468fb0b72b7d3bf3098cfc",
+      "activities": {
+        "DRAFT-M241-01": "6603551729be2cd69daec71f0539db2b89ef5b637df8379e20ba1832a72407f6",
+        "DRAFT-M241-02": "5f888c332a40475b3ce2c140fe844794222e4d4426e09037bce81e08af81bb0c",
+        "DRAFT-M241-03": "a314348d63324866cc76bea5cd83e98a69f15682a3aaf577763273a04562ae88"
+      }
+    },
+    "MAJOR_ROW_242": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-242.review-draft.json",
+      "evidenceBlob": "c58fcfabf79becf9bdd1cafd18af8b038a325f5b",
+      "evidenceContentHash": "26afee2da5e775f562c3cc28dcfa5d580523c10ab11b89d5a7a8e944e68a6e03",
+      "activityPath": "datasets/activities/major-review/major-row-242.json",
+      "activityBlob": "2d2c412ce709a1fb2bb9401201b7c0174782256c",
+      "activities": {
+        "DRAFT-M242-01": "6ab8c44557ef2da77c22b0f38efe619a940cf65cc9e913ccc832a76ff9d13867",
+        "DRAFT-M242-02": "901c6e814064bc364deb966c073f525e48aa4b350ec1f6b3f4e8a165b0ef0c2a",
+        "DRAFT-M242-03": "230fb3a7e6a67fe884c9222aca5568fe02dfacc8e49ad3fb28ada6ee1309e7e3"
+      }
+    },
+    "MAJOR_ROW_243": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-243.review-draft.json",
+      "evidenceBlob": "cc3979a28d334c133dc1581b25a74f6d3e1c73ab",
+      "evidenceContentHash": "4e1e4cb52117d4243b34a4290e6f2e6485ffed71bf5c34fe8e1082bd88986b03",
+      "activityPath": "datasets/activities/major-review/major-row-243.json",
+      "activityBlob": "fb81f7ee9d78b57628a5f6f6703ea9a962f60c24",
+      "activities": {
+        "DRAFT-M243-01": "c409efa9908c5e9ccbc41356d2455a92465c40a4e1f5c74dd335b2269ec6b9d8",
+        "DRAFT-M243-02": "3eefd955f8fddd4627114f066fc5eda85d8a3d4c5d149d6e9c932df6651f35dc",
+        "DRAFT-M243-03": "4d8bdecbc6781476dec31f31e17af2e08b3fd5d61ec2991202c906efa08f7498"
+      }
+    },
+    "MAJOR_ROW_244": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-244.review-draft.json",
+      "evidenceBlob": "3b3014aca544be278f2843dabbdd9124bc5293dd",
+      "evidenceContentHash": "0079d10bdefcbd8447d42af1911e724fb229d2bb11b950dfa7c5a682fc0d9761",
+      "activityPath": "datasets/activities/major-review/major-row-244.json",
+      "activityBlob": "16550f9e5a0271ed2d2792764770528b065bbc35",
+      "activities": {
+        "DRAFT-M244-01": "d8c28e858fca6aec6fe3b703dca13c64a464c84ecf3235a56cdf11d8ba3407c2",
+        "DRAFT-M244-02": "7eed97ab2db41262ee3736fc7e29db46ec9136f161f206576c4ea1097d8d4bbc",
+        "DRAFT-M244-03": "791f4e81690d779f61c80039ef9f9d9b26cbd518e53d138d86b256fd8f95450f"
+      }
+    },
+    "MAJOR_ROW_245": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-245.review-draft.json",
+      "evidenceBlob": "f2a5021b01d825778ba70131f2d03595b86bad25",
+      "evidenceContentHash": "9ec11cb832f09cb9020db6bdc4e5c99e1611a3e6ca6e7f9950a91e0cea0a4031",
+      "activityPath": "datasets/activities/major-review/major-row-245.json",
+      "activityBlob": "71f57f64d26a78d87ed079653e7b61ad21b46adf",
+      "activities": {
+        "DRAFT-M245-01": "092285e8e66b57b6cd90b5735aada979417bc187ca99cd7cdd2572d21dca813b",
+        "DRAFT-M245-02": "61135e9dc5d5135b6da3e34388ad99f7a0b37230f23cd7cabb0517bd2fad5dec",
+        "DRAFT-M245-03": "4793564324bc018362d429438ff1dee438604ead341bdfaa9b3507a9e0c33f8f"
+      }
+    },
+    "MAJOR_ROW_246": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-246.review-draft.json",
+      "evidenceBlob": "e86e42371f61902161f46f371220c7880225710c",
+      "evidenceContentHash": "e23e59a9eb1a62648b4bb37e48259e06b1c4a25878f7239dd66a8abb4554c83a",
+      "activityPath": "datasets/activities/major-review/major-row-246.json",
+      "activityBlob": "eb26a7b6499087ac8406d07645f6223e961224b8",
+      "activities": {
+        "DRAFT-M246-01": "691c5819ac0e35364474be047583bbfd1f0a13f990ec1e5b8a29e59531d2bac4",
+        "DRAFT-M246-02": "6795602f9688e85c11bbf8ad25e78608f4dbc6e85fb5cd0a5431254d33973e36",
+        "DRAFT-M246-03": "2000bbbe3715b1f09ad3dd910ff4922d01bb54ff7288c782a3e06125ea652848"
+      }
+    },
+    "MAJOR_ROW_247": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-247.review-draft.json",
+      "evidenceBlob": "73960f42da57402d14aeacc20433611daa7e6cf0",
+      "evidenceContentHash": "4cbab0d9beca1adcded8f595f58f9c7f1316301b6383c75c86adb5c394188c04",
+      "activityPath": "datasets/activities/major-review/major-row-247.json",
+      "activityBlob": "86c43be2db8f43c190072819979e1ae3e4bd9165",
+      "activities": {
+        "DRAFT-M247-01": "5fae83c236a758fc9b83a70a8b9b06d6380d03a29c27516bfd88055fed15de41",
+        "DRAFT-M247-02": "db3a27178162b2652907c5c58418fb4919589e35f89cbab9e0e1ad28d76e7744",
+        "DRAFT-M247-03": "80d4e401f64e126b8c7b278444d595ac16682c52e6538c96bfb37103f49c5e30"
+      }
+    },
+    "MAJOR_ROW_3": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-3.review-draft.json",
+      "evidenceBlob": "c07748b49c32184e5f483a0a8b4f9ad7e84273e6",
+      "evidenceContentHash": "84e6e94970d5aee55e9d85356503a3653ca60c6df71bab6bf074d627f2910b97",
+      "activityPath": "datasets/activities/major-review/major-row-3.json",
+      "activityBlob": "6b766493461d8427554d5a692b8bbdab56e763c5",
+      "activities": {
+        "DRAFT-M3-01": "120ce611e852457d5280653928a1aec365514be0f7feb946cea46ecfd85eb75c",
+        "DRAFT-M3-02": "859cc97d53c7e21140ef4b2f49dc04d3d68328f39ef50de730881f03f5a7d0b6",
+        "DRAFT-M3-03": "983cd3cad3896045a9b065d95237429d33fff6cdf65b8e6ead3c3d74b904310e"
+      }
+    },
+    "MAJOR_ROW_39": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-39.review-draft.json",
+      "evidenceBlob": "0a05df4327a42a78d22663dbc4808b5469038103",
+      "evidenceContentHash": "7947779dd71a24bd57b706335f2bed40260662c590a8b36c420de2f8fdb2d0d2",
+      "activityPath": "datasets/activities/major-review/major-row-39.json",
+      "activityBlob": "87c547956e2ffd596184389d7ead4873c5661671",
+      "activities": {
+        "DRAFT-M39-01": "807fbdbe78717c1ac6d677563e2107394a7c83304204998881f6b07a431861ed",
+        "DRAFT-M39-02": "a13ac6fd0eaeb885a3779ff121467cf0de84f9d1c753c2588c2b733439cb2595",
+        "DRAFT-M39-03": "26e4f49c8b626db90cd208e42a8b2cde074de0f1b6a4d8d0dc1828dc37b9b203"
+      }
+    },
+    "MAJOR_ROW_4": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-4.review-draft.json",
+      "evidenceBlob": "9567632100fde0bcc4d89f2057ebe789ec9724e6",
+      "evidenceContentHash": "7d550484507f931cc69e1953e21b8ec85a45b34db4ad57dd8d5ffd5227496fa4",
+      "activityPath": "datasets/activities/major-review/major-row-4.json",
+      "activityBlob": "793e3668ca3b180a6e160bcd2870a95f16690049",
+      "activities": {
+        "DRAFT-M4-01": "3ad576cef9744bdbd1ddf236890ebc73b94b82db37ef159a42d3b7af461030c0",
+        "DRAFT-M4-02": "85f66bda309bb0a9d537051c9b815b559cd1ea2d0ace1b30e2f0fce776202aa3",
+        "DRAFT-M4-03": "8bd3843a059cef11f57461433af5d657a74c829d94d5d20506df681cf3b31d2d"
+      }
+    },
+    "MAJOR_ROW_40": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-40.review-draft.json",
+      "evidenceBlob": "378b0f30862692262890aae6f3707d6e2498f757",
+      "evidenceContentHash": "978de291d008b87f912ee38b13d529c413d6ce5eb6f1dcb41163ea66555a4d7c",
+      "activityPath": "datasets/activities/major-review/major-row-40.json",
+      "activityBlob": "f6c7ee53622b5ea6be6c5bc81815d7ca8aa082c5",
+      "activities": {
+        "DRAFT-M40-01": "1440497ef1af86292f08caa9894604c9a618f5436c10afeeb63e0f925738612f",
+        "DRAFT-M40-02": "e9b0836ae0dcb86d29278266fbbac30f7ed39659cbeb14c85a1ff641f9e3bbd2",
+        "DRAFT-M40-03": "e4051109cbf4e4cdc552bd125b61fd3e3a6b4eb75912f000324284a9a8cc0c75"
+      }
+    },
+    "MAJOR_ROW_41": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-41.review-draft.json",
+      "evidenceBlob": "b72c873ba17018afa19d1557652360393dfef9b2",
+      "evidenceContentHash": "c8292aa62bc75e2888622c92fd2788ade99d7f029f1eeaec7bf2e70c3fc59865",
+      "activityPath": "datasets/activities/major-review/major-row-41.json",
+      "activityBlob": "348b15a130cca23a654ef498996a81c5e918ce44",
+      "activities": {
+        "DRAFT-M41-01": "eb72fc0639f3133d8e0e9851b6991d5b8f38b38b16e5b1a0ca54818f926c1a57",
+        "DRAFT-M41-02": "5a2ed94c660525cbe8fceabbefd8ff69097ca66eb1f61d2149ebd1148eaa3d97",
+        "DRAFT-M41-03": "a3fbb69616f4cb682256feacce59838c674e6847e7430151da21eac303427091"
+      }
+    },
+    "MAJOR_ROW_42": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-42.review-draft.json",
+      "evidenceBlob": "7f1433bfa44e7cf5500f43dacba8c083f22f143b",
+      "evidenceContentHash": "61cae187c5ee06fc3395ef71add40033c4695053a8ed2ce7dfc82522ff46df5b",
+      "activityPath": "datasets/activities/major-review/major-row-42.json",
+      "activityBlob": "12e5a29b833872313e267888ae3d03cfc858334d",
+      "activities": {
+        "DRAFT-M42-01": "6cf2ab34629063ec729b0889f3500f60bc8a6bba865c2aeeac598b985bef1908",
+        "DRAFT-M42-02": "1603c69e3004bc6491919a6acf5ad1936542f576a6df96104d14a06eeb4b44ae",
+        "DRAFT-M42-03": "af61286aaf325398f6df483e9a17b316105c0fd6923c3ac238533c73ce6d13ab"
+      }
+    },
+    "MAJOR_ROW_43": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-43.review-draft.json",
+      "evidenceBlob": "53e69ff122e6125246aed786ce0a79b62060fddd",
+      "evidenceContentHash": "4e8d722dd1c866fbe69435eefe7d661c4d5005beb89181d7e24a9bbc8bdd8bef",
+      "activityPath": "datasets/activities/major-review/major-row-43.json",
+      "activityBlob": "17acd4c8d5a7cc98178cceae3b07419fc53b8814",
+      "activities": {
+        "DRAFT-M43-01": "034fd6086ea82c605c2cb3b90c549513a2de571353533149c0222bab5a7efb26",
+        "DRAFT-M43-02": "205fd686c7ea6e41bff7b8ac155983781409733e4b7fe6af6f88579b76b063cb",
+        "DRAFT-M43-03": "f899ce4b60abc64c3df0f962089a8a9cea070dc934fb6670af2021e062040e9d"
+      }
+    },
+    "MAJOR_ROW_44": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-44.review-draft.json",
+      "evidenceBlob": "fca696f486b69ee42f13fd893ea3d1900a8d68fe",
+      "evidenceContentHash": "47cebda2bb2ac6f0176a34a08f644bd4471c9c394eaff0add840e73b47fe8edf",
+      "activityPath": "datasets/activities/major-review/major-row-44.json",
+      "activityBlob": "7bb00b1c1a90bfefea620b5ff5c68460f052a0ae",
+      "activities": {
+        "DRAFT-M44-01": "e5fecd3ddbc3e3690cd49034578a0322df141ce1740684933663098c2cdc4069",
+        "DRAFT-M44-02": "f03840a2e648f99081461762f341e02fd075de48910941b9e9e3c9d0d414a450",
+        "DRAFT-M44-03": "3927e72bc8f570d7c300cbd88df2d049d0192428b59db32baca0a979d4aae37c"
+      }
+    },
+    "MAJOR_ROW_45": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-45.review-draft.json",
+      "evidenceBlob": "c5af39a51fc15d07eca29f5695340dbd2eea9116",
+      "evidenceContentHash": "8f28af025c7e8b48ee5829ba651538e3de4889fe0033644a8b9d0e976508bee3",
+      "activityPath": "datasets/activities/major-review/major-row-45.json",
+      "activityBlob": "1454553e3304c557a0009aaa8f3c19500d144229",
+      "activities": {
+        "DRAFT-M45-01": "d002c0474356640b9f414a3bd642f80056e7ac49488a104d112bf6567f4011e2",
+        "DRAFT-M45-02": "81c94243d144e39380a5af45d6ce835bc31aacf60f3f385ebd196cdced31aad0",
+        "DRAFT-M45-03": "ff661839a2bdcb795ccb4185b8364c33f548b3519cc70f9107ae2c683a0c83ab"
+      }
+    },
+    "MAJOR_ROW_46": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-46.review-draft.json",
+      "evidenceBlob": "a81f35bb333e518176ff0253a255f4da555cdae4",
+      "evidenceContentHash": "8320ad8a044ef95661271f28c3f3fcc41a709d0f0915d6a1f2086013fb5455e3",
+      "activityPath": "datasets/activities/major-review/major-row-46.json",
+      "activityBlob": "7f1e7f687e92be763a7590d909afba5ad8ba48c1",
+      "activities": {
+        "DRAFT-M46-01": "eb027b996856179c5a6669fb0176974076ff6244d763c1832c6c8847fae2a219",
+        "DRAFT-M46-02": "0f0acd9992f42524dcdf22849da514e4a40d2f78f1a91a2a7c99df84c6dca3d8",
+        "DRAFT-M46-03": "a88e16fe1c00f6bf1ee6fc300c80071cad386c198f720f4d5846ffa979c5efee"
+      }
+    },
+    "MAJOR_ROW_47": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-47.review-draft.json",
+      "evidenceBlob": "0b4c4c0d76f8e19a410b15cd9d7be75bdf0b26bc",
+      "evidenceContentHash": "81c476eac68509380cc874729942f805f9c6b8f8924690de3cf19b56686a3125",
+      "activityPath": "datasets/activities/major-review/major-row-47.json",
+      "activityBlob": "cb76316c4b7afdb96344c6b7b1f805e0045d4523",
+      "activities": {
+        "DRAFT-M47-01": "eca619e1b04d329ff60fc9b55ea386ad23dc5acb6f52ee076a2e089914ae58bf",
+        "DRAFT-M47-02": "6f92861b46163e142c7cddb697167ae96338d21831fe051c2ce4cb29db8c64c4",
+        "DRAFT-M47-03": "3e2977e72cab28bb731df6000db7420d3b014d7c1fee951833c3b35b73d57be1"
+      }
+    },
+    "MAJOR_ROW_48": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-48.review-draft.json",
+      "evidenceBlob": "e1077bb6085a3bfa2cda8bafb6c5f5557524a89d",
+      "evidenceContentHash": "e1d8a3bb4c76379bcb8d40fd2fc1cf756a1746468650e45d806cee9e60797c11",
+      "activityPath": "datasets/activities/major-review/major-row-48.json",
+      "activityBlob": "d7e5bdee8f1f2fc0ea1ab5453da506bd74ca8552",
+      "activities": {
+        "DRAFT-M48-01": "9a7cda3c4b48a6cd27246749f67ee3b518772915984238aa29aa1e4037cbe94b",
+        "DRAFT-M48-02": "de11975d6f67630cb948db1597c61d622b778f57b9a1669f955c2ba1d7fe6526",
+        "DRAFT-M48-03": "25f83995768ab07e7078ebeca034422037f27e0009fbbcc711684e0849ee5acf"
+      }
+    },
+    "MAJOR_ROW_49": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-49.review-draft.json",
+      "evidenceBlob": "cb120549ec5d754c92e13687e1878ae45ef97cdb",
+      "evidenceContentHash": "4523a100003a1aed3d1da6bccf35b3c26f392d73758e2569a86eb50eaee5dcab",
+      "activityPath": "datasets/activities/major-review/major-row-49.json",
+      "activityBlob": "8dd961b47256b6e1e751ef8266651c160b72a595",
+      "activities": {
+        "DRAFT-M49-01": "31044fb8d3902de44a6ab73013df9bd68310d86b6768c3567b233c9d2356a2e8",
+        "DRAFT-M49-02": "1503ea850f94dc82b15995e1002b9e614a672df55590b68d57435a730d3c5722",
+        "DRAFT-M49-03": "105f0c1319794585aa15fab7612fa64d67de70c7aa4eaba051f35cf59e0e1d26"
+      }
+    },
+    "MAJOR_ROW_5": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-5.review-draft.json",
+      "evidenceBlob": "0d9a61a892947dcee59889a9d3ef7a6956824d00",
+      "evidenceContentHash": "3aa1cdd0a54635947ba59790f2e9fb525d6f679742279d32eb67f9d5c94de271",
+      "activityPath": "datasets/activities/major-review/major-row-5.json",
+      "activityBlob": "1330b8325ffbe2d242c57be6dfd17031d8fd3511",
+      "activities": {
+        "DRAFT-M5-01": "405a76633d12208dda79b2a0fe08f74b7d69a9fe4f72ada337380b7edaa0ffee",
+        "DRAFT-M5-02": "c5fa0072ecc56f7c0670242fc2386b8c9f94b606fc44fce11c31f0b2d34b5441",
+        "DRAFT-M5-03": "8cf143e55992f7601313db1f7cce7f4010ba28d55d93623f2aef285beaa6d99b"
+      }
+    },
+    "MAJOR_ROW_50": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-50.review-draft.json",
+      "evidenceBlob": "44532d18ab05e9800aa61b24d4c455e3052e823b",
+      "evidenceContentHash": "d1050e4bae4c002b05625af5c840173cb3b606c4f7c1d9a0cf53618550d3136b",
+      "activityPath": "datasets/activities/major-review/major-row-50.json",
+      "activityBlob": "3ac1e5d266225662e0c4270cb310b1608e8caff9",
+      "activities": {
+        "DRAFT-M50-01": "bdfdc1367d5e7270407e65d02699682f01dff7a0af29c48c2583607310d50105",
+        "DRAFT-M50-02": "47822e1435f3576823435880886c8a7cd759c05bf727b363cdd9968cf6cd64f8",
+        "DRAFT-M50-03": "f5ac274e2417d1215c26b104f4afdf084582b4897aa99150f952dd49c0818f2d"
+      }
+    },
+    "MAJOR_ROW_51": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-51.review-draft.json",
+      "evidenceBlob": "3bc8215aa70fda3266981b509479aee5654a9aef",
+      "evidenceContentHash": "b12a105adc41181cd068453a7362e5ed4895039e2042bd048ea70f77d31967bc",
+      "activityPath": "datasets/activities/major-review/major-row-51.json",
+      "activityBlob": "14597ed3cc41fd9dce40a3290ee55392e4429078",
+      "activities": {
+        "DRAFT-M51-01": "7c6e76a53ce836ae5110fe079cda7856769a9952513888f932cf088a9a2e585f",
+        "DRAFT-M51-02": "94834b82ff5d9c00ba454a35b4ac124612837db8b2864410017e8c8dbdeb9ea9",
+        "DRAFT-M51-03": "e659855f5433e93114c3bddaaa46122938f99a3999b43b4c9504f57f42676d35"
+      }
+    },
+    "MAJOR_ROW_52": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-52.review-draft.json",
+      "evidenceBlob": "6cc526cf24cf94a12a28ee52a31c6e15bc9c20ec",
+      "evidenceContentHash": "fc84637f2c98140a34ee68393a123761f0d757ccab7911900844396f51c744ff",
+      "activityPath": "datasets/activities/major-review/major-row-52.json",
+      "activityBlob": "e25e353ebd6d51cc501172f3c526c5310cf505e5",
+      "activities": {
+        "DRAFT-M52-01": "aaa1f26e3a0383d6bd241c747cd331b97b809b40bda83ab2555c4ce4432ae1ff",
+        "DRAFT-M52-02": "6f5c42ac19302134b2c9268485dfaab3b26b3173e9ded4ac21ffdf635b6140e7",
+        "DRAFT-M52-03": "a6de8cccb7b1aba76c7f15e588ca3b64deed9e011c8ab1ad14ea240a2c9a7065"
+      }
+    },
+    "MAJOR_ROW_53": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-53.review-draft.json",
+      "evidenceBlob": "26e102c57ed5888c21ae2ea611aa6a093103b5e5",
+      "evidenceContentHash": "4b1ef962428a3e26226c14b0bd3f5e459c7ea2b7bc0c137413f00bae49720885",
+      "activityPath": "datasets/activities/major-review/major-row-53.json",
+      "activityBlob": "805c0a796d3c5c496e25433d9e9f149b76b6becc",
+      "activities": {
+        "DRAFT-M53-01": "24f5c3cc317a7a2e2eb1267bd61acabcfe626f12a9f190128e2f901f2a561359",
+        "DRAFT-M53-02": "ac5ea91bf1518829d876cf22f09dbd78c8d4d752fcc535886abbcda306ea21a1",
+        "DRAFT-M53-03": "98f83e186bc5db3f071589dcb52691b98674c22a96636f87971bd03fd1a2cbea"
+      }
+    },
+    "MAJOR_ROW_6": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-6.review-draft.json",
+      "evidenceBlob": "abdf82ea011be9a6838ba6c88227228242be4977",
+      "evidenceContentHash": "fbb5357898d2bbe3b76dd46fb78dc5a454c3122049730fd14773a941d254b85d",
+      "activityPath": "datasets/activities/major-review/major-row-6.json",
+      "activityBlob": "c245955cfa990634e51a938ec9db15b2514036fc",
+      "activities": {
+        "DRAFT-M6-01": "59c3363a55c98420d189c9e15b6bae353a83fd600108eea95a7fd8b8efbfb4cd",
+        "DRAFT-M6-02": "83130709c626ad404282e2df167440d0cd7cbfd3292787ead8c4dcede92afa46",
+        "DRAFT-M6-03": "e83b3b14fbf7ad4893399b8b793b95c6b998e34455c4f0dcb051c53839344912"
+      }
+    },
+    "MAJOR_ROW_7": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-7.review-draft.json",
+      "evidenceBlob": "0fab094db19a35765dcba36607a433ce2d8bbb34",
+      "evidenceContentHash": "572c3025d2ff94f8b3ad9ad182d956585d28441aab6c3165c7d20e3820447481",
+      "activityPath": "datasets/activities/major-review/major-row-7.json",
+      "activityBlob": "e061df31a7c01595000c9dafb71127505ccb1bde",
+      "activities": {
+        "DRAFT-M7-01": "d5888415395fac14a46922ed89cf9c1df0448599ac677aa415be934341af7b24",
+        "DRAFT-M7-02": "69171b9d733f8bf054f9189e0f570f3827de4aee665148a208ec55a6dbef6df7",
+        "DRAFT-M7-03": "d672c9f868341072fe416888174b8da8ba83391e0b37ca1c198329c8df60b4b1"
+      }
+    },
+    "MAJOR_ROW_8": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-8.review-draft.json",
+      "evidenceBlob": "049d9499168a2c631d97b7d05e90000fd69ba141",
+      "evidenceContentHash": "71271f80e12010405553aa4311b5d0d1867ba3c4919df4720a8c43e965e1e229",
+      "activityPath": "datasets/activities/major-review/major-row-8.json",
+      "activityBlob": "2107ca3711cf19394e6db64e9486142007442468",
+      "activities": {
+        "DRAFT-M8-01": "ceecff60390944d1c02577384b9561cde11451114026576894ab8f2b0fd3bba0",
+        "DRAFT-M8-02": "3b04693187dc616c13d27b67b01673be979c5e38db9411e581e80c061d87a7c8",
+        "DRAFT-M8-03": "1103e25a785047148ba73df2ab76366e6a4d7aab0a94d2ae6860c239e72baf61"
+      }
+    },
+    "MAJOR_ROW_86": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-86.review-draft.json",
+      "evidenceBlob": "cde1778caf70e106b826a1384cd708bfc4eba086",
+      "evidenceContentHash": "37a07cbdbbb269e711648c1fffab10f0a47241451e6f83b731198a7d2f2ced5c",
+      "activityPath": "datasets/activities/major-review/major-row-86.json",
+      "activityBlob": "86c39d2b56c16741864b7ec77548edbdf2864b50",
+      "activities": {
+        "DRAFT-M86-01": "58764966f31839b08ea39a36b04c533e29e54b7b6dd7fc38118885c8ce65b22f",
+        "DRAFT-M86-02": "019d890232525429fbb1f7f1a13a373cc717a28b5a8c9ad133cd99c5f5bc2954",
+        "DRAFT-M86-03": "7173aba55dcc4a7b0a06f3df2ddb57b58a0b16d75673b72f07b167bfee3c6812"
+      }
+    },
+    "MAJOR_ROW_87": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-87.review-draft.json",
+      "evidenceBlob": "9985c9e5e450bbd4447ec266bbff86e783d43431",
+      "evidenceContentHash": "70890047051bfae4b63ba30a1c106eeedb52a820ba1a117d19bf70c07e85ec92",
+      "activityPath": "datasets/activities/major-review/major-row-87.json",
+      "activityBlob": "dcbf8be462ebd9ce96bf23861091d30a8c6d3ec0",
+      "activities": {
+        "DRAFT-M87-01": "0d728b13987225513df1271ee249dc3541e60c9f991ad592c32519d7f0b82a2f",
+        "DRAFT-M87-02": "895ee0e6a2bb8f16de10321866514e893cf797173d1257894c7cc2b4745e6750",
+        "DRAFT-M87-03": "5344af97b08540a2e87630d0c8066ca60e859209b223a4e5479accb41d0d9afc"
+      }
+    },
+    "MAJOR_ROW_88": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-88.review-draft.json",
+      "evidenceBlob": "7c0c205cd1a9b570eb96bae5de5965721ebd4a3a",
+      "evidenceContentHash": "78e34ef6375636b3a9edbc8234359fa45b04ec874a4e944d4b5feea32b11b6da",
+      "activityPath": "datasets/activities/major-review/major-row-88.json",
+      "activityBlob": "bcb8c65d9fd28d1c6051b2fd34be1e3a7759ebb7",
+      "activities": {
+        "DRAFT-M88-01": "d120ae4479e09e86ed5b8cff43d9d676f4c28f590145be81db9d9d540bf1db86",
+        "DRAFT-M88-02": "cbbc8fe972323a9d2ff98aa85fc3200bb7ccca0fe13588f4c0127678446b1bd9",
+        "DRAFT-M88-03": "2e684e6a972bf70e411fa344b699c1d91775ddad2fc2cf724a01da365224f5bd"
+      }
+    },
+    "MAJOR_ROW_89": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-89.review-draft.json",
+      "evidenceBlob": "4cf76aa3d26a854bf89e62c3d1256ad7f0e9cf4e",
+      "evidenceContentHash": "04959c263a9eadbfccb28c16c59175b7c5260cf83f99270ece90c1f9f599f1d2",
+      "activityPath": "datasets/activities/major-review/major-row-89.json",
+      "activityBlob": "7176be07865a821c764d5be6488d0929dd90a140",
+      "activities": {
+        "DRAFT-M89-01": "8b93cf529839f4fd8dfcb53a6ae8de86f7712e3ce71027c06ace5255d2e5e73c",
+        "DRAFT-M89-02": "e9f06485686e4434c632be5abd596d82db297a3e57e18db545b293e0b5026163",
+        "DRAFT-M89-03": "bcbb9bf930dd6bbf1b295572d026f05efa8cbeccc1e26d107e30013b50e7c78b"
+      }
+    },
+    "MAJOR_ROW_9": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-9.review-draft.json",
+      "evidenceBlob": "388236429761aeb8f56163eaf026a8a8b3589674",
+      "evidenceContentHash": "757d248a85f2f70c22772d04c1b5f24a44e796ad5700c178d1f2f9b065a5e8fb",
+      "activityPath": "datasets/activities/major-review/major-row-9.json",
+      "activityBlob": "b84efcb99fe8b27c548a1a46b91f8ef93a0b2c12",
+      "activities": {
+        "DRAFT-M9-01": "be5a7a53cc03f4e228b0e674e67dd29c312a8042022b034775cbdfea60d33e84",
+        "DRAFT-M9-02": "d3f43b538bead97d7cc51d384984b83c9a68b6d0247991a9953e82cc3e03d934",
+        "DRAFT-M9-03": "c3ee45072f1db3f8f953d0fed400cac2ca585fd2ff1f9fd85b544d5f3ba56c34"
+      }
+    },
+    "MAJOR_ROW_90": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-90.review-draft.json",
+      "evidenceBlob": "50ae9beb95eab927f5635322d3806602ad2f4810",
+      "evidenceContentHash": "3ac380c06e097e95e9ce9f57c712e25e384d538eee6218ade51d615484dc4be0",
+      "activityPath": "datasets/activities/major-review/major-row-90.json",
+      "activityBlob": "0450e6b4985f5df9b46857d2efd9f3cfa088bf7c",
+      "activities": {
+        "DRAFT-M90-01": "d81d571dd3e6633cd56f55e87b2e01cda2acbe22e3510585aee6c10242bdf835",
+        "DRAFT-M90-02": "bee71d16a65e1f80ec7d765ed429bf0624fabf1c17db6dffc929fd48961fcaba",
+        "DRAFT-M90-03": "df0d6f06aec54c72e090b3f6b9bc816aa47c14a22d908a52de035070100e697c"
+      }
+    },
+    "MAJOR_ROW_91": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-91.review-draft.json",
+      "evidenceBlob": "a933077796b79d97c072c2692e2e55f504f36c04",
+      "evidenceContentHash": "a4a5cd3f047c5de799775716b1c432f045c863b391cb585236cd5f4ec221bf42",
+      "activityPath": "datasets/activities/major-review/major-row-91.json",
+      "activityBlob": "0f80bb765eec4d6de3287843d0c14c05c76e72be",
+      "activities": {
+        "DRAFT-M91-01": "48fae0385fd15365fdb3ac7b08f618714692a6a50cb59b2cc4e316c03d1805e4",
+        "DRAFT-M91-02": "31524ccc0c8947c9eb38294679d3408e5ccfa66cf4e000e9463b4e83e10d6b7f",
+        "DRAFT-M91-03": "92b216963bd1ea2d30e7d8d5a047e09b4b0e145226ce60c9b8a2df1f69e4b9d7"
+      }
+    },
+    "MAJOR_ROW_92": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-92.review-draft.json",
+      "evidenceBlob": "4a39456e50bf20d58412b408e6634dcf571595fd",
+      "evidenceContentHash": "626b7d10a150fde76cc71b3e160c9a9cdb6468e886e1954256edb0e58371b498",
+      "activityPath": "datasets/activities/major-review/major-row-92.json",
+      "activityBlob": "b513323b1a8fc7364dff61900ef411cefe0d55a1",
+      "activities": {
+        "DRAFT-M92-01": "29c3e4a48f7a7c8db6f3a4d843c4ae039cd4c52e65479e818099a67e432a3e34",
+        "DRAFT-M92-02": "e29d53ee328332c5a3a3fccc6b37accf1b0a17f3794701339ba516958f8d96d1",
+        "DRAFT-M92-03": "68965cda79f12336001e986058825ccffa46f227c432fa99b5b4c81aa4b7e72f"
+      }
+    },
+    "MAJOR_ROW_93": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-93.review-draft.json",
+      "evidenceBlob": "2a44f25eb8fd02d4976b7faffb61a57dca3b094f",
+      "evidenceContentHash": "e7b8902aecbc8fe27df3189be438026618bc2a1536898787f800228e0eb9c124",
+      "activityPath": "datasets/activities/major-review/major-row-93.json",
+      "activityBlob": "b2e0273b61ba0c5de1b89e988edf08b0923fe5b2",
+      "activities": {
+        "DRAFT-M93-01": "d41bad60a0c8843f705844d0c397b6e9664ed716ba0260bd7134aa1f7812bee0",
+        "DRAFT-M93-02": "9b52c15fb94794dcb5f672fd9107713bca08253306fe4a6d7e5f7741410d1eee",
+        "DRAFT-M93-03": "e296135929809b0ed1b651205aaf5e1e193bc8695baf55089acdc8d90f41354d"
+      }
+    },
+    "MAJOR_ROW_94": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-94.review-draft.json",
+      "evidenceBlob": "f1cda3a3715aff923e6c10899fe2bdf83be0aeb7",
+      "evidenceContentHash": "ba69045555e4533c2e49be36da95072117b1696f2cf6826a8baa1ae7451b69e1",
+      "activityPath": "datasets/activities/major-review/major-row-94.json",
+      "activityBlob": "9ab38fee2542c95e239a2f26c0f122191e0348bd",
+      "activities": {
+        "DRAFT-M94-01": "3a0a9c37581add19f4552cbc2f87f25283693c4998584aac1bff6064098f996e",
+        "DRAFT-M94-02": "a7faa95ca3a69c2828e8257e9800dd446883086878f6e552697d4674ea4f19c7",
+        "DRAFT-M94-03": "e50ba7ec2b82458268fbd173e523bdc5832a27487f943678c64d11b016578285"
+      }
+    },
+    "MAJOR_ROW_95": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-95.review-draft.json",
+      "evidenceBlob": "a82a4133e5b4137b43f3c089577d166e3d7d5a38",
+      "evidenceContentHash": "4937bc245213e911208fd8e1ce531f1418a9a727527f6e2c24cb8b206a8e9ba2",
+      "activityPath": "datasets/activities/major-review/major-row-95.json",
+      "activityBlob": "a1891a69a2d4de915fe6e20d6cf655a34fa559fb",
+      "activities": {
+        "DRAFT-M95-01": "cd48136148a1e8d65de9196f0b53c3c8daec0e001630365b4307e568bc8630b2",
+        "DRAFT-M95-02": "4f9dfcb2d7593626565217adb953de263875bcbc3f83a649bd1b8bae4038b8fd",
+        "DRAFT-M95-03": "b3a9b08fe8d452cd3d8d432aad7e4f330b56661ef24d96525403be5b9a86427f"
+      }
+    },
+    "MAJOR_ROW_96": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-96.review-draft.json",
+      "evidenceBlob": "c427ad021f5d0e1b1ba4150a133aeabd3c53eb38",
+      "evidenceContentHash": "eb0b26140deec6b66687f75af5deda66fdecbf5a1e3f028fb94c4971b26de0c5",
+      "activityPath": "datasets/activities/major-review/major-row-96.json",
+      "activityBlob": "94fee14263acc6321f0c2e15f89433136e6d4b80",
+      "activities": {
+        "DRAFT-M96-01": "2b2ded61ba94c5b117033d9726de65c47f425fde167d997a97ca73bc72894bf0",
+        "DRAFT-M96-02": "e33e6dc1bdab7628196fb81612a51b4ea6db1ba2c82a941feb1219754b8a0f88",
+        "DRAFT-M96-03": "ec217991fb293c4b863257f7aedd2c6e9cc5392bbbe3ef9f5182776a86b578c6"
+      }
+    },
+    "MAJOR_ROW_97": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-97.review-draft.json",
+      "evidenceBlob": "0f0cb47a4e376c25042c62de27bebcbbfc75aef7",
+      "evidenceContentHash": "6e9d4c45ea0fe4cce81f744f11bb16248fc415deea73e768c3467f159279fb38",
+      "activityPath": "datasets/activities/major-review/major-row-97.json",
+      "activityBlob": "e721ff50f5f33251fdb953dbe38bb070acff228f",
+      "activities": {
+        "DRAFT-M97-01": "84976f11de06bd1b0da999d144420717813ad21ad245760b2720f3ccdaaaa4db",
+        "DRAFT-M97-02": "2e89626f033e9eebc2e9faa0755fe7c03051a181c7cf67cea40923d50603b333",
+        "DRAFT-M97-03": "0fe56da14e509ae4fb2e6a21c78d5368626d90f65fb3b2201fd6dfc0bfb584a8"
+      }
+    },
+    "MAJOR_ROW_98": {
+      "evidencePath": "datasets/exploration-rag-review/major-row-98.review-draft.json",
+      "evidenceBlob": "156d813ab300d769b2651c57759ea7e2435987bc",
+      "evidenceContentHash": "be096831702d172fa517978a0125fced8d9a5625cbb7bc6574e8d75bc47931a7",
+      "activityPath": "datasets/activities/major-review/major-row-98.json",
+      "activityBlob": "815c92b6007d76050b654153f16a2cd6eeb396d1",
+      "activities": {
+        "DRAFT-M98-01": "6c26b129996031d20b067173b82b59217b514b7103cf268752d173eaab75aac7",
+        "DRAFT-M98-02": "7798a31dc9eee18adb29df7f2978b48d8ede617b2a143ca2f67917275d9384e2",
+        "DRAFT-M98-03": "948e4fb1f6c8918630d4542676fdf4e05cabcabe7d1239d2ddc91438b558f246"
+      }
+    }
+  }
+}

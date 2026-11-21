@@ -41,7 +41,7 @@
         "materials": []
       },
       "purpose": "탐색 주제: 규칙 해석과 논거 정리. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
-      "scenario": "법학 입문에서는 규칙 문장을 읽고 구체적인 사실에 적용하는 방법을 살핀다. 가상 도서 대출 규칙은 ‘반납일 오후 5시 전에 한 번만 연장 가능’이다.",
+      "scenario": "전주대 법학과의 법학 과목은 법률 해석과 적용을 다룬다. 가상 도서 대출 규칙은 ‘반납일 오후 5시 전에 한 번만 연장 가능’이다.",
       "steps": [
         "규칙에서 시간 조건과 횟수 조건을 찾는다.",
         "연장 신청에 이 규칙을 적용하려면 어떤 날짜와 사실이 필요한지 생각한다."
@@ -68,8 +68,8 @@
       "human_reviewed_at": null,
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
-      "body_markdown": "## 규칙 문장과 실제 사례의 사실 구분하기\n\n법학 입문에서는 규칙 문장을 읽고 구체적인 사실에 적용하는 방법을 살핀다. 가상 도서 대출 규칙은 ‘반납일 오후 5시 전에 한 번만 연장 가능’이다.\n\n1. 규칙에서 시간 조건과 횟수 조건을 찾는다.\n2. 연장 신청에 이 규칙을 적용하려면 어떤 날짜와 사실이 필요한지 생각한다.\n\n남길 결과물은 규칙과 확인 사실 메모입니다.\n\n쉬운 대안. 공식 링크 대신 예시 규칙 설명으로 작성한다.",
-      "worksheet_markdown": "## 규칙 문장과 실제 사례의 사실 구분하기\n\n법학 입문에서는 규칙 문장을 읽고 구체적인 사실에 적용하는 방법을 살핀다. 가상 도서 대출 규칙은 ‘반납일 오후 5시 전에 한 번만 연장 가능’이다.\n\n| 교과 내용 | 규칙 | 필요한 사실 |\n|---|---|---|\n| | | |",
+      "body_markdown": "## 규칙 문장과 실제 사례의 사실 구분하기\n\n전주대 법학과의 법학 과목은 법률 해석과 적용을 다룬다. 가상 도서 대출 규칙은 ‘반납일 오후 5시 전에 한 번만 연장 가능’이다.\n\n1. 규칙에서 시간 조건과 횟수 조건을 찾는다.\n2. 연장 신청에 이 규칙을 적용하려면 어떤 날짜와 사실이 필요한지 생각한다.\n\n남길 결과물은 규칙과 확인 사실 메모입니다.\n\n쉬운 대안. 공식 링크 대신 예시 규칙 설명으로 작성한다.",
+      "worksheet_markdown": "## 규칙 문장과 실제 사례의 사실 구분하기\n\n전주대 법학과의 법학 과목은 법률 해석과 적용을 다룬다. 가상 도서 대출 규칙은 ‘반납일 오후 5시 전에 한 번만 연장 가능’이다.\n\n| 교과 내용 | 규칙 | 필요한 사실 |\n|---|---|---|\n| | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {
@@ -105,7 +105,7 @@
           "url": "https://superstar.jj.ac.kr/sc/community/repository.do?articleNo=95533&attachNo=202294&mode=download",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "법학 입문의 법률 해석 및 적용",
+          "verified_claim": "법학과 ‘법학(Introduction to Law, 교과목 코드 14890)’의 법률 해석 및 적용 일반론",
           "application": "전공 소개와 과목명 사례 대조",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
@@ -219,7 +219,7 @@
           "url": "https://superstar.jj.ac.kr/sc/community/repository.do?articleNo=95533&attachNo=202294&mode=download",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "법학 입문의 법률 해석 및 적용",
+          "verified_claim": "법학과 ‘법학(Introduction to Law, 교과목 코드 14890)’의 법률 해석 및 적용 일반론",
           "application": "전공 소개와 과목명 사례 대조",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",
@@ -334,7 +334,7 @@
           "url": "https://superstar.jj.ac.kr/sc/community/repository.do?articleNo=95533&attachNo=202294&mode=download",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "법학 입문의 법률 해석 및 적용",
+          "verified_claim": "법학과 ‘법학(Introduction to Law, 교과목 코드 14890)’의 법률 해석 및 적용 일반론",
           "application": "전공 소개와 과목명 사례 대조",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
           "checked_on": "2026-11-20",

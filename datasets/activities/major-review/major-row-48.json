@@ -100,16 +100,16 @@
         },
         {
           "source_id": "m48-extra",
-          "title": "2025 전공안내서",
+          "title": "전공안내서 세무학과",
           "publisher": "서울시립대학교",
-          "url": "https://admission.uos.ac.kr/files/admission/information/2025/2025%20%EC%84%9C%EC%9A%B8%EC%8B%9C%EB%A6%BD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%A0%84%EA%B3%B5%EC%95%88%EB%82%B4%EC%84%9C.pdf",
+          "url": "https://admission.uos.ac.kr/files/admission/information/%EC%8B%9C%EB%A6%BD%EB%8C%80%ED%95%99%EA%B5%90-%EC%A0%84%EA%B3%B5%EC%95%88%EB%82%B4%EC%84%9C-%EC%9B%B9%EC%9A%A9-0905-7-12.pdf",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "세무학과의 조세정책실무 과목",
+          "verified_claim": "세무학과 4학년 교과과정 표의 조세정책실무 과목",
           "application": "전공 소개와 과목명 사례 대조",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "서울시립대학교 입학처가 게시한 2025 전공안내서의 세무학과 교과 편성 사례다."
+          "checked_on": "2026-11-21",
+          "usage_scope": "서울시립대학교 입학처가 게시한 세무학과 학부 교과 편성 사례다."
         }
       ],
       "preference_question_ids": [
@@ -214,16 +214,16 @@
         },
         {
           "source_id": "m48-extra",
-          "title": "2025 전공안내서",
+          "title": "전공안내서 세무학과",
           "publisher": "서울시립대학교",
-          "url": "https://admission.uos.ac.kr/files/admission/information/2025/2025%20%EC%84%9C%EC%9A%B8%EC%8B%9C%EB%A6%BD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%A0%84%EA%B3%B5%EC%95%88%EB%82%B4%EC%84%9C.pdf",
+          "url": "https://admission.uos.ac.kr/files/admission/information/%EC%8B%9C%EB%A6%BD%EB%8C%80%ED%95%99%EA%B5%90-%EC%A0%84%EA%B3%B5%EC%95%88%EB%82%B4%EC%84%9C-%EC%9B%B9%EC%9A%A9-0905-7-12.pdf",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "세무학과의 조세정책실무 과목",
+          "verified_claim": "세무학과 4학년 교과과정 표의 조세정책실무 과목",
           "application": "전공 소개와 과목명 사례 대조",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "서울시립대학교 입학처가 게시한 2025 전공안내서의 세무학과 교과 편성 사례다."
+          "checked_on": "2026-11-21",
+          "usage_scope": "서울시립대학교 입학처가 게시한 세무학과 학부 교과 편성 사례다."
         }
       ],
       "preference_question_ids": [
@@ -278,8 +278,8 @@
       "artifacts": [
         "금액 변경 전후와 이유"
       ],
-      "example_output": "모의 비용 10점이 추가 인정되면 기준은 50점, 결과는 5점이다.",
-      "worksheet_columns": "경험한 과정 / 흥미·불편·모름 / 확인 질문 / 확인 경로 / 다음 행동",
+      "example_output": "새 증빙으로 비용 10점을 더 반영한다. 기준이 60점에서 50점으로 줄어 결과는 6점에서 5점으로 바뀐다.",
+      "worksheet_columns": "변경 내용 / 이전 결과 / 새 결과 / 변경 이유",
       "reflection_question": "계산보다 근거와 예외를 확인하는 과정이 흥미로운가?",
       "alternative": "예시 계산에서 다시 보게 될 숫자만 동그라미 친다.",
       "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
@@ -298,7 +298,7 @@
       "student_trial": null,
       "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
       "body_markdown": "## 새 증빙이 생기면 다시 볼 계산 단계 적기\n\n모의 거래에서 판매는 80점, 확인된 비용은 20점이었다. 확인된 비용만 제외한 금액의 10%를 계산해 6점이 나왔다. 이제 미확인 비용 10점도 자료로 확인됐다.\n\n1. 어느 계산 기준부터 달라지는지 표시한다.\n2. 변경 이유와 이전 결과를 함께 기록한다.\n\n남길 결과물은 금액 변경 전후와 이유입니다.\n\n쉬운 대안. 예시 계산에서 다시 보게 될 숫자만 동그라미 친다.",
-      "worksheet_markdown": "## 새 증빙이 생기면 다시 볼 계산 단계 적기\n\n모의 거래에서 판매는 80점, 확인된 비용은 20점이었다. 확인된 비용만 제외한 금액의 10%를 계산해 6점이 나왔다. 이제 미확인 비용 10점도 자료로 확인됐다.\n\n| 변경 내용 | 이전 결과 | 새 결과 |\n|---|---|---|\n| | | |",
+      "worksheet_markdown": "## 새 증빙이 생기면 다시 볼 계산 단계 적기\n\n모의 거래에서 판매는 80점, 확인된 비용은 20점이었다. 확인된 비용만 제외한 금액의 10%를 계산해 6점이 나왔다. 이제 미확인 비용 10점도 자료로 확인됐다.\n\n| 변경 내용 | 이전 결과 | 새 결과 | 변경 이유 |\n|---|---|---|---|\n| | | | |",
       "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
       "sources": [
         {
@@ -329,16 +329,16 @@
         },
         {
           "source_id": "m48-extra",
-          "title": "2025 전공안내서",
+          "title": "전공안내서 세무학과",
           "publisher": "서울시립대학교",
-          "url": "https://admission.uos.ac.kr/files/admission/information/2025/2025%20%EC%84%9C%EC%9A%B8%EC%8B%9C%EB%A6%BD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%A0%84%EA%B3%B5%EC%95%88%EB%82%B4%EC%84%9C.pdf",
+          "url": "https://admission.uos.ac.kr/files/admission/information/%EC%8B%9C%EB%A6%BD%EB%8C%80%ED%95%99%EA%B5%90-%EC%A0%84%EA%B3%B5%EC%95%88%EB%82%B4%EC%84%9C-%EC%9B%B9%EC%9A%A9-0905-7-12.pdf",
           "language": "ko",
           "role": "MAJOR_CONNECTION_EVIDENCE",
-          "verified_claim": "세무학과의 조세정책실무 과목",
+          "verified_claim": "세무학과 4학년 교과과정 표의 조세정책실무 과목",
           "application": "전공 소개와 과목명 사례 대조",
           "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
-          "checked_on": "2026-11-20",
-          "usage_scope": "서울시립대학교 입학처가 게시한 2025 전공안내서의 세무학과 교과 편성 사례다."
+          "checked_on": "2026-11-21",
+          "usage_scope": "서울시립대학교 입학처가 게시한 세무학과 학부 교과 편성 사례다."
         }
       ],
       "preference_question_ids": [],

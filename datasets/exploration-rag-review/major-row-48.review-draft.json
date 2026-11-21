@@ -22,7 +22,7 @@
     },
     {
       "chunkType": "major_overview",
-      "text": "서울시립대 학과소개는 세무회계원리와 조세법총론, 미시조세론을 각각 회계·법·재정 분야 교과로 제시한다. 전공안내서에는 조세정책실무 등도 있다.",
+      "text": "서울시립대 학과소개는 세무회계원리와 조세법총론, 미시조세론을 각각 회계·법·재정 분야 교과로 제시한다. 입학처 전공안내서에는 4학년 교과 사례로 조세정책실무가 나온다.",
       "sourceIds": [
         "m48-university",
         "m48-extra"
@@ -53,12 +53,12 @@
     {
       "sourceId": "m48-extra",
       "publisher": "서울시립대학교",
-      "title": "2025 전공안내서",
-      "url": "https://admission.uos.ac.kr/files/admission/information/2025/2025%20%EC%84%9C%EC%9A%B8%EC%8B%9C%EB%A6%BD%EB%8C%80%ED%95%99%EA%B5%90%20%EC%A0%84%EA%B3%B5%EC%95%88%EB%82%B4%EC%84%9C.pdf",
-      "supports": "세무학과의 조세정책실무 과목",
-      "limitation": "서울시립대학교 입학처가 게시한 2025 전공안내서의 세무학과 교과 편성 사례다.",
+      "title": "전공안내서 세무학과",
+      "url": "https://admission.uos.ac.kr/files/admission/information/%EC%8B%9C%EB%A6%BD%EB%8C%80%ED%95%99%EA%B5%90-%EC%A0%84%EA%B3%B5%EC%95%88%EB%82%B4%EC%84%9C-%EC%9B%B9%EC%9A%A9-0905-7-12.pdf",
+      "supports": "세무학과 4학년 교과과정 표의 조세정책실무 과목",
+      "limitation": "서울시립대학교 입학처가 게시한 세무학과 학부 교과 편성 사례다.",
       "verification": "PUBLIC_PAGE_BODY_CHECKED",
-      "accessedAt": "2026-11-20"
+      "accessedAt": "2026-11-21"
     }
   ],
   "excludedClaims": [

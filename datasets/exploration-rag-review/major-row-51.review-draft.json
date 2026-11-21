@@ -22,7 +22,7 @@
     },
     {
       "chunkType": "major_overview",
-      "text": "서울대 정치외교학부의 학부 전공선택에는 비교정치론과 국제정치 자료분석이 있다. 연세대 정치외교학과는 비교정치 영역과 한국과 동아시아 국제관계사 같은 과목을 제시한다.",
+      "text": "서울대 정치외교학부의 학부 전공선택에는 비교정치론과 국제정치 자료분석이 있다. 연세대의 2026학년도 정치외교학과 교과이수 로드맵은 비교정치 영역을 구분하고 국제정치 영역의 과목 사례로 동아시아국제관계를 제시한다.",
       "sourceIds": [
         "m51-university-1",
         "m51-university-2"
@@ -52,13 +52,13 @@
     },
     {
       "sourceId": "m51-university-2",
-      "publisher": "연세대학교 정치외교학과",
-      "title": "학부 교과과정",
-      "url": "https://politics.yonsei.ac.kr/pagegenerater.asp?catalogid=politics&language=ko&pagecode=gradu01",
-      "supports": "비교정치 영역과 한국과 동아시아 국제관계사 과목",
-      "limitation": "연세대학교 학부 교과과정 사례다.",
+      "publisher": "연세대학교",
+      "title": "2026학년도 연세대학교 교과이수 로드맵 정치외교학과",
+      "url": "https://universitycollege.yonsei.ac.kr/cms/etcResourceOpen.do?key=%24cms%24EwBmDYwRmB9BPA9gOwM4FMCWACAxogVwCcNsjEBDAEwFsKAHWAM02QDp6qmg&site=%24cms%24K4YyA",
+      "supports": "비교정치 영역과 국제정치 영역의 동아시아국제관계 과목",
+      "limitation": "연세대학교 2026학년도 학부 교과이수 로드맵의 사례다.",
       "verification": "PUBLIC_PAGE_BODY_CHECKED",
-      "accessedAt": "2026-11-19"
+      "accessedAt": "2026-11-21"
     }
   ],
   "excludedClaims": [
