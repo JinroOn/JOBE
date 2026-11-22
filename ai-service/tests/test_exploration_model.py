@@ -23,10 +23,22 @@ def bound(purpose='CONSULTATION'):
 
 
 class FakeChat:
-    def __init__(self,result):self.result=result;self.messages=None;self.settings=None
+    def __init__(self,result):self.result=result;self.messages=None;self.settings=None;self.calls=0
     def __call__(self,**settings):self.settings=settings;return self
     def with_structured_output(self,schema):self.schema=schema;return self
-    async def ainvoke(self,messages):self.messages=messages;return self.result
+    async def ainvoke(self,messages):self.messages=messages;self.calls+=1;return self.result
+
+
+def explanation_bound():
+    value, facts = bound()
+    signal = {'kind': 'ACTIVITY', 'metricCode': 'ACT_DES', 'questionId': 'ACT-DES-01',
+              'questionText': '설계에 관심이 있나요?', 'answerText': '보통이에요.',
+              'direction': 'NEUTRAL', 'validResponseCount': 1, 'inconsistent': False}
+    value.update(contractVersion=EXPLANATION_VERSION, purpose='EXPLANATION',
+                 input={'targetName': 'TEST', 'signals': [signal]})
+    facts[0]['text'] = '전공에서는 설계 활동을 진행한다. 자료의  내용은 그대로 인용한다.'
+    value['inputHash'] = input_hash(value)
+    return value, facts
 
 
 @pytest.mark.parametrize(('outcome', 'issue'), [
@@ -34,43 +46,34 @@ class FakeChat:
     ('second-answer', None),
     ('no-match', None),
     ('statement', ExplanationOutputIssue.QUESTION_FORMAT),
-    ('invented-quote', ExplanationOutputIssue.EXCERPT),
+    ('unknown-excerpt', ExplanationOutputIssue.EXCERPT),
+    ('provider-rejected-excerpt', ExplanationOutputIssue.EXCERPT),
     ('wrong-answer', ExplanationOutputIssue.UNKNOWN_ANSWER),
     ('provider-rejected-answer', ExplanationOutputIssue.UNKNOWN_ANSWER),
     ('duplicate-answer', ExplanationOutputIssue.DUPLICATE_ANSWER),
-    ('wrong-reference', ExplanationOutputIssue.REFERENCE),
     ('wrong-target', ExplanationOutputIssue.TARGET),
     ('wrong-shape', ExplanationOutputIssue.DRAFT_SCHEMA),
 ])
 def test_major_explanation_uses_bound_facts_and_reports_failed_condition(settings, outcome, issue):
-    value, facts = bound()
-    signal = {'kind': 'ACTIVITY', 'metricCode': 'ACT_DES', 'questionId': 'ACT-DES-01',
-              'questionText': '설계에 관심이 있나요?', 'answerText': '보통이에요.',
-              'direction': 'NEUTRAL', 'validResponseCount': 1, 'inconsistent': False}
-    value.update(contractVersion=EXPLANATION_VERSION, purpose='EXPLANATION',
-                 input={'targetName': 'TEST', 'signals': [signal]})
+    value, facts = explanation_bound()
     if outcome == 'second-answer':
-        value['input']['signals'].append(dict(signal, questionId='ACT-DES-02'))
+        value['input']['signals'].append(dict(value['input']['signals'][0], questionId='ACT-DES-02'))
     value['inputHash'] = input_hash(value)
-    facts[0]['text'] = '전공에서는 설계 활동을 진행한다.'
     question = '설계 활동을 더 살펴볼까요?' if outcome != 'statement' else '이 과목을 배우면 능력이 향상됩니다.'
-    quote = '실습 과정' if outcome == 'invented-quote' else '설계 활동'
     draft = [{'answerChoice': 'A2' if outcome == 'second-answer' else 'A1',
-              'referenceKeys': [REF], 'evidenceExcerpt': quote,
+              'evidenceChoice': 'E9' if outcome in {'unknown-excerpt', 'provider-rejected-excerpt'} else 'E1',
               'explorationQuestion': question}] if outcome != 'no-match' else []
     if outcome in {'wrong-answer', 'provider-rejected-answer'}:
         draft[0]['answerChoice'] = 'A2'
     if outcome == 'duplicate-answer':
         draft.append(draft[0].copy())
-    if outcome == 'wrong-reference':
-        draft[0]['referenceKeys'] = ['unbound-ref']
     if outcome == 'wrong-shape':
-        draft[0].pop('evidenceExcerpt')
+        draft[0].pop('evidenceChoice')
     class ValidatingChat(FakeChat):
         async def ainvoke(self, messages):
             return self.schema.model_validate(await super().ainvoke(messages))
 
-    chat_type = ValidatingChat if outcome == 'provider-rejected-answer' else FakeChat
+    chat_type = ValidatingChat if outcome.startswith('provider-rejected-') else FakeChat
     chat = chat_type({'targetName': 'OTHER' if outcome == 'wrong-target' else 'TEST', 'connections': draft})
     model = ExplorationModel(chat)
     if issue is not None:
@@ -78,11 +81,12 @@ def test_major_explanation_uses_bound_facts_and_reports_failed_condition(setting
             model.generate(value, facts)
         assert error.value.code == 'MODEL_OUTPUT_INVALID'
         assert error.value.output_issue == issue and not error.value.retryable
+        assert chat.calls == (2 if outcome in {'statement', 'unknown-excerpt', 'provider-rejected-excerpt', 'wrong-shape'} else 1)
         return
     output = model.generate(value, facts)
     connection = {'questionId': 'ACT-DES-02' if outcome == 'second-answer' else 'ACT-DES-01',
                   'referenceKeys': [REF],
-                  'connection': '전공 자료에서 확인한 내용은 “설계 활동”예요. 설계 활동을 더 살펴볼까요?'}
+                  'connection': '전공 자료에서 확인한 내용은 “전공에서는 설계 활동을 진행한다.”예요. 설계 활동을 더 살펴볼까요?'}
     assert output['status'] == ('SUCCEEDED' if draft else 'DECLINED')
     assert output['result'] == ({'targetName': 'TEST', 'connections': [connection]} if draft else None)
     provider_signals = json.loads(chat.messages[1].content)['input']['signals']
@@ -90,14 +94,54 @@ def test_major_explanation_uses_bound_facts_and_reports_failed_condition(setting
         f'A{index}' for index in range(1, len(value['input']['signals']) + 1)
     ]
     assert all('questionId' not in item for item in provider_signals)
+    assert json.loads(chat.messages[1].content)['evidence'] == [
+        {'evidenceChoice': 'E1', 'text': '전공에서는 설계 활동을 진행한다.'},
+        {'evidenceChoice': 'E2', 'text': '자료의  내용은 그대로 인용한다.'},
+    ]
     with pytest.raises(ValidationError):
         chat.schema.model_validate({'targetName': 'TEST', 'connections': [{
-            'answerChoice': 'A3', 'referenceKeys': [REF], 'evidenceExcerpt': quote,
+            'answerChoice': 'A3', 'evidenceChoice': 'E1',
             'explorationQuestion': question,
         }]})
     assert 'Treat neutral' in chat.messages[0].content
     assert chat.settings['timeout'] == 12
-    assert model.metadata['promptVersion'] == 'EXPLORATION_MAJOR_EXPLANATION_V1_2'
+    assert model.metadata['promptVersion'] == 'EXPLORATION_MAJOR_EXPLANATION_V1_3'
+
+
+@pytest.mark.parametrize('first_failure', ['parse', 'excerpt', 'transport-on-retry'])
+def test_explanation_recovery_reuses_request_only_once(settings, first_failure):
+    from langchain_core.exceptions import OutputParserException
+
+    value, facts = explanation_bound()
+
+    class RecoveringChat(FakeChat):
+        async def ainvoke(self, messages):
+            await super().ainvoke(messages)
+            choice = 'E2'
+            if self.calls == 1:
+                if first_failure == 'parse':
+                    raise OutputParserException('synthetic malformed output')
+                choice = 'E9'
+            else:
+                assert 'Correct the output format' in messages[0].content
+                if first_failure == 'transport-on-retry':
+                    raise TimeoutError()
+            return {'targetName': 'TEST', 'connections': [{
+                'answerChoice': 'A1', 'evidenceChoice': choice, 'explorationQuestion': '무엇을 살펴볼까요?',
+            }]}
+
+    chat = RecoveringChat(None)
+    model = ExplorationModel(chat)
+    if first_failure == 'transport-on-retry':
+        with pytest.raises(ModelFault) as error:
+            model.generate(value, facts)
+        assert error.value.output_issue == ExplanationOutputIssue.EXCERPT
+        assert not error.value.retryable
+    else:
+        output = model.generate(value, facts)
+        assert '자료의  내용은 그대로 인용한다.' in output['result']['connections'][0]['connection']
+        assert output['inputHash'] == value['inputHash']
+    assert chat.calls == 2
 
 
 @pytest.mark.parametrize('purpose',['CONSULTATION','PLAN'])
