@@ -17,6 +17,7 @@ import com.jinroon.jobe.domain.consultation.dto.request.ConsultationMessageReque
 import com.jinroon.jobe.domain.consultation.dto.response.ConsultationMessageResponse;
 import com.jinroon.jobe.domain.diagnosis.dto.DiagnosisProfileSnapshot;
 import com.jinroon.jobe.domain.diagnosis.entity.DiagnosisSession;
+import com.jinroon.jobe.domain.diagnosis.repository.CompetencyEvalResultRepository;
 import com.jinroon.jobe.domain.diagnosis.repository.DiagnosisSessionRepository;
 import com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringService;
 import com.jinroon.jobe.domain.major.entity.Major;
@@ -46,11 +47,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ConsultationService {
 
+    private static final int WEAKNESS_FOCUS_LIMIT = 2;
 
     private final ConsultationSessionRepository consultationSessionRepository;
     private final ConsultationLogRepository consultationLogRepository;
     private final DiagnosisResultRepository diagnosisResultRepository;
     private final DiagnosisSessionRepository diagnosisSessionRepository;
+    private final CompetencyEvalResultRepository competencyEvalResultRepository;
     private final ResultMajorScoreRepository resultMajorScoreRepository;
     private final MajorRepository majorRepository;
     private final MajorWeeklyPlanRepository planRepository;
@@ -261,7 +264,7 @@ public class ConsultationService {
                 .map(ConsultationChatRequest.TopMajor::majorName)
                 .filter(Objects::nonNull)
                 .toList();
-        List<String> weaknessFocus = splitWeaknessFocus(result.getWeaknessFocus());
+        List<String> weaknessFocus = weaknessFocusFor(result);
         List<ConsultationChatRequest.PlanContext> plans = planRepository.findByDiagnosisResultId(result.getId())
                 .stream()
                 .filter(plan -> Boolean.TRUE.equals(plan.getActiveVersion()))
@@ -275,7 +278,8 @@ public class ConsultationService {
                 usedLatest,
                 result.getCompetencyVector(),
                 result.getTendencyVector(),
-                result.getAiComment(),
+                // 점수와 무관한 예전 고정 문구가 상담 답변의 근거로 쓰이지 않게 한다.
+                result.hasFixedWeaknessComment() ? null : result.getAiComment(),
                 weaknessFocus,
                 topMajors,
                 plans,
@@ -363,6 +367,16 @@ public class ConsultationService {
             return logs;
         }
         return logs.subList(logs.size() - limit, logs.size());
+    }
+
+    private List<String> weaknessFocusFor(DiagnosisResult result) {
+        List<String> saved = splitWeaknessFocus(result.getWeaknessFocus());
+        if (!saved.isEmpty() || result.getDiagnosisSessionId() == null) {
+            return saved;
+        }
+        return competencyEvalResultRepository.findByDiagnosisSessionId(result.getDiagnosisSessionId())
+                .map(competency -> competency.relativelyWeakFields(WEAKNESS_FOCUS_LIMIT))
+                .orElse(saved);
     }
 
     private List<String> splitWeaknessFocus(String weaknessFocus) {

@@ -5,6 +5,9 @@ import com.jinroon.jobe.global.common.entity.BaseEntitySupport;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -65,5 +68,33 @@ public class CompetencyEvalResult extends BaseEntitySupport {
         this.communication = communication;
         this.collaboration = collaboration;
         this.selfManagement = selfManagement;
+    }
+
+    /**
+     * 가장 높은 역량보다 낮은 역량을 낮은 순서로 반환한다. 동점은 역량 표시 순서를 따르고,
+     * 모든 점수가 같으면 비어 있다. ai-service 종합평의 보완 역량 기준과 같다.
+     */
+    public List<String> relativelyWeakFields(int limit) {
+        Map<String, Integer> scores = new LinkedHashMap<>();
+        scores.put("mathLogicalScore", roundedScore(mathLogic));
+        scores.put("problemSolvingScore", roundedScore(problemSolving));
+        scores.put("infoTechUtilizationScore", roundedScore(infoTech));
+        scores.put("softwareImplementationScore", roundedScore(implementation));
+        scores.put("systemUnderstandingScore", roundedScore(systemUnderstanding));
+        scores.put("dataAnalysisScore", roundedScore(dataAnalysis));
+        scores.put("communicationScore", roundedScore(communication));
+        scores.put("collaborationScore", roundedScore(collaboration));
+        scores.put("selfManagementScore", roundedScore(selfManagement));
+        int highest = scores.values().stream().mapToInt(Integer::intValue).max().orElse(0);
+        return scores.entrySet().stream()
+                .filter(entry -> entry.getValue() < highest)
+                .sorted(Map.Entry.comparingByValue())
+                .limit(limit)
+                .map(Map.Entry::getKey)
+                .toList();
+    }
+
+    private static int roundedScore(Float value) {
+        return value == null ? 0 : Math.max(0, Math.min(100, Math.round(value)));
     }
 }

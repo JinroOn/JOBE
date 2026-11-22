@@ -771,6 +771,67 @@ class ResultServiceTest {
     }
 
     @Test
+    void generateAiCommentRegeneratesSucceededResultWithFixedWeaknessComment() {
+        DiagnosisResult result = diagnosisResult(1L, 10L, 7L);
+        result.applyAiComment("건축학과 설명입니다. 우선 보완 영역은 의사소통과 시스템 이해이며, 반복 훈련을 권장합니다.", "");
+        result.markAiCommentSucceeded();
+        CompetencyEvalResult competency = competencyResult(10L);
+        ResultMajorScore score = resultMajorScore(11L, 1L, 100L, 1, 87.5f);
+        Major major = major(100L, "Major A");
+        RecommendationCommentResponse response = new RecommendationCommentResponse(
+                "regenerated summary",
+                List.of(new RecommendationCommentResponse.MajorComment(
+                        "Major A",
+                        1,
+                        87.5,
+                        "strength-a",
+                        "weakness-a",
+                        "reason-a"
+                )),
+                List.of("softwareImplementationScore"),
+                "rec-comment-v1.3.0",
+                "request-fixed"
+        );
+
+        when(diagnosisResultRepository.findById(1L)).thenReturn(Optional.of(result));
+        when(competencyEvalResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.of(competency));
+        when(resultMajorScoreRepository.findByDiagnosisResultIdOrderByRankAsc(1L)).thenReturn(List.of(score));
+        when(majorRepository.findAllById(List.of(100L))).thenReturn(List.of(major));
+        when(aiServiceClient.getRecommendationComment(any(RecommendationCommentRequest.class))).thenReturn(response);
+
+        resultService.generateAiCommentForUser(1L, 7L);
+
+        assertThat(result.getAiComment()).isEqualTo("regenerated summary");
+        assertThat(result.getWeaknessFocus()).isEqualTo("softwareImplementationScore");
+        assertThat(result.getAiCommentStatus()).isEqualTo(AiGenerationStatus.SUCCEEDED);
+
+        // 새 종합평은 다시 건너뛴다.
+        resultService.generateAiCommentForUser(1L, 7L);
+        verify(aiServiceClient, org.mockito.Mockito.times(1)).getRecommendationComment(any());
+    }
+
+    @Test
+    void generateAiCommentKeepsOldTextAndAllowsRetryWhenRegenerationFails() {
+        String fixed = "우선 보완 영역은 의사소통과 시스템 이해이며, 주간 학습 루틴으로 반복 훈련을 권장합니다.";
+        DiagnosisResult result = diagnosisResult(1L, 10L, 7L);
+        result.applyAiComment(fixed, "");
+        result.markAiCommentSucceeded();
+        when(diagnosisResultRepository.findById(1L)).thenReturn(Optional.of(result));
+        when(competencyEvalResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.of(competencyResult(10L)));
+        when(resultMajorScoreRepository.findByDiagnosisResultIdOrderByRankAsc(1L))
+                .thenReturn(List.of(resultMajorScore(11L, 1L, 100L, 1, 87.5f)));
+        when(majorRepository.findAllById(List.of(100L))).thenReturn(List.of(major(100L, "Major A")));
+        when(aiServiceClient.getRecommendationComment(any(RecommendationCommentRequest.class))).thenReturn(null);
+
+        resultService.generateAiCommentForUser(1L, 7L);
+        resultService.generateAiCommentForUser(1L, 7L);
+
+        assertThat(result.getAiComment()).isEqualTo(fixed);
+        assertThat(result.getAiCommentStatus()).isEqualTo(AiGenerationStatus.FAILED);
+        verify(aiServiceClient, org.mockito.Mockito.times(2)).getRecommendationComment(any());
+    }
+
+    @Test
     void generateAiCommentForceRegeneratesSucceededResult() {
         DiagnosisResult result = diagnosisResult(1L, 10L, 7L);
         result.applyAiComment("existing comment", "communicationScore");
