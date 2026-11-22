@@ -14,6 +14,7 @@ from langchain_openai import ChatOpenAI
 from pydantic import BaseModel, ConfigDict, Field
 
 from .errors import UpstreamUnavailableError
+from .llm_options import DEFAULT_LLM_MODEL, structured_chat_options
 from .models import WeeklyPlanItem, WeeklyPlanRequest, WeeklyPlanResponse
 from .rag.context import enrich_weekly_plan_request_with_rag
 
@@ -67,7 +68,7 @@ class PlanChainResult:
 class WeeklyPlanChain:
     def __init__(self) -> None:
         self.provider = os.getenv("LLM_PROVIDER", "openai").lower()
-        self.model = os.getenv("LLM_MODEL", "gpt-4o-mini")
+        self.model = os.getenv("LLM_MODEL") or DEFAULT_LLM_MODEL
         self.timeout_seconds = float(os.getenv("WEEKLY_PLAN_LLM_TIMEOUT_SECONDS", "30"))
         if not math.isfinite(self.timeout_seconds) or not 0 < self.timeout_seconds <= 30:
             raise ValueError("WEEKLY_PLAN_LLM_TIMEOUT_SECONDS must be finite and within (0, 30]")
@@ -110,6 +111,7 @@ class WeeklyPlanChain:
                 timeout=self.timeout_seconds,
                 max_retries=0,
                 base_url=self.base_url or None,
+                **structured_chat_options(self.model),
             )
             structured = llm.with_structured_output(GeneratedWeeklyPlan)
             prompt = self._build_prompt()

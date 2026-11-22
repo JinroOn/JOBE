@@ -33,7 +33,7 @@ class FakeChat:
 
 
 @pytest.mark.parametrize(('model_name', 'expected_options'), [
-    ('gpt-4o-mini', None),
+    ('TEST_MODEL', None),
     ('gpt-6-luna', {'reasoning_effort': 'none'}),
 ])
 def test_structured_chat_completions_use_compatible_reasoning(settings, monkeypatch, model_name, expected_options):

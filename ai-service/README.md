@@ -25,7 +25,7 @@ Set at least:
 
 - `INTERNAL_SERVICE_TOKEN`
 - `LLM_PROVIDER=openai`
-- `LLM_MODEL=gpt-4o-mini`
+- `LLM_MODEL=gpt-6-luna` (both the AI service and the backend read this; set `EXPLORATION_LLM_MODEL` only when exploration must use another model, and set it for both)
 - `OPENAI_API_KEY=<your_openai_api_key>` (or `LLM_API_KEY`)
 - `MOCK_MODE=false`
 

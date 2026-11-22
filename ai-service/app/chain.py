@@ -12,6 +12,7 @@ from langchain_openai import ChatOpenAI
 from pydantic import BaseModel, ConfigDict, Field
 
 from .errors import UpstreamUnavailableError
+from .llm_options import DEFAULT_LLM_MODEL, structured_chat_options
 from .models import MajorComment, Profile, RecommendationCommentRequest, RecommendationCommentResponse, WeaknessField
 from .rag.context import enrich_recommendation_request_with_rag
 
@@ -101,7 +102,7 @@ class ChainResult:
 class RecommendationChain:
     def __init__(self) -> None:
         self.provider = os.getenv("LLM_PROVIDER", "openai").lower()
-        self.model = os.getenv("LLM_MODEL", "gpt-4o-mini")
+        self.model = os.getenv("LLM_MODEL") or DEFAULT_LLM_MODEL
         self.timeout_seconds = float(os.getenv("LLM_TIMEOUT_SECONDS", "10"))
         self.api_key = (
             os.getenv("LLM_API_KEY")
@@ -141,6 +142,7 @@ class RecommendationChain:
                 api_key=self.api_key,
                 timeout=self.timeout_seconds,
                 base_url=self.base_url or None,
+                **structured_chat_options(self.model),
             )
             structured = llm.with_structured_output(GeneratedRecommendation)
             prompt = self._build_prompt()
