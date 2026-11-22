@@ -30,7 +30,7 @@ public class ExplorationMajorProfileService {
     private final ObjectMapper mapper;
     private final ExplorationRuntimePolicy policy;
 
-    @Value("${exploration.runtime.ruleset-version:RULESET_V1_5_IMPLEMENTATION_CANDIDATE}")
+    @Value("${exploration.runtime.ruleset-version:RULESET_V1_6_IMPLEMENTATION_CANDIDATE}")
     private String rulesetVersion;
 
     @Value("${major.dataset.majors-path:datasets/majors}")

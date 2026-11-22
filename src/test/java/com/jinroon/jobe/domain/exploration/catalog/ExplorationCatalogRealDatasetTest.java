@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jinroon.jobe.domain.exploration.catalog.CatalogLoadReport.CatalogEntry;
 import com.jinroon.jobe.domain.exploration.catalog.CatalogLoadReport.Outcome;
+import com.jinroon.jobe.domain.exploration.scoring.ScoringCatalog;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.IOException;
@@ -52,15 +53,17 @@ class ExplorationCatalogRealDatasetTest {
     void validatesWithSpecificationCountsAndVersions() {
         CatalogLoadReport report = loader.validate(DATASET);
 
-        Map<String, String> versions = report.catalogs().stream()
+        Map<String, String> versions = report.catalogs().stream().filter(entry -> !entry.catalogType().equals("RULESET"))
                 .collect(Collectors.toMap(CatalogEntry::catalogType, CatalogEntry::version));
         assertThat(versions).containsExactlyInAnyOrderEntriesOf(Map.of(
                 "QUESTION_CATALOG", "QUESTION_CATALOG_V1_1",
                 "OPTION_CATALOG", "OPTION_CATALOG_V1_0",
                 "OPTION_VARIANT", "OPTION_VARIANT_V1_0",
                 "MAJOR_MAPPING", "MAJOR_MAPPING_V1_2_IMPLEMENTATION_CANDIDATE",
-                "SEMANTIC_CONTRACT", "SEMANTIC_CONTRACT_V1_0",
-                "RULESET", "RULESET_V1_5_IMPLEMENTATION_CANDIDATE"));
+                "SEMANTIC_CONTRACT", "SEMANTIC_CONTRACT_V1_0"));
+        assertThat(report.catalogs().stream().filter(entry -> entry.catalogType().equals("RULESET"))
+                .map(CatalogEntry::version))
+                .containsExactlyInAnyOrder(ScoringCatalog.LEGACY_RULESET_VERSION, ScoringCatalog.CURRENT_RULESET_VERSION);
     }
 
     @Test
@@ -98,7 +101,14 @@ class ExplorationCatalogRealDatasetTest {
     void revisedNamesLoadAlongsidePreviousVersionsWithoutOverwritingThem(@TempDir Path previous)
             throws IOException, NoSuchAlgorithmException {
         ObjectNode manifest = (ObjectNode) objectMapper.readTree(Files.readString(DATASET.resolve("manifest.json")));
-        for (var file : manifest.path("files")) {
+        var files = (com.fasterxml.jackson.databind.node.ArrayNode) manifest.path("files");
+        for (int i = 0; i < files.size(); i++) {
+            if (files.get(i).path("file").asText().equals("ruleset-v1-6.json")) {
+                files.remove(i);
+                break;
+            }
+        }
+        for (var file : files) {
             String name = file.path("file").asText();
             String text = Files.readString(DATASET.resolve(name), StandardCharsets.UTF_8);
             if (name.equals("major-mapping.json")) {
@@ -131,8 +141,9 @@ class ExplorationCatalogRealDatasetTest {
         assertMajorDisplayName("MAJOR_ROW_6", "문예창작학과", "문예창작과");
         assertMajorDisplayName("MAJOR_ROW_93", "유아교육학과", "유아교육과");
         assertThat(jdbcTemplate.queryForObject(
-                "SELECT COUNT(*) FROM exploration_ruleset WHERE version IN (?, ?)", Integer.class,
-                "RULESET_V1_4_IMPLEMENTATION_CANDIDATE", "RULESET_V1_5_IMPLEMENTATION_CANDIDATE")).isEqualTo(2);
+                "SELECT COUNT(*) FROM exploration_ruleset WHERE version IN (?, ?, ?)", Integer.class,
+                "RULESET_V1_4_IMPLEMENTATION_CANDIDATE", ScoringCatalog.LEGACY_RULESET_VERSION,
+                ScoringCatalog.CURRENT_RULESET_VERSION)).isEqualTo(3);
     }
 
     private int rows(String table, String type, String version) {

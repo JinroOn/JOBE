@@ -32,7 +32,7 @@ public class CatalogActivationService {
     private final JdbcTemplate jdbc;
     private final ObjectMapper mapper;
 
-    @Value("${exploration.runtime.ruleset-version:RULESET_V1_5_IMPLEMENTATION_CANDIDATE}")
+    @Value("${exploration.runtime.ruleset-version:RULESET_V1_6_IMPLEMENTATION_CANDIDATE}")
     private String rulesetVersion;
 
     // 활동 추천과 같은 기준 버전. 실행 중인 카탈로그의 보관·교체를 막는 판단에 쓴다.

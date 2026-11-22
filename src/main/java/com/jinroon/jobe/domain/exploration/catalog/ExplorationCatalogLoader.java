@@ -2,6 +2,7 @@ package com.jinroon.jobe.domain.exploration.catalog;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.jinroon.jobe.domain.exploration.scoring.ScoringCatalog;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jinroon.jobe.domain.exploration.catalog.CatalogLoadReport.CatalogEntry;
 import com.jinroon.jobe.domain.exploration.catalog.CatalogLoadReport.Outcome;
@@ -65,6 +66,8 @@ public class ExplorationCatalogLoader {
     // D03: 비교 세트 정식 표기는 하이픈
     private static final Pattern CANONICAL_COMPARISON_SET = Pattern.compile("^CMP-[A-Z0-9]+(-[A-Z0-9]+)*$");
 
+    private static final String AFFIRMATIVE_INTEREST_RULESET_FILE = "ruleset-v1-6.json";
+
     private final JdbcTemplate jdbcTemplate;
     private final ObjectMapper objectMapper;
 
@@ -92,7 +95,7 @@ public class ExplorationCatalogLoader {
     public CatalogLoadReport load(Path datasetDir, ExpectedCounts expected) {
         Inputs inputs = readAndValidate(datasetDir, expected);
         List<CatalogEntry> entries = new ArrayList<>();
-        Map<String, Long> catalogIds = new HashMap<>();
+        List<CatalogSpec> pending = new ArrayList<>();
         List<String> conflicts = new ArrayList<>();
 
         for (CatalogSpec spec : inputs.catalogs()) {
@@ -103,10 +106,10 @@ public class ExplorationCatalogLoader {
                             + ": already loaded with different content (bump the version instead of editing)");
                     continue;
                 }
-                catalogIds.put(spec.type(), ((Number) existing.get("id")).longValue());
                 entries.add(new CatalogEntry(spec.type(), spec.version(), spec.contentHash(), Outcome.ALREADY_LOADED,
                         spec.rowCount()));
             } else {
+                pending.add(spec);
                 entries.add(new CatalogEntry(spec.type(), spec.version(), spec.contentHash(), Outcome.LOADED,
                         spec.rowCount()));
             }
@@ -115,12 +118,8 @@ public class ExplorationCatalogLoader {
             throw new ExplorationCatalogValidationException(conflicts);
         }
 
-        for (CatalogSpec spec : inputs.catalogs()) {
-            if (catalogIds.containsKey(spec.type())) {
-                continue;
-            }
+        for (CatalogSpec spec : pending) {
             long id = insertCatalog(spec);
-            catalogIds.put(spec.type(), id);
             switch (spec.type()) {
                 case "QUESTION_CATALOG" -> insertQuestions(id, inputs.questions());
                 case "OPTION_CATALOG" -> insertOptions(id, inputs);
@@ -190,11 +189,31 @@ public class ExplorationCatalogLoader {
         validateTags(errors, tags, majorCodes);
         validateSkipPairs(errors, skipPairs, majorCodes, variantVersionBySet.keySet());
 
+        CatalogSpec affirmativeInterestRuleset = null;
+        if (fileHashes.containsKey(AFFIRMATIVE_INTEREST_RULESET_FILE)) {
+            JsonNode revised = readJson(datasetDir, AFFIRMATIVE_INTEREST_RULESET_FILE);
+            String revisedVersion = text(revised, "ruleset_version");
+            requireEquals(errors, AFFIRMATIVE_INTEREST_RULESET_FILE, revisedVersion,
+                    "current ruleset version", ScoringCatalog.CURRENT_RULESET_VERSION);
+            requireEquals(errors, "ruleset.json", rulesetVersion,
+                    "legacy ruleset version", ScoringCatalog.LEGACY_RULESET_VERSION);
+            if (!versions.equals(revised.path("catalog_versions"))) {
+                errors.add(AFFIRMATIVE_INTEREST_RULESET_FILE + ": catalog dependencies differ from ruleset.json");
+            }
+            try {
+                ScoringCatalog.fromSnapshots(revised, majorFile, dictionary);
+            } catch (IllegalArgumentException e) {
+                errors.add(AFFIRMATIVE_INTEREST_RULESET_FILE + ": " + e.getMessage());
+            }
+            affirmativeInterestRuleset = new CatalogSpec("RULESET", revisedVersion, fileStatus(errors, "ruleset v1.6", revised),
+                    combinedHash(fileHashes, AFFIRMATIVE_INTEREST_RULESET_FILE), null, revised.toString(), 1);
+        }
+
         if (!errors.isEmpty()) {
             throw new ExplorationCatalogValidationException(errors);
         }
 
-        List<CatalogSpec> catalogs = List.of(
+        List<CatalogSpec> catalogs = new ArrayList<>(List.of(
                 new CatalogSpec("QUESTION_CATALOG", text(versions, "question"), questionStatus,
                         combinedHash(fileHashes, "questions.csv"), null, null, questions.size()),
                 // 선택지는 별도 상태 열이 없어 소유 문항 카탈로그의 상태를 따른다(D05).
@@ -212,7 +231,8 @@ public class ExplorationCatalogLoader {
                         combinedHash(fileHashes, "semantic-dictionary.json"), null, dictionary.toString(), 1),
                 new CatalogSpec("RULESET", rulesetVersion, rulesetStatus,
                         combinedHash(fileHashes, "ruleset.json"), null, ruleset.toString(), 1)
-        );
+        ));
+        if (affirmativeInterestRuleset != null) catalogs.add(affirmativeInterestRuleset);
         return new Inputs(catalogs, questions, options, variantVersionBySet, majors, tags);
     }
 

@@ -3,6 +3,7 @@ package com.jinroon.jobe.domain.exploration;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.jinroon.jobe.domain.exploration.scoring.ScoringCatalog;
 import com.jinroon.jobe.domain.exploration.service.ExplorationJson;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
@@ -11,11 +12,13 @@ import java.util.*;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import static org.assertj.core.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 /** Opt-in finite audit: every answer goes through authenticated HTTP against an actually issued snapshot. */
 @Tag("exploration-reachability")
+@TestPropertySource(properties = "exploration.runtime.ruleset-version=" + ScoringCatalog.LEGACY_RULESET_VERSION)
 class ExplorationReachabilityAuditTest extends ExplorationApiTestSupport {
     private static final Path RECIPES = Path.of("datasets/exploration-validation/reachability-profiles.json");
     private static final String HARNESS = "D08_HTTP_HARNESS_V1_1";
