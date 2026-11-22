@@ -36,7 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 서비스 단위 테스트는 이미 있으므로 여기서는 컨트롤러·보안 설정을 거친 응답 코드만 본다.
  * 로컬 MySQL(docker compose -f docker-compose.test.yml up -d)이 필요하다. 테스트 데이터는 트랜잭션 롤백으로 지운다.
  */
-@SpringBootTest(properties = "diagnosis.legacy-enabled=true")
+@SpringBootTest(properties = {"diagnosis.legacy-enabled=true", "diagnosis.questions.seed.enabled=true"})
 @AutoConfigureMockMvc
 @Transactional
 class DiagnosisResultAccessTest {

@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 잘못된 요청이 500 대신 알맞은 4xx와 ErrorDto 형식(status·code·message)으로 응답하는지 확인한다.
  * 로컬 MySQL(docker compose -f docker-compose.test.yml up -d)이 필요하다.
  */
-@SpringBootTest(properties = "diagnosis.legacy-enabled=true")
+@SpringBootTest(properties = {"diagnosis.legacy-enabled=true", "diagnosis.questions.seed.enabled=true"})
 @AutoConfigureMockMvc
 @Transactional
 class ErrorResponseHttpTest {
