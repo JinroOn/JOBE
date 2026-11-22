@@ -121,7 +121,12 @@ public class OwnedGenerationStore {
         if(!row.get("state").equals(state))return null;
         JsonNode result=json.read(row.get("result_json").toString());if(!json.hex(result).equals(row.get("result_hash")))throw conflict();
         contract.response(result.path("boundRequest"),result.path("response"));
-        var reply=json.object().put("status",state).put("mode",mode).put("generationAuthorized",model);reply.set("response",result.path("response").deepCopy());return reply;
+        var reply=json.object().put("status",state).put("mode",mode).put("generationAuthorized",model);
+        reply.set("response",result.path("response").deepCopy());
+        if (model && "EXPLANATION".equals(purpose)) {
+            reply.put("promptVersion", result.path("providerMetadata").path("promptVersion").asText());
+        }
+        return reply;
     }
     private static ExplorationApiException conflict(){return new ExplorationApiException(409,"GENERATION_TASK_CONFLICT","Generation task is unavailable or changed");}
     private boolean isConversation(JsonNode request){return ExplorationAiContract.CONVERSATION_VERSION.equals(request.path("contractVersion").asText());}

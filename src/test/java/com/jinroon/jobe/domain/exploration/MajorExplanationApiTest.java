@@ -9,11 +9,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.jinroon.jobe.domain.exploration.ai.ExplorationAiContract;
+import com.jinroon.jobe.domain.exploration.ai.ExplorationAiInputAdapter;
 import com.jinroon.jobe.domain.exploration.ai.ExplorationJobClient;
 import com.jinroon.jobe.domain.exploration.ai.ExplorationModelAvailability;
 import com.jinroon.jobe.domain.exploration.ai.OwnedGenerationStore;
 import com.jinroon.jobe.domain.exploration.ai.OwnedMockExecutionService;
+import com.jinroon.jobe.domain.exploration.context.ResultContextService;
 import com.jinroon.jobe.domain.exploration.enums.ExplorationEnums.ExplorationRunMode;
+import com.jinroon.jobe.domain.exploration.service.ExplorationJson;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,9 @@ class MajorExplanationApiTest extends CompletedExplorationTestSupport {
     @Autowired ExplorationAiContract contract;
     @Autowired OwnedGenerationStore tasks;
     @Autowired OwnedMockExecutionService executor;
+    @Autowired ResultContextService contexts;
+    @Autowired ExplorationAiInputAdapter adapter;
+    @Autowired ExplorationJson json;
 
     @Test
     void ownerQueuesOnceAndReadsStoredExplanationWithOriginalAnswer() throws Exception {
@@ -96,6 +102,46 @@ class MajorExplanationApiTest extends CompletedExplorationTestSupport {
         assertThat(result.path("retryAvailable").asBoolean()).isFalse();
         assertThat(response(post(endpoint + "/retry").header("Authorization", owner), 200)).isEqualTo(result);
         assertThat(tasks.explanationCandidates()).noneMatch(job -> job.user() == OWNER);
+    }
+
+    @Test
+    void ownerCanRegenerateAnExplanationFromThePreviousPrompt() throws Exception {
+        when(availability.explanationAvailableFor(ExplorationRunMode.DEV)).thenReturn(true);
+        long resultId = completedResult(Map.of("INT_MED", 100, "INT_HUM", 50));
+        String endpoint = endpoint(resultId, MAJOR);
+        var context = contexts.prepareExplanation(OWNER, resultId, MAJOR);
+        String legacyMutation = "major-explanation-" + context.contextId();
+        tasks.reserveModel(OWNER, context.contextId(), "EXPLANATION", legacyMutation,
+                adapter.build(context.snapshot(), legacyMutation));
+        assertThat(response(post(endpoint).header("Authorization", owner), 202).path("status").asText())
+                .isEqualTo("GENERATING");
+        assertThat(tasks.explanationCandidates().stream().filter(job -> job.user() == OWNER)
+                .map(OwnedGenerationStore.Candidate::mutation).toList()).containsExactly(legacyMutation);
+        var legacyLease = tasks.claimModel(OWNER, context.contextId(), "EXPLANATION", legacyMutation);
+        var legacyResult = completed(legacyMutation, legacyLease.request());
+        tasks.completeModel(OWNER, context.contextId(), "EXPLANATION", legacyMutation, legacyLease.token(), legacyResult);
+        ((ObjectNode) legacyResult.path("providerMetadata")).put("promptVersion", "EXPLORATION_MAJOR_EXPLANATION_V1_4");
+        jdbc.update("UPDATE exploration_generation_task SET result_json=?,result_hash=? WHERE user_id=? AND mutation_key=?",
+                legacyResult.toString(), json.hex(legacyResult), OWNER, legacyMutation);
+
+        assertThat(response(get(endpoint).header("Authorization", owner), 200).path("status").asText())
+                .isEqualTo("NOT_REQUESTED");
+        for (int n = 0; n < 2; n++) {
+            assertThat(response(post(endpoint).header("Authorization", owner), 202).path("status").asText())
+                    .isEqualTo("GENERATING");
+        }
+        var candidates = tasks.explanationCandidates().stream().filter(job -> job.user() == OWNER).toList();
+        assertThat(candidates).hasSize(1);
+        var current = candidates.get(0);
+        assertThat(current.mutation()).isNotEqualTo(legacyMutation);
+        var currentLease = tasks.claimModel(OWNER, current.context(), current.purpose(), current.mutation());
+        tasks.completeModel(OWNER, current.context(), current.purpose(), current.mutation(), currentLease.token(),
+                completed(current.mutation(), currentLease.request()));
+
+        assertThat(response(get(endpoint).header("Authorization", owner), 200).path("status").asText())
+                .isEqualTo("READY");
+        assertThat(tasks.completedModel(OWNER, context.contextId(), "EXPLANATION", legacyMutation)
+                .path("promptVersion").asText()).isEqualTo("EXPLORATION_MAJOR_EXPLANATION_V1_4");
     }
 
     @Test

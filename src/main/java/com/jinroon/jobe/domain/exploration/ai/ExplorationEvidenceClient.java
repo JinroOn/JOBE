@@ -88,7 +88,9 @@ public class ExplorationEvidenceClient {
                 throw new ExplorationAiContract.Invalid();
             int subjects = original.path("input").path("targetName").isNull()
                     ? original.path("input").path("candidateNames").size() : 1;
-            if (bound.path("evidence").path("referenceKeys").size() != subjects || subjects == 0)
+            int references = bound.path("evidence").path("referenceKeys").size();
+            boolean explanation = "EXPLANATION".equals(original.path("purpose").asText());
+            if (subjects == 0 || (explanation ? references < 1 || references > 2 : references != subjects))
                 throw new ExplorationAiContract.Invalid();
             for (JsonNode ref : bound.path("evidence").path("referenceKeys"))
                 if (!ref.asText().matches("ref_[a-f0-9]{64}")) throw new ExplorationAiContract.Invalid();
