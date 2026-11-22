@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component;
 /** Server-owned mode. PUBLIC/PILOT remain closed until a real approval workflow is implemented. */
 @Component
 public class ExplorationRuntimePolicy {
+    /** dev-user-ids를 이 값 하나로만 설정하면 로그인한 사용자 모두가 DEV 회차를 쓸 수 있다. */
+    private static final String ALL_MEMBERS = "*";
+
     private final Environment environment;
     private final String mode;
     private final Set<String> devUsers;
@@ -28,7 +31,7 @@ public class ExplorationRuntimePolicy {
         Set<String> profiles = Set.copyOf(Arrays.asList(environment.getActiveProfiles()));
         if ("DEV".equals(mode) && profiles.contains("exploration-dev")
                 && profiles.stream().noneMatch(p -> p.equalsIgnoreCase("prod") || p.equalsIgnoreCase("production"))
-                && devUsers.contains(userId.toString())) return ExplorationRunMode.DEV;
+                && (devUsers.equals(Set.of(ALL_MEMBERS)) || devUsers.contains(userId.toString()))) return ExplorationRunMode.DEV;
         throw new ExplorationApiException(503, "NO_ACTIVE_CATALOG", "승인된 실행 범위의 탐색 자료가 없습니다.");
     }
 
