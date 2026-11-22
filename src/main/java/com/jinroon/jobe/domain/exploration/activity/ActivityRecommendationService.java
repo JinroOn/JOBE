@@ -6,6 +6,7 @@ import com.jinroon.jobe.domain.exploration.api.ExplorationApiException;
 import com.jinroon.jobe.domain.exploration.repository.*;
 import com.jinroon.jobe.domain.exploration.service.*;
 import com.jinroon.jobe.domain.exploration.support.PostResultSupportService;
+import java.time.LocalDateTime;
 import java.util.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,20 +28,27 @@ public class ActivityRecommendationService {
     public static final String DEFAULT_CATALOG_VERSION = "ACTIVITY_CATALOG_V2_DRAFT";
     @Value("${exploration.activities.catalog-version:" + DEFAULT_CATALOG_VERSION + "}") private String selectedVersion;
     private record Candidate(JsonNode payload,String hash,int majorOrder,double preference,List<Long> reviews) {}
+    private record ReviewKey(long targetId, String kind) {}
 
     /** Result GET refreshes only dynamic activity fields. Completion idempotency stays historical. */
     @Transactional(readOnly=true)
     public JsonNode enrich(long userId,long resultId,JsonNode dto) {
-        var roots=jdbc.queryForList("SELECT * FROM exploration_activity_catalog WHERE version=?",selectedVersion);
+        var root = selectedCatalog();
         // Existing sealed results remain readable without a runtime catalog when no activity is usable.
-        if(roots.isEmpty() || approvals(roots.get(0),"ACTIVITY_CATALOG").isEmpty())return dto;
-        JsonNode activities=get(userId,resultId);ObjectNode updated=dto.deepCopy();
+        if (root == null) return dto;
+        var reviews = catalogApprovals(root);
+        if (reviews.isEmpty()) return dto;
+        JsonNode activities=get(userId,resultId,root,reviews);ObjectNode updated=dto.deepCopy();
         for(String field:List.of("nextActivities","activityAvailability","activityMessage"))updated.set(field,activities.path(field));
         return updated;
     }
 
     @Transactional(readOnly=true)
     public JsonNode get(long userId,long resultId) {
+        return get(userId, resultId, null, null);
+    }
+
+    private JsonNode get(long userId, long resultId, Map<String,Object> approvedRoot, List<Long> approvedRootReviews) {
         // Includes authentication scope, ownership, completed state and seal validation; no writes.
         JsonNode state=support.get(userId,resultId);
         var result=results.findById(resultId).orElseThrow(()->ExplorationApiException.integrity());
@@ -53,17 +61,25 @@ public class ActivityRecommendationService {
         response.put("selectionPolicyVersion","ACTIVITY_SELECTION_V1");response.put("maximum",3);
         response.put("catalogVersion",selectedVersion);response.putNull("catalogHash");response.put("resultInputHash",snapshot.path("inputHash").asText());
         response.set("versions",snapshot.path("versions").deepCopy());response.set("nextActivities",json.array());
-        var roots=jdbc.queryForList("SELECT * FROM exploration_activity_catalog WHERE version=?",selectedVersion);
-        if(roots.isEmpty())return unavailable(response,"NO_ACTIVITY_CATALOG");
-        var root=roots.get(0);JsonNode payload=checked(root);
+        var root = approvedRoot == null ? selectedCatalog() : approvedRoot;
+        if(root==null)return unavailable(response,"NO_ACTIVITY_CATALOG");
+        JsonNode payload=checked(root);
         response.put("catalogHash",root.get("content_hash").toString());
         if(!payload.path("version").asText().equals(selectedVersion) || !payload.path("major_mapping_version").asText().equals(root.get("major_mapping_version")))throw ExplorationApiException.integrity();
         if(!root.get("major_mapping_version").equals(snapshot.path("versions").path("majorMapping").asText()))return unavailable(response,"MAPPING_VERSION_UNAVAILABLE");
-        List<Long> rootReviews=approvals(root,"ACTIVITY_CATALOG");
+        List<Long> rootReviews = approvedRootReviews == null ? catalogApprovals(root) : approvedRootReviews;
         if(rootReviews.isEmpty())return unavailable(response,"NO_APPROVED_ACTIVITIES");
         Map<String,JsonNode> embedded=new HashMap<>();payload.path("activities").forEach(a->embedded.put(a.path("activity_id").asText(),a));
         var rows=jdbc.queryForList("SELECT * FROM exploration_activity WHERE catalog_id=? ORDER BY activity_code",number(root,"id"));
         if(rows.size()!=embedded.size())throw ExplorationApiException.integrity();
+        var activityReviews = latestReviews("""
+                JOIN exploration_activity a ON a.id = r.target_id AND a.version = r.target_version
+                WHERE r.target_type = 'ACTIVITY' AND a.catalog_id = ?
+                  AND a.content_status IN ('REVIEWED', 'ACTIVE')
+                  AND a.implementation_review_status = 'APPROVED_FOR_IMPLEMENTATION'
+                  AND a.domain_review_status = 'APPROVED'
+                """, number(root, "id"));
+        var now = LocalDateTime.now();
         Map<String,Integer> majorOrder=new HashMap<>();int index=0;
         String target=state.path("targetMajorCode").textValue();
         for(JsonNode major:snapshot.path("rankedCandidates"))majorOrder.put(major.path("majorCode").asText(),index++);
@@ -82,7 +98,7 @@ public class ActivityRecommendationService {
                     || !item.path("activity_id").asText().equals(row.get("activity_code"))
                     || !item.path("version").asText().equals(row.get("version"))
                     || !Objects.equals(item.path("major_code").textValue(),row.get("major_code")))throw ExplorationApiException.integrity();
-            List<Long> reviews=approvals(row,"ACTIVITY");if(reviews.isEmpty())continue;
+            List<Long> reviews=approvals(row,activityReviews,now);if(reviews.isEmpty())continue;
             try{ActivityCatalogLoader.validateActivity(item);}catch(IllegalArgumentException e){throw ExplorationApiException.integrity();}
             String major=item.path("major_code").textValue();
             // No candidates: approved general activities only. A target narrows, never adds a major.
@@ -110,17 +126,54 @@ public class ActivityRecommendationService {
         return response;
     }
 
-    /** Latest decision wins even if it has another hash/scope or explicitly rejects the old approval. */
-    private List<Long> approvals(Map<String,Object> row,String type) {
-        if(!Set.of("REVIEWED","ACTIVE").contains(row.get("content_status")) || !"APPROVED_FOR_IMPLEMENTATION".equals(row.get("implementation_review_status")) || !"APPROVED".equals(row.get("domain_review_status")))return List.of();
+    private Map<String,Object> selectedCatalog() {
+        var rows = jdbc.queryForList("SELECT * FROM exploration_activity_catalog WHERE version=?", selectedVersion);
+        return rows.isEmpty() ? null : rows.get(0);
+    }
+
+    private List<Long> catalogApprovals(Map<String,Object> root) {
+        if (!reviewable(root)) return List.of();
+        return approvals(root, latestReviews("""
+                WHERE r.target_type = 'ACTIVITY_CATALOG' AND r.target_id = ? AND r.target_version = ?
+                """, number(root, "id"), root.get("version")), LocalDateTime.now());
+    }
+
+    private Map<ReviewKey, Map<String,Object>> latestReviews(String targets, Object... args) {
+        var rows = jdbc.queryForList("""
+                SELECT id, target_id, target_hash, review_kind, decision, reviewer_id, reviewed_at, evidence_reference, scope
+                FROM (
+                    SELECT r.*, ROW_NUMBER() OVER (
+                        PARTITION BY r.target_id, r.target_version, r.review_kind
+                        ORDER BY r.reviewed_at DESC, r.id DESC
+                    ) AS review_rank
+                    FROM exploration_review_history r
+                """ + targets + """
+                    AND r.review_kind IN ('IMPLEMENTATION', 'DOMAIN')
+                ) ranked
+                WHERE review_rank = 1
+                """, args);
+        Map<ReviewKey, Map<String,Object>> latest = new HashMap<>();
+        for (var row : rows) latest.put(new ReviewKey(number(row, "target_id"), row.get("review_kind").toString()), row);
+        return latest;
+    }
+
+    private boolean reviewable(Map<String,Object> row) {
+        return Set.of("REVIEWED","ACTIVE").contains(row.get("content_status"))
+                && "APPROVED_FOR_IMPLEMENTATION".equals(row.get("implementation_review_status"))
+                && "APPROVED".equals(row.get("domain_review_status"));
+    }
+
+    /** Select the latest decision before checking hash, scope or approval. Never fall back to an older decision. */
+    private List<Long> approvals(Map<String,Object> row, Map<ReviewKey, Map<String,Object>> latest, LocalDateTime now) {
+        if (!reviewable(row)) return List.of();
         List<Long> ids=new ArrayList<>();
         for(String kind:List.of("IMPLEMENTATION","DOMAIN")) {
-            var reviews=jdbc.queryForList("SELECT * FROM exploration_review_history WHERE target_type=? AND target_id=? AND target_version=? AND review_kind=? ORDER BY reviewed_at DESC,id DESC LIMIT 1",type,number(row,"id"),row.get("version"),kind);
-            if(reviews.isEmpty())return List.of();var review=reviews.get(0);
+            var review = latest.get(new ReviewKey(number(row, "id"), kind));
+            if (review == null) return List.of();
             if(!Objects.equals(review.get("target_hash"),row.get("content_hash")) || !"DEV".equals(review.get("scope"))
                     || !(kind.equals("IMPLEMENTATION")?"APPROVED_FOR_IMPLEMENTATION":"APPROVED").equals(review.get("decision"))
                     || number(review,"reviewer_id")<=0 || review.get("evidence_reference")==null || review.get("evidence_reference").toString().isBlank()
-                    || reviewedAt(review).isAfter(java.time.LocalDateTime.now()))return List.of();
+                    || reviewedAt(review).isAfter(now))return List.of();
             ids.add(number(review,"id"));
         }
         return ids;
