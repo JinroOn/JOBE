@@ -62,6 +62,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ResultService {
 
     private static final int AI_COMMENT_TARGET_MAJOR_LIMIT = 1;
+    private static final int WEAKNESS_FOCUS_LIMIT = 2;
     private static final Charset WINDOWS_1252 = Charset.forName("windows-1252");
 
     private final DiagnosisResultRepository diagnosisResultRepository;
@@ -172,6 +173,8 @@ public class ResultService {
                         topMajorsJson,
                         UUID.randomUUID().toString().replace("-", "")
                 ));
+        // AI 종합평을 만들기 전에도 화면에서 쓸 수 있게 점수로 계산해 둔다.
+        result.applyWeaknessFocus(competency.relativelyWeakFields(WEAKNESS_FOCUS_LIMIT));
         result = diagnosisResultRepository.save(result);
 
         resultMajorScoreRepository.deleteAllByDiagnosisResultId(result.getId());
@@ -521,7 +524,9 @@ public class ResultService {
 
         result.applyAiComment(
                 response.summaryComment(),
-                String.join(",", response.weaknessFocus() != null ? response.weaknessFocus() : List.of())
+                String.join(",", response.weaknessFocus() != null && !response.weaknessFocus().isEmpty()
+                        ? response.weaknessFocus()
+                        : competency.relativelyWeakFields(WEAKNESS_FOCUS_LIMIT))
         );
 
         if (response.majorComments() == null || response.majorComments().isEmpty()) {

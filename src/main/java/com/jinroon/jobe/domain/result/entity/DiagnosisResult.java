@@ -9,6 +9,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -90,6 +91,10 @@ public class DiagnosisResult extends BaseEntitySupport {
         this.aiCommentErrorMessage = null;
         this.aiCommentRequestedAt = null;
         this.aiCommentCompletedAt = null;
+    }
+
+    public void applyWeaknessFocus(List<String> weaknessFocus) {
+        this.weaknessFocus = weaknessFocus == null ? "" : String.join(",", weaknessFocus);
     }
 
     public void applyAiComment(String aiComment, String weaknessFocus) {
