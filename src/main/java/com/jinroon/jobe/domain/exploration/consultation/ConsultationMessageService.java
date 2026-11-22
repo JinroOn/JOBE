@@ -26,6 +26,7 @@ public class ConsultationMessageService {
     @Transactional(propagation=Propagation.NEVER)
     public JsonNode send(long user,long consultation,String key,String question){
         var replay=turns.replay(user,consultation,key,question);if(replay!=null)return replay;
+        var guidance=turns.trySuggestedReply(user,consultation,key,question);if(guidance!=null)return guidance;
         execution.requireModelEnabled();
         var draft=reservations.reserve(user,consultation,key,question);
         replay=turns.replay(user,consultation,key,question);if(replay!=null)return replay;

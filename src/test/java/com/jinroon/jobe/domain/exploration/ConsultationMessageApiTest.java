@@ -13,6 +13,7 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.test.util.ReflectionTestUtils;
 
 class ConsultationMessageApiTest extends CompletedExplorationTestSupport {
@@ -27,6 +28,7 @@ class ConsultationMessageApiTest extends CompletedExplorationTestSupport {
     @Autowired com.jinroon.jobe.domain.exploration.context.ResultContextService contexts;
     @Autowired com.jinroon.jobe.domain.exploration.service.ExplorationJson json;
     @MockitoBean ExplorationJobClient remote;
+    @MockitoSpyBean com.jinroon.jobe.domain.exploration.activity.ActivityRecommendationService activities;
     final Set<String> owners=new HashSet<>();
     @BeforeEach void model(){
         ReflectionTestUtils.setField(availability,"modelEnabled",true);ReflectionTestUtils.setField(availability,"erasureEnabled",true);
@@ -176,6 +178,32 @@ class ConsultationMessageApiTest extends CompletedExplorationTestSupport {
         assertThat(first.path("assistantMessage").path("sources").isEmpty()).isTrue();
         assertThat(first.path("assistantMessage").path("content").asText()).contains("탐색 상담").doesNotContain("UNUSED");
         assertThat(send(c,"weather","오늘 서울 날씨 알려줘",200)).isEqualTo(first);
+        verify(remote,times(1)).executeModel(anyString(),anyString(),any());
+    }
+    @Test void suggestedQuestionsUseTheSealedResultAndApprovedRecommendations() throws Exception {
+        long result=completedResult(true);
+        long c=consultations.open(OWNER,result,"open").consultationId();
+        String major=resultSnapshot(result).path("majorSummaries").get(0).path("majorName").asText();
+        assertThat(major).isNotBlank();
+        var recommendation=mapper.createObjectNode().put("activityAvailability","AVAILABLE")
+                .put("catalogVersion","TEST_APPROVED_ACTIVITIES");
+        var activity=recommendation.putArray("nextActivities").addObject()
+                .put("title","관심 주제의 단서 찾기").put("kind","SMALL_TASK");
+        activity.putArray("artifacts").add("관찰 기록");
+        doReturn(recommendation).when(activities).get(OWNER,result);
+
+        var reasons=send(c,"reasons","이 전공군들이 왜 나왔는지 설명해줘",200);
+        assertThat(reasons.path("assistantMessage").path("content").asText()).contains(major,"관심");
+        assertThat(reasons.path("assistantMessage").path("sources").get(0).path("kind").asText()).isEqualTo("RESULT_SNAPSHOT");
+        var answer=send(c,"activity","추천 활동은 무엇을 알아보려는 거야?",200);
+        assertThat(answer.path("assistantMessage").path("content").asText()).contains("관심 주제의 단서 찾기","관찰 기록");
+        assertThat(answer.path("assistantMessage").path("sources").get(0).path("kind").asText()).isEqualTo("ACTIVITY_CATALOG");
+        assertThat(send(c,"activity","추천 활동은 무엇을 알아보려는 거야?",200)).isEqualTo(answer);
+        assertThat(consultations.open(OWNER,result,"resume").messages()).hasSize(4);
+        verify(remote,never()).executeModel(anyString(),anyString(),any());
+        assertThat(count("exploration_generation_task","user_id=?",OWNER)).isZero();
+
+        send(c,"followup","후보 전공에서 어떤 수업을 배워요?",200);
         verify(remote,times(1)).executeModel(anyString(),anyString(),any());
     }
     @Test void secondMessageInsertFailureRollsBackGenerationResultAndBothMessages()throws Exception{

@@ -21,6 +21,7 @@ public class ConsultationTurnStore {
     private final ExplorationAiInputAdapter adapter;
     private final ExplorationAiContract contract;
     private final ExplorationJson json;
+    private final ConsultationGuidance guidance;
     public record Draft(long id,long consultation,long context,String mutation,JsonNode request) {}
     private record Locked(Map<String,Object> session,JsonNode snapshot) {}
     private static long number(Map<String,Object> row,String key){return ((Number)row.get(key)).longValue();}
@@ -132,6 +133,23 @@ public class ConsultationTurnStore {
         return turn.get("state").equals("COMPLETED")?json.read(turn.get("reply_json").toString()):null;
     }
     private void sameQuestion(Map<String,Object> turn,String question){if(!request(turn).path("input").path("conversation").path("question").asText().equals(question))throw conflict("IDEMPOTENCY_CONFLICT");}
+
+    @Transactional
+    public JsonNode trySuggestedReply(long user,long consultation,String key,String question){
+        var topic=ConsultationGuidance.topic(question);
+        if(topic==null)return null;
+        var locked=lock(user,consultation);
+        var existing=byKey(consultation,key);
+        if(!existing.isEmpty())return replay(user,consultation,key,question);
+        var draft=prepare(user,consultation,key,question);
+        long result=number(locked.session(),"result_id");
+        String resultVersion=locked.snapshot().path("source").path("resultContractVersion").asText();
+        var answer=guidance.answer(topic,user,result,resultVersion);
+        var proof=json.object().put("kind","SUGGESTED_GUIDANCE").put("inputHash",draft.request().path("inputHash").asText())
+                .put("topic",topic.name()).put("content",answer.content()).put("sourceVersion",answer.sourceVersion());
+        var turn=jdbc.queryForMap("SELECT * FROM exploration_consultation_turn WHERE id=? FOR UPDATE",draft.id());
+        return persist(turn,draft.request(),proof);
+    }
     /** Called in the same transaction as OwnedGenerationStore.reserveModel. */
     @Transactional(propagation=Propagation.MANDATORY)
     public Draft prepare(long user,long consultation,String key,String question){
@@ -181,6 +199,10 @@ public class ConsultationTurnStore {
         if(!json.read(generation.get("request_json").toString()).equals(original)||!generation.get("execution_mode").equals("MODEL"))throw integrity();
         if(insufficient){if(!generation.get("state").equals("FAILED")||!"EVIDENCE_UNAVAILABLE".equals(generation.get("failure_code")))throw integrity();}
         else if(!generation.get("state").equals("MODEL_STORED")||!json.hex(proof).equals(generation.get("result_hash"))||!json.read(generation.get("result_json").toString()).equals(proof))throw integrity();
+        persist(turn,original,proof);
+    }
+
+    private ObjectNode persist(Map<String,Object> turn,JsonNode original,JsonNode proof){
         var data=projection(original,proof);var reply=json.object();
         for(int i=0;i<2;i++){
             var m=data.get(i);
@@ -190,8 +212,9 @@ public class ConsultationTurnStore {
             jdbc.update("UPDATE exploration_consultation_message SET message_hash=? WHERE id=?",json.hash(m),row.get("id"));
             reply.set(i==0?"userMessage":"assistantMessage",m);
         }
-        jdbc.update("UPDATE exploration_consultation_turn SET state='COMPLETED',reply_json=?,reply_hash=?,proof_json=?,proof_hash=?,completed_at=UTC_TIMESTAMP(6) WHERE id=? AND state='PENDING'",reply.toString(),json.hash(reply),proof.toString(),json.hash(proof),turn.get("id"));
+        if(jdbc.update("UPDATE exploration_consultation_turn SET state='COMPLETED',reply_json=?,reply_hash=?,proof_json=?,proof_hash=?,completed_at=UTC_TIMESTAMP(6) WHERE id=? AND state='PENDING'",reply.toString(),json.hash(reply),proof.toString(),json.hash(proof),turn.get("id"))!=1)throw integrity();
         if(jdbc.update("UPDATE exploration_consultation SET revision=revision+1 WHERE id=? AND revision=?",turn.get("consultation_id"),turn.get("base_revision"))!=1)throw integrity();
+        return reply;
     }
     private List<ObjectNode> projection(JsonNode original,JsonNode proof){
         var user=json.object().put("role","user").put("content",original.path("input").path("conversation").path("question").asText());user.putArray("sources");user.putNull("evidenceStatus");
@@ -199,6 +222,16 @@ public class ConsultationTurnStore {
         if(proof.path("kind").asText().equals("NO_APPROVED_EVIDENCE")){
             if(proof.size()!=2||!proof.path("inputHash").equals(original.path("inputHash")))throw integrity();
             assistant.put("content","승인된 근거가 부족해 이 질문에 답변할 수 없습니다. 확인할 자료를 보완한 뒤 다시 질문해 주세요.").put("evidenceStatus","INSUFFICIENT");
+        }else if(proof.path("kind").asText().equals("SUGGESTED_GUIDANCE")){
+            var topic=ConsultationGuidance.topic(user.path("content").asText());
+            String content=proof.path("content").asText();
+            var version=proof.path("sourceVersion");
+            if(topic==null||proof.size()!=5||!topic.name().equals(proof.path("topic").asText())
+                    ||!proof.path("inputHash").equals(original.path("inputHash"))
+                    ||!proof.path("content").isTextual()||content.isBlank()||content.codePointCount(0,content.length())>4000
+                    ||!(version.isNull()||(version.isTextual()&&!version.asText().isBlank())))throw integrity();
+            assistant.put("content",content).put("evidenceStatus",version.isNull()?"INSUFFICIENT":"GROUNDED");
+            if(!version.isNull())sources.addObject().put("kind",topic.source.name()).put("title",topic.sourceTitle).set("version",version);
         }else{
             JsonNode bound=proof.path("boundRequest"),response=proof.path("response");
             try{contract.response(bound,response);}catch(ExplorationAiContract.Invalid e){throw integrity();}
