@@ -31,6 +31,7 @@ import com.jinroon.jobe.domain.major.repository.MajorRepository;
 import com.jinroon.jobe.domain.major.service.MajorDatasetContextService;
 import com.jinroon.jobe.domain.plan.entity.MajorWeeklyPlan;
 import com.jinroon.jobe.domain.plan.service.PlanService;
+import com.jinroon.jobe.domain.result.dto.response.RankedMajorScore;
 import com.jinroon.jobe.domain.result.dto.response.SharedDiagnosisResultResponse;
 import com.jinroon.jobe.domain.result.entity.DiagnosisResult;
 import com.jinroon.jobe.domain.result.entity.ResultMajorScore;
@@ -388,7 +389,7 @@ public class ResultService {
     }
 
     private void createInitialPlanIfAbsent(Long resultId, List<ResultMajorScore> scores) {
-        if (resultId == null || scores == null || scores.isEmpty()) {
+        if (resultId == null || scores == null || scores.isEmpty() || RankedMajorScore.firstPlaceCount(scores) > 1) {
             return;
         }
         List<MajorWeeklyPlan> existingPlans = Optional.ofNullable(planService.findPlansByResult(resultId))
@@ -449,8 +450,11 @@ public class ResultService {
         if (result.getAiCommentStatus() == AiGenerationStatus.PENDING) {
             throw new CustomException(ErrorCode.AI_GENERATION_IN_PROGRESS);
         }
-        if (result.getAiCommentStatus() == AiGenerationStatus.SUCCEEDED && !force
-                && !result.hasFixedWeaknessComment()) {
+        List<ResultMajorScore> majorScores =
+                resultMajorScoreRepository.findByDiagnosisResultIdOrderByRankAsc(result.getId());
+        int firstPlaceCount = RankedMajorScore.firstPlaceCount(majorScores);
+        if (firstPlaceCount <= 1 && result.getAiCommentStatus() == AiGenerationStatus.SUCCEEDED
+                && !force && !result.hasFixedWeaknessComment()) {
             log.info("AI recommendation comment regeneration skipped resultId={} status={} force={}",
                     result.getId(), result.getAiCommentStatus(), force);
             return result;
@@ -460,8 +464,9 @@ public class ResultService {
                 .findByDiagnosisSessionId(result.getDiagnosisSessionId())
                 .orElseThrow(() -> new CustomException(ErrorCode.DIAGNOSIS_COMPETENCY_RESULT_NOT_FOUND));
 
-        List<ResultMajorScore> majorScores =
-                resultMajorScoreRepository.findByDiagnosisResultIdOrderByRankAsc(result.getId());
+        if (firstPlaceCount > 1) {
+            return applyJointFirstPlaceSummary(result, competency, firstPlaceCount);
+        }
         if (majorScores.isEmpty()) {
             throw new CustomException(ErrorCode.RESULT_MAJOR_SCORE_NOT_FOUND);
         }
@@ -571,6 +576,28 @@ public class ResultService {
         result.markAiCommentSucceeded();
         log.info("AI 추천 코멘트 적용 완료 (resultId={}, requestId={}, majorCount={})",
                 result.getId(), response.requestId(), response.majorComments().size());
+        return result;
+    }
+
+    private DiagnosisResult applyJointFirstPlaceSummary(
+            DiagnosisResult result, CompetencyEvalResult competency, int firstPlaceCount
+    ) {
+        List<String> weaknesses = competency.relativelyWeakFields(WEAKNESS_FOCUS_LIMIT);
+        String weaknessFocus = String.join(",", weaknesses);
+        Map<String, String> labels = competencyAxes(competency).stream()
+                .collect(Collectors.toMap(AxisScore::fieldName, AxisScore::label));
+        String summary = "점수 기준 공동 1위 전공이 %d개입니다. 관심 있는 학습 주제와 진로를 비교해 보고, "
+                .formatted(firstPlaceCount) + "먼저 탐색할 전공을 선택해 보세요.";
+        if (!weaknesses.isEmpty()) {
+            summary += " 현재 응답에서 우선 살펴볼 역량은 "
+                    + weaknesses.stream().map(labels::get).collect(Collectors.joining(", ")) + "입니다.";
+        }
+        if (result.getAiCommentStatus() != AiGenerationStatus.SUCCEEDED
+                || !summary.equals(result.getAiComment()) || !weaknessFocus.equals(result.getWeaknessFocus())) {
+            result.markAiCommentPending();
+            result.applyAiComment(summary, weaknessFocus);
+            result.markAiCommentSucceeded();
+        }
         return result;
     }
 

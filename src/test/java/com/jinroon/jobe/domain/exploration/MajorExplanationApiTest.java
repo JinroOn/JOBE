@@ -106,7 +106,7 @@ class MajorExplanationApiTest extends CompletedExplorationTestSupport {
 
     @org.junit.jupiter.params.ParameterizedTest
     @org.junit.jupiter.params.provider.CsvSource({"'',EXPLORATION_MAJOR_EXPLANATION_V1_4", "-v5,EXPLORATION_MAJOR_EXPLANATION_V1_5",
-            "-v6,EXPLORATION_MAJOR_EXPLANATION_V1_6"})
+            "-v6,EXPLORATION_MAJOR_EXPLANATION_V1_6", "-v7,EXPLORATION_MAJOR_EXPLANATION_V1_7"})
     void ownerCanRegenerateAnExplanationFromThePreviousPrompt(String mutationSuffix, String promptVersion) throws Exception {
         when(availability.explanationAvailableFor(ExplorationRunMode.DEV)).thenReturn(true);
         long resultId = completedResult(Map.of("INT_MED", 100, "INT_HUM", 50));
@@ -166,7 +166,7 @@ class MajorExplanationApiTest extends CompletedExplorationTestSupport {
         assertThat(response(post(endpoint).header("Authorization", owner), 202).path("status").asText()).isEqualTo("GENERATING");
         assertThat(tasks.explanationCandidates().stream().filter(job -> job.user() == OWNER)
                 .map(OwnedGenerationStore.Candidate::mutation).toList())
-                .containsExactly("major-explanation-" + context.contextId() + "-v7");
+                .containsExactly("major-explanation-" + context.contextId() + "-v8");
     }
 
     @Test

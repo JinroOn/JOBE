@@ -115,7 +115,7 @@ def test_major_explanation_uses_bound_facts_and_reports_failed_condition(setting
     assert 'For a single response' in chat.messages[0].content
     assert 'Use each answerChoice at most once' in chat.messages[0].content
     assert chat.settings['timeout'] == 12
-    assert model.metadata['promptVersion'] == 'EXPLORATION_MAJOR_EXPLANATION_V1_7'
+    assert model.metadata['promptVersion'] == 'EXPLORATION_MAJOR_EXPLANATION_V1_8'
 
 
 @pytest.mark.parametrize('first_failure', ['parse', 'excerpt', 'transport-on-retry'])
@@ -296,9 +296,8 @@ def test_media_influence_answer_needs_media_evidence(settings, text, succeeds):
     if succeeds:
         assert ExplorationModel(chat).generate(value, facts)['status'] == 'SUCCEEDED'
     else:
-        with pytest.raises(ModelFault) as error:
-            ExplorationModel(chat).generate(value, facts)
-        assert error.value.output_issue == ExplanationOutputIssue.GROUNDING
+        assert ExplorationModel(chat).generate(value, facts)['status'] == 'DECLINED'
+        assert chat.calls == 0
 
 
 @pytest.mark.parametrize('claim', ['전공의 핵심과 잘 이어져요.', '이 전공과 잘 맞아떨어져요.', '일의 흐름을 아는 것이 중요하다는 점이 같아요.'])
@@ -339,6 +338,65 @@ def test_course_name_evidence_is_used_only_without_described_learning(settings, 
     chat = FakeChat({'targetName': 'TEST', 'connections': [named, described] if with_description else [named]})
     connections = ExplorationModel(chat).generate(value, facts)['result']['connections']
     assert [item['questionId'] for item in connections] == (['ACT-EXP-01'] if with_description else ['ACT-DES-01'])
+
+
+CONTENT_QUESTION = '정보를 글·영상·이미지 같은 콘텐츠로 전달하는 활동에 관심이 있다.'
+PATTERN_QUESTION = '숫자나 자료를 비교해 패턴을 찾는 활동이 흥미롭다.'
+GROWTH_QUESTION = '사람이 배우고 성장하는 과정을 공부하는 데 관심이 있다.'
+
+
+@pytest.mark.parametrize(('question', 'weak_evidence'), [
+    (CONTENT_QUESTION, '중앙대 문예창작전공도 창작품 합평과 토론을 안내한다.'),
+    (PATTERN_QUESTION, '로봇을 설계하고 제어하는 방법을 공부한다. 광운대 로봇학부에는 센서공학이 있다.'),
+    (GROWTH_QUESTION, '커리어넷은 국사교육론, 역사학개론과 서양사를 소개한다.'),
+])
+def test_weak_connections_are_excluded_before_model_invocation(settings, question, weak_evidence):
+    value, facts = explanation_bound()
+    value['input']['signals'][0]['questionText'] = question
+    value['inputHash'] = input_hash(value)
+    facts[0]['text'] = weak_evidence
+    chat = FakeChat(None)
+    assert ExplorationModel(chat).generate(value, facts)['status'] == 'DECLINED'
+    assert chat.calls == 0
+
+
+@pytest.mark.parametrize(('qualifier', 'expected'), [
+    ('그중 글로 생각을 표현하는 데 관심이 있다면', 'SUCCEEDED'),
+    ('콘텐츠를 전달하는 활동에 흥미를 느꼈으므로', 'DECLINED'),
+])
+def test_content_answer_only_supports_a_conditional_link_to_writing(settings, qualifier, expected):
+    value, facts, chat = explanation_with(
+        CONTENT_QUESTION, '문예창작학과는 문학 이론을 읽고 시·소설 등의 창작과 표현을 연습한다.',
+        responseTopic='콘텐츠로 전달하는 활동', majorTopic='창작과 표현',
+        reason=('콘텐츠로 전달하는 활동에 보인 흥미는 전공의 창작과 표현을 살펴볼 단서예요. '
+                + qualifier + ' 생각을 문장으로 전달하는 과정을 살펴볼 수 있어요.'))
+    assert ExplorationModel(chat).generate(value, facts)['status'] == expected
+    assert chat.calls == 1
+
+
+@pytest.mark.parametrize(('question', 'weak_evidence', 'strong_evidence', 'response', 'topic', 'reason'), [
+    (PATTERN_QUESTION, '로봇을 설계하고 제어하는 방법을 공부한다.',
+     '학생은 여러 측정값을 비교해 센서 데이터의 패턴을 분석하는 방법을 배운다.',
+     '자료를 비교해 패턴을 찾는 활동', '센서 데이터의 패턴을 분석하는 방법',
+     '자료를 비교해 패턴을 찾는 활동에 대한 흥미는 센서 데이터의 패턴을 분석하는 방법을 살펴볼 단서예요. 여러 값을 나란히 비교해 반복되는 특징을 찾는 점이 이어져요.'),
+    (GROWTH_QUESTION, '커리어넷은 국사교육론, 역사학개론과 서양사를 소개한다.',
+     '서울대 과목 개요에는 역사 수업 설계·평가와 교재를 다루는 사례가 있다.',
+     '사람이 배우고 성장하는 과정', '역사 수업 설계·평가',
+     '사람이 배우고 성장하는 과정에 대한 관심은 역사 수업 설계·평가를 살펴볼 단서예요. 학습 내용을 어떻게 가르치고 이해했는지 확인하는 점이 이어져요.'),
+])
+def test_named_signal_can_use_substantive_evidence_from_the_same_source(settings, question, weak_evidence, strong_evidence, response, topic, reason):
+    from app.exploration_model import explanation_excerpts
+    value, facts, chat = explanation_with(question, f'{weak_evidence} {strong_evidence}',
+        responseTopic=response, majorTopic=topic, reason=reason)
+    weak_choice = next(choice for choice, (_, quote) in explanation_excerpts(facts).items() if quote == weak_evidence)
+    strong_choice = next(choice for choice, (_, quote) in explanation_excerpts(facts).items() if quote == strong_evidence)
+    row = chat.result['connections'][0]
+    row['evidenceChoice'] = strong_choice
+    result = ExplorationModel(chat).generate(value, facts)
+    assert result['status'] == 'SUCCEEDED'
+    assert json.loads(chat.messages[1].content)['input']['signals'][0]['allowedEvidenceChoices'] == [strong_choice]
+    row['evidenceChoice'] = weak_choice
+    assert ExplorationModel(chat).generate(value, facts)['status'] == 'DECLINED'
 
 
 SOFTWARE_COURSE_LIST = (

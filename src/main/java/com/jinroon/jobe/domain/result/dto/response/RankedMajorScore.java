@@ -37,6 +37,14 @@ public record RankedMajorScore(ResultMajorScore score, Integer displayRank, int 
         }).toList();
     }
 
+    public static int firstPlaceCount(List<ResultMajorScore> scores) {
+        return from(scores).stream()
+                .filter(ranked -> Integer.valueOf(1).equals(ranked.displayRank()))
+                .findFirst()
+                .map(RankedMajorScore::tieCount)
+                .orElse(0);
+    }
+
     private static boolean hasRankingData(ResultMajorScore score) {
         return score.getRank() != null && score.getFailed() != null
                 && score.getFinalScore() != null && score.getCompetencyScore() != null;
