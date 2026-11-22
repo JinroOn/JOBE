@@ -291,6 +291,7 @@ class ResultServiceTest {
         assertThat(scores).extracting(ResultMajorScore::getMajorId).containsExactly(101L, 102L, 100L);
         assertThat(scores).extracting(ResultMajorScore::getRank).containsExactly(1, 2, 3);
         assertThat(scores.get(2).getFailed()).isTrue();
+        verify(planService, never()).createPlan(any());
     }
 
     @Test
@@ -408,6 +409,31 @@ class ResultServiceTest {
 
         assertThat(result.getAiComment()).isEqualTo("summary");
         assertThat(result.getWeaknessFocus()).isEqualTo("communicationScore,collaborationScore");
+    }
+
+    @Test
+    void generateAiCommentSummarizesJointFirstPlaceWithoutChoosingAnIndividualMajor() {
+        DiagnosisResult result = diagnosisResult(1L, 10L, 7L);
+        result.applyAiComment("이전에는 특정 전공 한 곳을 추천했습니다.", "systemUnderstandingScore");
+        result.markAiCommentSucceeded();
+        when(diagnosisResultRepository.findById(1L)).thenReturn(Optional.of(result));
+        when(competencyEvalResultRepository.findByDiagnosisSessionId(10L))
+                .thenReturn(Optional.of(competencyResult(10L)));
+        when(resultMajorScoreRepository.findByDiagnosisResultIdOrderByRankAsc(1L)).thenReturn(List.of(
+                ResultMajorScore.of(1L, 101L, 71.0f, 75.0f, 76.0f, 1, false, null),
+                ResultMajorScore.of(1L, 102L, 72.0f, 75.0f, 76.0f, 2, false, null),
+                ResultMajorScore.of(1L, 103L, 73.0f, 74.0f, 76.0f, 3, false, null)
+        ));
+
+        var actual = resultService.generateAiCommentForUser(1L, 7L);
+
+        assertThat(actual.getAiCommentStatus()).isEqualTo(AiGenerationStatus.SUCCEEDED);
+        assertThat(actual.getAiComment()).contains("공동 1위 전공이 2개", "의사소통, 협업")
+                .doesNotContain("특정 전공 한 곳");
+        assertThat(actual.getWeaknessFocus()).isEqualTo("communicationScore,collaborationScore");
+        var completedAt = actual.getAiCommentCompletedAt();
+        assertThat(resultService.generateAiCommentForUser(1L, 7L).getAiCommentCompletedAt()).isEqualTo(completedAt);
+        verify(aiServiceClient, never()).getRecommendationComment(any());
     }
 
     @Test
