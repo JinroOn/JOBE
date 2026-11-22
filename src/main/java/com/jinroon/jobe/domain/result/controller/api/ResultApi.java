@@ -1,7 +1,7 @@
 package com.jinroon.jobe.domain.result.controller.api;
 
 import com.jinroon.jobe.domain.result.entity.DiagnosisResult;
-import com.jinroon.jobe.domain.result.entity.ResultMajorScore;
+import com.jinroon.jobe.domain.result.dto.response.ResultMajorScoreResponse;
 import com.jinroon.jobe.domain.result.dto.response.SharedDiagnosisResultResponse;
 import com.jinroon.jobe.domain.result.dto.response.SharedMajorScoreResponse;
 import com.jinroon.jobe.global.exception.error.ErrorDto;
@@ -73,9 +73,9 @@ public interface ResultApi {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "조회 성공",
                     content = @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = ResultMajorScore.class))))
+                            array = @ArraySchema(schema = @Schema(implementation = ResultMajorScoreResponse.class))))
     })
-    List<ResultMajorScore> findMajorScores(
+    List<ResultMajorScoreResponse> findMajorScores(
             @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "진단 결과 ID") @PathVariable Long resultId
     );
