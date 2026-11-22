@@ -30,6 +30,7 @@ public class PostResultSupportService {
     private final JdbcTemplate jdbc;
 
     public record Reply(int status,JsonNode body) {}
+    public record ActivityInput(JsonNode snapshot, JsonNode state, BranchCatalog branch) {}
     private record Context(ExplorationResult result,ExplorationSession session,JsonNode snapshot) {}
     private record Post(long id,long revision,String purpose,String target,JsonNode context,String hash) {}
     private record Issued(long id,String questionId,String version,int ordinal,boolean effective,JsonNode snapshot,String hash) {}
@@ -38,8 +39,31 @@ public class PostResultSupportService {
     public JsonNode get(long userId,long resultId) {
         Context context=owned(userId,resultId,false);
         Post post=findPost(resultId,false);
-        if(post==null){var response=json.object();response.put("resultId",resultId);response.put("initialized",false);response.put("supportRevision",0);response.set("allowedPurposes",allowedPurposes(context));return response;}
-        return view(context,post,frozen(context));
+        return post == null ? uninitialized(context) : view(context, post, frozen(context));
+    }
+
+    @Transactional(readOnly = true)
+    public ActivityInput activityInput(long userId, long resultId) {
+        return activityInput(owned(userId, resultId, false));
+    }
+
+    /** Used by the result response after ownership and the result seal have been checked in this transaction. */
+    public ActivityInput activityInput(ExplorationSession session, ExplorationResult result, JsonNode verifiedSnapshot) {
+        return activityInput(new Context(result, session, verifiedSnapshot));
+    }
+
+    private ActivityInput activityInput(Context context) {
+        Post post = findPost(context.result().getId(), false);
+        var frozen = post == null ? matchedCatalog(context) : frozen(context);
+        JsonNode state = post == null ? uninitialized(context) : view(context, post, frozen);
+        return new ActivityInput(context.snapshot(), state, frozen.branch());
+    }
+
+    private JsonNode uninitialized(Context context) {
+        var response = json.object().put("resultId", context.result().getId())
+                .put("initialized", false).put("supportRevision", 0);
+        response.set("allowedPurposes", allowedPurposes(context));
+        return response;
     }
 
     @Transactional
@@ -120,9 +144,15 @@ public class PostResultSupportService {
         if(session.getStatus()!=ExplorationSessionStatus.completed)throw ExplorationApiException.integrity();
         return new Context(result,session,resultStore.verifiedSnapshot(result));
     }
+    private ExplorationRuntimeCatalog.Frozen matchedCatalog(Context context) {
+        var frozen = catalogs.load(context.session().getId());
+        if (!frozen.hash().equals(context.snapshot().path("bundleHash").asText())) throw ExplorationApiException.integrity();
+        return frozen;
+    }
+
     private ExplorationRuntimeCatalog.Frozen frozen(Context context) {
-        var frozen=catalogs.load(context.session().getId());
-        if(!frozen.hash().equals(context.snapshot().path("bundleHash").asText()) || frozen.payload().path("rules").path("caps").path("post_result").asInt()!=8)throw ExplorationApiException.integrity();
+        var frozen = matchedCatalog(context);
+        if (frozen.payload().path("rules").path("caps").path("post_result").asInt() != 8) throw ExplorationApiException.integrity();
         return frozen;
     }
     private void validateSelection(Context context,String purpose,String target) {

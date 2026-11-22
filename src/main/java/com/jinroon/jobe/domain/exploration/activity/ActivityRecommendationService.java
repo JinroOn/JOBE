@@ -3,8 +3,9 @@ package com.jinroon.jobe.domain.exploration.activity;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.jinroon.jobe.domain.exploration.api.ExplorationApiException;
-import com.jinroon.jobe.domain.exploration.repository.*;
-import com.jinroon.jobe.domain.exploration.service.*;
+import com.jinroon.jobe.domain.exploration.entity.ExplorationResult;
+import com.jinroon.jobe.domain.exploration.entity.ExplorationSession;
+import com.jinroon.jobe.domain.exploration.service.ExplorationJson;
 import com.jinroon.jobe.domain.exploration.support.PostResultSupportService;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -18,9 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class ActivityRecommendationService {
-    private final ExplorationResultRepository results;
-    private final ExplorationResultStore resultStore;
-    private final ExplorationRuntimeCatalog catalogs;
     private final PostResultSupportService support;
     private final ExplorationJson json;
     private final JdbcTemplate jdbc;
@@ -32,29 +30,27 @@ public class ActivityRecommendationService {
 
     /** Result GET refreshes only dynamic activity fields. Completion idempotency stays historical. */
     @Transactional(readOnly=true)
-    public JsonNode enrich(long userId,long resultId,JsonNode dto) {
+    public JsonNode enrich(ExplorationSession session, ExplorationResult result, JsonNode verifiedSnapshot, JsonNode dto) {
         var root = selectedCatalog();
         // Existing sealed results remain readable without a runtime catalog when no activity is usable.
         if (root == null) return dto;
         var reviews = catalogApprovals(root);
         if (reviews.isEmpty()) return dto;
-        JsonNode activities=get(userId,resultId,root,reviews);ObjectNode updated=dto.deepCopy();
+        JsonNode activities = recommend(result.getId(), support.activityInput(session, result, verifiedSnapshot), root, reviews);
+        ObjectNode updated = dto.deepCopy();
         for(String field:List.of("nextActivities","activityAvailability","activityMessage"))updated.set(field,activities.path(field));
         return updated;
     }
 
     @Transactional(readOnly=true)
     public JsonNode get(long userId,long resultId) {
-        return get(userId, resultId, null, null);
+        return recommend(resultId, support.activityInput(userId, resultId), null, null);
     }
 
-    private JsonNode get(long userId, long resultId, Map<String,Object> approvedRoot, List<Long> approvedRootReviews) {
-        // Includes authentication scope, ownership, completed state and seal validation; no writes.
-        JsonNode state=support.get(userId,resultId);
-        var result=results.findById(resultId).orElseThrow(()->ExplorationApiException.integrity());
-        JsonNode snapshot=resultStore.verifiedSnapshot(result);
-        var frozen=catalogs.load(result.getSessionId());
-        if(!frozen.hash().equals(snapshot.path("bundleHash").asText()))throw ExplorationApiException.integrity();
+    private JsonNode recommend(long resultId, PostResultSupportService.ActivityInput input,
+                               Map<String, Object> approvedRoot, List<Long> approvedRootReviews) {
+        JsonNode state = input.state();
+        JsonNode snapshot = input.snapshot();
         ObjectNode response=json.object();response.put("resultId",resultId);response.put("supportRevision",state.path("supportRevision").asLong());
         response.put("targetMajorCode",state.path("targetMajorCode").isMissingNode()?null:state.path("targetMajorCode").textValue());
         response.put("runMode","DEV");response.put("testOnly",true);response.put("changesRecommendation",false);
@@ -87,14 +83,16 @@ public class ActivityRecommendationService {
         for(JsonNode issued:state.path("issued"))if(issued.path("answerApplicable").asBoolean()) {
             String q=issued.path("question").path("questionId").asText();
             if(!ActivityCatalogLoader.PREFERENCES.contains(q))continue;
-            var key=frozen.branch().key(frozen.branch().question(q),"");
-            frozen.branch().options(key).stream().filter(o->o.code().equals(issued.path("answerCode").asText())&&!o.unknown()&&o.value()!=null).findFirst()
+            var key=input.branch().key(input.branch().question(q),"");
+            input.branch().options(key).stream().filter(o->o.code().equals(issued.path("answerCode").asText())&&!o.unknown()&&o.value()!=null).findFirst()
                     .ifPresent(o->preferences.put(q,o.value()));
         }
         List<Candidate> eligible=new ArrayList<>();
         for(var row:rows) {
-            JsonNode item=checked(row);JsonNode original=embedded.get(row.get("activity_code").toString());
-            if(original==null || !json.hex(original).equals(row.get("content_hash"))
+            JsonNode item = embedded.get(row.get("activity_code").toString());
+            // The catalog seal covers this item. Match the row body to it and hash the matched content once.
+            if (item == null || !item.equals(json.read(row.get("payload_json").toString()))
+                    || !json.hex(item).equals(row.get("content_hash"))
                     || !item.path("activity_id").asText().equals(row.get("activity_code"))
                     || !item.path("version").asText().equals(row.get("version"))
                     || !Objects.equals(item.path("major_code").textValue(),row.get("major_code")))throw ExplorationApiException.integrity();

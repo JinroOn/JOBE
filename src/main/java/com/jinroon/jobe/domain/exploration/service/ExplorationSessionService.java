@@ -336,7 +336,7 @@ public class ExplorationSessionService {
             throw notFound();
         }
         var result=requiredResult(session);
-        return activities.enrich(userId,result.getId(),resultStore.response(result));
+        return resultResponse(session, result);
     }
 
     @Transactional(readOnly = true)
@@ -345,7 +345,12 @@ public class ExplorationSessionService {
         var session = sessions.findById(result.getSessionId()).filter(s -> s.isOwnedBy(userId)).orElseThrow(this::notFound);
         policy.authorizeExisting(userId, session.getRunMode());
         if (session.getStatus() != ExplorationSessionStatus.completed) throw ExplorationApiException.integrity();
-        return activities.enrich(userId,result.getId(),resultStore.response(result));
+        return resultResponse(session, result);
+    }
+
+    private JsonNode resultResponse(ExplorationSession session, ExplorationResult result) {
+        var snapshot = resultStore.verifiedSnapshot(result);
+        return activities.enrich(session, result, snapshot, resultStore.response(result, snapshot));
     }
 
     @Transactional(readOnly = true)
