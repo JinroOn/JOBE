@@ -149,27 +149,13 @@ class DiagnosisResultAccessTest {
     }
 
     @Test
-    void createSessionIgnoresClientOwnerAndStartsInProgress() throws Exception {
+    void retiredDiagnosisCannotStartNewSessions() throws Exception {
         User owner = saveUser(UserRole.member);
-        User other = saveUser(UserRole.member);
-
         mockMvc.perform(post("/api/diagnoses/sessions").header("Authorization", bearer(owner))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"userId\":" + other.getId() + ",\"currentStep\":1,\"inputSnapshot\":\"{}\","
-                                + "\"completedAt\":\"2026-01-01T00:00:00\"}"))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.userId").value(owner.getId()))
-                .andExpect(jsonPath("$.status").value("in_progress"))
-                .andExpect(jsonPath("$.completedAt").doesNotExist());
-    }
-
-    @Test
-    void createSessionRejectsCompletedStatus() throws Exception {
-        User owner = saveUser(UserRole.member);
-
-        mockMvc.perform(post("/api/diagnoses/sessions").header("Authorization", bearer(owner))
-                        .contentType(MediaType.APPLICATION_JSON).content("{\"status\":\"completed\"}"))
-                .andExpect(status().isBadRequest());
+                        .contentType(MediaType.APPLICATION_JSON).content("{\"currentStep\":1}"))
+                .andExpect(status().isGone())
+                .andExpect(jsonPath("$.code").value("LEGACY_DIAGNOSIS_RETIRED"));
+        org.assertj.core.api.Assertions.assertThat(diagnosisSessionRepository.findByUserId(owner.getId())).isEmpty();
     }
 
     @Test

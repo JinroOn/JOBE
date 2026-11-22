@@ -158,13 +158,9 @@ public interface DiagnosisApi {
             @Parameter(description = "진단 세션 ID") @PathVariable Long sessionId
     );
 
-    @Operation(summary = "진단 세션 생성", description = "새로운 진단 세션을 시작합니다.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "생성 성공",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = DiagnosisSession.class))),
-            @ApiResponse(responseCode = "400", description = "입력값 오류",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
-    })
+    @Operation(summary = "이전 방식 진단 생성 종료", description = "새 회차는 /api/exploration/v1/sessions에서 시작합니다.", deprecated = true)
+    @ApiResponse(responseCode = "410", description = "이전 방식 진단 종료",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     DiagnosisSession createSession(
             @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
