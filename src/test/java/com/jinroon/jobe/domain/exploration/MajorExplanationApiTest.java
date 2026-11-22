@@ -104,13 +104,14 @@ class MajorExplanationApiTest extends CompletedExplorationTestSupport {
         assertThat(tasks.explanationCandidates()).noneMatch(job -> job.user() == OWNER);
     }
 
-    @Test
-    void ownerCanRegenerateAnExplanationFromThePreviousPrompt() throws Exception {
+    @org.junit.jupiter.params.ParameterizedTest
+    @org.junit.jupiter.params.provider.CsvSource({"'',EXPLORATION_MAJOR_EXPLANATION_V1_4", "-v5,EXPLORATION_MAJOR_EXPLANATION_V1_5"})
+    void ownerCanRegenerateAnExplanationFromThePreviousPrompt(String mutationSuffix, String promptVersion) throws Exception {
         when(availability.explanationAvailableFor(ExplorationRunMode.DEV)).thenReturn(true);
         long resultId = completedResult(Map.of("INT_MED", 100, "INT_HUM", 50));
         String endpoint = endpoint(resultId, MAJOR);
         var context = contexts.prepareExplanation(OWNER, resultId, MAJOR);
-        String legacyMutation = "major-explanation-" + context.contextId();
+        String legacyMutation = "major-explanation-" + context.contextId() + mutationSuffix;
         tasks.reserveModel(OWNER, context.contextId(), "EXPLANATION", legacyMutation,
                 adapter.build(context.snapshot(), legacyMutation));
         assertThat(response(post(endpoint).header("Authorization", owner), 202).path("status").asText())
@@ -120,7 +121,7 @@ class MajorExplanationApiTest extends CompletedExplorationTestSupport {
         var legacyLease = tasks.claimModel(OWNER, context.contextId(), "EXPLANATION", legacyMutation);
         var legacyResult = completed(legacyMutation, legacyLease.request());
         tasks.completeModel(OWNER, context.contextId(), "EXPLANATION", legacyMutation, legacyLease.token(), legacyResult);
-        ((ObjectNode) legacyResult.path("providerMetadata")).put("promptVersion", "EXPLORATION_MAJOR_EXPLANATION_V1_4");
+        ((ObjectNode) legacyResult.path("providerMetadata")).put("promptVersion", promptVersion);
         jdbc.update("UPDATE exploration_generation_task SET result_json=?,result_hash=? WHERE user_id=? AND mutation_key=?",
                 legacyResult.toString(), json.hex(legacyResult), OWNER, legacyMutation);
 
@@ -141,7 +142,7 @@ class MajorExplanationApiTest extends CompletedExplorationTestSupport {
         assertThat(response(get(endpoint).header("Authorization", owner), 200).path("status").asText())
                 .isEqualTo("READY");
         assertThat(tasks.completedModel(OWNER, context.contextId(), "EXPLANATION", legacyMutation)
-                .path("promptVersion").asText()).isEqualTo("EXPLORATION_MAJOR_EXPLANATION_V1_4");
+                .path("promptVersion").asText()).isEqualTo(promptVersion);
     }
 
     @Test
