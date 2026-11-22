@@ -77,7 +77,7 @@ public class ActivityRecommendationService {
                 ||!basis.path("catalogHash").asText().equals(root.get("content_hash"))) return false;
         checked(root);
         var rootReviews=catalogApprovals(root);
-        if (rootReviews.isEmpty()||!json.tree(rootReviews).equals(basis.path("catalogReviewIds"))) return false;
+        if (!sameApprovals(rootReviews,basis.path("catalogReviewIds"))) return false;
         var reviews=latestActivityReviews(root);
         var rows=new HashMap<String,Map<String,Object>>();
         for (var row : activityRows(root)) {
@@ -89,7 +89,16 @@ public class ActivityRecommendationService {
             if (row==null||!target.equals(row.get("major_code"))||!bodyMatches(row)
                     ||!card.path("contentHash").asText().equals(row.get("content_hash"))) return false;
             var ids=approvals(row,reviews,now);
-            if (ids.isEmpty()||!json.tree(ids).equals(card.path("reviewIds"))) return false;
+            if (!sameApprovals(ids,card.path("reviewIds"))) return false;
+        }
+        return true;
+    }
+
+    private boolean sameApprovals(List<Long> current, JsonNode pinned) {
+        if (current.isEmpty()||!pinned.isArray()||pinned.size()!=current.size()) return false;
+        for (int i=0;i<current.size();i++) {
+            var id=pinned.get(i);
+            if (!id.isIntegralNumber()||!id.canConvertToLong()||id.longValue()!=current.get(i)) return false;
         }
         return true;
     }

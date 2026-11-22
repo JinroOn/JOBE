@@ -137,6 +137,22 @@ class ActivityRecommendationApiTest extends CompletedExplorationTestSupport {
         approveRoot();assertThat(activities(rid,200).path("nextActivities").isEmpty()).isTrue();
         approveItem("A");assertThat(activities(rid,200).path("nextActivities").size()).isEqualTo(1);
     }
+    @Test void pinnedPlanApprovalsSurviveSerializationAndRejectALaterWithdrawal()throws Exception {
+        long rid=completedResult(true);
+        String target=major(rid,0);
+        load(item("A",target));
+        approveRoot();
+        statuses("exploration_activity");
+        approveItem("A");
+        support.select(OWNER,rid,"choose-plan",0,"PLAN",target);
+
+        var pinned=mapper.readTree(recommendations.planBasis(OWNER,rid,target).toString());
+        assertThat(pinned.path("activities").size()).isEqualTo(1);
+        assertThat(recommendations.planBasisApproved(pinned,target)).isTrue();
+
+        review("exploration_activity","ACTIVITY","DOMAIN","REJECTED");
+        assertThat(recommendations.planBasisApproved(pinned,target)).isFalse();
+    }
     @Test void authoredGeneralDraftsNeedReviewsAndUseExplicitPreferencesForNoCandidateResults()throws Exception {
         long rid=completedResult(false);
         ObjectNode next=(ObjectNode)mapper.readTree(java.nio.file.Files.readString(Path.of("datasets/activities/catalog-v2.json")));

@@ -5,10 +5,12 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /** Formats the approved activity snapshot without asking the provider to invent tasks. */
 final class PlanActivitySchedule {
+    private static final Pattern ORDERED_STEP=Pattern.compile("^\\d+[.)]\\s.*");
     private record Week(String title, List<String> tasks, String output) {}
 
     static boolean apply(ArrayNode weeks, JsonNode basis) {
@@ -92,6 +94,8 @@ final class PlanActivitySchedule {
     private static String body(JsonNode activity) {
         return text(activity,"body_markdown").lines().map(String::strip)
                 .filter(line->!line.isBlank()&&!line.startsWith("#")&&!line.startsWith("```"))
+                .filter(line->!ORDERED_STEP.matcher(line).matches()
+                        &&!line.startsWith("남길 결과물")&&!line.startsWith("쉬운 대안"))
                 .collect(Collectors.joining(" "));
     }
 }

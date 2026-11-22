@@ -81,6 +81,10 @@ class TwelveWeekPlanApiTest extends CompletedExplorationTestSupport {
         assertThat(first.path("weeks").size()).isEqualTo(12);
         assertThat(first.path("weeks").get(8).path("title").asText()).contains("작품 표현 비교하기");
         assertThat(first.path("weeks").get(8).path("expectedOutput").asText()).isEqualTo("표현 표시가 있는 두 문장");
+        var tasks=first.path("weeks").get(8).path("tasks");
+        assertThat(tasks.size()).isEqualTo(2);
+        assertThat(tasks.get(0).asText()).isEqualTo("두 가지 예를 읽어요.");
+        assertThat(tasks.get(1).asText()).isEqualTo("1. 두 예시를 비교해요.");
         assertThat(another.path("weeks").get(8).path("title").asText()).contains("자료 값 비교하기");
         assertThat(another.path("weeks").get(8).path("expectedOutput").asText()).isEqualTo("비교 표");
         assertThat(first.path("sources").get(1).path("kind").asText()).isEqualTo("ACTIVITY_CATALOG");
@@ -90,7 +94,7 @@ class TwelveWeekPlanApiTest extends CompletedExplorationTestSupport {
     private ObjectNode activityBasis(String major,String title,String output) {
         var basis=mapper.createObjectNode().put("catalogVersion","TEST_ACTIVITIES");
         var practice=basis.putArray("activities").addObject().put("major_code",major).put("kind","SMALL_TASK")
-                .put("title",title).put("body_markdown","두 가지 예를 읽어요.")
+                .put("title",title).put("body_markdown","## " + title + "\n\n두 가지 예를 읽어요.\n\n1. 두 예시를 비교해요.\n\n남길 결과물은 " + output + "입니다.\n\n쉬운 대안. 예시 한 가지만 읽어요.")
                 .put("alternative","예시 한 가지만 읽어요.").put("example_output","확인한 차이 한 가지");
         practice.putArray("steps").add("두 예시를 비교해요.");
         practice.putArray("artifacts").add(output);
