@@ -329,7 +329,10 @@ class ActivityRecommendationApiTest extends CompletedExplorationTestSupport {
                 """, catalogId());
         assertThat(activities(result, 503).path("code").asText()).isEqualTo("CATALOG_INTEGRITY_ERROR");
 
-        jdbc.update("DELETE FROM exploration_activity WHERE catalog_id=? AND activity_code='A'", catalogId());
+        jdbc.update("DELETE FROM exploration_activity WHERE catalog_id=? AND activity_code='EXTRA'", catalogId());
+        // Replace the catalog entry without orphaning the review history tied to its row ID.
+        jdbc.update("UPDATE exploration_activity SET activity_code='REPLACEMENT' WHERE catalog_id=? AND activity_code='A'",
+                catalogId());
         assertThat(activities(result, 503).path("code").asText()).isEqualTo("CATALOG_INTEGRITY_ERROR");
     }
 

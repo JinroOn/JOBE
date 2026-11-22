@@ -189,6 +189,7 @@ class ExplorationStageApiTest extends ExplorationApiTestSupport {
     }
 
     @Test void cautionGateUsesIndividualReviewedEvidenceAndNeverPromotesPendingTags() throws Exception {
+        int reviewsBefore = count("exploration_review_history", "1=1");
         Run run = stageTwo(false); issue(run.id()); seedCurrentStage(run.id(), false);
         advance(run.id(), currentRevision(run.id()), "third", 200);
         JsonNode payload = mapper.readTree(checkpoint(run.id(), "STAGE_3"));
@@ -202,7 +203,7 @@ class ExplorationStageApiTest extends ExplorationApiTestSupport {
         JsonNode next = issue(run.id());
         assertThat(next.path("issuedQuestions").size()).isLessThanOrEqualTo(11);
         assertThat(next.toString()).doesNotContain("eligibleTags", "evidence", "domainReviewStatus");
-        assertThat(count("exploration_review_history", "1=1")).isZero();
+        assertThat(count("exploration_review_history", "1=1")).isEqualTo(reviewsBefore);
     }
 
     @Test void checkpointTamperingFailsClosed() throws Exception {
