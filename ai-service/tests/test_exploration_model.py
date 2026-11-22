@@ -29,6 +29,21 @@ class FakeChat:
     async def ainvoke(self,messages):self.messages=messages;self.calls+=1;return self.result
 
 
+@pytest.mark.parametrize(('model_name', 'expected_options'), [
+    ('gpt-4o-mini', None),
+    ('gpt-6-luna', {'reasoning_effort': 'none'}),
+])
+def test_structured_chat_completions_use_compatible_reasoning(settings, monkeypatch, model_name, expected_options):
+    monkeypatch.setenv('EXPLORATION_LLM_MODEL', model_name)
+    request, facts = bound()
+    chat = FakeChat({'summary': '근거를 먼저 살펴보세요.', 'questions': [], 'referenceKeys': [REF]})
+
+    result = ExplorationModel(chat).generate(request, facts)
+
+    assert result['status'] == 'SUCCEEDED'
+    assert chat.settings.get('model_kwargs') == expected_options
+
+
 def explanation_bound():
     value, facts = bound()
     signal = {'kind': 'ACTIVITY', 'metricCode': 'ACT_DES', 'questionId': 'ACT-DES-01',
