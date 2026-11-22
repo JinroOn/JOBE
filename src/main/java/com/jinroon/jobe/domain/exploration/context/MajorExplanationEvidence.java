@@ -12,9 +12,7 @@ import com.jinroon.jobe.domain.exploration.service.ExplorationRuntimeCatalog;
 import com.jinroon.jobe.domain.exploration.service.ExplorationRuntimePolicy;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class MajorExplanationEvidence {
-    private static final int MAX_PER_KIND = 2;
+    private static final int MAX_PER_KIND = 4;
 
     private final ExplorationResultRepository results;
     private final ExplorationSessionRepository sessions;
@@ -86,11 +84,9 @@ public class MajorExplanationEvidence {
         }
         List<Signal> signals = new ArrayList<>();
         for (Kind kind : Kind.values()) {
-            Set<String> includedMetrics = new HashSet<>();
             eligible.stream().filter(row -> row.signal().kind() == kind)
                     .sorted(Comparator.comparing((RankedSignal row) -> row.signal().inconsistent())
                             .thenComparing(Comparator.comparingInt(RankedSignal::value).reversed()))
-                    .filter(row -> includedMetrics.add(row.signal().metricCode()))
                     .limit(MAX_PER_KIND).map(RankedSignal::signal).forEach(signals::add);
         }
         return new Prepared(resultId, json.hex(snapshot), session.getRunMode().name(), snapshot.path("testOnly").asBoolean(),

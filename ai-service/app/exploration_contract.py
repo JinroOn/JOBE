@@ -153,7 +153,7 @@ class ExplanationSignal(StrictModel):
 
 class ExplanationInput(StrictModel):
     targetName: text(100)
-    signals: Annotated[list[ExplanationSignal], Field(min_length=1, max_length=6)]
+    signals: Annotated[list[ExplanationSignal], Field(min_length=1, max_length=12)]
 
     @model_validator(mode="after")
     def distinct_questions(self):

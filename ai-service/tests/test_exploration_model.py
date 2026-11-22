@@ -101,8 +101,7 @@ def test_major_explanation_uses_bound_facts_and_reports_failed_condition(setting
     output = model.generate(value, facts)
     connection = {'questionId': 'ACT-DES-02' if outcome == 'second-answer' else 'ACT-DES-01',
                   'referenceKeys': [REF],
-                  'connection': '“직접 설계하는 활동” 관련 문항에 “관심이 있어요.”라고 답했어요. '
-                                '직접 설계하는 활동에 보인 관심은 전공의 설계 활동을 살펴볼 단서예요. '
+                  'connection': '직접 설계하는 활동에 보인 관심은 전공의 설계 활동을 살펴볼 단서예요. '
                                 '직접 계획해 보는 일이 두 내용과 연결돼요. '
                                 '전공 자료에는 “전공에서는 설계 활동을 진행한다.”라고 나와요.'}
     assert output['status'] == ('SUCCEEDED' if draft else 'DECLINED')
@@ -130,7 +129,7 @@ def test_major_explanation_uses_bound_facts_and_reports_failed_condition(setting
     assert 'For a single response' in chat.messages[0].content
     assert 'Use each answerChoice at most once' in chat.messages[0].content
     assert chat.settings['timeout'] == 12
-    assert model.metadata['promptVersion'] == 'EXPLORATION_MAJOR_EXPLANATION_V1_8'
+    assert model.metadata['promptVersion'] == 'EXPLORATION_MAJOR_EXPLANATION_V1_11'
 
 
 @pytest.mark.parametrize('first_failure', ['parse', 'excerpt', 'transport-on-retry'])
@@ -255,6 +254,22 @@ def test_explanation_drops_a_predicate_added_to_an_approved_topic(settings, text
     assert chat.calls == 1
 
 
+@pytest.mark.parametrize(('evidence', 'connected'), [
+    ('로드맵은 실생활 문제를 알고리즘으로 해결하는 교과를 소개한다.', False),
+    ('전공은 관측 데이터를 수집하고 정리하는 방법을 배운다.', True),
+])
+def test_data_processing_interest_needs_evidence_of_data_processing(settings, evidence, connected):
+    value, facts, chat = explanation_with(
+        '데이터가 수집·정리되어 정보가 되는 과정을 배우고 싶다.', evidence,
+        responseTopic='데이터가 수집·정리되어', majorTopic='관측 데이터를 수집하고 정리하는 방법',
+        reason='데이터가 수집·정리되어 정보가 되는 과정에 보인 관심은 관측 데이터를 수집하고 정리하는 방법을 살펴볼 단서예요. 흩어진 관측값을 모아 읽을 수 있도록 정리하는 점이 이어져요.',
+    )
+    result = ExplorationModel(chat).generate(value, facts)
+
+    assert result['status'] == ('SUCCEEDED' if connected else 'DECLINED')
+    assert chat.calls == int(connected)
+
+
 @pytest.mark.parametrize(('response_topic', 'succeeds'), [
     ('생명 현상과 건강 문제의 원인 탐구', True),
     ('생명체의 건강을 지키는 활동', False),
@@ -267,7 +282,7 @@ def test_response_topic_may_only_lose_trailing_words(settings, response_topic, s
         reason='생명 현상과 건강 문제의 원인 탐구에 보인 관심은 생명체의 구성과 기능을 살펴볼 단서예요. 생명체를 여러 수준에서 들여다보는 점이 연결돼요.')
     if succeeds:
         connection = ExplorationModel(chat).generate(value, facts)['result']['connections'][0]['connection']
-        assert connection.startswith('“생명 현상과 건강 문제의 원인” 관련 문항에 “매우 그렇다”라고 답했어요.')
+        assert connection.startswith('생명 현상과 건강 문제의 원인 탐구에 보인 관심은')
     else:
         with pytest.raises(ModelFault):
             ExplorationModel(chat).generate(value, facts)
@@ -463,7 +478,7 @@ def test_strongest_connection_is_followed_by_a_different_kind_when_supported(set
          'reason': '재료 실험을 하는 방법을 배우고 싶다면 어떤 재료 실험을 한다고 소개하는지 살펴볼 수 있어요. 여러 재료를 직접 실험하면서 차이를 살펴본다는 점이 이어져요.'},
     ]})
     rows = ExplorationModel(chat).generate(value, facts)['result']['connections']
-    assert [row['questionId'] for row in rows] == ['ACT-DES-01', 'LEARN-DES-01']
+    assert [row['questionId'] for row in rows] == ['ACT-DES-01', 'LEARN-DES-01', 'ACT-DES-02']
     assert len(chat.schema.model_validate(chat.result).connections) == 3
 
     chat.result['connections'].pop()
