@@ -12,22 +12,11 @@ from langchain_openai import ChatOpenAI
 from pydantic import BaseModel, ConfigDict, Field
 
 from .errors import UpstreamUnavailableError
-from .models import MajorComment, RecommendationCommentRequest, RecommendationCommentResponse
+from .models import MajorComment, Profile, RecommendationCommentRequest, RecommendationCommentResponse, WeaknessField
 from .rag.context import enrich_recommendation_request_with_rag
 
-PROMPT_VERSION = os.getenv("PROMPT_VERSION", "rec-comment-v1.2.0")
+PROMPT_VERSION = os.getenv("PROMPT_VERSION", "rec-comment-v1.3.0")
 PROMPT_FILE = os.getenv("PROMPT_FILE", "recommendation_v1_1.txt")
-WEAKNESS_KEYS = {
-    "mathLogicalScore",
-    "problemSolvingScore",
-    "infoTechUtilizationScore",
-    "softwareImplementationScore",
-    "systemUnderstandingScore",
-    "dataAnalysisScore",
-    "communicationScore",
-    "collaborationScore",
-    "selfManagementScore",
-}
 AXIS_DISPLAY_NAMES = {
     "mathLogicalScore": "수리·논리",
     "problemSolvingScore": "문제 해결",
@@ -39,6 +28,26 @@ AXIS_DISPLAY_NAMES = {
     "collaborationScore": "협업",
     "selfManagementScore": "자기관리",
 }
+# Keep ties in the shared competency display order.
+def competency_feedback(profile: Profile) -> tuple[list[WeaknessField], list[WeaknessField]]:
+    scores = profile.model_dump()
+    lowest, highest = min(scores.values()), max(scores.values())
+    weaknesses = sorted((key for key in AXIS_DISPLAY_NAMES if scores[key] < highest), key=scores.__getitem__)[:2]
+    strengths = sorted((key for key in AXIS_DISPLAY_NAMES if scores[key] > lowest and key not in weaknesses),
+                       key=lambda key: -scores[key])[:2]
+    return strengths, weaknesses
+
+
+def competency_sentence(axes: list[WeaknessField], *, strength: bool) -> str:
+    if not axes:
+        return ("응답에서 상대적으로 높은 역량이 구분되지 않습니다." if strength
+                else "응답에서 우선 보완할 역량이 구분되지 않습니다.")
+    labels = ", ".join(AXIS_DISPLAY_NAMES[key] for key in axes)
+    if strength:
+        return f"현재 응답에서 상대적으로 높은 역량은 {labels}입니다."
+    return f"현재 응답에서 우선 살펴볼 보완 영역은 {labels}입니다."
+
+
 BANNED_ASSERTIVE_WORDS = ("반드시", "무조건")
 INTERNAL_TERM_REPLACEMENTS = (
     (re.compile(r"ragSnippets", re.IGNORECASE), "전공 근거"),
@@ -207,6 +216,7 @@ class RecommendationChain:
         request_id: str,
     ) -> tuple[RecommendationCommentResponse, list[str]]:
         fallback_reasons: list[str] = []
+        strengths, weakness_focus = competency_feedback(request.profile)
         comments: list[MajorComment] = []
         by_rank: dict[int, GeneratedMajorComment] = {item.rankingOrder: item for item in generated.majorComments}
         input_major_names = [item.majorName for item in request.topMajors]
@@ -227,37 +237,10 @@ class RecommendationChain:
             if not chosen or not chosen.recommendationReason or not chosen.recommendationReason.strip():
                 fallback_reasons.append("missing_recommendation_reason")
 
-            strengths_text = (
-                chosen.strengths.strip()
-                if chosen and chosen.strengths and chosen.strengths.strip()
-                else (top_major.strengths or "")
-            )
-            if not strengths_text:
-                fallback_reasons.append("missing_strengths")
-
-            weaknesses_text = (
-                chosen.weaknesses.strip()
-                if chosen and chosen.weaknesses and chosen.weaknesses.strip()
-                else (top_major.weaknesses or "")
-            )
-            if not weaknesses_text:
-                fallback_reasons.append("missing_weaknesses")
-
-            strengths_sentence = self._normalize_attribute_sentence(
-                strengths_text,
-                fallback="강점은 문제 해결력과 학습 지속성에서 확인됩니다.",
-                prefix="강점은",
-            )
-            weaknesses_sentence = self._normalize_attribute_sentence(
-                weaknesses_text,
-                fallback="보완점은 의사소통과 시스템 이해 역량입니다.",
-                prefix="보완점은",
-            )
             group_item_context = group_context.get(major_name, {})
             reason_sentence = self._normalize_reason_text(
-                raw_reason,
+                self._without_competency_assessment(raw_reason),
                 major_name=major_name,
-                weakness_hint=weaknesses_sentence,
                 comparison_majors=group_item_context.get(
                     "comparison_majors",
                     [name for name in input_major_names if name != major_name],
@@ -270,18 +253,18 @@ class RecommendationChain:
                     majorName=major_name,
                     rankingOrder=top_major.rankingOrder,
                     fitScore=fit_score,
-                    strengths=self._trim(strengths_sentence, 500),
-                    weaknesses=self._trim(weaknesses_sentence, 500),
+                    strengths=competency_sentence(strengths, strength=True),
+                    weaknesses=competency_sentence(weakness_focus, strength=False),
                     recommendationReason=self._trim(reason_sentence, 800),
                 )
             )
 
-        weakness_focus = [key for key in generated.weaknessFocus if key in WEAKNESS_KEYS][:2]
-        if len(generated.weaknessFocus) != len(weakness_focus):
-            fallback_reasons.append("invalid_weakness_focus_removed")
+        if generated.weaknessFocus and generated.weaknessFocus != weakness_focus:
+            fallback_reasons.append("model_weakness_focus_replaced")
 
         summary = self._normalize_summary_text(
             summary=generated.summaryComment,
+            strengths=strengths,
             weakness_focus=weakness_focus,
             recommendation_groups=request.recommendationGroups,
             top_majors=request.topMajors,
@@ -296,56 +279,42 @@ class RecommendationChain:
             requestId=request_id,
         ), unique_fallbacks
 
+    def _without_competency_assessment(self, text: str) -> str:
+        # Personal competency claims are rendered from scores after this free text is cleaned.
+        return " ".join(
+            sentence for sentence in self._split_sentences(self._sanitize_text(text))
+            if not re.search(r"강점|약점|보완|취약|부족|우수|뛰어|돋보|역량.{0,20}(?:높|낮|좋|약|강)", sentence)
+        )
+
     def _normalize_summary_text(
         self,
         summary: str | None,
         *,
-        weakness_focus: list[str],
+        strengths: list[WeaknessField],
+        weakness_focus: list[WeaknessField],
         recommendation_groups: list | None = None,
         top_majors: list | None = None,
     ) -> str:
-        text = self._sanitize_text(summary or "")
-        if not text:
-            text = (
-                "전반적으로 전공 적합도는 양호한 편입니다. "
-                "강점 역량은 유지하고 부족한 역량은 계획적으로 보완하면 진학 후 적응력이 높아집니다. "
-                "주 2회 이상 약점 영역을 집중 학습하는 루틴을 권장합니다."
-            )
-        if not self._sanitize_text(summary or ""):
-            text = self._rank_one_summary_fallback(top_majors, weakness_focus)
-        if not text:
-            text = self._rank_one_summary_fallback(top_majors, weakness_focus)
-        if self._summary_is_not_rank_aligned(text, top_majors):
-            text = self._rank_one_summary_fallback(top_majors, weakness_focus)
+        text = self._without_competency_assessment(summary or "")
+        if not self._is_mostly_korean(text) or self._summary_is_not_rank_aligned(text, top_majors):
+            text = self._rank_one_summary_fallback(top_majors)
 
-        sentences = self._split_sentences(text)
-        if len(sentences) < 3:
-            sentences.append("강점은 유지하고 약점은 작은 단위 목표로 나눠 보완하는 접근이 효과적입니다.")
-        if len(sentences) < 4:
-            hint = self._weakness_focus_text(weakness_focus, fallback="의사소통과 시스템 이해")
-            sentences.append(f"우선 보완 영역은 {hint}이며, 주간 학습 루틴으로 반복 훈련을 권장합니다.")
+        # Leave room for the score-derived statements even when generated prose is long.
+        sentences = []
+        for sentence in self._split_sentences(text)[:2]:
+            if len(" ".join([*sentences, sentence])) > 850:
+                break
+            sentences.append(sentence)
+        if not sentences or self._summary_is_not_rank_aligned(" ".join(sentences), top_majors):
+            sentences = self._split_sentences(self._rank_one_summary_fallback(top_majors))[:2]
+        sentences.append(competency_sentence(strengths, strength=True))
+        sentences.append(competency_sentence(weakness_focus, strength=False))
         group_hint = self._summary_group_hint(recommendation_groups or [])
-        if group_hint and len(sentences) < 5 and not any(marker in text for marker in ("공통", "선택", "비교", "기준")):
+        if group_hint:
             sentences.append(group_hint)
-        if not any(marker in " ".join(sentences) for marker in ("공통", "선택", "비교", "기준")):
-            marker_sentence = "추천 선택 기준은 강점 역량과 보완 가능성을 함께 비교해 정하면 좋습니다."
-            if len(sentences) >= 5:
-                sentences[-1] = marker_sentence
-            else:
-                sentences.append(marker_sentence)
-        if len(sentences) > 5:
-            sentences = sentences[:5]
-        sentences = [self._ensure_period(s) for s in sentences]
-        merged = self._replace_banned_words(" ".join(sentences))
-        if not self._is_mostly_korean(merged):
-            merged = (
-                "현재 역량 데이터를 보면 전공 적합도는 비교적 안정적입니다. "
-                "강점 역량은 유지하고 부족한 역량은 주간 계획으로 보완하는 것이 좋습니다. "
-                "실습 프로젝트 학습과 발표 연습을 병행하면 실전 적응력이 향상됩니다."
-            )
-        if self._summary_is_not_rank_aligned(merged, top_majors):
-            merged = self._rank_one_summary_fallback(top_majors, weakness_focus)
-        return merged
+        elif not any(marker in " ".join(sentences) for marker in ("공통", "선택", "비교", "기준")):
+            sentences.append("전공을 선택할 때는 관심 있는 학습 주제와 준비할 영역을 함께 비교해 보세요.")
+        return self._replace_banned_words(" ".join(self._ensure_period(s) for s in sentences))
 
     def _summary_is_not_rank_aligned(self, summary: str, top_majors: list | None) -> bool:
         rank_one = self._rank_one_major(top_majors)
@@ -410,32 +379,20 @@ class RecommendationChain:
             )
         return " ".join(parts)
 
-    def _rank_one_summary_fallback(self, top_majors: list | None, weakness_focus: list[str]) -> str:
+    def _rank_one_summary_fallback(self, top_majors: list | None) -> str:
         rank_one = self._rank_one_major(top_majors)
         major_name = rank_one.majorName if rank_one else "현재 1순위 전공"
-        weakness_hint = self._weakness_focus_text(weakness_focus, fallback="기초 역량")
         context = rank_one.majorContext if rank_one else None
         category = context.category if context and context.category else "이 분야"
         description = self._first_sentence(
             context.description if context and context.description else context.sourceSummary if context else None
         )
-        jobs = ", ".join((context.relatedJobs or [])[:2]) if context else ""
         field_sentence = self._major_description_sentence(
             major_name=major_name,
             description=description,
             category=category,
         )
-        job_sentence = (
-            f"관련 진로로는 {jobs} 등이 있어, 사람과 현상을 이해하고 실제 문제에 적용하는 방향으로 확장할 수 있습니다. "
-            if jobs
-            else "이 전공은 전공 지식을 실제 문제 이해와 진로 탐색으로 연결해 볼 수 있다는 점에서 의미가 있습니다. "
-        )
-        return (
-            f"현재 1순위 추천 전공은 {major_name}입니다. "
-            + field_sentence
-            + job_sentence
-            + f"다만 {weakness_hint}은 {major_name}을 더 깊이 공부하기 위한 준비 과제로 보고, 전공 기초 개념과 사례 분석을 함께 보완하면 좋습니다."
-        )
+        return f"현재 1순위 추천 전공은 {major_name}입니다. " + field_sentence
 
     def _major_description_sentence(self, *, major_name: str, description: str, category: str) -> str:
         if description:
@@ -461,11 +418,6 @@ class RecommendationChain:
             return ""
         sentences = self._split_sentences(cleaned)
         return sentences[0] if sentences else cleaned
-
-    def _weakness_focus_text(self, weakness_focus: list[str], *, fallback: str) -> str:
-        labels = [AXIS_DISPLAY_NAMES.get(key, key) for key in weakness_focus[:2]]
-        labels = [label for label in labels if label]
-        return ", ".join(labels) if labels else fallback
 
     def _group_context_by_major(self, request: RecommendationCommentRequest) -> dict[str, dict[str, object]]:
         context: dict[str, dict[str, object]] = {}
@@ -493,32 +445,11 @@ class RecommendationChain:
         major_text = ", ".join(majors[:3])
         return f"공통 적합 근거는 {axes}이며, 선택 기준은 {major_text}의 차이를 비교해서 정하면 좋습니다."
 
-    def _normalize_attribute_sentence(self, text: str, *, fallback: str, prefix: str) -> str:
-        cleaned = self._sanitize_text(text)
-        if not cleaned:
-            return fallback
-
-        if "," in cleaned and "." not in cleaned:
-            keywords = [token.strip() for token in cleaned.split(",") if token.strip()]
-            if keywords:
-                cleaned = f"{prefix} {', '.join(keywords)} 역량에서 확인됩니다."
-
-        sentences = self._split_sentences(cleaned)
-        if not sentences:
-            return fallback
-        sentence = self._replace_banned_words(sentences[0])
-        if sentence[-1] not in ".!?":
-            sentence += "."
-        if not self._is_mostly_korean(sentence):
-            return fallback
-        return sentence
-
     def _normalize_reason_text(
         self,
         text: str,
         *,
         major_name: str,
-        weakness_hint: str,
         comparison_majors: list[str] | None = None,
         differentiation_hint: str | None = None,
     ) -> str:
@@ -532,13 +463,7 @@ class RecommendationChain:
         if len(sentences) < 2:
             sentences.append(f"{focus} 관련 기초 활동을 먼저 정리하면 전공 적응에 도움이 됩니다.")
         if len(sentences) < 3:
-            weak = (
-                weakness_hint.replace("보완점은 ", "")
-                .replace(" 역량에서 확인됩니다.", "")
-                .replace("에서 확인됩니다.", "")
-                .replace(".", "")
-            )
-            sentences.append(f"{weak}을 보완하기 위해 {action}을 권장합니다.")
+            sentences.append(f"전공의 학습 방식을 확인하기 위해 {action}을 권장합니다.")
         if len(sentences) > 3:
             sentences = sentences[:3]
 
@@ -685,28 +610,15 @@ class RecommendationChain:
         return text if len(text) <= max_len else text[:max_len]
 
     def _mock_response(self, *, request: RecommendationCommentRequest, request_id: str) -> RecommendationCommentResponse:
-        profile_dict: dict[str, int] = request.profile.model_dump()
-        sorted_weak = sorted(profile_dict.items(), key=lambda item: item[1])[:2]
-        weakness_focus = [k for k, _ in sorted_weak]
+        strengths, weakness_focus = competency_feedback(request.profile)
         group_context = self._group_context_by_major(request)
 
         major_comments: list[MajorComment] = []
         for item in sorted(request.topMajors, key=lambda x: x.rankingOrder):
-            strengths = self._normalize_attribute_sentence(
-                item.strengths or "",
-                fallback="강점은 문제 해결력과 학습 지속성에서 확인됩니다.",
-                prefix="강점은",
-            )
-            weaknesses = self._normalize_attribute_sentence(
-                item.weaknesses or "",
-                fallback="보완점은 의사소통과 시스템 이해 역량입니다.",
-                prefix="보완점은",
-            )
             group_item_context = group_context.get(item.majorName, {})
             reason = self._normalize_reason_text(
                 f"{item.majorName} 전공의 적합도는 {item.fitScore:.1f}점입니다.",
                 major_name=item.majorName,
-                weakness_hint=weaknesses,
                 comparison_majors=group_item_context.get(
                     "comparison_majors",
                     [major.majorName for major in request.topMajors if major.majorName != item.majorName],
@@ -718,15 +630,16 @@ class RecommendationChain:
                     majorName=item.majorName,
                     rankingOrder=item.rankingOrder,
                     fitScore=float(item.fitScore),
-                    strengths=self._trim(strengths, 500),
-                    weaknesses=self._trim(weaknesses, 500),
+                    strengths=competency_sentence(strengths, strength=True),
+                    weaknesses=competency_sentence(weakness_focus, strength=False),
                     recommendationReason=self._trim(reason, 800),
                 )
             )
 
         summary = self._normalize_summary_text(
-            "전체적으로 학습 잠재력이 높습니다. 강점은 유지하고 보완점은 단계적으로 개선하세요.",
-            weakness_focus=weakness_focus[:2],
+            None,
+            strengths=strengths,
+            weakness_focus=weakness_focus,
             recommendation_groups=request.recommendationGroups,
             top_majors=request.topMajors,
         )
@@ -734,7 +647,7 @@ class RecommendationChain:
         return RecommendationCommentResponse(
             summaryComment=self._trim(summary, 1200),
             majorComments=major_comments,
-            weaknessFocus=weakness_focus[:2],
+            weaknessFocus=weakness_focus,
             version=self.prompt_version,
             requestId=request_id,
         )

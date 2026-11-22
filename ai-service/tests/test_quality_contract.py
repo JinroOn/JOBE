@@ -3,7 +3,10 @@ from __future__ import annotations
 import asyncio
 import json
 import re
+
 from pathlib import Path
+
+import pytest
 
 from app.chain import GeneratedMajorComment, GeneratedRecommendation, RecommendationChain
 from app.models import RecommendationCommentRequest
@@ -175,8 +178,54 @@ def test_partial_response_is_safely_completed() -> None:
 
     assert len(response.majorComments) == len(req.topMajors)
     assert "missing_major_comment" in fallback_reasons
-    assert response.weaknessFocus == ["communicationScore"]
+    assert response.weaknessFocus == ["communicationScore", "collaborationScore"]
     assert_quality(response)
+
+
+@pytest.mark.parametrize("model_focus", [[], ["systemUnderstandingScore", "communicationScore"]])
+def test_score_derived_feedback_replaces_generated_competency_claims(model_focus) -> None:
+    chain = RecommendationChain()
+    req = load_request("normal-mixed")
+    req.profile.collaborationScore = req.profile.selfManagementScore = 0
+    req.profile.systemUnderstandingScore = 100
+    req.profile.communicationScore = 95
+    top = req.topMajors[0]
+    generated = GeneratedRecommendation(
+        summaryComment=f"{top.majorName}의 학습 내용을 확인할 수 있습니다. 시스템 이해가 약점입니다.",
+        majorComments=[GeneratedMajorComment(
+            majorName=top.majorName, rankingOrder=top.rankingOrder, fitScore=top.fitScore,
+            recommendationReason="협업이 강점입니다. 시스템 이해는 보완이 필요합니다.",
+            strengths="협업이 강점입니다.",
+            weaknesses="의사소통과 시스템 이해를 보완해야 합니다.",
+        )],
+        weaknessFocus=model_focus,
+    )
+
+    result, _ = chain._normalize_generated(request=req, generated=generated, request_id="issue-151")
+    mock = chain._mock_response(request=req, request_id="issue-151-mock")
+
+    for response in (result, mock):
+        assert response.weaknessFocus == ["collaborationScore", "selfManagementScore"]
+        assert "상대적으로 높은 역량은 시스템 이해, 의사소통" in response.summaryComment
+        assert "보완 영역은 협업, 자기관리" in response.summaryComment
+        assert "시스템 이해가 약점" not in response.summaryComment
+        for comment in response.majorComments:
+            assert "시스템 이해, 의사소통" in comment.strengths
+            assert "협업, 자기관리" in comment.weaknesses
+            assert "시스템 이해" not in comment.weaknesses
+            assert "협업이 강점" not in comment.recommendationReason
+            assert "시스템 이해는 보완" not in comment.recommendationReason
+
+
+def test_equal_scores_do_not_create_artificial_strengths_or_weaknesses() -> None:
+    req = load_request("normal-mixed")
+    req.profile = req.profile.model_copy(update={key: 50 for key in req.profile.model_dump()})
+
+    result = RecommendationChain()._mock_response(request=req, request_id="equal-scores")
+
+    assert result.weaknessFocus == []
+    assert "높은 역량이 구분되지 않습니다" in result.summaryComment
+    assert "우선 보완할 역량이 구분되지 않습니다" in result.summaryComment
 
 
 def test_noisy_text_is_sanitized() -> None:
@@ -399,7 +448,7 @@ def test_rank_one_fallback_uses_complete_major_description_naturally() -> None:
     req = RecommendationCommentRequest.model_validate(raw)
     chain = RecommendationChain()
 
-    summary = chain._rank_one_summary_fallback(req.topMajors, ["communicationScore"])  # noqa: SLF001
+    summary = chain._rank_one_summary_fallback(req.topMajors)  # noqa: SLF001
 
     assert "심리학과은" not in summary
     assert "심리학과는 심리학과는" not in summary
@@ -416,7 +465,7 @@ def test_prompt_requires_rank_one_major_and_quiz_primary_context() -> None:
     assert "채점 구조를 그대로 설명하지 않습니다" in chain.prompt_text
     assert "어떤 점에서 이 전공과 잘 맞는지" not in chain.prompt_text
     assert "전공의 학습 주제" in chain.prompt_text
-    assert "사용자의 현재 강점" in chain.prompt_text
+    assert "학생 개인의 역량을 평가하는 문장은 작성하지 않습니다" in chain.prompt_text
     assert "내부 필드명" in chain.prompt_text
     assert "softwareImplementationScore" in chain.prompt_text
     assert "TOP3" not in chain.prompt_text

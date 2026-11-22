@@ -36,7 +36,7 @@ For FactChat (OpenAI-compatible) usage:
 - `LLM_BASE_URL=<factchat_openai_compatible_base_url>`
 - `LLM_MODEL=<factchat_model_name>`
 - `MOCK_MODE=false`
-- `PROMPT_VERSION=rec-comment-v1.2.0`
+- `PROMPT_VERSION=rec-comment-v1.3.0`
 - `PLAN_PROMPT_VERSION=plan-v1.0.0`
 
 ## 2. Run
