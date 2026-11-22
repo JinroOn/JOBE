@@ -22,7 +22,7 @@ if str(ROOT) not in sys.path:
 
 from app.exploration_contract import ConsultationResult, Plan12Result
 from app.exploration_plan_draft import Plan12Draft, render_plan_draft
-from app.exploration_model import ModelFault
+from app.exploration_model import ModelFault, structured_chat_options
 
 VERSION = 'EXPLORATION_PROVIDER_EVALUATION_V1_0'
 
@@ -121,7 +121,7 @@ async def protocol_probe(config, factory=None):
         started = time.monotonic()
         try:
             model = factory(model=config['model'], api_key=config['key'], base_url=config['base'],
-                            timeout=deadline, max_retries=0, max_tokens=budget)
+                            timeout=deadline, max_retries=0, max_tokens=budget, **structured_chat_options(config['model']))
             prompt = ('Synthetic SDK schema test only; no student, diagnosis, approved source or service result. '
                       'Keep every text short. '
                       'For consultation: summary=프로토콜 시험, questions=[], referenceKeys=[protocol_ref]. '

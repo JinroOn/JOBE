@@ -261,6 +261,11 @@ def explanation_text(signal: dict, response_topic: str, major_topic: str, reason
     return main + evidence if len(main + evidence) <= 400 else reason + evidence
 
 
+def structured_chat_options(model: str) -> dict:
+    # LangChain's current structured output path uses Chat Completions function calling.
+    return {'model_kwargs': {'reasoning_effort': 'none'}} if model == 'gpt-6-luna' else {}
+
+
 class ExplorationModel:
     def __init__(self,factory=None, *, evaluation_diagnostics=False):
         self.factory=factory
@@ -416,7 +421,8 @@ class ExplorationModel:
                     raise ModelFault('MODEL_TIMEOUT', True)
             started=time.perf_counter()
             try:
-                model=factory(model=self.model,api_key=self.key,base_url=self.base,timeout=deadline,max_retries=0,max_tokens=6000 if self.plan12 else 1600)
+                model=factory(model=self.model,api_key=self.key,base_url=self.base,timeout=deadline,max_retries=0,
+                              max_tokens=6000 if self.plan12 else 1600,**structured_chat_options(self.model))
                 structured=model.with_structured_output(schema, include_raw=True) if diagnose_output else model.with_structured_output(schema)
             finally:self.timings['modelSetupMs']=round((time.perf_counter()-started)*1000,3)
             started=time.perf_counter()
