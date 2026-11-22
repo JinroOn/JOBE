@@ -22,7 +22,7 @@ from app.exploration_contract import (
 PROMPT_VERSION='EXPLORATION_MODEL_V1_0'
 CONVERSATION_PROMPT_VERSION='EXPLORATION_CONVERSATION_V1_3'
 PLAN12_PROMPT_VERSION='EXPLORATION_PLAN12_V1_10'
-EXPLANATION_PROMPT_VERSION = 'EXPLORATION_MAJOR_EXPLANATION_V1_6'
+EXPLANATION_PROMPT_VERSION = 'EXPLORATION_MAJOR_EXPLANATION_V1_7'
 
 EXPLANATION_INSTRUCTIONS = (
     ' Write a Korean explanation of why a particular student answer makes a specific major topic worth exploring. '
@@ -33,6 +33,8 @@ EXPLANATION_INSTRUCTIONS = (
     'word for word from questionText and a concrete majorTopic word for word from the chosen evidence. '
     'Each topic should be a short phrase of 2 to 5 words with no sentence ending. '
     'For instance, copy 생각을 표현 or 창작품을 합평 if those are the exact words. Never copy the whole question. '
+    'majorTopic은 명사구로 쓰고 소개한다, 배운다, 탐구한다 같은 서술어를 붙이지 마세요. '
+    '자료의 낱말을 줄이거나 어순을 바꾸지 마세요. 자료가 “운영 방식을 관리하는 방법”이면 “운영 방식 관리”가 아니라 “운영 방식을 관리하는 방법”이에요. '
     'In reason, use majorTopic verbatim and mention the concrete activity in responseTopic in natural Korean. '
     'Name what the student responded to, what the course or activity involves according to the excerpt, '
     'and explain what the two have in common in one or two short sentences. '
@@ -130,7 +132,7 @@ EXPLANATION_RECOVERABLE_OUTPUT = {
 # Catalog listings establish that a course exists, but do not describe what students do.
 CATALOG_CONTEXT = re.compile(r'교육\s*과정|교과|과목|수업|수강\s*신청|편람|가이드북|로드맵|강의\s*계획')
 CATALOG_LISTING = re.compile(r'있다|나온다|실려\s*있|제시된|소개된|등록된|포함된|포함한다|확인된|제시한다|소개한다|명시한다|열거한다|확인할\s*수|편성된다|개설된다|개설한다|편성한다')
-CATALOG_EXAMPLE = re.compile(r'(?:과목|교과|수업|사례|예시)로\s*(?:든다|나열한다)')
+CATALOG_EXAMPLE = re.compile(r'(?:과목|교과|수업|사례|예시)(?:으로|로)\s*(?:든다|나열한다)')
 DESCRIBED_LEARNING = re.compile(
     r'(?:관찰|분석|해결|적용|제작|실험|설계|구현|연습|합평|비교|해석|기록|탐구)하(?:는|며|고|여|도록|게)|'
     r'(?:활용|이용|실습)해|(?:을|를)\s*(?:배우|익히|다루|연습하|실습하)|사용하는|방법을\s*(?:배우|익히)'
@@ -142,19 +144,26 @@ def is_course_listing(sentence: str) -> bool:
     return bool(lists_courses and not DESCRIBED_LEARNING.search(sentence))
 
 
+def only_names_courses(sentence: str) -> bool:
+    return bool(CATALOG_LISTING.search(sentence) and not DESCRIBED_LEARNING.search(sentence))
+
+
 def explanation_excerpts(facts: list[dict]) -> dict[str, tuple[str, str]]:
-    choices = {}
+    available = []
     for fact in facts:
         excerpts = [sentence.strip()[:180].rstrip() for sentence in SENTENCE_BOUNDARY.split(fact['text'])
                     if sentence.strip() and not is_course_listing(sentence)]
-        for excerpt in excerpts[:8 // len(facts)]:
-            choices[f'E{len(choices) + 1}'] = (fact['referenceKey'], excerpt)
-    return choices
+        available.extend((fact['referenceKey'], excerpt) for excerpt in excerpts[:8 // len(facts)])
+    # Offer sentences that describe learning before those that mostly name courses.
+    available.sort(key=lambda item: only_names_courses(item[1]))
+    return {f'E{index}': item for index, item in enumerate(available, 1)}
 
 
 GENERIC_EXPLANATION_TOPICS = {'활동', '분야', '관심', '학과', '전공', '학습', '수업', '과정', '내용', '교육과정'}
-BROAD_MEDIA = re.compile(r'다양한\s*(?:매체|미디어)|여러\s*(?:매체|미디어)|글[·ㆍ,]\s*(?:영상|이미지)|영상[·ㆍ,]\s*이미지')
-UNSUPPORTED_IMPORTANCE = re.compile(r'매우\s*중요|중요한\s*(?:역할|단계)|필수\s*역량')
+BROAD_MEDIA = re.compile(r'다양한\s*(?:매체|미디어|콘텐츠|형식)|여러\s*(?:매체|미디어)|글[·ㆍ,]\s*(?:영상|이미지)|영상[·ㆍ,]\s*이미지')
+MEDIA_INFLUENCE = re.compile(r'미디어가\s*사람과\s*사회')
+MEDIA_EVIDENCE = re.compile(r'미디어|매체|언론|방송|뉴스|광고|홍보|영상|콘텐츠|커뮤니케이션')
+UNSUPPORTED_IMPORTANCE = re.compile(r'매우\s*중요|중요한\s*(?:역할|단계|기초)|중요하다|필수\s*역량|핵심과')
 TOPIC_ENDING = re.compile(r'(?<=[가-힣]{2})(?:하는|하며|하고|하다|에서|으로|을|를|은|는|이|가|과|와|로|에)$')
 
 
@@ -162,7 +171,7 @@ def comparable_topic(topic: str) -> str:
     return ' '.join(TOPIC_ENDING.sub('', word) for word in re.findall(r'[가-힣a-z0-9]+', topic.lower()))
 
 
-UNSUPPORTED_FIT = re.compile(r'적성이\s*(?:있|맞|좋)|적합(?:한|해|합)|(?:하려는|하고자\s*하는)\s*의지|잘할\s*(?:수|가능)|능력이\s*(?:뛰어나|우수)|합격|성공할|취업\s*보장')
+UNSUPPORTED_FIT = re.compile(r'적성이\s*(?:있|맞|좋)|잘\s*맞아떨어|적합(?:한|해|합)|(?:하려는|하고자\s*하는)\s*의지|잘할\s*(?:수|가능)|능력이\s*(?:뛰어나|우수)|합격|성공할|취업\s*보장')
 
 
 def grounded_topic(candidate: str, source: str) -> str | None:
@@ -173,6 +182,22 @@ def grounded_topic(candidate: str, source: str) -> str | None:
     return topic
 
 
+LAST_PARTICLE = re.compile(r'(?<=[가-힣])(?:에서|으로|을|를|은|는|이|가|과|와|로|에|의)$')
+
+
+def trimmed_topic(candidate: str, source: str, reason: str = '') -> str | None:
+    """Drop trailing words the model added. The result must still appear verbatim in the source and the reason, if given."""
+    words = candidate.strip().rstrip('.!?。').split()
+    for end in range(len(words), (len(words) - 1) // 2, -1):
+        phrase = ' '.join(words[:end])
+        options = (phrase,) if end == len(words) else (LAST_PARTICLE.sub('', phrase), phrase)
+        for option in options:
+            topic = grounded_topic(option, source)
+            if topic and (not reason or topic in reason) and (end == len(words) or ' ' in topic):
+                return topic
+    return None
+
+
 def mentions_response_topic(reason: str, topic: str) -> bool:
     words = set(re.findall(r'[가-힣A-Za-z][가-힣A-Za-z0-9]*', topic))
     general = GENERIC_EXPLANATION_TOPICS | {'있다', '있나요', '있어요', '싶다', '흥미', '경험', '직접', '활동에'}
@@ -181,10 +206,12 @@ def mentions_response_topic(reason: str, topic: str) -> bool:
 
 def explains_grounded_connection(reason: str, response_topic: str, major_topic: str, quote: str) -> bool:
     sentences = SENTENCE_BOUNDARY.split(reason)
+    # Restating the student's own question is not a claim about the major.
+    claim = reason.replace(response_topic, '')
     return (len(sentences) == 2 and len(sentences[1]) >= 16
             and major_topic in reason and mentions_response_topic(reason, response_topic)
             and '?' not in reason and not UNSUPPORTED_FIT.search(reason)
-            and not (BROAD_MEDIA.search(reason) and not BROAD_MEDIA.search(quote))
+            and not (BROAD_MEDIA.search(claim) and not BROAD_MEDIA.search(quote))
             and not (UNSUPPORTED_IMPORTANCE.search(reason) and not UNSUPPORTED_IMPORTANCE.search(quote)))
 
 
@@ -334,7 +361,8 @@ class ExplorationModel:
             + (SINGLE_EXAMPLE_INSTRUCTIONS if single_example else CONVERSATION_INSTRUCTIONS if self.conversation else '')
             + (EXPLANATION_INSTRUCTIONS if self.explanation else '')
             + (PLAN12_INSTRUCTIONS if self.plan12 else '' if self.explanation else ' Cite only supplied referenceKey values.')
-            + (' Correct the output format. Copy short exact topic phrases of 2 to 5 words. Name the evidence topic and describe the answer in reason. Omit weak links.' if retry_output else ''))),
+            + (' Correct the output format. Copy short exact topic phrases of 2 to 5 words. Name the evidence topic and describe the answer in reason. Omit weak links. '
+               'majorTopic은 자료에 있는 글자를 이어진 그대로 복사한 명사구여야 하고, reason에도 똑같이 들어가야 해요.' if retry_output else ''))),
             HumanMessage(content=payload)]
         self.timings['preparationMs']=round((time.perf_counter()-preparation_started)*1000,3)
         model=None
@@ -444,19 +472,24 @@ class ExplorationModel:
             if selected_excerpt is None:
                 raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.EXCERPT)
             reference, quote = selected_excerpt
-            response_topic = grounded_topic(row.responseTopic, signal['questionText'])
-            major_topic = grounded_topic(row.majorTopic, quote)
+            response_topic = trimmed_topic(row.responseTopic, signal['questionText'])
             reason = ' '.join(row.reason.split())
-            if not response_topic or not major_topic or not explains_grounded_connection(reason, response_topic, major_topic, quote):
+            major_topic = trimmed_topic(row.majorTopic, quote, reason)
+            lacks_media_evidence = MEDIA_INFLUENCE.search(signal['questionText']) and not MEDIA_EVIDENCE.search(quote)
+            if (not response_topic or not major_topic or lacks_media_evidence
+                    or not explains_grounded_connection(reason, response_topic, major_topic, quote)):
                 grounding_failed = True
                 continue
             candidates.append((signal['kind'], comparable_topic(major_topic), {
                 'questionId': question_id,
                 'referenceKeys': [reference],
                 'connection': explanation_text(signal, response_topic, major_topic, reason, quote),
-            }))
+            }, only_names_courses(quote)))
         if grounding_failed and not candidates:
             raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.GROUNDING)
+        # Use course-name evidence only when nothing that describes learning was linked.
+        described = [candidate for candidate in candidates if not candidate[3]]
+        candidates = [candidate[:3] for candidate in described or candidates]
         connections = []
         if candidates:
             first_kind, first_topic, first = candidates[0]
