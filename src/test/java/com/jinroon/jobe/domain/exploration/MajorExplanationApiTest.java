@@ -61,6 +61,43 @@ class MajorExplanationApiTest extends CompletedExplorationTestSupport {
         assertThat(response(post(endpoint).header("Authorization", owner), 200)).isEqualTo(result);
     }
 
+    @org.junit.jupiter.params.ParameterizedTest
+    @org.junit.jupiter.params.provider.CsvSource({"OUTPUT_INVALID,true", "INVALID_REQUEST,false"})
+    void failedExplanationCanBeRetriedOnce(String failure, boolean succeeds) throws Exception {
+        when(availability.explanationAvailableFor(ExplorationRunMode.DEV)).thenReturn(true);
+        long resultId = completedResult(Map.of("INT_MED", 100, "INT_HUM", 50));
+        String endpoint = endpoint(resultId, MAJOR);
+        response(post(endpoint).header("Authorization", owner), 202);
+        var original = tasks.explanationCandidates().stream().filter(job -> job.user() == OWNER).findFirst().orElseThrow();
+        var lease = tasks.claimModel(OWNER, original.context(), original.purpose(), original.mutation());
+        tasks.failed(original, lease.token(), false, failure);
+
+        var failed = response(get(endpoint).header("Authorization", owner), 200);
+        assertThat(failed.path("status").asText()).isEqualTo("FAILED");
+        assertThat(failed.path("retryAvailable").asBoolean()).isTrue();
+        response(post(endpoint + "/retry").header("Authorization", other), 404);
+        for (int i = 0; i < 2; i++) {
+            assertThat(response(post(endpoint + "/retry").header("Authorization", owner), 202).path("status").asText())
+                    .isEqualTo("GENERATING");
+        }
+        var queued = tasks.explanationCandidates().stream().filter(job -> job.user() == OWNER).toList();
+        assertThat(queued).hasSize(1);
+        var retry = queued.get(0);
+        assertThat(retry.mutation()).isNotEqualTo(original.mutation());
+        var secondLease = tasks.claimModel(OWNER, retry.context(), retry.purpose(), retry.mutation());
+        if (succeeds) {
+            tasks.completeModel(OWNER, retry.context(), retry.purpose(), retry.mutation(), secondLease.token(),
+                    completed(retry.mutation(), secondLease.request()));
+        } else {
+            tasks.failed(retry, secondLease.token(), false, "OUTPUT_INVALID");
+        }
+        var result = response(get(endpoint).header("Authorization", owner), 200);
+        assertThat(result.path("status").asText()).isEqualTo(succeeds ? "READY" : "FAILED");
+        assertThat(result.path("retryAvailable").asBoolean()).isFalse();
+        assertThat(response(post(endpoint + "/retry").header("Authorization", owner), 200)).isEqualTo(result);
+        assertThat(tasks.explanationCandidates()).noneMatch(job -> job.user() == OWNER);
+    }
+
     @Test
     void disabledFeatureDoesNotReserveAnExplanation() throws Exception {
         long resultId = completedResult(Map.of("INT_MED", 100, "INT_HUM", 50));

@@ -29,7 +29,7 @@ public class ExplorationJobClient {
     @Value("${exploration.evidence.dataset-version:}") private String datasetVersion;
     @Value("${exploration.jobs.model-enabled:false}") private boolean modelEnabled;
     @Value("${exploration.jobs.model-name:}") private String modelName;
-    public enum Failure { TRANSIENT, CONFIGURATION, AUTHENTICATION, INVALID_RESPONSE, INVALID_REQUEST, CONFLICT, EVIDENCE_UNAVAILABLE, INTEGRITY }
+    public enum Failure { TRANSIENT, CONFIGURATION, AUTHENTICATION, INVALID_RESPONSE, INVALID_REQUEST, INPUT_INVALID, OUTPUT_INVALID, CONFLICT, EVIDENCE_UNAVAILABLE, INTEGRITY }
     public static class Unavailable extends RuntimeException {
         private final Failure failure;
         public Unavailable(){this(Failure.TRANSIENT);}
@@ -119,6 +119,20 @@ public class ExplorationJobClient {
                 throw new Conflict();
             }
             if(status==401 || status==403)throw new Unavailable(Failure.AUTHENTICATION);
+            if ((status == 400 || status == 422) && operation.equals("model-execute")
+                    && ExplorationAiContract.EXPLANATION_VERSION.equals(payload.path("request").path("contractVersion").asText())) {
+                String body = e.getResponseBodyAsString();
+                if (body.length() <= 4096) {
+                    try {
+                        var error = mapper.readTree(body);
+                        if (status == 422 && error != null && "MODEL_OUTPUT_INVALID".equals(error.path("code").asText()))
+                            throw new Unavailable(Failure.OUTPUT_INVALID);
+                    } catch (com.fasterxml.jackson.core.JsonProcessingException ignored) {
+                        // Keep the invalid-request classification for unrecognized error bodies.
+                    }
+                }
+                throw new Unavailable(Failure.INPUT_INVALID);
+            }
             if(status==400 || status==422)throw new Unavailable(Failure.INVALID_REQUEST);
             if(status==503){
                 try {

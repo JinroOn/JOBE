@@ -29,6 +29,16 @@ public class MajorExplanationController {
     public ResponseEntity<Object> request(@AuthenticationPrincipal CustomUserDetails user, @PathVariable long resultId,
                                           @PathVariable String majorCode) {
         var explanation = explanations.request(user.getUserId(), resultId, majorCode);
+        return mutationResponse(explanation);
+    }
+
+    @PostMapping("/retry")
+    public ResponseEntity<Object> retry(@AuthenticationPrincipal CustomUserDetails user, @PathVariable long resultId,
+                                        @PathVariable String majorCode) {
+        return mutationResponse(explanations.retry(user.getUserId(), resultId, majorCode));
+    }
+
+    private ResponseEntity<Object> mutationResponse(com.fasterxml.jackson.databind.JsonNode explanation) {
         int status = "GENERATING".equals(explanation.path("status").asText()) ? 202 : 200;
         return ResponseEntity.status(status).body(json.responseValue(explanation));
     }

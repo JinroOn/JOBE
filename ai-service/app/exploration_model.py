@@ -21,7 +21,7 @@ from app.exploration_contract import (
 PROMPT_VERSION='EXPLORATION_MODEL_V1_0'
 CONVERSATION_PROMPT_VERSION='EXPLORATION_CONVERSATION_V1_3'
 PLAN12_PROMPT_VERSION='EXPLORATION_PLAN12_V1_10'
-EXPLANATION_PROMPT_VERSION = 'EXPLORATION_MAJOR_EXPLANATION_V1_3'
+EXPLANATION_PROMPT_VERSION = 'EXPLORATION_MAJOR_EXPLANATION_V1_4'
 
 EXPLANATION_INSTRUCTIONS = (
     ' Explain how a supplied answer connects to a concrete topic or activity supported by the approved major text. '
@@ -33,7 +33,8 @@ EXPLANATION_INSTRUCTIONS = (
     'Do not describe a preference as a capability, or evidence use as a match judgment. '
     'For each connection, write explorationQuestion as one Korean question ending in a question mark. '
     'Tie the answer to something the student can look up about the quoted course or topic, without adding claims. '
-    'The selected answer and exact source quote are displayed separately. Use one or two short connections. '
+    'The selected answer and exact source quote are displayed separately. Use at most two short connections. '
+    'Use each answerChoice at most once. If only one answer is supplied, return at most one connection. '
     'If no supported connection can be made, return an empty connections list with the supplied targetName.'
 )
 
@@ -57,7 +58,7 @@ def explanation_draft_schema(answers: tuple[str, ...], excerpts: tuple[str, ...]
     )
     return create_model(
         'MajorExplanationDraft', __base__=ExplanationDraft,
-        connections=(Annotated[list[connection], Field(max_length=2)], ...),
+        connections=(Annotated[list[connection], Field(max_length=min(2, len(answers)))], ...),
     )
 
 CONVERSATION_INSTRUCTIONS = (
@@ -98,7 +99,7 @@ class ModelFault(RuntimeError):
 
 EXPLANATION_RECOVERABLE_OUTPUT = {
     ExplanationOutputIssue.PROVIDER_PARSE, ExplanationOutputIssue.DRAFT_SCHEMA,
-    ExplanationOutputIssue.EXCERPT, ExplanationOutputIssue.QUESTION_FORMAT,
+    ExplanationOutputIssue.EXCERPT, ExplanationOutputIssue.QUESTION_FORMAT, ExplanationOutputIssue.DUPLICATE_ANSWER,
 }
 
 

@@ -56,7 +56,7 @@ def explanation_bound():
 ])
 def test_major_explanation_uses_bound_facts_and_reports_failed_condition(settings, outcome, issue):
     value, facts = explanation_bound()
-    if outcome == 'second-answer':
+    if outcome in {'second-answer', 'duplicate-answer'}:
         value['input']['signals'].append(dict(value['input']['signals'][0], questionId='ACT-DES-02'))
     value['inputHash'] = input_hash(value)
     question = '설계 활동을 더 살펴볼까요?' if outcome != 'statement' else '이 과목을 배우면 능력이 향상됩니다.'
@@ -81,7 +81,7 @@ def test_major_explanation_uses_bound_facts_and_reports_failed_condition(setting
             model.generate(value, facts)
         assert error.value.code == 'MODEL_OUTPUT_INVALID'
         assert error.value.output_issue == issue and not error.value.retryable
-        assert chat.calls == (2 if outcome in {'statement', 'unknown-excerpt', 'provider-rejected-excerpt', 'wrong-shape'} else 1)
+        assert chat.calls == (2 if outcome in {'statement', 'unknown-excerpt', 'provider-rejected-excerpt', 'wrong-shape', 'duplicate-answer'} else 1)
         return
     output = model.generate(value, facts)
     connection = {'questionId': 'ACT-DES-02' if outcome == 'second-answer' else 'ACT-DES-01',
@@ -103,9 +103,14 @@ def test_major_explanation_uses_bound_facts_and_reports_failed_condition(setting
             'answerChoice': 'A3', 'evidenceChoice': 'E1',
             'explorationQuestion': question,
         }]})
+    if len(provider_signals) == 1:
+        item = {'answerChoice': 'A1', 'evidenceChoice': 'E1', 'explorationQuestion': question}
+        with pytest.raises(ValidationError):
+            chat.schema.model_validate({'targetName': 'TEST', 'connections': [item, item]})
     assert 'Treat neutral' in chat.messages[0].content
+    assert 'Use each answerChoice at most once' in chat.messages[0].content
     assert chat.settings['timeout'] == 12
-    assert model.metadata['promptVersion'] == 'EXPLORATION_MAJOR_EXPLANATION_V1_3'
+    assert model.metadata['promptVersion'] == 'EXPLORATION_MAJOR_EXPLANATION_V1_4'
 
 
 @pytest.mark.parametrize('first_failure', ['parse', 'excerpt', 'transport-on-retry'])
