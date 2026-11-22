@@ -21,11 +21,29 @@ public class ExplorationAiInputAdapter {
     }
     /** Internal adapter: history must be selected from owned, completed stored turns by the consumer. */
     public JsonNode buildConversation(JsonNode context,String requestId,JsonNode conversation){
+        return buildConversation(context,requestId,conversation,false);
+    }
+
+    /** Replay verification must reproduce the scope recorded by the stored request. */
+    public JsonNode buildConversation(JsonNode context,String requestId,JsonNode conversation,boolean legacyTarget){
         if(!"CONSULTATION".equals(context.path("contextType").asText()))throw new ExplorationAiContract.Invalid();
         contract.conversation(conversation);
         var request=(com.fasterxml.jackson.databind.node.ObjectNode)build(context,requestId);
         request.put("contractVersion",ExplorationAiContract.CONVERSATION_VERSION);
-        ((com.fasterxml.jackson.databind.node.ObjectNode)request.path("input")).set("conversation",conversation.deepCopy());
+        var input=(com.fasterxml.jackson.databind.node.ObjectNode)request.path("input");
+        input.set("conversation",conversation.deepCopy());
+        if (!legacyTarget && input.path("targetName").isTextual()) {
+            input.putNull("targetName");
+            var preferences=(com.fasterxml.jackson.databind.node.ArrayNode)input.path("preferences");
+            var answers=context.path("support").path("appliedAnswers");
+            for (int index=answers.size()-1; index>=0; index--) {
+                if (!"EXPLORATION_ACTIVITY".equals(answers.get(index).path("module").asText())) {
+                    preferences.remove(index);
+                }
+            }
+            ((com.fasterxml.jackson.databind.node.ObjectNode)input.path("collection"))
+                    .put("applicableAnswerCount",preferences.size());
+        }
         request.put("inputHash",contract.inputHash(request));contract.request(request);return request;
     }
     public JsonNode build(JsonNode context,String requestId){

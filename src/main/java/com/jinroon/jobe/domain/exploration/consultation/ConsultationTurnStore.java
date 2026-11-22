@@ -62,7 +62,8 @@ public class ConsultationTurnStore {
     }
     private void rebuilt(Map<String,Object> turn,JsonNode snapshot,List<JsonNode> prior){
         JsonNode r=request(turn);String question=r.path("input").path("conversation").path("question").asText();
-        if(!r.equals(adapter.buildConversation(snapshot,r.path("requestId").asText(),conversation(prior,question))))throw integrity();
+        boolean legacyTarget=r.path("input").path("targetName").isTextual();
+        if(!r.equals(adapter.buildConversation(snapshot,r.path("requestId").asText(),conversation(prior,question),legacyTarget)))throw integrity();
     }
     private List<JsonNode> verified(Locked locked,Long before){
         var messages=new ArrayList<JsonNode>();long completed=0;

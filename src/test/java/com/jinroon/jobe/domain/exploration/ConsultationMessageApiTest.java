@@ -23,6 +23,9 @@ class ConsultationMessageApiTest extends CompletedExplorationTestSupport {
     @Autowired OwnedGenerationStore generations;
     @Autowired ExplorationJobService jobs;
     @Autowired ExplorationAiContract contract;
+    @Autowired ExplorationAiInputAdapter adapter;
+    @Autowired com.jinroon.jobe.domain.exploration.context.ResultContextService contexts;
+    @Autowired com.jinroon.jobe.domain.exploration.service.ExplorationJson json;
     @MockitoBean ExplorationJobClient remote;
     final Set<String> owners=new HashSet<>();
     @BeforeEach void model(){
@@ -42,7 +45,8 @@ class ConsultationMessageApiTest extends CompletedExplorationTestSupport {
     long context(long c){return jdbc.queryForObject("SELECT context_id FROM exploration_consultation WHERE id=?",Long.class,c);}
     ObjectNode envelope(String mutation,JsonNode original,String text){
         ObjectNode bound=original.deepCopy();var ev=(ObjectNode)bound.path("evidence");ev.put("bindingStatus","BOUND").put("datasetVersion","TEST_CHAT_DATA");var refs=ev.putArray("referenceKeys");
-        for(int i=0;i<bound.path("input").path("candidateNames").size();i++)refs.add("ref_"+String.format("%064x",i));
+        int count=bound.path("input").path("targetName").isTextual()?1:bound.path("input").path("candidateNames").size();
+        for(int i=0;i<count;i++)refs.add("ref_"+String.format("%064x",i));
         bound.put("inputHash",contract.inputHash(bound));var response=mapper.createObjectNode();
         for(String key:List.of("contractVersion","requestId","inputHash","purpose"))response.set(key,bound.path(key));
         response.put("status","SUCCEEDED").put("changesRecommendation",false).putNull("reasonCode");
@@ -73,6 +77,36 @@ class ConsultationMessageApiTest extends CompletedExplorationTestSupport {
         assertThat(inputs.get(3).path("input").path("conversation").path("history").size()).isEqualTo(2);
         assertThat(inputs.get(3).path("input").path("conversation").path("history").get(0).path("content").asText()).endsWith("2");
         assertThat(inputs.get(3).path("contractVersion").asText()).isEqualTo("EXPLORATION_AI_CONTRACT_V1_1");
+    }
+    @Test void existingTargetedTurnCanReplayAndNewTurnUsesAllResultCandidates() throws Exception {
+        long result=completedResult(true);
+        var candidates=resultSnapshot(result).path("majorSummaries");
+        String target=candidates.get(0).path("majorCode").asText();
+        long context=contexts.prepare(OWNER,result,"old-context","CONSULTATION",0,target)
+                .body().path("contextId").asLong();
+        jdbc.update("INSERT INTO exploration_consultation(result_id,context_id) VALUES (?,?)",result,context);
+        long c=jdbc.queryForObject("SELECT id FROM exploration_consultation WHERE result_id=?",Long.class,result);
+        var conversation=mapper.createObjectNode().put("question","기존 질문");conversation.putArray("history");
+        String oldId="chat_"+UUID.randomUUID();
+        var oldRequest=adapter.buildConversation(contexts.readForAdapter(OWNER,context,"CONSULTATION").snapshot(),oldId,conversation,true);
+        jdbc.update("INSERT INTO exploration_consultation_turn(consultation_id,turn_no,mutation_hash,generation_mutation,request_json,request_hash) VALUES (?,1,?,?,?,?)",
+                c,json.hash("old"),oldId,oldRequest.toString(),json.hash(oldRequest));
+        generations.reserveModel(OWNER,context,"CONSULTATION",oldId,oldRequest);
+        var first=send(c,"old","기존 질문",200);
+        assertThat(send(c,"old","기존 질문",200)).isEqualTo(first);
+
+        var sent=new ArrayList<JsonNode>();
+        doAnswer(call->{
+            JsonNode request=call.getArgument(2);
+            sent.add(request);
+            return envelope(call.getArgument(1),request,"SYNTHETIC COMPARISON");
+        }).when(remote).executeModel(anyString(),anyString(),any());
+        send(c,"new","다른 후보 전공과 비교해줘",200);
+        var input=sent.get(0).path("input");
+        assertThat(input.path("targetName").isNull()).isTrue();
+        assertThat(input.path("candidateNames").size()).isGreaterThan(1);
+        assertThat(input.path("conversation").path("history").get(0).path("content").asText()).isEqualTo("기존 질문");
+        assertThat(consultations.open(OWNER,result,"resume").messages()).hasSize(4);
     }
     @Test void rejectsBodyConflictForeignOwnershipAndCallerSuppliedHistory()throws Exception{
         long c=open();send(c,"same","First",200);assertThat(send(c,"same","Changed",409).path("code").asText()).isEqualTo("IDEMPOTENCY_CONFLICT");

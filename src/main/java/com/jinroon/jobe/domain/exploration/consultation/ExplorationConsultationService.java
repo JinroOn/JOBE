@@ -29,9 +29,8 @@ public class ExplorationConsultationService {
         var existing=jdbc.queryForList("SELECT id,context_id FROM exploration_consultation WHERE result_id=?",result);
         long context;
         if(existing.isEmpty()){
-            String target = state.path("targetMajorCode").textValue();
             context = contexts.prepare(user, result, "CONSULTATION_OPEN", "CONSULTATION",
-                    state.path("supportRevision").asLong(), target).body().path("contextId").asLong();
+                    state.path("supportRevision").asLong(), null).body().path("contextId").asLong();
             jdbc.update("INSERT INTO exploration_consultation(result_id,context_id) VALUES (?,?)",result,context);
         }else context=((Number)existing.get(0).get("context_id")).longValue();
         contexts.lockForUse(user,context,"CONSULTATION");
