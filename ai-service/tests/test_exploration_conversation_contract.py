@@ -80,6 +80,23 @@ def test_v0_fixture_keeps_identical_shape_and_hash():
     assert 'conversation' not in read_request(request).model_dump()['input']
 
 
+@pytest.mark.parametrize('question', ['고마워', '오늘 서울 날씨 알려줘', '자료에 없는 수업의 필수 요건을 알려줘'])
+def test_uncited_conversation_draft_becomes_a_safe_decline(settings, question):
+    request, facts = bound()
+    request['contractVersion'] = 'EXPLORATION_AI_CONTRACT_V1_1'
+    request['input']['conversation'] = {'history': [], 'question': question}
+    request['inputHash'] = input_hash(request)
+    chat = FakeChat({'summary': '이 문장은 학생에게 노출하면 안 되는 미검증 문장입니다.', 'questions': [], 'referenceKeys': []})
+
+    response = ExplorationModel(chat).generate(request, facts)
+
+    assert response['status'] == 'DECLINED'
+    assert response['reasonCode'] == 'OUT_OF_SCOPE'
+    assert response['result'] is None
+    with pytest.raises(ContractViolation):
+        validate_response(request, {**response, 'status': 'SUCCEEDED', 'reasonCode': None, 'result': chat.result})
+
+
 @pytest.mark.parametrize('example, result_kind', [
     ('한문사료강독 1', 'example'),
     ('표본설계 및 조사실습', 'example'),
@@ -108,12 +125,13 @@ def test_one_learning_example_is_rendered_from_one_approved_span(settings, examp
         with pytest.raises(ModelFault) as error:
             model.generate(request, facts)
         assert error.value.code == 'MODEL_OUTPUT_INVALID'
+    elif result_kind == 'unavailable':
+        response = model.generate(request, facts)
+        assert response['status'] == 'INSUFFICIENT_EVIDENCE'
+        assert response['result'] is None
     else:
         result = model.generate(request, facts)['result']
         assert not result['questions'] and result['referenceKeys'] == [reference]
-        if result_kind == 'example':
-            assert result['summary'].endswith(f'「{example}」')
-            assert result['summary'].count('「') == result['summary'].count('」') == 1
-        else:
-            assert '확인하기 어려워요' in result['summary']
+        assert result['summary'].endswith(f'「{example}」')
+        assert result['summary'].count('「') == result['summary'].count('」') == 1
     assert chat.schema is SingleExampleDraft

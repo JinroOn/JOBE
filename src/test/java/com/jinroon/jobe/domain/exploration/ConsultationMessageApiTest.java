@@ -162,6 +162,22 @@ class ConsultationMessageApiTest extends CompletedExplorationTestSupport {
         var answer=send(c,"q","Q",200);assertThat(answer.path("assistantMessage").path("evidenceStatus").asText()).isEqualTo("INSUFFICIENT");assertThat(answer.path("assistantMessage").path("sources").isEmpty()).isTrue();
         assertThat(send(c,"q","Q",200)).isEqualTo(answer);verify(remote,never()).executeModel(anyString(),anyString(),any());
     }
+    @Test void declinedQuestionStoresSafeGuidanceAndReplaysWithTheSameKey() throws Exception {
+        long c=open();
+        doAnswer(call->{
+            var proof=envelope(call.getArgument(1),call.getArgument(2),"UNUSED");
+            ((ObjectNode)proof.path("response")).put("status","DECLINED").put("reasonCode","OUT_OF_SCOPE").putNull("result");
+            return proof;
+        }).when(remote).executeModel(anyString(),anyString(),any());
+
+        var first=send(c,"weather","오늘 서울 날씨 알려줘",200);
+
+        assertThat(first.path("assistantMessage").path("evidenceStatus").asText()).isEqualTo("INSUFFICIENT");
+        assertThat(first.path("assistantMessage").path("sources").isEmpty()).isTrue();
+        assertThat(first.path("assistantMessage").path("content").asText()).contains("탐색 상담").doesNotContain("UNUSED");
+        assertThat(send(c,"weather","오늘 서울 날씨 알려줘",200)).isEqualTo(first);
+        verify(remote,times(1)).executeModel(anyString(),anyString(),any());
+    }
     @Test void secondMessageInsertFailureRollsBackGenerationResultAndBothMessages()throws Exception{
         long c=open();jdbc.execute("CREATE TRIGGER test_chat_publication_failure BEFORE INSERT ON exploration_consultation_message FOR EACH ROW BEGIN IF NEW.role='assistant' THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='SYNTHETIC publication failure'; END IF; END");
         try{assertThatThrownBy(()->messages.send(OWNER,c,"q","Q")).isInstanceOf(RuntimeException.class);}

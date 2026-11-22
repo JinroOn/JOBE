@@ -16,7 +16,7 @@ from app.exploration_plan_draft import (
 )
 from app.exploration_plan_scenarios import FICTIONAL_SCENARIOS
 from app.exploration_contract import (
-    ConsultationResult, PlanResult, Plan12Result, StrictModel, text, validate_response,
+    ConsultationResult, PlanResult, Plan12Result, Reference, StrictModel, insufficient_evidence, text, validate_response,
 )
 from app.llm_options import structured_chat_options
 
@@ -112,7 +112,16 @@ CONVERSATION_INSTRUCTIONS = (
     'Do not repeat a follow-up already asked or something already answered. Respect choices already made in the dialogue. '
     'Omit the follow-up if the answer is sufficient or the user only wants a direct answer. '
     'Keep questions empty; only summary is shown to the student.'
+    ' Use an empty referenceKeys list for greetings, thanks, unrelated requests, policy-restricted requests, '
+    'or when no supplied reference supports an answer. Never cite unrelated material to fill the list. '
+    'For a supported answer, cite at least one supplied reference that directly supports it.'
 )
+
+
+class ConsultationTurnDraft(StrictModel):
+    summary: text(4000)
+    questions: Annotated[list[text(300)], Field(max_length=3)]
+    referenceKeys: Annotated[list[Reference], Field(max_length=10)]
 
 
 class ExplanationOutputIssue(StrEnum):
@@ -415,6 +424,7 @@ class ExplorationModel:
             model_input = {'targetName': model_input['targetName'], 'signals': model_signals}
         schema = SingleExampleDraft if single_example else (
             explanation_draft_schema(tuple(answer_choices), tuple(excerpts)) if self.explanation
+            else ConsultationTurnDraft if self.conversation
             else ConsultationResult if request['purpose']=='CONSULTATION'
             else Plan12Draft if self.plan12 else PlanResult
         )
@@ -587,6 +597,12 @@ class ExplorationModel:
     def _validated_result(self,request,content):
         response={**{k:request[k] for k in ('contractVersion','requestId','inputHash','purpose')},
                   'status':'SUCCEEDED','changesRecommendation':False,'reasonCode':None,'result':content}
+        if self.conversation:
+            if content is None:
+                return validate_response(request, insufficient_evidence(request)).model_dump()
+            draft=ConsultationTurnDraft.model_validate(content)
+            if not draft.referenceKeys:
+                response.update(status='DECLINED', reasonCode='OUT_OF_SCOPE', result=None)
         if self.explanation:
             if not content['connections']:
                 response.update(status='DECLINED', reasonCode='POLICY_RESTRICTION', result=None)

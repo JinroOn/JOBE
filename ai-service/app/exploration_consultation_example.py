@@ -27,11 +27,10 @@ SINGLE_EXAMPLE_INSTRUCTIONS = (
 )
 
 
-def render_single_example(value, facts: list[dict]) -> dict:
+def render_single_example(value, facts: list[dict]) -> dict | None:
     draft = SingleExampleDraft.model_validate(value)
     if draft.example is None and draft.referenceKey is None:
-        return {'summary': '제공된 자료에서 요청하신 학습 예시를 확인하기 어려워요.',
-                'questions': [], 'referenceKeys': [fact['referenceKey'] for fact in facts]}
+        return None
     fact = next((fact for fact in facts if fact['referenceKey'] == draft.referenceKey), None)
     if fact is None or not draft.example or draft.example not in fact['text']:
         raise ContractViolation('Learning example must be a single span from its approved reference')
