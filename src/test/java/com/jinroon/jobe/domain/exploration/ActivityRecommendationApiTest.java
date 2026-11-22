@@ -88,7 +88,7 @@ class ActivityRecommendationApiTest extends CompletedExplorationTestSupport {
             assertThat(response.toString()).doesNotContain("body_markdown","worksheet_markdown","review_record_markdown");
         } finally {ReflectionTestUtils.setField(recommendations,"selectedVersion",VERSION);}
     }
-    @Test void bothEndpointsReadReviewsInTwoQueriesForTheFullCatalog() throws Exception {
+    @Test void resultAndActivityReadsReuseVerifiedInputForTheFullCatalog() throws Exception {
         long resultId = completedResult(true);
         long sessionId = resultSnapshot(resultId).path("sessionId").asLong();
         var fixture = (ObjectNode) mapper.readTree(java.nio.file.Files.readString(Path.of("datasets/activities/catalog.json")));
@@ -96,23 +96,38 @@ class ActivityRecommendationApiTest extends CompletedExplorationTestSupport {
         assertThat(loadCatalog(fixture).activities()).isEqualTo(282);
         approveAll();
 
+        JsonNode state = support.select(OWNER, resultId, "choose", 0, "ACTIVITY", null).body();
+        support.answer(OWNER, resultId, issued(state, "ACTIVITY-REPORT-01"), "preference", 1, "AGREE", "preference");
+
         clearInvocations(recommendationJdbc);
         var activities = activities(resultId, 200);
-        assertThat(reviewQueryCount()).isEqualTo(2);
+        assertReadQueryCounts();
+        assertThat(activities.path("supportRevision").asLong()).isEqualTo(2);
         assertThat(activities.path("nextActivities").size()).isBetween(1, 3);
         assertThat(activities.path("catalogReviewIds").size()).isEqualTo(2);
         activities.path("nextActivities").forEach(card -> assertThat(card.path("reviewIds").size()).isEqualTo(2));
 
         clearInvocations(recommendationJdbc);
         var result = getJson("/" + sessionId + "/result", owner, 200);
-        assertThat(reviewQueryCount()).isEqualTo(2);
+        assertReadQueryCounts();
         assertThat(result.path("nextActivities")).isEqualTo(activities.path("nextActivities"));
+
+        clearInvocations(recommendationJdbc);
+        var resultById = response(get("/api/exploration/v1/results/" + resultId).header("Authorization", owner), 200);
+        assertReadQueryCounts();
+        assertThat(resultById).isEqualTo(result);
     }
 
-    private long reviewQueryCount() {
+    private void assertReadQueryCounts() {
+        assertThat(queryCount("FROM exploration_review_history")).isEqualTo(2);
+        assertThat(queryCount("FROM exploration_result_seal")).isEqualTo(1);
+        assertThat(queryCount("FROM exploration_session_pin")).isEqualTo(1);
+    }
+
+    private long queryCount(String fragment) {
         return mockingDetails(recommendationJdbc).getInvocations().stream()
                 .filter(invocation -> invocation.getMethod().getName().equals("queryForList"))
-                .filter(invocation -> invocation.getArgument(0, String.class).contains("FROM exploration_review_history"))
+                .filter(invocation -> invocation.getArgument(0, String.class).contains(fragment))
                 .count();
     }
     @Test void statusesAloneOrOnlyRootApprovalNeverAuthorizeItems()throws Exception {

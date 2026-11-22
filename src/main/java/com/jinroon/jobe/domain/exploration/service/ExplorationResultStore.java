@@ -65,7 +65,10 @@ public class ExplorationResultStore {
     }
 
     public JsonNode response(ExplorationResult result) {
-        JsonNode payload = verifiedSnapshot(result);
+        return response(result, verifiedSnapshot(result));
+    }
+
+    JsonNode response(ExplorationResult result, JsonNode payload) {
         ObjectNode dto = json.object();
         dto.put("resultId", result.getId());
         for (String field : new String[]{"resultContractVersion", "sessionId", "sessionStatus", "completedAt", "status", "completionReason", "reasonCodes", "versions", "evidenceLevel", "cautions", "presentation", "runMode", "testOnly", "flags"})
