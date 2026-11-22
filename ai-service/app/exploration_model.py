@@ -22,13 +22,15 @@ from app.exploration_contract import (
 PROMPT_VERSION='EXPLORATION_MODEL_V1_0'
 CONVERSATION_PROMPT_VERSION='EXPLORATION_CONVERSATION_V1_3'
 PLAN12_PROMPT_VERSION='EXPLORATION_PLAN12_V1_10'
-EXPLANATION_PROMPT_VERSION = 'EXPLORATION_MAJOR_EXPLANATION_V1_8'
+EXPLANATION_PROMPT_VERSION = 'EXPLORATION_MAJOR_EXPLANATION_V1_11'
 
 EXPLANATION_INSTRUCTIONS = (
     ' Write a Korean explanation of why a particular student answer makes a specific major topic worth exploring. '
     'Read questionText and answerText together. Consider all supplied interest, activity and learning answers '
     'and all educational evidence before proposing up to three grounded links, strongest first. '
     'Consider distinct response kinds (INTEREST, ACTIVITY, LEARNING) when the evidence supports them. '
+    '서로 다른 학습 내용이나 활동 두 가지를 뒷받침하는 자료와 응답이 있다면 각각 연결하세요. '
+    '같은 근거에는 실제 학습 내용과 직접 맞닿는 응답을 우선하세요. '
     'For each link, choose one answerChoice and one evidenceChoice. Copy a short, specific responseTopic '
     'word for word from questionText and a concrete majorTopic word for word from the chosen evidence. '
     'Each topic should be a short phrase of 2 to 5 words with no sentence ending. '
@@ -36,8 +38,12 @@ EXPLANATION_INSTRUCTIONS = (
     'majorTopic은 명사구로 쓰고 소개한다, 배운다, 탐구한다 같은 서술어를 붙이지 마세요. '
     '자료의 낱말을 줄이거나 어순을 바꾸지 마세요. 자료가 “운영 방식을 관리하는 방법”이면 “운영 방식 관리”가 아니라 “운영 방식을 관리하는 방법”이에요. '
     'In reason, use majorTopic verbatim and mention the concrete activity in responseTopic in natural Korean. '
-    'Name what the student responded to, what the course or activity involves according to the excerpt, '
-    'and explain what the two have in common in one or two short sentences. '
+    '첫 문장부터 학생의 응답에서 나타난 구체적인 관심·활동·학습 선호를 전공에서 하는 일이나 배우는 내용에 연결하세요. '
+    '선택지나 전공 자료를 먼저 요약하지 말고 그 학생이 왜 그 수업이나 활동을 살펴볼 만한지 바로 알려 주세요. '
+    '두 번째 문장에는 양쪽에 실제로 있는 공통 행동이나 생각의 방식을 구체적으로 쓰세요. '
+    '예를 들어 프로그램을 규칙대로 작동시키는 데 관심을 보였고 실생활 문제를 알고리즘으로 해결하는 교과가 있다면, '
+    '문제에서 필요한 조건을 찾고 해결 순서를 정하는 점을 설명할 수 있어요. '
+    '“두 내용이 이어져요”처럼 연결 자체를 반복하거나, 공통 행동을 만들기 위해 자료에 없는 활동을 추가하지 마세요. '
     '여러 매체를 묶어 물은 문항에서는 자료에 있는 매체에 한해서 조건부로 연결하세요. '
     '예를 들어 글·영상·이미지에 관한 문항을 문예창작에 연결할 때, '
     '“그중 글로 생각을 표현하는 쪽이 흥미로웠다면”이라고 말할 수 있어요. '
@@ -53,7 +59,7 @@ EXPLANATION_INSTRUCTIONS = (
     '학교 하나의 사례는 그 학교 사례로 설명하세요. 적성·능력·합격·성공을 판단하지 마세요. '
     '반드시 두 문장으로 작성하고, 두 번째 문장에 구체적인 공통 행동이나 생각의 방식을 설명하세요. '
     '분야명이 비슷하거나 공통점을 한 문장으로 설명할 수 없는 연결은 생략하세요. '
-    'The server renders the original choice and evidence; do not quote or paraphrase the entire source in reason. '
+    'The UI shows the original answer and the server appends the evidence; do not repeat the answer score or quote the entire source in reason. '
     'When a signal has allowedEvidenceChoices, use only those choices for that signal. '
     '콘텐츠 전달에 관한 답변과 문학 창작을 연결할 때는 “그중 글로 표현하는 데 관심이 있다면”처럼 글에 한정한 조건을 쓰세요. '
     '숫자나 자료에서 패턴 찾기는 자료를 비교하거나 분석하는 내용과, 배우고 성장하는 방식은 구체적인 교수·학습 내용과 연결하세요. '
@@ -138,7 +144,7 @@ CATALOG_LISTING = re.compile(r'있다|나온다|실려\s*있|제시된|소개된
 CATALOG_EXAMPLE = re.compile(r'(?:과목|교과|수업|사례|예시)(?:으로|로)\s*(?:든다|나열한다)')
 DESCRIBED_LEARNING = re.compile(
     r'(?:관찰|분석|해결|적용|제작|실험|설계|구현|연습|합평|비교|해석|기록|탐구)하(?:는|며|고|여|도록|게)|'
-    r'(?:활용|이용|실습)해|(?:을|를)\s*(?:배우|익히|다루|연습하|실습하)|사용하는|방법을\s*(?:배우|익히)'
+    r'(?:활용|이용|실습)해|(?:을|를)\s*(?:배우|익히|다루|연습하|실습하)|사용하는|방법을\s*(?:배우|익히)|설계\s*[·ㆍ]\s*개발'
 )
 
 
@@ -174,6 +180,11 @@ CONDITIONAL_WRITING = re.compile(r'(?:글로|글을\s*쓰|글쓰기|글을\s*통
 PATTERN_INTEREST = re.compile(r'(?:자료|숫자|설문|인터뷰).{0,60}패턴을\s*찾')
 DATA_EVIDENCE = re.compile(r'데이터|자료|수치|통계|측정값|신호|결과')
 PATTERN_EVIDENCE = re.compile(r'패턴|경향|규칙성|비교|분석')
+DATA_PROCESS_INTEREST = re.compile(r'데이터가\s*수집\s*[·ㆍ,]\s*정리되어\s*정보가\s*되는|정보를\s*분류하고\s*분석')
+DATA_PROCESS_EVIDENCE = re.compile(r'수집|정리|가공|전처리|분류|변환|분석|처리')
+DATA_PROCESS_OBJECT = re.compile(r'데이터|자료|수치|통계|측정값|정보')
+SYSTEM_OPERATION_INTEREST = re.compile(r'기계나\s*기술\s*시스템이\s*작동하는\s*원리')
+SYSTEM_OPERATION_EVIDENCE = re.compile(r'작동\s*(?:원리|방식)|동작\s*(?:원리|방식)|(?:로봇|시스템|장치|모터)(?:을|를|의)?[^.!?]{0,18}제어')
 LEARNING_GROWTH = re.compile(r'배우고\s*성장')
 TEACHING_EVIDENCE = re.compile(
     r'가르치는\s*방법|교수법|(?:수업|학습|교육).{0,14}(?:설계|평가)|교재를\s*다루|학습\s*과정.{0,14}(?:관찰|분석)'
@@ -192,6 +203,11 @@ def supports_response(question: str, excerpt: str, reason: str | None = None) ->
     if PATTERN_INTEREST.search(question):
         return bool(DATA_EVIDENCE.search(excerpt) and PATTERN_EVIDENCE.search(excerpt)
                     and not only_names_courses(excerpt))
+    if DATA_PROCESS_INTEREST.search(question):
+        return bool(DATA_PROCESS_OBJECT.search(excerpt) and DATA_PROCESS_EVIDENCE.search(excerpt)
+                    and not only_names_courses(excerpt))
+    if SYSTEM_OPERATION_INTEREST.search(question):
+        return bool(SYSTEM_OPERATION_EVIDENCE.search(excerpt) and not only_names_courses(excerpt))
     if LEARNING_GROWTH.search(question):
         return bool(TEACHING_EVIDENCE.search(excerpt) and not only_names_courses(excerpt))
     return True
@@ -249,16 +265,11 @@ def explains_grounded_connection(reason: str, response_topic: str, major_topic: 
             and not (UNSUPPORTED_IMPORTANCE.search(reason) and not UNSUPPORTED_IMPORTANCE.search(quote)))
 
 
-def explanation_text(signal: dict, response_topic: str, major_topic: str, reason: str,
-                     quote: str) -> str:
-    answer = ' '.join(signal['answerText'].split())
-    lead = (f'“{response_topic}” 관련 문항에 “{answer}”라고 답했어요. '
-            if len(answer) <= 54 and len(response_topic) <= 45 else '')
-    main = lead + reason
+def explanation_text(reason: str, major_topic: str, quote: str) -> str:
     evidence = f' 전공 자료에는 “{quote}”라고 나와요.'
-    if len(main + evidence) > 400:
+    if len(reason + evidence) > 400:
         evidence = f' 전공 자료에서 확인한 내용은 “{major_topic}”예요.'
-    return main + evidence if len(main + evidence) <= 400 else reason + evidence
+    return reason + evidence
 
 
 def structured_chat_options(model: str) -> dict:
@@ -529,7 +540,7 @@ class ExplorationModel:
             candidates.append((signal['kind'], comparable_topic(major_topic), {
                 'questionId': question_id,
                 'referenceKeys': [reference],
-                'connection': explanation_text(signal, response_topic, major_topic, reason, quote),
+                'connection': explanation_text(reason, major_topic, quote),
             }, only_names_courses(quote)))
         if grounding_failed and not candidates:
             raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.GROUNDING)
@@ -537,14 +548,13 @@ class ExplorationModel:
         described = [candidate for candidate in candidates if not candidate[3]]
         candidates = [candidate[:3] for candidate in described or candidates]
         connections = []
-        if candidates:
-            first_kind, first_topic, first = candidates[0]
-            connections.append(first)
-            distinct_topics = [(kind, item) for kind, topic, item in candidates[1:]
-                               if topic not in first_topic and first_topic not in topic]
-            if distinct_topics:
-                second = next((item for kind, item in distinct_topics if kind != first_kind), distinct_topics[0][1])
-                connections.append(second)
+        used_kinds = set()
+        while candidates and len(connections) < MAX_EXPLANATION_DRAFTS:
+            index = next((i for i, (kind, _, _) in enumerate(candidates) if kind not in used_kinds), 0)
+            kind, topic, item = candidates.pop(index)
+            connections.append(item)
+            used_kinds.add(kind)
+            candidates = [row for row in candidates if row[1] not in topic and topic not in row[1]]
         return {'targetName': draft.targetName, 'connections': connections}
 
     def _validated_result(self,request,content):

@@ -24,7 +24,7 @@ class MajorExplanationEvidenceTest extends CompletedExplorationTestSupport {
 
         assertThat(prepared.majorName()).isEqualTo("문예창작학과");
         assertThat(prepared.resultHash()).matches("[a-f0-9]{64}");
-        assertThat(prepared.signals()).isNotEmpty().hasSizeLessThanOrEqualTo(6);
+        assertThat(prepared.signals()).isNotEmpty().hasSizeLessThanOrEqualTo(12);
         assertThat(prepared.signals()).allSatisfy(signal -> {
             String usedField = switch (signal.kind()) {
                 case INTEREST -> "usedInterestAxes";

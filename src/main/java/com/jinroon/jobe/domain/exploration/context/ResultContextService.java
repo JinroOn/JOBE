@@ -107,7 +107,7 @@ public class ResultContextService {
         users.requireActive(user);
         var source = owned(user, resultId, true);
         var previous = explanationContext(source, target, true);
-        if (previous != null) return previous;
+        if (previous != null && previous.snapshot().path("explanationSignalVersion").asInt() == 2) return previous;
         var evidence = majorExplanationEvidence.prepare(user, resultId, target);
         if (evidence.signals().isEmpty()) {
             throw new ExplorationApiException(422, "EXPLANATION_ANSWER_EVIDENCE_UNAVAILABLE",
@@ -116,7 +116,7 @@ public class ResultContextService {
         var input = json.object().put("contractVersion", CONTRACT).put("resultType", "EXPLORATION_V1")
                 .put("contextType", "EXPLANATION").put("targetMajorCode", target)
                 .put("runMode", source.session().getRunMode().name()).put("testOnly", evidence.testOnly())
-                .put("generationStatus", "NOT_REQUESTED");
+                .put("generationStatus", "NOT_REQUESTED").put("explanationSignalVersion", 2);
         var provenance = input.putObject("source").put("resultId", resultId)
                 .put("sessionId", source.session().getId()).put("resultHash", evidence.resultHash())
                 .put("resultContractVersion", source.result().getResultContractVersion())
@@ -136,7 +136,8 @@ public class ResultContextService {
 
     @Transactional(readOnly = true)
     public LockedInput findExplanation(long user, long resultId, String target) {
-        return explanationContext(owned(user, resultId, false), target, false);
+        var latest = explanationContext(owned(user, resultId, false), target, false);
+        return latest != null && latest.snapshot().path("explanationSignalVersion").asInt() == 2 ? latest : null;
     }
 
     private LockedInput explanationContext(Source source, String target, boolean lock) {
@@ -146,9 +147,8 @@ public class ResultContextService {
         validateTarget(source.snapshot(), null, "EXPLANATION", target);
         var rows = jdbc.queryForList("""
                 SELECT * FROM exploration_result_context
-                WHERE result_id=? AND context_type='EXPLANATION' AND target_major_code=? ORDER BY id DESC LIMIT 2
+                WHERE result_id=? AND context_type='EXPLANATION' AND target_major_code=? ORDER BY id DESC LIMIT 1
                 """ + (lock ? " FOR UPDATE" : ""), source.result().getId(), target);
-        if (rows.size() > 1) throw ExplorationApiException.integrity();
         if (rows.isEmpty()) return null;
         var row = rows.get(0);
         return new LockedInput(number(row, "id"), "EXPLANATION", checked(row, source));

@@ -15,7 +15,7 @@ public class ExplorationAiContract {
     public static final String CONVERSATION_VERSION="EXPLORATION_AI_CONTRACT_V1_1";
     public static final String PLAN12_VERSION="EXPLORATION_AI_CONTRACT_V1_2";
     public static final String EXPLANATION_VERSION = "EXPLORATION_AI_CONTRACT_V1_3";
-    public static final String EXPLANATION_PROMPT_VERSION = "EXPLORATION_MAJOR_EXPLANATION_V1_8";
+    public static final String EXPLANATION_PROMPT_VERSION = "EXPLORATION_MAJOR_EXPLANATION_V1_11";
     public static String promptVersion(JsonNode request) {
         return switch (request.path("contractVersion").asText()) {
             case PLAN12_VERSION -> "EXPLORATION_PLAN12_V1_10";
@@ -47,7 +47,7 @@ public class ExplorationAiContract {
         fields(input, "targetName", "signals");
         text(input.path("targetName"), 100);
         var signals = input.path("signals");
-        array(signals, 1, 6);
+        array(signals, 1, 12);
         Set<String> seen = new HashSet<>();
         for (JsonNode signal : signals) {
             fields(signal, "kind", "metricCode", "questionId", "questionText", "answerText",
