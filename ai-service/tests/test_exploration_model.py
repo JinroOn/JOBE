@@ -115,7 +115,7 @@ def test_major_explanation_uses_bound_facts_and_reports_failed_condition(setting
     assert 'For a single response' in chat.messages[0].content
     assert 'Use each answerChoice at most once' in chat.messages[0].content
     assert chat.settings['timeout'] == 12
-    assert model.metadata['promptVersion'] == 'EXPLORATION_MAJOR_EXPLANATION_V1_5'
+    assert model.metadata['promptVersion'] == 'EXPLORATION_MAJOR_EXPLANATION_V1_6'
 
 
 @pytest.mark.parametrize('first_failure', ['parse', 'excerpt', 'transport-on-retry'])
@@ -175,6 +175,7 @@ def test_no_affirmative_consistent_signal_declines_without_provider_call(setting
     {'majorTopic': '로봇 제작'},
     {'reason': '전공의 설계 활동과 직접 설계하는 활동에 대한 답으로 합격 가능성을 판단할 수 있어요.'},
     {'reason': '설계 활동과 연결됩니다.'},
+    {'reason': '직접 설계하는 활동에 보인 관심은 설계 활동과 이어져요. 전공에서도 설계 활동은 매우 중요한 단계입니다.'},
     {'reason': '직접 설계하는 활동에 보인 관심은 전공의 설계 활동을 살펴볼 단서예요. 다양한 매체를 써서 설계를 표현하는 점이 연결돼요.'},
 ])
 def test_explanation_needs_real_answer_and_approved_topic_and_rejects_fit_claims(settings, tamper):
@@ -203,11 +204,68 @@ def test_explanation_uses_two_approved_topics_but_omits_duplicate_major_element(
                   'majorTopic': '설계 활동',
                   'reason': '직접 설계하는 활동에 보인 관심은 전공에서 안내한 설계 활동을 탐색할 구체적인 단서예요. 모양을 그려 보고 만들 순서를 정하는 점이 연결돼요.'}
     chat = FakeChat({'targetName': 'TEST', 'connections': [
-        connection, dict(connection, answerChoice='A2', evidenceChoice='E3')]})
+        connection, dict(connection, answerChoice='A2', evidenceChoice='E3', majorTopic='설계 활동과',
+                         reason='직접 설계하는 활동은 설계 활동과 이어져요. 모양을 그려 보고 만들 순서를 정하는 점이 연결돼요.') ]})
     result = ExplorationModel(chat).generate(value, facts)['result']
     assert len(result['connections']) == 1
     transmitted = json.loads(chat.messages[1].content)['evidence']
     assert transmitted[-1]['text'] == facts[1]['text']
+
+
+SOFTWARE_COURSE_LIST = (
+    '숭실대 소프트웨어학부의 교과에는 소프트웨어공학, 소프트웨어분석및설계와 소프트웨어프로젝트가 있다.'
+)
+SOFTWARE_LEARNING = '성균관대 소프트웨어학과 로드맵은 실생활 문제를 알고리즘으로 해결하는 교과를 소개한다.'
+
+
+@pytest.mark.parametrize('only_course_titles', [True, False])
+@pytest.mark.parametrize('course_list', [SOFTWARE_COURSE_LIST,
+    '커리어넷은 문학과 언어, 현대 소설론을 사례로 든다.',
+    '안내에서 1학년에 소프트웨어프로젝트 수업이 개설된다.',
+])
+def test_course_titles_are_not_used_as_evidence_of_learning_activities(settings, only_course_titles, course_list):
+    value, facts = explanation_bound()
+    facts[0]['text'] = course_list
+    if not only_course_titles:
+        facts[0]['text'] += ' ' + SOFTWARE_LEARNING
+    chat = FakeChat({'targetName': 'TEST', 'connections': []})
+    result = ExplorationModel(chat).generate(value, facts)
+    assert result['status'] == 'DECLINED'
+    assert chat.calls == (0 if only_course_titles else 1)
+    if not only_course_titles:
+        assert json.loads(chat.messages[1].content)['evidence'] == [
+            {'evidenceChoice': 'E1', 'text': SOFTWARE_LEARNING}
+        ]
+
+
+def test_strongest_connection_is_followed_by_a_different_kind_when_supported(settings):
+    value, facts = explanation_bound()
+    signal = value['input']['signals'][0]
+    value['input']['signals'] += [
+        dict(signal, questionId='ACT-DES-02', questionText='모형을 제작하는 활동이 재미있나요?'),
+        dict(signal, kind='LEARNING', metricCode='LEARN_DES', questionId='LEARN-DES-01',
+             questionText='재료 실험을 하는 방법을 배우고 싶나요?'),
+    ]
+    value['inputHash'] = input_hash(value)
+    facts[0]['text'] = '직접 설계하는 활동을 진행한다. 종이 모형을 제작한다. 여러 재료를 대상으로 재료 실험을 한다.'
+    chat = FakeChat({'targetName': 'TEST', 'connections': [
+        {'answerChoice': 'A1', 'evidenceChoice': 'E1', 'responseTopic': '직접 설계하는 활동',
+         'majorTopic': '설계하는 활동',
+         'reason': '직접 설계하는 활동에 관심을 보인 점은 이 전공을 살펴볼 단서예요. 원하는 구조를 생각해 설계한다는 공통점이 있어요.'},
+        {'answerChoice': 'A2', 'evidenceChoice': 'E2', 'responseTopic': '모형을 제작하는 활동',
+         'majorTopic': '종이 모형을 제작',
+         'reason': '모형을 제작하는 활동에 보인 흥미는 종이 모형을 제작하는 일과 이어져요. 계획한 모양을 실제 형태로 만들어 보는 일이 공통점이에요.'},
+        {'answerChoice': 'A3', 'evidenceChoice': 'E3', 'responseTopic': '재료 실험을 하는 방법',
+         'majorTopic': '재료 실험을 한다',
+         'reason': '재료 실험을 하는 방법을 배우고 싶다면 어떤 재료 실험을 한다고 소개하는지 살펴볼 수 있어요. 여러 재료를 직접 실험하면서 차이를 살펴본다는 점이 이어져요.'},
+    ]})
+    rows = ExplorationModel(chat).generate(value, facts)['result']['connections']
+    assert [row['questionId'] for row in rows] == ['ACT-DES-01', 'LEARN-DES-01']
+    assert len(chat.schema.model_validate(chat.result).connections) == 3
+
+    chat.result['connections'].pop()
+    rows = ExplorationModel(chat).generate(value, facts)['result']['connections']
+    assert [row['questionId'] for row in rows] == ['ACT-DES-01', 'ACT-DES-02']
 
 
 @pytest.mark.parametrize('purpose',['CONSULTATION','PLAN'])

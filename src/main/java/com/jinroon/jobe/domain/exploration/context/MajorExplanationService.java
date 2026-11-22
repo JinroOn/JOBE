@@ -82,7 +82,9 @@ public class MajorExplanationService {
         var currentTask = task(user, context, current);
         if (currentTask != null) return new Generation(current, currentTask);
         String legacy = legacyMutation(context);
-        return new Generation(legacy, task(user, context, legacy));
+        String previous = legacy + "-v5";
+        var previousTask = task(user, context, previous);
+        return previousTask != null ? new Generation(previous, previousTask) : new Generation(legacy, task(user, context, legacy));
     }
 
     private JsonNode task(long user, ResultContextService.LockedInput context, String mutation) {
@@ -146,7 +148,7 @@ public class MajorExplanationService {
     }
 
     private String mutation(ResultContextService.LockedInput context) {
-        return legacyMutation(context) + "-v5";
+        return legacyMutation(context) + "-v6";
     }
 
     private String legacyMutation(ResultContextService.LockedInput context) {

@@ -22,12 +22,13 @@ from app.exploration_contract import (
 PROMPT_VERSION='EXPLORATION_MODEL_V1_0'
 CONVERSATION_PROMPT_VERSION='EXPLORATION_CONVERSATION_V1_3'
 PLAN12_PROMPT_VERSION='EXPLORATION_PLAN12_V1_10'
-EXPLANATION_PROMPT_VERSION = 'EXPLORATION_MAJOR_EXPLANATION_V1_5'
+EXPLANATION_PROMPT_VERSION = 'EXPLORATION_MAJOR_EXPLANATION_V1_6'
 
 EXPLANATION_INSTRUCTIONS = (
     ' Write a Korean explanation of why a particular student answer makes a specific major topic worth exploring. '
     'Read questionText and answerText together. Consider all supplied interest, activity and learning answers '
-    'and all educational evidence before selecting the strongest one or two links. '
+    'and all educational evidence before proposing up to three grounded links, strongest first. '
+    'Consider distinct response kinds (INTEREST, ACTIVITY, LEARNING) when the evidence supports them. '
     'For each link, choose one answerChoice and one evidenceChoice. Copy a short, specific responseTopic '
     'word for word from questionText and a concrete majorTopic word for word from the chosen evidence. '
     'Each topic should be a short phrase of 2 to 5 words with no sentence ending. '
@@ -41,7 +42,10 @@ EXPLANATION_INSTRUCTIONS = (
     '그 응답으로 학생이 특정 매체를 선호한다고 판단하거나, 수업에서 다양한 매체를 활용한다고 쓰면 안 돼요. '
     'If the question is about a preference, describe interest; if it asks about experience, describe only that experience. '
     'For a single response, explicitly describe the link as a tentative exploration clue. '
-    '수업 이름만 있으면 어느 학교에서 그 수업을 안내하는지까지 말할 수 있어요. '
+    '응답에서 직접 묻지 않은 선호나 의지를 추정하지 마세요. '
+    '자료에서 중요도나 필수성을 말하지 않으면 중요한 단계, 필수 역량이라고 단정하지 마세요. '
+    '공통 행동이 모호하면 카드를 생략하고, 다른 응답 종류를 채우기 위해 연결을 만들지 마세요. '
+    '수업 이름을 나열한 자료만으로는 연결을 만들지 마세요. 실제로 수행하는 내용이나 학습 주제가 드러나는 근거를 선택하세요. '
     '학생이 어떤 일을 한다고 덧붙이려면 자료에 그 활동이 직접 나와야 해요. '
     '예를 들어 소프트웨어프로젝트라는 수업명만으로 해당 수업에서 개발하거나 협업한다고 쓰지 마세요. '
     '학교 하나의 사례는 그 학교 사례로 설명하세요. 적성·능력·합격·성공을 판단하지 마세요. '
@@ -62,9 +66,12 @@ class ExplanationDraftConnection(StrictModel):
     reason: text(200)
 
 
+MAX_EXPLANATION_DRAFTS = 3
+
+
 class ExplanationDraft(StrictModel):
     targetName: text(100)
-    connections: Annotated[list[ExplanationDraftConnection], Field(max_length=2)]
+    connections: Annotated[list[ExplanationDraftConnection], Field(max_length=MAX_EXPLANATION_DRAFTS)]
 
 
 def explanation_draft_schema(answers: tuple[str, ...], excerpts: tuple[str, ...]):
@@ -75,7 +82,7 @@ def explanation_draft_schema(answers: tuple[str, ...], excerpts: tuple[str, ...]
     )
     return create_model(
         'MajorExplanationDraft', __base__=ExplanationDraft,
-        connections=(Annotated[list[connection], Field(max_length=min(2, len(answers)))], ...),
+        connections=(Annotated[list[connection], Field(max_length=min(MAX_EXPLANATION_DRAFTS, len(answers)))], ...),
     )
 
 CONVERSATION_INSTRUCTIONS = (
@@ -120,11 +127,26 @@ EXPLANATION_RECOVERABLE_OUTPUT = {
 }
 
 
+# Catalog listings establish that a course exists, but do not describe what students do.
+CATALOG_CONTEXT = re.compile(r'교육\s*과정|교과|과목|수업|수강\s*신청|편람|가이드북|로드맵|강의\s*계획')
+CATALOG_LISTING = re.compile(r'있다|나온다|실려\s*있|제시된|소개된|등록된|포함된|포함한다|확인된|제시한다|소개한다|명시한다|열거한다|확인할\s*수|편성된다|개설된다|개설한다|편성한다')
+CATALOG_EXAMPLE = re.compile(r'(?:과목|교과|수업|사례|예시)로\s*(?:든다|나열한다)')
+DESCRIBED_LEARNING = re.compile(
+    r'(?:관찰|분석|해결|적용|제작|실험|설계|구현|연습|합평|비교|해석|기록|탐구)하(?:는|며|고|여|도록|게)|'
+    r'(?:활용|이용|실습)해|(?:을|를)\s*(?:배우|익히|다루|연습하|실습하)|사용하는|방법을\s*(?:배우|익히)'
+)
+
+
+def is_course_listing(sentence: str) -> bool:
+    lists_courses = CATALOG_EXAMPLE.search(sentence) or (CATALOG_CONTEXT.search(sentence) and CATALOG_LISTING.search(sentence))
+    return bool(lists_courses and not DESCRIBED_LEARNING.search(sentence))
+
+
 def explanation_excerpts(facts: list[dict]) -> dict[str, tuple[str, str]]:
     choices = {}
     for fact in facts:
         excerpts = [sentence.strip()[:180].rstrip() for sentence in SENTENCE_BOUNDARY.split(fact['text'])
-                    if sentence.strip()]
+                    if sentence.strip() and not is_course_listing(sentence)]
         for excerpt in excerpts[:8 // len(facts)]:
             choices[f'E{len(choices) + 1}'] = (fact['referenceKey'], excerpt)
     return choices
@@ -132,7 +154,15 @@ def explanation_excerpts(facts: list[dict]) -> dict[str, tuple[str, str]]:
 
 GENERIC_EXPLANATION_TOPICS = {'활동', '분야', '관심', '학과', '전공', '학습', '수업', '과정', '내용', '교육과정'}
 BROAD_MEDIA = re.compile(r'다양한\s*(?:매체|미디어)|여러\s*(?:매체|미디어)|글[·ㆍ,]\s*(?:영상|이미지)|영상[·ㆍ,]\s*이미지')
-UNSUPPORTED_FIT = re.compile(r'적성이\s*(?:있|맞|좋)|적합(?:한|해|합)|잘할\s*(?:수|가능)|능력이\s*(?:뛰어나|우수)|합격|성공할|취업\s*보장')
+UNSUPPORTED_IMPORTANCE = re.compile(r'매우\s*중요|중요한\s*(?:역할|단계)|필수\s*역량')
+TOPIC_ENDING = re.compile(r'(?<=[가-힣]{2})(?:하는|하며|하고|하다|에서|으로|을|를|은|는|이|가|과|와|로|에)$')
+
+
+def comparable_topic(topic: str) -> str:
+    return ' '.join(TOPIC_ENDING.sub('', word) for word in re.findall(r'[가-힣a-z0-9]+', topic.lower()))
+
+
+UNSUPPORTED_FIT = re.compile(r'적성이\s*(?:있|맞|좋)|적합(?:한|해|합)|(?:하려는|하고자\s*하는)\s*의지|잘할\s*(?:수|가능)|능력이\s*(?:뛰어나|우수)|합격|성공할|취업\s*보장')
 
 
 def grounded_topic(candidate: str, source: str) -> str | None:
@@ -154,7 +184,8 @@ def explains_grounded_connection(reason: str, response_topic: str, major_topic: 
     return (len(sentences) == 2 and len(sentences[1]) >= 16
             and major_topic in reason and mentions_response_topic(reason, response_topic)
             and '?' not in reason and not UNSUPPORTED_FIT.search(reason)
-            and not (BROAD_MEDIA.search(reason) and not BROAD_MEDIA.search(quote)))
+            and not (BROAD_MEDIA.search(reason) and not BROAD_MEDIA.search(quote))
+            and not (UNSUPPORTED_IMPORTANCE.search(reason) and not UNSUPPORTED_IMPORTANCE.search(quote)))
 
 
 def explanation_text(signal: dict, response_topic: str, major_topic: str, reason: str,
@@ -272,6 +303,8 @@ class ExplorationModel:
                 }))
             model_input = {'targetName': model_input['targetName'], 'signals': model_signals}
             excerpts = explanation_excerpts(facts)
+            if not excerpts:
+                return self._validated_result(request, {'targetName': model_input['targetName'], 'connections': []})
         schema = SingleExampleDraft if single_example else (
             explanation_draft_schema(tuple(answer_choices), tuple(excerpts)) if self.explanation
             else ConsultationResult if request['purpose']=='CONSULTATION'
@@ -396,8 +429,7 @@ class ExplorationModel:
         if draft.targetName != target_name:
             raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.TARGET)
         used_answers = set()
-        used_topics = []
-        connections = []
+        candidates = []
         grounding_failed = False
         for row in draft.connections:
             signal = answer_choices.get(row.answerChoice)
@@ -418,17 +450,22 @@ class ExplorationModel:
             if not response_topic or not major_topic or not explains_grounded_connection(reason, response_topic, major_topic, quote):
                 grounding_failed = True
                 continue
-            if any(major_topic in topic or topic in major_topic for topic in used_topics):
-                continue
-
-            used_topics.append(major_topic)
-            connections.append({
+            candidates.append((signal['kind'], comparable_topic(major_topic), {
                 'questionId': question_id,
                 'referenceKeys': [reference],
                 'connection': explanation_text(signal, response_topic, major_topic, reason, quote),
-            })
-        if grounding_failed and not connections:
+            }))
+        if grounding_failed and not candidates:
             raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.GROUNDING)
+        connections = []
+        if candidates:
+            first_kind, first_topic, first = candidates[0]
+            connections.append(first)
+            distinct_topics = [(kind, item) for kind, topic, item in candidates[1:]
+                               if topic not in first_topic and first_topic not in topic]
+            if distinct_topics:
+                second = next((item for kind, item in distinct_topics if kind != first_kind), distinct_topics[0][1])
+                connections.append(second)
         return {'targetName': draft.targetName, 'connections': connections}
 
     def _validated_result(self,request,content):

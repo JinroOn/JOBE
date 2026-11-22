@@ -15,7 +15,7 @@ public class ExplorationAiContract {
     public static final String CONVERSATION_VERSION="EXPLORATION_AI_CONTRACT_V1_1";
     public static final String PLAN12_VERSION="EXPLORATION_AI_CONTRACT_V1_2";
     public static final String EXPLANATION_VERSION = "EXPLORATION_AI_CONTRACT_V1_3";
-    public static final String EXPLANATION_PROMPT_VERSION = "EXPLORATION_MAJOR_EXPLANATION_V1_5";
+    public static final String EXPLANATION_PROMPT_VERSION = "EXPLORATION_MAJOR_EXPLANATION_V1_6";
     public static String promptVersion(JsonNode request) {
         return switch (request.path("contractVersion").asText()) {
             case PLAN12_VERSION -> "EXPLORATION_PLAN12_V1_10";
