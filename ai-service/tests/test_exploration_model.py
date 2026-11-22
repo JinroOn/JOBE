@@ -2,7 +2,10 @@ import asyncio
 import json
 import pytest
 from pydantic import ValidationError
-from app.exploration_model import ExplanationOutputIssue, ExplorationModel, ModelFault
+from app.exploration_model import (
+    ExplanationOutputIssue, ExplorationModel, ModelFault, explains_grounded_connection, explanation_excerpts,
+    supports_response, trimmed_topic,
+)
 from app.exploration_contract import EXPLANATION_VERSION, input_hash
 from test_exploration_evidence_binding import request
 
@@ -129,7 +132,7 @@ def test_major_explanation_uses_bound_facts_and_reports_failed_condition(setting
     assert 'For a single response' in chat.messages[0].content
     assert 'Use each answerChoice at most once' in chat.messages[0].content
     assert chat.settings['timeout'] == 12
-    assert model.metadata['promptVersion'] == 'EXPLORATION_MAJOR_EXPLANATION_V1_11'
+    assert model.metadata['promptVersion'] == 'EXPLORATION_MAJOR_EXPLANATION_V1_12'
 
 
 @pytest.mark.parametrize('first_failure', ['parse', 'excerpt', 'transport-on-retry'])
@@ -268,6 +271,57 @@ def test_data_processing_interest_needs_evidence_of_data_processing(settings, ev
 
     assert result['status'] == ('SUCCEEDED' if connected else 'DECLINED')
     assert chat.calls == int(connected)
+
+
+COMPUTER = '운영체제의 구조와 작동 방식, 소프트웨어의 요구사항 분석과 설계, 자료구조의 구현 등을 배우는 내용을 살펴볼 수 있다.'
+PATTERN = '숫자나 자료를 비교해 패턴을 찾는 활동이 흥미롭다.'
+CAUSE = '다양한 자료를 비교해 문제의 원인을 설명하는 활동에 끌린다.'
+MEDIA = '미디어가 사람과 사회에 영향을 주는 방식을 배우고 싶다.'
+PROCESS = '데이터가 수집·정리되어 정보가 되는 과정을 배우고 싶다.'
+JUDGE = '정보를 분류하고 분석해 판단에 활용하는 방법을 배우고 싶다.'
+
+
+@pytest.mark.parametrize(('question', 'excerpt', 'supported'), [
+    (PATTERN, COMPUTER, False), (PROCESS, COMPUTER, False), (JUDGE, COMPUTER, False),
+    (PATTERN, '커리어넷 식품공학과 자료는 그중 식품 성분 분석의 배경을 제공한다.', False),
+    (PATTERN, '학사과정 과목 개요는 망원경 활용과 관측 자료 분석을 학습한다고 설명한다.', True),
+    (PATTERN, '환경과학과는 인간 활동과 환경 변화의 관계를 살피고 관측 자료로 환경 문제를 분석한다.', True),
+    (PATTERN, '연세대 응용통계학과는 회귀분석을 실제 자료에 적용하는 교과 사례를 제공한다.', True),
+    (JUDGE, '회계학과는 거래를 기록하고 의사결정에 필요한 회계정보를 정리하는 방법을 배운다.', True),
+    (CAUSE, '경제 관련 글을 읽는 활동도 탐색 방법으로 소개한다.', False),
+    (CAUSE, '커리어넷 사학과 자료는 역사 자료로 과거를 해석하는 접근을 소개한다.', True),
+    (CAUSE, '사학과는 과거의 사건과 사회를 자료에서 살펴보고 그 의미를 탐구한다.', True),
+    (CAUSE, '데이터사이언스학과는 통계학, 컴퓨터과학 등 여러 분야를 이용해 데이터에서 질문을 만들고 답을 찾는 방법을 배운다.', True),
+    (CAUSE, '교육학과에서는 학습과 수업을 둘러싼 이론을 공부하고 교육 현장의 문제를 분석한다.', True),
+    (MEDIA, '한서대 영상애니메이션학과는 스토리보드에서 대본을 화면과 시간으로 시각화하는 과정을 안내한다.', False),
+    (MEDIA, '방사선학과는 의학 영상과 방사선 관련 기술, 영상정보의 처리를 공부한다.', False),
+    (MEDIA, '미디어를 통해 정보가 전달되고 사회에서 해석되는 방식을 살펴본다.', True),
+])
+def test_response_needs_evidence_of_the_same_activity(question, excerpt, supported):
+    assert supports_response(question, excerpt) is supported
+
+
+@pytest.mark.parametrize(('candidate', 'source', 'topic'), [
+    ('관찰한 결과 비교하는 활동', '관찰한 결과를 비교해 차이나 원인을 찾아보는 활동에 끌린다.', '관찰한 결과'),
+    ('생명 현상과 건강 문제의 원인을 탐구', '생명 현상과 건강 문제의 원인을 살펴보고 싶다.', '생명 현상과 건강 문제의 원인'),
+    ('전자 회로 설계', '전자 회로, 신호를 다룬다.', '전자 회로'),
+])
+def test_topic_is_not_cut_in_the_middle_of_a_word(candidate, source, topic):
+    assert trimmed_topic(candidate, source) == topic
+
+
+def test_disclaimers_are_not_offered_as_major_evidence():
+    facts = [{'referenceKey': REF, 'text': COMPUTER + ' 이는 학과를 알아보기 위한 사례이며, 개인의 적성이나 입학 요건을 판정하는 기준은 아니다.'}]
+    assert [excerpt for _, excerpt in explanation_excerpts(facts).values()] == [COMPUTER]
+
+
+@pytest.mark.parametrize('claim', ['구성 요소를 살펴보는 학습이 적합할 것입니다.', '이 과정은 데이터를 다루는 데 필수적인 요소입니다.',
+                                   '이 과목은 환경 변화를 이해하는 것을 중시하고 있어요.', '바다의 생태계를 탐구하는 데 중점을 둡니다.', '이 전공의 학습 내용과 잘 어울립니다.'])
+def test_explanation_rejects_fit_or_importance_claims_absent_from_evidence(claim):
+    quote = '생명과학과는 생명체의 구성과 기능을 탐구한다.'
+    reason = '생명 현상에 보인 관심은 생명체의 구성과 기능을 살펴볼 단서예요. '
+    assert explains_grounded_connection(reason + '생명체를 여러 수준에서 들여다보는 점이 연결돼요.', '생명 현상', '생명체의 구성과 기능', quote)
+    assert not explains_grounded_connection(reason + claim, '생명 현상', '생명체의 구성과 기능', quote)
 
 
 @pytest.mark.parametrize(('response_topic', 'succeeds'), [
