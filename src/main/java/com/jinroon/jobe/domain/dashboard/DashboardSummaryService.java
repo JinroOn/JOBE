@@ -40,6 +40,10 @@ public class DashboardSummaryService {
     @Value("${exploration.enabled:false}")
     private boolean explorationEnabled;
 
+    /** 기존 진단을 쓰지 않으면 요약에서 뺀다. 응답 형식(LEGACY 키)은 그대로 두고 값만 null이다. */
+    @Value("${diagnosis.legacy-enabled:false}")
+    private boolean legacyEnabled;
+
     public record ResultRef(String type, long resultId, long sessionId, String resultStatus, LocalDateTime completedAt,
                             String path) {}
 
@@ -52,7 +56,7 @@ public class DashboardSummaryService {
     public Summary summary(long userId) {
         ExplorationRunMode mode = explorationMode(userId);
 
-        ResultRef legacy = latestLegacyResult(userId);
+        ResultRef legacy = legacyEnabled ? latestLegacyResult(userId) : null;
         ResultRef exploration = mode == null ? null : latestExplorationResult(userId, mode);
         Map<String, ResultRef> byType = new LinkedHashMap<>();
         byType.put(LEGACY, legacy);
@@ -62,7 +66,7 @@ public class DashboardSummaryService {
                 .orElse(null);
 
         List<SessionRef> inProgress = new ArrayList<>();
-        SessionRef legacySession = legacyInProgress(userId);
+        SessionRef legacySession = legacyEnabled ? legacyInProgress(userId) : null;
         if (legacySession != null) inProgress.add(legacySession);
         if (mode != null) {
             SessionRef explorationSession = explorationInProgress(userId, mode);

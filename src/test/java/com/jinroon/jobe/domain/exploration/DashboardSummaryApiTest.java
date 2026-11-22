@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -26,6 +27,7 @@ import org.springframework.transaction.support.TransactionTemplate;
  * OWNER·OTHER는 탐색형 DEV 허용 사용자이고 OUTSIDE는 허용 목록 밖이다.
  * 실제 MySQL을 쓰며, 공통 지원 클래스가 테스트 사용자와 그 데이터를 탈퇴 처리로 지운다.
  */
+@TestPropertySource(properties = "diagnosis.legacy-enabled=true")
 class DashboardSummaryApiTest extends ExplorationApiTestSupport {
 
     private static final String SUMMARY = "/api/dashboard/summary";

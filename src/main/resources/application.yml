@@ -78,9 +78,11 @@ major:
     rag-path: ${MAJOR_DATASET_RAG_PATH:datasets/rag/per-major}
 
 diagnosis:
+  # 기존 진단은 사용하지 않는다. false면 기존 진단 API가 410을 반환하고 이력·대시보드에서 제외된다.
+  legacy-enabled: ${LEGACY_DIAGNOSIS_ENABLED:false}
   questions:
     seed:
-      enabled: ${DIAGNOSIS_QUESTIONS_SEED_ENABLED:true}
+      enabled: ${DIAGNOSIS_QUESTIONS_SEED_ENABLED:${LEGACY_DIAGNOSIS_ENABLED:false}}
       path: ${DIAGNOSIS_QUESTIONS_SEED_PATH:classpath:data/evaluation-questions-separated-60.json}
       default-time-limit-sec: ${DIAGNOSIS_QUESTIONS_DEFAULT_TIME_LIMIT_SEC:60}
 
