@@ -89,8 +89,10 @@ public class ActivityRecommendationService {
         }
         List<Candidate> eligible=new ArrayList<>();
         for(var row:rows) {
-            JsonNode item=checked(row);JsonNode original=embedded.get(row.get("activity_code").toString());
-            if(original==null || !json.hex(original).equals(row.get("content_hash"))
+            JsonNode item = embedded.get(row.get("activity_code").toString());
+            // The catalog seal covers this item. Match the row body to it and hash the matched content once.
+            if (item == null || !item.equals(json.read(row.get("payload_json").toString()))
+                    || !json.hex(item).equals(row.get("content_hash"))
                     || !item.path("activity_id").asText().equals(row.get("activity_code"))
                     || !item.path("version").asText().equals(row.get("version"))
                     || !Objects.equals(item.path("major_code").textValue(),row.get("major_code")))throw ExplorationApiException.integrity();

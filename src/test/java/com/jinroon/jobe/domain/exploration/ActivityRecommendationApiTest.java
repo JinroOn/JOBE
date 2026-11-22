@@ -298,10 +298,22 @@ class ActivityRecommendationApiTest extends CompletedExplorationTestSupport {
         activities(rid,503);
     }
     @Test void rootBindingDetectsChangedItemEvenWhenItsIndividualHashIsRecomputed()throws Exception {
-        long rid=completedResult(true);ObjectNode item=item("A",major(rid,0));load(item);approveAll();
-        item.put("title","changed");String changed=mapper.writeValueAsString(item);
-        jdbc.update("UPDATE exploration_activity SET payload_json=?,content_hash=? WHERE catalog_id=?",changed,new com.jinroon.jobe.domain.exploration.service.ExplorationJson(mapper).hex(item),catalogId());
-        activities(rid,503);
+        long rid = completedResult(true);
+        long sid = resultSnapshot(rid).path("sessionId").asLong();
+        String selected = major(rid, 0);
+        ObjectNode unrelated = item("B", major(rid, 1));
+        load(item("A", selected), unrelated);
+        approveAll();
+        support.select(OWNER, rid, "choose", 0, "ACTIVITY", selected);
+        assertThat(ids(activities(rid, 200))).containsExactly("A");
+
+        unrelated.put("title", "changed");
+        String changed = mapper.writeValueAsString(unrelated);
+        String changedHash = new com.jinroon.jobe.domain.exploration.service.ExplorationJson(mapper).hex(unrelated);
+        jdbc.update("UPDATE exploration_activity SET payload_json=?,content_hash=? WHERE catalog_id=? AND activity_code='B'",
+                changed, changedHash, catalogId());
+        assertThat(activities(rid, 503).path("code").asText()).isEqualTo("CATALOG_INTEGRITY_ERROR");
+        assertThat(getJson("/" + sid + "/result", owner, 503).path("code").asText()).isEqualTo("CATALOG_INTEGRITY_ERROR");
     }
     @Test void mismatchedMajorMappingVersionReturnsUnavailable()throws Exception {
         long rid=completedResult(true);load(item("A",major(rid,0)));approveAll();
