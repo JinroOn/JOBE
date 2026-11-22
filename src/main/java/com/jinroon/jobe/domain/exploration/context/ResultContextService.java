@@ -30,6 +30,7 @@ public class ResultContextService {
     private final ExplorationRuntimeCatalog catalogs;
     private final PostResultSupportService support;
     private final MajorExplanationEvidence majorExplanationEvidence;
+    private final com.jinroon.jobe.domain.exploration.activity.ActivityRecommendationService activityRecommendations;
     private final ExplorationJson json;
     private final JdbcTemplate jdbc;
     public record Reply(int status,JsonNode body){}
@@ -83,6 +84,7 @@ public class ResultContextService {
             answer.put("module",question.module());answer.put("optionCode",option.code());answer.put("meaningCode",option.meaning());answer.put("unknown",option.unknown());answer.put("answerText",choice.path("option_text").asText());
             answer.set("answerRevision",issued.path("answerRevision").deepCopy());answer.put("answerTargetMajorCode",issued.path("answerTargetMajorCode").textValue());
         }
+        if ("PLAN".equals(type)) input.set("planActivityBasis",activityRecommendations.planBasis(user,resultId,target));
         input.put("activitySelectionStatus","NOT_SELECTED");input.put("generationStatus","NOT_REQUESTED");input.put("runMode",source.session().getRunMode().name());input.put("testOnly",true);
         byte[] hash=json.hash(input);
         jdbc.update("INSERT INTO exploration_result_context(result_type,result_id,context_type,target_major_code,support_revision,contract_version,result_hash,input_hash,snapshot_json,created_at) VALUES ('EXPLORATION_V1',?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE id=id",

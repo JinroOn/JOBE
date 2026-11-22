@@ -23,6 +23,7 @@ public class ExplorationPlanStore {
     private final ExplorationAiInputAdapter adapter;
     private final ExplorationAiContract contract;
     private final ExplorationJson json;
+    private final com.jinroon.jobe.domain.exploration.activity.ActivityRecommendationService activityRecommendations;
     public record Draft(long id,long context,String mutation,JsonNode request) {}
     private record Locked(Map<String,Object> row,JsonNode snapshot) {}
     private static long number(Map<String,Object> row,String key){return ((Number)row.get(key)).longValue();}
@@ -107,7 +108,7 @@ public class ExplorationPlanStore {
             data=json.read(row.get("publication_json").toString());var proof=json.read(row.get("proof_json").toString());
             if(!Arrays.equals(json.hash(data),(byte[])row.get("publication_hash"))||!Arrays.equals(json.hash(proof),(byte[])row.get("proof_hash"))
                 ||!state.equals("MODEL_STORED")||!json.hex(proof).equals(g.get("result_hash"))||!Arrays.equals(json.hash(proof),json.hash(json.read(g.get("result_json").toString()))))throw integrity();
-            if(!Arrays.equals(json.hash(data),json.hash(project(checked(row,value.snapshot()),proof))))throw integrity();
+            if(!Arrays.equals(json.hash(data),json.hash(project(checked(row,value.snapshot()),proof,value.snapshot()))))throw integrity();
             status=data.path("status").asText();if(status.equals("FAILED"))failure=proof.path("response").path("status").asText().equals("INSUFFICIENT_EVIDENCE")?"EVIDENCE_UNAVAILABLE":"MODEL_DECLINED";
         }else if(state.equals("QUEUED")||state.equals("RUNNING")){
             boolean active=state.equals("RUNNING")&&truth(g.get("lease_live"));
@@ -130,9 +131,15 @@ public class ExplorationPlanStore {
     public void publish(long user,long context,JsonNode original,JsonNode proof){
         verifyRequest(user,context,original,true);var row=jdbc.queryForMap("SELECT * FROM exploration_plan WHERE generation_mutation=? FOR UPDATE",original.path("requestId").asText());var g=generation(user,row);
         if(!g.get("state").equals("MODEL_STORED")||!json.hex(proof).equals(g.get("result_hash")))throw integrity();
-        var data=project(original,proof);jdbc.update("UPDATE exploration_plan SET publication_json=?,publication_hash=?,proof_json=?,proof_hash=? WHERE id=? AND publication_json IS NULL",data.toString(),json.hash(data),proof.toString(),json.hash(proof),row.get("id"));
+        var snapshot=lock(user,number(row,"id")).snapshot();
+        var basis=snapshot.path("planActivityBasis");
+        if(!basis.path("activities").isEmpty()&&!activityRecommendations.planBasisApproved(basis,row.get("major_code").toString())) {
+            throw new ExplorationApiException(409,"PLAN_ACTIVITY_SOURCE_UNAVAILABLE","계획에 쓰려던 활동의 검토 상태가 바뀌었어요. 새 계획을 요청해 주세요.");
+        }
+        var data=project(original,proof,snapshot);
+        jdbc.update("UPDATE exploration_plan SET publication_json=?,publication_hash=?,proof_json=?,proof_hash=? WHERE id=? AND publication_json IS NULL",data.toString(),json.hash(data),proof.toString(),json.hash(proof),row.get("id"));
     }
-    private JsonNode project(JsonNode original,JsonNode proof){
+    private JsonNode project(JsonNode original,JsonNode proof,JsonNode snapshot){
         JsonNode bound=proof.path("boundRequest"),response=proof.path("response");
         try{contract.response(bound,response);}catch(ExplorationAiContract.Invalid e){throw integrity();}
         for(String field:List.of("contractVersion","requestId","sourceContextHash","purpose","mode","testOnly","input"))if(!original.path(field).equals(bound.path(field)))throw integrity();
@@ -142,6 +149,10 @@ public class ExplorationPlanStore {
             Set<String> used=new LinkedHashSet<>();for(JsonNode w:response.path("result").path("weeks")){var publicWeek=weeks.addObject();for(String f:List.of("week","phase","title","tasks","expectedOutput"))publicWeek.set(f,w.path(f));w.path("referenceKeys").forEach(r->used.add(r.asText()));}
             for(String ref:used){boolean found=false;for(JsonNode r:bound.path("evidence").path("referenceKeys"))if(ref.equals(r.asText()))found=true;if(!found)throw integrity();
                 sources.addObject().put("kind","MAJOR_PROFILE").put("title",bound.path("input").path("targetName").asText()+" 승인 전공 자료").put("version",bound.path("evidence").path("datasetVersion").asText());}
+            var basis=snapshot.path("planActivityBasis");
+            if(PlanActivitySchedule.apply(weeks,basis))sources.addObject().put("kind","ACTIVITY_CATALOG")
+                    .put("title",bound.path("input").path("targetName").asText()+" 승인 탐색 활동")
+                    .put("version",basis.path("catalogVersion").asText());
         }
         return out;
     }

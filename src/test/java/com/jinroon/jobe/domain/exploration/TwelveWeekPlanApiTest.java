@@ -26,6 +26,8 @@ class TwelveWeekPlanApiTest extends CompletedExplorationTestSupport {
     @Autowired com.jinroon.jobe.domain.exploration.consultation.ExplorationConsultationService chat;
     @Autowired com.jinroon.jobe.domain.exploration.consultation.ConsultationMessageService chatMessages;
     @MockitoBean ExplorationJobClient remote;
+    @org.springframework.test.context.bean.override.mockito.MockitoSpyBean
+    com.jinroon.jobe.domain.exploration.activity.ActivityRecommendationService activityRecommendations;
     Set<String> owners=new HashSet<>();
     record Input(long result,String major,long revision){}
     @BeforeEach void config(){ReflectionTestUtils.setField(availability,"modelEnabled",true);ReflectionTestUtils.setField(availability,"erasureEnabled",true);
@@ -62,6 +64,37 @@ class TwelveWeekPlanApiTest extends CompletedExplorationTestSupport {
         assertThat(jdbc.queryForObject("SELECT result_json FROM exploration_result WHERE id=?",String.class,in.result())).isEqualTo(original);
         assertThat(jdbc.queryForMap("SELECT * FROM major_weekly_plans WHERE id=?",legacy)).isEqualTo(legacyRow);
         verify(remote,times(1)).executeModel(anyString(),anyString(),any());
+    }
+    @Test void twoMajorsHaveDifferentApprovedActivitiesAndPinnedPlansStayReadable() throws Exception {
+        var in=input();
+        String second=major(in.result(),1);
+        var firstBasis=activityBasis(in.major(),"작품 표현 비교하기","표현 표시가 있는 두 문장");
+        var secondBasis=activityBasis(second,"자료 값 비교하기","비교 표");
+        doReturn(firstBasis).when(activityRecommendations).planBasis(OWNER,in.result(),in.major());
+        doReturn(true).when(activityRecommendations).planBasisApproved(firstBasis,in.major());
+        var first=create(in,"first-approved",in.revision(),200);
+
+        support.select(OWNER,in.result(),"another-target",1,"PLAN",second);
+        doReturn(secondBasis).when(activityRecommendations).planBasis(OWNER,in.result(),second);
+        doReturn(true).when(activityRecommendations).planBasisApproved(secondBasis,second);
+        var another=create(new Input(in.result(),second,2),"second-approved",2L,200);
+        assertThat(first.path("weeks").size()).isEqualTo(12);
+        assertThat(first.path("weeks").get(8).path("title").asText()).contains("작품 표현 비교하기");
+        assertThat(first.path("weeks").get(8).path("expectedOutput").asText()).isEqualTo("표현 표시가 있는 두 문장");
+        assertThat(another.path("weeks").get(8).path("title").asText()).contains("자료 값 비교하기");
+        assertThat(another.path("weeks").get(8).path("expectedOutput").asText()).isEqualTo("비교 표");
+        assertThat(first.path("sources").get(1).path("kind").asText()).isEqualTo("ACTIVITY_CATALOG");
+        assertThat(response(get(detail(first.path("planId").asLong())).header("Authorization",owner),200)).isEqualTo(first);
+    }
+
+    private ObjectNode activityBasis(String major,String title,String output) {
+        var basis=mapper.createObjectNode().put("catalogVersion","TEST_ACTIVITIES");
+        var practice=basis.putArray("activities").addObject().put("major_code",major).put("kind","SMALL_TASK")
+                .put("title",title).put("body_markdown","두 가지 예를 읽어요.")
+                .put("alternative","예시 한 가지만 읽어요.").put("example_output","확인한 차이 한 가지");
+        practice.putArray("steps").add("두 예시를 비교해요.");
+        practice.putArray("artifacts").add(output);
+        return basis;
     }
     @Test void requiresSelectedPlanSupportCandidateAndCurrentRevision()throws Exception{
         long r=completedResult(true);var in=new Input(r,major(r,0),0);create(in,"none",0L,409);
