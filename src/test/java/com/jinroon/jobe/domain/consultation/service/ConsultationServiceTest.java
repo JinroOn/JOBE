@@ -16,7 +16,9 @@ import com.jinroon.jobe.domain.consultation.entity.ConsultationLog;
 import com.jinroon.jobe.domain.consultation.entity.ConsultationSession;
 import com.jinroon.jobe.domain.consultation.repository.ConsultationLogRepository;
 import com.jinroon.jobe.domain.consultation.repository.ConsultationSessionRepository;
+import com.jinroon.jobe.domain.diagnosis.entity.CompetencyEvalResult;
 import com.jinroon.jobe.domain.diagnosis.entity.DiagnosisSession;
+import com.jinroon.jobe.domain.diagnosis.repository.CompetencyEvalResultRepository;
 import com.jinroon.jobe.domain.diagnosis.repository.DiagnosisSessionRepository;
 import com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringService;
 import com.jinroon.jobe.domain.major.entity.Major;
@@ -60,6 +62,9 @@ class ConsultationServiceTest {
     private DiagnosisSessionRepository diagnosisSessionRepository;
 
     @Mock
+    private CompetencyEvalResultRepository competencyEvalResultRepository;
+
+    @Mock
     private ResultMajorScoreRepository resultMajorScoreRepository;
 
     @Mock
@@ -86,6 +91,7 @@ class ConsultationServiceTest {
                 logRepository,
                 diagnosisResultRepository,
                 diagnosisSessionRepository,
+                competencyEvalResultRepository,
                 resultMajorScoreRepository,
                 majorRepository,
                 planRepository,
@@ -254,6 +260,69 @@ class ConsultationServiceTest {
                 .containsExactly("컴퓨터공학과");
         assertThat(request.diagnosisContext().profileContext()).isNotNull();
         assertThat(request.diagnosisContext().profileContext().dreamJob()).isEqualTo("AI 데이터 사이언티스트");
+    }
+
+    @Test
+    void createMessageExcludesFixedWeaknessCommentAndUsesScores() {
+        DiagnosisResult result = diagnosisResult(5L, 7L);
+        result.applyAiComment("산업공학과 설명입니다. 우선 보완 영역은 의사소통과 시스템 이해이며, 반복 훈련을 권장합니다.", "");
+        when(competencyEvalResultRepository.findByDiagnosisSessionId(30L))
+                .thenReturn(Optional.of(competency(29f, 25f, 24f, 7f, 43f, 24f, 38f, 47f, 32f)));
+
+        ConsultationChatRequest.DiagnosisContext context = diagnosisContextFor(result);
+
+        assertThat(context.aiComment()).isNull();
+        assertThat(context.weaknessFocus())
+                .containsExactly("softwareImplementationScore", "infoTechUtilizationScore");
+    }
+
+    @Test
+    void createMessageKeepsScoreDerivedCommentAndSavedWeaknessFocus() {
+        String comment = "현재 응답에서 우선 살펴볼 보완 영역은 의사소통, 시스템 이해입니다.";
+        DiagnosisResult result = diagnosisResult(5L, 7L);
+        result.applyAiComment(comment, "communicationScore,systemUnderstandingScore");
+
+        ConsultationChatRequest.DiagnosisContext context = diagnosisContextFor(result);
+
+        assertThat(context.aiComment()).isEqualTo(comment);
+        assertThat(context.weaknessFocus()).containsExactly("communicationScore", "systemUnderstandingScore");
+        verify(competencyEvalResultRepository, never()).findByDiagnosisSessionId(any());
+    }
+
+    @Test
+    void createMessageDoesNotInventWeaknessWhenAllScoresAreEqual() {
+        DiagnosisResult result = diagnosisResult(5L, 7L);
+        result.applyAiComment(null, null);
+        when(competencyEvalResultRepository.findByDiagnosisSessionId(30L))
+                .thenReturn(Optional.of(competency(50f, 50f, 50f, 50f, 50f, 50f, 50f, 50f, 50f)));
+
+        assertThat(diagnosisContextFor(result).weaknessFocus()).isEmpty();
+    }
+
+    private ConsultationChatRequest.DiagnosisContext diagnosisContextFor(DiagnosisResult result) {
+        ConsultationLog userLog = log(10L, 1L, "user", "question");
+        when(sessionRepository.findById(1L)).thenReturn(Optional.of(session(1L, 7L, 5L, false)));
+        when(logRepository.save(any(ConsultationLog.class))).thenReturn(userLog);
+        when(logRepository.findByConsultationSessionIdOrderByCreatedAtAsc(1L)).thenReturn(List.of(userLog));
+        when(diagnosisResultRepository.findById(5L)).thenReturn(Optional.of(result));
+        when(resultMajorScoreRepository.findByDiagnosisResultIdOrderByRankAsc(5L)).thenReturn(List.of());
+        when(majorRepository.findAllById(any())).thenReturn(List.of());
+        when(planRepository.findByDiagnosisResultId(5L)).thenReturn(List.of());
+        when(aiServiceClient.getConsultationChat(any(ConsultationChatRequest.class)))
+                .thenReturn(new ConsultationChatResponse("answer", "consultation-chat-v1.0.0", "request"));
+
+        service.createMessageWithAiReplyForUser(1L, new ConsultationMessageRequest("question"), 7L);
+
+        ArgumentCaptor<ConsultationChatRequest> captor = ArgumentCaptor.forClass(ConsultationChatRequest.class);
+        verify(aiServiceClient).getConsultationChat(captor.capture());
+        return captor.getValue().diagnosisContext();
+    }
+
+    private CompetencyEvalResult competency(Float... scores) {
+        CompetencyEvalResult competency = newEntity(CompetencyEvalResult.class);
+        competency.applyScores(scores[0], scores[1], scores[2], scores[3], scores[4],
+                scores[5], scores[6], scores[7], scores[8]);
+        return competency;
     }
 
     private ConsultationSession session(Long id, Long userId, Long diagnosisResultId, boolean ended) {

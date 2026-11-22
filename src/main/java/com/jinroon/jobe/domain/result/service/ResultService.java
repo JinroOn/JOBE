@@ -446,7 +446,8 @@ public class ResultService {
         if (result.getAiCommentStatus() == AiGenerationStatus.PENDING) {
             throw new CustomException(ErrorCode.AI_GENERATION_IN_PROGRESS);
         }
-        if (result.getAiCommentStatus() == AiGenerationStatus.SUCCEEDED && !force) {
+        if (result.getAiCommentStatus() == AiGenerationStatus.SUCCEEDED && !force
+                && !result.hasFixedWeaknessComment()) {
             log.info("AI recommendation comment regeneration skipped resultId={} status={} force={}",
                     result.getId(), result.getAiCommentStatus(), force);
             return result;

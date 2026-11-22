@@ -19,6 +19,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DiagnosisResult extends BaseEntitySupport {
     private static final int MAX_AI_ERROR_MESSAGE_LENGTH = 500;
+    // 보완 역량을 점수로 계산하기 전(#151)에 종합평에 들어가던 고정 문구
+    private static final String FIXED_WEAKNESS_COMMENT = "우선 보완 영역은 의사소통과 시스템 이해";
 
     @Column(name = "diagnosis_session_id", nullable = false)
     private Long diagnosisSessionId;
@@ -93,6 +95,10 @@ public class DiagnosisResult extends BaseEntitySupport {
     public void applyAiComment(String aiComment, String weaknessFocus) {
         this.aiComment = aiComment;
         this.weaknessFocus = weaknessFocus;
+    }
+
+    public boolean hasFixedWeaknessComment() {
+        return aiComment != null && aiComment.contains(FIXED_WEAKNESS_COMMENT);
     }
 
     public void markAiCommentPending() {
