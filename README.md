@@ -49,21 +49,6 @@ docker compose -f docker-compose.yml -f docker-compose.local.yml up -d mailpit
 - 받은 메일(인증번호)은 http://localhost:8025 에서 확인합니다.
 - `mailpit` 프로필은 `prod` 프로필과 함께 켜면 시작되지 않습니다.
 
-### 초기 데이터 (자동 생성)
-
-docker-compose 최초 실행 시 아래 데이터가 자동으로 생성됩니다.
-
-**테스트 계정**
-
-| 역할 | 이메일 | 비밀번호 |
-|---|---|---|
-| 관리자 | admin@jinroon.com | test1234! |
-| 유저1 | user1@jinroon.com | test1234! |
-| 유저2 | user2@jinroon.com | test1234! |
-
-- 전공 데이터 10개
-- 공지사항 2개
-
 ### 주의사항
 
 볼륨이 이미 존재하면 초기 데이터가 생성되지 않습니다.
