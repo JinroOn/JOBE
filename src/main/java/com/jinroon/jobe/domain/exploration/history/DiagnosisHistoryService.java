@@ -7,11 +7,13 @@ import com.jinroon.jobe.domain.exploration.repository.ExplorationResultRepositor
 import com.jinroon.jobe.domain.exploration.service.ExplorationJson;
 import com.jinroon.jobe.domain.exploration.service.ExplorationResultStore;
 import com.jinroon.jobe.domain.exploration.service.ExplorationRuntimePolicy;
+import com.jinroon.jobe.global.exception.error.ErrorCode;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +27,7 @@ public class DiagnosisHistoryService {
     private final ExplorationResultRepository results;
     private final ExplorationResultStore resultStore;
     private final ExplorationJson json;
+    @Value("${diagnosis.legacy-enabled:false}") private boolean legacyEnabled;
 
     private record Row(long itemId, long sessionId, int rank, String type, String status, int stage,
                        LocalDateTime startedAt, LocalDateTime completedAt, LocalDateTime sortAt, Long resultId,
@@ -40,8 +43,10 @@ public class DiagnosisHistoryService {
         if (!Set.of("sessions", "results").contains(view)) throw HistoryQuery.invalid();
         if (view.equals("results") && !Set.of("ALL", "completed").contains(query.status())) throw HistoryQuery.invalid();
         var mode = policy.authorize(userId); // This new namespace stays isolated DEV; legacy endpoints are unchanged.
+        if (!legacyEnabled && query.type().equals("LEGACY"))
+            throw new ExplorationApiException(410, "LEGACY_DIAGNOSIS_RETIRED", ErrorCode.LEGACY_DIAGNOSIS_RETIRED.getMessage());
         HistoryCursorCodec.State cursor = query.cursor() == null ? null : cursors.decode(query.cursor(), userId, view, query);
-        boolean legacy = !query.type().equals("EXPLORATION_V1"), exploration = !query.type().equals("LEGACY");
+        boolean legacy = legacyEnabled && !query.type().equals("EXPLORATION_V1"), exploration = !query.type().equals("LEGACY");
         long legacyFence = cursor == null ? legacy ? fence(userId, view, false, mode) : 0 : cursor.legacyFence();
         long explorationFence = cursor == null ? exploration ? fence(userId, view, true, mode) : 0 : cursor.explorationFence();
         List<String> sources = new ArrayList<>(); List<Object> args = new ArrayList<>();

@@ -74,6 +74,16 @@ docker-compose down -v   # 볼륨까지 삭제
 docker-compose up -d
 ```
 
+### 기존 진단 (사용하지 않음)
+
+새 진단은 전공 탐색 진단(`/api/exploration/v1`)만 사용합니다. 기존 진단의 `diagnosis`·`result`·`plan`·`consultation` 코드와 데이터는 남겨 두고 연결만 끊었습니다.
+
+- `/api/diagnoses`, `/api/results`, `/api/plans`, `/api/consultations`는 `410 LEGACY_DIAGNOSIS_RETIRED`를 반환합니다.
+- 진단 이력과 대시보드 요약은 탐색 진단만 다룹니다.
+- 기존 진단 문항은 자동으로 등록하지 않습니다.
+
+다시 켜야 할 때는 `LEGACY_DIAGNOSIS_ENABLED=true`로 실행합니다. 이때도 새 회차 시작(`POST /api/diagnoses/sessions`)은 410입니다.
+
 ### 자주 쓰는 명령어
 
 ```bash

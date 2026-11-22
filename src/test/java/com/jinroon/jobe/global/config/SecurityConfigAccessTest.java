@@ -32,7 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 3.1 이식 전 기준선 테스트: SecurityConfig의 공개·인증·관리자 경로 규칙.
  * 로컬 MySQL(docker compose -f docker-compose.test.yml up -d)이 필요하다. 테스트 데이터는 트랜잭션 롤백으로 지운다.
  */
-@SpringBootTest
+@SpringBootTest(properties = {"diagnosis.legacy-enabled=true", "diagnosis.questions.seed.enabled=true"})
 @AutoConfigureMockMvc
 @Transactional
 class SecurityConfigAccessTest {

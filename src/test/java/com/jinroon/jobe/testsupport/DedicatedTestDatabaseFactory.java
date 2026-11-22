@@ -35,7 +35,9 @@ public final class DedicatedTestDatabaseFactory implements ContextCustomizerFact
                     "spring.datasource.url", url, "spring.datasource.username", username, "spring.datasource.password", password,
                     "spring.datasource.driver-class-name", "com.mysql.cj.jdbc.Driver", "spring.datasource.type", "com.zaxxer.hikari.HikariDataSource",
                     "spring.datasource.hikari.jdbc-url", url, "spring.datasource.hikari.username", username, "spring.datasource.hikari.password", password,
-                    "spring.datasource.hikari.driver-class-name", "com.mysql.cj.jdbc.Driver")));
+                    "spring.datasource.hikari.driver-class-name", "com.mysql.cj.jdbc.Driver",
+                    // 캐시된 컨텍스트마다 유휴 연결을 채워 두면 테스트 DB의 연결 한도를 넘는다.
+                    "spring.datasource.hikari.minimum-idle", "1")));
             context.addBeanFactoryPostProcessor(factory -> {
                 if (!url.equals(environment.getProperty("spring.datasource.url"))
                         || !url.equals(environment.getProperty("spring.datasource.hikari.jdbc-url")))

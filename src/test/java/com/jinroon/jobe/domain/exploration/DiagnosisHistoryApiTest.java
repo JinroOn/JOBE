@@ -16,9 +16,11 @@ import com.jinroon.jobe.domain.exploration.history.HistoryQuery;
 import java.time.LocalDateTime;
 import java.util.*;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+@TestPropertySource(properties = "diagnosis.legacy-enabled=true")
 class DiagnosisHistoryApiTest extends ExplorationApiTestSupport {
     private static final String HISTORY="/api/exploration/v1/history";
     private static final LocalDateTime SAME=LocalDateTime.of(2026,11,15,12,0,0);

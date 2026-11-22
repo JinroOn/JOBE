@@ -10,6 +10,7 @@ import com.jinroon.jobe.global.exception.CustomException;
 import java.util.*;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
@@ -20,6 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import org.springframework.http.MediaType;
 
 /** Real disposable MySQL transactions; never real provider requests or development data. */
+@TestPropertySource(properties = "diagnosis.legacy-enabled=true")
 class LegacyWeeklyPlanGenerationIntegrationTest extends ExplorationApiTestSupport {
     @Autowired PlanService plans;
     @Autowired com.jinroon.jobe.domain.result.service.ResultService results;
