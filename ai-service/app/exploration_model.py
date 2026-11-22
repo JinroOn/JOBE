@@ -22,7 +22,7 @@ from app.exploration_contract import (
 PROMPT_VERSION='EXPLORATION_MODEL_V1_0'
 CONVERSATION_PROMPT_VERSION='EXPLORATION_CONVERSATION_V1_3'
 PLAN12_PROMPT_VERSION='EXPLORATION_PLAN12_V1_10'
-EXPLANATION_PROMPT_VERSION = 'EXPLORATION_MAJOR_EXPLANATION_V1_11'
+EXPLANATION_PROMPT_VERSION = 'EXPLORATION_MAJOR_EXPLANATION_V1_12'
 
 EXPLANATION_INSTRUCTIONS = (
     ' Write a Korean explanation of why a particular student answer makes a specific major topic worth exploring. '
@@ -148,6 +148,10 @@ DESCRIBED_LEARNING = re.compile(
 )
 
 
+# Disclaimers and enrollment notes describe the document, not the major.
+DISCLAIMER = re.compile(r'판정하는\s*기준|이수\s*요건|대학별\s*과목')
+
+
 def is_course_listing(sentence: str) -> bool:
     lists_courses = CATALOG_EXAMPLE.search(sentence) or (CATALOG_CONTEXT.search(sentence) and CATALOG_LISTING.search(sentence))
     return bool(lists_courses and not DESCRIBED_LEARNING.search(sentence))
@@ -161,7 +165,7 @@ def explanation_excerpts(facts: list[dict]) -> dict[str, tuple[str, str]]:
     available = []
     for fact in facts:
         excerpts = [sentence.strip()[:180].rstrip() for sentence in SENTENCE_BOUNDARY.split(fact['text'])
-                    if sentence.strip() and not is_course_listing(sentence)]
+                    if sentence.strip() and not is_course_listing(sentence) and not DISCLAIMER.search(sentence)]
         available.extend((fact['referenceKey'], excerpt) for excerpt in excerpts[:8 // len(facts)])
     # Offer sentences that describe learning before those that mostly name courses.
     available.sort(key=lambda item: only_names_courses(item[1]))
@@ -170,19 +174,32 @@ def explanation_excerpts(facts: list[dict]) -> dict[str, tuple[str, str]]:
 
 GENERIC_EXPLANATION_TOPICS = {'활동', '분야', '관심', '학과', '전공', '학습', '수업', '과정', '내용', '교육과정'}
 BROAD_MEDIA = re.compile(r'다양한\s*(?:매체|미디어|콘텐츠|형식)|여러\s*(?:매체|미디어)|글[·ㆍ,]\s*(?:영상|이미지)|영상[·ㆍ,]\s*이미지')
-MEDIA_INFLUENCE = re.compile(r'미디어가\s*사람과\s*사회')
-MEDIA_EVIDENCE = re.compile(r'미디어|매체|언론|방송|뉴스|광고|홍보|영상|콘텐츠|커뮤니케이션')
+MEDIA_INFLUENCE = re.compile(r'미디어가\s*사람과\s*사회|미디어의\s*영향')
+MEDIA_EVIDENCE = re.compile(r'미디어|매체|언론|방송|뉴스|광고|홍보|콘텐츠|커뮤니케이션')
+# A department's own name is not evidence of what students study.
+DEPARTMENT_NAME = re.compile(r'[가-힣A-Za-z·ㆍ]+(?:학과|학부|전공)(?![가-힣]{2})')
 CONTENT_COMMUNICATION = re.compile(r'콘텐츠로\s*전달')
 COMMUNICATION_ACTIVITY = re.compile(r'(?:콘텐츠|뉴스|방송|영상|광고|홍보|기사|메시지).{0,28}(?:제작|작성|전달|기획|보도|편집)')
 WRITING_TOPIC = re.compile(r'문학|글쓰기|시[·ㆍ, ]+소설|시와\s*소설|소설')
 WRITING_ACTIVITY = re.compile(r'창작|작문|글쓰기|표현')
 CONDITIONAL_WRITING = re.compile(r'(?:글로|글을\s*쓰|글쓰기|글을\s*통해)[^.!?]{0,50}(?:다면|경우|라면)')
+# The data noun and the action must belong together: "자료구조" and "요구사항 분석" in one sentence are not data analysis,
+# and "학과 자료는" only names the source.
+DATA_NOUN = r'데이터(?!\s*(?:베이스|통신))|자료(?!\s*구조|는|에는)|사료|수치(?!\s*해석)|통계(?!학)|측정값|신호|결과'
+INFORMATION_NOUN = DATA_NOUN + r'|정보(?!\s*(?:통신|보호|기술|사회|시스템|학))'
+
+
+def handles(nouns: str, actions: str) -> re.Pattern:
+    return re.compile(rf'(?:{nouns})[^.!?,]{{0,12}}(?:{actions})|분석을[^.!?,]{{0,10}}자료에\s*적용')
+
+
 PATTERN_INTEREST = re.compile(r'(?:자료|숫자|설문|인터뷰).{0,60}패턴을\s*찾')
-DATA_EVIDENCE = re.compile(r'데이터|자료|수치|통계|측정값|신호|결과')
-PATTERN_EVIDENCE = re.compile(r'패턴|경향|규칙성|비교|분석')
+PATTERN_EVIDENCE = handles(DATA_NOUN, r'패턴|경향|규칙성|비교|분석')
+CAUSE_COMPARISON_INTEREST = re.compile(r'자료를\s*비교해\s*문제의\s*원인')
+CAUSE_COMPARISON_EVIDENCE = re.compile(
+    handles(DATA_NOUN, r'비교|분석|해석|수집|살펴|탐구|질문을\s*만들|답을\s*찾').pattern + r'|문제(?:를|의)[^.!?,]{0,10}(?:분석|원인)')
 DATA_PROCESS_INTEREST = re.compile(r'데이터가\s*수집\s*[·ㆍ,]\s*정리되어\s*정보가\s*되는|정보를\s*분류하고\s*분석')
-DATA_PROCESS_EVIDENCE = re.compile(r'수집|정리|가공|전처리|분류|변환|분석|처리')
-DATA_PROCESS_OBJECT = re.compile(r'데이터|자료|수치|통계|측정값|정보')
+DATA_PROCESS_EVIDENCE = handles(INFORMATION_NOUN, r'수집|정리|가공|전처리|분류|변환|분석|처리')
 SYSTEM_OPERATION_INTEREST = re.compile(r'기계나\s*기술\s*시스템이\s*작동하는\s*원리')
 SYSTEM_OPERATION_EVIDENCE = re.compile(r'작동\s*(?:원리|방식)|동작\s*(?:원리|방식)|(?:로봇|시스템|장치|모터)(?:을|를|의)?[^.!?]{0,18}제어')
 LEARNING_GROWTH = re.compile(r'배우고\s*성장')
@@ -193,7 +210,7 @@ TEACHING_EVIDENCE = re.compile(
 
 def supports_response(question: str, excerpt: str, reason: str | None = None) -> bool:
     if MEDIA_INFLUENCE.search(question):
-        return bool(MEDIA_EVIDENCE.search(excerpt) and not only_names_courses(excerpt))
+        return bool(MEDIA_EVIDENCE.search(DEPARTMENT_NAME.sub('', excerpt)) and not only_names_courses(excerpt))
     if CONTENT_COMMUNICATION.search(question):
         if COMMUNICATION_ACTIVITY.search(excerpt) and not only_names_courses(excerpt):
             return True
@@ -201,11 +218,11 @@ def supports_response(question: str, excerpt: str, reason: str | None = None) ->
                     and not only_names_courses(excerpt)
                     and (reason is None or CONDITIONAL_WRITING.search(reason)))
     if PATTERN_INTEREST.search(question):
-        return bool(DATA_EVIDENCE.search(excerpt) and PATTERN_EVIDENCE.search(excerpt)
-                    and not only_names_courses(excerpt))
+        return bool(PATTERN_EVIDENCE.search(excerpt) and not only_names_courses(excerpt))
+    if CAUSE_COMPARISON_INTEREST.search(question):
+        return bool(CAUSE_COMPARISON_EVIDENCE.search(excerpt) and not only_names_courses(excerpt))
     if DATA_PROCESS_INTEREST.search(question):
-        return bool(DATA_PROCESS_OBJECT.search(excerpt) and DATA_PROCESS_EVIDENCE.search(excerpt)
-                    and not only_names_courses(excerpt))
+        return bool(DATA_PROCESS_EVIDENCE.search(excerpt) and not only_names_courses(excerpt))
     if SYSTEM_OPERATION_INTEREST.search(question):
         return bool(SYSTEM_OPERATION_EVIDENCE.search(excerpt) and not only_names_courses(excerpt))
     if LEARNING_GROWTH.search(question):
@@ -213,7 +230,7 @@ def supports_response(question: str, excerpt: str, reason: str | None = None) ->
     return True
 
 
-UNSUPPORTED_IMPORTANCE = re.compile(r'매우\s*중요|중요한\s*(?:역할|단계|기초)|중요하다|필수\s*역량|핵심과')
+UNSUPPORTED_IMPORTANCE = re.compile(r'매우\s*중요|중요한\s*(?:역할|단계|기초)|중요하다|필수\s*역량|필수적|핵심과|중시하|중점을\s*(?:두|둡|둔)')
 TOPIC_ENDING = re.compile(r'(?<=[가-힣]{2})(?:하는|하며|하고|하다|에서|으로|을|를|은|는|이|가|과|와|로|에)$')
 
 
@@ -221,7 +238,7 @@ def comparable_topic(topic: str) -> str:
     return ' '.join(TOPIC_ENDING.sub('', word) for word in re.findall(r'[가-힣a-z0-9]+', topic.lower()))
 
 
-UNSUPPORTED_FIT = re.compile(r'적성이\s*(?:있|맞|좋)|잘\s*맞아떨어|적합(?:한|해|합)|(?:하려는|하고자\s*하는)\s*의지|잘할\s*(?:수|가능)|능력이\s*(?:뛰어나|우수)|합격|성공할|취업\s*보장')
+UNSUPPORTED_FIT = re.compile(r'적성이\s*(?:있|맞|좋)|잘\s*(?:맞아떨어|어울)|적합(?:한|해|합|할|하)|(?:하려는|하고자\s*하는)\s*의지|잘할\s*(?:수|가능)|능력이\s*(?:뛰어나|우수)|합격|성공할|취업\s*보장')
 
 
 def grounded_topic(candidate: str, source: str) -> str | None:
@@ -233,6 +250,19 @@ def grounded_topic(candidate: str, source: str) -> str | None:
 
 
 LAST_PARTICLE = re.compile(r'(?<=[가-힣])(?:에서|으로|을|를|은|는|이|가|과|와|로|에|의)$')
+# Nouns whose last syllable looks like a particle.
+PARTICLE_LIKE_NOUN = re.compile(
+    r'(?:결과|효과|성과|교과|학과|치과|내과|외과|통과|국가|평가|작가|물가|증가|추가|참가|전문가|예술가|회로|진로|경로|도로|통로|'
+    r'회의|강의|정의|논의|토의|주의|창의|차이|놀이|아이|나이|길이|높이|깊이|넓이|종이|마을|가을)$')
+
+
+def without_particle(phrase: str, source: str) -> str:
+    topic = LAST_PARTICLE.sub('', phrase)
+    if topic == phrase or PARTICLE_LIKE_NOUN.search(phrase):
+        return phrase
+    # "결과" in "관찰한 결과를" still carries its own particle, so the last syllable belongs to the word.
+    rest = {match.group(1) for match in re.finditer(re.escape(topic) + r'([가-힣]*)', ' '.join(source.split()))}
+    return topic if phrase[len(topic):] in rest or '' in rest else phrase
 
 
 def trimmed_topic(candidate: str, source: str, reason: str = '') -> str | None:
@@ -240,7 +270,7 @@ def trimmed_topic(candidate: str, source: str, reason: str = '') -> str | None:
     words = candidate.strip().rstrip('.!?。').split()
     for end in range(len(words), (len(words) - 1) // 2, -1):
         phrase = ' '.join(words[:end])
-        options = (phrase,) if end == len(words) else (LAST_PARTICLE.sub('', phrase), phrase)
+        options = (phrase,) if end == len(words) else (without_particle(phrase, source), phrase)
         for option in options:
             topic = grounded_topic(option, source)
             if topic and (not reason or topic in reason) and (end == len(words) or ' ' in topic):
@@ -417,7 +447,8 @@ class ExplorationModel:
             + (EXPLANATION_INSTRUCTIONS if self.explanation else '')
             + (PLAN12_INSTRUCTIONS if self.plan12 else '' if self.explanation else ' Cite only supplied referenceKey values.')
             + (' Correct the output format. Copy short exact topic phrases of 2 to 5 words. Name the evidence topic and describe the answer in reason. Omit weak links. '
-               'majorTopic은 자료에 있는 글자를 이어진 그대로 복사한 명사구여야 하고, reason에도 똑같이 들어가야 해요.' if retry_output else ''))),
+               'majorTopic은 자료에 있는 글자를 이어진 그대로 복사한 명사구여야 하고, reason에도 똑같이 들어가야 해요. '
+               'reason에 중요하다, 필수적이다, 중점을 둔다, 적합하다, 잘 어울린다 같은 평가를 쓰지 마세요.' if retry_output else ''))),
             HumanMessage(content=payload)]
         self.timings['preparationMs']=round((time.perf_counter()-preparation_started)*1000,3)
         model=None

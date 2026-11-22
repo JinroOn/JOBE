@@ -1,10 +1,10 @@
 {
   "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
-  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M127_20261120_SCOPE_V2",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M127_20261123_LEARNING_V3",
   "status": "PENDING_HUMAN_REVIEW",
   "scope": "DEV",
-  "preparedBy": "Codex",
-  "preparedAt": "2026-11-20",
+  "preparedBy": "Claude",
+  "preparedAt": "2026-11-23",
   "reviewerId": null,
   "reviewedAt": null,
   "bindingManifest": null,
@@ -15,7 +15,7 @@
   "chunks": [
     {
       "chunkType": "description",
-      "text": "반도체 소자·회로·공정은 반도체학과와 반도체공학과에서 겹치는 주제다. 커리어넷 반도체학과 자료는 반도체물리학, 전자회로설계와 반도체공정을 과목 사례로 소개한다.",
+      "text": "반도체 소자·회로·공정은 반도체학과와 반도체공학과에서 겹치는 주제다. 커리어넷 반도체학과 자료는 반도체 물질의 결정구조와 전기적·광학적 특성을 배우고, 회로와 연산증폭기를 응용해 전자 시스템이 구현되는 방식을 다루는 수업을 소개한다. 반도체공정 수업에서는 공정별 장치의 구성과 원리를 배운다.",
       "sourceIds": [
         "m127-careernet"
       ]
@@ -36,9 +36,9 @@
       "title": "대학교 학과정보 반도체학과",
       "url": "https://www.career.go.kr/cloud/w/major/uView?seq=195",
       "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
-      "supports": "반도체물리학, 전자회로설계, 반도체공정",
+      "supports": "반도체물리학(결정구조·전기적 및 광학적 특성), 전자회로설계(회로·연산증폭기 응용과 전자 시스템 구현), 반도체공정(공정별 장치의 구성·원리)",
       "limitation": "소자·회로·공정의 공통 주제를 설명하는 데 사용한다. 이수 범위는 반도체공학과의 대학별 교육과정에서 확인한다.",
-      "accessedAt": "2026-11-20"
+      "accessedAt": "2026-11-23"
     },
     {
       "sourceId": "m127-university",

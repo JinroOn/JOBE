@@ -1,10 +1,10 @@
 {
   "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
-  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M212_20261120",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M212_20261123_LEARNING_V2",
   "status": "PENDING_HUMAN_REVIEW",
   "scope": "DEV",
-  "preparedBy": "Codex",
-  "preparedAt": "2026-11-20",
+  "preparedBy": "Claude",
+  "preparedAt": "2026-11-23",
   "reviewerId": null,
   "reviewedAt": null,
   "bindingManifest": null,
@@ -15,7 +15,7 @@
   "chunks": [
     {
       "chunkType": "description",
-      "text": "한의예과는 한의학의 기초 용어와 역사, 관련 기초 과학을 공부하는 과정이다. 커리어넷은 한의학개론과 의철학을 과목 사례로 소개한다.",
+      "text": "한의예과는 한의학의 기초 용어와 역사, 관련 기초 과학을 공부하는 과정이다. 커리어넷 한의예과 자료는 해부학에서 임상과 관련된 인체의 구조와 기능을 배우고, 예방의학에서 질병의 예방에 관한 내용을 배우는 과목을 소개한다.",
       "sourceIds": [
         "m212-careernet"
       ]
@@ -36,9 +36,9 @@
       "title": "대학교 학과정보 한의예과",
       "url": "https://www.career.go.kr/cloud/w/major/uView?seq=619",
       "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
-      "supports": "2020-12-02 갱신 응답에서 확인한 한의예과는 한의학의 기초 용어와 역사, 관련 기초 과학을 공부하는 과정이다. 커리어넷은 한의학개론과 의철학을 과목 사례로 소개한다.",
+      "supports": "2020-12-02 갱신 응답에서 확인한 해부학(인체의 구조와 기능), 예방의학(질병 예방) 과목 설명과 기존 학과 소개",
       "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
-      "accessedAt": "2026-11-20"
+      "accessedAt": "2026-11-23"
     },
     {
       "sourceId": "m212-university",
