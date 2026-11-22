@@ -32,7 +32,7 @@ class ExplorationConsultationStartApiTest extends CompletedExplorationTestSuppor
         assertThat(jdbc.queryForObject("SELECT target_major_code FROM exploration_result_context WHERE result_id=? AND context_type='CONSULTATION'",String.class,result)).isNull();
     }
 
-    @Test void newConversationPinsTheSelectedSupportTargetAndResumesWithoutChangingIt() throws Exception {
+    @Test void newConversationUsesResultCandidatesAfterSupportTargetWasSelected() throws Exception {
         long result = completedResult(true);
         var candidate = resultSnapshot(result).path("majorSummaries").get(0);
         String target = candidate.path("majorCode").asText();
@@ -48,8 +48,11 @@ class ExplorationConsultationStartApiTest extends CompletedExplorationTestSuppor
         var conversation = mapper.createObjectNode().put("question", "SYNTHETIC QUESTION");
         conversation.putArray("history");
         var modelRequest = adapter.buildConversation(before, "SYNTHETIC_TURN", conversation);
-        assertThat(before.path("targetMajorCode").asText()).isEqualTo(target);
-        assertThat(modelRequest.path("input").path("targetName").asText()).isEqualTo(name);
+        assertThat(before.path("targetMajorCode").isNull()).isTrue();
+        assertThat(modelRequest.path("input").path("targetName").isNull()).isTrue();
+        assertThat(java.util.stream.StreamSupport.stream(modelRequest.path("input").path("candidateNames").spliterator(), false)
+                .map(com.fasterxml.jackson.databind.JsonNode::asText))
+                .contains(name).hasSizeGreaterThan(1);
 
         support.select(OWNER, result, "clear-target", 1, "ACTIVITY", null);
         var resumed = response(post(path(result)).header("Authorization",owner).header("Idempotency-Key","resume-target")

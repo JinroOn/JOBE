@@ -47,6 +47,62 @@ public class ActivityRecommendationService {
         return recommend(resultId, support.activityInput(userId, resultId), null, null);
     }
 
+    @Transactional(readOnly=true)
+    public JsonNode planBasis(long userId, long resultId, String target) {
+        var recommendation=get(userId,resultId);
+        var basis=json.object();
+        var cards=basis.putArray("activities");
+        if (!"AVAILABLE".equals(recommendation.path("activityAvailability").asText())) return basis;
+        for (JsonNode card : recommendation.path("nextActivities")) {
+            if (!target.equals(card.path("major_code").textValue())) continue;
+            var activity=cards.addObject();
+            for (String field : List.of("activity_id","major_code","kind","title","body_markdown","steps","artifacts",
+                    "example_output","alternative","requirements","duration_minutes_proposal","contentHash","reviewIds")) {
+                activity.set(field,card.path(field).deepCopy());
+            }
+        }
+        if (!cards.isEmpty()) {
+            for (String field : List.of("catalogVersion","catalogHash","catalogReviewIds")) {
+                basis.set(field,recommendation.path(field).deepCopy());
+            }
+        }
+        return basis;
+    }
+
+    /** Check the pinned cards by identity, independent of subsequent support choices or ranking. */
+    @Transactional(readOnly=true)
+    public boolean planBasisApproved(JsonNode basis, String target) {
+        var root=selectedCatalog();
+        if (root==null||!basis.path("catalogVersion").asText().equals(root.get("version"))
+                ||!basis.path("catalogHash").asText().equals(root.get("content_hash"))) return false;
+        checked(root);
+        var rootReviews=catalogApprovals(root);
+        if (!sameApprovals(rootReviews,basis.path("catalogReviewIds"))) return false;
+        var reviews=latestActivityReviews(root);
+        var rows=new HashMap<String,Map<String,Object>>();
+        for (var row : activityRows(root)) {
+            if (row.get("activity_code") instanceof String code) rows.put(code,row);
+        }
+        var now=LocalDateTime.now();
+        for (JsonNode card : basis.path("activities")) {
+            var row=rows.get(card.path("activity_id").asText());
+            if (row==null||!target.equals(row.get("major_code"))||!bodyMatches(row)
+                    ||!card.path("contentHash").asText().equals(row.get("content_hash"))) return false;
+            var ids=approvals(row,reviews,now);
+            if (!sameApprovals(ids,card.path("reviewIds"))) return false;
+        }
+        return true;
+    }
+
+    private boolean sameApprovals(List<Long> current, JsonNode pinned) {
+        if (current.isEmpty()||!pinned.isArray()||pinned.size()!=current.size()) return false;
+        for (int i=0;i<current.size();i++) {
+            var id=pinned.get(i);
+            if (!id.isIntegralNumber()||!id.canConvertToLong()||id.longValue()!=current.get(i)) return false;
+        }
+        return true;
+    }
+
     private JsonNode recommend(long resultId, PostResultSupportService.ActivityInput input,
                                Map<String, Object> approvedRoot, List<Long> approvedRootReviews) {
         JsonNode state = input.state();
@@ -69,13 +125,7 @@ public class ActivityRecommendationService {
         var rows = activityRows(root);
         if (rows.size() != embedded.size() || rows.isEmpty()
                 || number(rows.get(0), "actual_count") != embedded.size()) throw ExplorationApiException.integrity();
-        var activityReviews = latestReviews("""
-                JOIN exploration_activity a ON a.id = r.target_id AND a.version = r.target_version
-                WHERE r.target_type = 'ACTIVITY' AND a.catalog_id = ?
-                  AND a.content_status IN ('REVIEWED', 'ACTIVE')
-                  AND a.implementation_review_status = 'APPROVED_FOR_IMPLEMENTATION'
-                  AND a.domain_review_status = 'APPROVED'
-                """, number(root, "id"));
+        var activityReviews = latestActivityReviews(root);
         var now = LocalDateTime.now();
         Map<String,Integer> majorOrder=new HashMap<>();int index=0;
         String target=state.path("targetMajorCode").textValue();
@@ -164,6 +214,16 @@ public class ActivityRecommendationService {
         return approvals(root, latestReviews("""
                 WHERE r.target_type = 'ACTIVITY_CATALOG' AND r.target_id = ? AND r.target_version = ?
                 """, number(root, "id"), root.get("version")), LocalDateTime.now());
+    }
+
+    private Map<ReviewKey, Map<String,Object>> latestActivityReviews(Map<String,Object> root) {
+        return latestReviews("""
+                JOIN exploration_activity a ON a.id = r.target_id AND a.version = r.target_version
+                WHERE r.target_type = 'ACTIVITY' AND a.catalog_id = ?
+                  AND a.content_status IN ('REVIEWED', 'ACTIVE')
+                  AND a.implementation_review_status = 'APPROVED_FOR_IMPLEMENTATION'
+                  AND a.domain_review_status = 'APPROVED'
+                """, number(root, "id"));
     }
 
     private Map<ReviewKey, Map<String,Object>> latestReviews(String targets, Object... args) {

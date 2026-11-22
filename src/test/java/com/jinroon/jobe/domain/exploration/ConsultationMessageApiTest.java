@@ -13,6 +13,7 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.test.util.ReflectionTestUtils;
 
 class ConsultationMessageApiTest extends CompletedExplorationTestSupport {
@@ -23,7 +24,11 @@ class ConsultationMessageApiTest extends CompletedExplorationTestSupport {
     @Autowired OwnedGenerationStore generations;
     @Autowired ExplorationJobService jobs;
     @Autowired ExplorationAiContract contract;
+    @Autowired ExplorationAiInputAdapter adapter;
+    @Autowired com.jinroon.jobe.domain.exploration.context.ResultContextService contexts;
+    @Autowired com.jinroon.jobe.domain.exploration.service.ExplorationJson json;
     @MockitoBean ExplorationJobClient remote;
+    @MockitoSpyBean com.jinroon.jobe.domain.exploration.activity.ActivityRecommendationService activities;
     final Set<String> owners=new HashSet<>();
     @BeforeEach void model(){
         ReflectionTestUtils.setField(availability,"modelEnabled",true);ReflectionTestUtils.setField(availability,"erasureEnabled",true);
@@ -42,7 +47,8 @@ class ConsultationMessageApiTest extends CompletedExplorationTestSupport {
     long context(long c){return jdbc.queryForObject("SELECT context_id FROM exploration_consultation WHERE id=?",Long.class,c);}
     ObjectNode envelope(String mutation,JsonNode original,String text){
         ObjectNode bound=original.deepCopy();var ev=(ObjectNode)bound.path("evidence");ev.put("bindingStatus","BOUND").put("datasetVersion","TEST_CHAT_DATA");var refs=ev.putArray("referenceKeys");
-        for(int i=0;i<bound.path("input").path("candidateNames").size();i++)refs.add("ref_"+String.format("%064x",i));
+        int count=bound.path("input").path("targetName").isTextual()?1:bound.path("input").path("candidateNames").size();
+        for(int i=0;i<count;i++)refs.add("ref_"+String.format("%064x",i));
         bound.put("inputHash",contract.inputHash(bound));var response=mapper.createObjectNode();
         for(String key:List.of("contractVersion","requestId","inputHash","purpose"))response.set(key,bound.path(key));
         response.put("status","SUCCEEDED").put("changesRecommendation",false).putNull("reasonCode");
@@ -73,6 +79,36 @@ class ConsultationMessageApiTest extends CompletedExplorationTestSupport {
         assertThat(inputs.get(3).path("input").path("conversation").path("history").size()).isEqualTo(2);
         assertThat(inputs.get(3).path("input").path("conversation").path("history").get(0).path("content").asText()).endsWith("2");
         assertThat(inputs.get(3).path("contractVersion").asText()).isEqualTo("EXPLORATION_AI_CONTRACT_V1_1");
+    }
+    @Test void existingTargetedTurnCanReplayAndNewTurnUsesAllResultCandidates() throws Exception {
+        long result=completedResult(true);
+        var candidates=resultSnapshot(result).path("majorSummaries");
+        String target=candidates.get(0).path("majorCode").asText();
+        long context=contexts.prepare(OWNER,result,"old-context","CONSULTATION",0,target)
+                .body().path("contextId").asLong();
+        jdbc.update("INSERT INTO exploration_consultation(result_id,context_id) VALUES (?,?)",result,context);
+        long c=jdbc.queryForObject("SELECT id FROM exploration_consultation WHERE result_id=?",Long.class,result);
+        var conversation=mapper.createObjectNode().put("question","기존 질문");conversation.putArray("history");
+        String oldId="chat_"+UUID.randomUUID();
+        var oldRequest=adapter.buildConversation(contexts.readForAdapter(OWNER,context,"CONSULTATION").snapshot(),oldId,conversation,true);
+        jdbc.update("INSERT INTO exploration_consultation_turn(consultation_id,turn_no,mutation_hash,generation_mutation,request_json,request_hash) VALUES (?,1,?,?,?,?)",
+                c,json.hash("old"),oldId,oldRequest.toString(),json.hash(oldRequest));
+        generations.reserveModel(OWNER,context,"CONSULTATION",oldId,oldRequest);
+        var first=send(c,"old","기존 질문",200);
+        assertThat(send(c,"old","기존 질문",200)).isEqualTo(first);
+
+        var sent=new ArrayList<JsonNode>();
+        doAnswer(call->{
+            JsonNode request=call.getArgument(2);
+            sent.add(request);
+            return envelope(call.getArgument(1),request,"SYNTHETIC COMPARISON");
+        }).when(remote).executeModel(anyString(),anyString(),any());
+        send(c,"new","다른 후보 전공과 비교해줘",200);
+        var input=sent.get(0).path("input");
+        assertThat(input.path("targetName").isNull()).isTrue();
+        assertThat(input.path("candidateNames").size()).isGreaterThan(1);
+        assertThat(input.path("conversation").path("history").get(0).path("content").asText()).isEqualTo("기존 질문");
+        assertThat(consultations.open(OWNER,result,"resume").messages()).hasSize(4);
     }
     @Test void rejectsBodyConflictForeignOwnershipAndCallerSuppliedHistory()throws Exception{
         long c=open();send(c,"same","First",200);assertThat(send(c,"same","Changed",409).path("code").asText()).isEqualTo("IDEMPOTENCY_CONFLICT");
@@ -127,6 +163,48 @@ class ConsultationMessageApiTest extends CompletedExplorationTestSupport {
         long c=open();when(remote.command(anyString(),anyString(),anyString(),any())).thenReturn(mapper.createObjectNode().put("status","INSUFFICIENT_EVIDENCE"));
         var answer=send(c,"q","Q",200);assertThat(answer.path("assistantMessage").path("evidenceStatus").asText()).isEqualTo("INSUFFICIENT");assertThat(answer.path("assistantMessage").path("sources").isEmpty()).isTrue();
         assertThat(send(c,"q","Q",200)).isEqualTo(answer);verify(remote,never()).executeModel(anyString(),anyString(),any());
+    }
+    @Test void declinedQuestionStoresSafeGuidanceAndReplaysWithTheSameKey() throws Exception {
+        long c=open();
+        doAnswer(call->{
+            var proof=envelope(call.getArgument(1),call.getArgument(2),"UNUSED");
+            ((ObjectNode)proof.path("response")).put("status","DECLINED").put("reasonCode","OUT_OF_SCOPE").putNull("result");
+            return proof;
+        }).when(remote).executeModel(anyString(),anyString(),any());
+
+        var first=send(c,"weather","오늘 서울 날씨 알려줘",200);
+
+        assertThat(first.path("assistantMessage").path("evidenceStatus").asText()).isEqualTo("INSUFFICIENT");
+        assertThat(first.path("assistantMessage").path("sources").isEmpty()).isTrue();
+        assertThat(first.path("assistantMessage").path("content").asText()).contains("탐색 상담").doesNotContain("UNUSED");
+        assertThat(send(c,"weather","오늘 서울 날씨 알려줘",200)).isEqualTo(first);
+        verify(remote,times(1)).executeModel(anyString(),anyString(),any());
+    }
+    @Test void suggestedQuestionsUseTheSealedResultAndApprovedRecommendations() throws Exception {
+        long result=completedResult(true);
+        long c=consultations.open(OWNER,result,"open").consultationId();
+        String major=resultSnapshot(result).path("majorSummaries").get(0).path("majorName").asText();
+        assertThat(major).isNotBlank();
+        var recommendation=mapper.createObjectNode().put("activityAvailability","AVAILABLE")
+                .put("catalogVersion","TEST_APPROVED_ACTIVITIES");
+        var activity=recommendation.putArray("nextActivities").addObject()
+                .put("title","관심 주제의 단서 찾기").put("kind","SMALL_TASK");
+        activity.putArray("artifacts").add("관찰 기록");
+        doReturn(recommendation).when(activities).get(OWNER,result);
+
+        var reasons=send(c,"reasons","이 전공군들이 왜 나왔는지 설명해줘",200);
+        assertThat(reasons.path("assistantMessage").path("content").asText()).contains(major,"관심");
+        assertThat(reasons.path("assistantMessage").path("sources").get(0).path("kind").asText()).isEqualTo("RESULT_SNAPSHOT");
+        var answer=send(c,"activity","추천 활동은 무엇을 알아보려는 거야?",200);
+        assertThat(answer.path("assistantMessage").path("content").asText()).contains("관심 주제의 단서 찾기","관찰 기록");
+        assertThat(answer.path("assistantMessage").path("sources").get(0).path("kind").asText()).isEqualTo("ACTIVITY_CATALOG");
+        assertThat(send(c,"activity","추천 활동은 무엇을 알아보려는 거야?",200)).isEqualTo(answer);
+        assertThat(consultations.open(OWNER,result,"resume").messages()).hasSize(4);
+        verify(remote,never()).executeModel(anyString(),anyString(),any());
+        assertThat(count("exploration_generation_task","user_id=?",OWNER)).isZero();
+
+        send(c,"followup","후보 전공에서 어떤 수업을 배워요?",200);
+        verify(remote,times(1)).executeModel(anyString(),anyString(),any());
     }
     @Test void secondMessageInsertFailureRollsBackGenerationResultAndBothMessages()throws Exception{
         long c=open();jdbc.execute("CREATE TRIGGER test_chat_publication_failure BEFORE INSERT ON exploration_consultation_message FOR EACH ROW BEGIN IF NEW.role='assistant' THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='SYNTHETIC publication failure'; END IF; END");
