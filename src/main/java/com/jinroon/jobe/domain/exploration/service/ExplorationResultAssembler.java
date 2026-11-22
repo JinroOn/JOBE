@@ -34,7 +34,12 @@ public class ExplorationResultAssembler {
         TreeSet<String> reasonCodes = new TreeSet<>(evidence.reasonCodes());
         if (display.candidates().isEmpty()) reasonCodes.add(axes.interest().values().stream().allMatch(a -> a.validCount() == 0)
                 ? "INTEREST_NO_VALID_RESPONSES" : "NO_POSITIVE_TOPIC_EVIDENCE");
+        boolean missingAffirmativeInterest = frozen.branch().scoring().missingAffirmativeInterest(responses);
+        if (missingAffirmativeInterest) reasonCodes.add("NO_AFFIRMATIVE_INTEREST_RESPONSE");
         ObjectNode snapshot = json.object();
+        if (missingAffirmativeInterest) {
+            snapshot.putArray("notes").add("아직 특정 전공을 먼저 제안할 만큼 뚜렷한 관심 단서가 없어요.");
+        }
         snapshot.put("resultContractVersion", CONTRACT);
         snapshot.put("sessionId", sessionId);
         snapshot.put("sessionStatus", "completed");

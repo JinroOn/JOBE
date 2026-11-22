@@ -7,11 +7,20 @@ import static com.jinroon.jobe.domain.exploration.scoring.ExplorationScoreCalcul
 /** In-memory adapter for already validated, hash-pinned catalog snapshots; performs no IO or approval. */
 public record ScoringCatalog(String rulesetVersion, String mappingVersion, String semanticVersion,
                              ExplorationScoreCalculator calculator, List<MajorProfile> majors) {
+    public static final String LEGACY_RULESET_VERSION = "RULESET_V1_5_IMPLEMENTATION_CANDIDATE";
+    public static final String CURRENT_RULESET_VERSION = "RULESET_V1_6_IMPLEMENTATION_CANDIDATE";
+    private static final int AFFIRMATIVE_INTEREST_MINIMUM = 75;
+
     public ScoringCatalog { majors = List.copyOf(majors); }
 
     public static ScoringCatalog fromSnapshots(JsonNode rules, JsonNode mapping, JsonNode semantic) {
         String version = text(rules, "ruleset_version");
-        require(version.equals("RULESET_V1_5_IMPLEMENTATION_CANDIDATE"), "Unsupported ruleset version");
+        require(version.equals(LEGACY_RULESET_VERSION) || version.equals(CURRENT_RULESET_VERSION), "Unsupported ruleset version");
+        if (version.equals(CURRENT_RULESET_VERSION)) {
+            JsonNode minimum = rules.path("thresholds").path("affirmative_interest_response_gte");
+            require(minimum.isIntegralNumber() && minimum.intValue() == AFFIRMATIVE_INTEREST_MINIMUM,
+                    "Unsupported affirmative interest threshold");
+        }
         String mappingVersion = text(mapping, "major_mapping_version"), semanticVersion = text(semantic, "version");
         require(mappingVersion.equals("MAJOR_MAPPING_V1_2_IMPLEMENTATION_CANDIDATE")
                 && text(rules.path("catalog_versions"), "major_mapping").equals(mappingVersion), "Mapping version mismatch");
@@ -58,6 +67,12 @@ public record ScoringCatalog(String rulesetVersion, String mappingVersion, Strin
         require(!majors.isEmpty(), "Empty major profiles");
         return new ScoringCatalog(version, mappingVersion, semanticVersion, calculator, majors);
     }
+    public boolean missingAffirmativeInterest(List<Response> responses) {
+        return rulesetVersion.equals(CURRENT_RULESET_VERSION) && responses.stream().noneMatch(response ->
+                response.current() && response.effective() && response.role() == Role.CANDIDATE_TOPIC
+                        && response.numericValue() != null && response.numericValue() >= AFFIRMATIVE_INTEREST_MINIMUM);
+    }
+
     private static List<Double> componentWeights(JsonNode node, boolean learning) {
         List<Double> result = new ArrayList<>(List.of(number(node,"interest"), number(node,"activity")));
         if (learning) result.add(number(node,"learning"));

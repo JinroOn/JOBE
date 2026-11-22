@@ -59,6 +59,12 @@
       "bytes": 3771
     },
     {
+      "file": "ruleset-v1-6.json",
+      "catalog": "RULESET",
+      "sha256": "899a093a2ce04673b49d52b5c67ae810a4ed1e0f4dcedee07224c4f9d651e303",
+      "bytes": 3817
+    },
+    {
       "file": "semantic-dictionary.json",
       "source": "통합과정/업데이트준비완료/D08_의미사전.json",
       "catalog": "SEMANTIC_CONTRACT",

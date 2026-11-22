@@ -12,6 +12,7 @@ PROJECT=Path(__file__).resolve().parents[1]
 DATA=PROJECT/'datasets/exploration'
 MAPPING_VERSION='MAJOR_MAPPING_V1_2_IMPLEMENTATION_CANDIDATE'
 RULESET_VERSION='RULESET_V1_5_IMPLEMENTATION_CANDIDATE'
+CURRENT_RULESET_VERSION='RULESET_V1_6_IMPLEMENTATION_CANDIDATE'
 
 def read(path):
     return json.loads(path.read_text(encoding='utf-8-sig'))
@@ -25,16 +26,20 @@ def verify(workspace: Path | None = None):
         checks.append({'check':name,'pass':bool(passed)})
     manifest=read(DATA/'manifest.json')
     expected={'questions.csv','options.csv','option-variants.csv','comparison-set-codes.csv',
-              'comparison-skip-pairs.csv','major-mapping.json','caution-tags.csv','ruleset.json','semantic-dictionary.json'}
-    check('exactly_nine_inputs',len(manifest['files'])==9 and {r['file'] for r in manifest['files']}==expected)
+              'comparison-skip-pairs.csv','major-mapping.json','caution-tags.csv','ruleset.json','ruleset-v1-6.json','semantic-dictionary.json'}
+    check('exactly_ten_inputs',len(manifest['files'])==10 and {r['file'] for r in manifest['files']}==expected)
     for row in manifest['files']:
         path=DATA/row['file']
         check('manifest_hash_and_size:'+row['file'],path.is_file() and sha(path)==row['sha256'] and path.stat().st_size==row['bytes'])
-        if workspace:
+        if workspace and 'source' in row:
             source=workspace/row['source']
             check('canonical_copy:'+row['file'],source.is_file() and source.read_bytes()==path.read_bytes())
     mapping=read(DATA/'major-mapping.json')
     rules=read(DATA/'ruleset.json')
+    current=read(DATA/'ruleset-v1-6.json')
+    expected_current={**rules, 'ruleset_version':CURRENT_RULESET_VERSION,
+                      'thresholds':{**rules['thresholds'], 'affirmative_interest_response_gte':75}}
+    check('current_ruleset_affirmative_interest_policy',current==expected_current)
     majors={m['major_code']:m for m in mapping['majors']}
     check('mapping_schema_and_version',mapping['schema_version']=='1.2' and mapping['major_mapping_version']==MAPPING_VERSION)
     check('ruleset_mapping_reference',rules['ruleset_version']==RULESET_VERSION and rules['catalog_versions']['major_mapping']==MAPPING_VERSION)

@@ -31,6 +31,7 @@ public final class CandidateEngine {
                 .sorted(Comparator.comparing(MajorScore::topic).reversed().thenComparing(MajorScore::majorCode))
                 .limit(3).mapToDouble(MajorScore::topic).average().orElseThrow()))
                 .sorted(Comparator.comparingDouble(GroupScore::score).reversed().thenComparing(GroupScore::code)).toList();
+        if (catalog.missingAffirmativeInterest(responses)) return new FixedCandidates(groups, List.of(), List.of());
         Set<String> eligible=new HashSet<>();
         all.stream().filter(MajorScore::positiveTopicEvidence).forEach(s->eligible.add(s.group()));
         List<GroupScore> supported=groups.stream().filter(g->eligible.contains(g.code())).toList();
@@ -47,6 +48,7 @@ public final class CandidateEngine {
         List<MajorProfile> profiles=catalog.majors().stream().filter(m->fixed.majorCodes().contains(m.majorCode())).toList();
         List<MajorScore> candidates=catalog.calculator().scoreAndSort(profiles,responses).stream()
                 .filter(s->s.total()!=null&&s.positiveTopicEvidence()).toList();
+        if (catalog.missingAffirmativeInterest(responses)) return new Display(List.of(), List.of());
         Map<String,List<MajorScore>> byGroup=new TreeMap<>();
         candidates.forEach(s->byGroup.computeIfAbsent(s.group(),k->new ArrayList<>()).add(s));
         List<MajorScore> mandatory=new ArrayList<>(),thirds=new ArrayList<>();

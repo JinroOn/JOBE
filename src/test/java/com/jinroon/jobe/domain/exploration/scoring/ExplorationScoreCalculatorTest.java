@@ -2,6 +2,7 @@ package com.jinroon.jobe.domain.exploration.scoring;
 
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.jinroon.jobe.domain.exploration.branching.CandidateEngine;
 import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Stream;
@@ -39,6 +40,29 @@ class ExplorationScoreCalculatorTest {
                 response("A2",Role.CANDIDATE_ACTIVITY,"ACT_DES",b),
                 response("A3",Role.CANDIDATE_ACTIVITY,"ACT_EDU",c),
                 response("L1",Role.CANDIDATE_LEARNING,"LEARN_HUM",learning));
+    }
+
+    @Test void affirmativeInterestGateKeepsExistingThresholdAndIgnoresIneffectiveResponses() throws Exception {
+        var current = ScoringCatalog.fromSnapshots(read("ruleset-v1-6.json"), read("major-mapping.json"), read("semantic-dictionary.json"));
+        var engine = new CandidateEngine(current, 5, 5);
+        List<Response> neutral = List.of(
+                response("neutral", Role.CANDIDATE_TOPIC, "INT_HUM", 50),
+                response("unknown", Role.CANDIDATE_TOPIC, "INT_HUM", null),
+                new Response("superseded", Role.CANDIDATE_TOPIC, "INT_HUM", 100, false, true),
+                new Response("excluded", Role.CANDIDATE_TOPIC, "INT_HUM", 100, true, false),
+                response("activity", Role.CANDIDATE_ACTIVITY, "ACT_CRE", 100),
+                response("learning", Role.CANDIDATE_LEARNING, "LEARN_HUM", 100));
+        assertThat(engine.freeze(neutral).majorCodes()).isEmpty();
+        assertThat(new CandidateEngine(catalog, 5, 5).freeze(neutral).majorCodes()).isNotEmpty();
+
+        List<Response> mixed = List.of(
+                response("positive", Role.CANDIDATE_TOPIC, "INT_HUM", 75),
+                response("negative", Role.CANDIDATE_TOPIC, "INT_HUM", 25));
+        var fixed = engine.freeze(mixed);
+        assertThat(fixed.majorCodes()).isNotEmpty();
+        assertThat(engine.rerank(fixed, mixed).candidates()).isNotEmpty().allSatisfy(major ->
+                assertThat(major.topic()).isEqualTo(50));
+        assertThat(engine.rerank(fixed, neutral).candidates()).isEmpty();
     }
 
     static Stream<Arguments> activityCases() throws Exception {

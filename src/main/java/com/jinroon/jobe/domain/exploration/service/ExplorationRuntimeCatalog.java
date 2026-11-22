@@ -22,7 +22,7 @@ public class ExplorationRuntimeCatalog {
     private final ExplorationJson json;
     private final ResultDisplayCatalog displayCatalog;
     private final ComparisonQuestionDisplayCatalog comparisonQuestionDisplay;
-    @Value("${exploration.runtime.ruleset-version:RULESET_V1_5_IMPLEMENTATION_CANDIDATE}")
+    @Value("${exploration.runtime.ruleset-version:RULESET_V1_6_IMPLEMENTATION_CANDIDATE}")
     private String rulesetVersion;
 
     public record Frozen(VersionBundle ids, String hash, JsonNode payload, BranchCatalog branch) {}

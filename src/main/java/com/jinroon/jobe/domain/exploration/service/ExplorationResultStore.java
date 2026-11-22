@@ -70,6 +70,7 @@ public class ExplorationResultStore {
         dto.put("resultId", result.getId());
         for (String field : new String[]{"resultContractVersion", "sessionId", "sessionStatus", "completedAt", "status", "completionReason", "reasonCodes", "versions", "evidenceLevel", "cautions", "presentation", "runMode", "testOnly", "flags"})
             dto.set(field, payload.path(field).deepCopy());
+        if (payload.has("notes")) dto.set("notes", payload.path("notes").deepCopy());
         dto.put("resultVersion", payload.path("resultContractVersion").asText());
         dto.set("groups", payload.path("groupSummaries").deepCopy());
         dto.set("majors", payload.path("majorSummaries").deepCopy());

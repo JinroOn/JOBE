@@ -110,7 +110,7 @@ exploration:
     run-mode: ${EXPLORATION_RUN_MODE:PUBLIC}
     # DEV also requires the exploration-dev profile, no prod/production profile, and an explicit user allowlist.
     dev-user-ids: ${EXPLORATION_DEV_USER_IDS:}
-    ruleset-version: ${EXPLORATION_RULESET_VERSION:RULESET_V1_5_IMPLEMENTATION_CANDIDATE}
+    ruleset-version: ${EXPLORATION_RULESET_VERSION:RULESET_V1_6_IMPLEMENTATION_CANDIDATE}
   catalog:
     # 탐색형 진단 카탈로그 적재 입력(문항·선택지·variant·전공 매핑·규칙·의미 사전). manifest.json의 sha256으로 검증한다.
     dataset-path: ${EXPLORATION_CATALOG_DATASET_PATH:datasets/exploration}

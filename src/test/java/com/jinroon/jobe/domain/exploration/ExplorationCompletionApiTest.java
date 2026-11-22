@@ -8,6 +8,8 @@ import com.jinroon.jobe.domain.exploration.api.ExplorationApiException;
 import com.jinroon.jobe.domain.exploration.catalog.BranchCatalog;
 import com.jinroon.jobe.domain.exploration.branching.QuestionBranchEngine;
 import com.jinroon.jobe.domain.exploration.service.ExplorationRuntimeCatalog;
+import com.jinroon.jobe.domain.exploration.scoring.ScoringCatalog;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.*;
 import org.junit.jupiter.api.Test;
@@ -50,6 +52,35 @@ class ExplorationCompletionApiTest extends ExplorationApiTestSupport {
         assertThat(stored.path("axes").path("interest").path("INT_HUM").path("score").isNull()).isTrue();
         assertThat(stored.path("inputHash").asText()).hasSize(64);
         assertThat(getJson("/" + id, owner, 200).path("session").path("status").asText()).isEqualTo("completed");
+    }
+
+    @Test void neutralAnswersUseTheirPinnedRulesetAndNewSessionsShowNoCandidate() throws Exception {
+        Object configuredVersion = ReflectionTestUtils.getField(catalogs, "rulesetVersion");
+        long legacyId;
+        try {
+            ReflectionTestUtils.setField(catalogs, "rulesetVersion", ScoringCatalog.LEGACY_RULESET_VERSION);
+            legacyId = start(UUID.randomUUID().toString()).path("sessionId").asLong();
+        } finally {
+            ReflectionTestUtils.setField(catalogs, "rulesetVersion", configuredVersion);
+        }
+        finishAnswers(legacyId, 50, false, true);
+        JsonNode legacy = complete(legacyId, revision(legacyId), "legacy-neutral", 200);
+        assertThat(legacy.path("versions").path("ruleset").asText()).isEqualTo(ScoringCatalog.LEGACY_RULESET_VERSION);
+        assertThat(legacy.path("majors").isEmpty()).isFalse();
+        assertThat(legacy.has("notes")).isFalse();
+
+        long id = ready(50, false, true);
+        JsonNode current = complete(id, revision(id), "neutral", 200);
+        assertThat(current.path("versions").path("ruleset").asText()).isEqualTo(ScoringCatalog.CURRENT_RULESET_VERSION);
+        assertThat(current.path("status").asText()).isEqualTo("NO_SUPPORTED_CANDIDATE");
+        assertThat(current.path("reasonCodes").toString()).contains("NO_AFFIRMATIVE_INTEREST_RESPONSE")
+                .doesNotContain("INTEREST_NO_VALID_RESPONSES", "SCREEN_VALID_BELOW_MIN");
+        assertThat(current.path("groups").isEmpty()).isTrue();
+        assertThat(current.path("majors").isEmpty()).isTrue();
+        assertThat(current.path("notes").get(0).asText()).isEqualTo("아직 특정 전공을 먼저 제안할 만큼 뚜렷한 관심 단서가 없어요.");
+        assertThat(current.path("capabilities").path("supportAvailable").asBoolean()).isTrue();
+        assertThat(stored(id).path("axes").path("interest").path("INT_HUM").path("score").asDouble()).isEqualTo(50);
+        assertThat(getJson("/" + legacyId + "/result", owner, 200)).isEqualTo(legacy);
     }
 
     @Test void actualZeroInterestIsDistinguishedFromUnknownWithoutBecomingAnError() throws Exception {
@@ -262,6 +293,11 @@ class ExplorationCompletionApiTest extends ExplorationApiTestSupport {
 
     private long ready(Integer value,boolean inconsistent,boolean http) throws Exception {
         long id=start(UUID.randomUUID().toString()).path("sessionId").asLong();
+        finishAnswers(id, value, inconsistent, http);
+        return id;
+    }
+
+    private void finishAnswers(long id, Integer value, boolean inconsistent, boolean http) throws Exception {
         for(int stage=1;stage<=3;stage++) {
             for(int n=0;n<4;n++) {
                 issueAndAnswer(id,value,inconsistent,http);
@@ -270,7 +306,6 @@ class ExplorationCompletionApiTest extends ExplorationApiTestSupport {
             }
             if(stage<3)postJson(id+"/advance",owner,UUID.randomUUID().toString(),revisionBody(revision(id)),200);
         }
-        return id;
     }
     private void issueAndAnswer(long id,Integer value,boolean inconsistent,boolean http) throws Exception {
         JsonNode next=issue(id);
