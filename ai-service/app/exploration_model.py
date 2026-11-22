@@ -22,7 +22,7 @@ from app.exploration_contract import (
 PROMPT_VERSION='EXPLORATION_MODEL_V1_0'
 CONVERSATION_PROMPT_VERSION='EXPLORATION_CONVERSATION_V1_3'
 PLAN12_PROMPT_VERSION='EXPLORATION_PLAN12_V1_10'
-EXPLANATION_PROMPT_VERSION = 'EXPLORATION_MAJOR_EXPLANATION_V1_7'
+EXPLANATION_PROMPT_VERSION = 'EXPLORATION_MAJOR_EXPLANATION_V1_8'
 
 EXPLANATION_INSTRUCTIONS = (
     ' Write a Korean explanation of why a particular student answer makes a specific major topic worth exploring. '
@@ -54,6 +54,9 @@ EXPLANATION_INSTRUCTIONS = (
     '반드시 두 문장으로 작성하고, 두 번째 문장에 구체적인 공통 행동이나 생각의 방식을 설명하세요. '
     '분야명이 비슷하거나 공통점을 한 문장으로 설명할 수 없는 연결은 생략하세요. '
     'The server renders the original choice and evidence; do not quote or paraphrase the entire source in reason. '
+    'When a signal has allowedEvidenceChoices, use only those choices for that signal. '
+    '콘텐츠 전달에 관한 답변과 문학 창작을 연결할 때는 “그중 글로 표현하는 데 관심이 있다면”처럼 글에 한정한 조건을 쓰세요. '
+    '숫자나 자료에서 패턴 찾기는 자료를 비교하거나 분석하는 내용과, 배우고 성장하는 방식은 구체적인 교수·학습 내용과 연결하세요. '
     'Use each answerChoice at most once and choose distinct major elements. If none are grounded, return an empty connections list. '
     'For example, if a question includes 이야기를 구성 and evidence names 소설 창작, a reason is '
     '“이야기를 구성하는 일에 보인 관심은 소설 창작을 살펴볼 단서예요. 상상한 장면을 하나의 이야기로 이어 보는 점이 연결돼요.”'
@@ -163,6 +166,37 @@ GENERIC_EXPLANATION_TOPICS = {'활동', '분야', '관심', '학과', '전공', 
 BROAD_MEDIA = re.compile(r'다양한\s*(?:매체|미디어|콘텐츠|형식)|여러\s*(?:매체|미디어)|글[·ㆍ,]\s*(?:영상|이미지)|영상[·ㆍ,]\s*이미지')
 MEDIA_INFLUENCE = re.compile(r'미디어가\s*사람과\s*사회')
 MEDIA_EVIDENCE = re.compile(r'미디어|매체|언론|방송|뉴스|광고|홍보|영상|콘텐츠|커뮤니케이션')
+CONTENT_COMMUNICATION = re.compile(r'콘텐츠로\s*전달')
+COMMUNICATION_ACTIVITY = re.compile(r'(?:콘텐츠|뉴스|방송|영상|광고|홍보|기사|메시지).{0,28}(?:제작|작성|전달|기획|보도|편집)')
+WRITING_TOPIC = re.compile(r'문학|글쓰기|시[·ㆍ, ]+소설|시와\s*소설|소설')
+WRITING_ACTIVITY = re.compile(r'창작|작문|글쓰기|표현')
+CONDITIONAL_WRITING = re.compile(r'(?:글로|글을\s*쓰|글쓰기|글을\s*통해)[^.!?]{0,50}(?:다면|경우|라면)')
+PATTERN_INTEREST = re.compile(r'(?:자료|숫자|설문|인터뷰).{0,60}패턴을\s*찾')
+DATA_EVIDENCE = re.compile(r'데이터|자료|수치|통계|측정값|신호|결과')
+PATTERN_EVIDENCE = re.compile(r'패턴|경향|규칙성|비교|분석')
+LEARNING_GROWTH = re.compile(r'배우고\s*성장')
+TEACHING_EVIDENCE = re.compile(
+    r'가르치는\s*방법|교수법|(?:수업|학습|교육).{0,14}(?:설계|평가)|교재를\s*다루|학습\s*과정.{0,14}(?:관찰|분석)'
+)
+
+
+def supports_response(question: str, excerpt: str, reason: str | None = None) -> bool:
+    if MEDIA_INFLUENCE.search(question):
+        return bool(MEDIA_EVIDENCE.search(excerpt) and not only_names_courses(excerpt))
+    if CONTENT_COMMUNICATION.search(question):
+        if COMMUNICATION_ACTIVITY.search(excerpt) and not only_names_courses(excerpt):
+            return True
+        return bool(WRITING_TOPIC.search(excerpt) and WRITING_ACTIVITY.search(excerpt)
+                    and not only_names_courses(excerpt)
+                    and (reason is None or CONDITIONAL_WRITING.search(reason)))
+    if PATTERN_INTEREST.search(question):
+        return bool(DATA_EVIDENCE.search(excerpt) and PATTERN_EVIDENCE.search(excerpt)
+                    and not only_names_courses(excerpt))
+    if LEARNING_GROWTH.search(question):
+        return bool(TEACHING_EVIDENCE.search(excerpt) and not only_names_courses(excerpt))
+    return True
+
+
 UNSUPPORTED_IMPORTANCE = re.compile(r'매우\s*중요|중요한\s*(?:역할|단계|기초)|중요하다|필수\s*역량|핵심과')
 TOPIC_ENDING = re.compile(r'(?<=[가-힣]{2})(?:하는|하며|하고|하다|에서|으로|을|를|은|는|이|가|과|와|로|에)$')
 
@@ -318,20 +352,25 @@ class ExplorationModel:
         excerpts = {}
         if self.explanation:
             model_signals = []
-            positive_signals = [signal for signal in model_input['signals']
-                                if signal['direction'] == 'POSITIVE' and not signal['inconsistent']]
-            if not positive_signals:
-                return self._validated_result(request, {'targetName': model_input['targetName'], 'connections': []})
-            for index, signal in enumerate(positive_signals, 1):
-                choice = f'A{index}'
-                answer_choices[choice] = signal
-                model_signals.append(dict(answerChoice=choice, **{
-                    key: value for key, value in signal.items() if key != 'questionId'
-                }))
-            model_input = {'targetName': model_input['targetName'], 'signals': model_signals}
             excerpts = explanation_excerpts(facts)
-            if not excerpts:
+            for signal in model_input['signals']:
+                if signal['direction'] != 'POSITIVE' or signal['inconsistent']:
+                    continue
+                allowed = [choice for choice, (_, excerpt) in excerpts.items()
+                           if supports_response(signal['questionText'], excerpt)]
+                if not allowed:
+                    continue
+                choice = f'A{len(answer_choices) + 1}'
+                answer_choices[choice] = signal
+                model_signal = dict(answerChoice=choice, **{
+                    key: value for key, value in signal.items() if key != 'questionId'
+                })
+                if len(allowed) < len(excerpts):
+                    model_signal['allowedEvidenceChoices'] = allowed
+                model_signals.append(model_signal)
+            if not answer_choices:
                 return self._validated_result(request, {'targetName': model_input['targetName'], 'connections': []})
+            model_input = {'targetName': model_input['targetName'], 'signals': model_signals}
         schema = SingleExampleDraft if single_example else (
             explanation_draft_schema(tuple(answer_choices), tuple(excerpts)) if self.explanation
             else ConsultationResult if request['purpose']=='CONSULTATION'
@@ -475,8 +514,9 @@ class ExplorationModel:
             response_topic = trimmed_topic(row.responseTopic, signal['questionText'])
             reason = ' '.join(row.reason.split())
             major_topic = trimmed_topic(row.majorTopic, quote, reason)
-            lacks_media_evidence = MEDIA_INFLUENCE.search(signal['questionText']) and not MEDIA_EVIDENCE.search(quote)
-            if (not response_topic or not major_topic or lacks_media_evidence
+            if not supports_response(signal['questionText'], quote, reason):
+                continue
+            if (not response_topic or not major_topic
                     or not explains_grounded_connection(reason, response_topic, major_topic, quote)):
                 grounding_failed = True
                 continue
