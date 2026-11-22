@@ -19,6 +19,7 @@ import com.jinroon.jobe.domain.user.enums.UserEnums.UserRole;
 import com.jinroon.jobe.domain.user.repository.UserRepository;
 import com.jinroon.jobe.global.security.JwtProvider;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -289,6 +290,46 @@ class DiagnosisResultAccessTest {
                 .andExpect(jsonPath("$[0].recommendationReason").value("이유"))
                 .andExpect(jsonPath("$[0].id").doesNotExist())
                 .andExpect(jsonPath("$[0].diagnosisResultId").doesNotExist());
+    }
+
+    @Test
+    void legacyMajorScoreEndpointsDisplayTiesWithoutChangingStoredRanks() throws Exception {
+        User owner = saveUser(UserRole.member);
+        DiagnosisResult result = saveResult(owner);
+        long id = result.getId();
+        resultMajorScoreRepository.saveAll(List.of(
+                ResultMajorScore.of(id, 1L, 70.0f, 80.0f, 76.0f, 1, false, "첫 번째 전공"),
+                ResultMajorScore.of(id, 2L, 72.0f, 80.0f, 76.0f, 2, false, "두 번째 전공"),
+                ResultMajorScore.of(id, 3L, 73.0f, 78.0f, 76.0f, 3, false, "역량 점수가 다른 전공"),
+                ResultMajorScore.of(id, 4L, 70.0f, 80.0f, 76.0f, 4, true, "기준 미충족 전공")
+        ));
+
+        mockMvc.perform(get("/api/results/" + id + "/major-scores").header("Authorization", bearer(owner)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].rank").value(1))
+                .andExpect(jsonPath("$[0].displayRank").value(1))
+                .andExpect(jsonPath("$[0].tieCount").value(2))
+                .andExpect(jsonPath("$[1].rank").value(2))
+                .andExpect(jsonPath("$[1].displayRank").value(1))
+                .andExpect(jsonPath("$[1].tieCount").value(2))
+                .andExpect(jsonPath("$[1].diagnosisResultId").value(id))
+                .andExpect(jsonPath("$[1].createdAt").exists())
+                .andExpect(jsonPath("$[1].id").exists())
+                .andExpect(jsonPath("$[2].displayRank").value(3))
+                .andExpect(jsonPath("$[2].tieCount").value(1))
+                .andExpect(jsonPath("$[3].displayRank").value(4))
+                .andExpect(jsonPath("$[3].tieCount").value(1));
+
+        mockMvc.perform(get("/api/results/share/" + result.getShareToken() + "/major-scores"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].tieCount").value(2))
+                .andExpect(jsonPath("$[1].rank").value(2))
+                .andExpect(jsonPath("$[1].displayRank").value(1))
+                .andExpect(jsonPath("$[1].tieCount").value(2))
+                .andExpect(jsonPath("$[1].diagnosisResultId").doesNotExist())
+                .andExpect(jsonPath("$[1].id").doesNotExist())
+                .andExpect(jsonPath("$[2].displayRank").value(3))
+                .andExpect(jsonPath("$[3].displayRank").value(4));
     }
 
     // ---- 3.2 4단계: 성향 점수 서버 계산 (N03) ----
