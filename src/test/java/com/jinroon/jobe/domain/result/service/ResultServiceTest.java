@@ -162,6 +162,8 @@ class ResultServiceTest {
         assertThat(result.getShareToken()).isNotBlank();
         assertThat(result.getCompetencyVector()).contains("mathLogic");
         assertThat(result.getTendencyVector()).contains("tendLogicalInquiry");
+        assertThat(result.getAiCommentStatus()).isEqualTo(AiGenerationStatus.NOT_REQUESTED);
+        assertThat(result.getWeaknessFocus()).isEqualTo("communicationScore,collaborationScore");
         assertThat(session.getStatus()).isEqualTo(DiagnosisStatus.completed);
         assertThat(session.getCompletedAt()).isNotNull();
 
@@ -192,7 +194,7 @@ class ResultServiceTest {
         assertThat(result).isSameAs(existing);
         assertThat(result.getShareToken()).isEqualTo("existing-share-token");
         assertThat(result.getAiComment()).isNull();
-        assertThat(result.getWeaknessFocus()).isNull();
+        assertThat(result.getWeaknessFocus()).isEqualTo("communicationScore,collaborationScore");
         assertThat(result.getAiCommentStatus()).isEqualTo(AiGenerationStatus.NOT_REQUESTED);
         assertThat(result.getAiCommentErrorMessage()).isNull();
         assertThat(result.getAiCommentRequestedAt()).isNull();
@@ -373,6 +375,39 @@ class ResultServiceTest {
         assertThat(result.getAiCommentErrorMessage()).isNull();
         assertThat(result.getAiCommentRequestedAt()).isNotNull();
         assertThat(result.getAiCommentCompletedAt()).isNotNull();
+    }
+
+    @Test
+    void completeDiagnosisResultForUserLeavesWeaknessFocusEmptyWhenAllScoresAreEqual() {
+        CompetencyEvalResult competency = competencyResult(10L);
+        competency.applyScores(50f, 50f, 50f, 50f, 50f, 50f, 50f, 50f, 50f);
+        stubCompleteDependencies(diagnosisSession(10L, 7L, "{}"), competency, tendencyResult(10L),
+                List.of(scoringMajor(100L, "Software", 50.0f, 50.0f)));
+
+        assertThat(resultService.completeDiagnosisResultForUser(10L, 7L).getWeaknessFocus()).isEmpty();
+    }
+
+    @Test
+    void generateAiCommentDerivesWeaknessFocusFromScoresWhenResponseHasNone() {
+        DiagnosisResult result = diagnosisResult(1L, 10L, 7L);
+        result.applyWeaknessFocus(List.of("mathLogicalScore"));
+        when(diagnosisResultRepository.findById(1L)).thenReturn(Optional.of(result));
+        when(competencyEvalResultRepository.findByDiagnosisSessionId(10L)).thenReturn(Optional.of(competencyResult(10L)));
+        when(resultMajorScoreRepository.findByDiagnosisResultIdOrderByRankAsc(1L))
+                .thenReturn(List.of(resultMajorScore(11L, 1L, 100L, 1, 87.5f)));
+        when(majorRepository.findAllById(List.of(100L))).thenReturn(List.of(major(100L, "Major A")));
+        when(aiServiceClient.getRecommendationComment(any(RecommendationCommentRequest.class)))
+                .thenReturn(new RecommendationCommentResponse(
+                        "summary",
+                        List.of(new RecommendationCommentResponse.MajorComment("Major A", 1, 87.5, "s", "w", "r")),
+                        List.of(),
+                        "rec-comment-v1.3.0",
+                        "request-empty-focus"));
+
+        resultService.generateAiCommentForUser(1L, 7L);
+
+        assertThat(result.getAiComment()).isEqualTo("summary");
+        assertThat(result.getWeaknessFocus()).isEqualTo("communicationScore,collaborationScore");
     }
 
     @Test
