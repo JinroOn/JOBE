@@ -44,6 +44,7 @@ public enum ErrorCode {
     CONSULTATION_SESSION_ALREADY_ENDED(409, "이미 종료된 상담 세션입니다."),
 
     // Diagnosis
+    LEGACY_DIAGNOSIS_RETIRED(410, "기존 방식의 전공 진단이 종료됐습니다. 전공 탐색 진단을 시작해 주세요."),
     DIAGNOSIS_SESSION_NOT_FOUND(404, "진단 세션을 찾을 수 없습니다."),
     DIAGNOSIS_SESSION_ALREADY_COMPLETED(409, "이미 완료된 진단 세션입니다."),
     DIAGNOSIS_TENDENCY_ANSWERS_INCOMPLETE(400, "성향 검사 문항에 모두 답해야 합니다."),

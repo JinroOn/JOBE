@@ -12,6 +12,8 @@ import com.jinroon.jobe.domain.diagnosis.entity.*;
 import com.jinroon.jobe.domain.diagnosis.service.DiagnosisScoringService;
 import com.jinroon.jobe.domain.diagnosis.service.DiagnosisService;
 import com.jinroon.jobe.global.common.dto.RequestMapMapper;
+import com.jinroon.jobe.global.exception.CustomException;
+import com.jinroon.jobe.global.exception.error.ErrorCode;
 import com.jinroon.jobe.global.security.CustomUserDetails;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -127,11 +129,10 @@ public class DiagnosisController implements DiagnosisApi {
 
     @Override
     @PostMapping("/sessions")
-    @ResponseStatus(HttpStatus.CREATED)
     public DiagnosisSession createSession(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @Valid @RequestBody DiagnosisSessionRequest request) {
-        return diagnosisService.createSessionForUser(request, userDetails.getUserId());
+        throw new CustomException(ErrorCode.LEGACY_DIAGNOSIS_RETIRED);
     }
 
     @Override
