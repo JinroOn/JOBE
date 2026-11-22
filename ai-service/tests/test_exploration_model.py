@@ -115,7 +115,7 @@ def test_major_explanation_uses_bound_facts_and_reports_failed_condition(setting
     assert 'For a single response' in chat.messages[0].content
     assert 'Use each answerChoice at most once' in chat.messages[0].content
     assert chat.settings['timeout'] == 12
-    assert model.metadata['promptVersion'] == 'EXPLORATION_MAJOR_EXPLANATION_V1_6'
+    assert model.metadata['promptVersion'] == 'EXPLORATION_MAJOR_EXPLANATION_V1_7'
 
 
 @pytest.mark.parametrize('first_failure', ['parse', 'excerpt', 'transport-on-retry'])
@@ -212,6 +212,135 @@ def test_explanation_uses_two_approved_topics_but_omits_duplicate_major_element(
     assert transmitted[-1]['text'] == facts[1]['text']
 
 
+BUSINESS = '경영학과는 조직이 목표를 달성하도록 사람, 예산과 운영 방식을 관리하는 방법을 배운다.'
+LIFE = '생명과학과는 생명체의 구성과 기능을 세포부터 생태계까지 다양한 수준에서 탐구한다.'
+
+
+def explanation_with(question, facts_text, **draft):
+    value, facts = explanation_bound()
+    value['input']['signals'][0].update(questionText=question, answerText='매우 그렇다')
+    value['inputHash'] = input_hash(value)
+    facts[0]['text'] = facts_text
+    connection = {'answerChoice': 'A1', 'evidenceChoice': 'E1', **draft}
+    return value, facts, FakeChat({'targetName': 'TEST', 'connections': [connection]})
+
+
+@pytest.mark.parametrize(('text', 'major_topic', 'reason_topic'), [
+    (BUSINESS, '사람, 예산과 운영 방식 관리', '사람, 예산과 운영 방식 관리'),
+    (LIFE, '생명체의 구성과 기능을 탐구한다.', '생명체의 구성과 기능을 탐구하는 일'),
+    ('학과는 취재·제작 과정과 언론의 역할을 배운다.', '취재·제작 과정과 언론의 역할을 배운다.', '취재·제작 과정과 언론의 역할을 배우는 일'),
+])
+def test_explanation_drops_a_predicate_added_to_an_approved_topic(settings, text, major_topic, reason_topic):
+    value, facts, chat = explanation_with(
+        '조직이 운영되는 과정이 흥미롭다.', text, responseTopic='조직이 운영되는 과정', majorTopic=major_topic,
+        reason=f'조직이 운영되는 과정에 보인 흥미는 {reason_topic}을 살펴볼 단서예요. 일이 이루어지는 흐름을 따라가는 점이 연결돼요.')
+    result = ExplorationModel(chat).generate(value, facts)
+    assert result['status'] == 'SUCCEEDED'
+    assert f'전공 자료에는 “{text}”라고 나와요.' in result['result']['connections'][0]['connection']
+    assert chat.calls == 1
+
+
+@pytest.mark.parametrize(('response_topic', 'succeeds'), [
+    ('생명 현상과 건강 문제의 원인 탐구', True),
+    ('생명체의 건강을 지키는 활동', False),
+    ('원인 탐구', False),
+])
+def test_response_topic_may_only_lose_trailing_words(settings, response_topic, succeeds):
+    value, facts, chat = explanation_with(
+        '생명 현상과 건강 문제의 원인을 탐구하는 활동에 관심이 있다.', LIFE,
+        responseTopic=response_topic, majorTopic='생명체의 구성과 기능',
+        reason='생명 현상과 건강 문제의 원인 탐구에 보인 관심은 생명체의 구성과 기능을 살펴볼 단서예요. 생명체를 여러 수준에서 들여다보는 점이 연결돼요.')
+    if succeeds:
+        connection = ExplorationModel(chat).generate(value, facts)['result']['connections'][0]['connection']
+        assert connection.startswith('“생명 현상과 건강 문제의 원인” 관련 문항에 “매우 그렇다”라고 답했어요.')
+    else:
+        with pytest.raises(ModelFault):
+            ExplorationModel(chat).generate(value, facts)
+
+
+@pytest.mark.parametrize('major_topic', [
+    '운영 전략을 세우는 방법', '예산 편성과 인사 관리', '조직 문화', '사람을 뽑고 배치하는 관리 방법',
+])
+def test_explanation_still_rejects_topics_absent_from_the_quote(settings, major_topic):
+    value, facts, chat = explanation_with(
+        '조직이 운영되는 과정이 흥미롭다.', BUSINESS, responseTopic='조직이 운영되는 과정', majorTopic=major_topic,
+        reason=f'조직이 운영되는 과정에 보인 흥미는 {major_topic}을 살펴볼 단서예요. 일이 이루어지는 흐름을 따라가는 점이 연결돼요.')
+    with pytest.raises(ModelFault) as error:
+        ExplorationModel(chat).generate(value, facts)
+    assert error.value.output_issue == ExplanationOutputIssue.GROUNDING
+
+
+def test_restating_a_media_question_is_allowed_but_claiming_media_use_is_not(settings):
+    question = '글·이미지·영상·움직임으로 생각을 표현하는 활동에 끌린다.'
+    text = '전공에서는 광고 문구를 제작하는 실습을 안내한다.'
+    draft = dict(responseTopic='글·이미지·영상·움직임으로 생각을 표현하는 활동', majorTopic='광고 문구를 제작하는 실습')
+    lead = '글·이미지·영상·움직임으로 생각을 표현하는 활동에 끌린 것은 광고 문구를 제작하는 실습을 살펴볼 단서예요. '
+    value, facts, chat = explanation_with(question, text, **draft, reason=lead + '생각을 문구로 다듬어 전하는 점이 연결돼요.')
+    assert ExplorationModel(chat).generate(value, facts)['status'] == 'SUCCEEDED'
+
+    for claim in ('다양한 매체를 활용해 생각을 전하는 점이 연결돼요.', '다양한 형식의 콘텐츠로 생각을 나누는 점이 연결돼요.'):
+        value, facts, chat = explanation_with(question, text, **draft, reason=lead + claim)
+        with pytest.raises(ModelFault):
+            ExplorationModel(chat).generate(value, facts)
+
+
+@pytest.mark.parametrize(('text', 'succeeds'), [
+    ('중앙대 문예창작전공도 창작품 합평과 토론을 안내한다.', False),
+    ('신문방송학과는 창작품 합평과 토론을 거쳐 방송을 만드는 방법을 배운다.', True),
+])
+def test_media_influence_answer_needs_media_evidence(settings, text, succeeds):
+    value, facts, chat = explanation_with(
+        '미디어가 사람과 사회에 영향을 주는 방식을 배우고 싶다.', text,
+        responseTopic='미디어가 사람과 사회에 영향을 주는 방식', majorTopic='창작품 합평과 토론',
+        reason='미디어가 사람과 사회에 영향을 주는 방식을 배우고 싶다는 관심은 창작품 합평과 토론을 살펴볼 단서예요. 서로의 해석을 나누는 점이 연결돼요.')
+    if succeeds:
+        assert ExplorationModel(chat).generate(value, facts)['status'] == 'SUCCEEDED'
+    else:
+        with pytest.raises(ModelFault) as error:
+            ExplorationModel(chat).generate(value, facts)
+        assert error.value.output_issue == ExplanationOutputIssue.GROUNDING
+
+
+@pytest.mark.parametrize('claim', ['전공의 핵심과 잘 이어져요.', '이 전공과 잘 맞아떨어져요.', '일의 흐름을 아는 것이 중요하다는 점이 같아요.'])
+def test_explanation_rejects_unsupported_fit_and_importance_claims(settings, claim):
+    value, facts, chat = explanation_with(
+        '조직이 운영되는 과정이 흥미롭다.', BUSINESS, responseTopic='조직이 운영되는 과정', majorTopic='운영 방식을 관리하는 방법',
+        reason=f'조직이 운영되는 과정에 보인 흥미는 운영 방식을 관리하는 방법을 살펴볼 단서예요. 일의 흐름을 살피는 관심이 {claim}')
+    with pytest.raises(ModelFault):
+        ExplorationModel(chat).generate(value, facts)
+
+
+def test_sentences_describing_learning_are_offered_before_course_names(settings):
+    value, facts = explanation_bound()
+    facts[0]['text'] = '광운대 로봇학부에는 센서공학이 있다. 로봇을 설계하고 제어하는 방법을 공부한다.'
+    chat = FakeChat({'targetName': 'TEST', 'connections': []})
+    ExplorationModel(chat).generate(value, facts)
+    assert [item['text'] for item in json.loads(chat.messages[1].content)['evidence']] == [
+        '로봇을 설계하고 제어하는 방법을 공부한다.', '광운대 로봇학부에는 센서공학이 있다.',
+    ]
+
+
+@pytest.mark.parametrize('with_description', [True, False])
+def test_course_name_evidence_is_used_only_without_described_learning(settings, with_description):
+    names = '커리어넷은 세포생물학, 유전학과 일반생태학을 소개한다.'
+    value, facts = explanation_bound()
+    signal = value['input']['signals'][0]
+    signal.update(questionText='자연 현상이 일어나는 원리를 관찰하는 것이 궁금하다.', answerText='매우 그렇다')
+    value['input']['signals'].append(dict(signal, questionId='ACT-EXP-01', kind='INTEREST',
+                                          questionText='생명 현상의 원인을 탐구하는 활동에 관심이 있다.'))
+    value['inputHash'] = input_hash(value)
+    facts[0]['text'] = f'{LIFE} {names}' if with_description else names
+    named = {'answerChoice': 'A1', 'evidenceChoice': 'E2' if with_description else 'E1',
+             'responseTopic': '자연 현상이 일어나는 원리', 'majorTopic': '유전학과 일반생태학',
+             'reason': '자연 현상이 일어나는 원리에 보인 관심은 유전학과 일반생태학을 살펴볼 단서예요. 현상의 까닭을 궁금해하는 점이 연결돼요.'}
+    described = {'answerChoice': 'A2', 'evidenceChoice': 'E1', 'responseTopic': '생명 현상의 원인',
+                 'majorTopic': '생명체의 구성과 기능',
+                 'reason': '생명 현상의 원인에 보인 관심은 생명체의 구성과 기능을 살펴볼 단서예요. 생명체를 여러 수준에서 들여다보는 점이 연결돼요.'}
+    chat = FakeChat({'targetName': 'TEST', 'connections': [named, described] if with_description else [named]})
+    connections = ExplorationModel(chat).generate(value, facts)['result']['connections']
+    assert [item['questionId'] for item in connections] == (['ACT-EXP-01'] if with_description else ['ACT-DES-01'])
+
+
 SOFTWARE_COURSE_LIST = (
     '숭실대 소프트웨어학부의 교과에는 소프트웨어공학, 소프트웨어분석및설계와 소프트웨어프로젝트가 있다.'
 )
@@ -222,6 +351,7 @@ SOFTWARE_LEARNING = '성균관대 소프트웨어학과 로드맵은 실생활 �
 @pytest.mark.parametrize('course_list', [SOFTWARE_COURSE_LIST,
     '커리어넷은 문학과 언어, 현대 소설론을 사례로 든다.',
     '안내에서 1학년에 소프트웨어프로젝트 수업이 개설된다.',
+    '커리어넷은 정책학, 지방행정과 공공관리론을 대표 과목으로 든다.',
 ])
 def test_course_titles_are_not_used_as_evidence_of_learning_activities(settings, only_course_titles, course_list):
     value, facts = explanation_bound()

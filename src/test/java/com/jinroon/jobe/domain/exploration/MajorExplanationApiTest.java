@@ -105,7 +105,8 @@ class MajorExplanationApiTest extends CompletedExplorationTestSupport {
     }
 
     @org.junit.jupiter.params.ParameterizedTest
-    @org.junit.jupiter.params.provider.CsvSource({"'',EXPLORATION_MAJOR_EXPLANATION_V1_4", "-v5,EXPLORATION_MAJOR_EXPLANATION_V1_5"})
+    @org.junit.jupiter.params.provider.CsvSource({"'',EXPLORATION_MAJOR_EXPLANATION_V1_4", "-v5,EXPLORATION_MAJOR_EXPLANATION_V1_5",
+            "-v6,EXPLORATION_MAJOR_EXPLANATION_V1_6"})
     void ownerCanRegenerateAnExplanationFromThePreviousPrompt(String mutationSuffix, String promptVersion) throws Exception {
         when(availability.explanationAvailableFor(ExplorationRunMode.DEV)).thenReturn(true);
         long resultId = completedResult(Map.of("INT_MED", 100, "INT_HUM", 50));
@@ -143,6 +144,29 @@ class MajorExplanationApiTest extends CompletedExplorationTestSupport {
                 .isEqualTo("READY");
         assertThat(tasks.completedModel(OWNER, context.contextId(), "EXPLANATION", legacyMutation)
                 .path("promptVersion").asText()).isEqualTo(promptVersion);
+    }
+
+    @org.junit.jupiter.params.ParameterizedTest
+    @org.junit.jupiter.params.provider.CsvSource({"OUTPUT_INVALID,NOT_REQUESTED", "EVIDENCE_UNAVAILABLE,INSUFFICIENT_EVIDENCE"})
+    void explanationThatFailedInAPreviousVersionCanBeRequestedAgain(String failure, String expected) throws Exception {
+        when(availability.explanationAvailableFor(ExplorationRunMode.DEV)).thenReturn(true);
+        long resultId = completedResult(Map.of("INT_MED", 100, "INT_HUM", 50));
+        String endpoint = endpoint(resultId, MAJOR);
+        var context = contexts.prepareExplanation(OWNER, resultId, MAJOR);
+        String previous = "major-explanation-" + context.contextId() + "-v6";
+        for (String mutation : new String[]{previous, previous + "-retry"}) {
+            tasks.reserveModel(OWNER, context.contextId(), "EXPLANATION", mutation, adapter.build(context.snapshot(), mutation));
+            var lease = tasks.claimModel(OWNER, context.contextId(), "EXPLANATION", mutation);
+            tasks.failed(new OwnedGenerationStore.Candidate(OWNER, context.contextId(), "EXPLANATION", mutation),
+                    lease.token(), false, failure);
+        }
+
+        assertThat(response(get(endpoint).header("Authorization", owner), 200).path("status").asText()).isEqualTo(expected);
+        if (!"NOT_REQUESTED".equals(expected)) return;
+        assertThat(response(post(endpoint).header("Authorization", owner), 202).path("status").asText()).isEqualTo("GENERATING");
+        assertThat(tasks.explanationCandidates().stream().filter(job -> job.user() == OWNER)
+                .map(OwnedGenerationStore.Candidate::mutation).toList())
+                .containsExactly("major-explanation-" + context.contextId() + "-v7");
     }
 
     @Test

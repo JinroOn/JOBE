@@ -9,6 +9,7 @@ import com.jinroon.jobe.domain.exploration.ai.OwnedGenerationStore;
 import com.jinroon.jobe.domain.exploration.api.ExplorationApiException;
 import com.jinroon.jobe.domain.exploration.enums.ExplorationEnums.ExplorationRunMode;
 import com.jinroon.jobe.domain.exploration.service.ExplorationJson;
+import java.util.List;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MajorExplanationService {
     private static final String PURPOSE = "EXPLANATION";
+    // 최신 순서. 프롬프트 버전이 바뀌기 전에 저장된 설명을 찾는다.
+    private static final List<String> PREVIOUS_SUFFIXES = List.of("-v6", "-v5");
     // Previous releases stored AI model output HTTP 422 errors as INVALID_REQUEST.
     private static final Set<String> RETRYABLE_FAILURES = Set.of("OUTPUT_INVALID", "INVALID_REQUEST");
     private final ResultContextService contexts;
@@ -70,6 +73,11 @@ public class MajorExplanationService {
         var original = generation.task();
         if (original == null) return status(majorCode, available() ? "NOT_REQUESTED" : "UNAVAILABLE");
         if ("FAILED".equals(original.path("status").asText())) {
+            // 이전 버전에서 실패한 설명은 현재 버전으로 새로 요청할 수 있다.
+            if (available() && !originalMutation.equals(mutation(context))
+                    && !"EVIDENCE_UNAVAILABLE".equals(original.path("failureCode").asText())) {
+                return status(majorCode, "NOT_REQUESTED");
+            }
             String retryMutation = originalMutation + "-retry";
             var retry = task(user, context, retryMutation);
             if (retry != null) return view(user, majorCode, context, retryMutation, retry, false);
@@ -82,9 +90,11 @@ public class MajorExplanationService {
         var currentTask = task(user, context, current);
         if (currentTask != null) return new Generation(current, currentTask);
         String legacy = legacyMutation(context);
-        String previous = legacy + "-v5";
-        var previousTask = task(user, context, previous);
-        return previousTask != null ? new Generation(previous, previousTask) : new Generation(legacy, task(user, context, legacy));
+        for (String suffix : PREVIOUS_SUFFIXES) {
+            var previousTask = task(user, context, legacy + suffix);
+            if (previousTask != null) return new Generation(legacy + suffix, previousTask);
+        }
+        return new Generation(legacy, task(user, context, legacy));
     }
 
     private JsonNode task(long user, ResultContextService.LockedInput context, String mutation) {
@@ -148,7 +158,7 @@ public class MajorExplanationService {
     }
 
     private String mutation(ResultContextService.LockedInput context) {
-        return legacyMutation(context) + "-v6";
+        return legacyMutation(context) + "-v7";
     }
 
     private String legacyMutation(ResultContextService.LockedInput context) {
