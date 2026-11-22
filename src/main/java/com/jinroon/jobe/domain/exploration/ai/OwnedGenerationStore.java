@@ -164,7 +164,7 @@ public class OwnedGenerationStore {
         return jdbc.update("UPDATE exploration_generation_task SET state='FAILED',failure_code='ATTEMPTS_EXHAUSTED',lease_token=NULL,lease_until=NULL,next_attempt_at=NULL WHERE state='RUNNING' AND attempt>=3 AND lease_until<=UTC_TIMESTAMP(6) LIMIT 25");
     }
     @Transactional public void failed(Candidate task,String lease,boolean retryable,String code){
-        if(!Set.of("TRANSIENT","CONFIGURATION","AUTHENTICATION","INVALID_RESPONSE","INVALID_REQUEST","CONFLICT","EVIDENCE_UNAVAILABLE","INTEGRITY","SOURCE_UNAVAILABLE","OUTPUT_INVALID","UNEXPECTED_FAILURE").contains(code))throw conflict();
+        if(!Set.of("TRANSIENT","CONFIGURATION","AUTHENTICATION","INVALID_RESPONSE","INVALID_REQUEST","INPUT_INVALID","CONFLICT","EVIDENCE_UNAVAILABLE","INTEGRITY","SOURCE_UNAVAILABLE","OUTPUT_INVALID","UNEXPECTED_FAILURE").contains(code))throw conflict();
         // No result writes. Token condition cannot overwrite cancellation, deletion or a newer claim.
         var rows=jdbc.queryForList("SELECT status FROM users WHERE id=? FOR UPDATE",String.class,task.user());
         if(rows.isEmpty())return;
