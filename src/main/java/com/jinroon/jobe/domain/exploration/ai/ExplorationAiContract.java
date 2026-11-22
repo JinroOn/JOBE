@@ -15,11 +15,12 @@ public class ExplorationAiContract {
     public static final String CONVERSATION_VERSION="EXPLORATION_AI_CONTRACT_V1_1";
     public static final String PLAN12_VERSION="EXPLORATION_AI_CONTRACT_V1_2";
     public static final String EXPLANATION_VERSION = "EXPLORATION_AI_CONTRACT_V1_3";
+    public static final String EXPLANATION_PROMPT_VERSION = "EXPLORATION_MAJOR_EXPLANATION_V1_5";
     public static String promptVersion(JsonNode request) {
         return switch (request.path("contractVersion").asText()) {
             case PLAN12_VERSION -> "EXPLORATION_PLAN12_V1_10";
             case CONVERSATION_VERSION -> "EXPLORATION_CONVERSATION_V1_3";
-            case EXPLANATION_VERSION -> "EXPLORATION_MAJOR_EXPLANATION_V1_4";
+            case EXPLANATION_VERSION -> EXPLANATION_PROMPT_VERSION;
             default -> "EXPLORATION_MODEL_V1_0";
         };
     }
@@ -36,7 +37,7 @@ public class ExplorationAiContract {
         require((explanation ? Set.of("EXPLANATION") : Set.of("CONSULTATION","PLAN")).contains(r.path("purpose").asText()));require("DEV".equals(r.path("mode").asText()));truth(r.path("testOnly"));
         if (explanation) explanationInput(r.path("input"));
         else supportInput(r, conversation, plan12);
-        JsonNode evidence=r.path("evidence");fields(evidence,"approvedOnly","bindingStatus","datasetVersion","referenceKeys");truth(evidence.path("approvedOnly"));strings(evidence.path("referenceKeys"),0,10,80,true);for(JsonNode ref:evidence.path("referenceKeys"))pattern(ref,"[A-Za-z0-9_-]{1,80}");
+        JsonNode evidence=r.path("evidence");fields(evidence,"approvedOnly","bindingStatus","datasetVersion","referenceKeys");truth(evidence.path("approvedOnly"));strings(evidence.path("referenceKeys"),0,explanation?2:10,80,true);for(JsonNode ref:evidence.path("referenceKeys"))pattern(ref,"[A-Za-z0-9_-]{1,80}");
         if(evidence.path("bindingStatus").asText().equals("NOT_BOUND"))require(evidence.path("datasetVersion").isNull()&&evidence.path("referenceKeys").isEmpty());
         else {require(evidence.path("bindingStatus").asText().equals("BOUND"));text(evidence.path("datasetVersion"),100);require(!evidence.path("referenceKeys").isEmpty());}
         require(inputHash(r).equals(r.path("inputHash").asText()));

@@ -98,6 +98,20 @@ def test_major_explanation_requires_approved_educational_evidence(db):
     assert [reference["chunkId"] for reference in prepared.binding.references] == [curriculum_chunk.id]
     assert evidence_binder.revalidate(prepared.binding)
 
+    description, description_chunk = document(db, name=jobs.major_name, chunk_type="description",
+                                              source_type="service_json")
+    review(db, description)
+    wider = evidence_binder.prepare(value).binding
+    assert [ref["chunkId"] for ref in wider.references] == [curriculum_chunk.id, description_chunk.id]
+    assert [fact["chunkType"] for fact in evidence_binder.validated_model_evidence(wider)] == [
+        "major_overview", "description",
+    ]
+    assert evidence_binder.revalidate(prepared.binding)
+    review(db, description, decision="REVOKED")
+    with pytest.raises(EvidenceNoLongerAvailable):
+        evidence_binder.revalidate(wider)
+    assert evidence_binder.revalidate(prepared.binding)
+
 
 @pytest.mark.parametrize(("question", "overview_approved", "expected_type"), [
     ("제공된 자료에서 국사학과와 관련한 학습 예시를 하나만 알려 주세요.", True, "major_overview"),

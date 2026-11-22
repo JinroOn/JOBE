@@ -2,6 +2,7 @@
 import asyncio
 import json
 import os
+import re
 import time
 from dataclasses import asdict
 from enum import StrEnum
@@ -21,28 +22,44 @@ from app.exploration_contract import (
 PROMPT_VERSION='EXPLORATION_MODEL_V1_0'
 CONVERSATION_PROMPT_VERSION='EXPLORATION_CONVERSATION_V1_3'
 PLAN12_PROMPT_VERSION='EXPLORATION_PLAN12_V1_10'
-EXPLANATION_PROMPT_VERSION = 'EXPLORATION_MAJOR_EXPLANATION_V1_4'
+EXPLANATION_PROMPT_VERSION = 'EXPLORATION_MAJOR_EXPLANATION_V1_5'
 
 EXPLANATION_INSTRUCTIONS = (
-    ' Explain how a supplied answer connects to a concrete topic or activity supported by the approved major text. '
-    'For each connection, select one answerChoice and one evidenceChoice from the supplied options. '
-    'The server will quote the exact selected source text. Do not output a quotation or a reference identifier. '
-    'Do not infer course content, methods, competencies, or outcomes from a course name. '
-    'Read the question and answer together rather than inferring intent from a metric or a rating direction alone. '
-    'Treat neutral, negative, inconsistent, or single responses as tentative or open questions for exploration. '
-    'Do not describe a preference as a capability, or evidence use as a match judgment. '
-    'For each connection, write explorationQuestion as one Korean question ending in a question mark. '
-    'Tie the answer to something the student can look up about the quoted course or topic, without adding claims. '
-    'The selected answer and exact source quote are displayed separately. Use at most two short connections. '
-    'Use each answerChoice at most once. If only one answer is supplied, return at most one connection. '
-    'If no supported connection can be made, return an empty connections list with the supplied targetName.'
+    ' Write a Korean explanation of why a particular student answer makes a specific major topic worth exploring. '
+    'Read questionText and answerText together. Consider all supplied interest, activity and learning answers '
+    'and all educational evidence before selecting the strongest one or two links. '
+    'For each link, choose one answerChoice and one evidenceChoice. Copy a short, specific responseTopic '
+    'word for word from questionText and a concrete majorTopic word for word from the chosen evidence. '
+    'Each topic should be a short phrase of 2 to 5 words with no sentence ending. '
+    'For instance, copy 생각을 표현 or 창작품을 합평 if those are the exact words. Never copy the whole question. '
+    'In reason, use majorTopic verbatim and mention the concrete activity in responseTopic in natural Korean. '
+    'Name what the student responded to, what the course or activity involves according to the excerpt, '
+    'and explain what the two have in common in one or two short sentences. '
+    '여러 매체를 묶어 물은 문항에서는 자료에 있는 매체에 한해서 조건부로 연결하세요. '
+    '예를 들어 글·영상·이미지에 관한 문항을 문예창작에 연결할 때, '
+    '“그중 글로 생각을 표현하는 쪽이 흥미로웠다면”이라고 말할 수 있어요. '
+    '그 응답으로 학생이 특정 매체를 선호한다고 판단하거나, 수업에서 다양한 매체를 활용한다고 쓰면 안 돼요. '
+    'If the question is about a preference, describe interest; if it asks about experience, describe only that experience. '
+    'For a single response, explicitly describe the link as a tentative exploration clue. '
+    '수업 이름만 있으면 어느 학교에서 그 수업을 안내하는지까지 말할 수 있어요. '
+    '학생이 어떤 일을 한다고 덧붙이려면 자료에 그 활동이 직접 나와야 해요. '
+    '예를 들어 소프트웨어프로젝트라는 수업명만으로 해당 수업에서 개발하거나 협업한다고 쓰지 마세요. '
+    '학교 하나의 사례는 그 학교 사례로 설명하세요. 적성·능력·합격·성공을 판단하지 마세요. '
+    '반드시 두 문장으로 작성하고, 두 번째 문장에 구체적인 공통 행동이나 생각의 방식을 설명하세요. '
+    '분야명이 비슷하거나 공통점을 한 문장으로 설명할 수 없는 연결은 생략하세요. '
+    'The server renders the original choice and evidence; do not quote or paraphrase the entire source in reason. '
+    'Use each answerChoice at most once and choose distinct major elements. If none are grounded, return an empty connections list. '
+    'For example, if a question includes 이야기를 구성 and evidence names 소설 창작, a reason is '
+    '“이야기를 구성하는 일에 보인 관심은 소설 창작을 살펴볼 단서예요. 상상한 장면을 하나의 이야기로 이어 보는 점이 연결돼요.”'
 )
 
 
 class ExplanationDraftConnection(StrictModel):
     answerChoice: str
     evidenceChoice: str
-    explorationQuestion: text(170)
+    responseTopic: text(80)
+    majorTopic: text(55)
+    reason: text(200)
 
 
 class ExplanationDraft(StrictModel):
@@ -86,7 +103,7 @@ class ExplanationOutputIssue(StrEnum):
     UNKNOWN_ANSWER = 'EXPLANATION_ANSWER_REFERENCE_UNKNOWN'
     DUPLICATE_ANSWER = 'EXPLANATION_ANSWER_REFERENCE_DUPLICATE'
     EXCERPT = 'EXPLANATION_EXCERPT_MISMATCH'
-    QUESTION_FORMAT = 'EXPLANATION_QUESTION_FORMAT_INVALID'
+    GROUNDING = 'EXPLANATION_GROUNDING_INVALID'
     RESPONSE_CONTRACT = 'EXPLANATION_RESPONSE_CONTRACT_INVALID'
 
 
@@ -99,21 +116,57 @@ class ModelFault(RuntimeError):
 
 EXPLANATION_RECOVERABLE_OUTPUT = {
     ExplanationOutputIssue.PROVIDER_PARSE, ExplanationOutputIssue.DRAFT_SCHEMA,
-    ExplanationOutputIssue.EXCERPT, ExplanationOutputIssue.QUESTION_FORMAT, ExplanationOutputIssue.DUPLICATE_ANSWER,
+    ExplanationOutputIssue.EXCERPT, ExplanationOutputIssue.GROUNDING, ExplanationOutputIssue.DUPLICATE_ANSWER,
 }
 
 
 def explanation_excerpts(facts: list[dict]) -> dict[str, tuple[str, str]]:
     choices = {}
     for fact in facts:
-        for sentence in SENTENCE_BOUNDARY.split(fact['text']):
-            excerpt = sentence.strip()[:180].rstrip()
-            if not excerpt:
-                continue
+        excerpts = [sentence.strip()[:180].rstrip() for sentence in SENTENCE_BOUNDARY.split(fact['text'])
+                    if sentence.strip()]
+        for excerpt in excerpts[:8 // len(facts)]:
             choices[f'E{len(choices) + 1}'] = (fact['referenceKey'], excerpt)
-            if len(choices) == 8:
-                return choices
     return choices
+
+
+GENERIC_EXPLANATION_TOPICS = {'활동', '분야', '관심', '학과', '전공', '학습', '수업', '과정', '내용', '교육과정'}
+BROAD_MEDIA = re.compile(r'다양한\s*(?:매체|미디어)|여러\s*(?:매체|미디어)|글[·ㆍ,]\s*(?:영상|이미지)|영상[·ㆍ,]\s*이미지')
+UNSUPPORTED_FIT = re.compile(r'적성이\s*(?:있|맞|좋)|적합(?:한|해|합)|잘할\s*(?:수|가능)|능력이\s*(?:뛰어나|우수)|합격|성공할|취업\s*보장')
+
+
+def grounded_topic(candidate: str, source: str) -> str | None:
+    topic = ' '.join(candidate.strip().rstrip('.!?。').split())
+    if (topic in GENERIC_EXPLANATION_TOPICS or len(re.findall(r'[가-힣A-Za-z]', topic)) < 2
+            or any(mark in topic for mark in '.!?”“"') or topic not in ' '.join(source.split())):
+        return None
+    return topic
+
+
+def mentions_response_topic(reason: str, topic: str) -> bool:
+    words = set(re.findall(r'[가-힣A-Za-z][가-힣A-Za-z0-9]*', topic))
+    general = GENERIC_EXPLANATION_TOPICS | {'있다', '있나요', '있어요', '싶다', '흥미', '경험', '직접', '활동에'}
+    return any(len(word) >= 2 and word not in general and word in reason for word in words)
+
+
+def explains_grounded_connection(reason: str, response_topic: str, major_topic: str, quote: str) -> bool:
+    sentences = SENTENCE_BOUNDARY.split(reason)
+    return (len(sentences) == 2 and len(sentences[1]) >= 16
+            and major_topic in reason and mentions_response_topic(reason, response_topic)
+            and '?' not in reason and not UNSUPPORTED_FIT.search(reason)
+            and not (BROAD_MEDIA.search(reason) and not BROAD_MEDIA.search(quote)))
+
+
+def explanation_text(signal: dict, response_topic: str, major_topic: str, reason: str,
+                     quote: str) -> str:
+    answer = ' '.join(signal['answerText'].split())
+    lead = (f'“{response_topic}” 관련 문항에 “{answer}”라고 답했어요. '
+            if len(answer) <= 54 and len(response_topic) <= 45 else '')
+    main = lead + reason
+    evidence = f' 전공 자료에는 “{quote}”라고 나와요.'
+    if len(main + evidence) > 400:
+        evidence = f' 전공 자료에서 확인한 내용은 “{major_topic}”예요.'
+    return main + evidence if len(main + evidence) <= 400 else reason + evidence
 
 
 class ExplorationModel:
@@ -189,7 +242,14 @@ class ExplorationModel:
             self.configure_request(request)
             subjects=[request['input']['targetName']] if request['input']['targetName'] else request['input']['candidateNames']
             if request['evidence']['bindingStatus']!='BOUND' or not isinstance(facts,list) or not 1<=len(facts)<=8:raise ValueError()
-            if [f['referenceKey'] for f in facts]!=request['evidence']['referenceKeys'] or [f['majorName'] for f in facts]!=subjects:raise ValueError()
+            if [f['referenceKey'] for f in facts] != request['evidence']['referenceKeys']: raise ValueError()
+            fact_subjects = [f['majorName'] for f in facts]
+            if self.explanation:
+                if (not 1 <= len(facts) <= 2 or set(fact_subjects) != set(subjects)
+                        or len({f['chunkType'] for f in facts}) != len(facts)):
+                    raise ValueError()
+            elif fact_subjects != subjects:
+                raise ValueError()
             allowed_chunks = {'description', 'major_overview'} if self.explanation else {'description', 'major_overview', 'related_jobs'}
             for fact in facts:
                 if set(fact)!={'referenceKey','majorName','chunkType','text'} or fact['chunkType'] not in allowed_chunks or not isinstance(fact['text'],str) or not fact['text'].strip() or len(fact['text'])>1600:raise ValueError()
@@ -200,9 +260,13 @@ class ExplorationModel:
         excerpts = {}
         if self.explanation:
             model_signals = []
-            for index, signal in enumerate(model_input['signals'], 1):
+            positive_signals = [signal for signal in model_input['signals']
+                                if signal['direction'] == 'POSITIVE' and not signal['inconsistent']]
+            if not positive_signals:
+                return self._validated_result(request, {'targetName': model_input['targetName'], 'connections': []})
+            for index, signal in enumerate(positive_signals, 1):
                 choice = f'A{index}'
-                answer_choices[choice] = signal['questionId']
+                answer_choices[choice] = signal
                 model_signals.append(dict(answerChoice=choice, **{
                     key: value for key, value in signal.items() if key != 'questionId'
                 }))
@@ -237,7 +301,7 @@ class ExplorationModel:
             + (SINGLE_EXAMPLE_INSTRUCTIONS if single_example else CONVERSATION_INSTRUCTIONS if self.conversation else '')
             + (EXPLANATION_INSTRUCTIONS if self.explanation else '')
             + (PLAN12_INSTRUCTIONS if self.plan12 else '' if self.explanation else ' Cite only supplied referenceKey values.')
-            + (' Correct the output format using only listed choices and one short question per connection.' if retry_output else ''))),
+            + (' Correct the output format. Copy short exact topic phrases of 2 to 5 words. Name the evidence topic and describe the answer in reason. Omit weak links.' if retry_output else ''))),
             HumanMessage(content=payload)]
         self.timings['preparationMs']=round((time.perf_counter()-preparation_started)*1000,3)
         model=None
@@ -332,26 +396,39 @@ class ExplorationModel:
         if draft.targetName != target_name:
             raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.TARGET)
         used_answers = set()
+        used_topics = []
         connections = []
+        grounding_failed = False
         for row in draft.connections:
-            question_id = answer_choices.get(row.answerChoice)
-            if question_id is None:
+            signal = answer_choices.get(row.answerChoice)
+            if signal is None:
                 raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.UNKNOWN_ANSWER)
+            question_id = signal['questionId']
             if question_id in used_answers:
                 raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.DUPLICATE_ANSWER)
             used_answers.add(question_id)
-            question = row.explorationQuestion.strip()
+
             selected_excerpt = excerpts.get(row.evidenceChoice)
             if selected_excerpt is None:
                 raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.EXCERPT)
             reference, quote = selected_excerpt
-            if not question.endswith('?') or any(mark in question[:-1] for mark in ('.', '!', '?', '\n')):
-                raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.QUESTION_FORMAT)
+            response_topic = grounded_topic(row.responseTopic, signal['questionText'])
+            major_topic = grounded_topic(row.majorTopic, quote)
+            reason = ' '.join(row.reason.split())
+            if not response_topic or not major_topic or not explains_grounded_connection(reason, response_topic, major_topic, quote):
+                grounding_failed = True
+                continue
+            if any(major_topic in topic or topic in major_topic for topic in used_topics):
+                continue
+
+            used_topics.append(major_topic)
             connections.append({
                 'questionId': question_id,
                 'referenceKeys': [reference],
-                'connection': f'전공 자료에서 확인한 내용은 “{quote}”예요. {question}',
+                'connection': explanation_text(signal, response_topic, major_topic, reason, quote),
             })
+        if grounding_failed and not connections:
+            raise ModelFault('MODEL_OUTPUT_INVALID', output_issue=ExplanationOutputIssue.GROUNDING)
         return {'targetName': draft.targetName, 'connections': connections}
 
     def _validated_result(self,request,content):

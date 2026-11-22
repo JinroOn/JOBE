@@ -227,12 +227,17 @@ class ExplorationEvidenceBinder:
                           and (not explanation or chunk.chunk_type != "related_jobs") and chunk.chunk_text.strip()]
             if not candidates:
                 return PreparedEvidence("INSUFFICIENT_EVIDENCE", "APPROVED_EVIDENCE_UNAVAILABLE", _json(original), None)
-            selected = min(candidates, key=lambda row: (
+            ordered = sorted(candidates, key=lambda row: (
                 prefer_curriculum and row[1].chunk_type != "major_overview",
                 ALLOWED_SOURCES[row[0].source_type], ALLOWED_CHUNKS[row[1].chunk_type],
                 row[0].id, row[1].chunk_index, row[1].id,
             ))
-            refs.append(self._reference(*selected, name))
+            first = ordered[0]
+            refs.append(self._reference(*first, name))
+            if explanation:
+                second = next((row for row in ordered if row[1].chunk_type != first[1].chunk_type), None)
+                if second is not None:
+                    refs.append(self._reference(*second, name))
         bound = json.loads(_json(original))
         bound["evidence"] = {"approvedOnly": True, "bindingStatus": "BOUND", "datasetVersion": self.policy.dataset_version,
                              "referenceKeys": [ref["referenceKey"] for ref in refs]}
@@ -260,8 +265,16 @@ class ExplorationEvidenceBinder:
                 raise EvidenceIntegrityError()
             for key in original:
                 if key not in {"evidence", "inputHash"} and original[key] != request[key]: raise EvidenceIntegrityError()
-            if (request["evidence"]["referenceKeys"] != [ref["referenceKey"] for ref in refs]
-                    or [ref["majorName"] for ref in refs] != self._subjects(original)):
+            ref_names = [ref["majorName"] for ref in refs]
+            subjects = self._subjects(original)
+            if request["evidence"]["referenceKeys"] != [ref["referenceKey"] for ref in refs]:
+                raise EvidenceIntegrityError()
+            if original["purpose"] == "EXPLANATION":
+                kinds = {ref["chunkType"] for ref in refs}
+                if (set(ref_names) != set(subjects) or len(refs) != len(kinds)
+                        or not kinds <= {"major_overview", "description"}):
+                    raise EvidenceIntegrityError()
+            elif ref_names != subjects:
                 raise EvidenceIntegrityError()
             docs = {doc.id: (doc, chunks, review, manifest) for doc, chunks, review, manifest in self._approved_documents(
                 self._rows(ids=list({ref["documentId"] for ref in refs})))}

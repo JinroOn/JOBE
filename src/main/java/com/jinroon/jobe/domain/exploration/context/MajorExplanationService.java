@@ -2,6 +2,7 @@ package com.jinroon.jobe.domain.exploration.context;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.jinroon.jobe.domain.exploration.ai.ExplorationAiContract;
 import com.jinroon.jobe.domain.exploration.ai.ExplorationAiInputAdapter;
 import com.jinroon.jobe.domain.exploration.ai.ExplorationModelAvailability;
 import com.jinroon.jobe.domain.exploration.ai.OwnedGenerationStore;
@@ -25,10 +26,14 @@ public class MajorExplanationService {
     private final ExplorationModelAvailability availability;
     private final ExplorationJson json;
 
+    private record Generation(String mutation, JsonNode task) {}
+
     @Transactional
     public ObjectNode request(long user, long resultId, String majorCode) {
         if (!available()) return get(user, resultId, majorCode);
         var context = contexts.prepareExplanation(user, resultId, majorCode);
+        var existing = view(user, majorCode, context);
+        if (!"NOT_REQUESTED".equals(existing.path("status").asText())) return existing;
         String mutation = mutation(context);
         var request = adapter.build(context.snapshot(), mutation);
         jobs.reserveModel(user, context.contextId(), PURPOSE, mutation, request);
@@ -41,8 +46,9 @@ public class MajorExplanationService {
         if (context == null) {
             throw new ExplorationApiException(409, "EXPLANATION_RETRY_UNAVAILABLE", "다시 시도할 설명이 없어요.");
         }
-        String originalMutation = mutation(context);
-        var original = task(user, context, originalMutation);
+        var generation = originalGeneration(user, context);
+        String originalMutation = generation.mutation();
+        var original = generation.task();
         String retryMutation = originalMutation + "-retry";
         var retry = task(user, context, retryMutation);
         if (retry != null) return view(user, majorCode, context, retryMutation, retry, false);
@@ -59,14 +65,24 @@ public class MajorExplanationService {
     }
 
     private ObjectNode view(long user, String majorCode, ResultContextService.LockedInput context) {
-        String originalMutation = mutation(context);
-        var original = task(user, context, originalMutation);
-        if (original != null && "FAILED".equals(original.path("status").asText())) {
+        var generation = originalGeneration(user, context);
+        String originalMutation = generation.mutation();
+        var original = generation.task();
+        if (original == null) return status(majorCode, available() ? "NOT_REQUESTED" : "UNAVAILABLE");
+        if ("FAILED".equals(original.path("status").asText())) {
             String retryMutation = originalMutation + "-retry";
             var retry = task(user, context, retryMutation);
             if (retry != null) return view(user, majorCode, context, retryMutation, retry, false);
         }
         return view(user, majorCode, context, originalMutation, original, canRetry(original));
+    }
+
+    private Generation originalGeneration(long user, ResultContextService.LockedInput context) {
+        String current = mutation(context);
+        var currentTask = task(user, context, current);
+        if (currentTask != null) return new Generation(current, currentTask);
+        String legacy = legacyMutation(context);
+        return new Generation(legacy, task(user, context, legacy));
     }
 
     private JsonNode task(long user, ResultContextService.LockedInput context, String mutation) {
@@ -95,6 +111,9 @@ public class MajorExplanationService {
                                  String mutation, JsonNode request) {
         var stored = jobs.completedModel(user, context.contextId(), PURPOSE, mutation);
         if (stored == null) return status(majorCode, "UNAVAILABLE");
+        if (available() && !ExplorationAiContract.EXPLANATION_PROMPT_VERSION.equals(stored.path("promptVersion").asText())) {
+            return status(majorCode, "NOT_REQUESTED");
+        }
         var response = stored.path("response");
         if (!"SUCCEEDED".equals(response.path("status").asText())) return status(majorCode, "INSUFFICIENT_EVIDENCE");
         var result = status(majorCode, "READY");
@@ -127,6 +146,10 @@ public class MajorExplanationService {
     }
 
     private String mutation(ResultContextService.LockedInput context) {
+        return legacyMutation(context) + "-v5";
+    }
+
+    private String legacyMutation(ResultContextService.LockedInput context) {
         return "major-explanation-" + context.contextId();
     }
 }

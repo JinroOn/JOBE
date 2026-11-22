@@ -209,6 +209,8 @@ class ExplorationRequest(StrictModel):
         explanation = isinstance(self.input, ExplanationInput)
         if explanation != (self.contractVersion == EXPLANATION_VERSION) or explanation != (self.purpose == "EXPLANATION"):
             raise ValueError("Explanation version mismatch")
+        if explanation and len(self.evidence.referenceKeys) > 2:
+            raise ValueError("At most two educational references are allowed")
         conversation = isinstance(self.input, ConversationInput)
         if (self.contractVersion == CONVERSATION_VERSION) != conversation:
             raise ValueError("Conversation version mismatch")
