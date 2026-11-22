@@ -109,6 +109,7 @@ exploration:
     # PUBLIC/PILOT stay closed until actual release/pilot review gates are connected.
     run-mode: ${EXPLORATION_RUN_MODE:PUBLIC}
     # DEV also requires the exploration-dev profile, no prod/production profile, and an explicit user allowlist.
+    # Set dev-user-ids to exactly "*" to allow every signed-in user. Mixing "*" with IDs does not open it.
     dev-user-ids: ${EXPLORATION_DEV_USER_IDS:}
     ruleset-version: ${EXPLORATION_RULESET_VERSION:RULESET_V1_6_IMPLEMENTATION_CANDIDATE}
   catalog:

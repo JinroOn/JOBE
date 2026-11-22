@@ -15,6 +15,22 @@ class ExplorationRuntimePolicyTest {
         assertThat(policy.authorize(1L)).isEqualTo(ExplorationRunMode.DEV);
         assertThatThrownBy(() -> policy.authorize(3L)).isInstanceOf(ExplorationApiException.class);
     }
+    @Test void onlyExactWildcardOpensDevelopmentToEverySignedInUser() {
+        MockEnvironment environment = new MockEnvironment();
+        environment.setActiveProfiles("exploration-dev");
+        assertThat(new ExplorationRuntimePolicy(environment, "DEV", " * ").authorize(8_200_099_999L)).isEqualTo(ExplorationRunMode.DEV);
+        for (String users : new String[]{"", "*,1", "1,*", "**"})
+            assertThatThrownBy(() -> new ExplorationRuntimePolicy(environment, "DEV", users).authorize(3L)).isInstanceOf(ExplorationApiException.class);
+    }
+    @Test void wildcardKeepsProfileAndModeGates() {
+        MockEnvironment withoutProfile = new MockEnvironment(); withoutProfile.setActiveProfiles("docker");
+        assertThatThrownBy(() -> new ExplorationRuntimePolicy(withoutProfile, "DEV", "*").authorize(1L)).isInstanceOf(ExplorationApiException.class);
+        MockEnvironment production = new MockEnvironment(); production.setActiveProfiles("exploration-dev", "prod");
+        assertThatThrownBy(() -> new ExplorationRuntimePolicy(production, "DEV", "*").authorize(1L)).isInstanceOf(ExplorationApiException.class);
+        MockEnvironment development = new MockEnvironment(); development.setActiveProfiles("exploration-dev");
+        for (String mode : new String[]{"PUBLIC", "PILOT"})
+            assertThatThrownBy(() -> new ExplorationRuntimePolicy(development, mode, "*").authorize(1L)).isInstanceOf(ExplorationApiException.class);
+    }
     @Test void genericDevProfileDoesNotEnableReviewedContent() {
         MockEnvironment environment = new MockEnvironment(); environment.setActiveProfiles("dev");
         assertThatThrownBy(() -> new ExplorationRuntimePolicy(environment, "DEV", "1").authorize(1L)).isInstanceOf(ExplorationApiException.class);
