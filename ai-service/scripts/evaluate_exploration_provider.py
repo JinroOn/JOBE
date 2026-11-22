@@ -22,7 +22,8 @@ if str(ROOT) not in sys.path:
 
 from app.exploration_contract import ConsultationResult, Plan12Result
 from app.exploration_plan_draft import Plan12Draft, render_plan_draft
-from app.exploration_model import ModelFault, structured_chat_options
+from app.exploration_model import ModelFault
+from app.llm_options import structured_chat_options
 
 VERSION = 'EXPLORATION_PROVIDER_EVALUATION_V1_0'
 

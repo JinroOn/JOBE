@@ -18,6 +18,7 @@ from app.exploration_plan_scenarios import FICTIONAL_SCENARIOS
 from app.exploration_contract import (
     ConsultationResult, PlanResult, Plan12Result, StrictModel, text, validate_response,
 )
+from app.llm_options import structured_chat_options
 
 PROMPT_VERSION='EXPLORATION_MODEL_V1_0'
 CONVERSATION_PROMPT_VERSION='EXPLORATION_CONVERSATION_V1_3'
@@ -300,11 +301,6 @@ def explanation_text(reason: str, major_topic: str, quote: str) -> str:
     if len(reason + evidence) > 400:
         evidence = f' 전공 자료에서 확인한 내용은 “{major_topic}”예요.'
     return reason + evidence
-
-
-def structured_chat_options(model: str) -> dict:
-    # LangChain's current structured output path uses Chat Completions function calling.
-    return {'model_kwargs': {'reasoning_effort': 'none'}} if model == 'gpt-6-luna' else {}
 
 
 class ExplorationModel:

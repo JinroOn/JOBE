@@ -1,5 +1,8 @@
 import asyncio
+import importlib
 import pytest
+from app.chain import RecommendationChain
+from app.chain_consultation import ConsultationChain
 from app.chain_plan import WeeklyPlanChain, PlanChainResult
 from test_weekly_plan_contract import build_request
 
@@ -45,3 +48,37 @@ def test_success_metadata_does_not_claim_fallback():
     response=chain._mock_response(request=request,request_id='SYNTHETIC_BASE')
     result=PlanChainResult(response,[],chain.prompt_version,chain.model)
     assert result.response.fallback is False and result.response.fallbackReasons==[]
+
+
+@pytest.mark.parametrize(('configured', 'expected'), [(None, 'gpt-6-luna'), ('', 'gpt-6-luna'), ('TEST_MODEL', 'TEST_MODEL')])
+def test_text_chains_share_the_default_model(monkeypatch, configured, expected):
+    if configured is None:
+        monkeypatch.delenv('LLM_MODEL', raising=False)
+    else:
+        monkeypatch.setenv('LLM_MODEL', configured)
+    assert {chain().model for chain in (WeeklyPlanChain, RecommendationChain, ConsultationChain)} == {expected}
+
+
+@pytest.mark.parametrize('name', ['chain', 'chain_plan', 'chain_consultation'])
+def test_text_chains_use_compatible_reasoning_with_luna(monkeypatch, name):
+    module = importlib.import_module(f'app.{name}')
+    seen = {}
+
+    class Stop(Exception):
+        pass
+
+    def provider(**settings):
+        seen.update(settings)
+        raise Stop
+
+    monkeypatch.delenv('LLM_MODEL', raising=False)
+    monkeypatch.setattr(module, 'ChatOpenAI', provider)
+    chain = {'chain': RecommendationChain, 'chain_plan': WeeklyPlanChain, 'chain_consultation': ConsultationChain}[name]()
+    chain.use_mock, chain.provider = False, 'openai'
+    request = build_request(weeks=12) if name == 'chain_plan' else None
+    try:
+        asyncio.run(chain.generate_with_meta(request, 'SYNTHETIC_REQUEST'))
+    except Exception:
+        pass
+    assert seen['model'] == 'gpt-6-luna'
+    assert seen['model_kwargs'] == {'reasoning_effort': 'none'}

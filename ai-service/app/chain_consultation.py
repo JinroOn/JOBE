@@ -10,6 +10,7 @@ from langchain_openai import ChatOpenAI
 from pydantic import BaseModel, ConfigDict, Field
 
 from .errors import RequestTimeoutError, UpstreamUnavailableError
+from .llm_options import DEFAULT_LLM_MODEL, structured_chat_options
 from .models import ConsultationChatRequest, ConsultationChatResponse
 
 PROMPT_VERSION = os.getenv("CONSULTATION_PROMPT_VERSION", "consultation-chat-v1.0.0")
@@ -38,7 +39,7 @@ class ConsultationChainResult:
 class ConsultationChain:
     def __init__(self) -> None:
         self.provider = os.getenv("LLM_PROVIDER", "openai").lower()
-        self.model = os.getenv("LLM_MODEL", "gpt-4o-mini")
+        self.model = os.getenv("LLM_MODEL") or DEFAULT_LLM_MODEL
         self.timeout_seconds = float(os.getenv("LLM_TIMEOUT_SECONDS", "10"))
         self.api_key = (
             os.getenv("LLM_API_KEY")
@@ -73,6 +74,7 @@ class ConsultationChain:
                 api_key=self.api_key,
                 timeout=self.timeout_seconds,
                 base_url=self.base_url or None,
+                **structured_chat_options(self.model),
             )
             structured = llm.with_structured_output(GeneratedConsultationAnswer)
             prompt = self._build_prompt()
