@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M169_20261120_SCOPE_V2",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_169",
+  "majorName": "생물학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "생물학과는 생물의 형태와 분류, 생리와 생태 등 생명 현상을 탐구한다. 커리어넷은 자원식물학과 생태학 및 실험을 교과 사례로 소개한다.",
+      "sourceIds": [
+        "m169-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "형태 관찰과 분류는 생물학을 탐색할 수 있는 주제다. 부산대 생명과학과는 해당 분야를 소개하며, 식물계통분류학과 동물계통분류학, 식물형태학을 교과 사례로 제시한다.",
+      "sourceIds": [
+        "m169-university",
+        "m169-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m169-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 생물학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=265",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2020-12-02 갱신 응답에서 확인한 생물학과는 생물의 형태와 분류, 생리와 생태 등 생명 현상을 탐구한다. 커리어넷은 자원식물학과 생태학 및 실험을 교과 사례로 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m169-university",
+      "publisher": "부산대학교 자연과학대학",
+      "title": "생명과학과 소개",
+      "url": "https://natural.pusan.ac.kr/natural/14101/subview.do",
+      "supports": "생물의 형태·분류",
+      "limitation": "부산대 생명과학과 소개에서 생물학의 관찰·분류와 겹치는 주제를 참고한다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m169-extra",
+      "publisher": "부산대학교",
+      "title": "학부교과과정",
+      "url": "https://biology.pusan.ac.kr/biology/5537/subview.do?enc=Zm5jdDF8QEB8JTJGYmJzJTJGYmlvbG9neSUyRjYzNiUyRjEzMDI1NzUlMkZhcnRjbFZpZXcuZG8lM0Y%3D",
+      "supports": "식물계통분류학·동물계통분류학·식물형태학",
+      "limitation": "부산대 생명과학과의 형태 관찰과 분류 관련 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제",
+    "유사 학과·세부 전공 자료에서 확인한 사례의 전공 전체 일반화, 필수 교과·이수·자격 요건 단정"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

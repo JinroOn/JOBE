@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M4_20261119",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-19",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_4",
+  "majorName": "국어국문학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "커리어넷의 국어국문학과 안내는 한국어와 한국 문학을 연구하고 글쓰기를 배우는 전공으로 소개한다. 교과목 사례로 한국 고전 문학 개론, 한국 현대 문학 개론, 한국어 문법의 이해가 제시된다. 독서 일기와 짧은 글을 써 보는 활동도 소개한다.",
+      "sourceIds": [
+        "CAREERNET_KLL_69"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "서울대학교 인문대학은 국어국문학과의 학사 과정이 국어학, 고전문학, 현대문학을 다룬다고 소개한다. 연세대학교 국어국문학과 로드맵은 우리말연구의 첫걸음과 한국 고전문학의 이해 등을 기초 과목으로 제시한다. 두 대학의 학과 안내와 교육과정 사례이며 대학별 과목과 이수 기준은 달라질 수 있다.",
+      "sourceIds": [
+        "SNU_KLL",
+        "YONSEI_KLL"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "CAREERNET_KLL_69",
+      "publisher": "한국직업능력연구원 국가진로교육연구센터 / 커리어넷",
+      "title": "대학교 학과정보 — 국어국문학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=69",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "공개 페이지 JSON의 학과명, 소개, 교과목, 탐색활동을 대조했다. 국어학·국문학과 목록에 표시된 교과목·독서 일기 사례를 확인했다.",
+      "limitation": "응답 수정일 2023-05-09. 대학별 개설·이수 조건을 일반화하지 않는다.",
+      "accessedAt": "2026-11-19"
+    },
+    {
+      "sourceId": "SNU_KLL",
+      "publisher": "서울대학교 인문대학",
+      "title": "국어국문학과 학부 안내",
+      "url": "https://humanities.snu.ac.kr/academics/department",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "supports": "학사 과정에서 국어학·고전문학·현대문학을 다룬다는 소개를 확인했다.",
+      "limitation": "서울대학교 학과 소개 범위다.",
+      "accessedAt": "2026-11-19"
+    },
+    {
+      "sourceId": "YONSEI_KLL",
+      "publisher": "연세대학교 국어국문학과",
+      "title": "학부 교육과정 로드맵",
+      "url": "https://yongei.yonsei.ac.kr/korean/courses03.do",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "supports": "한국어문학의 이해, 우리말연구의 첫걸음, 문학이란 무엇인가, 한국 고전문학의 이해가 기초 과목으로 표시된다.",
+      "limitation": "해당 대학의 학부 로드맵 사례다. 학기별 개설은 별도 확인이 필요하다.",
+      "accessedAt": "2026-11-19"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

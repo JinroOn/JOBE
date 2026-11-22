@@ -1,12 +1,27 @@
 package com.jinroon.jobe.domain.diagnosis.controller;
 
 import com.jinroon.jobe.domain.diagnosis.controller.api.DiagnosisApi;
+import com.jinroon.jobe.domain.diagnosis.dto.request.DiagnosisEssayAnswerRequest;
+import com.jinroon.jobe.domain.diagnosis.dto.request.DiagnosisExamAnswerRequest;
+import com.jinroon.jobe.domain.diagnosis.dto.request.DiagnosisSessionRequest;
+import com.jinroon.jobe.domain.diagnosis.dto.request.ExamQuestionRequest;
+import com.jinroon.jobe.domain.diagnosis.dto.request.TendencyEvalResultRequest;
+import com.jinroon.jobe.domain.diagnosis.dto.response.ExamQuestionResponse;
+import com.jinroon.jobe.domain.diagnosis.dto.response.InProgressSessionResponse;
 import com.jinroon.jobe.domain.diagnosis.entity.*;
+import com.jinroon.jobe.domain.diagnosis.service.DiagnosisScoringService;
 import com.jinroon.jobe.domain.diagnosis.service.DiagnosisService;
+import com.jinroon.jobe.global.common.dto.RequestMapMapper;
+import com.jinroon.jobe.global.exception.CustomException;
+import com.jinroon.jobe.global.exception.error.ErrorCode;
+import com.jinroon.jobe.global.security.CustomUserDetails;
+import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -16,106 +31,151 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/diagnoses")
 public class DiagnosisController implements DiagnosisApi {
 
     private final DiagnosisService diagnosisService;
+    private final DiagnosisScoringService diagnosisScoringService;
 
     @Override
-    @GetMapping("/sessions/{sessionId}")
-    public DiagnosisSession getSession(@PathVariable Long sessionId) {
-        return diagnosisService.getSession(sessionId);
+    @GetMapping("/sessions/me/in-progress")
+    public ResponseEntity<InProgressSessionResponse> getInProgressSession(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        InProgressSessionResponse response = diagnosisService.getInProgressSession(userDetails.getUserId());
+        if (response == null) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(response);
     }
 
     @Override
-    @GetMapping("/users/{userId}/sessions")
-    public List<DiagnosisSession> findSessionsByUser(@PathVariable Long userId) {
-        return diagnosisService.findSessionsByUser(userId);
+    @DeleteMapping("/sessions/{sessionId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteSession(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long sessionId) {
+        diagnosisService.deleteSessionForUser(sessionId, userDetails.getUserId());
+    }
+
+    @Override
+    @GetMapping("/sessions/{sessionId}")
+    public DiagnosisSession getSession(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long sessionId) {
+        return diagnosisService.getSessionForUser(sessionId, userDetails.getUserId());
+    }
+
+    @Override
+    @GetMapping("/sessions/me")
+    public List<DiagnosisSession> findSessionsByUser(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        return diagnosisService.findSessionsByUser(userDetails.getUserId());
     }
 
     @Override
     @GetMapping("/questions")
-    public List<ExamQuestion> findQuestions() {
-        return diagnosisService.findQuestions();
+    public List<ExamQuestionResponse> findQuestions() {
+        return diagnosisService.findQuestions().stream()
+                .map(ExamQuestionResponse::from)
+                .toList();
     }
 
     @Override
     @GetMapping("/questions/{questionId}")
-    public ExamQuestion getQuestion(@PathVariable Long questionId) {
-        return diagnosisService.getQuestion(questionId);
+    public ExamQuestionResponse getQuestion(@PathVariable Long questionId) {
+        return ExamQuestionResponse.from(diagnosisService.getQuestion(questionId));
     }
 
     @Override
     @GetMapping("/sessions/{sessionId}/exam-answers")
-    public List<DiagnosisExamAnswer> findExamAnswers(@PathVariable Long sessionId) {
-        return diagnosisService.findExamAnswers(sessionId);
+    public List<DiagnosisExamAnswer> findExamAnswers(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long sessionId) {
+        return diagnosisService.findExamAnswersForUser(sessionId, userDetails.getUserId());
     }
 
     @Override
     @GetMapping("/sessions/{sessionId}/essay-answers")
-    public List<DiagnosisEssayAnswer> findEssayAnswers(@PathVariable Long sessionId) {
-        return diagnosisService.findEssayAnswers(sessionId);
+    public List<DiagnosisEssayAnswer> findEssayAnswers(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long sessionId) {
+        return diagnosisService.findEssayAnswersForUser(sessionId, userDetails.getUserId());
     }
 
     @Override
     @GetMapping("/sessions/{sessionId}/competency-result")
-    public CompetencyEvalResult getCompetencyResult(@PathVariable Long sessionId) {
-        return diagnosisService.getCompetencyResult(sessionId);
+    public CompetencyEvalResult getCompetencyResult(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long sessionId) {
+        return diagnosisService.getCompetencyResultForUser(sessionId, userDetails.getUserId());
+    }
+
+    @Override
+    @PostMapping("/sessions/{sessionId}/score")
+    public CompetencyEvalResult scoreCompetency(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long sessionId) {
+        return diagnosisScoringService.scoreCompetencyForUser(sessionId, userDetails.getUserId());
     }
 
     @Override
     @GetMapping("/sessions/{sessionId}/tendency-result")
-    public TendencyEvalResult getTendencyResult(@PathVariable Long sessionId) {
-        return diagnosisService.getTendencyResult(sessionId);
+    public TendencyEvalResult getTendencyResult(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long sessionId) {
+        return diagnosisService.getTendencyResultForUser(sessionId, userDetails.getUserId());
     }
 
     @Override
     @PostMapping("/sessions")
-    @ResponseStatus(HttpStatus.CREATED)
-    public DiagnosisSession createSession(@RequestBody Map<String, Object> request) {
-        return diagnosisService.createSession(request);
+    public DiagnosisSession createSession(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @Valid @RequestBody DiagnosisSessionRequest request) {
+        throw new CustomException(ErrorCode.LEGACY_DIAGNOSIS_RETIRED);
     }
 
     @Override
     @PatchMapping("/sessions/{sessionId}")
-    public DiagnosisSession updateSession(@PathVariable Long sessionId, @RequestBody Map<String, Object> request) {
-        return diagnosisService.updateSession(sessionId, request);
+    public DiagnosisSession updateSession(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long sessionId,
+            @Valid @RequestBody DiagnosisSessionRequest request) {
+        return diagnosisService.updateSessionForUser(sessionId, request, userDetails.getUserId());
     }
 
     @Override
     @PostMapping("/questions")
     @ResponseStatus(HttpStatus.CREATED)
-    public ExamQuestion createQuestion(@RequestBody Map<String, Object> request) {
-        return diagnosisService.createQuestion(request);
+    public ExamQuestion createQuestion(@Valid @RequestBody ExamQuestionRequest request) {
+        return diagnosisService.createQuestion(RequestMapMapper.toMap(request));
     }
 
     @Override
     @PostMapping("/exam-answers")
     @ResponseStatus(HttpStatus.CREATED)
-    public DiagnosisExamAnswer createExamAnswer(@RequestBody Map<String, Object> request) {
-        return diagnosisService.createExamAnswer(request);
+    public DiagnosisExamAnswer createExamAnswer(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @Valid @RequestBody DiagnosisExamAnswerRequest request) {
+        return diagnosisService.createExamAnswerForUser(RequestMapMapper.toMap(request), userDetails.getUserId());
     }
 
     @Override
     @PostMapping("/essay-answers")
     @ResponseStatus(HttpStatus.CREATED)
-    public DiagnosisEssayAnswer createEssayAnswer(@RequestBody Map<String, Object> request) {
-        return diagnosisService.createEssayAnswer(request);
+    public DiagnosisEssayAnswer createEssayAnswer(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @Valid @RequestBody DiagnosisEssayAnswerRequest request) {
+        return diagnosisService.createEssayAnswerForUser(RequestMapMapper.toMap(request), userDetails.getUserId());
     }
 
-    @Override
-    @PostMapping("/competency-results")
-    @ResponseStatus(HttpStatus.CREATED)
-    public CompetencyEvalResult createCompetencyResult(@RequestBody Map<String, Object> request) {
-        return diagnosisService.createCompetencyResult(request);
-    }
 
     @Override
     @PostMapping("/tendency-results")
     @ResponseStatus(HttpStatus.CREATED)
-    public TendencyEvalResult createTendencyResult(@RequestBody Map<String, Object> request) {
-        return diagnosisService.createTendencyResult(request);
+    public TendencyEvalResult createTendencyResult(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @Valid @RequestBody TendencyEvalResultRequest request) {
+        return diagnosisService.createTendencyResultForUser(RequestMapMapper.toMap(request), userDetails.getUserId());
     }
 }

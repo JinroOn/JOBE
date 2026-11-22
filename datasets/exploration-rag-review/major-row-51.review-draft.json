@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M51_20261119",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-19",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_51",
+  "majorName": "정치외교학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "정치외교학과는 국내 정치와 국가 사이의 관계에서 나타나는 현상을 이론과 사례로 공부한다. 커리어넷은 정치학개론, 국제정치, 외교정책론을 대표 과목으로 안내한다.",
+      "sourceIds": [
+        "careernet-m51"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "서울대 정치외교학부의 학부 전공선택에는 비교정치론과 국제정치 자료분석이 있다. 연세대의 2026학년도 정치외교학과 교과이수 로드맵은 비교정치 영역을 구분하고 국제정치 영역의 과목 사례로 동아시아국제관계를 제시한다.",
+      "sourceIds": [
+        "m51-university-1",
+        "m51-university-2"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "careernet-m51",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 정치외교학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=492",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2021-07-01 갱신 응답의 국내외 정치와 외교의 이론·사례 및 정치학개론·국제정치·외교정책론",
+      "limitation": "대표 학과 정보다. 학교별 교과목은 대학 공식 자료에서 확인한다.",
+      "accessedAt": "2026-11-19"
+    },
+    {
+      "sourceId": "m51-university-1",
+      "publisher": "서울대학교 정치외교학부",
+      "title": "학부 전공선택 교과과정",
+      "url": "https://psir.snu.ac.kr/undergraduate/majorsel",
+      "supports": "비교정치론과 국제정치 자료분석의 개설 과목 목록",
+      "limitation": "서울대학교의 전공 과목 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-19"
+    },
+    {
+      "sourceId": "m51-university-2",
+      "publisher": "연세대학교",
+      "title": "2026학년도 연세대학교 교과이수 로드맵 정치외교학과",
+      "url": "https://universitycollege.yonsei.ac.kr/cms/etcResourceOpen.do?key=%24cms%24EwBmDYwRmB9BPA9gOwM4FMCWACAxogVwCcNsjEBDAEwFsKAHWAM02QDp6qmg&site=%24cms%24K4YyA",
+      "supports": "비교정치 영역과 국제정치 영역의 동아시아국제관계 과목",
+      "limitation": "연세대학교 2026학년도 학부 교과이수 로드맵의 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-21"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

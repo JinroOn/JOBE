@@ -1,0 +1,2832 @@
+{
+  "request": {
+    "contractVersion": "EXPLORATION_AI_CONTRACT_V1_2",
+    "requestId": "fixture-plan_beyond_seven",
+    "sourceContextHash": "8d3592d5007377d4fd452256ace1bb17f04a2013da702dbdba80fa5ab4c7ec40",
+    "purpose": "PLAN",
+    "mode": "DEV",
+    "testOnly": true,
+    "input": {
+      "diagnosisStatus": "LOW_EVIDENCE",
+      "candidateNames": [
+        "합성 전공 0",
+        "합성 전공 1",
+        "합성 전공 2",
+        "합성 전공 3",
+        "합성 전공 4",
+        "합성 전공 5",
+        "합성 전공 6",
+        "전공 여덟번째"
+      ],
+      "targetName": "전공 여덟번째",
+      "uncertainty": {
+        "lowEvidence": true,
+        "interestTie": true,
+        "lowDifferentiation": true
+      },
+      "preferences": [
+        {
+          "topic": "READINESS-INFO-01",
+          "meaning": "INFO_SOME",
+          "unknown": false
+        }
+      ],
+      "collection": {
+        "initialized": true,
+        "applicableAnswerCount": 1,
+        "budgetLimited": false,
+        "omittedQuestionCount": 0
+      },
+      "planSpec": {
+        "weeks": 12,
+        "phaseLayout": "INFO_4_BASIC_4_ACTIVITY_4"
+      }
+    },
+    "evidence": {
+      "approvedOnly": true,
+      "bindingStatus": "BOUND",
+      "datasetVersion": "TEST_PLAN12",
+      "referenceKeys": [
+        "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ]
+    },
+    "inputHash": "24aee23e8e3171eabbfe7d022ce3664ef271ecfe68a7c23191b98713d9a8eb4a"
+  },
+  "requestCases": [
+    {
+      "name": "valid-plan12",
+      "valid": true,
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_2",
+        "requestId": "fixture-plan_beyond_seven",
+        "sourceContextHash": "8d3592d5007377d4fd452256ace1bb17f04a2013da702dbdba80fa5ab4c7ec40",
+        "purpose": "PLAN",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "합성 전공 0",
+            "합성 전공 1",
+            "합성 전공 2",
+            "합성 전공 3",
+            "합성 전공 4",
+            "합성 전공 5",
+            "합성 전공 6",
+            "전공 여덟번째"
+          ],
+          "targetName": "전공 여덟번째",
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          },
+          "planSpec": {
+            "weeks": 12,
+            "phaseLayout": "INFO_4_BASIC_4_ACTIVITY_4"
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "BOUND",
+          "datasetVersion": "TEST_PLAN12",
+          "referenceKeys": [
+            "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        },
+        "inputHash": "24aee23e8e3171eabbfe7d022ce3664ef271ecfe68a7c23191b98713d9a8eb4a"
+      }
+    },
+    {
+      "name": "missing-plan-spec",
+      "valid": false,
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_2",
+        "requestId": "fixture-plan_beyond_seven",
+        "sourceContextHash": "8d3592d5007377d4fd452256ace1bb17f04a2013da702dbdba80fa5ab4c7ec40",
+        "purpose": "PLAN",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "합성 전공 0",
+            "합성 전공 1",
+            "합성 전공 2",
+            "합성 전공 3",
+            "합성 전공 4",
+            "합성 전공 5",
+            "합성 전공 6",
+            "전공 여덟번째"
+          ],
+          "targetName": "전공 여덟번째",
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "BOUND",
+          "datasetVersion": "TEST_PLAN12",
+          "referenceKeys": [
+            "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        },
+        "inputHash": "edec3c877c70b95a6fb9792623383a1a88a6ede9ab5d317a4ada12bee1250685"
+      }
+    },
+    {
+      "name": "old-version-with-spec",
+      "valid": false,
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-plan_beyond_seven",
+        "sourceContextHash": "8d3592d5007377d4fd452256ace1bb17f04a2013da702dbdba80fa5ab4c7ec40",
+        "purpose": "PLAN",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "합성 전공 0",
+            "합성 전공 1",
+            "합성 전공 2",
+            "합성 전공 3",
+            "합성 전공 4",
+            "합성 전공 5",
+            "합성 전공 6",
+            "전공 여덟번째"
+          ],
+          "targetName": "전공 여덟번째",
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          },
+          "planSpec": {
+            "weeks": 12,
+            "phaseLayout": "INFO_4_BASIC_4_ACTIVITY_4"
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "BOUND",
+          "datasetVersion": "TEST_PLAN12",
+          "referenceKeys": [
+            "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        },
+        "inputHash": "24aee23e8e3171eabbfe7d022ce3664ef271ecfe68a7c23191b98713d9a8eb4a"
+      }
+    },
+    {
+      "name": "wrong-purpose",
+      "valid": false,
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_2",
+        "requestId": "fixture-plan_beyond_seven",
+        "sourceContextHash": "8d3592d5007377d4fd452256ace1bb17f04a2013da702dbdba80fa5ab4c7ec40",
+        "purpose": "CONSULTATION",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "합성 전공 0",
+            "합성 전공 1",
+            "합성 전공 2",
+            "합성 전공 3",
+            "합성 전공 4",
+            "합성 전공 5",
+            "합성 전공 6",
+            "전공 여덟번째"
+          ],
+          "targetName": "전공 여덟번째",
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          },
+          "planSpec": {
+            "weeks": 12,
+            "phaseLayout": "INFO_4_BASIC_4_ACTIVITY_4"
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "BOUND",
+          "datasetVersion": "TEST_PLAN12",
+          "referenceKeys": [
+            "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        },
+        "inputHash": "d2a68ab1868a18f747cdea4f9287d34e7e91a6bda931d694ed075f0238be12bc"
+      }
+    },
+    {
+      "name": "wrong-week-count",
+      "valid": false,
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_2",
+        "requestId": "fixture-plan_beyond_seven",
+        "sourceContextHash": "8d3592d5007377d4fd452256ace1bb17f04a2013da702dbdba80fa5ab4c7ec40",
+        "purpose": "PLAN",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "합성 전공 0",
+            "합성 전공 1",
+            "합성 전공 2",
+            "합성 전공 3",
+            "합성 전공 4",
+            "합성 전공 5",
+            "합성 전공 6",
+            "전공 여덟번째"
+          ],
+          "targetName": "전공 여덟번째",
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          },
+          "planSpec": {
+            "weeks": 6,
+            "phaseLayout": "INFO_4_BASIC_4_ACTIVITY_4"
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "BOUND",
+          "datasetVersion": "TEST_PLAN12",
+          "referenceKeys": [
+            "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        },
+        "inputHash": "8451a0a6513ffd33fe57bdbb9421ff9c4a4499d822d51c18444a24f2ff1dfba5"
+      }
+    },
+    {
+      "name": "float-week-count",
+      "valid": false,
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_2",
+        "requestId": "fixture-plan_beyond_seven",
+        "sourceContextHash": "8d3592d5007377d4fd452256ace1bb17f04a2013da702dbdba80fa5ab4c7ec40",
+        "purpose": "PLAN",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "합성 전공 0",
+            "합성 전공 1",
+            "합성 전공 2",
+            "합성 전공 3",
+            "합성 전공 4",
+            "합성 전공 5",
+            "합성 전공 6",
+            "전공 여덟번째"
+          ],
+          "targetName": "전공 여덟번째",
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          },
+          "planSpec": {
+            "weeks": 12.0,
+            "phaseLayout": "INFO_4_BASIC_4_ACTIVITY_4"
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "BOUND",
+          "datasetVersion": "TEST_PLAN12",
+          "referenceKeys": [
+            "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        },
+        "inputHash": "afd4f20c1ef69750a1f747a4c055e4995a6b78749c4fdb35cd74846406fb5950"
+      }
+    },
+    {
+      "name": "wrong-layout",
+      "valid": false,
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_2",
+        "requestId": "fixture-plan_beyond_seven",
+        "sourceContextHash": "8d3592d5007377d4fd452256ace1bb17f04a2013da702dbdba80fa5ab4c7ec40",
+        "purpose": "PLAN",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "합성 전공 0",
+            "합성 전공 1",
+            "합성 전공 2",
+            "합성 전공 3",
+            "합성 전공 4",
+            "합성 전공 5",
+            "합성 전공 6",
+            "전공 여덟번째"
+          ],
+          "targetName": "전공 여덟번째",
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          },
+          "planSpec": {
+            "weeks": 12,
+            "phaseLayout": "OTHER"
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "BOUND",
+          "datasetVersion": "TEST_PLAN12",
+          "referenceKeys": [
+            "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        },
+        "inputHash": "f454ff61007e26ebe8fc3885dc5c9a783ea225669962319a0407f7ee7e9a5442"
+      }
+    },
+    {
+      "name": "null-target",
+      "valid": false,
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_2",
+        "requestId": "fixture-plan_beyond_seven",
+        "sourceContextHash": "8d3592d5007377d4fd452256ace1bb17f04a2013da702dbdba80fa5ab4c7ec40",
+        "purpose": "PLAN",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "합성 전공 0",
+            "합성 전공 1",
+            "합성 전공 2",
+            "합성 전공 3",
+            "합성 전공 4",
+            "합성 전공 5",
+            "합성 전공 6",
+            "전공 여덟번째"
+          ],
+          "targetName": null,
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          },
+          "planSpec": {
+            "weeks": 12,
+            "phaseLayout": "INFO_4_BASIC_4_ACTIVITY_4"
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "BOUND",
+          "datasetVersion": "TEST_PLAN12",
+          "referenceKeys": [
+            "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        },
+        "inputHash": "2b67a6b9a04e4e27d75ce060fb9ff0361e095035b58e2d3327c4302093b431b1"
+      }
+    },
+    {
+      "name": "extra-conversation",
+      "valid": false,
+      "request": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_2",
+        "requestId": "fixture-plan_beyond_seven",
+        "sourceContextHash": "8d3592d5007377d4fd452256ace1bb17f04a2013da702dbdba80fa5ab4c7ec40",
+        "purpose": "PLAN",
+        "mode": "DEV",
+        "testOnly": true,
+        "input": {
+          "diagnosisStatus": "LOW_EVIDENCE",
+          "candidateNames": [
+            "합성 전공 0",
+            "합성 전공 1",
+            "합성 전공 2",
+            "합성 전공 3",
+            "합성 전공 4",
+            "합성 전공 5",
+            "합성 전공 6",
+            "전공 여덟번째"
+          ],
+          "targetName": "전공 여덟번째",
+          "uncertainty": {
+            "lowEvidence": true,
+            "interestTie": true,
+            "lowDifferentiation": true
+          },
+          "preferences": [
+            {
+              "topic": "READINESS-INFO-01",
+              "meaning": "INFO_SOME",
+              "unknown": false
+            }
+          ],
+          "collection": {
+            "initialized": true,
+            "applicableAnswerCount": 1,
+            "budgetLimited": false,
+            "omittedQuestionCount": 0
+          },
+          "planSpec": {
+            "weeks": 12,
+            "phaseLayout": "INFO_4_BASIC_4_ACTIVITY_4"
+          },
+          "conversation": {
+            "history": [],
+            "question": "SYNTHETIC"
+          }
+        },
+        "evidence": {
+          "approvedOnly": true,
+          "bindingStatus": "BOUND",
+          "datasetVersion": "TEST_PLAN12",
+          "referenceKeys": [
+            "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        },
+        "inputHash": "7174add3fabfa3d90422aaf9b0d503f0b8745fe5b8319c2ee2cfb9c29c425979"
+      }
+    }
+  ],
+  "responseCases": [
+    {
+      "name": "valid-twelve-weeks",
+      "valid": true,
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_2",
+        "requestId": "fixture-plan_beyond_seven",
+        "inputHash": "24aee23e8e3171eabbfe7d022ce3664ef271ecfe68a7c23191b98713d9a8eb4a",
+        "purpose": "PLAN",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "targetName": "전공 여덟번째",
+          "weeks": [
+            {
+              "week": 1,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 1",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 2,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 2",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 3,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 3",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 4,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 4",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 5,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 5",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 6,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 6",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 7,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 7",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 8,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 8",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 9,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 9",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 10,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 10",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 11,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 11",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 12,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 12",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "eleven-weeks",
+      "valid": false,
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_2",
+        "requestId": "fixture-plan_beyond_seven",
+        "inputHash": "24aee23e8e3171eabbfe7d022ce3664ef271ecfe68a7c23191b98713d9a8eb4a",
+        "purpose": "PLAN",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "targetName": "전공 여덟번째",
+          "weeks": [
+            {
+              "week": 1,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 1",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 2,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 2",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 3,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 3",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 4,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 4",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 5,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 5",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 6,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 6",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 7,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 7",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 8,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 8",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 9,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 9",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 10,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 10",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 11,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 11",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "duplicate-week",
+      "valid": false,
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_2",
+        "requestId": "fixture-plan_beyond_seven",
+        "inputHash": "24aee23e8e3171eabbfe7d022ce3664ef271ecfe68a7c23191b98713d9a8eb4a",
+        "purpose": "PLAN",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "targetName": "전공 여덟번째",
+          "weeks": [
+            {
+              "week": 1,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 1",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 1,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 2",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 3,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 3",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 4,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 4",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 5,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 5",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 6,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 6",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 7,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 7",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 8,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 8",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 9,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 9",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 10,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 10",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 11,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 11",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 12,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 12",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "wrong-phase",
+      "valid": false,
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_2",
+        "requestId": "fixture-plan_beyond_seven",
+        "inputHash": "24aee23e8e3171eabbfe7d022ce3664ef271ecfe68a7c23191b98713d9a8eb4a",
+        "purpose": "PLAN",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "targetName": "전공 여덟번째",
+          "weeks": [
+            {
+              "week": 1,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 1",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 2,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 2",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 3,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 3",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 4,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 4",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 5,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 5",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 6,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 6",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 7,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 7",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 8,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 8",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 9,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 9",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 10,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 10",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 11,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 11",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 12,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 12",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "boolean-week",
+      "valid": false,
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_2",
+        "requestId": "fixture-plan_beyond_seven",
+        "inputHash": "24aee23e8e3171eabbfe7d022ce3664ef271ecfe68a7c23191b98713d9a8eb4a",
+        "purpose": "PLAN",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "targetName": "전공 여덟번째",
+          "weeks": [
+            {
+              "week": true,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 1",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 2,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 2",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 3,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 3",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 4,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 4",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 5,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 5",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 6,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 6",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 7,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 7",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 8,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 8",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 9,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 9",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 10,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 10",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 11,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 11",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 12,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 12",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "empty-tasks",
+      "valid": false,
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_2",
+        "requestId": "fixture-plan_beyond_seven",
+        "inputHash": "24aee23e8e3171eabbfe7d022ce3664ef271ecfe68a7c23191b98713d9a8eb4a",
+        "purpose": "PLAN",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "targetName": "전공 여덟번째",
+          "weeks": [
+            {
+              "week": 1,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 1",
+              "tasks": [],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 2,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 2",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 3,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 3",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 4,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 4",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 5,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 5",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 6,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 6",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 7,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 7",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 8,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 8",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 9,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 9",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 10,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 10",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 11,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 11",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 12,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 12",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "too-many-tasks",
+      "valid": false,
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_2",
+        "requestId": "fixture-plan_beyond_seven",
+        "inputHash": "24aee23e8e3171eabbfe7d022ce3664ef271ecfe68a7c23191b98713d9a8eb4a",
+        "purpose": "PLAN",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "targetName": "전공 여덟번째",
+          "weeks": [
+            {
+              "week": 1,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 1",
+              "tasks": [
+                "TEST",
+                "TEST",
+                "TEST",
+                "TEST"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 2,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 2",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 3,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 3",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 4,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 4",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 5,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 5",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 6,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 6",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 7,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 7",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 8,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 8",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 9,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 9",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 10,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 10",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 11,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 11",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 12,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 12",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "blank-output",
+      "valid": false,
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_2",
+        "requestId": "fixture-plan_beyond_seven",
+        "inputHash": "24aee23e8e3171eabbfe7d022ce3664ef271ecfe68a7c23191b98713d9a8eb4a",
+        "purpose": "PLAN",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "targetName": "전공 여덟번째",
+          "weeks": [
+            {
+              "week": 1,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 1",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": " ",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 2,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 2",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 3,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 3",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 4,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 4",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 5,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 5",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 6,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 6",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 7,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 7",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 8,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 8",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 9,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 9",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 10,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 10",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 11,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 11",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 12,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 12",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "unknown-reference",
+      "valid": false,
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_2",
+        "requestId": "fixture-plan_beyond_seven",
+        "inputHash": "24aee23e8e3171eabbfe7d022ce3664ef271ecfe68a7c23191b98713d9a8eb4a",
+        "purpose": "PLAN",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "targetName": "전공 여덟번째",
+          "weeks": [
+            {
+              "week": 1,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 1",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "forged"
+              ]
+            },
+            {
+              "week": 2,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 2",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 3,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 3",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 4,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 4",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 5,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 5",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 6,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 6",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 7,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 7",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 8,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 8",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 9,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 9",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 10,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 10",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 11,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 11",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 12,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 12",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "duplicate-reference",
+      "valid": false,
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_2",
+        "requestId": "fixture-plan_beyond_seven",
+        "inputHash": "24aee23e8e3171eabbfe7d022ce3664ef271ecfe68a7c23191b98713d9a8eb4a",
+        "purpose": "PLAN",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "targetName": "전공 여덟번째",
+          "weeks": [
+            {
+              "week": 1,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 1",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 2,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 2",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 3,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 3",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 4,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 4",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 5,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 5",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 6,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 6",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 7,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 7",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 8,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 8",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 9,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 9",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 10,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 10",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 11,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 11",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 12,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 12",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "different-target",
+      "valid": false,
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_2",
+        "requestId": "fixture-plan_beyond_seven",
+        "inputHash": "24aee23e8e3171eabbfe7d022ce3664ef271ecfe68a7c23191b98713d9a8eb4a",
+        "purpose": "PLAN",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "targetName": "OTHER",
+          "weeks": [
+            {
+              "week": 1,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 1",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 2,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 2",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 3,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 3",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 4,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 4",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 5,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 5",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 6,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 6",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 7,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 7",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 8,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 8",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 9,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 9",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 10,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 10",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 11,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 11",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 12,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 12",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "extra-week-field",
+      "valid": false,
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_2",
+        "requestId": "fixture-plan_beyond_seven",
+        "inputHash": "24aee23e8e3171eabbfe7d022ce3664ef271ecfe68a7c23191b98713d9a8eb4a",
+        "purpose": "PLAN",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "targetName": "전공 여덟번째",
+          "weeks": [
+            {
+              "week": 1,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 1",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ],
+              "score": 99
+            },
+            {
+              "week": 2,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 2",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 3,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 3",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 4,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 4",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 5,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 5",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 6,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 6",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 7,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 7",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 8,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 8",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 9,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 9",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 10,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 10",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 11,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 11",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 12,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 12",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "extra-result-field",
+      "valid": false,
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_2",
+        "requestId": "fixture-plan_beyond_seven",
+        "inputHash": "24aee23e8e3171eabbfe7d022ce3664ef271ecfe68a7c23191b98713d9a8eb4a",
+        "purpose": "PLAN",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "targetName": "전공 여덟번째",
+          "weeks": [
+            {
+              "week": 1,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 1",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 2,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 2",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 3,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 3",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 4,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 4",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 5,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 5",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 6,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 6",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 7,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 7",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 8,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 8",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 9,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 9",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 10,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 10",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 11,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 11",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 12,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 12",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            }
+          ],
+          "overview": "OLD"
+        }
+      }
+    },
+    {
+      "name": "downgraded-response",
+      "valid": false,
+      "response": {
+        "contractVersion": "EXPLORATION_AI_CONTRACT_V1_0",
+        "requestId": "fixture-plan_beyond_seven",
+        "inputHash": "24aee23e8e3171eabbfe7d022ce3664ef271ecfe68a7c23191b98713d9a8eb4a",
+        "purpose": "PLAN",
+        "status": "SUCCEEDED",
+        "changesRecommendation": false,
+        "reasonCode": null,
+        "result": {
+          "targetName": "전공 여덟번째",
+          "weeks": [
+            {
+              "week": 1,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 1",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 2,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 2",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 3,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 3",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 4,
+              "phase": "INFO",
+              "title": "SYNTHETIC week 4",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 5,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 5",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 6,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 6",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 7,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 7",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 8,
+              "phase": "BASIC_LEARNING",
+              "title": "SYNTHETIC week 8",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 9,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 9",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 10,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 10",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 11,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 11",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            {
+              "week": 12,
+              "phase": "SMALL_ACTIVITY",
+              "title": "SYNTHETIC week 12",
+              "tasks": [
+                "SYNTHETIC educational task"
+              ],
+              "expectedOutput": "SYNTHETIC note",
+              "referenceKeys": [
+                "ref_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

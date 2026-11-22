@@ -1,0 +1,349 @@
+{
+  "schema_version": "1.1",
+  "major_mapping_version": "MAJOR_MAPPING_V1_2_IMPLEMENTATION_CANDIDATE",
+  "content_status": "DRAFT",
+  "implementation_review_status": "PENDING",
+  "domain_review_status": "PENDING",
+  "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M131_DRAFT_V3_SCOPE_V2_ISSUE130_V1",
+  "provenance": {
+    "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
+    "scope": "SINGLE_MAJOR_DEV_REVIEW",
+    "parent_file_sha256": "98e0d997a7af59dfe2dab16e1156dad04933809a620b120ddd5990c8797c2e7c"
+  },
+  "activities": [
+    {
+      "activity_id": "DRAFT-M131-01",
+      "version": "0.4.2",
+      "title": "전자 장치의 입력과 출력을 표시하기",
+      "kind": "INFORMATION",
+      "major_code": "MAJOR_ROW_131",
+      "major_name": "전자공학과",
+      "exploration_group": "ENG",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "탐색 주제: 디지털 회로와 신호 규칙. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
+      "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
+      "steps": [
+        "두 과목명을 읽고 입력을 받는 부분과 동작을 만드는 부분을 생각한다.",
+        "가상 자동 조명에서 입력, 판정, 출력을 한 줄로 적는다."
+      ],
+      "artifacts": [
+        "신호 흐름 그림"
+      ],
+      "example_output": "밝기를 읽고 설정값과 비교해 켜짐을 결정한다.",
+      "worksheet_columns": "공식 자료에서 확인한 명칭 / 내가 더 알아볼 주제 / 미확인 질문 / 확인 경로",
+      "reflection_question": "소개를 읽은 뒤 관심이 생긴 부분과 여전히 모르는 부분은 무엇인가요?",
+      "alternative": "그림 대신 세 단어를 연결한다.",
+      "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
+      "source_ids": [
+        "m131-careernet",
+        "m131-university",
+        "m131-extra"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 KAIST 전기 및 전자공학부 학부 교과과정 리스트이다.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 전자 장치의 입력과 출력을 표시하기\n\n공식 교과과정의 신호및시스템과 전자회로 과목명을 참고한다.\n\n1. 두 과목명을 읽고 입력을 받는 부분과 동작을 만드는 부분을 생각한다.\n2. 가상 자동 조명에서 입력, 판정, 출력을 한 줄로 적는다.\n\n남길 결과물은 신호 흐름 그림입니다.\n\n쉬운 대안. 그림 대신 세 단어를 연결한다.",
+      "worksheet_markdown": "## 전자 장치의 입력과 출력을 표시하기\n\n공식 교과과정의 신호및시스템과 전자회로 과목명을 참고한다.\n\n| 입력 | 판정 | 출력 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m131-careernet",
+          "title": "대학교 학과정보 전자공학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=469",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2020-12-02 갱신 응답에서 확인한 전자공학과는 회로와 신호를 분석해 전자 장치가 정보를 처리하고 동작하는 방식을 배운다. 커리어넷은 회로이론, 신호 및 시스템과 디지털 통신을 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m131-university",
+          "title": "2026학년도 학부 교과과정 및 졸업요건",
+          "publisher": "경상국립대학교 전자공학부",
+          "url": "https://www.gnu.ac.kr/see/cm/cntnts/cntntsView.do?cntntsId=6594&mi=13992",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "전자회로·신호및시스템·디지털시스템설계및실습",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m131-extra",
+          "title": "학부 교과과정 리스트",
+          "publisher": "KAIST 전기 및 전자공학부",
+          "url": "https://ee.kaist.ac.kr/under-curr-list/",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "연속·이산 신호와 시스템",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "KAIST 전기 및 전자공학부의 신호 처리 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-READ-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-READ-01",
+          "step_indexes": [
+            0
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M131-02",
+      "version": "0.4.2",
+      "title": "가상 밝기 신호를 켜짐과 꺼짐으로 바꾸기",
+      "kind": "SMALL_TASK",
+      "major_code": "MAJOR_ROW_131",
+      "major_name": "전자공학과",
+      "exploration_group": "ENG",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 10,
+        "max": 15,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "경험할 주제: 디지털 회로와 신호 규칙. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
+      "scenario": "가상 밝기 값 2·5·1·4를 사용한다. 3보다 작으면 켜짐, 나머지는 꺼짐이라는 규칙이다.",
+      "steps": [
+        "각 시점의 입력과 결과를 표에 적는다.",
+        "3의 입력이 추가되면 어디에 속하는지 확인한다."
+      ],
+      "artifacts": [
+        "밝기 입력·출력 표"
+      ],
+      "example_output": "시점 순서대로 2 → 켜짐, 5 → 꺼짐, 1 → 켜짐, 4 → 꺼짐이다. 추가 입력 3은 기준값과 같으므로 ‘3보다 작다’는 조건을 충족하지 않아 꺼짐이다.",
+      "worksheet_columns": "시점 / 측정값 / 판정 / 출력",
+      "reflection_question": "작은 규칙을 조합해 기능을 만드는 일이 흥미로운가?",
+      "alternative": "전기 장치를 쓰지 않고 숫자와 글자만 사용한다.",
+      "safety_boundary": "실제 회로 제작·납땜·전기 측정 없이 논리표만 작성",
+      "source_ids": [
+        "m131-careernet",
+        "m131-university",
+        "m131-extra"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 KAIST 전기 및 전자공학부 학부 교과과정 리스트이다.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 가상 밝기 신호를 켜짐과 꺼짐으로 바꾸기\n\n가상 밝기 값 2·5·1·4를 사용한다. 3보다 작으면 켜짐, 나머지는 꺼짐이라는 규칙이다.\n\n1. 각 시점의 입력과 결과를 표에 적는다.\n2. 3의 입력이 추가되면 어디에 속하는지 확인한다.\n\n남길 결과물은 밝기 입력·출력 표입니다.\n\n쉬운 대안. 전기 장치를 쓰지 않고 숫자와 글자만 사용한다.",
+      "worksheet_markdown": "## 가상 밝기 신호를 켜짐과 꺼짐으로 바꾸기\n\n가상 밝기 값 2·5·1·4를 사용한다. 3보다 작으면 켜짐, 나머지는 꺼짐이라는 규칙이다.\n\n| 시점 | 측정값 | 판정 | 출력 |\n|---|---|---|---|\n| 1 | 2 | | |\n| 2 | 5 | | |\n| 3 | 1 | | |\n| 4 | 4 | | |\n| 추가 입력 | 3 | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m131-careernet",
+          "title": "대학교 학과정보 전자공학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=469",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2020-12-02 갱신 응답에서 확인한 전자공학과는 회로와 신호를 분석해 전자 장치가 정보를 처리하고 동작하는 방식을 배운다. 커리어넷은 회로이론, 신호 및 시스템과 디지털 통신을 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m131-university",
+          "title": "2026학년도 학부 교과과정 및 졸업요건",
+          "publisher": "경상국립대학교 전자공학부",
+          "url": "https://www.gnu.ac.kr/see/cm/cntnts/cntntsView.do?cntntsId=6594&mi=13992",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "전자회로·신호및시스템·디지털시스템설계및실습",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m131-extra",
+          "title": "학부 교과과정 리스트",
+          "publisher": "KAIST 전기 및 전자공학부",
+          "url": "https://ee.kaist.ac.kr/under-curr-list/",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "연속·이산 신호와 시스템",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "KAIST 전기 및 전자공학부의 신호 처리 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-PROJECT-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-PROJECT-01",
+          "step_indexes": [
+            0,
+            1
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M131-03",
+      "version": "0.4.3",
+      "title": "판정 기준 주변에서 출력 변화를 살피기",
+      "kind": "REFLECTION_AND_NEXT_STEP",
+      "major_code": "MAJOR_ROW_131",
+      "major_name": "전자공학과",
+      "exploration_group": "ENG",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
+      "scenario": "가상 밝기 입력은 2·3·2다. 값이 3보다 작으면 켜지고, 3 이상이면 꺼지는 규칙을 사용한다.",
+      "steps": [
+        "제시된 기준에서 세 입력의 결과를 적고, 출력이 바뀌는 횟수를 표시한다.",
+        "안정적인 동작인지 판단하기 위해 추가로 볼 시간 기록을 고른다."
+      ],
+      "artifacts": [
+        "입력과 출력 변화 기록"
+      ],
+      "example_output": "켜짐·꺼짐·켜짐으로 바뀐다. 실제 배치라면 밝기 변화가 얼마나 이어지는지 관찰한다.",
+      "worksheet_columns": "경험한 과정 / 흥미·불편·모름 / 확인 질문 / 확인 경로 / 다음 행동",
+      "reflection_question": "작은 규칙을 조합해 기능을 만드는 일이 흥미로운가?",
+      "alternative": "예시 순서에서 바뀌는 지점만 표시한다.",
+      "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
+      "source_ids": [
+        "m131-careernet",
+        "m131-university",
+        "m131-extra"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 KAIST 전기 및 전자공학부 학부 교과과정 리스트이다.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 판정 기준 주변에서 출력 변화를 살피기\n\n가상 밝기 입력은 2·3·2다. 값이 3보다 작으면 켜지고, 3 이상이면 꺼지는 규칙을 사용한다.\n\n1. 제시된 기준에서 세 입력의 결과를 적고, 출력이 바뀌는 횟수를 표시한다.\n2. 안정적인 동작인지 판단하기 위해 추가로 볼 시간 기록을 고른다.\n\n남길 결과물은 입력과 출력 변화 기록입니다.\n\n쉬운 대안. 예시 순서에서 바뀌는 지점만 표시한다.",
+      "worksheet_markdown": "## 판정 기준 주변에서 출력 변화를 살피기\n\n가상 밝기 입력은 2·3·2다. 값이 3보다 작으면 켜지고, 3 이상이면 꺼지는 규칙을 사용한다.\n\n| 입력 | 출력 | 더 볼 기록 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m131-careernet",
+          "title": "대학교 학과정보 전자공학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=469",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2020-12-02 갱신 응답에서 확인한 전자공학과는 회로와 신호를 분석해 전자 장치가 정보를 처리하고 동작하는 방식을 배운다. 커리어넷은 회로이론, 신호 및 시스템과 디지털 통신을 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m131-university",
+          "title": "2026학년도 학부 교과과정 및 졸업요건",
+          "publisher": "경상국립대학교 전자공학부",
+          "url": "https://www.gnu.ac.kr/see/cm/cntnts/cntntsView.do?cntntsId=6594&mi=13992",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "전자회로·신호및시스템·디지털시스템설계및실습",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m131-extra",
+          "title": "학부 교과과정 리스트",
+          "publisher": "KAIST 전기 및 전자공학부",
+          "url": "https://ee.kaist.ac.kr/under-curr-list/",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "연속·이산 신호와 시스템",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "KAIST 전기 및 전자공학부의 신호 처리 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [],
+      "preference_mapping_basis": [],
+      "revised_on": "2026-11-20"
+    }
+  ]
+}

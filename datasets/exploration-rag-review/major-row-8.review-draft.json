@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M8_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_8",
+  "majorName": "불어불문학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "불어불문학과는 프랑스어의 구조와 사용, 프랑스어권 문학을 공부한다. 커리어넷은 근대불문학·불어구조의 이해·프랑스어회화를 과목 사례로 든다.",
+      "sourceIds": [
+        "m8-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "연세대는 프랑스어 학습·프랑스언어학·프랑스문학의 세 트랙을 소개한다. 고려대 전공과목 목록에는 프랑스문학의이해와 프랑스어텍스트번역연습이 있다.",
+      "sourceIds": [
+        "m8-university",
+        "m8-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m8-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 불어불문학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=226",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2021-12-07 갱신 응답에서 확인한 불어불문학과는 프랑스어의 구조와 사용, 프랑스어권 문학을 공부한다. 커리어넷은 근대불문학·불어구조의 이해·프랑스어회화를 과목 사례로 든다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m8-university",
+      "publisher": "연세대학교 불어불문학과",
+      "title": "학부과정 개요",
+      "url": "https://franys.yonsei.ac.kr/franys/subject/subject.do",
+      "supports": "프랑스어 학습·언어학·문학의 세 트랙",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m8-extra",
+      "publisher": "고려대학교 불어불문학과",
+      "title": "전공과목 목록",
+      "url": "https://kufra.korea.ac.kr/kufra/info/major01.do",
+      "supports": "프랑스문학의이해 및 프랑스어텍스트번역연습",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

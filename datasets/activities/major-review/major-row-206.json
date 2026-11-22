@@ -1,0 +1,349 @@
+{
+  "schema_version": "1.1",
+  "major_mapping_version": "MAJOR_MAPPING_V1_2_IMPLEMENTATION_CANDIDATE",
+  "content_status": "DRAFT",
+  "implementation_review_status": "PENDING",
+  "domain_review_status": "PENDING",
+  "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M206_DRAFT_V3_ISSUE130_V1",
+  "provenance": {
+    "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
+    "scope": "SINGLE_MAJOR_DEV_REVIEW",
+    "parent_file_sha256": "98e0d997a7af59dfe2dab16e1156dad04933809a620b120ddd5990c8797c2e7c"
+  },
+  "activities": [
+    {
+      "activity_id": "DRAFT-M206-01",
+      "version": "0.4.3",
+      "title": "가상 상황 전달에 필요한 정보 정하기",
+      "kind": "INFORMATION",
+      "major_code": "MAJOR_ROW_206",
+      "major_name": "응급구조학과",
+      "exploration_group": "BIO",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "탐색 주제: 응급 관련 의사소통의 질문 구성. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
+      "scenario": "재난관리학및실습과 구조및이송을 과목 사례로 읽는다. 가상 상황에서 안내 요원이 오후 2시 5분 체육관 안에서 방문자를 만났고 정확한 입구는 아직 확인 중이다.",
+      "steps": [
+        "가상 상황에서 이미 확인한 위치와 아직 모르는 위치를 구분한다.",
+        "다른 안내 요원에게 상황을 전달하기 위해 누구·어디·언제 중 기록할 항목을 고른다."
+      ],
+      "artifacts": [
+        "가상 상황 전달 항목"
+      ],
+      "example_output": "장소의 층과 입구를 구분해서 전달할 수 있는지 확인한다.",
+      "worksheet_columns": "공식 자료에서 확인한 명칭 / 내가 더 알아볼 주제 / 미확인 질문 / 확인 경로",
+      "reflection_question": "소개를 읽은 뒤 관심이 생긴 부분과 여전히 모르는 부분은 무엇인가요?",
+      "alternative": "예시 사례와 과목명만 읽는다.",
+      "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
+      "source_ids": [
+        "m206-careernet",
+        "m206-university",
+        "m206-extra"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 가상 상황 전달에 필요한 정보 정하기\n\n재난관리학및실습과 구조및이송을 과목 사례로 읽는다. 가상 상황에서 안내 요원이 오후 2시 5분 체육관 안에서 방문자를 만났고 정확한 입구는 아직 확인 중이다.\n\n1. 가상 상황에서 이미 확인한 위치와 아직 모르는 위치를 구분한다.\n2. 다른 안내 요원에게 상황을 전달하기 위해 누구·어디·언제 중 기록할 항목을 고른다.\n\n남길 결과물은 가상 상황 전달 항목입니다.\n\n쉬운 대안. 예시 사례와 과목명만 읽는다.",
+      "worksheet_markdown": "## 가상 상황 전달에 필요한 정보 정하기\n\n재난관리학및실습과 구조및이송을 과목 사례로 읽는다. 가상 상황에서 안내 요원이 오후 2시 5분 체육관 안에서 방문자를 만났고 정확한 입구는 아직 확인 중이다.\n\n| 과목 | 확인 정보 | 질문 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m206-careernet",
+          "title": "대학교 학과정보 응급구조학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=10014",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2020-12-02 갱신 응답에서 확인한 응급구조학과는 응급의료체계와 응급 상황에서 필요한 평가·이송·의사소통을 공부한다. 커리어넷은 응급구조학개론과 응급환자관리학을 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m206-university",
+          "title": "교과과정",
+          "publisher": "동명대학교 응급구조학과",
+          "url": "https://www.tu.ac.kr/emergency/sub02_01.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "재난관리학및실습·응급처치시뮬레이션",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m206-extra",
+          "title": "교과목 안내",
+          "publisher": "신라대학교 응급구조학과",
+          "url": "https://emt119.silla.ac.kr/emt119/index.php?pCode=SUB2000003",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "응급구조학개론·구조및이송",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-READ-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-READ-01",
+          "step_indexes": [
+            0
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M206-02",
+      "version": "0.4.1",
+      "title": "가상 현장 메모에서 장소와 시간 정리하기",
+      "kind": "SMALL_TASK",
+      "major_code": "MAJOR_ROW_206",
+      "major_name": "응급구조학과",
+      "exploration_group": "BIO",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 10,
+        "max": 15,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "경험할 주제: 응급 관련 의사소통의 질문 구성. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
+      "scenario": "가상 기록은 ‘체육관 안’, ‘오후 2시 5분’, ‘입구는 아직 확인 중’이다.",
+      "steps": [
+        "확인된 장소와 시각, 아직 모르는 정보를 나눈다.",
+        "다른 담당자가 바로 읽을 수 있는 두 문장으로 정리한다."
+      ],
+      "artifacts": [
+        "가상 상황 전달 메모"
+      ],
+      "example_output": "오후 2시 5분 체육관 안에서 상황을 확인했다. 정확한 입구는 확인 중이다.",
+      "worksheet_columns": "장소 / 시각 / 미확인 정보 / 전달 문장",
+      "reflection_question": "제한된 정보에서 정확히 질문하고 전달하는 일이 흥미로운가?",
+      "alternative": "실제 상황에 연락하거나 처치하지 않고 가상 기록만 정리한다.",
+      "safety_boundary": "응급처치·심폐소생술·현장 대응 훈련이나 실제 신고 지침이 아님",
+      "source_ids": [
+        "m206-careernet",
+        "m206-university",
+        "m206-extra"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 가상 현장 메모에서 장소와 시간 정리하기\n\n가상 기록은 ‘체육관 안’, ‘오후 2시 5분’, ‘입구는 아직 확인 중’이다.\n\n1. 확인된 장소와 시각, 아직 모르는 정보를 나눈다.\n2. 다른 담당자가 바로 읽을 수 있는 두 문장으로 정리한다.\n\n남길 결과물은 가상 상황 전달 메모입니다.\n\n쉬운 대안. 실제 상황에 연락하거나 처치하지 않고 가상 기록만 정리한다.",
+      "worksheet_markdown": "## 가상 현장 메모에서 장소와 시간 정리하기\n\n가상 기록은 ‘체육관 안’, ‘오후 2시 5분’, ‘입구는 아직 확인 중’이다.\n\n| 장소 | 시각 | 미확인 정보 | 전달 문장 |\n|---|---|---|---|\n| | | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m206-careernet",
+          "title": "대학교 학과정보 응급구조학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=10014",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2020-12-02 갱신 응답에서 확인한 응급구조학과는 응급의료체계와 응급 상황에서 필요한 평가·이송·의사소통을 공부한다. 커리어넷은 응급구조학개론과 응급환자관리학을 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m206-university",
+          "title": "교과과정",
+          "publisher": "동명대학교 응급구조학과",
+          "url": "https://www.tu.ac.kr/emergency/sub02_01.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "재난관리학및실습·응급처치시뮬레이션",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m206-extra",
+          "title": "교과목 안내",
+          "publisher": "신라대학교 응급구조학과",
+          "url": "https://emt119.silla.ac.kr/emt119/index.php?pCode=SUB2000003",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "응급구조학개론·구조및이송",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-PROJECT-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-PROJECT-01",
+          "step_indexes": [
+            0,
+            1
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M206-03",
+      "version": "0.4.1",
+      "title": "새로 확인한 장소 정보를 수정하는 방법 적기",
+      "kind": "REFLECTION_AND_NEXT_STEP",
+      "major_code": "MAJOR_ROW_206",
+      "major_name": "응급구조학과",
+      "exploration_group": "BIO",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
+      "scenario": "가상 체육관 메모에서 오후 2시 5분에는 정확한 입구가 미확인이었다. 오후 2시 7분에 동쪽 출입구라고 확인됐다.",
+      "steps": [
+        "기존 메모의 미확인 항목을 고른다.",
+        "새로 확인된 출입구와 확인 시각을 함께 적는다."
+      ],
+      "artifacts": [
+        "가상 전달 내용 갱신 기록"
+      ],
+      "example_output": "오후 2시 5분에는 입구가 미확인이었다. 오후 2시 7분에 동쪽 출입구임을 확인했다.",
+      "worksheet_columns": "기존 상태 / 새로 확인한 출입구 / 확인 시각",
+      "reflection_question": "제한된 정보에서 정확히 질문하고 전달하는 일이 흥미로운가?",
+      "alternative": "새로 확인된 출입구와 시각만 말한다.",
+      "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
+      "source_ids": [
+        "m206-careernet",
+        "m206-university",
+        "m206-extra"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 새로 확인한 장소 정보를 수정하는 방법 적기\n\n가상 체육관 메모에서 오후 2시 5분에는 정확한 입구가 미확인이었다. 오후 2시 7분에 동쪽 출입구라고 확인됐다.\n\n1. 기존 메모의 미확인 항목을 고른다.\n2. 새로 확인된 출입구와 확인 시각을 함께 적는다.\n\n남길 결과물은 가상 전달 내용 갱신 기록입니다.\n\n쉬운 대안. 새로 확인된 출입구와 시각만 말한다.",
+      "worksheet_markdown": "## 새로 확인한 장소 정보를 수정하는 방법 적기\n\n가상 체육관 메모에서 오후 2시 5분에는 정확한 입구가 미확인이었다. 오후 2시 7분에 동쪽 출입구라고 확인됐다.\n\n| 기존 상태 | 새로 확인한 출입구 | 확인 시각 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m206-careernet",
+          "title": "대학교 학과정보 응급구조학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=10014",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2020-12-02 갱신 응답에서 확인한 응급구조학과는 응급의료체계와 응급 상황에서 필요한 평가·이송·의사소통을 공부한다. 커리어넷은 응급구조학개론과 응급환자관리학을 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m206-university",
+          "title": "교과과정",
+          "publisher": "동명대학교 응급구조학과",
+          "url": "https://www.tu.ac.kr/emergency/sub02_01.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "재난관리학및실습·응급처치시뮬레이션",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m206-extra",
+          "title": "교과목 안내",
+          "publisher": "신라대학교 응급구조학과",
+          "url": "https://emt119.silla.ac.kr/emt119/index.php?pCode=SUB2000003",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "응급구조학개론·구조및이송",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [],
+      "preference_mapping_basis": [],
+      "revised_on": "2026-11-20"
+    }
+  ]
+}

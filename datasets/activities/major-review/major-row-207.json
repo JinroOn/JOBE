@@ -1,0 +1,321 @@
+{
+  "schema_version": "1.1",
+  "major_mapping_version": "MAJOR_MAPPING_V1_2_IMPLEMENTATION_CANDIDATE",
+  "content_status": "DRAFT",
+  "implementation_review_status": "PENDING",
+  "domain_review_status": "PENDING",
+  "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M207_DRAFT_V3_SCOPE_V2_ISSUE130_V1_PREAPPROVAL_V1",
+  "provenance": {
+    "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
+    "scope": "SINGLE_MAJOR_DEV_REVIEW",
+    "parent_file_sha256": "98e0d997a7af59dfe2dab16e1156dad04933809a620b120ddd5990c8797c2e7c"
+  },
+  "activities": [
+    {
+      "activity_id": "DRAFT-M207-01",
+      "version": "0.4.3",
+      "title": "의과대학 교육 단계와 관심 질문 적기",
+      "kind": "INFORMATION",
+      "major_code": "MAJOR_ROW_207",
+      "major_name": "의학과",
+      "exploration_group": "BIO",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "탐색 주제: 의학적 근거와 불확실성. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
+      "scenario": "연세대 의과대학 안내는 준비 단계인 의예과와 임상실습을 포함하는 의학과 과정을 구분한다. 성균관대 의학과 교육과정에는 의료윤리1이 있다.",
+      "steps": [
+        "의예과와 의학과에서 알아볼 주제를 각각 하나씩 나눈다.",
+        "임상실습에서 배울 점이나 의료윤리 시간에 토론할 질문 하나를 적는다."
+      ],
+      "artifacts": [
+        "교육 단계와 질문 요약"
+      ],
+      "example_output": "의예과에서는 어떤 기초 공부를 하나? 의학과 의료윤리 수업에서는 교육에 필요한 정보와 개인정보를 어떻게 구분할까?",
+      "worksheet_columns": "공식 자료에서 확인한 명칭 / 내가 더 알아볼 주제 / 미확인 질문 / 확인 경로",
+      "reflection_question": "소개를 읽은 뒤 관심이 생긴 부분과 여전히 모르는 부분은 무엇인가요?",
+      "alternative": "제공된 교육 단계와 과목명만 사용한다.",
+      "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
+      "source_ids": [
+        "m207-careernet",
+        "m207-university",
+        "m207-extra"
+      ],
+      "major_source_relationship": "RELATED_NAME_NOT_EQUIVALENT",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 커리어넷 대학교 학과정보 의예과이다.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 의과대학 교육 단계와 관심 질문 적기\n\n연세대 의과대학 안내는 준비 단계인 의예과와 임상실습을 포함하는 의학과 과정을 구분한다. 성균관대 의학과 교육과정에는 의료윤리1이 있다.\n\n1. 의예과와 의학과에서 알아볼 주제를 각각 하나씩 나눈다.\n2. 임상실습에서 배울 점이나 의료윤리 시간에 토론할 질문 하나를 적는다.\n\n남길 결과물은 교육 단계와 질문 요약입니다.\n\n쉬운 대안. 제공된 교육 단계와 과목명만 사용한다.",
+      "worksheet_markdown": "## 의과대학 교육 단계와 관심 질문 적기\n\n연세대 의과대학 안내는 준비 단계인 의예과와 임상실습을 포함하는 의학과 과정을 구분한다. 성균관대 의학과 교육과정에는 의료윤리1이 있다.\n\n| 단계 | 공식 설명 | 내 질문 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m207-careernet",
+          "title": "대학교 학과정보 의예과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=413",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "의학개론과 생명윤리",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "의예과로 표시해 의학 공부의 준비 단계에만 사용한다. 의학과의 임상실습은 의과대학의 학년별 자료를 근거로 한다."
+        },
+        {
+          "source_id": "m207-university",
+          "title": "전공가이드북 의과대학",
+          "publisher": "연세대학교",
+          "url": "https://admission.yonsei.ac.kr/seoul/admission/html/data/major/2026/yonsei_allways_251028.pdf",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "의예과와 의학과 과정의 구분 및 의학과 임상 실습",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "연세대학교 운영 사례다."
+        },
+        {
+          "source_id": "m207-extra",
+          "title": "2024학년도 학과별 교육과정 로드맵 의과대학",
+          "publisher": "성균관대학교",
+          "url": "https://www.skku.edu/_res/skku/etc/y241028_1.pdf",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "의학과 의료윤리1·의료윤리2",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "성균관대학교 의학과의 2024학년도 교과 편성 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-READ-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-READ-01",
+          "step_indexes": [
+            0
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M207-02",
+      "version": "0.4.5",
+      "title": "가상 검사 안내에서 의료 용어를 쉬운 말로 고치기",
+      "kind": "SMALL_TASK",
+      "major_code": "MAJOR_ROW_207",
+      "major_name": "의학과",
+      "exploration_group": "BIO",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 10,
+        "max": 15,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "경험할 주제: 의학적 근거와 불확실성. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
+      "scenario": "모의 안내는 ‘다음 방문 시 검사 안내문을 확인합니다. 이해되지 않은 항목은 담당자에게 문의해 주세요’이다.",
+      "steps": [
+        "가상의 방문자가 묻고 싶은 상황을 한 가지 정한다.",
+        "의학 판단 없이 안내 절차를 일상어로 바꾸고 이해 확인 질문을 덧붙인다."
+      ],
+      "artifacts": [
+        "가상 설명 문장과 질문"
+      ],
+      "example_output": "쉬운 말: 다음에 오면 검사를 설명하는 글을 읽어 보세요. 이해하기 어려운 내용은 담당자에게 물어보세요. 확인 질문: 그 글은 언제 읽고, 궁금한 점은 누구에게 물어보면 될까요?",
+      "worksheet_columns": "기존 표현 / 쉬운 말 / 확인 질문",
+      "reflection_question": "원인을 성급히 정하지 않고 근거를 확인하는 일이 흥미로운가?",
+      "alternative": "실제 환자·질병·검사 방법 없이 가상 문장만 다룬다.",
+      "safety_boundary": "실제 질병·진단·치료 선택·건강 상담을 하지 않음",
+      "source_ids": [
+        "m207-university",
+        "m207-extra"
+      ],
+      "major_source_relationship": "RELATED_NAME_NOT_EQUIVALENT",
+      "major_connection_note": "이 활동에서는 해당 전공의 자료를 사용한다.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 가상 검사 안내에서 의료 용어를 쉬운 말로 고치기\n\n모의 안내는 ‘다음 방문 시 검사 안내문을 확인합니다. 이해되지 않은 항목은 담당자에게 문의해 주세요’이다.\n\n1. 가상의 방문자가 묻고 싶은 상황을 한 가지 정한다.\n2. 의학 판단 없이 안내 절차를 일상어로 바꾸고 이해 확인 질문을 덧붙인다.\n\n남길 결과물은 가상 설명 문장과 질문입니다.\n\n쉬운 대안. 실제 환자·질병·검사 방법 없이 가상 문장만 다룬다.",
+      "worksheet_markdown": "## 가상 검사 안내에서 의료 용어를 쉬운 말로 고치기\n\n모의 안내는 ‘다음 방문 시 검사 안내문을 확인합니다. 이해되지 않은 항목은 담당자에게 문의해 주세요’이다.\n\n| 기존 표현 | 쉬운 말 | 확인 질문 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m207-university",
+          "title": "전공가이드북 의과대학",
+          "publisher": "연세대학교",
+          "url": "https://admission.yonsei.ac.kr/seoul/admission/html/data/major/2026/yonsei_allways_251028.pdf",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "의예과와 의학과 과정의 구분 및 의학과 임상 실습",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "연세대학교 운영 사례다."
+        },
+        {
+          "source_id": "m207-extra",
+          "title": "2024학년도 학과별 교육과정 로드맵 의과대학",
+          "publisher": "성균관대학교",
+          "url": "https://www.skku.edu/_res/skku/etc/y241028_1.pdf",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "의학과 의료윤리1·의료윤리2",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "성균관대학교 의학과의 2024학년도 교과 편성 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-PROJECT-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-PROJECT-01",
+          "step_indexes": [
+            0,
+            1
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M207-03",
+      "version": "0.4.3",
+      "title": "의료윤리 사례에서 발표에 필요한 정보 나누기",
+      "kind": "REFLECTION_AND_NEXT_STEP",
+      "major_code": "MAJOR_ROW_207",
+      "major_name": "의학과",
+      "exploration_group": "BIO",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "탐색 주제: 의료윤리에서 정보 사용 목적과 개인정보를 구분하는 질문 만들기.",
+      "scenario": "의료윤리 수업의 주제를 살펴보는 가상 상황이다. 체험 수업의 기록에 이름과 연락처가 포함되어 있다. 발표는 교육 절차만 설명하면 되고 개인 식별 정보는 필요하지 않다.",
+      "steps": [
+        "가상 상황에서 발표 목적상 필요한 정보와 빼도 되는 개인정보를 구분한다.",
+        "개인정보를 포함하자는 의견을 받았을 때 확인할 윤리 질문 하나를 적는다."
+      ],
+      "artifacts": [
+        "발표에 필요한 정보와 윤리 질문 메모"
+      ],
+      "example_output": "교육 절차만 설명하고 이름과 연락처는 발표 자료에서 제외한다. 같은 교육 목적을 개인을 식별할 수 없는 예시로 달성할 수 있을까?",
+      "worksheet_columns": "발표에 필요한 정보 / 빼도 되는 개인정보 / 윤리 질문",
+      "reflection_question": "교육 목적을 달성하면서 개인을 식별할 정보의 사용을 줄일 방법은 무엇인가요?",
+      "alternative": "가상 상황을 읽고 발표에 꼭 필요한 정보 하나만 적는다.",
+      "safety_boundary": "가상 문장만 사용한다. 실제 환자 정보, 질병·진단·치료 판단을 다루지 않는다.",
+      "source_ids": [
+        "m207-university",
+        "m207-extra"
+      ],
+      "major_source_relationship": "RELATED_NAME_NOT_EQUIVALENT",
+      "major_connection_note": "이 활동에서는 해당 전공의 자료를 사용한다.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 의료윤리 사례에서 발표에 필요한 정보 나누기\n\n의료윤리 수업의 주제를 살펴보는 가상 상황이다. 체험 수업의 기록에 이름과 연락처가 포함되어 있다. 발표는 교육 절차만 설명하면 되고 개인 식별 정보는 필요하지 않다.\n\n1. 가상 상황에서 발표 목적상 필요한 정보와 빼도 되는 개인정보를 구분한다.\n2. 개인정보를 포함하자는 의견을 받았을 때 확인할 윤리 질문 하나를 적는다.\n\n남길 결과물은 발표에 필요한 정보와 윤리 질문 메모입니다.\n\n쉬운 대안. 가상 상황을 읽고 발표에 꼭 필요한 정보 하나만 적는다.",
+      "worksheet_markdown": "## 의료윤리 사례에서 발표에 필요한 정보 나누기\n\n의료윤리 수업의 주제를 살펴보는 가상 상황이다. 체험 수업의 기록에 이름과 연락처가 포함되어 있다. 발표는 교육 절차만 설명하면 되고 개인 식별 정보는 필요하지 않다.\n\n| 발표에 필요한 정보 | 빼도 되는 개인정보 | 윤리 질문 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m207-university",
+          "title": "전공가이드북 의과대학",
+          "publisher": "연세대학교",
+          "url": "https://admission.yonsei.ac.kr/seoul/admission/html/data/major/2026/yonsei_allways_251028.pdf",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "의예과와 의학과 과정의 구분 및 의학과 임상 실습",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "연세대학교 운영 사례다."
+        },
+        {
+          "source_id": "m207-extra",
+          "title": "2024학년도 학과별 교육과정 로드맵 의과대학",
+          "publisher": "성균관대학교",
+          "url": "https://www.skku.edu/_res/skku/etc/y241028_1.pdf",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "의학과 의료윤리1·의료윤리2",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "성균관대학교 의학과의 2024학년도 교과 편성 사례다."
+        }
+      ],
+      "preference_question_ids": [],
+      "preference_mapping_basis": [],
+      "revised_on": "2026-11-20"
+    }
+  ]
+}

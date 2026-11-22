@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M13_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_13",
+  "majorName": "종교학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "종교학과는 여러 종교 전통과 문화가 형성되고 변화하는 방식을 탐구한다. 커리어넷은 종교학 입문, 종교문화의 흐름, 한국종교사를 과목 사례로 든다.",
+      "sourceIds": [
+        "m13-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "서울대 종교학과 교과목 안내에는 동아시아의 종교와 문화, 종교사회학과 종교현상학이 있다. 인문대학 소개는 비교종교학과 종교인류학도 안내한다.",
+      "sourceIds": [
+        "m13-university",
+        "m13-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m13-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 종교학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=511",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2020-12-02 갱신 응답에서 확인한 종교학과는 여러 종교 전통과 문화가 형성되고 변화하는 방식을 탐구한다. 커리어넷은 종교학 입문, 종교문화의 흐름, 한국종교사를 과목 사례로 든다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m13-university",
+      "publisher": "서울대학교 종교학과",
+      "title": "학부 교과목 안내",
+      "url": "https://religion.snu.ac.kr/?page_id=1964",
+      "supports": "동아시아의 종교와 문화·종교사회학·종교현상학",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m13-extra",
+      "publisher": "서울대학교 인문대학",
+      "title": "종교학과 소개",
+      "url": "https://humanities.snu.ac.kr/academics/department?deptidx=14",
+      "supports": "비교종교학과 종교인류학의 연구 분야",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

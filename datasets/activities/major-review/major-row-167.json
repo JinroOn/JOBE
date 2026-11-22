@@ -1,0 +1,349 @@
+{
+  "schema_version": "1.1",
+  "major_mapping_version": "MAJOR_MAPPING_V1_2_IMPLEMENTATION_CANDIDATE",
+  "content_status": "DRAFT",
+  "implementation_review_status": "PENDING",
+  "domain_review_status": "PENDING",
+  "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M167_DRAFT_V3_ISSUE130_V1",
+  "provenance": {
+    "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
+    "scope": "SINGLE_MAJOR_DEV_REVIEW",
+    "parent_file_sha256": "98e0d997a7af59dfe2dab16e1156dad04933809a620b120ddd5990c8797c2e7c"
+  },
+  "activities": [
+    {
+      "activity_id": "DRAFT-M167-01",
+      "version": "0.4.3",
+      "title": "미생물과 환경의 관계에 관한 질문 고르기",
+      "kind": "INFORMATION",
+      "major_code": "MAJOR_ROW_167",
+      "major_name": "미생물학과",
+      "exploration_group": "BIO",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "탐색 주제: 미생물 자료와 관찰 조건. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
+      "scenario": "일반미생물학에서는 미생물의 다양성을, 환경 분야에서는 미생물의 생태적 역할을 살펴본다. 가상 관찰 기록은 장소 A에서 유형 X와 Y, 장소 B에서는 유형 X만 기록된 사례다. X와 Y는 활동용 기호다.",
+      "steps": [
+        "제공된 설명과 가상 관찰 기록을 읽는다.",
+        "환경에서의 역할을 설명하기 전에 어떤 관찰 정보가 필요한지 쓴다."
+      ],
+      "artifacts": [
+        "생태 관찰 질문 카드"
+      ],
+      "example_output": "같은 관찰 기준에서 두 장소에 어떤 종류가 기록됐는지 비교한다.",
+      "worksheet_columns": "공식 자료에서 확인한 명칭 / 내가 더 알아볼 주제 / 미확인 질문 / 확인 경로",
+      "reflection_question": "소개를 읽은 뒤 관심이 생긴 부분과 여전히 모르는 부분은 무엇인가요?",
+      "alternative": "제공 설명과 예시만 읽는다.",
+      "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
+      "source_ids": [
+        "m167-careernet",
+        "m167-university",
+        "m167-extra"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 미생물과 환경의 관계에 관한 질문 고르기\n\n일반미생물학에서는 미생물의 다양성을, 환경 분야에서는 미생물의 생태적 역할을 살펴본다. 가상 관찰 기록은 장소 A에서 유형 X와 Y, 장소 B에서는 유형 X만 기록된 사례다. X와 Y는 활동용 기호다.\n\n1. 제공된 설명과 가상 관찰 기록을 읽는다.\n2. 환경에서의 역할을 설명하기 전에 어떤 관찰 정보가 필요한지 쓴다.\n\n남길 결과물은 생태 관찰 질문 카드입니다.\n\n쉬운 대안. 제공 설명과 예시만 읽는다.",
+      "worksheet_markdown": "## 미생물과 환경의 관계에 관한 질문 고르기\n\n일반미생물학에서는 미생물의 다양성을, 환경 분야에서는 미생물의 생태적 역할을 살펴본다. 가상 관찰 기록은 장소 A에서 유형 X와 Y, 장소 B에서는 유형 X만 기록된 사례다. X와 Y는 활동용 기호다.\n\n| 자료 | 관찰할 항목 | 질문 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m167-careernet",
+          "title": "대학교 학과정보 미생물학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=21010",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2023-06-02 갱신 응답에서 확인한 미생물학과는 미생물의 다양성과 생명 현상, 환경에서의 역할을 공부한다. 커리어넷은 바이오다양성과 진균학을 과목 사례로 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m167-university",
+          "title": "학과 교육과정",
+          "publisher": "부산대학교 미생물학과",
+          "url": "https://microbio.pusan.ac.kr/bbs/microbio/1313/1118381/artclView.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "일반미생물학 학부 과목",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m167-extra",
+          "title": "2026 PNU 펜토미노 교육과정",
+          "publisher": "부산대학교",
+          "url": "https://microbio.pusan.ac.kr/bbs/microbio/222/1525348/download.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "환경 분야 모듈에서 미생물의 생태적 역할을 살핌",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-READ-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-READ-01",
+          "step_indexes": [
+            0
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M167-02",
+      "version": "0.4.1",
+      "title": "가상 환경 기록에서 종류 수와 관찰 수를 비교하기",
+      "kind": "SMALL_TASK",
+      "major_code": "MAJOR_ROW_167",
+      "major_name": "미생물학과",
+      "exploration_group": "BIO",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 10,
+        "max": 15,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "경험할 주제: 미생물 자료와 관찰 조건. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
+      "scenario": "가상의 분류 기록에서 장소 A는 유형 X 2개·Y 2개, B는 X 4개만 기록됐다. 유형 기호는 실제 생물 이름을 뜻하지 않는다.",
+      "steps": [
+        "두 장소의 전체 관찰 수와 기록된 유형의 수를 따로 센다.",
+        "수를 비교하고 이 자료가 장소 전체를 대표할 수 있는지 검토한다."
+      ],
+      "artifacts": [
+        "두 가지 집계의 비교표"
+      ],
+      "example_output": "둘 다 관찰 수는 4개지만 유형은 A가 2종, B가 1종이다.",
+      "worksheet_columns": "장소 / 유형 수 / 관찰 수 / 한계",
+      "reflection_question": "작은 차이와 관찰 조건을 기록하는 일이 흥미로운가?",
+      "alternative": "가상 기록만 사용하고 채취나 배양은 하지 않는다.",
+      "safety_boundary": "실제 채집·배양·검체·현미경 실습 없이 가상 표 사용",
+      "source_ids": [
+        "m167-careernet",
+        "m167-university",
+        "m167-extra"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 가상 환경 기록에서 종류 수와 관찰 수를 비교하기\n\n가상의 분류 기록에서 장소 A는 유형 X 2개·Y 2개, B는 X 4개만 기록됐다. 유형 기호는 실제 생물 이름을 뜻하지 않는다.\n\n1. 두 장소의 전체 관찰 수와 기록된 유형의 수를 따로 센다.\n2. 수를 비교하고 이 자료가 장소 전체를 대표할 수 있는지 검토한다.\n\n남길 결과물은 두 가지 집계의 비교표입니다.\n\n쉬운 대안. 가상 기록만 사용하고 채취나 배양은 하지 않는다.",
+      "worksheet_markdown": "## 가상 환경 기록에서 종류 수와 관찰 수를 비교하기\n\n가상의 분류 기록에서 장소 A는 유형 X 2개·Y 2개, B는 X 4개만 기록됐다. 유형 기호는 실제 생물 이름을 뜻하지 않는다.\n\n| 장소 | 유형 수 | 관찰 수 | 한계 |\n|---|---|---|---|\n| | | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m167-careernet",
+          "title": "대학교 학과정보 미생물학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=21010",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2023-06-02 갱신 응답에서 확인한 미생물학과는 미생물의 다양성과 생명 현상, 환경에서의 역할을 공부한다. 커리어넷은 바이오다양성과 진균학을 과목 사례로 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m167-university",
+          "title": "학과 교육과정",
+          "publisher": "부산대학교 미생물학과",
+          "url": "https://microbio.pusan.ac.kr/bbs/microbio/1313/1118381/artclView.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "일반미생물학 학부 과목",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m167-extra",
+          "title": "2026 PNU 펜토미노 교육과정",
+          "publisher": "부산대학교",
+          "url": "https://microbio.pusan.ac.kr/bbs/microbio/222/1525348/download.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "환경 분야 모듈에서 미생물의 생태적 역할을 살핌",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-PROJECT-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-PROJECT-01",
+          "step_indexes": [
+            0,
+            1
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M167-03",
+      "version": "0.4.3",
+      "title": "종류 차이를 다시 확인할 자료 고르기",
+      "kind": "REFLECTION_AND_NEXT_STEP",
+      "major_code": "MAJOR_ROW_167",
+      "major_name": "미생물학과",
+      "exploration_group": "BIO",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
+      "scenario": "가상으로 두 장소를 각각 한 번 관찰했다. 장소 A는 유형 X 2개·Y 2개, B는 유형 X 4개였다. 기호는 실제 생물 이름이 아니다.",
+      "steps": [
+        "관찰 범위가 달라질 수 있는 상황을 고른다.",
+        "직접 시료를 다루지 않고 확인할 공개 관찰 자료의 항목을 정한다."
+      ],
+      "artifacts": [
+        "자료 해석의 후속 질문"
+      ],
+      "example_output": "유형이 보이지 않은 이유를 알아보려면 공개 기록의 관찰 범위를 비교한다.",
+      "worksheet_columns": "경험한 과정 / 흥미·불편·모름 / 확인 질문 / 확인 경로 / 다음 행동",
+      "reflection_question": "작은 차이와 관찰 조건을 기록하는 일이 흥미로운가?",
+      "alternative": "예시 질문 한 줄만 작성한다.",
+      "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
+      "source_ids": [
+        "m167-careernet",
+        "m167-university",
+        "m167-extra"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 종류 차이를 다시 확인할 자료 고르기\n\n가상으로 두 장소를 각각 한 번 관찰했다. 장소 A는 유형 X 2개·Y 2개, B는 유형 X 4개였다. 기호는 실제 생물 이름이 아니다.\n\n1. 관찰 범위가 달라질 수 있는 상황을 고른다.\n2. 직접 시료를 다루지 않고 확인할 공개 관찰 자료의 항목을 정한다.\n\n남길 결과물은 자료 해석의 후속 질문입니다.\n\n쉬운 대안. 예시 질문 한 줄만 작성한다.",
+      "worksheet_markdown": "## 종류 차이를 다시 확인할 자료 고르기\n\n가상으로 두 장소를 각각 한 번 관찰했다. 장소 A는 유형 X 2개·Y 2개, B는 유형 X 4개였다. 기호는 실제 생물 이름이 아니다.\n\n| 현재 결론 | 빠진 정보 | 다음 자료 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m167-careernet",
+          "title": "대학교 학과정보 미생물학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=21010",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2023-06-02 갱신 응답에서 확인한 미생물학과는 미생물의 다양성과 생명 현상, 환경에서의 역할을 공부한다. 커리어넷은 바이오다양성과 진균학을 과목 사례로 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m167-university",
+          "title": "학과 교육과정",
+          "publisher": "부산대학교 미생물학과",
+          "url": "https://microbio.pusan.ac.kr/bbs/microbio/1313/1118381/artclView.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "일반미생물학 학부 과목",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m167-extra",
+          "title": "2026 PNU 펜토미노 교육과정",
+          "publisher": "부산대학교",
+          "url": "https://microbio.pusan.ac.kr/bbs/microbio/222/1525348/download.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "환경 분야 모듈에서 미생물의 생태적 역할을 살핌",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [],
+      "preference_mapping_basis": [],
+      "revised_on": "2026-11-20"
+    }
+  ]
+}

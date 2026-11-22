@@ -1,0 +1,50 @@
+{
+  "description": "적재기 테스트용 가짜 데이터. 실제 문항·규칙이 아니다. 파일을 바꾸면 sha256을 갱신한다.",
+  "files": [
+    {
+      "file": "questions.csv",
+      "source": "fixture",
+      "sha256": "7f1e32400b7a59145801960735d7f1b3e4021e87ed542a9c1ce86a1544f028eb"
+    },
+    {
+      "file": "options.csv",
+      "source": "fixture",
+      "sha256": "72625cf03975942bf97d8d1574758d3521a5c742bde546ba83523ccf0bca8fb4"
+    },
+    {
+      "file": "option-variants.csv",
+      "source": "fixture",
+      "sha256": "5042ec5770badbd366c769480fe108afe9ebecaee6a0fa6d840115d6abc18491"
+    },
+    {
+      "file": "comparison-set-codes.csv",
+      "source": "fixture",
+      "sha256": "7689750492ee4e4c99517110281589b3d8452aaf84ce48fadd35904a8c2843af"
+    },
+    {
+      "file": "comparison-skip-pairs.csv",
+      "source": "fixture",
+      "sha256": "5b2117cccfdffa8a11af37b43808cdc883001adc9b124fd35f66d30c6f0e67fe"
+    },
+    {
+      "file": "major-mapping.json",
+      "source": "fixture",
+      "sha256": "1df67ed27110e6eb4d5f21865357942c514d77ec8d470732ea74067b55710596"
+    },
+    {
+      "file": "caution-tags.csv",
+      "source": "fixture",
+      "sha256": "7af67e9494174e34f58ed7496c913870a950d4304c55edf5cce26f8354ad806b"
+    },
+    {
+      "file": "ruleset.json",
+      "source": "fixture",
+      "sha256": "b3a675bdea100964d77855d4bf916c5031166dd083cd7662f21fcdfc59bb9fac"
+    },
+    {
+      "file": "semantic-dictionary.json",
+      "source": "fixture",
+      "sha256": "909bdb8686c8762f4935bd2d648ee166e7e371e53d6e7a4f40ef4c6131d9bd21"
+    }
+  ]
+}

@@ -1,3 +1,134 @@
 spring:
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:dev}
+  jackson: {}
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3307/jobe}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:root}
+    driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME:com.mysql.cj.jdbc.Driver}
+  jpa:
+    hibernate:
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
+    show-sql: ${SPRING_JPA_SHOW_SQL:true}
+    properties:
+      hibernate:
+        hbm2ddl:
+          # Flyway가 관리하는 exploration_* 테이블은 ddl-auto가 만들거나 바꾸지 않게 한다.
+          schema_filter_provider: com.jinroon.jobe.global.config.FlywayManagedSchemaFilterProvider
+  security:
+    user:
+      password: ${SPRING_SECURITY_USER_PASSWORD:temp1234}
+  flyway:
+    # 탐색형 진단 테이블부터 Flyway로 관리한다. 기존(레거시) 테이블은 당분간 ddl-auto가 관리한다.
+    enabled: ${SPRING_FLYWAY_ENABLED:true}
+    # DB 종류별 폴더(db/migration/mysql 등). MySQL 전용 문법(생성 열·JSON)이 다른 DB에서 실행되지 않게 한다.
+    locations: classpath:db/migration/{vendor}
+    # 이미 레거시 테이블이 있는 DB는 버전 0을 기준점으로 잡고 V1부터 적용한다.
+    baseline-on-migrate: true
+    baseline-version: 0
+    baseline-description: legacy schema managed by hibernate ddl-auto
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_APP_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui/index.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+
+management:
+  health:
+    # 배포 헬스체크(/actuator/health)는 앱 상태만 본다. 메일 서버 인증 실패로 전체가 DOWN이 되지 않게 메일 점검은 끈다.
+    mail:
+      enabled: false
+
+jwt:
+  secret: ${JWT_SECRET:dev-secret-key-must-be-at-least-256-bits-long-for-hs256-algorithm}
+
+ai:
+  server:
+    url: ${AI_SERVER_URL:http://localhost:8001}
+    token: ${AI_SERVER_TOKEN:${INTERNAL_SERVICE_TOKEN:}}
+    connect-timeout-ms: ${AI_SERVER_CONNECT_TIMEOUT_MS:2000}
+    read-timeout-ms: ${AI_SERVER_READ_TIMEOUT_MS:10000}
+    weekly-plan-connect-timeout-ms: ${AI_WEEKLY_PLAN_CONNECT_TIMEOUT_MS:2000}
+    weekly-plan-read-timeout-ms: ${AI_WEEKLY_PLAN_READ_TIMEOUT_MS:40000}
+
+major:
+  dataset:
+    majors-path: ${MAJOR_DATASET_MAJORS_PATH:datasets/majors}
+    rag-path: ${MAJOR_DATASET_RAG_PATH:datasets/rag/per-major}
+
+diagnosis:
+  # 기존 진단은 사용하지 않는다. false면 기존 진단 API가 410을 반환하고 이력·대시보드에서 제외된다.
+  legacy-enabled: ${LEGACY_DIAGNOSIS_ENABLED:false}
+  questions:
+    seed:
+      enabled: ${DIAGNOSIS_QUESTIONS_SEED_ENABLED:${LEGACY_DIAGNOSIS_ENABLED:false}}
+      path: ${DIAGNOSIS_QUESTIONS_SEED_PATH:classpath:data/evaluation-questions-separated-60.json}
+      default-time-limit-sec: ${DIAGNOSIS_QUESTIONS_DEFAULT_TIME_LIMIT_SEC:60}
+
+exploration:
+  explanation:
+    enabled: ${EXPLORATION_MAJOR_EXPLANATION_ENABLED:false}
+  jobs:
+    model-enabled: ${EXPLORATION_MODEL_EXECUTION_ENABLED:false}
+    model-name: ${EXPLORATION_LLM_MODEL:${LLM_MODEL:}}
+    model-connect-timeout-ms: ${EXPLORATION_MODEL_CONNECT_TIMEOUT_MS:2000}
+    model-read-timeout-ms: ${EXPLORATION_MODEL_READ_TIMEOUT_MS:40000}
+    dispatch:
+      enabled: ${EXPLORATION_MOCK_DISPATCH_ENABLED:false}
+    mock-enabled: ${EXPLORATION_MOCK_EXECUTION_ENABLED:false}
+    enabled: ${EXPLORATION_JOBS_ENABLED:false}
+    erasure:
+      enabled: ${EXPLORATION_JOBS_ERASURE_ENABLED:false}
+  evidence:
+    enabled: ${EXPLORATION_EVIDENCE_ENABLED:false}
+    dataset-version: ${EXPLORATION_EVIDENCE_DATASET_VERSION:}
+  enabled: ${EXPLORATION_ENABLED:false}
+  sharing:
+    # Anonymous reads are loopback-only DEV QA; PUBLIC/PILOT remain closed.
+    enabled: ${EXPLORATION_SHARING_ENABLED:false}
+  runtime:
+    # PUBLIC/PILOT stay closed until actual release/pilot review gates are connected.
+    run-mode: ${EXPLORATION_RUN_MODE:PUBLIC}
+    # DEV also requires the exploration-dev profile, no prod/production profile, and an explicit user allowlist.
+    # Set dev-user-ids to exactly "*" to allow every signed-in user. Mixing "*" with IDs does not open it.
+    dev-user-ids: ${EXPLORATION_DEV_USER_IDS:}
+    ruleset-version: ${EXPLORATION_RULESET_VERSION:RULESET_V1_6_IMPLEMENTATION_CANDIDATE}
+  catalog:
+    # 탐색형 진단 카탈로그 적재 입력(문항·선택지·variant·전공 매핑·규칙·의미 사전). manifest.json의 sha256으로 검증한다.
+    dataset-path: ${EXPLORATION_CATALOG_DATASET_PATH:datasets/exploration}
+    # 시작 시 적재. 기본 꺼짐. 개발 환경에서만 켠다. 적재 상태는 입력 그대로(REVIEWED)이며 ACTIVE로 바꾸지 않는다.
+    load-on-startup: ${EXPLORATION_CATALOG_LOAD_ON_STARTUP:false}
+    dry-run: ${EXPLORATION_CATALOG_DRY_RUN:false}
+  activities:
+    catalog-version: ${EXPLORATION_ACTIVITY_CATALOG_VERSION:ACTIVITY_CATALOG_V2_DRAFT}
+    dataset-path: ${EXPLORATION_ACTIVITY_DATASET_PATH:datasets/activities/catalog-v2.json}
+    load-on-startup: ${EXPLORATION_ACTIVITY_LOAD_ON_STARTUP:false}
+    dry-run: ${EXPLORATION_ACTIVITY_DRY_RUN:true}
+
+app:
+  mail:
+    from-name: ${MAIL_FROM_NAME:JOBE}
+  cors:
+    # 쉼표로 구분. 운영에서는 CORS_ALLOWED_ORIGINS=https://jinro-on.vercel.app 처럼 배포 주소만 넣는다.
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:https://jinro-on.vercel.app,http://localhost:5173,http://localhost:4173}

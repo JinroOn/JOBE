@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M52_20261119",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-19",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_52",
+  "majorName": "행정학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "행정학과는 정부와 공공기관이 공공문제를 어떻게 해결하고 서비스를 운영하는지 공부한다. 커리어넷은 정책학, 지방행정과 공공관리론을 대표 과목으로 든다.",
+      "sourceIds": [
+        "careernet-m52"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "고려대 전공소개는 정책의 기획·집행·분석·평가와 자료 분석을 소개한다. 연세대 학부 교과과정에는 행정학개론과 정책집행 및 평가론이 있다.",
+      "sourceIds": [
+        "m52-university-1",
+        "m52-university-2"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "careernet-m52",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 행정학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=639",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2021-07-01 갱신 응답의 정부·공공기관과 공공문제 해결, 정책학·지방행정·공공관리론",
+      "limitation": "대표 학과 정보다. 학교별 교과목은 대학 공식 자료에서 확인한다.",
+      "accessedAt": "2026-11-19"
+    },
+    {
+      "sourceId": "m52-university-1",
+      "publisher": "고려대학교 행정학과",
+      "title": "학부 전공소개",
+      "url": "https://kupa.korea.ac.kr/kupa/about/curriculum.do",
+      "supports": "정책의 기획·집행·분석·평가와 자료 분석 학습",
+      "limitation": "고려대 학부 전공 안내 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-19"
+    },
+    {
+      "sourceId": "m52-university-2",
+      "publisher": "연세대학교 행정학과",
+      "title": "학부 교과과정",
+      "url": "https://yupa.yonsei.ac.kr/yupa/info/under_process.do",
+      "supports": "행정학개론과 정책집행 및 평가론",
+      "limitation": "연세대 과목 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-19"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

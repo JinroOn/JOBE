@@ -1,0 +1,4 @@
+# Catalog manifests hash exact bytes. Preserve the validated input bytes on every OS.
+datasets/exploration/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+datasets/exploration-validation/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+src/test/resources/exploration-fixture/** -text whitespace=trailing-space,space-before-tab,cr-at-eol

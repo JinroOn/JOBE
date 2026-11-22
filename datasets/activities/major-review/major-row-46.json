@@ -1,0 +1,349 @@
+{
+  "schema_version": "1.1",
+  "major_mapping_version": "MAJOR_MAPPING_V1_2_IMPLEMENTATION_CANDIDATE",
+  "content_status": "DRAFT",
+  "implementation_review_status": "PENDING",
+  "domain_review_status": "PENDING",
+  "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M46_DRAFT_V3_ISSUE130_V1",
+  "provenance": {
+    "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
+    "scope": "SINGLE_MAJOR_DEV_REVIEW",
+    "parent_file_sha256": "98e0d997a7af59dfe2dab16e1156dad04933809a620b120ddd5990c8797c2e7c"
+  },
+  "activities": [
+    {
+      "activity_id": "DRAFT-M46-01",
+      "version": "0.4.0",
+      "title": "도움을 원하는 사람과 지역 자원을 함께 살피기",
+      "kind": "INFORMATION",
+      "major_code": "MAJOR_ROW_46",
+      "major_name": "사회복지학과",
+      "exploration_group": "SOC",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "탐색 주제: 사회복지 서비스와 지역 자원 연결. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
+      "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
+      "steps": [
+        "공식 과목 안내를 읽고 개인의 필요와 지역 자원에 각각 질문을 적는다.",
+        "지원 정보를 안내하기 전 이용자가 직접 정해야 할 사항을 적는다."
+      ],
+      "artifacts": [
+        "필요와 선택권을 나눈 질문 카드"
+      ],
+      "example_output": "낮에만 열리는 곳을 안내하기 전에 이용 가능한 시간과 원하는 방식부터 묻는다.",
+      "worksheet_columns": "공식 자료에서 확인한 명칭 / 내가 더 알아볼 주제 / 미확인 질문 / 확인 경로",
+      "reflection_question": "소개를 읽은 뒤 관심이 생긴 부분과 여전히 모르는 부분은 무엇인가요?",
+      "alternative": "제공한 가상 사례와 과목명만 활용한다.",
+      "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
+      "source_ids": [
+        "m46-careernet",
+        "m46-university",
+        "m46-extra"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 도움을 원하는 사람과 지역 자원을 함께 살피기\n\n사회복지실천론과 지역사회복지론 과목명을 참고한다. 가상의 이용자는 저녁에만 시간이 난다.\n\n1. 공식 과목 안내를 읽고 개인의 필요와 지역 자원에 각각 질문을 적는다.\n2. 지원 정보를 안내하기 전 이용자가 직접 정해야 할 사항을 적는다.\n\n남길 결과물은 필요와 선택권을 나눈 질문 카드입니다.\n\n쉬운 대안. 제공한 가상 사례와 과목명만 활용한다.",
+      "worksheet_markdown": "## 도움을 원하는 사람과 지역 자원을 함께 살피기\n\n사회복지실천론과 지역사회복지론 과목명을 참고한다. 가상의 이용자는 저녁에만 시간이 난다.\n\n| 과목 | 상황 | 질문 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m46-careernet",
+          "title": "대학교 학과정보 사회복지학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=240",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2022-05-17 갱신 응답에서 확인한 사회복지학과는 사회문제를 이해하고 지역과 생활 현장에서 지원할 방법을 연구한다. 커리어넷은 사회복지정책론과 지역사회복지론을 과목 사례로 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m46-university",
+          "title": "교과목정보",
+          "publisher": "연세대학교 사회복지학과",
+          "url": "https://welfare.yonsei.ac.kr/welfare/social/courses.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "사회복지실천론과 지역사회복지론",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m46-extra",
+          "title": "2026 대학요람 대학별 교과과정",
+          "publisher": "연세대학교",
+          "url": "https://www.yonsei.ac.kr/bbs/sc/61/1013218/download.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "인간행동과사회환경 과목",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "2026 요람 수록 교과목 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-READ-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-READ-01",
+          "step_indexes": [
+            0
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M46-02",
+      "version": "0.4.1",
+      "title": "가상의 지역 자원 두 개를 필요에 맞춰 비교하기",
+      "kind": "SMALL_TASK",
+      "major_code": "MAJOR_ROW_46",
+      "major_name": "사회복지학과",
+      "exploration_group": "SOC",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 10,
+        "max": 15,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "경험할 주제: 사회복지 서비스와 지역 자원 연결. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
+      "scenario": "가상 A는 평일 낮 방문 안내, B는 평일 저녁 전화 안내를 제공한다. 이용자는 저녁에만 연락 가능하고 서류 준비 여부를 알고 싶다.",
+      "steps": [
+        "지원 시간·접근 방식·확인되지 않은 정보를 나눈다.",
+        "적합한 첫 안내를 고르고 이용자에게 전달할 내용을 한 문장으로 적는다."
+      ],
+      "artifacts": [
+        "지역 자원 선택표와 안내 문장"
+      ],
+      "example_output": "B에 저녁 전화로 문의할 수 있다. 필요한 서류를 안내하는지 먼저 확인한다.",
+      "worksheet_columns": "자원 / 가능 시간 / 방식 / 남은 확인",
+      "reflection_question": "사람의 필요와 서비스 조건을 연결하는 일이 흥미로운가?",
+      "alternative": "실제 기관이나 이용자 정보 없이 가상 설정만 쓴다.",
+      "safety_boundary": "실제 취약 대상자 조사나 복지 수급 자격 판정을 하지 않음",
+      "source_ids": [
+        "m46-careernet",
+        "m46-university",
+        "m46-extra"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 가상의 지역 자원 두 개를 필요에 맞춰 비교하기\n\n가상 A는 평일 낮 방문 안내, B는 평일 저녁 전화 안내를 제공한다. 이용자는 저녁에만 연락 가능하고 서류 준비 여부를 알고 싶다.\n\n1. 지원 시간·접근 방식·확인되지 않은 정보를 나눈다.\n2. 적합한 첫 안내를 고르고 이용자에게 전달할 내용을 한 문장으로 적는다.\n\n남길 결과물은 지역 자원 선택표와 안내 문장입니다.\n\n쉬운 대안. 실제 기관이나 이용자 정보 없이 가상 설정만 쓴다.",
+      "worksheet_markdown": "## 가상의 지역 자원 두 개를 필요에 맞춰 비교하기\n\n가상 A는 평일 낮 방문 안내, B는 평일 저녁 전화 안내를 제공한다. 이용자는 저녁에만 연락 가능하고 서류 준비 여부를 알고 싶다.\n\n| 자원 | 가능 시간 | 방식 | 남은 확인 |\n|---|---|---|---|\n| | | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m46-careernet",
+          "title": "대학교 학과정보 사회복지학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=240",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2022-05-17 갱신 응답에서 확인한 사회복지학과는 사회문제를 이해하고 지역과 생활 현장에서 지원할 방법을 연구한다. 커리어넷은 사회복지정책론과 지역사회복지론을 과목 사례로 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m46-university",
+          "title": "교과목정보",
+          "publisher": "연세대학교 사회복지학과",
+          "url": "https://welfare.yonsei.ac.kr/welfare/social/courses.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "사회복지실천론과 지역사회복지론",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m46-extra",
+          "title": "2026 대학요람 대학별 교과과정",
+          "publisher": "연세대학교",
+          "url": "https://www.yonsei.ac.kr/bbs/sc/61/1013218/download.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "인간행동과사회환경 과목",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "2026 요람 수록 교과목 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-PROJECT-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-PROJECT-01",
+          "step_indexes": [
+            0,
+            1
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M46-03",
+      "version": "0.4.3",
+      "title": "지원 연결이 어렵다면 다음 선택지 마련하기",
+      "kind": "REFLECTION_AND_NEXT_STEP",
+      "major_code": "MAJOR_ROW_46",
+      "major_name": "사회복지학과",
+      "exploration_group": "SOC",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
+      "scenario": "가상 이용자는 저녁에만 연락할 수 있다. A는 평일 낮 방문 안내, B는 평일 저녁 전화 안내를 제공한다. 예시 선택은 B에 전화해 필요한 서류를 묻는 것이다.",
+      "steps": [
+        "첫 연결이 어려울 때 생기는 걸림돌 하나를 정한다.",
+        "같은 필요를 다른 시간이나 방식으로 확인하는 대안을 적는다."
+      ],
+      "artifacts": [
+        "첫 연결과 대체 경로 기록"
+      ],
+      "example_output": "전화가 연결되지 않으면 기관의 공식 문의 가능 시간이나 다른 연락 방식을 확인한다.",
+      "worksheet_columns": "경험한 과정 / 흥미·불편·모름 / 확인 질문 / 확인 경로 / 다음 행동",
+      "reflection_question": "사람의 필요와 서비스 조건을 연결하는 일이 흥미로운가?",
+      "alternative": "제공 자원 중 다른 하나만 골라 조건을 말한다.",
+      "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
+      "source_ids": [
+        "m46-careernet",
+        "m46-university",
+        "m46-extra"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 지원 연결이 어렵다면 다음 선택지 마련하기\n\n가상 이용자는 저녁에만 연락할 수 있다. A는 평일 낮 방문 안내, B는 평일 저녁 전화 안내를 제공한다. 예시 선택은 B에 전화해 필요한 서류를 묻는 것이다.\n\n1. 첫 연결이 어려울 때 생기는 걸림돌 하나를 정한다.\n2. 같은 필요를 다른 시간이나 방식으로 확인하는 대안을 적는다.\n\n남길 결과물은 첫 연결과 대체 경로 기록입니다.\n\n쉬운 대안. 제공 자원 중 다른 하나만 골라 조건을 말한다.",
+      "worksheet_markdown": "## 지원 연결이 어렵다면 다음 선택지 마련하기\n\n가상 이용자는 저녁에만 연락할 수 있다. A는 평일 낮 방문 안내, B는 평일 저녁 전화 안내를 제공한다. 예시 선택은 B에 전화해 필요한 서류를 묻는 것이다.\n\n| 걸림돌 | 대체 방식 | 미리 확인할 점 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m46-careernet",
+          "title": "대학교 학과정보 사회복지학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=240",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2022-05-17 갱신 응답에서 확인한 사회복지학과는 사회문제를 이해하고 지역과 생활 현장에서 지원할 방법을 연구한다. 커리어넷은 사회복지정책론과 지역사회복지론을 과목 사례로 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m46-university",
+          "title": "교과목정보",
+          "publisher": "연세대학교 사회복지학과",
+          "url": "https://welfare.yonsei.ac.kr/welfare/social/courses.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "사회복지실천론과 지역사회복지론",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m46-extra",
+          "title": "2026 대학요람 대학별 교과과정",
+          "publisher": "연세대학교",
+          "url": "https://www.yonsei.ac.kr/bbs/sc/61/1013218/download.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "인간행동과사회환경 과목",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "2026 요람 수록 교과목 사례다."
+        }
+      ],
+      "preference_question_ids": [],
+      "preference_mapping_basis": [],
+      "revised_on": "2026-11-20"
+    }
+  ]
+}

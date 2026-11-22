@@ -1,0 +1,186 @@
+{
+  "majorName": "광고홍보학과",
+  "standardMajorName": "광고홍보학과",
+  "category": "사회계열",
+  "description": "광고홍보학과는 상품, 서비스, 조직의 메시지를 사람들에게 효과적으로 전달하고 관계를 형성하는 방법을 배우는 전공이다. 학생은 광고기획, 광고매체, 이벤트 기획, PR 전략, 소비자와 시장 분석 같은 주제를 통해 설득 커뮤니케이션 과정을 이해한다. 캠페인 사례를 분석하고 메시지, 매체, 대상자를 연결하는 기획 활동이 많아 창의적 표현력과 자료 분석력, 협업 능력이 중요하다. 사람들의 관심과 행동을 움직이는 메시지를 만들고 브랜드와 사회의 소통 방식을 탐구하고 싶은 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=54",
+      "retrievedAt": "2026-06-04",
+      "query": "광고홍보학과",
+      "matchedMajorName": "광고홍보학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
+  "excelRowNumber": 42,
+  "usableForRecommendation": true,
+  "selectedWeightSource": "baseExcelWeights",
+  "weightSelectionPolicy": {
+    "reason": "여러 세션 간 데이터셋 유사성을 보장하기 위해 서비스 기준값은 엑셀 전공 행의 baseExcelWeights로 고정한다.",
+    "baseExcelAvailable": true,
+    "externalSourcesUsedForScoring": false,
+    "finalWeightsUsed": false,
+    "selectionWarnings": []
+  },
+  "serviceCompetencyScores": {
+    "mathLogicalScore": 8,
+    "problemSolvingScore": 14,
+    "infoTechUtilizationScore": 5,
+    "softwareImplementationScore": 1,
+    "systemUnderstandingScore": 13,
+    "dataAnalysisScore": 16,
+    "communicationScore": 19,
+    "collaborationScore": 13,
+    "selfManagementScore": 11
+  },
+  "serviceTendencyScores": {
+    "logicalInquiryScore": 12,
+    "practicalTechnicalScore": 5,
+    "artCreativeScore": 4,
+    "socialCooperationScore": 29,
+    "bioHealthScore": 2,
+    "educationGuidanceScore": 12,
+    "theoryAcademicScore": 9,
+    "dataAnalysisTypeScore": 17,
+    "systemOperationScore": 12
+  },
+  "coreAxes": {
+    "competencyTopAxes": [
+      {
+        "axis": "communicationScore",
+        "label": "의사소통",
+        "score": 19
+      },
+      {
+        "axis": "dataAnalysisScore",
+        "label": "데이터분석",
+        "score": 16
+      },
+      {
+        "axis": "problemSolvingScore",
+        "label": "문제해결",
+        "score": 14
+      }
+    ],
+    "tendencyTopAxes": [
+      {
+        "axis": "socialCooperationScore",
+        "label": "사회협력형",
+        "score": 29
+      },
+      {
+        "axis": "dataAnalysisTypeScore",
+        "label": "데이터분석형",
+        "score": 17
+      },
+      {
+        "axis": "logicalInquiryScore",
+        "label": "논리탐구형",
+        "score": 12
+      }
+    ],
+    "competencyLowAxes": [
+      {
+        "axis": "softwareImplementationScore",
+        "label": "구현력",
+        "score": 1
+      },
+      {
+        "axis": "infoTechUtilizationScore",
+        "label": "정보기술",
+        "score": 5
+      }
+    ],
+    "tendencyLowAxes": [
+      {
+        "axis": "bioHealthScore",
+        "label": "생명보건형",
+        "score": 2
+      },
+      {
+        "axis": "artCreativeScore",
+        "label": "예술창의형",
+        "score": 4
+      }
+    ]
+  },
+  "differentiation": {
+    "focusKeywords": [
+      "광고 기획",
+      "브랜드",
+      "홍보 전략",
+      "소비자 반응"
+    ],
+    "comparisonNote": "언론 보도보다 브랜드와 조직의 메시지를 기획하고 대중에게 설득력 있게 전달하는 데 초점이 있다.",
+    "bestFor": "광고 기획, 브랜드 같은 주제에 관심이 있고 사람과 조직, 사회 문제를 자료와 사례로 이해하고 현실적인 해결 방향을 고민하는 활동에 끌리는 학생",
+    "lessCentralThanSimilarMajors": [
+      "뉴스 취재 보도",
+      "정치 제도 연구",
+      "회계 자료 처리"
+    ]
+  },
+  "scoringPolicy": {
+    "competencyWeight": 0.6,
+    "tendencyWeight": 0.4,
+    "useCompetencyOnlyWhenTendencyMissing": true,
+    "fitCalculationNote": "When tendency scores are missing, use competencyFit only. When both exist, finalFit = competencyFit * 0.6 + tendencyFit * 0.4."
+  },
+  "relatedOccupations": [
+    {
+      "occupationName": "시장조사전문가",
+      "relatedMajor": "광고홍보학과",
+      "excelRowNumber": 62
+    },
+    {
+      "occupationName": "언론인",
+      "relatedMajor": "광고홍보학과",
+      "excelRowNumber": 63
+    }
+  ],
+  "occupationDatasetRecommended": true,
+  "dbSeed": {
+    "major_name": "광고홍보학과",
+    "category": "사회계열",
+    "req_math_logical": 8,
+    "req_problem_solving": 14,
+    "req_info_tech_utilization": 5,
+    "req_software_implementation": 1,
+    "req_system_understanding": 13,
+    "req_data_analysis": 16,
+    "req_communication": 19,
+    "req_collaboration": 13,
+    "req_self_management": 11,
+    "tendency_logical_inquiry": 12,
+    "tendency_practical_technical": 5,
+    "tendency_art_creative": 4,
+    "tendency_social_cooperation": 29,
+    "tendency_bio_health": 2,
+    "tendency_education_guidance": 12,
+    "tendency_theory_academic": 9,
+    "tendency_data_analysis_type": 17,
+    "tendency_system_operation": 12,
+    "dataset_version": "major-service-excel-v1",
+    "data_quality_status": "approved"
+  },
+  "sourceSummary": {
+    "sourceType": "excel_only",
+    "sourceFile": "docs/Intensity and competency for majors and occupations 9 axis weights.xlsx",
+    "sourceMajorDataset": "datasets/majors/major-row-42-광고홍보학과.quantitative.json",
+    "externalSourcesUsedForScoring": false
+  },
+  "validation": {
+    "dataQualityStatus": "approved",
+    "validationErrors": [],
+    "reviewWarnings": []
+  },
+  "metadata": {
+    "datasetVersion": "major-service-excel-v1",
+    "createdAt": "2026-06-04",
+    "lastUpdated": "2026-06-04",
+    "dataType": "service_ready_quantitative_excel_only"
+  }
+}

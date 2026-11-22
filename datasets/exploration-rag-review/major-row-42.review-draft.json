@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M42_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_42",
+  "majorName": "광고홍보학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "광고홍보학과는 전달 대상과 매체를 고려해 광고와 홍보를 기획하고 제작하는 방법을 배운다. 커리어넷은 광고매체기획과 광고제작론을 사례로 소개한다.",
+      "sourceIds": [
+        "m42-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "평택대 광고홍보학과 편람에는 광고홍보조사론, 매스미디어와 광고, 카피라이팅이 있다. 카피라이팅 설명에는 전달 효과를 고려한 광고 문구 제작 실습이 들어 있다.",
+      "sourceIds": [
+        "m42-university"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m42-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 광고홍보학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=54",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2021-06-30 갱신 응답에서 확인한 광고홍보학과는 전달 대상과 매체를 고려해 광고와 홍보를 기획하고 제작하는 방법을 배운다. 커리어넷은 광고매체기획과 광고제작론을 사례로 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m42-university",
+      "publisher": "평택대학교",
+      "title": "광고홍보학과 편람",
+      "url": "https://www.ptu.ac.kr/bbs/www/340/20668/download.do",
+      "supports": "광고홍보조사론·매스미디어와 광고·카피라이팅",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

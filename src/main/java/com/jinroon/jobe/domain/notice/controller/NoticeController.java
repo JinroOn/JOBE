@@ -1,12 +1,18 @@
 package com.jinroon.jobe.domain.notice.controller;
 
 import com.jinroon.jobe.domain.notice.controller.api.NoticeApi;
+import com.jinroon.jobe.domain.notice.dto.request.NoticeRequest;
 import com.jinroon.jobe.domain.notice.entity.Notice;
 import com.jinroon.jobe.domain.notice.service.NoticeService;
-import java.util.List;
-import java.util.Map;
+import com.jinroon.jobe.global.security.CustomUserDetails;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,26 +33,34 @@ public class NoticeController implements NoticeApi {
 
     @Override
     @GetMapping
-    public List<Notice> findNotices(@RequestParam(defaultValue = "false") boolean activeOnly) {
-        return noticeService.findNotices(activeOnly);
+    public Page<Notice> findNotices(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestParam(defaultValue = "false") boolean activeOnly,
+            @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        return noticeService.findNotices(activeOnly, isAdmin(userDetails), pageable);
     }
 
     @Override
     @GetMapping("/{noticeId}")
-    public Notice getNotice(@PathVariable Long noticeId) {
-        return noticeService.getNotice(noticeId);
+    public Notice getNotice(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long noticeId) {
+        return noticeService.getNotice(noticeId, isAdmin(userDetails));
     }
 
     @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Notice createNotice(@RequestBody Map<String, Object> request) {
-        return noticeService.createNotice(request);
+    public Notice createNotice(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @Valid @RequestBody NoticeRequest request) {
+        // SecurityConfig에서 관리자만 통과하므로 userDetails는 항상 있다.
+        return noticeService.createNotice(request, userDetails.getUserId());
     }
 
     @Override
     @PatchMapping("/{noticeId}")
-    public Notice updateNotice(@PathVariable Long noticeId, @RequestBody Map<String, Object> request) {
+    public Notice updateNotice(@PathVariable Long noticeId, @Valid @RequestBody NoticeRequest request) {
         return noticeService.updateNotice(noticeId, request);
     }
 
@@ -55,5 +69,9 @@ public class NoticeController implements NoticeApi {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteNotice(@PathVariable Long noticeId) {
         noticeService.deleteNotice(noticeId);
+    }
+
+    private static boolean isAdmin(CustomUserDetails userDetails) {
+        return userDetails != null && "admin".equals(userDetails.getUser().getRoleName());
     }
 }

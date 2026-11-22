@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M41_20261120_SCOPE_V2",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_41",
+  "majorName": "경찰행정학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "경찰행정학과는 경찰 조직과 형사사법 제도, 범죄 현상을 연구한다. 커리어넷은 경찰학개론·범죄심리학·형사소송법을 교과 사례로 소개한다.",
+      "sourceIds": [
+        "m41-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "순천향대 경찰행정학과 교육과정에는 경찰학개론, 형사사법행정론과 경찰생활안전론이 있다. 피해자 지원과 자료 해석을 더 살펴보는 사례로 동국대 경찰행정학부 범죄과학전공의 피해자학과 범죄통계 관련 교과를 참고할 수 있다.",
+      "sourceIds": [
+        "m41-university",
+        "m41-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m41-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 경찰행정학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=27",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2021-07-01 갱신 응답에서 확인한 경찰행정학과는 경찰 조직과 형사사법 제도, 범죄 현상을 연구한다. 커리어넷은 경찰학개론·범죄심리학·형사소송법을 교과 사례로 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m41-university",
+      "publisher": "순천향대학교 경찰행정학과",
+      "title": "교육과정안내",
+      "url": "https://home.sch.ac.kr/police/02/01.jsp",
+      "supports": "경찰학개론·형사사법행정론·경찰생활안전론",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m41-extra",
+      "publisher": "동국대학교 경찰행정학부",
+      "title": "범죄과학전공 교과과정",
+      "url": "https://police.dongguk.edu/page/322",
+      "supports": "피해자학과 범죄통계 자료의 성격",
+      "limitation": "동국대 경찰행정학부 범죄과학전공에서 피해자 지원과 자료 해석을 다루는 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제",
+    "유사 학과·세부 전공 자료에서 확인한 사례의 전공 전체 일반화, 필수 교과·이수·자격 요건 단정"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

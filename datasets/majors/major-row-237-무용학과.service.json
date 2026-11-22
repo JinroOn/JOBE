@@ -1,0 +1,196 @@
+{
+  "majorName": "무용학과",
+  "standardMajorName": "무용학과",
+  "category": "예체능계열",
+  "description": "무용학과는 무용과 관련된 핵심 개념과 방법을 배우고, 이를 실제 사례와 문제 해결에 적용하는 전공이다. 주요 학습 내용은 무용작품해설, 무용지도법, 안무법 등이며, 학생은 전공 지식을 개념 이해에 그치지 않고 분석, 실습, 사례 해석으로 연결한다. 전공 탐색 과정에서는 무용공연 관람, 무용동아리 등의 활동을 통해 자료를 다루고 현장 감각을 넓힐 수 있다. 전공 문제를 분석하고 해결하는 역량을 기르는 태도가 중요하며, 표현과 제작 활동을 통해 자신의 아이디어를 구체화하고 싶은 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=162",
+      "retrievedAt": "2026-06-04",
+      "query": "무용학과",
+      "matchedMajorName": "무용학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
+  "excelRowNumber": 237,
+  "usableForRecommendation": true,
+  "selectedWeightSource": "baseExcelWeights",
+  "weightSelectionPolicy": {
+    "reason": "예체능 계열의 창작과 표현 중심 특성을 반영해 기본 엑셀 가중치인 baseExcelWeights를 사용했다.",
+    "baseExcelAvailable": true,
+    "externalSourcesUsedForScoring": false,
+    "finalWeightsUsed": false,
+    "selectionWarnings": []
+  },
+  "serviceCompetencyScores": {
+    "mathLogicalScore": 1,
+    "problemSolvingScore": 11,
+    "infoTechUtilizationScore": 10,
+    "softwareImplementationScore": 27,
+    "systemUnderstandingScore": 7,
+    "dataAnalysisScore": 2,
+    "communicationScore": 18,
+    "collaborationScore": 12,
+    "selfManagementScore": 14
+  },
+  "serviceTendencyScores": {
+    "logicalInquiryScore": 5,
+    "practicalTechnicalScore": 14,
+    "artCreativeScore": 42,
+    "socialCooperationScore": 15,
+    "bioHealthScore": 2,
+    "educationGuidanceScore": 6,
+    "theoryAcademicScore": 7,
+    "dataAnalysisTypeScore": 1,
+    "systemOperationScore": 8
+  },
+  "coreAxes": {
+    "competencyTopAxes": [
+      {
+        "axisKey": "softwareImplementation",
+        "label": "구현력",
+        "axisName": "구현력",
+        "score": 27
+      },
+      {
+        "axisKey": "communication",
+        "label": "의사소통",
+        "axisName": "의사소통",
+        "score": 18
+      },
+      {
+        "axisKey": "selfManagement",
+        "label": "자기관리",
+        "axisName": "자기관리",
+        "score": 14
+      }
+    ],
+    "tendencyTopAxes": [
+      {
+        "axisKey": "artCreative",
+        "label": "예술창의형",
+        "axisName": "예술창의형",
+        "score": 42
+      },
+      {
+        "axisKey": "socialCooperation",
+        "label": "사회협력형",
+        "axisName": "사회협력형",
+        "score": 15
+      },
+      {
+        "axisKey": "practicalTechnical",
+        "label": "실용기술형",
+        "axisName": "실용기술형",
+        "score": 14
+      }
+    ],
+    "competencyLowAxes": [
+      {
+        "axisKey": "mathLogical",
+        "label": "수리논리",
+        "axisName": "수리논리",
+        "score": 1
+      },
+      {
+        "axisKey": "dataAnalysis",
+        "label": "데이터분석",
+        "axisName": "데이터분석",
+        "score": 2
+      }
+    ],
+    "tendencyLowAxes": [
+      {
+        "axisKey": "dataAnalysisType",
+        "label": "데이터분석형",
+        "axisName": "데이터분석형",
+        "score": 1
+      },
+      {
+        "axisKey": "bioHealth",
+        "label": "생명보건형",
+        "axisName": "생명보건형",
+        "score": 2
+      }
+    ]
+  },
+  "differentiation": {
+    "focusKeywords": [
+      "신체 표현",
+      "무용 실기",
+      "안무",
+      "공연 예술"
+    ],
+    "comparisonNote": "유사 전공과 비교하면 신체 표현, 무용 실기, 안무을 함께 다루며 공연 예술까지 연결하는 점이 두드러진다.",
+    "bestFor": "신체 표현, 무용 실기 같은 주제에 관심이 있고 감각과 아이디어를 구체적인 작품, 공연, 디자인 결과물로 표현하는 활동에 끌리는 학생",
+    "lessCentralThanSimilarMajors": [
+      "법률 판단",
+      "실험 데이터 처리",
+      "의료 진단"
+    ]
+  },
+  "scoringPolicy": {
+    "competencyWeight": 0.6,
+    "tendencyWeight": 0.4,
+    "useCompetencyOnlyWhenTendencyMissing": true,
+    "fitCalculationNote": "When tendency scores are missing, use competencyFit only. When both exist, finalFit = competencyFit * 0.6 + tendencyFit * 0.4."
+  },
+  "relatedOccupations": [
+    {
+      "occupationName": "공연기획자",
+      "relatedMajor": "무용학과",
+      "excelRowNumber": 250
+    },
+    {
+      "occupationName": "예술가",
+      "relatedMajor": "무용학과",
+      "excelRowNumber": 251
+    }
+  ],
+  "occupationDatasetRecommended": true,
+  "dbSeed": {
+    "major_name": "무용학과",
+    "category": "예체능계열",
+    "req_math_logical": 1,
+    "req_problem_solving": 11,
+    "req_info_tech_utilization": 10,
+    "req_software_implementation": 27,
+    "req_system_understanding": 7,
+    "req_data_analysis": 2,
+    "req_communication": 18,
+    "req_collaboration": 12,
+    "req_self_management": 14,
+    "tendency_logical_inquiry": 5,
+    "tendency_practical_technical": 14,
+    "tendency_art_creative": 42,
+    "tendency_social_cooperation": 15,
+    "tendency_bio_health": 2,
+    "tendency_education_guidance": 6,
+    "tendency_theory_academic": 7,
+    "tendency_data_analysis_type": 1,
+    "tendency_system_operation": 8,
+    "dataset_version": "major-service-excel-v1",
+    "data_quality_status": "approved"
+  },
+  "sourceSummary": {
+    "sourceType": "excel_only",
+    "sourceFile": "docs/Intensity and competency for majors and occupations 9 axis weights.xlsx",
+    "sourceMajorDataset": "datasets/majors/major-row-237-무용학과.quantitative.json",
+    "externalSourcesUsedForScoring": false
+  },
+  "validation": {
+    "dataQualityStatus": "approved",
+    "validationErrors": [],
+    "reviewWarnings": []
+  },
+  "metadata": {
+    "datasetVersion": "major-service-excel-v1",
+    "createdAt": "2026-05-23",
+    "lastUpdated": "2026-05-23",
+    "dataType": "service_ready_quantitative_excel_only"
+  }
+}

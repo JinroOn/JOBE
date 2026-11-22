@@ -1,0 +1,186 @@
+{
+  "majorName": "영어영문학과",
+  "standardMajorName": "영어영문학과",
+  "category": "인문계열",
+  "description": "영어영문학과는 영어영문과 관련된 핵심 개념과 방법을 배우고, 이를 실제 사례와 문제 해결에 적용하는 전공이다. 주요 학습 내용은 영미문학사, 영미비평, 영미소설 등이며, 학생은 전공 지식을 개념 이해에 그치지 않고 분석, 실습, 사례 해석으로 연결한다. 전공 탐색 과정에서는 미국드라마 시청, 영어뉴스 시청 및 듣기 등의 활동을 통해 자료를 다루고 현장 감각을 넓힐 수 있다. 의사소통, 자기관리, 문제해결을 기르는 태도가 중요하며, 언어, 역사, 문화, 인간의 생각을 깊이 읽고 해석하고 싶은 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=366",
+      "retrievedAt": "2026-06-04",
+      "query": "영어영문학과",
+      "matchedMajorName": "영어영문학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
+  "excelRowNumber": 11,
+  "usableForRecommendation": true,
+  "selectedWeightSource": "baseExcelWeights",
+  "weightSelectionPolicy": {
+    "reason": "여러 세션 간 데이터셋 유사성을 보장하기 위해 서비스 기준값은 엑셀 전공 행의 baseExcelWeights로 고정한다.",
+    "baseExcelAvailable": true,
+    "externalSourcesUsedForScoring": false,
+    "finalWeightsUsed": false,
+    "selectionWarnings": []
+  },
+  "serviceCompetencyScores": {
+    "mathLogicalScore": 6,
+    "problemSolvingScore": 14,
+    "infoTechUtilizationScore": 2,
+    "softwareImplementationScore": 2,
+    "systemUnderstandingScore": 5,
+    "dataAnalysisScore": 5,
+    "communicationScore": 32,
+    "collaborationScore": 13,
+    "selfManagementScore": 21
+  },
+  "serviceTendencyScores": {
+    "logicalInquiryScore": 23,
+    "practicalTechnicalScore": 0,
+    "artCreativeScore": 13,
+    "socialCooperationScore": 12,
+    "bioHealthScore": 1,
+    "educationGuidanceScore": 11,
+    "theoryAcademicScore": 34,
+    "dataAnalysisTypeScore": 4,
+    "systemOperationScore": 3
+  },
+  "coreAxes": {
+    "competencyTopAxes": [
+      {
+        "axis": "communicationScore",
+        "label": "의사소통",
+        "score": 32
+      },
+      {
+        "axis": "selfManagementScore",
+        "label": "자기관리",
+        "score": 21
+      },
+      {
+        "axis": "problemSolvingScore",
+        "label": "문제해결",
+        "score": 14
+      }
+    ],
+    "tendencyTopAxes": [
+      {
+        "axis": "theoryAcademicScore",
+        "label": "이론학구형",
+        "score": 34
+      },
+      {
+        "axis": "logicalInquiryScore",
+        "label": "논리탐구형",
+        "score": 23
+      },
+      {
+        "axis": "artCreativeScore",
+        "label": "예술창의형",
+        "score": 13
+      }
+    ],
+    "competencyLowAxes": [
+      {
+        "axis": "infoTechUtilizationScore",
+        "label": "정보기술",
+        "score": 2
+      },
+      {
+        "axis": "softwareImplementationScore",
+        "label": "구현력",
+        "score": 2
+      }
+    ],
+    "tendencyLowAxes": [
+      {
+        "axis": "practicalTechnicalScore",
+        "label": "실용기술형",
+        "score": 0
+      },
+      {
+        "axis": "bioHealthScore",
+        "label": "생명보건형",
+        "score": 1
+      }
+    ]
+  },
+  "differentiation": {
+    "focusKeywords": [
+      "영미문학",
+      "영어 텍스트",
+      "문화 해석",
+      "비평적 읽기"
+    ],
+    "comparisonNote": "유사 전공과 비교하면 영미문학, 영어 텍스트, 문화 해석을 함께 다루며 비평적 읽기까지 연결하는 점이 두드러진다.",
+    "bestFor": "영미문학, 영어 텍스트 같은 주제에 관심이 있고 자료와 텍스트를 꾸준히 읽고 그 안의 의미와 맥락을 해석하는 활동에 끌리는 학생",
+    "lessCentralThanSimilarMajors": [
+      "공학 장치 제작",
+      "임상 보건 실습",
+      "기업 재무 처리"
+    ]
+  },
+  "scoringPolicy": {
+    "competencyWeight": 0.6,
+    "tendencyWeight": 0.4,
+    "useCompetencyOnlyWhenTendencyMissing": true,
+    "fitCalculationNote": "When tendency scores are missing, use competencyFit only. When both exist, finalFit = competencyFit * 0.6 + tendencyFit * 0.4."
+  },
+  "relatedOccupations": [
+    {
+      "occupationName": "번역가",
+      "relatedMajor": "영어영문학과",
+      "excelRowNumber": 32
+    },
+    {
+      "occupationName": "한국어교원",
+      "relatedMajor": "영어영문학과",
+      "excelRowNumber": 33
+    }
+  ],
+  "occupationDatasetRecommended": true,
+  "dbSeed": {
+    "major_name": "영어영문학과",
+    "category": "인문계열",
+    "req_math_logical": 6,
+    "req_problem_solving": 14,
+    "req_info_tech_utilization": 2,
+    "req_software_implementation": 2,
+    "req_system_understanding": 5,
+    "req_data_analysis": 5,
+    "req_communication": 32,
+    "req_collaboration": 13,
+    "req_self_management": 21,
+    "tendency_logical_inquiry": 23,
+    "tendency_practical_technical": 0,
+    "tendency_art_creative": 13,
+    "tendency_social_cooperation": 12,
+    "tendency_bio_health": 1,
+    "tendency_education_guidance": 11,
+    "tendency_theory_academic": 34,
+    "tendency_data_analysis_type": 4,
+    "tendency_system_operation": 3,
+    "dataset_version": "major-service-excel-v1",
+    "data_quality_status": "approved"
+  },
+  "sourceSummary": {
+    "sourceType": "excel_only",
+    "sourceFile": "docs/Intensity and competency for majors and occupations 9 axis weights.xlsx",
+    "sourceMajorDataset": "datasets/majors/major-row-11-영어영문학과.quantitative.json",
+    "externalSourcesUsedForScoring": false
+  },
+  "validation": {
+    "dataQualityStatus": "approved",
+    "validationErrors": [],
+    "reviewWarnings": []
+  },
+  "metadata": {
+    "datasetVersion": "major-service-excel-v1",
+    "createdAt": "2026-06-04",
+    "lastUpdated": "2026-06-04",
+    "dataType": "service_ready_quantitative_excel_only"
+  }
+}

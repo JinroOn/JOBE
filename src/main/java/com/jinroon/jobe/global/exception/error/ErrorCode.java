@@ -13,20 +13,30 @@ public enum ErrorCode {
     UNAUTHORIZED(401, "인증이 필요합니다."),
     FORBIDDEN(403, "접근 권한이 없습니다."),
     NOT_FOUND(404, "리소스를 찾을 수 없습니다."),
+    METHOD_NOT_ALLOWED(405, "지원하지 않는 요청 방식입니다."),
+    MAIL_SEND_FAILED(500, "이메일 발송에 실패했습니다."),
 
     // User
     USER_NOT_FOUND(404, "존재하지 않는 사용자입니다."),
     USER_EMAIL_DUPLICATE(409, "이미 사용 중인 이메일입니다."),
+    ACCOUNT_WITHDRAWAL_REQUIRED(409, "필수 동의 철회는 회원 탈퇴 경로를 이용해 주세요."),
     USER_PASSWORD_INVALID(401, "비밀번호가 올바르지 않습니다."),
 
     // Auth
     AUTH_TOKEN_INVALID(401, "유효하지 않은 토큰입니다."),
     AUTH_TOKEN_EXPIRED(401, "만료된 토큰입니다."),
+    AUTH_EMAIL_VERIFICATION_REQUIRED(400, "이메일 인증이 필요합니다."),
     AUTH_EMAIL_VERIFICATION_NOT_FOUND(404, "이메일 인증 정보를 찾을 수 없습니다."),
     AUTH_EMAIL_VERIFICATION_EXPIRED(400, "만료된 이메일 인증입니다."),
     AUTH_EMAIL_VERIFICATION_ALREADY_USED(400, "이미 사용된 이메일 인증입니다."),
+    AUTH_PASSWORD_RESET_NOT_FOUND(404, "비밀번호 재설정 정보를 찾을 수 없습니다."),
+    AUTH_PASSWORD_RESET_EXPIRED(400, "만료된 비밀번호 재설정 요청입니다."),
+    AUTH_PASSWORD_RESET_ALREADY_USED(400, "이미 사용된 비밀번호 재설정 요청입니다."),
     AUTH_SESSION_NOT_FOUND(404, "세션을 찾을 수 없습니다."),
     AUTH_SESSION_EXPIRED(401, "만료된 세션입니다."),
+    AUTH_TOO_MANY_REQUESTS(429, "인증번호 요청이 너무 많습니다. 잠시 후 다시 시도해 주세요."),
+    AUTH_TOO_MANY_ATTEMPTS(429, "인증번호 입력 횟수를 초과했습니다. 인증번호를 다시 요청해 주세요."),
+    AUTH_TOO_MANY_LOGIN_ATTEMPTS(429, "로그인 시도가 너무 많습니다. 잠시 후 다시 시도해 주세요."),
 
     // Consultation
     CONSULTATION_SESSION_NOT_FOUND(404, "상담 세션을 찾을 수 없습니다."),
@@ -34,7 +44,10 @@ public enum ErrorCode {
     CONSULTATION_SESSION_ALREADY_ENDED(409, "이미 종료된 상담 세션입니다."),
 
     // Diagnosis
+    LEGACY_DIAGNOSIS_RETIRED(410, "기존 방식의 전공 진단이 종료됐습니다. 전공 탐색 진단을 시작해 주세요."),
     DIAGNOSIS_SESSION_NOT_FOUND(404, "진단 세션을 찾을 수 없습니다."),
+    DIAGNOSIS_SESSION_ALREADY_COMPLETED(409, "이미 완료된 진단 세션입니다."),
+    DIAGNOSIS_TENDENCY_ANSWERS_INCOMPLETE(400, "성향 검사 문항에 모두 답해야 합니다."),
     DIAGNOSIS_QUESTION_NOT_FOUND(404, "진단 문항을 찾을 수 없습니다."),
     DIAGNOSIS_ANSWER_NOT_FOUND(404, "진단 답변을 찾을 수 없습니다."),
     DIAGNOSIS_COMPETENCY_RESULT_NOT_FOUND(404, "역량 평가 결과를 찾을 수 없습니다."),
@@ -42,6 +55,19 @@ public enum ErrorCode {
 
     // Major
     MAJOR_NOT_FOUND(404, "존재하지 않는 전공입니다."),
+    MAJOR_IN_USE(409, "사용 중인 전공은 삭제할 수 없습니다."),
+    MAJOR_RENAME_REQUIRES_MAPPING_UPDATE(409, "신규 전공 매핑에 연결된 전공명은 매핑 변경 절차가 필요합니다."),
+    MAJOR_BINDING_CONFLICT(409, "이미 다른 전공과 연결되어 있습니다."),
+    MAJOR_BINDING_MISMATCH(422, "전공 코드·이름·원본 파일이 일치하지 않습니다."),
+    CATALOG_IMMUTABLE(409, "공개 또는 보관된 카탈로그는 변경할 수 없습니다."),
+    CATALOG_REVIEW_ARCHIVED(409, "보관된 자료는 검토할 수 없습니다."),
+    CATALOG_REVIEW_PREREQUISITE(409, "구현·내용 검토 승인 후에 파일럿·공개 검토를 기록할 수 있습니다."),
+    CATALOG_ACTIVATION_NOT_ALLOWED(409, "검토 완료(REVIEWED) 상태의 자료만 활성화할 수 있습니다."),
+    CATALOG_APPROVAL_MISSING(409, "현재 내용에 대해 필요한 승인이 모두 있어야 활성화할 수 있습니다."),
+    CATALOG_SELF_APPROVAL(409, "승인한 관리자는 같은 자료를 활성화할 수 없습니다."),
+    CATALOG_IN_USE(409, "현재 실행 설정이 사용하는 자료는 보관할 수 없습니다."),
+    CATALOG_ALREADY_ARCHIVED(409, "이미 보관된 자료입니다."),
+    CATALOG_INTEGRITY_ERROR(503, "저장된 탐색 자료를 검증할 수 없습니다."),
     MAJOR_FAVORITE_DUPLICATE(409, "이미 즐겨찾기에 추가된 전공입니다."),
     MAJOR_FAVORITE_NOT_FOUND(404, "즐겨찾기를 찾을 수 없습니다."),
 
@@ -54,8 +80,13 @@ public enum ErrorCode {
     PLAN_ITEM_NOT_FOUND(404, "존재하지 않는 학습 계획 항목입니다."),
     PLAN_RISK_NOTE_NOT_FOUND(404, "존재하지 않는 리스크 노트입니다."),
 
+    // AI
+    AI_GENERATION_IN_PROGRESS(409, "AI generation is already in progress."),
+    AI_PLAN_ALREADY_EXISTS(409, "An active AI plan already exists."),
+
     // Result
     RESULT_NOT_FOUND(404, "존재하지 않는 진단 결과입니다."),
+    RESULT_MAJOR_SCORE_NOT_FOUND(404, "전공별 점수를 찾을 수 없습니다."),
     RESULT_SHARE_TOKEN_NOT_FOUND(404, "유효하지 않은 공유 토큰입니다.");
 
     private final int status;

@@ -2,48 +2,216 @@ package com.jinroon.jobe.domain.plan.service;
 
 import static com.jinroon.jobe.global.common.entity.EntityLookup.get;
 
+import com.jinroon.jobe.global.client.AiServiceClient;
+import com.jinroon.jobe.global.client.dto.request.DiagnosisProfileContext;
+import com.jinroon.jobe.global.client.dto.request.WeeklyPlanRequest;
+import com.jinroon.jobe.global.client.dto.request.WeeklyPlanRequest.Constraints;
+import com.jinroon.jobe.global.client.dto.request.WeeklyPlanRequest.Profile;
+import com.jinroon.jobe.global.client.dto.request.WeeklyPlanRequest.TargetMajor;
+import com.jinroon.jobe.global.client.dto.response.WeeklyPlanResponse;
+import com.jinroon.jobe.global.common.ai.AiGenerationStatus;
 import com.jinroon.jobe.global.common.entity.EntityFormMapper;
+import com.jinroon.jobe.global.exception.CustomException;
 import com.jinroon.jobe.global.exception.error.ErrorCode;
+import com.jinroon.jobe.domain.diagnosis.dto.DiagnosisProfileSnapshot;
+import com.jinroon.jobe.domain.diagnosis.entity.CompetencyEvalResult;
+import com.jinroon.jobe.domain.diagnosis.entity.DiagnosisSession;
+import com.jinroon.jobe.domain.diagnosis.repository.CompetencyEvalResultRepository;
+import com.jinroon.jobe.domain.diagnosis.repository.DiagnosisSessionRepository;
+import com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringService;
+import com.jinroon.jobe.domain.major.entity.Major;
+import com.jinroon.jobe.domain.major.repository.MajorRepository;
+import com.jinroon.jobe.domain.major.service.MajorDatasetContextService;
 import com.jinroon.jobe.domain.plan.entity.MajorWeeklyPlan;
 import com.jinroon.jobe.domain.plan.entity.MajorWeeklyPlanItem;
 import com.jinroon.jobe.domain.plan.entity.MajorWeeklyPlanRiskNote;
 import com.jinroon.jobe.domain.plan.repository.MajorWeeklyPlanItemRepository;
 import com.jinroon.jobe.domain.plan.repository.MajorWeeklyPlanRepository;
 import com.jinroon.jobe.domain.plan.repository.MajorWeeklyPlanRiskNoteRepository;
+import com.jinroon.jobe.domain.result.entity.DiagnosisResult;
+import com.jinroon.jobe.domain.result.entity.ResultMajorScore;
+import com.jinroon.jobe.domain.result.repository.DiagnosisResultRepository;
+import com.jinroon.jobe.domain.result.repository.ResultMajorScoreRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
+@Slf4j
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class PlanService {
+    private static final long GENERATION_RESERVATION_SECONDS=120;
+
 
     private final MajorWeeklyPlanRepository planRepository;
     private final MajorWeeklyPlanItemRepository planItemRepository;
     private final MajorWeeklyPlanRiskNoteRepository riskNoteRepository;
+    private final DiagnosisResultRepository diagnosisResultRepository;
+    private final ResultMajorScoreRepository resultMajorScoreRepository;
+    private final CompetencyEvalResultRepository competencyEvalResultRepository;
+    private final DiagnosisSessionRepository diagnosisSessionRepository;
+    private final MajorRepository majorRepository;
+    private final DiagnosisProfileScoringService diagnosisProfileScoringService;
+    private final AiServiceClient aiServiceClient;
+    private final ObjectMapper objectMapper;
+    private final MajorDatasetContextService majorDatasetContextService;
+    private final com.jinroon.jobe.domain.user.service.UserWriteGuard writeGuard;
+    private final LegacyPlanTransactions transactions;
 
     public MajorWeeklyPlan getPlan(Long planId) {
         return get(planRepository, planId, ErrorCode.PLAN_NOT_FOUND);
+    }
+
+    public MajorWeeklyPlan getPlanForUser(Long planId, Long userId) {
+        MajorWeeklyPlan plan = getPlan(planId);
+        requireResultOwner(plan.getDiagnosisResultId(), userId);
+        return plan;
     }
 
     public List<MajorWeeklyPlan> findPlansByResult(Long resultId) {
         return planRepository.findByDiagnosisResultId(resultId);
     }
 
+    public List<MajorWeeklyPlan> findPlansByResultForUser(Long resultId, Long userId) {
+        requireResultOwner(resultId, userId);
+        return findPlansByResult(resultId);
+    }
+
     public List<MajorWeeklyPlanItem> findItems(Long planId) {
         return planItemRepository.findByWeeklyPlanIdOrderByWeekNoAsc(planId);
+    }
+
+    public List<MajorWeeklyPlanItem> findItemsForUser(Long planId, Long userId) {
+        getPlanForUser(planId, userId);
+        return findItems(planId);
     }
 
     public List<MajorWeeklyPlanRiskNote> findRiskNotes(Long planId) {
         return riskNoteRepository.findByWeeklyPlanId(planId);
     }
 
-    @Transactional
-    public MajorWeeklyPlan createPlan(Map<String, Object> values) {
-        return planRepository.save(EntityFormMapper.create(MajorWeeklyPlan.class, values));
+    public List<MajorWeeklyPlanRiskNote> findRiskNotesForUser(Long planId, Long userId) {
+        getPlanForUser(planId, userId);
+        return findRiskNotes(planId);
+    }
+
+    @Transactional(propagation=Propagation.NOT_SUPPORTED)
+    public MajorWeeklyPlan createPlan(Map<String,Object> values) { return generatePlan(values,null); }
+
+    @Transactional(propagation=Propagation.NOT_SUPPORTED)
+    public MajorWeeklyPlan createPlanForUser(Map<String,Object> values,Long userId) { return generatePlan(values,userId); }
+
+    private record Reserved(MajorWeeklyPlan plan,Long user,WeeklyPlanRequest request){}
+
+    private MajorWeeklyPlan generatePlan(Map<String,Object> values,Long user){
+        Long actor=user!=null?user:get(diagnosisResultRepository,requiredLong(values,"diagnosisResultId"),ErrorCode.RESULT_NOT_FOUND).getUserId();
+        Reserved reserved=transactions.execute(()->reservePlan(values,actor,user!=null));
+        if(reserved.request()==null)return reserved.plan();
+        WeeklyPlanResponse response;
+        try {
+            if(TransactionSynchronizationManager.isActualTransactionActive())throw new IllegalStateException("Provider call must be outside a transaction");
+            response=aiServiceClient.getWeeklyPlan(reserved.request());
+        } catch(AiServiceClient.WeeklyPlanFailure failure){
+            return failPlan(reserved,failure.code());
+        } catch(RuntimeException failure){
+            return failPlan(reserved,"AI_WEEKLY_PLAN_GENERATION_FAILED");
+        }
+        try {
+            return transactions.execute(()->{
+                MajorWeeklyPlan plan=pendingPlan(reserved);
+                if(plan.getAiPlanStatus()!=AiGenerationStatus.PENDING)return plan;
+                var score=resultMajorScoreRepository.findById(plan.getResultMajorScoreId());
+                if(score.isEmpty() || !Objects.equals(score.get().getDiagnosisResultId(),plan.getDiagnosisResultId())){
+                    plan.markAiPlanFailed("AI_WEEKLY_PLAN_SOURCE_CHANGED");plan.deactivate();return plan;
+                }
+                applyAiResponse(plan,response);
+                if(plan.getAiPlanStatus()!=AiGenerationStatus.SUCCEEDED)plan.deactivate();
+                return plan;
+            });
+        } catch(CustomException failure){throw failure;}
+        catch(RuntimeException failure){return failPlan(reserved,"AI_WEEKLY_PLAN_PERSISTENCE_FAILED");}
+    }
+
+    private MajorWeeklyPlan pendingPlan(Reserved reserved){
+        writeGuard.requireActive(reserved.user());
+        MajorWeeklyPlan plan=getPlanForUser(reserved.plan().getId(),reserved.user());
+        if(plan.getAiPlanStatus()!=AiGenerationStatus.PENDING || !Boolean.TRUE.equals(plan.getActiveVersion()))
+            throw new CustomException(ErrorCode.AI_PLAN_ALREADY_EXISTS);
+        expireReservation(plan);
+        return plan;
+    }
+
+    private MajorWeeklyPlan failPlan(Reserved reserved,String code){
+        return transactions.execute(()->{
+            MajorWeeklyPlan plan=pendingPlan(reserved);
+            if(plan.getAiPlanStatus()==AiGenerationStatus.PENDING){plan.markAiPlanFailed(code);plan.deactivate();}return plan;
+        });
+    }
+
+    private Reserved reservePlan(Map<String,Object> values,Long requester,boolean validateScore){
+        Long diagnosisResultId = requiredLong(values,"diagnosisResultId");
+        Long resultMajorScoreId = requiredLong(values,"resultMajorScoreId");
+        // Lock before the first consistent read: MySQL RR must see a preceding reservation after waiting.
+        writeGuard.requireActive(requester);
+        DiagnosisResult result=get(diagnosisResultRepository,diagnosisResultId,ErrorCode.RESULT_NOT_FOUND);
+        if(!Objects.equals(requester,result.getUserId()))throw new CustomException(ErrorCode.RESULT_NOT_FOUND);
+        Long owner=requester;
+        if(validateScore){
+            ResultMajorScore score=get(resultMajorScoreRepository,resultMajorScoreId,ErrorCode.RESULT_MAJOR_SCORE_NOT_FOUND);
+            if(!Objects.equals(score.getDiagnosisResultId(),diagnosisResultId))throw new CustomException(ErrorCode.RESULT_MAJOR_SCORE_NOT_FOUND);
+        }
+        List<MajorWeeklyPlan> activePlansByResult = activePlansByDiagnosisResult(diagnosisResultId);
+        activePlansByResult.forEach(this::expireReservation);
+        blockIfPendingActivePlanExists(diagnosisResultId, activePlansByResult);
+        PlanVersionContext versionContext = prepareNextVersion(resultMajorScoreId);
+
+        Map<String, Object> planValues = new HashMap<>();
+        planValues.put("diagnosisResultId",diagnosisResultId);
+        planValues.put("resultMajorScoreId",resultMajorScoreId);
+        planValues.put("versionNo", versionContext.versionNo());
+        planValues.put("parentPlanId", versionContext.parentPlanId());
+        planValues.put("activeVersion", true);
+        if (planValues.get("fallback") == null) {
+            planValues.put("fallback", false);
+        }
+
+        MajorWeeklyPlan plan = EntityFormMapper.create(MajorWeeklyPlan.class, planValues);
+        plan.prepareVersion(versionContext.versionNo(), versionContext.parentPlanId());
+        activePlansByResult.forEach(MajorWeeklyPlan::deactivate);
+        versionContext.activePlan().ifPresent(MajorWeeklyPlan::deactivate);
+        plan = planRepository.save(plan);
+
+        WeeklyPlanRequest request=prepareAiWeeklyPlan(plan);
+        if(request==null)plan.deactivate();
+        return new Reserved(plan,owner,request);
+    }
+
+    private static Long requiredLong(Map<String, Object> values, String key) {
+        Object value = values.get(key);
+        if (!(value instanceof Number number)) {
+            throw new CustomException(ErrorCode.INVALID_INPUT);
+        }
+        return number.longValue();
+    }
+
+    private void expireReservation(MajorWeeklyPlan plan){
+        if(plan.getAiPlanStatus()==AiGenerationStatus.PENDING && (plan.getAiPlanRequestedAt()==null ||
+                plan.getAiPlanRequestedAt().plusSeconds(GENERATION_RESERVATION_SECONDS).isBefore(java.time.LocalDateTime.now()))){
+            plan.markAiPlanFailed("AI_WEEKLY_PLAN_EXPIRED");plan.deactivate();
+        }
     }
 
     @Transactional
@@ -54,12 +222,328 @@ public class PlanService {
     }
 
     @Transactional
+    /**
+     * 사용자 계획 수정은 개요(overview)만 바꿀 수 있다.
+     * 결과·전공 점수 연결, 버전, 활성 여부, AI 생성 상태는 서버가 관리한다.
+     */
+    public MajorWeeklyPlan updatePlanForUser(Long planId, Map<String, Object> values, Long userId) {
+        writeGuard.requireActive(userId);
+        MajorWeeklyPlan plan = getPlanForUser(planId, userId);
+        Object overview = values.get("overview");
+        if (overview instanceof String text) {
+            plan.updateOverview(text);
+        }
+        return plan;
+    }
+
+    @Transactional
     public MajorWeeklyPlanItem createItem(Map<String, Object> values) {
         return planItemRepository.save(EntityFormMapper.create(MajorWeeklyPlanItem.class, values));
     }
 
     @Transactional
+    public MajorWeeklyPlanItem createItemForUser(Map<String, Object> values, Long userId) {
+        writeGuard.requireActive(userId);
+        Long planId = ((Number) values.get("weeklyPlanId")).longValue();
+        getPlanForUser(planId, userId);
+        return createItem(values);
+    }
+
+    @Transactional
     public MajorWeeklyPlanRiskNote createRiskNote(Map<String, Object> values) {
         return riskNoteRepository.save(EntityFormMapper.create(MajorWeeklyPlanRiskNote.class, values));
+    }
+
+    @Transactional
+    public MajorWeeklyPlanRiskNote createRiskNoteForUser(Map<String, Object> values, Long userId) {
+        writeGuard.requireActive(userId);
+        Long planId = ((Number) values.get("weeklyPlanId")).longValue();
+        getPlanForUser(planId, userId);
+        return createRiskNote(values);
+    }
+
+    @Transactional
+    public void completeItem(Long itemId) {
+        MajorWeeklyPlanItem item = get(planItemRepository, itemId, ErrorCode.PLAN_ITEM_NOT_FOUND);
+        item.complete();
+    }
+
+    @Transactional
+    public void completeItemForUser(Long itemId, Long userId) {
+        writeGuard.requireActive(userId);
+        MajorWeeklyPlanItem item = get(planItemRepository, itemId, ErrorCode.PLAN_ITEM_NOT_FOUND);
+        getPlanForUser(item.getWeeklyPlanId(), userId);
+        item.complete();
+    }
+
+    private void requireResultOwner(Long resultId, Long userId) {
+        DiagnosisResult result = get(diagnosisResultRepository, resultId, ErrorCode.RESULT_NOT_FOUND);
+        if (!Objects.equals(result.getUserId(), userId)) {
+            throw new CustomException(ErrorCode.RESULT_NOT_FOUND);
+        }
+    }
+
+    private PlanVersionContext prepareNextVersion(Long resultMajorScoreId) {
+        Optional<MajorWeeklyPlan> activePlan = Optional
+                .ofNullable(planRepository.findByResultMajorScoreIdAndActiveVersionTrue(resultMajorScoreId))
+                .orElse(Optional.empty());
+        activePlan
+                .filter(plan -> plan.getAiPlanStatus() == AiGenerationStatus.PENDING)
+                .ifPresent(plan -> {
+                    log.warn("AI weekly plan duplicate creation blocked resultMajorScoreId={} existingPlanId={} status={}",
+                            resultMajorScoreId, plan.getId(), plan.getAiPlanStatus());
+                    throw new CustomException(ErrorCode.AI_PLAN_ALREADY_EXISTS);
+                });
+
+        Optional<MajorWeeklyPlan> latestPlan = Optional
+                .ofNullable(planRepository.findTopByResultMajorScoreIdOrderByVersionNoDesc(resultMajorScoreId))
+                .orElse(Optional.empty());
+        int nextVersionNo = latestPlan
+                .map(MajorWeeklyPlan::getVersionNo)
+                .filter(Objects::nonNull)
+                .map(versionNo -> versionNo + 1)
+                .orElse(1);
+        Long parentPlanId = latestPlan.map(MajorWeeklyPlan::getId).orElse(null);
+        return new PlanVersionContext(nextVersionNo, parentPlanId, activePlan);
+    }
+
+    private List<MajorWeeklyPlan> activePlansByDiagnosisResult(Long diagnosisResultId) {
+        List<MajorWeeklyPlan> activePlans = planRepository.findByDiagnosisResultIdAndActiveVersionTrue(diagnosisResultId);
+        return activePlans != null ? activePlans : List.of();
+    }
+
+    private void blockIfPendingActivePlanExists(Long diagnosisResultId, List<MajorWeeklyPlan> activePlans) {
+        activePlans.stream()
+                .filter(plan -> plan.getAiPlanStatus() == AiGenerationStatus.PENDING)
+                .findFirst()
+                .ifPresent(plan -> {
+                    log.warn("AI weekly plan duplicate creation blocked diagnosisResultId={} existingPlanId={} status={}",
+                            diagnosisResultId, plan.getId(), plan.getAiPlanStatus());
+                    throw new CustomException(ErrorCode.AI_PLAN_ALREADY_EXISTS);
+                });
+    }
+
+    private WeeklyPlanRequest prepareAiWeeklyPlan(MajorWeeklyPlan plan) {
+        plan.markAiPlanPending();
+        Optional<DiagnosisResult> resultOpt =
+                diagnosisResultRepository.findById(plan.getDiagnosisResultId());
+        if (resultOpt.isEmpty()) {
+            plan.markAiPlanSkipped("diagnosis result not found");
+            log.warn("AI weekly plan skipped: result not found planId={} diagnosisResultId={}",
+                    plan.getId(), plan.getDiagnosisResultId());
+            return null;
+        }
+        DiagnosisResult result = resultOpt.get();
+
+        Optional<CompetencyEvalResult> competencyOpt =
+                competencyEvalResultRepository.findByDiagnosisSessionId(result.getDiagnosisSessionId());
+        if (competencyOpt.isEmpty()) {
+            plan.markAiPlanSkipped("competency result not found");
+            log.warn("AI weekly plan skipped: competency result not found planId={} diagnosisResultId={} diagnosisSessionId={}",
+                    plan.getId(), result.getId(), result.getDiagnosisSessionId());
+            return null;
+        }
+        CompetencyEvalResult competency = competencyOpt.get();
+
+        Optional<ResultMajorScore> scoreOpt =
+                resultMajorScoreRepository.findById(plan.getResultMajorScoreId());
+        if (scoreOpt.isEmpty()) {
+            plan.markAiPlanSkipped("result major score not found");
+            log.warn("AI weekly plan skipped: major score not found planId={} diagnosisResultId={} resultMajorScoreId={}",
+                    plan.getId(), result.getId(), plan.getResultMajorScoreId());
+            return null;
+        }
+        ResultMajorScore score = scoreOpt.get();
+        if (!Objects.equals(score.getDiagnosisResultId(), result.getId())) {
+            plan.markAiPlanSkipped("result major score does not belong to diagnosis result");
+            log.warn("AI weekly plan skipped: major score result mismatch planId={} diagnosisResultId={} resultMajorScoreId={} scoreDiagnosisResultId={}",
+                    plan.getId(), result.getId(), score.getId(), score.getDiagnosisResultId());
+            return null;
+        }
+
+        Optional<Major> majorOpt = majorRepository.findById(score.getMajorId());
+        if (majorOpt.isEmpty()) {
+            plan.markAiPlanSkipped("major not found");
+            log.warn("AI weekly plan skipped: major not found planId={} diagnosisResultId={} resultMajorScoreId={} majorId={}",
+                    plan.getId(), result.getId(), score.getId(), score.getMajorId());
+            return null;
+        }
+        Major major = majorOpt.get();
+        String majorName = major.getName();
+
+        Profile profile = profileFrom(competency);
+        DiagnosisProfileSnapshot profileSnapshot = profileSnapshotFor(result);
+
+        List<String> weaknessFocus = (result.getWeaknessFocus() != null && !result.getWeaknessFocus().isBlank())
+                ? Arrays.asList(result.getWeaknessFocus().split(","))
+                : List.of();
+
+        WeeklyPlanRequest request = new WeeklyPlanRequest(
+                result.getDiagnosisSessionId(),
+                new TargetMajor(
+                        majorName,
+                        score.getFinalScore() != null ? score.getFinalScore().doubleValue() : 0.0,
+                        majorDatasetContextService.toWeeklyPlanMajorContext(major)
+                ),
+                normalizeWeaknessFocus(weaknessFocus, competency),
+                profile,
+                new Constraints(12, studyHoursPerWeek(profileSnapshot), preferredStyle(profileSnapshot)),
+                DiagnosisProfileContext.from(profileSnapshot)
+        );
+
+        return request;
+    }
+
+    private void applyAiResponse(MajorWeeklyPlan plan,WeeklyPlanResponse response){
+        if (response == null) {
+            plan.markAiPlanFailed("ai-service weekly plan response is null");
+            log.warn("AI weekly plan response empty planId={} diagnosisResultId={} resultMajorScoreId={} majorId={}",
+                    plan.getId(), plan.getDiagnosisResultId(), plan.getResultMajorScoreId(), null);
+            return;
+        }
+
+        plan.applyAiPlan(response.planId(), response.overview());
+        plan.recordFallback(Boolean.TRUE.equals(response.fallback()));
+
+        if (response.weeklyPlan() == null || response.weeklyPlan().isEmpty()) {
+            plan.markAiPlanFailed("ai-service weekly plan response has no weekly items");
+            log.warn("AI weekly plan response has no weekly items planId={} diagnosisResultId={} responsePlanId={}",
+                    plan.getId(), plan.getDiagnosisResultId(), response.planId());
+            return;
+        }
+
+        List<MajorWeeklyPlanItem> items = response.weeklyPlan().stream()
+                .map(wp -> MajorWeeklyPlanItem.of(
+                        plan.getId(),
+                        wp.week(),
+                        wp.goal(),
+                        toJsonArray(wp.tasks()),
+                        toJsonArray(wp.recommendedResources()),
+                        wp.checkpoint()
+                ))
+                .collect(Collectors.toList());
+        planItemRepository.saveAll(items);
+
+        if (response.riskNotes() != null) {
+            response.riskNotes().stream()
+                    .filter(note -> note != null && !note.isBlank())
+                    .forEach(note -> riskNoteRepository.save(MajorWeeklyPlanRiskNote.of(plan.getId(), note)));
+        }
+        plan.markAiPlanSucceeded();
+    }
+
+    private Profile profileFrom(CompetencyEvalResult competency) {
+        return new Profile(
+                safeInt(competency.getMathLogic()),
+                safeInt(competency.getProblemSolving()),
+                safeInt(competency.getInfoTech()),
+                safeInt(competency.getImplementation()),
+                safeInt(competency.getSystemUnderstanding()),
+                safeInt(competency.getDataAnalysis()),
+                safeInt(competency.getCommunication()),
+                safeInt(competency.getCollaboration()),
+                safeInt(competency.getSelfManagement())
+        );
+    }
+
+    private DiagnosisProfileSnapshot profileSnapshotFor(DiagnosisResult result) {
+        if (result.getDiagnosisSessionId() == null) {
+            return DiagnosisProfileSnapshot.empty();
+        }
+        Optional<DiagnosisSession> session =
+                Optional.ofNullable(diagnosisSessionRepository.findById(result.getDiagnosisSessionId()))
+                        .orElse(Optional.empty());
+        return session
+                .map(DiagnosisSession::getInputSnapshot)
+                .map(diagnosisProfileScoringService::parse)
+                .orElseGet(DiagnosisProfileSnapshot::empty);
+    }
+
+    private Integer studyHoursPerWeek(DiagnosisProfileSnapshot profileSnapshot) {
+        if (profileSnapshot == null || profileSnapshot.studyHours() == null) {
+            return 8;
+        }
+        return Math.max(1, Math.min(40, (int) Math.round(profileSnapshot.studyHours() * 7.0)));
+    }
+
+    private String preferredStyle(DiagnosisProfileSnapshot profileSnapshot) {
+        if (profileSnapshot == null || profileSnapshot.learningStyle() == null) {
+            return "practice-first";
+        }
+        return profileSnapshot.learningStyle();
+    }
+
+    private List<String> normalizeWeaknessFocus(List<String> weaknessFocus, CompetencyEvalResult competency) {
+        List<String> normalized = weaknessFocus == null ? List.of() : weaknessFocus.stream()
+                .map(String::trim)
+                .filter(this::isValidWeaknessField)
+                .distinct()
+                .limit(2)
+                .toList();
+        if (!normalized.isEmpty()) {
+            return normalized;
+        }
+        return weakestFields(competency);
+    }
+
+    private boolean isValidWeaknessField(String field) {
+        return switch (field) {
+            case "mathLogicalScore",
+                 "problemSolvingScore",
+                 "infoTechUtilizationScore",
+                 "softwareImplementationScore",
+                 "systemUnderstandingScore",
+                 "dataAnalysisScore",
+                 "communicationScore",
+                 "collaborationScore",
+                 "selfManagementScore" -> true;
+            default -> false;
+        };
+    }
+
+    private List<String> weakestFields(CompetencyEvalResult competency) {
+        return List.of(
+                        new WeaknessField("mathLogicalScore", safeInt(competency.getMathLogic())),
+                        new WeaknessField("problemSolvingScore", safeInt(competency.getProblemSolving())),
+                        new WeaknessField("infoTechUtilizationScore", safeInt(competency.getInfoTech())),
+                        new WeaknessField("softwareImplementationScore", safeInt(competency.getImplementation())),
+                        new WeaknessField("systemUnderstandingScore", safeInt(competency.getSystemUnderstanding())),
+                        new WeaknessField("dataAnalysisScore", safeInt(competency.getDataAnalysis())),
+                        new WeaknessField("communicationScore", safeInt(competency.getCommunication())),
+                        new WeaknessField("collaborationScore", safeInt(competency.getCollaboration())),
+                        new WeaknessField("selfManagementScore", safeInt(competency.getSelfManagement()))
+                )
+                .stream()
+                .sorted(java.util.Comparator.comparingInt(WeaknessField::score))
+                .limit(2)
+                .map(WeaknessField::name)
+                .toList();
+    }
+
+    private static int safeInt(Float value) {
+        if (value == null) {
+            return 0;
+        }
+        return Math.max(0, Math.min(100, Math.round(value)));
+    }
+
+    private String toJsonArray(List<String> values) {
+        try {
+            return objectMapper.writeValueAsString(values == null ? List.of() : values);
+        } catch (JsonProcessingException e) {
+            log.warn("AI weekly plan JSON array conversion failed errorType={} message={}",
+                    e.getClass().getSimpleName(), e.getMessage());
+            return "[]";
+        }
+    }
+
+    private record WeaknessField(String name, int score) {
+    }
+
+    private record PlanVersionContext(
+            Integer versionNo,
+            Long parentPlanId,
+            Optional<MajorWeeklyPlan> activePlan
+    ) {
     }
 }

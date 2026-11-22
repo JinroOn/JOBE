@@ -6,10 +6,15 @@ import com.jinroon.jobe.domain.user.dto.response.UserConsentResponse;
 import com.jinroon.jobe.domain.user.dto.response.UserFavoriteResponse;
 import com.jinroon.jobe.domain.user.dto.response.UserResponse;
 import com.jinroon.jobe.domain.user.dto.response.UserSessionResponse;
+import com.jinroon.jobe.domain.user.dto.request.EmailVerificationRequest;
+import com.jinroon.jobe.domain.user.dto.request.UserConsentRequest;
+import com.jinroon.jobe.domain.user.dto.request.UserFavoriteRequest;
+import com.jinroon.jobe.domain.user.dto.request.UserProfileUpdateRequest;
+import com.jinroon.jobe.domain.user.dto.request.UserRequest;
 import com.jinroon.jobe.domain.user.service.UserService;
 import com.jinroon.jobe.global.security.CustomUserDetails;
+import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -52,6 +57,14 @@ public class UserController implements UserApi {
                 .toList();
     }
 
+    @GetMapping("/me/consents/latest")
+    public UserConsentResponse latestConsent(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        return userService.findConsents(userDetails.getUserId()).stream().findFirst()
+                .map(UserConsentResponse::from)
+                .orElseThrow(() -> new com.jinroon.jobe.global.exception.CustomException(
+                        com.jinroon.jobe.global.exception.error.ErrorCode.NOT_FOUND));
+    }
+
     @Override
     @GetMapping("/me/favorites")
     public List<UserFavoriteResponse> findFavorites(@AuthenticationPrincipal CustomUserDetails userDetails) {
@@ -70,14 +83,17 @@ public class UserController implements UserApi {
 
     @Override
     @GetMapping("/email-verifications/{verificationId}")
-    public EmailVerificationResponse getEmailVerification(@PathVariable Long verificationId) {
-        return EmailVerificationResponse.from(userService.getEmailVerification(verificationId));
+    public EmailVerificationResponse getEmailVerification(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long verificationId) {
+        return EmailVerificationResponse.from(
+                userService.getEmailVerificationForUser(verificationId, userDetails.getUserId()));
     }
 
     @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserResponse createUser(@RequestBody Map<String, Object> request) {
+    public UserResponse createUser(@Valid @RequestBody UserRequest request) {
         return UserResponse.from(userService.createUser(request));
     }
 
@@ -85,8 +101,8 @@ public class UserController implements UserApi {
     @PatchMapping("/me")
     public UserResponse updateUser(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestBody Map<String, Object> request) {
-        return UserResponse.from(userService.updateUser(userDetails.getUserId(), request));
+            @Valid @RequestBody UserProfileUpdateRequest request) {
+        return UserResponse.from(userService.updateProfile(userDetails.getUserId(), request));
     }
 
     @Override
@@ -101,9 +117,8 @@ public class UserController implements UserApi {
     @ResponseStatus(HttpStatus.CREATED)
     public UserConsentResponse createConsent(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestBody Map<String, Object> request) {
-        request.put("userId", userDetails.getUserId());
-        return UserConsentResponse.from(userService.createConsent(request));
+            @Valid @RequestBody UserConsentRequest request) {
+        return UserConsentResponse.from(userService.createConsent(userDetails.getUserId(), request));
     }
 
     @Override
@@ -111,29 +126,23 @@ public class UserController implements UserApi {
     @ResponseStatus(HttpStatus.CREATED)
     public UserFavoriteResponse createFavorite(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @RequestBody Map<String, Object> request) {
-        request.put("userId", userDetails.getUserId());
-        return UserFavoriteResponse.from(userService.createFavorite(request));
+            @Valid @RequestBody UserFavoriteRequest request) {
+        return UserFavoriteResponse.from(userService.createFavorite(userDetails.getUserId(), request.getMajorId()));
     }
 
     @Override
     @DeleteMapping("/favorites/{favoriteId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteFavorite(@PathVariable Long favoriteId) {
-        userService.deleteFavorite(favoriteId);
-    }
-
-    @Override
-    @PostMapping("/sessions")
-    @ResponseStatus(HttpStatus.CREATED)
-    public UserSessionResponse createSession(@RequestBody Map<String, Object> request) {
-        return UserSessionResponse.from(userService.createSession(request));
+    public void deleteFavorite(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long favoriteId) {
+        userService.deleteFavoriteForUser(favoriteId, userDetails.getUserId());
     }
 
     @Override
     @PostMapping("/email-verifications")
     @ResponseStatus(HttpStatus.CREATED)
-    public EmailVerificationResponse createEmailVerification(@RequestBody Map<String, Object> request) {
+    public EmailVerificationResponse createEmailVerification(@Valid @RequestBody EmailVerificationRequest request) {
         return EmailVerificationResponse.from(userService.createEmailVerification(request));
     }
 }

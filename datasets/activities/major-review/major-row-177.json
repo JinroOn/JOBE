@@ -1,0 +1,307 @@
+{
+  "schema_version": "1.1",
+  "major_mapping_version": "MAJOR_MAPPING_V1_2_IMPLEMENTATION_CANDIDATE",
+  "content_status": "DRAFT",
+  "implementation_review_status": "PENDING",
+  "domain_review_status": "PENDING",
+  "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M177_DRAFT_V3_SCOPE_V2_ISSUE130_V1",
+  "provenance": {
+    "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
+    "scope": "SINGLE_MAJOR_DEV_REVIEW",
+    "parent_file_sha256": "98e0d997a7af59dfe2dab16e1156dad04933809a620b120ddd5990c8797c2e7c"
+  },
+  "activities": [
+    {
+      "activity_id": "DRAFT-M177-01",
+      "version": "0.4.2",
+      "title": "환경 관측값과 관측 조건에 질문 붙이기",
+      "kind": "INFORMATION",
+      "major_code": "MAJOR_ROW_177",
+      "major_name": "환경과학과",
+      "exploration_group": "SCI",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "탐색 주제: 환경과학 자료와 설명의 범위. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
+      "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
+      "steps": [
+        "과목에서 관측 자료를 사용하는 분야를 찾아 읽는다.",
+        "환경 수치 두 개를 비교할 때 위치와 시간 중 어떤 정보가 필요한지 적는다."
+      ],
+      "artifacts": [
+        "환경 비교의 관측 기준"
+      ],
+      "example_output": "같은 시간에 측정했는지와 측정 단위가 같은지 확인한다.",
+      "worksheet_columns": "공식 자료에서 확인한 명칭 / 내가 더 알아볼 주제 / 미확인 질문 / 확인 경로",
+      "reflection_question": "소개를 읽은 뒤 관심이 생긴 부분과 여전히 모르는 부분은 무엇인가요?",
+      "alternative": "제공 과목 이름과 가상 상황만 활용한다.",
+      "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
+      "source_ids": [
+        "m177-careernet",
+        "m177-university"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 서울대학교 지구환경과학부 대학 교과과정이다.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 환경 관측값과 관측 조건에 질문 붙이기\n\n공식 자료의 대기분석 및 실험과 환경통계 과목을 참고한다.\n\n1. 과목에서 관측 자료를 사용하는 분야를 찾아 읽는다.\n2. 환경 수치 두 개를 비교할 때 위치와 시간 중 어떤 정보가 필요한지 적는다.\n\n남길 결과물은 환경 비교의 관측 기준입니다.\n\n쉬운 대안. 제공 과목 이름과 가상 상황만 활용한다.",
+      "worksheet_markdown": "## 환경 관측값과 관측 조건에 질문 붙이기\n\n공식 자료의 대기분석 및 실험과 환경통계 과목을 참고한다.\n\n| 측정 대상 | 조건 | 질문 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m177-careernet",
+          "title": "대학교 학과정보 환경과학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=654",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2023-06-02 갱신 응답에서 확인한 환경과학과는 인간 활동과 환경 변화의 관계를 살피고 관측 자료로 환경 문제를 분석한다. 커리어넷은 환경과학개론과 기초환경통계학을 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m177-university",
+          "title": "대학 교과과정",
+          "publisher": "서울대학교 지구환경과학부",
+          "url": "https://sees.snu.ac.kr/academics/undergraduate/courses",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "대기분석 및 실험",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "서울대 지구환경과학부에서 대기 자료를 분석하는 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-READ-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-READ-01",
+          "step_indexes": [
+            0
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M177-02",
+      "version": "0.4.2",
+      "title": "가상의 그늘 유무에 따른 온도 비교하기",
+      "kind": "SMALL_TASK",
+      "major_code": "MAJOR_ROW_177",
+      "major_name": "환경과학과",
+      "exploration_group": "SCI",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 10,
+        "max": 15,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "경험할 주제: 환경과학 자료와 설명의 범위. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
+      "scenario": "가상 자료의 같은 시각 오전은 그늘 20·햇빛 21도, 오후는 그늘 23·햇빛 27도다.",
+      "steps": [
+        "같은 시각의 두 위치 온도 차이를 각각 계산한다.",
+        "관찰한 관계와 이 자료로 단정할 수 없는 원인을 적는다."
+      ],
+      "artifacts": [
+        "시간대별 그늘과 햇빛 비교표"
+      ],
+      "example_output": "오전 차이는 1도, 오후는 4도다. 바람이나 바닥 조건이 달랐는지는 알 수 없다.",
+      "worksheet_columns": "시각 / 그늘 온도 / 햇빛 온도 / 차이",
+      "reflection_question": "환경 문제를 여러 자료로 확인하는 일이 흥미로운가?",
+      "alternative": "야외에 나가지 않고 제공 수치만 비교한다.",
+      "safety_boundary": "실제 지역의 오염·건강·정책 효과를 판정하지 않음",
+      "source_ids": [
+        "m177-careernet",
+        "m177-university"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 서울대학교 지구환경과학부 대학 교과과정이다.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 가상의 그늘 유무에 따른 온도 비교하기\n\n가상 자료의 같은 시각 오전은 그늘 20·햇빛 21도, 오후는 그늘 23·햇빛 27도다.\n\n1. 같은 시각의 두 위치 온도 차이를 각각 계산한다.\n2. 관찰한 관계와 이 자료로 단정할 수 없는 원인을 적는다.\n\n남길 결과물은 시간대별 그늘과 햇빛 비교표입니다.\n\n쉬운 대안. 야외에 나가지 않고 제공 수치만 비교한다.",
+      "worksheet_markdown": "## 가상의 그늘 유무에 따른 온도 비교하기\n\n가상 자료의 같은 시각 오전은 그늘 20·햇빛 21도, 오후는 그늘 23·햇빛 27도다.\n\n| 시각 | 그늘 온도 | 햇빛 온도 | 차이 |\n|---|---|---|---|\n| | | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m177-careernet",
+          "title": "대학교 학과정보 환경과학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=654",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2023-06-02 갱신 응답에서 확인한 환경과학과는 인간 활동과 환경 변화의 관계를 살피고 관측 자료로 환경 문제를 분석한다. 커리어넷은 환경과학개론과 기초환경통계학을 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m177-university",
+          "title": "대학 교과과정",
+          "publisher": "서울대학교 지구환경과학부",
+          "url": "https://sees.snu.ac.kr/academics/undergraduate/courses",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "대기분석 및 실험",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "서울대 지구환경과학부에서 대기 자료를 분석하는 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-PROJECT-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-PROJECT-01",
+          "step_indexes": [
+            0,
+            1
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M177-03",
+      "version": "0.4.3",
+      "title": "다른 조건을 줄인 관측 계획 적기",
+      "kind": "REFLECTION_AND_NEXT_STEP",
+      "major_code": "MAJOR_ROW_177",
+      "major_name": "환경과학과",
+      "exploration_group": "SCI",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
+      "scenario": "가상 오전 온도는 그늘 20도·햇빛 21도, 오후는 그늘 23도·햇빛 27도다. 두 위치의 바닥 조건은 주어지지 않았다.",
+      "steps": [
+        "가능한 같은 조건을 하나 고른다.",
+        "여러 날 비교할 시간과 적을 값을 정한다."
+      ],
+      "artifacts": [
+        "조건을 맞춘 환경 관찰 계획"
+      ],
+      "example_output": "같은 바닥 재질에서 오후 같은 시각의 온도를 여러 날 기록한다.",
+      "worksheet_columns": "경험한 과정 / 흥미·불편·모름 / 확인 질문 / 확인 경로 / 다음 행동",
+      "reflection_question": "환경 문제를 여러 자료로 확인하는 일이 흥미로운가?",
+      "alternative": "실제 측정을 하지 않고 표 머리글만 정한다.",
+      "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
+      "source_ids": [
+        "m177-careernet",
+        "m177-university"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 서울대학교 지구환경과학부 대학 교과과정이다.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 다른 조건을 줄인 관측 계획 적기\n\n가상 오전 온도는 그늘 20도·햇빛 21도, 오후는 그늘 23도·햇빛 27도다. 두 위치의 바닥 조건은 주어지지 않았다.\n\n1. 가능한 같은 조건을 하나 고른다.\n2. 여러 날 비교할 시간과 적을 값을 정한다.\n\n남길 결과물은 조건을 맞춘 환경 관찰 계획입니다.\n\n쉬운 대안. 실제 측정을 하지 않고 표 머리글만 정한다.",
+      "worksheet_markdown": "## 다른 조건을 줄인 관측 계획 적기\n\n가상 오전 온도는 그늘 20도·햇빛 21도, 오후는 그늘 23도·햇빛 27도다. 두 위치의 바닥 조건은 주어지지 않았다.\n\n| 맞출 조건 | 비교 시간 | 기록 항목 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m177-careernet",
+          "title": "대학교 학과정보 환경과학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=654",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2023-06-02 갱신 응답에서 확인한 환경과학과는 인간 활동과 환경 변화의 관계를 살피고 관측 자료로 환경 문제를 분석한다. 커리어넷은 환경과학개론과 기초환경통계학을 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m177-university",
+          "title": "대학 교과과정",
+          "publisher": "서울대학교 지구환경과학부",
+          "url": "https://sees.snu.ac.kr/academics/undergraduate/courses",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "대기분석 및 실험",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "서울대 지구환경과학부에서 대기 자료를 분석하는 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [],
+      "preference_mapping_basis": [],
+      "revised_on": "2026-11-20"
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M131_20261120_SCOPE_V2",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_131",
+  "majorName": "전자공학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "전자공학과는 회로와 신호를 분석해 전자 장치가 정보를 처리하고 동작하는 방식을 배운다. 커리어넷은 회로이론, 신호 및 시스템과 디지털 통신을 소개한다.",
+      "sourceIds": [
+        "m131-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "경상국립대 전자공학부에는 전자회로, 신호및시스템과 디지털시스템설계및실습이 있다. KAIST 전기 및 전자공학부는 같은 신호 분야에서 연속·이산 신호와 시스템을 다루는 교과 사례를 제공한다.",
+      "sourceIds": [
+        "m131-university",
+        "m131-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m131-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 전자공학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=469",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2020-12-02 갱신 응답에서 확인한 전자공학과는 회로와 신호를 분석해 전자 장치가 정보를 처리하고 동작하는 방식을 배운다. 커리어넷은 회로이론, 신호 및 시스템과 디지털 통신을 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m131-university",
+      "publisher": "경상국립대학교 전자공학부",
+      "title": "2026학년도 학부 교과과정 및 졸업요건",
+      "url": "https://www.gnu.ac.kr/see/cm/cntnts/cntntsView.do?cntntsId=6594&mi=13992",
+      "supports": "전자회로·신호및시스템·디지털시스템설계및실습",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m131-extra",
+      "publisher": "KAIST 전기 및 전자공학부",
+      "title": "학부 교과과정 리스트",
+      "url": "https://ee.kaist.ac.kr/under-curr-list/",
+      "supports": "연속·이산 신호와 시스템",
+      "limitation": "KAIST 전기 및 전자공학부의 신호 처리 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제",
+    "유사 학과·세부 전공 자료에서 확인한 사례의 전공 전체 일반화, 필수 교과·이수·자격 요건 단정"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

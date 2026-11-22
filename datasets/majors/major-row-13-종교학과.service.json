@@ -1,0 +1,181 @@
+{
+  "majorName": "종교학과",
+  "standardMajorName": "종교학과",
+  "category": "인문계열",
+  "description": "종교학과는 종교와 관련된 핵심 개념과 방법을 배우고, 이를 실제 사례와 문제 해결에 적용하는 전공이다. 주요 학습 내용은 문화예술과 영성, 성서입문, 종교문화의 흐름 등이며, 학생은 전공 지식을 개념 이해에 그치지 않고 분석, 실습, 사례 해석으로 연결한다. 전공 탐색 과정에서는 성지답사 등의 활동을 통해 자료를 다루고 현장 감각을 넓힐 수 있다. 의사소통, 자기관리, 협업윤리를 기르는 태도가 중요하며, 언어, 역사, 문화, 인간의 생각을 깊이 읽고 해석하고 싶은 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=511",
+      "retrievedAt": "2026-06-04",
+      "query": "종교학과",
+      "matchedMajorName": "종교학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
+  "excelRowNumber": 13,
+  "usableForRecommendation": true,
+  "selectedWeightSource": "baseExcelWeights",
+  "weightSelectionPolicy": {
+    "reason": "여러 세션 간 데이터셋 유사성을 보장하기 위해 서비스 기준값은 엑셀 전공 행의 baseExcelWeights로 고정한다.",
+    "baseExcelAvailable": true,
+    "externalSourcesUsedForScoring": false,
+    "finalWeightsUsed": false,
+    "selectionWarnings": []
+  },
+  "serviceCompetencyScores": {
+    "mathLogicalScore": 5,
+    "problemSolvingScore": 12,
+    "infoTechUtilizationScore": 1,
+    "softwareImplementationScore": 1,
+    "systemUnderstandingScore": 5,
+    "dataAnalysisScore": 4,
+    "communicationScore": 34,
+    "collaborationScore": 17,
+    "selfManagementScore": 22
+  },
+  "serviceTendencyScores": {
+    "logicalInquiryScore": 20,
+    "practicalTechnicalScore": 0,
+    "artCreativeScore": 12,
+    "socialCooperationScore": 14,
+    "bioHealthScore": 1,
+    "educationGuidanceScore": 16,
+    "theoryAcademicScore": 30,
+    "dataAnalysisTypeScore": 4,
+    "systemOperationScore": 3
+  },
+  "coreAxes": {
+    "competencyTopAxes": [
+      {
+        "axis": "communicationScore",
+        "label": "의사소통",
+        "score": 34
+      },
+      {
+        "axis": "selfManagementScore",
+        "label": "자기관리",
+        "score": 22
+      },
+      {
+        "axis": "collaborationScore",
+        "label": "협업윤리",
+        "score": 17
+      }
+    ],
+    "tendencyTopAxes": [
+      {
+        "axis": "theoryAcademicScore",
+        "label": "이론학구형",
+        "score": 30
+      },
+      {
+        "axis": "logicalInquiryScore",
+        "label": "논리탐구형",
+        "score": 20
+      },
+      {
+        "axis": "educationGuidanceScore",
+        "label": "교육지도형",
+        "score": 16
+      }
+    ],
+    "competencyLowAxes": [
+      {
+        "axis": "infoTechUtilizationScore",
+        "label": "정보기술",
+        "score": 1
+      },
+      {
+        "axis": "softwareImplementationScore",
+        "label": "구현력",
+        "score": 1
+      }
+    ],
+    "tendencyLowAxes": [
+      {
+        "axis": "practicalTechnicalScore",
+        "label": "실용기술형",
+        "score": 0
+      },
+      {
+        "axis": "bioHealthScore",
+        "label": "생명보건형",
+        "score": 1
+      }
+    ]
+  },
+  "differentiation": {
+    "focusKeywords": [
+      "종교 문화",
+      "영성",
+      "신화와 의례",
+      "인간 이해"
+    ],
+    "comparisonNote": "특정 신앙 실천보다 종교 현상을 문화, 역사, 사상 자료로 비교하고 해석하는 데 초점이 있다.",
+    "bestFor": "종교 문화, 영성 같은 주제에 관심이 있고 자료와 텍스트를 꾸준히 읽고 그 안의 의미와 맥락을 해석하는 활동에 끌리는 학생",
+    "lessCentralThanSimilarMajors": [
+      "공학 장치 제작",
+      "임상 보건 실습",
+      "기업 재무 처리"
+    ]
+  },
+  "scoringPolicy": {
+    "competencyWeight": 0.6,
+    "tendencyWeight": 0.4,
+    "useCompetencyOnlyWhenTendencyMissing": true,
+    "fitCalculationNote": "When tendency scores are missing, use competencyFit only. When both exist, finalFit = competencyFit * 0.6 + tendencyFit * 0.4."
+  },
+  "relatedOccupations": [
+    {
+      "occupationName": "연구원",
+      "relatedMajor": "종교학과",
+      "excelRowNumber": 35
+    }
+  ],
+  "occupationDatasetRecommended": true,
+  "dbSeed": {
+    "major_name": "종교학과",
+    "category": "인문계열",
+    "req_math_logical": 5,
+    "req_problem_solving": 12,
+    "req_info_tech_utilization": 1,
+    "req_software_implementation": 1,
+    "req_system_understanding": 5,
+    "req_data_analysis": 4,
+    "req_communication": 34,
+    "req_collaboration": 17,
+    "req_self_management": 22,
+    "tendency_logical_inquiry": 20,
+    "tendency_practical_technical": 0,
+    "tendency_art_creative": 12,
+    "tendency_social_cooperation": 14,
+    "tendency_bio_health": 1,
+    "tendency_education_guidance": 16,
+    "tendency_theory_academic": 30,
+    "tendency_data_analysis_type": 4,
+    "tendency_system_operation": 3,
+    "dataset_version": "major-service-excel-v1",
+    "data_quality_status": "approved"
+  },
+  "sourceSummary": {
+    "sourceType": "excel_only",
+    "sourceFile": "docs/Intensity and competency for majors and occupations 9 axis weights.xlsx",
+    "sourceMajorDataset": "datasets/majors/major-row-13-종교학과.quantitative.json",
+    "externalSourcesUsedForScoring": false
+  },
+  "validation": {
+    "dataQualityStatus": "approved",
+    "validationErrors": [],
+    "reviewWarnings": []
+  },
+  "metadata": {
+    "datasetVersion": "major-service-excel-v1",
+    "createdAt": "2026-06-04",
+    "lastUpdated": "2026-06-04",
+    "dataType": "service_ready_quantitative_excel_only"
+  }
+}

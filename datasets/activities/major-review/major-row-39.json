@@ -1,0 +1,349 @@
+{
+  "schema_version": "1.1",
+  "major_mapping_version": "MAJOR_MAPPING_V1_2_IMPLEMENTATION_CANDIDATE",
+  "content_status": "DRAFT",
+  "implementation_review_status": "PENDING",
+  "domain_review_status": "PENDING",
+  "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M39_DRAFT_V3_ISSUE130_V1_PREAPPROVAL_V1",
+  "provenance": {
+    "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
+    "scope": "SINGLE_MAJOR_DEV_REVIEW",
+    "parent_file_sha256": "98e0d997a7af59dfe2dab16e1156dad04933809a620b120ddd5990c8797c2e7c"
+  },
+  "activities": [
+    {
+      "activity_id": "DRAFT-M39-01",
+      "version": "0.4.0",
+      "title": "같은 행사에서 세 가지 경영 질문 찾기",
+      "kind": "INFORMATION",
+      "major_code": "MAJOR_ROW_39",
+      "major_name": "경영학과",
+      "exploration_group": "BIZ",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "탐색 주제: 조직 운영과 자원 배분. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
+      "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
+      "steps": [
+        "과목명을 공식 자료에서 읽고 관심 있는 과목을 표시한다.",
+        "참가 안내, 대기 줄과 물품 지출 가운데 과목과 관련된 질문을 적는다."
+      ],
+      "artifacts": [
+        "경영 분야별로 나눈 행사 질문"
+      ],
+      "example_output": "오퍼레이션관리 관점에서 책 접수와 교환을 어떻게 배치하면 줄이 줄어들까?",
+      "worksheet_columns": "공식 자료에서 확인한 명칭 / 내가 더 알아볼 주제 / 미확인 질문 / 확인 경로",
+      "reflection_question": "소개를 읽은 뒤 관심이 생긴 부분과 여전히 모르는 부분은 무엇인가요?",
+      "alternative": "공식 링크가 열리지 않으면 제공 과목 세 가지를 사용한다.",
+      "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
+      "source_ids": [
+        "careernet-m39",
+        "m39-university-1",
+        "m39-university-2"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 같은 행사에서 세 가지 경영 질문 찾기\n\n가상의 학교 책 교환 행사와 공식 과목명 마케팅사례연구·오퍼레이션관리·회계정보와 경영의사결정을 사용한다.\n\n1. 과목명을 공식 자료에서 읽고 관심 있는 과목을 표시한다.\n2. 참가 안내, 대기 줄과 물품 지출 가운데 과목과 관련된 질문을 적는다.\n\n남길 결과물은 경영 분야별로 나눈 행사 질문입니다.\n\n쉬운 대안. 공식 링크가 열리지 않으면 제공 과목 세 가지를 사용한다.",
+      "worksheet_markdown": "## 같은 행사에서 세 가지 경영 질문 찾기\n\n가상의 학교 책 교환 행사와 공식 과목명 마케팅사례연구·오퍼레이션관리·회계정보와 경영의사결정을 사용한다.\n\n| 과목 | 행사 문제 | 내 질문 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "careernet-m39",
+          "title": "대학교 학과정보 경영학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=23",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2021-06-22 갱신 응답의 조직의 관리·운영과 마케팅관리·인사관리·재무관리",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "대표 학과 정보다. 학교별 교과목은 대학 공식 자료에서 확인한다."
+        },
+        {
+          "source_id": "m39-university-1",
+          "title": "학부 교과목 일람",
+          "publisher": "서울대학교 경영대학",
+          "url": "https://cba.snu.ac.kr/academics/undergraduate/curriculum/03",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "마케팅사례연구와 회계정보와 경영의사결정",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "서울대학교 과목 사례다."
+        },
+        {
+          "source_id": "m39-university-2",
+          "title": "2025-2학기 학부 수강신청 안내",
+          "publisher": "연세대학교 경영대학",
+          "url": "https://ysb.yonsei.ac.kr/ysb/news/notice.do?article.offset=110&articleLimit=10&articleNo=24027&mode=view&srCategoryId=21",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "생산및운영관리의 개편 과목명인 오퍼레이션관리",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "해당 학기 과목명 안내이며 졸업 필수 여부는 인용하지 않는다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-READ-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-READ-01",
+          "step_indexes": [
+            0
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M39-02",
+      "version": "0.4.1",
+      "title": "책 교환 행사 두 운영안 비교하기",
+      "kind": "SMALL_TASK",
+      "major_code": "MAJOR_ROW_39",
+      "major_name": "경영학과",
+      "exploration_group": "BIZ",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 10,
+        "max": 15,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "경험할 주제: 조직 운영과 자원 배분. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
+      "scenario": "가상 운영안 A는 접수 2명·교환 1명이고 B는 접수 1명·교환 2명이다. 한 명은 5분에 3명을 처리할 수 있으며, 5분에 접수 5명과 교환 2명이 도착한다.",
+      "steps": [
+        "각 운영안의 접수·교환 처리 가능 인원을 계산한다.",
+        "두 창구에서 대기 인원이 생기는지 비교해 선택 이유를 한 줄 적는다."
+      ],
+      "artifacts": [
+        "두 운영안의 용량과 선택 이유 표"
+      ],
+      "example_output": "A는 접수 6명·교환 3명, B는 접수 3명·교환 6명이다. 이 가정에서는 A가 두 수요를 모두 처리할 수 있다.",
+      "worksheet_columns": "운영안 / 접수 처리 / 교환 처리 / 판단",
+      "reflection_question": "사람·예산·일정을 조정하는 과정 중 무엇이 흥미로운가?",
+      "alternative": "접수와 교환 상자를 그려 사람 한 명마다 세 칸을 추가해 비교한다.",
+      "safety_boundary": "가상 수치이며 실제 창업·투자 성과를 예측하지 않음",
+      "source_ids": [
+        "careernet-m39",
+        "m39-university-1",
+        "m39-university-2"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 책 교환 행사 두 운영안 비교하기\n\n가상 운영안 A는 접수 2명·교환 1명이고 B는 접수 1명·교환 2명이다. 한 명은 5분에 3명을 처리할 수 있으며, 5분에 접수 5명과 교환 2명이 도착한다.\n\n1. 각 운영안의 접수·교환 처리 가능 인원을 계산한다.\n2. 두 창구에서 대기 인원이 생기는지 비교해 선택 이유를 한 줄 적는다.\n\n남길 결과물은 두 운영안의 용량과 선택 이유 표입니다.\n\n쉬운 대안. 접수와 교환 상자를 그려 사람 한 명마다 세 칸을 추가해 비교한다.",
+      "worksheet_markdown": "## 책 교환 행사 두 운영안 비교하기\n\n가상 운영안 A는 접수 2명·교환 1명이고 B는 접수 1명·교환 2명이다. 한 명은 5분에 3명을 처리할 수 있으며, 5분에 접수 5명과 교환 2명이 도착한다.\n\n| 운영안 | 접수 처리 | 교환 처리 | 판단 |\n|---|---|---|---|\n| | | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "careernet-m39",
+          "title": "대학교 학과정보 경영학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=23",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2021-06-22 갱신 응답의 조직의 관리·운영과 마케팅관리·인사관리·재무관리",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "대표 학과 정보다. 학교별 교과목은 대학 공식 자료에서 확인한다."
+        },
+        {
+          "source_id": "m39-university-1",
+          "title": "학부 교과목 일람",
+          "publisher": "서울대학교 경영대학",
+          "url": "https://cba.snu.ac.kr/academics/undergraduate/curriculum/03",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "마케팅사례연구와 회계정보와 경영의사결정",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "서울대학교 과목 사례다."
+        },
+        {
+          "source_id": "m39-university-2",
+          "title": "2025-2학기 학부 수강신청 안내",
+          "publisher": "연세대학교 경영대학",
+          "url": "https://ysb.yonsei.ac.kr/ysb/news/notice.do?article.offset=110&articleLimit=10&articleNo=24027&mode=view&srCategoryId=21",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "생산및운영관리의 개편 과목명인 오퍼레이션관리",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "해당 학기 과목명 안내이며 졸업 필수 여부는 인용하지 않는다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-PROJECT-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-PROJECT-01",
+          "step_indexes": [
+            0,
+            1
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M39-03",
+      "version": "0.4.5",
+      "title": "수요가 달라졌을 때 운영안을 다시 보기",
+      "kind": "REFLECTION_AND_NEXT_STEP",
+      "major_code": "MAJOR_ROW_39",
+      "major_name": "경영학과",
+      "exploration_group": "BIZ",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
+      "scenario": "가상 운영안 A는 접수 2명과 교환 1명, B는 접수 1명과 교환 2명이다. 한 명은 5분에 3명을 처리한다. 첫 5분에는 A를 선택했다. 다음 5분에는 접수 2명과 교환 5명이 온다.",
+      "steps": [
+        "현재 카드에 제시된 인원으로 A와 B가 5분 동안 처리할 수 있는 접수·교환 인원을 각각 계산한다.",
+        "새 수요를 두 운영안의 처리 가능 인원과 비교하고 언제 배치를 바꿀지 적는다."
+      ],
+      "artifacts": [
+        "운영안을 재검토할 조건 한 가지"
+      ],
+      "example_output": "A는 교환 5명 중 3명만 처리하고, B는 접수 2명과 교환 5명을 모두 처리할 수 있어 B를 고른다. 접수가 3명 또는 교환이 6명을 넘으면 B에서도 기다리는 사람이 생길 수 있으므로 다시 계산한다.",
+      "worksheet_columns": "바뀐 수요 / 확인할 숫자 / 대응 기준",
+      "reflection_question": "사람·예산·일정을 조정하는 과정 중 무엇이 흥미로운가?",
+      "alternative": "5분 처리 기준은 A가 접수 6명·교환 3명, B가 접수 3명·교환 6명이다. 이 숫자를 새 수요인 접수 2명·교환 5명과 비교한다.",
+      "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
+      "source_ids": [
+        "careernet-m39",
+        "m39-university-1",
+        "m39-university-2"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 수요가 달라졌을 때 운영안을 다시 보기\n\n가상 운영안 A는 접수 2명과 교환 1명, B는 접수 1명과 교환 2명이다. 한 명은 5분에 3명을 처리한다. 첫 5분에는 A를 선택했다. 다음 5분에는 접수 2명과 교환 5명이 온다.\n\n1. 현재 카드에 제시된 인원으로 A와 B가 5분 동안 처리할 수 있는 접수·교환 인원을 각각 계산한다.\n2. 새 수요를 두 운영안의 처리 가능 인원과 비교하고 언제 배치를 바꿀지 적는다.\n\n남길 결과물은 운영안을 재검토할 조건 한 가지입니다.\n\n쉬운 대안. 5분 처리 기준은 A가 접수 6명·교환 3명, B가 접수 3명·교환 6명이다. 이 숫자를 새 수요인 접수 2명·교환 5명과 비교한다.",
+      "worksheet_markdown": "## 수요가 달라졌을 때 운영안을 다시 보기\n\n가상 운영안 A는 접수 2명과 교환 1명, B는 접수 1명과 교환 2명이다. 한 명은 5분에 3명을 처리한다. 첫 5분에는 A를 선택했다. 다음 5분에는 접수 2명과 교환 5명이 온다.\n\n| 바뀐 수요 | 확인할 숫자 | 대응 기준 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "careernet-m39",
+          "title": "대학교 학과정보 경영학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=23",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2021-06-22 갱신 응답의 조직의 관리·운영과 마케팅관리·인사관리·재무관리",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "대표 학과 정보다. 학교별 교과목은 대학 공식 자료에서 확인한다."
+        },
+        {
+          "source_id": "m39-university-1",
+          "title": "학부 교과목 일람",
+          "publisher": "서울대학교 경영대학",
+          "url": "https://cba.snu.ac.kr/academics/undergraduate/curriculum/03",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "마케팅사례연구와 회계정보와 경영의사결정",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "서울대학교 과목 사례다."
+        },
+        {
+          "source_id": "m39-university-2",
+          "title": "2025-2학기 학부 수강신청 안내",
+          "publisher": "연세대학교 경영대학",
+          "url": "https://ysb.yonsei.ac.kr/ysb/news/notice.do?article.offset=110&articleLimit=10&articleNo=24027&mode=view&srCategoryId=21",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "생산및운영관리의 개편 과목명인 오퍼레이션관리",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "해당 학기 과목명 안내이며 졸업 필수 여부는 인용하지 않는다."
+        }
+      ],
+      "preference_question_ids": [],
+      "preference_mapping_basis": [],
+      "revised_on": "2026-11-20"
+    }
+  ]
+}

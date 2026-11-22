@@ -1,0 +1,35 @@
+{
+  "sessionId": 103,
+  "profile": {
+    "mathLogicalScore": 38,
+    "problemSolvingScore": 42,
+    "infoTechUtilizationScore": 55,
+    "softwareImplementationScore": 40,
+    "systemUnderstandingScore": 35,
+    "dataAnalysisScore": 48,
+    "communicationScore": 44,
+    "collaborationScore": 52,
+    "selfManagementScore": 50
+  },
+  "topMajors": [
+    {
+      "majorName": "간호학과",
+      "rankingOrder": 1,
+      "fitScore": 65.2,
+      "strengths": "협업, 자기관리",
+      "weaknesses": "수리논리, 시스템이해"
+    }
+  ],
+  "userContext": {
+    "grade": "고3",
+    "careerField": "보건",
+    "preferredSubject": "생명과학",
+    "studyHours": 9,
+    "learningStyle": "반복학습",
+    "theoryPreference": 65,
+    "practicePreference": 35,
+    "mathAchievement": 45,
+    "scienceAchievement": 58,
+    "problemSolvingStyle": "직관형"
+  }
+}

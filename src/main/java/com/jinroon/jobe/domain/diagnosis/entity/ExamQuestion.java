@@ -1,7 +1,9 @@
 package com.jinroon.jobe.domain.diagnosis.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinroon.jobe.global.common.entity.BaseEntitySupport;
 import com.jinroon.jobe.domain.diagnosis.enums.DiagnosisEnums.CompetencyCategory;
+import com.jinroon.jobe.domain.diagnosis.enums.DiagnosisEnums.QuestionType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,7 +11,6 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,10 @@ public class ExamQuestion extends BaseEntitySupport {
     @Enumerated(EnumType.STRING)
     @Column(name = "competency_category", nullable = false, length = 40)
     private CompetencyCategory competencyCategory;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "question_type", length = 20)
+    private QuestionType questionType;
 
     @Lob
     @Column(name = "question_text", nullable = false, columnDefinition = "TEXT")
@@ -49,6 +54,9 @@ public class ExamQuestion extends BaseEntitySupport {
 
     @Column(name = "time_limit_sec", nullable = false)
     private Integer timeLimitSec;
+
+    @Column(name = "difficulty")
+    private Integer difficulty;
 
     @Column(name = "w_math_logic", nullable = false)
     private Float wMathLogic;
@@ -77,6 +85,22 @@ public class ExamQuestion extends BaseEntitySupport {
     @Column(name = "w_self_management", nullable = false)
     private Float wSelfManagement;
 
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
+    public QuestionType getQuestionType() {
+        if (questionType != null) {
+            return questionType;
+        }
+        if (isBlank(optionA) && isBlank(optionB) && isBlank(optionC) && isBlank(optionD)) {
+            return QuestionType.essay;
+        }
+        return QuestionType.objective;
+    }
+
+    @JsonIgnore
+    public boolean isEssay() {
+        return getQuestionType() == QuestionType.essay;
+    }
+
+    private static boolean isBlank(String value) {
+        return value == null || value.isBlank();
+    }
 }

@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ResultMajorScoreRepository extends JpaRepository<ResultMajorScore, Long> {
 
     List<ResultMajorScore> findByDiagnosisResultIdOrderByRankAsc(Long diagnosisResultId);
+
+    void deleteAllByDiagnosisResultId(Long diagnosisResultId);
 }

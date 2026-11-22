@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringServiceTest" tests="21" skipped="0" failures="0" errors="0" timestamp="2026-06-24T03:41:01.978Z" hostname="DESKTOP-FLIU7FT" time="0.022">
+  <properties/>
+  <testcase name="malformedOrMissingInputSnapshotIsNeutral()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringServiceTest" time="0.001"/>
+  <testcase name="aspirationKeywordMatchIncreasesBonusForRelatedMajor()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringServiceTest" time="0.003"/>
+  <testcase name="selfScoreAdjustmentUsesRelevantMajorAxes()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringServiceTest" time="0.001"/>
+  <testcase name="dreamJobDirectMatchIncreasesBonusForRelatedMajor()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringServiceTest" time="0.001"/>
+  <testcase name="studyLoadReasonIsConciseAndNotDiscouraging()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringServiceTest" time="0.001"/>
+  <testcase name="missingStudyHoursRemainsNeutralWhenNoOtherProfileSignalsExist()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringServiceTest" time="0.0"/>
+  <testcase name="veryLowStudyHoursGivesOnlySmallCautionForDemandingMajor()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringServiceTest" time="0.002"/>
+  <testcase name="profileAdjustmentIncludesStableReasons()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringServiceTest" time="0.001"/>
+  <testcase name="adjustedFinalScoreStaysWithinRange()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringServiceTest" time="0.0"/>
+  <testcase name="unrelatedGoalTextRemainsNeutral()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringServiceTest" time="0.001"/>
+  <testcase name="goalReasonDoesNotIncludeRawAspirationText()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringServiceTest" time="0.001"/>
+  <testcase name="oldSessionWithoutProfileFieldsStillGeneratesNeutralBonus()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringServiceTest" time="0.0"/>
+  <testcase name="subjectBasedAdjustmentFavorsRelatedMajor()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringServiceTest" time="0.001"/>
+  <testcase name="lowStudyHoursDoesNotStronglyPenalizeLowDifficultyMajor()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringServiceTest" time="0.001"/>
+  <testcase name="goalTextDoesNotPushProfileBonusOverUpperBound()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringServiceTest" time="0.001"/>
+  <testcase name="profileBonusStaysBounded()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringServiceTest" time="0.001"/>
+  <testcase name="parsesFullValidInputSnapshot()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringServiceTest" time="0.001"/>
+  <testcase name="learningStyleAdjustmentFavorsMatchingMajor()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringServiceTest" time="0.0"/>
+  <testcase name="lowStudyHoursGivesSmallCautionForHighDifficultyMajor()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringServiceTest" time="0.0"/>
+  <testcase name="studyLoadDoesNotPushProfileBonusOutsideBounds()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringServiceTest" time="0.001"/>
+  <testcase name="highStudyHoursGivesSmallPositiveBonusForHighDifficultyMajor()" classname="com.jinroon.jobe.domain.diagnosis.service.DiagnosisProfileScoringServiceTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

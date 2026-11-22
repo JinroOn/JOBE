@@ -1,0 +1,42 @@
+{
+  "sessionId": 105,
+  "profile": {
+    "mathLogicalScore": 69,
+    "problemSolvingScore": 74,
+    "infoTechUtilizationScore": 81,
+    "softwareImplementationScore": 76,
+    "systemUnderstandingScore": 60,
+    "dataAnalysisScore": 79,
+    "communicationScore": 48,
+    "collaborationScore": 57,
+    "selfManagementScore": 73
+  },
+  "topMajors": [
+    {
+      "majorName": "미디어학과",
+      "rankingOrder": 1,
+      "fitScore": 80.2,
+      "strengths": "정보활용, 구현, 데이터분석",
+      "weaknesses": "의사소통, 시스템이해"
+    },
+    {
+      "majorName": "디자인학과",
+      "rankingOrder": 2,
+      "fitScore": 78.8,
+      "strengths": "자기관리, 협업",
+      "weaknesses": "수리논리"
+    }
+  ],
+  "userContext": {
+    "grade": "고1",
+    "careerField": "디자인",
+    "preferredSubject": "미술",
+    "studyHours": 13,
+    "learningStyle": "프로젝트형",
+    "theoryPreference": 35,
+    "practicePreference": 65,
+    "mathAchievement": 62,
+    "scienceAchievement": 60,
+    "problemSolvingStyle": "즉흥형"
+  }
+}

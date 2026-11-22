@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M171_20261120_SCOPE_V2",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_171",
+  "majorName": "식품과학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "식품 성분을 어떤 방법으로 측정하고 비교할지는 식품과학과 식품공학이 공유하는 질문이다. 커리어넷 식품공학과 자료는 그중 식품 성분 분석의 배경을 제공한다.",
+      "sourceIds": [
+        "m171-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "경희대 식품생명공학과 식품학개론·분석화학및실험·식품물리화학은 식품의 성분과 물성을 살펴볼 교과 사례다. 중앙대 식품영양전공 식품분석및실험은 성분 분석에 해당하는 사례다.",
+      "sourceIds": [
+        "m171-university",
+        "m171-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m171-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 식품공학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=314",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "식품의 성분 분석",
+      "limitation": "식품공학과 안내 중 식품 성분 분석의 공통 배경으로 사용한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m171-university",
+      "publisher": "경희대학교",
+      "title": "식품생명공학과 교육과정 요약표(2024)",
+      "url": "https://com.khu.ac.kr/fst/cmmn/file/fileDown.do?atchFileId=68bc9055a0cb4d3eb39670f488a95dcd&bbsId=&fileSn=1&menuNo=11800077",
+      "supports": "식품학개론·분석화학및실험·식품물리화학",
+      "limitation": "경희대 식품생명공학과의 성분·물성·분석 관련 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m171-extra",
+      "publisher": "중앙대학교",
+      "title": "식품영양전공 교과목 소개",
+      "url": "https://www.cau.ac.kr/cms/FR_CON/index.do?CONTENTS_NO=2&MENU_ID=1020&P_TAB_NO=2&TAB_NO=0",
+      "supports": "식품분석및실험",
+      "limitation": "중앙대 식품영양전공의 성분 분석 실험 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제",
+    "유사 학과·세부 전공 자료에서 확인한 사례의 전공 전체 일반화, 필수 교과·이수·자격 요건 단정"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

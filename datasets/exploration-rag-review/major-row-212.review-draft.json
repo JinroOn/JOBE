@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M212_20261123_LEARNING_V2",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Claude",
+  "preparedAt": "2026-11-23",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_212",
+  "majorName": "한의예과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "한의예과는 한의학의 기초 용어와 역사, 관련 기초 과학을 공부하는 과정이다. 커리어넷 한의예과 자료는 해부학에서 임상과 관련된 인체의 구조와 기능을 배우고, 예방의학에서 질병의 예방에 관한 내용을 배우는 과목을 소개한다.",
+      "sourceIds": [
+        "m212-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "동국대 2026 한의예과 총괄표에는 한의학개론Ⅰ이 있다. 대입정보포털의 원광대 한의예과 자료에는 의철학, 의학용어, 한의학의역사와현대사회가 나온다.",
+      "sourceIds": [
+        "m212-university",
+        "m212-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m212-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 한의예과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=619",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2020-12-02 갱신 응답에서 확인한 해부학(인체의 구조와 기능), 예방의학(질병 예방) 과목 설명과 기존 학과 소개",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-23"
+    },
+    {
+      "sourceId": "m212-university",
+      "publisher": "동국대학교 한의과대학",
+      "title": "2026학년도 한의예과 전공교육과정 총괄표",
+      "url": "https://class.dongguk.ac.kr/HOME/orient/sub.htm?hmode=p&nav_code=ori1587953689",
+      "supports": "한의학개론Ⅰ",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m212-extra",
+      "publisher": "대입정보포털 어디가",
+      "title": "원광대 한의예과 학과정보",
+      "url": "https://www.adiga.kr/ucp/cls/uni/classUnivDetail.do?menuId=PCCLSINF2000&ruCd=0009715&searchSyr=2026&unvCd=0000159",
+      "supports": "의철학·의학용어·한의학의역사와현대사회",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

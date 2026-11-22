@@ -1,0 +1,21 @@
+{
+  "result_contract_version": "RESULT_CONTRACT_V1_0",
+  "cases": [
+    {"id":"no_candidate", "candidateCount":0, "screenValid":14, "usedAxes":[], "expectedHttp":200, "expectedStatus":"NO_SUPPORTED_CANDIDATE"},
+    {"id":"all_unknown_submitted", "candidateCount":0, "screenValid":0, "usedAxes":[], "expectedHttp":200, "expectedStatus":"NO_SUPPORTED_CANDIDATE"},
+    {"id":"ready", "candidateCount":2, "screenValid":14, "usedAxes":[{"count":2,"difference":25}], "expectedHttp":200, "expectedStatus":"READY"},
+    {"id":"screen_11", "candidateCount":2, "screenValid":11, "usedAxes":[{"count":2,"difference":25}], "expectedHttp":200, "expectedStatus":"LOW_EVIDENCE"},
+    {"id":"screen_12", "candidateCount":2, "screenValid":12, "usedAxes":[{"count":2,"difference":25}], "expectedHttp":200, "expectedStatus":"READY"},
+    {"id":"used_axis_single", "candidateCount":2, "screenValid":14, "usedAxes":[{"count":1,"difference":null}], "expectedHttp":200, "expectedStatus":"LOW_EVIDENCE"},
+    {"id":"used_axis_difference_49", "candidateCount":2, "screenValid":14, "usedAxes":[{"count":2,"difference":49}], "expectedHttp":200, "expectedStatus":"READY"},
+    {"id":"used_axis_difference_50", "candidateCount":2, "screenValid":14, "usedAxes":[{"count":2,"difference":50}], "expectedHttp":200, "expectedStatus":"LOW_EVIDENCE"},
+    {"id":"unused_axis_single", "candidateCount":2, "screenValid":14, "usedAxes":[{"count":2,"difference":25}], "unusedAxes":[{"count":1}], "expectedHttp":200, "expectedStatus":"READY"},
+    {"id":"budget_ready", "candidateCount":2, "screenValid":14, "usedAxes":[{"count":2,"difference":25}], "completionReason":"INFO_LIMIT_REACHED", "expectedHttp":200, "expectedStatus":"READY"},
+    {"id":"budget_no_candidate", "candidateCount":0, "screenValid":0, "usedAxes":[], "completionReason":"INFO_LIMIT_REACHED", "expectedHttp":200, "expectedStatus":"NO_SUPPORTED_CANDIDATE"},
+    {"id":"required_missing", "candidateCount":0, "screenValid":0, "requiredComplete":false, "expectedHttp":422, "expectedStatus":null, "expectedError":"STAGE_INCOMPLETE"},
+    {"id":"required_missing_at_budget", "candidateCount":0, "screenValid":0, "requiredComplete":false, "completionReason":"INFO_LIMIT_REACHED", "expectedHttp":422, "expectedStatus":null, "expectedError":"STAGE_INCOMPLETE"},
+    {"id":"cannot_complete", "candidateCount":2, "screenValid":14, "completionAllowed":false, "expectedHttp":409, "expectedStatus":null, "expectedError":"COMPLETION_NOT_ALLOWED"},
+    {"id":"catalog_error_not_empty_result", "candidateCount":0, "screenValid":0, "catalogValid":false, "expectedHttp":503, "expectedStatus":null, "expectedError":"CATALOG_INTEGRITY_ERROR"},
+    {"id":"calculation_error_not_empty_result", "candidateCount":0, "screenValid":0, "calculationFailed":true, "expectedHttp":500, "expectedStatus":null, "expectedError":"INTERNAL_ERROR"}
+  ]
+}

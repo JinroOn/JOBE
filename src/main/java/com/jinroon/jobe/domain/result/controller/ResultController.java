@@ -1,20 +1,25 @@
 package com.jinroon.jobe.domain.result.controller;
 
 import com.jinroon.jobe.domain.result.controller.api.ResultApi;
+import com.jinroon.jobe.domain.result.dto.response.RankedMajorScore;
+import com.jinroon.jobe.domain.result.dto.response.ResultMajorScoreResponse;
+import com.jinroon.jobe.domain.result.dto.response.SharedDiagnosisResultResponse;
+import com.jinroon.jobe.domain.result.dto.response.SharedMajorScoreResponse;
 import com.jinroon.jobe.domain.result.entity.DiagnosisResult;
-import com.jinroon.jobe.domain.result.entity.ResultMajorScore;
 import com.jinroon.jobe.domain.result.service.ResultService;
+import com.jinroon.jobe.global.common.dto.RequestMapMapper;
+import com.jinroon.jobe.global.security.CustomUserDetails;
+import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,45 +32,58 @@ public class ResultController implements ResultApi {
 
     @Override
     @GetMapping
-    public List<DiagnosisResult> findResults(@RequestParam(required = false) Long userId) {
-        return resultService.findResults(userId);
+    public List<DiagnosisResult> findResults(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        return resultService.findResults(userDetails.getUserId());
     }
 
     @Override
     @GetMapping("/{resultId}")
-    public DiagnosisResult getResult(@PathVariable Long resultId) {
-        return resultService.getResult(resultId);
+    public DiagnosisResult getResult(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long resultId) {
+        return resultService.getResultForUser(resultId, userDetails.getUserId());
     }
 
     @Override
     @GetMapping("/share/{shareToken}")
-    public DiagnosisResult getSharedResult(@PathVariable String shareToken) {
-        return resultService.getSharedResult(shareToken);
+    public SharedDiagnosisResultResponse getSharedResult(@PathVariable String shareToken) {
+        return resultService.getSharedResultWithOwner(shareToken);
+    }
+
+    @Override
+    @GetMapping("/share/{shareToken}/major-scores")
+    public List<SharedMajorScoreResponse> getSharedMajorScores(@PathVariable String shareToken) {
+        return RankedMajorScore.from(resultService.findMajorScoresByShareToken(shareToken)).stream()
+                .map(SharedMajorScoreResponse::from)
+                .toList();
     }
 
     @Override
     @GetMapping("/{resultId}/major-scores")
-    public List<ResultMajorScore> findMajorScores(@PathVariable Long resultId) {
-        return resultService.findMajorScores(resultId);
+    public List<ResultMajorScoreResponse> findMajorScores(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long resultId) {
+        return RankedMajorScore.from(resultService.findMajorScoresForUser(resultId, userDetails.getUserId())).stream()
+                .map(ResultMajorScoreResponse::from)
+                .toList();
     }
 
     @Override
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public DiagnosisResult createResult(@RequestBody Map<String, Object> request) {
-        return resultService.createResult(request);
+    @PostMapping("/{resultId}/ai-comment")
+    public DiagnosisResult generateAiComment(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long resultId) {
+        return resultService.generateAiCommentForUser(resultId, userDetails.getUserId());
     }
 
     @Override
-    @PatchMapping("/{resultId}")
-    public DiagnosisResult updateResult(@PathVariable Long resultId, @RequestBody Map<String, Object> request) {
-        return resultService.updateResult(resultId, request);
+    @PostMapping("/diagnosis-sessions/{sessionId}/complete")
+    public DiagnosisResult completeDiagnosisResult(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long sessionId) {
+        return resultService.completeDiagnosisResultForUser(sessionId, userDetails.getUserId());
     }
 
-    @Override
-    @PostMapping("/major-scores")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResultMajorScore createMajorScore(@RequestBody Map<String, Object> request) {
-        return resultService.createMajorScore(request);
-    }
+
+
 }

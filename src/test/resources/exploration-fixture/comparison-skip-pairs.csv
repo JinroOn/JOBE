@@ -1,0 +1,2 @@
+"comparison_set","major_a","major_a_name","major_b","major_b_name","resolution","status","reason"
+"CMP-AB","FIX_MAJOR_1","가짜전공1","FIX_MAJOR_2","가짜전공2","SKIP_WHEN_SAME_DIRECTION_MEMBERSHIP","APPROVED_FOR_IMPLEMENTATION","[테스트용 가짜 데이터] 실제 문항·규칙이 아니다"

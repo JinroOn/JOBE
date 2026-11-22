@@ -1,0 +1,4038 @@
+{
+  "schema_version": "1.2",
+  "major_mapping_version": "MAJOR_MAPPING_V1_2_IMPLEMENTATION_CANDIDATE",
+  "content_status": "REVIEWED",
+  "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+  "domain_review_status": "PENDING",
+  "created_at": "2026-09-24",
+  "policy": {
+    "usage": "추천 후보 생성·설명·분기",
+    "caution_usage": "3단계 주의 문항과 준비 안내 전용",
+    "score_penalty": "FORBIDDEN",
+    "activation": "ACTIVE 전 외부 전공 내용 검수 필요"
+  },
+  "majors": [
+    {
+      "major_code": "MAJOR_ROW_2",
+      "exploration_group": "HUM",
+      "interest_structure": "PRIMARY",
+      "major_name": "고고학과",
+      "source_file": "JOBE/datasets/majors/major-row-2-고고학과.service.json",
+      "primary_interest_axes": [
+        "INT_HUM"
+      ],
+      "secondary_interest_axes": [
+        "INT_SCI"
+      ],
+      "activity_axes": [
+        "ACT_FLD",
+        "ACT_RES",
+        "ACT_EXP"
+      ],
+      "learning_content_sets": [
+        "LEARN_HUM"
+      ],
+      "comparison_sets": [
+        "CMP-HISTORY"
+      ],
+      "comparison_targets": [
+        "ARCHAEOLOGY_FIELD"
+      ],
+      "proposed_caution_tags": [],
+      "approved_caution_tags": [],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "NO_CAUTION_TAG_PROPOSED",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-2-고고학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_3",
+      "exploration_group": "HUM",
+      "interest_structure": "PRIMARY",
+      "major_name": "국사학과",
+      "source_file": "JOBE/datasets/majors/major-row-3-국사학과.service.json",
+      "primary_interest_axes": [
+        "INT_HUM"
+      ],
+      "secondary_interest_axes": [
+        "INT_SOC"
+      ],
+      "activity_axes": [
+        "ACT_RES",
+        "ACT_EDU",
+        "ACT_CRE"
+      ],
+      "learning_content_sets": [
+        "LEARN_HUM"
+      ],
+      "comparison_sets": [
+        "CMP-HISTORY"
+      ],
+      "comparison_targets": [
+        "DOCUMENT_HISTORY"
+      ],
+      "proposed_caution_tags": [],
+      "approved_caution_tags": [],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "NO_CAUTION_TAG_PROPOSED",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-3-국사학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_4",
+      "exploration_group": "HUM",
+      "interest_structure": "SINGLE",
+      "major_name": "국어국문학과",
+      "source_file": "JOBE/datasets/majors/major-row-4-국어국문학과.service.json",
+      "primary_interest_axes": [
+        "INT_HUM"
+      ],
+      "secondary_interest_axes": [
+        "INT_HUM"
+      ],
+      "activity_axes": [
+        "ACT_RES",
+        "ACT_CRE",
+        "ACT_EDU"
+      ],
+      "learning_content_sets": [
+        "LEARN_HUM"
+      ],
+      "comparison_sets": [
+        "CMP-LANGUAGE"
+      ],
+      "comparison_targets": [
+        "LANGUAGE_USE",
+        "LITERATURE_CULTURE"
+      ],
+      "proposed_caution_tags": [],
+      "approved_caution_tags": [],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "NO_CAUTION_TAG_PROPOSED",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-4-국어국문학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_5",
+      "exploration_group": "HUM",
+      "interest_structure": "SINGLE",
+      "major_name": "독어독문학과",
+      "source_file": "JOBE/datasets/majors/major-row-5-독어독문학과.service.json",
+      "primary_interest_axes": [
+        "INT_HUM"
+      ],
+      "secondary_interest_axes": [
+        "INT_HUM"
+      ],
+      "activity_axes": [
+        "ACT_RES",
+        "ACT_CRE",
+        "ACT_EDU"
+      ],
+      "learning_content_sets": [
+        "LEARN_HUM"
+      ],
+      "comparison_sets": [
+        "CMP-LANGUAGE"
+      ],
+      "comparison_targets": [
+        "LANGUAGE_USE",
+        "LITERATURE_CULTURE"
+      ],
+      "proposed_caution_tags": [],
+      "approved_caution_tags": [],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "NO_CAUTION_TAG_PROPOSED",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-5-독어독문학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_6",
+      "exploration_group": "MED",
+      "interest_structure": "PRIMARY",
+      "major_name": "문예창작학과",
+      "source_file": "JOBE/datasets/majors/major-row-6-문예창작과.service.json",
+      "primary_interest_axes": [
+        "INT_MED"
+      ],
+      "secondary_interest_axes": [
+        "INT_HUM"
+      ],
+      "activity_axes": [
+        "ACT_CRE",
+        "ACT_RES",
+        "ACT_EDU"
+      ],
+      "learning_content_sets": [
+        "LEARN_MED"
+      ],
+      "comparison_sets": [
+        "CMP-CONTENT"
+      ],
+      "comparison_targets": [
+        "CREATIVE_WRITING"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-6-문예창작과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인",
+      "major_name_aliases": [
+        "문예창작과"
+      ]
+    },
+    {
+      "major_code": "MAJOR_ROW_7",
+      "exploration_group": "HUM",
+      "interest_structure": "HYBRID",
+      "major_name": "문화재보존학과",
+      "source_file": "JOBE/datasets/majors/major-row-7-문화재보존학과.service.json",
+      "primary_interest_axes": [
+        "INT_HUM"
+      ],
+      "secondary_interest_axes": [
+        "INT_SCI"
+      ],
+      "activity_axes": [
+        "ACT_FLD",
+        "ACT_EXP",
+        "ACT_DES"
+      ],
+      "learning_content_sets": [
+        "LEARN_HUM"
+      ],
+      "comparison_sets": [
+        "CMP-HISTORY"
+      ],
+      "comparison_targets": [
+        "CONSERVATION_SCIENCE"
+      ],
+      "proposed_caution_tags": [],
+      "approved_caution_tags": [],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "NO_CAUTION_TAG_PROPOSED",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-7-문화재보존학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_8",
+      "exploration_group": "HUM",
+      "interest_structure": "SINGLE",
+      "major_name": "불어불문학과",
+      "source_file": "JOBE/datasets/majors/major-row-8-불어불문학과.service.json",
+      "primary_interest_axes": [
+        "INT_HUM"
+      ],
+      "secondary_interest_axes": [
+        "INT_HUM"
+      ],
+      "activity_axes": [
+        "ACT_RES",
+        "ACT_CRE",
+        "ACT_EDU"
+      ],
+      "learning_content_sets": [
+        "LEARN_HUM"
+      ],
+      "comparison_sets": [
+        "CMP-LANGUAGE"
+      ],
+      "comparison_targets": [
+        "LANGUAGE_USE",
+        "LITERATURE_CULTURE"
+      ],
+      "proposed_caution_tags": [],
+      "approved_caution_tags": [],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "NO_CAUTION_TAG_PROPOSED",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-8-불어불문학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_9",
+      "exploration_group": "HUM",
+      "interest_structure": "PRIMARY",
+      "major_name": "사학과",
+      "source_file": "JOBE/datasets/majors/major-row-9-사학과.service.json",
+      "primary_interest_axes": [
+        "INT_HUM"
+      ],
+      "secondary_interest_axes": [
+        "INT_SOC"
+      ],
+      "activity_axes": [
+        "ACT_RES",
+        "ACT_EDU",
+        "ACT_CRE"
+      ],
+      "learning_content_sets": [
+        "LEARN_HUM"
+      ],
+      "comparison_sets": [
+        "CMP-HISTORY"
+      ],
+      "comparison_targets": [
+        "DOCUMENT_HISTORY"
+      ],
+      "proposed_caution_tags": [],
+      "approved_caution_tags": [],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "NO_CAUTION_TAG_PROPOSED",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-9-사학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_10",
+      "exploration_group": "HUM",
+      "interest_structure": "HYBRID",
+      "major_name": "언어학과",
+      "source_file": "JOBE/datasets/majors/major-row-10-언어학과.service.json",
+      "primary_interest_axes": [
+        "INT_HUM"
+      ],
+      "secondary_interest_axes": [
+        "INT_DAT"
+      ],
+      "activity_axes": [
+        "ACT_RES",
+        "ACT_EXP",
+        "ACT_SYS"
+      ],
+      "learning_content_sets": [
+        "LEARN_HUM"
+      ],
+      "comparison_sets": [
+        "CMP-LANGUAGE"
+      ],
+      "comparison_targets": [
+        "LANGUAGE_STRUCTURE",
+        "LANGUAGE_USE"
+      ],
+      "proposed_caution_tags": [],
+      "approved_caution_tags": [],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "NO_CAUTION_TAG_PROPOSED",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-10-언어학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_11",
+      "exploration_group": "HUM",
+      "interest_structure": "SINGLE",
+      "major_name": "영어영문학과",
+      "source_file": "JOBE/datasets/majors/major-row-11-영어영문학과.service.json",
+      "primary_interest_axes": [
+        "INT_HUM"
+      ],
+      "secondary_interest_axes": [
+        "INT_HUM"
+      ],
+      "activity_axes": [
+        "ACT_RES",
+        "ACT_CRE",
+        "ACT_EDU"
+      ],
+      "learning_content_sets": [
+        "LEARN_HUM"
+      ],
+      "comparison_sets": [
+        "CMP-LANGUAGE"
+      ],
+      "comparison_targets": [
+        "LANGUAGE_USE",
+        "LITERATURE_CULTURE"
+      ],
+      "proposed_caution_tags": [],
+      "approved_caution_tags": [],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "NO_CAUTION_TAG_PROPOSED",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-11-영어영문학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_12",
+      "exploration_group": "HUM",
+      "interest_structure": "SINGLE",
+      "major_name": "일어일문학과",
+      "source_file": "JOBE/datasets/majors/major-row-12-일어일문학과.service.json",
+      "primary_interest_axes": [
+        "INT_HUM"
+      ],
+      "secondary_interest_axes": [
+        "INT_HUM"
+      ],
+      "activity_axes": [
+        "ACT_RES",
+        "ACT_CRE",
+        "ACT_EDU"
+      ],
+      "learning_content_sets": [
+        "LEARN_HUM"
+      ],
+      "comparison_sets": [
+        "CMP-LANGUAGE"
+      ],
+      "comparison_targets": [
+        "LANGUAGE_USE",
+        "LITERATURE_CULTURE"
+      ],
+      "proposed_caution_tags": [],
+      "approved_caution_tags": [],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "NO_CAUTION_TAG_PROPOSED",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-12-일어일문학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_13",
+      "exploration_group": "HUM",
+      "interest_structure": "PRIMARY",
+      "major_name": "종교학과",
+      "source_file": "JOBE/datasets/majors/major-row-13-종교학과.service.json",
+      "primary_interest_axes": [
+        "INT_HUM"
+      ],
+      "secondary_interest_axes": [
+        "INT_SOC"
+      ],
+      "activity_axes": [
+        "ACT_RES",
+        "ACT_EDU",
+        "ACT_SUP"
+      ],
+      "learning_content_sets": [
+        "LEARN_HUM"
+      ],
+      "comparison_sets": [
+        "CMP-THOUGHT"
+      ],
+      "comparison_targets": [
+        "RELIGION_CULTURE"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_FACE_TO_FACE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_FACE_TO_FACE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-13-종교학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_14",
+      "exploration_group": "HUM",
+      "interest_structure": "SINGLE",
+      "major_name": "중어중문학과",
+      "source_file": "JOBE/datasets/majors/major-row-14-중어중문학과.service.json",
+      "primary_interest_axes": [
+        "INT_HUM"
+      ],
+      "secondary_interest_axes": [
+        "INT_HUM"
+      ],
+      "activity_axes": [
+        "ACT_RES",
+        "ACT_CRE",
+        "ACT_EDU"
+      ],
+      "learning_content_sets": [
+        "LEARN_HUM"
+      ],
+      "comparison_sets": [
+        "CMP-LANGUAGE"
+      ],
+      "comparison_targets": [
+        "LANGUAGE_USE",
+        "LITERATURE_CULTURE"
+      ],
+      "proposed_caution_tags": [],
+      "approved_caution_tags": [],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "NO_CAUTION_TAG_PROPOSED",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-14-중어중문학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_15",
+      "exploration_group": "HUM",
+      "interest_structure": "PRIMARY",
+      "major_name": "철학과",
+      "source_file": "JOBE/datasets/majors/major-row-15-철학과.service.json",
+      "primary_interest_axes": [
+        "INT_HUM"
+      ],
+      "secondary_interest_axes": [
+        "INT_SOC"
+      ],
+      "activity_axes": [
+        "ACT_RES",
+        "ACT_EDU",
+        "ACT_EXP"
+      ],
+      "learning_content_sets": [
+        "LEARN_HUM"
+      ],
+      "comparison_sets": [
+        "CMP-THOUGHT"
+      ],
+      "comparison_targets": [
+        "PHILOSOPHY_ARGUMENT"
+      ],
+      "proposed_caution_tags": [],
+      "approved_caution_tags": [],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "NO_CAUTION_TAG_PROPOSED",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-15-철학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_39",
+      "exploration_group": "BIZ",
+      "interest_structure": "PRIMARY",
+      "major_name": "경영학과",
+      "source_file": "JOBE/datasets/majors/major-row-39-경영학과.service.json",
+      "primary_interest_axes": [
+        "INT_BIZ"
+      ],
+      "secondary_interest_axes": [
+        "INT_ECO"
+      ],
+      "activity_axes": [
+        "ACT_OPS",
+        "ACT_RES",
+        "ACT_EDU"
+      ],
+      "learning_content_sets": [
+        "LEARN_BIZ"
+      ],
+      "comparison_sets": [
+        "CMP-BUSINESS"
+      ],
+      "comparison_targets": [
+        "MANAGEMENT"
+      ],
+      "proposed_caution_tags": [],
+      "approved_caution_tags": [],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "NO_CAUTION_TAG_PROPOSED",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-39-경영학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_40",
+      "exploration_group": "BIZ",
+      "interest_structure": "PRIMARY",
+      "major_name": "경제학과",
+      "source_file": "JOBE/datasets/majors/major-row-40-경제학과.service.json",
+      "primary_interest_axes": [
+        "INT_ECO"
+      ],
+      "secondary_interest_axes": [
+        "INT_DAT"
+      ],
+      "activity_axes": [
+        "ACT_RES",
+        "ACT_EXP",
+        "ACT_OPS"
+      ],
+      "learning_content_sets": [
+        "LEARN_BIZ"
+      ],
+      "comparison_sets": [
+        "CMP-BUSINESS"
+      ],
+      "comparison_targets": [
+        "ECONOMICS"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_MATH"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_MATH"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-40-경제학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_41",
+      "exploration_group": "SOC",
+      "interest_structure": "SINGLE",
+      "major_name": "경찰행정학과",
+      "source_file": "JOBE/datasets/majors/major-row-41-경찰행정학과.service.json",
+      "primary_interest_axes": [
+        "INT_SOC"
+      ],
+      "secondary_interest_axes": [
+        "INT_SOC"
+      ],
+      "activity_axes": [
+        "ACT_FLD",
+        "ACT_OPS",
+        "ACT_RES"
+      ],
+      "learning_content_sets": [
+        "LEARN_SOC"
+      ],
+      "comparison_sets": [
+        "CMP-PUBLIC"
+      ],
+      "comparison_targets": [
+        "PUBLIC_SAFETY"
+      ],
+      "proposed_caution_tags": [],
+      "approved_caution_tags": [],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "NO_CAUTION_TAG_PROPOSED",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-41-경찰행정학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_42",
+      "exploration_group": "MED",
+      "interest_structure": "PRIMARY",
+      "major_name": "광고홍보학과",
+      "source_file": "JOBE/datasets/majors/major-row-42-광고홍보학과.service.json",
+      "primary_interest_axes": [
+        "INT_MED"
+      ],
+      "secondary_interest_axes": [
+        "INT_BIZ"
+      ],
+      "activity_axes": [
+        "ACT_CRE",
+        "ACT_RES",
+        "ACT_OPS"
+      ],
+      "learning_content_sets": [
+        "LEARN_MED"
+      ],
+      "comparison_sets": [
+        "CMP-CONTENT"
+      ],
+      "comparison_targets": [
+        "ADVERTISING_PR"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-42-광고홍보학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_43",
+      "exploration_group": "BIZ",
+      "interest_structure": "PRIMARY",
+      "major_name": "국제통상학과",
+      "source_file": "JOBE/datasets/majors/major-row-43-국제통상학과.service.json",
+      "primary_interest_axes": [
+        "INT_ECO"
+      ],
+      "secondary_interest_axes": [
+        "INT_SOC"
+      ],
+      "activity_axes": [
+        "ACT_RES",
+        "ACT_OPS",
+        "ACT_EDU"
+      ],
+      "learning_content_sets": [
+        "LEARN_BIZ"
+      ],
+      "comparison_sets": [
+        "CMP-BUSINESS"
+      ],
+      "comparison_targets": [
+        "TRADE"
+      ],
+      "proposed_caution_tags": [],
+      "approved_caution_tags": [],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "NO_CAUTION_TAG_PROPOSED",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-43-국제통상학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_44",
+      "exploration_group": "MED",
+      "interest_structure": "PRIMARY",
+      "major_name": "미디어커뮤니케이션학과",
+      "source_file": "JOBE/datasets/majors/major-row-44-미디어커뮤니케이션학과.service.json",
+      "primary_interest_axes": [
+        "INT_MED"
+      ],
+      "secondary_interest_axes": [
+        "INT_SOC"
+      ],
+      "activity_axes": [
+        "ACT_RES",
+        "ACT_CRE",
+        "ACT_EDU"
+      ],
+      "learning_content_sets": [
+        "LEARN_MED"
+      ],
+      "comparison_sets": [
+        "CMP-CONTENT"
+      ],
+      "comparison_targets": [
+        "MEDIA_STUDIES"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-44-미디어커뮤니케이션학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_45",
+      "exploration_group": "SOC",
+      "interest_structure": "PRIMARY",
+      "major_name": "법학과",
+      "source_file": "JOBE/datasets/majors/major-row-45-법학과.service.json",
+      "primary_interest_axes": [
+        "INT_SOC"
+      ],
+      "secondary_interest_axes": [
+        "INT_HUM"
+      ],
+      "activity_axes": [
+        "ACT_RES",
+        "ACT_EDU",
+        "ACT_SUP"
+      ],
+      "learning_content_sets": [
+        "LEARN_SOC"
+      ],
+      "comparison_sets": [
+        "CMP-PUBLIC"
+      ],
+      "comparison_targets": [
+        "LAW_NORM"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_FACE_TO_FACE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_FACE_TO_FACE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-45-법학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_46",
+      "exploration_group": "SOC",
+      "interest_structure": "PRIMARY",
+      "major_name": "사회복지학과",
+      "source_file": "JOBE/datasets/majors/major-row-46-사회복지학과.service.json",
+      "primary_interest_axes": [
+        "INT_CARE"
+      ],
+      "secondary_interest_axes": [
+        "INT_SOC"
+      ],
+      "activity_axes": [
+        "ACT_SUP",
+        "ACT_FLD",
+        "ACT_OPS"
+      ],
+      "learning_content_sets": [
+        "LEARN_SOC"
+      ],
+      "comparison_sets": [
+        "CMP-PEOPLE"
+      ],
+      "comparison_targets": [
+        "WELFARE_SUPPORT"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_FACE_TO_FACE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_FACE_TO_FACE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-46-사회복지학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_47",
+      "exploration_group": "SOC",
+      "interest_structure": "PRIMARY",
+      "major_name": "사회학과",
+      "source_file": "JOBE/datasets/majors/major-row-47-사회학과.service.json",
+      "primary_interest_axes": [
+        "INT_SOC"
+      ],
+      "secondary_interest_axes": [
+        "INT_HUM"
+      ],
+      "activity_axes": [
+        "ACT_RES",
+        "ACT_EXP",
+        "ACT_EDU"
+      ],
+      "learning_content_sets": [
+        "LEARN_SOC"
+      ],
+      "comparison_sets": [
+        "CMP-SOCIETY"
+      ],
+      "comparison_targets": [
+        "SOCIAL_STRUCTURE"
+      ],
+      "proposed_caution_tags": [],
+      "approved_caution_tags": [],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "NO_CAUTION_TAG_PROPOSED",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-47-사회학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_48",
+      "exploration_group": "BIZ",
+      "interest_structure": "PRIMARY",
+      "major_name": "세무학과",
+      "source_file": "JOBE/datasets/majors/major-row-48-세무학과.service.json",
+      "primary_interest_axes": [
+        "INT_ECO"
+      ],
+      "secondary_interest_axes": [
+        "INT_DAT"
+      ],
+      "activity_axes": [
+        "ACT_RES",
+        "ACT_OPS",
+        "ACT_SYS"
+      ],
+      "learning_content_sets": [
+        "LEARN_BIZ"
+      ],
+      "comparison_sets": [
+        "CMP-BUSINESS"
+      ],
+      "comparison_targets": [
+        "ACCOUNTING_TAX"
+      ],
+      "proposed_caution_tags": [],
+      "approved_caution_tags": [],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "NO_CAUTION_TAG_PROPOSED",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-48-세무학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_49",
+      "exploration_group": "MED",
+      "interest_structure": "PRIMARY",
+      "major_name": "신문방송학과",
+      "source_file": "JOBE/datasets/majors/major-row-49-신문방송학과.service.json",
+      "primary_interest_axes": [
+        "INT_MED"
+      ],
+      "secondary_interest_axes": [
+        "INT_SOC"
+      ],
+      "activity_axes": [
+        "ACT_CRE",
+        "ACT_RES",
+        "ACT_FLD"
+      ],
+      "learning_content_sets": [
+        "LEARN_MED"
+      ],
+      "comparison_sets": [
+        "CMP-CONTENT"
+      ],
+      "comparison_targets": [
+        "JOURNALISM_PRODUCTION"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-49-신문방송학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_50",
+      "exploration_group": "SOC",
+      "interest_structure": "PRIMARY",
+      "major_name": "심리학과",
+      "source_file": "JOBE/datasets/majors/major-row-50-심리학과.service.json",
+      "primary_interest_axes": [
+        "INT_CARE"
+      ],
+      "secondary_interest_axes": [
+        "INT_SOC"
+      ],
+      "activity_axes": [
+        "ACT_RES",
+        "ACT_SUP",
+        "ACT_EXP"
+      ],
+      "learning_content_sets": [
+        "LEARN_SOC"
+      ],
+      "comparison_sets": [
+        "CMP-PEOPLE"
+      ],
+      "comparison_targets": [
+        "PSYCHOLOGY_BEHAVIOR"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_FACE_TO_FACE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_FACE_TO_FACE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-50-심리학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_51",
+      "exploration_group": "SOC",
+      "interest_structure": "PRIMARY",
+      "major_name": "정치외교학과",
+      "source_file": "JOBE/datasets/majors/major-row-51-정치외교학과.service.json",
+      "primary_interest_axes": [
+        "INT_SOC"
+      ],
+      "secondary_interest_axes": [
+        "INT_HUM"
+      ],
+      "activity_axes": [
+        "ACT_RES",
+        "ACT_EDU",
+        "ACT_OPS"
+      ],
+      "learning_content_sets": [
+        "LEARN_SOC"
+      ],
+      "comparison_sets": [
+        "CMP-SOCIETY"
+      ],
+      "comparison_targets": [
+        "POLITICS_INTERNATIONAL"
+      ],
+      "proposed_caution_tags": [],
+      "approved_caution_tags": [],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "NO_CAUTION_TAG_PROPOSED",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-51-정치외교학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_52",
+      "exploration_group": "SOC",
+      "interest_structure": "PRIMARY",
+      "major_name": "행정학과",
+      "source_file": "JOBE/datasets/majors/major-row-52-행정학과.service.json",
+      "primary_interest_axes": [
+        "INT_SOC"
+      ],
+      "secondary_interest_axes": [
+        "INT_BIZ"
+      ],
+      "activity_axes": [
+        "ACT_OPS",
+        "ACT_RES",
+        "ACT_FLD"
+      ],
+      "learning_content_sets": [
+        "LEARN_SOC"
+      ],
+      "comparison_sets": [
+        "CMP-PUBLIC"
+      ],
+      "comparison_targets": [
+        "POLICY_ADMIN"
+      ],
+      "proposed_caution_tags": [],
+      "approved_caution_tags": [],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "NO_CAUTION_TAG_PROPOSED",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-52-행정학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_53",
+      "exploration_group": "BIZ",
+      "interest_structure": "PRIMARY",
+      "major_name": "회계학과",
+      "source_file": "JOBE/datasets/majors/major-row-53-회계학과.service.json",
+      "primary_interest_axes": [
+        "INT_ECO"
+      ],
+      "secondary_interest_axes": [
+        "INT_DAT"
+      ],
+      "activity_axes": [
+        "ACT_RES",
+        "ACT_SYS",
+        "ACT_OPS"
+      ],
+      "learning_content_sets": [
+        "LEARN_BIZ"
+      ],
+      "comparison_sets": [
+        "CMP-BUSINESS"
+      ],
+      "comparison_targets": [
+        "ACCOUNTING_TAX"
+      ],
+      "proposed_caution_tags": [],
+      "approved_caution_tags": [],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "NO_CAUTION_TAG_PROPOSED",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-53-회계학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_86",
+      "exploration_group": "EDU",
+      "interest_structure": "PRIMARY",
+      "major_name": "과학교육과",
+      "source_file": "JOBE/datasets/majors/major-row-86-과학교육과.service.json",
+      "primary_interest_axes": [
+        "INT_EDU"
+      ],
+      "secondary_interest_axes": [
+        "INT_SCI"
+      ],
+      "activity_axes": [
+        "ACT_EDU",
+        "ACT_EXP",
+        "ACT_SUP"
+      ],
+      "learning_content_sets": [
+        "LEARN_EDU"
+      ],
+      "comparison_sets": [
+        "CMP-SUBJECT-EDU"
+      ],
+      "comparison_targets": [
+        "SCIENCE_EDU"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-86-과학교육과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_87",
+      "exploration_group": "EDU",
+      "interest_structure": "PRIMARY",
+      "major_name": "교육학과",
+      "source_file": "JOBE/datasets/majors/major-row-87-교육학과.service.json",
+      "primary_interest_axes": [
+        "INT_EDU"
+      ],
+      "secondary_interest_axes": [
+        "INT_SOC"
+      ],
+      "activity_axes": [
+        "ACT_EDU",
+        "ACT_RES",
+        "ACT_OPS"
+      ],
+      "learning_content_sets": [
+        "LEARN_EDU"
+      ],
+      "comparison_sets": [
+        "CMP-EDU-SUPPORT"
+      ],
+      "comparison_targets": [
+        "EDUCATION_SYSTEM"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-87-교육학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_88",
+      "exploration_group": "EDU",
+      "interest_structure": "PRIMARY",
+      "major_name": "국어교육과",
+      "source_file": "JOBE/datasets/majors/major-row-88-국어교육과.service.json",
+      "primary_interest_axes": [
+        "INT_EDU"
+      ],
+      "secondary_interest_axes": [
+        "INT_HUM"
+      ],
+      "activity_axes": [
+        "ACT_EDU",
+        "ACT_CRE",
+        "ACT_SUP"
+      ],
+      "learning_content_sets": [
+        "LEARN_EDU"
+      ],
+      "comparison_sets": [
+        "CMP-SUBJECT-EDU"
+      ],
+      "comparison_targets": [
+        "KOREAN_EDU"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-88-국어교육과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_89",
+      "exploration_group": "EDU",
+      "interest_structure": "PRIMARY",
+      "major_name": "미술교육과",
+      "source_file": "JOBE/datasets/majors/major-row-89-미술교육과.service.json",
+      "primary_interest_axes": [
+        "INT_EDU"
+      ],
+      "secondary_interest_axes": [
+        "INT_VISUAL"
+      ],
+      "activity_axes": [
+        "ACT_EDU",
+        "ACT_CRE",
+        "ACT_SUP"
+      ],
+      "learning_content_sets": [
+        "LEARN_EDU"
+      ],
+      "comparison_sets": [
+        "CMP-ART-EDU"
+      ],
+      "comparison_targets": [
+        "ART_EDU"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-89-미술교육과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_90",
+      "exploration_group": "EDU",
+      "interest_structure": "PRIMARY",
+      "major_name": "수학교육과",
+      "source_file": "JOBE/datasets/majors/major-row-90-수학교육과.service.json",
+      "primary_interest_axes": [
+        "INT_EDU"
+      ],
+      "secondary_interest_axes": [
+        "INT_DAT"
+      ],
+      "activity_axes": [
+        "ACT_EDU",
+        "ACT_EXP",
+        "ACT_SUP"
+      ],
+      "learning_content_sets": [
+        "LEARN_EDU"
+      ],
+      "comparison_sets": [
+        "CMP-SUBJECT-EDU"
+      ],
+      "comparison_targets": [
+        "MATH_EDU"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-90-수학교육과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_91",
+      "exploration_group": "EDU",
+      "interest_structure": "PRIMARY",
+      "major_name": "역사교육과",
+      "source_file": "JOBE/datasets/majors/major-row-91-역사교육과.service.json",
+      "primary_interest_axes": [
+        "INT_EDU"
+      ],
+      "secondary_interest_axes": [
+        "INT_HUM"
+      ],
+      "activity_axes": [
+        "ACT_EDU",
+        "ACT_RES",
+        "ACT_SUP"
+      ],
+      "learning_content_sets": [
+        "LEARN_EDU"
+      ],
+      "comparison_sets": [
+        "CMP-SUBJECT-EDU"
+      ],
+      "comparison_targets": [
+        "HISTORY_EDU"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-91-역사교육과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_92",
+      "exploration_group": "EDU",
+      "interest_structure": "PRIMARY",
+      "major_name": "영어교육과",
+      "source_file": "JOBE/datasets/majors/major-row-92-영어교육과.service.json",
+      "primary_interest_axes": [
+        "INT_EDU"
+      ],
+      "secondary_interest_axes": [
+        "INT_HUM"
+      ],
+      "activity_axes": [
+        "ACT_EDU",
+        "ACT_CRE",
+        "ACT_SUP"
+      ],
+      "learning_content_sets": [
+        "LEARN_EDU"
+      ],
+      "comparison_sets": [
+        "CMP-SUBJECT-EDU"
+      ],
+      "comparison_targets": [
+        "ENGLISH_EDU"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-92-영어교육과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_93",
+      "exploration_group": "EDU",
+      "interest_structure": "PRIMARY",
+      "major_name": "유아교육학과",
+      "source_file": "JOBE/datasets/majors/major-row-93-유아교육과.service.json",
+      "primary_interest_axes": [
+        "INT_EDU"
+      ],
+      "secondary_interest_axes": [
+        "INT_CARE"
+      ],
+      "activity_axes": [
+        "ACT_EDU",
+        "ACT_SUP",
+        "ACT_CRE"
+      ],
+      "learning_content_sets": [
+        "LEARN_EDU"
+      ],
+      "comparison_sets": [
+        "CMP-EDU-SUPPORT"
+      ],
+      "comparison_targets": [
+        "EARLY_CHILDHOOD"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-93-유아교육과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인",
+      "major_name_aliases": [
+        "유아교육과"
+      ]
+    },
+    {
+      "major_code": "MAJOR_ROW_94",
+      "exploration_group": "EDU",
+      "interest_structure": "PRIMARY",
+      "major_name": "윤리교육과",
+      "source_file": "JOBE/datasets/majors/major-row-94-윤리교육과.service.json",
+      "primary_interest_axes": [
+        "INT_EDU"
+      ],
+      "secondary_interest_axes": [
+        "INT_HUM"
+      ],
+      "activity_axes": [
+        "ACT_EDU",
+        "ACT_RES",
+        "ACT_SUP"
+      ],
+      "learning_content_sets": [
+        "LEARN_EDU"
+      ],
+      "comparison_sets": [
+        "CMP-SUBJECT-EDU"
+      ],
+      "comparison_targets": [
+        "ETHICS_EDU"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-94-윤리교육과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_95",
+      "exploration_group": "EDU",
+      "interest_structure": "PRIMARY",
+      "major_name": "음악교육과",
+      "source_file": "JOBE/datasets/majors/major-row-95-음악교육과.service.json",
+      "primary_interest_axes": [
+        "INT_EDU"
+      ],
+      "secondary_interest_axes": [
+        "INT_PERFORM"
+      ],
+      "activity_axes": [
+        "ACT_EDU",
+        "ACT_PFM",
+        "ACT_SUP"
+      ],
+      "learning_content_sets": [
+        "LEARN_EDU"
+      ],
+      "comparison_sets": [
+        "CMP-ART-EDU"
+      ],
+      "comparison_targets": [
+        "MUSIC_EDU"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-95-음악교육과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_96",
+      "exploration_group": "EDU",
+      "interest_structure": "PRIMARY",
+      "major_name": "체육교육과",
+      "source_file": "JOBE/datasets/majors/major-row-96-체육교육과.service.json",
+      "primary_interest_axes": [
+        "INT_EDU"
+      ],
+      "secondary_interest_axes": [
+        "INT_SPORT"
+      ],
+      "activity_axes": [
+        "ACT_EDU",
+        "ACT_PHY",
+        "ACT_SUP"
+      ],
+      "learning_content_sets": [
+        "LEARN_EDU"
+      ],
+      "comparison_sets": [
+        "CMP-ART-EDU",
+        "CMP-SPORT"
+      ],
+      "comparison_targets": [
+        "PHYSICAL_EDU"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-96-체육교육과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_97",
+      "exploration_group": "EDU",
+      "interest_structure": "PRIMARY",
+      "major_name": "컴퓨터교육과",
+      "source_file": "JOBE/datasets/majors/major-row-97-컴퓨터교육과.service.json",
+      "primary_interest_axes": [
+        "INT_EDU"
+      ],
+      "secondary_interest_axes": [
+        "INT_DAT"
+      ],
+      "activity_axes": [
+        "ACT_EDU",
+        "ACT_SYS",
+        "ACT_SUP"
+      ],
+      "learning_content_sets": [
+        "LEARN_EDU"
+      ],
+      "comparison_sets": [
+        "CMP-SUBJECT-EDU"
+      ],
+      "comparison_targets": [
+        "COMPUTER_EDU"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-97-컴퓨터교육과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_98",
+      "exploration_group": "EDU",
+      "interest_structure": "PRIMARY",
+      "major_name": "특수교육과",
+      "source_file": "JOBE/datasets/majors/major-row-98-특수교육과.service.json",
+      "primary_interest_axes": [
+        "INT_EDU"
+      ],
+      "secondary_interest_axes": [
+        "INT_CARE"
+      ],
+      "activity_axes": [
+        "ACT_SUP",
+        "ACT_EDU",
+        "ACT_FLD"
+      ],
+      "learning_content_sets": [
+        "LEARN_EDU"
+      ],
+      "comparison_sets": [
+        "CMP-EDU-SUPPORT"
+      ],
+      "comparison_targets": [
+        "SPECIAL_EDU"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-98-특수교육과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_124",
+      "exploration_group": "ENG",
+      "interest_structure": "HYBRID",
+      "major_name": "건축학과",
+      "source_file": "JOBE/datasets/majors/major-row-124-건축학과.service.json",
+      "primary_interest_axes": [
+        "INT_ENG"
+      ],
+      "secondary_interest_axes": [
+        "INT_VISUAL"
+      ],
+      "activity_axes": [
+        "ACT_DES",
+        "ACT_CRE",
+        "ACT_FLD"
+      ],
+      "learning_content_sets": [
+        "LEARN_ENG"
+      ],
+      "comparison_sets": [
+        "CMP-BUILT"
+      ],
+      "comparison_targets": [
+        "ARCHITECTURE_SPACE"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_MATH",
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_MATH",
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-124-건축학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_125",
+      "exploration_group": "ENG",
+      "interest_structure": "PRIMARY",
+      "major_name": "기계공학과",
+      "source_file": "JOBE/datasets/majors/major-row-125-기계공학과.service.json",
+      "primary_interest_axes": [
+        "INT_ENG"
+      ],
+      "secondary_interest_axes": [
+        "INT_SCI"
+      ],
+      "activity_axes": [
+        "ACT_DES",
+        "ACT_EXP",
+        "ACT_FLD"
+      ],
+      "learning_content_sets": [
+        "LEARN_ENG"
+      ],
+      "comparison_sets": [
+        "CMP-MACHINE",
+        "CMP-SYSTEM-ENG"
+      ],
+      "comparison_targets": [
+        "MECHANICAL_SYSTEM",
+        "TECH_PRODUCT"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_MATH",
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_MATH",
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-125-기계공학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_126",
+      "exploration_group": "ENG",
+      "interest_structure": "PRIMARY",
+      "major_name": "로봇공학과",
+      "source_file": "JOBE/datasets/majors/major-row-126-로봇공학과.service.json",
+      "primary_interest_axes": [
+        "INT_ENG"
+      ],
+      "secondary_interest_axes": [
+        "INT_DAT"
+      ],
+      "activity_axes": [
+        "ACT_DES",
+        "ACT_SYS",
+        "ACT_EXP"
+      ],
+      "learning_content_sets": [
+        "LEARN_ENG"
+      ],
+      "comparison_sets": [
+        "CMP-DIGITAL-ENG"
+      ],
+      "comparison_targets": [
+        "AI_DATA",
+        "HARDWARE_ROBOT"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_MATH",
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_MATH",
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-126-로봇공학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_127",
+      "exploration_group": "ENG",
+      "interest_structure": "PRIMARY",
+      "major_name": "반도체공학과",
+      "source_file": "JOBE/datasets/majors/major-row-127-반도체공학과.service.json",
+      "primary_interest_axes": [
+        "INT_ENG"
+      ],
+      "secondary_interest_axes": [
+        "INT_SCI"
+      ],
+      "activity_axes": [
+        "ACT_EXP",
+        "ACT_DES",
+        "ACT_SYS"
+      ],
+      "learning_content_sets": [
+        "LEARN_ENG"
+      ],
+      "comparison_sets": [
+        "CMP-ELECTRONIC"
+      ],
+      "comparison_targets": [
+        "SEMICONDUCTOR"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_MATH",
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_MATH",
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-127-반도체공학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_128",
+      "exploration_group": "ENG",
+      "interest_structure": "HYBRID",
+      "major_name": "산업공학과",
+      "source_file": "JOBE/datasets/majors/major-row-128-산업공학과.service.json",
+      "primary_interest_axes": [
+        "INT_ENG"
+      ],
+      "secondary_interest_axes": [
+        "INT_BIZ"
+      ],
+      "activity_axes": [
+        "ACT_SYS",
+        "ACT_OPS",
+        "ACT_RES"
+      ],
+      "learning_content_sets": [
+        "LEARN_ENG"
+      ],
+      "comparison_sets": [
+        "CMP-SYSTEM-ENG"
+      ],
+      "comparison_targets": [
+        "PROCESS_OPTIMIZATION"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_MATH",
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_MATH",
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-128-산업공학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_129",
+      "exploration_group": "ENG",
+      "interest_structure": "PRIMARY",
+      "major_name": "신소재공학과",
+      "source_file": "JOBE/datasets/majors/major-row-129-신소재공학과.service.json",
+      "primary_interest_axes": [
+        "INT_ENG"
+      ],
+      "secondary_interest_axes": [
+        "INT_SCI"
+      ],
+      "activity_axes": [
+        "ACT_EXP",
+        "ACT_DES",
+        "ACT_RES"
+      ],
+      "learning_content_sets": [
+        "LEARN_ENG"
+      ],
+      "comparison_sets": [
+        "CMP-MATERIAL"
+      ],
+      "comparison_targets": [
+        "MATERIAL_PROPERTY"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_MATH",
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_MATH",
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-129-신소재공학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_130",
+      "exploration_group": "ENG",
+      "interest_structure": "PRIMARY",
+      "major_name": "전기공학과",
+      "source_file": "JOBE/datasets/majors/major-row-130-전기공학과.service.json",
+      "primary_interest_axes": [
+        "INT_ENG"
+      ],
+      "secondary_interest_axes": [
+        "INT_SCI"
+      ],
+      "activity_axes": [
+        "ACT_DES",
+        "ACT_EXP",
+        "ACT_SYS"
+      ],
+      "learning_content_sets": [
+        "LEARN_ENG"
+      ],
+      "comparison_sets": [
+        "CMP-ELECTRONIC"
+      ],
+      "comparison_targets": [
+        "ELECTRIC_POWER"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_MATH",
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_MATH",
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-130-전기공학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_131",
+      "exploration_group": "ENG",
+      "interest_structure": "PRIMARY",
+      "major_name": "전자공학과",
+      "source_file": "JOBE/datasets/majors/major-row-131-전자공학과.service.json",
+      "primary_interest_axes": [
+        "INT_ENG"
+      ],
+      "secondary_interest_axes": [
+        "INT_DAT"
+      ],
+      "activity_axes": [
+        "ACT_DES",
+        "ACT_SYS",
+        "ACT_EXP"
+      ],
+      "learning_content_sets": [
+        "LEARN_ENG"
+      ],
+      "comparison_sets": [
+        "CMP-ELECTRONIC"
+      ],
+      "comparison_targets": [
+        "ELECTRONICS"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_MATH",
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_MATH",
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-131-전자공학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_132",
+      "exploration_group": "DAT",
+      "interest_structure": "PRIMARY",
+      "major_name": "정보통신공학과",
+      "source_file": "JOBE/datasets/majors/major-row-132-정보통신공학과.service.json",
+      "primary_interest_axes": [
+        "INT_DAT"
+      ],
+      "secondary_interest_axes": [
+        "INT_ENG"
+      ],
+      "activity_axes": [
+        "ACT_SYS",
+        "ACT_DES",
+        "ACT_EXP"
+      ],
+      "learning_content_sets": [
+        "LEARN_INF"
+      ],
+      "comparison_sets": [
+        "CMP-DIGITAL-ENG"
+      ],
+      "comparison_targets": [
+        "COMMUNICATION_NETWORK"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_MATH"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_MATH"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-132-정보통신공학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_133",
+      "exploration_group": "DAT",
+      "interest_structure": "PRIMARY",
+      "major_name": "컴퓨터공학과",
+      "source_file": "JOBE/datasets/majors/major-row-133-컴퓨터공학과.service.json",
+      "primary_interest_axes": [
+        "INT_DAT"
+      ],
+      "secondary_interest_axes": [
+        "INT_ENG"
+      ],
+      "activity_axes": [
+        "ACT_SYS",
+        "ACT_DES",
+        "ACT_EXP"
+      ],
+      "learning_content_sets": [
+        "LEARN_INF"
+      ],
+      "comparison_sets": [
+        "CMP-DIGITAL-ENG"
+      ],
+      "comparison_targets": [
+        "AI_DATA",
+        "SOFTWARE"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_MATH"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_MATH"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-133-컴퓨터공학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_134",
+      "exploration_group": "ENG",
+      "interest_structure": "PRIMARY",
+      "major_name": "토목공학과",
+      "source_file": "JOBE/datasets/majors/major-row-134-토목공학과.service.json",
+      "primary_interest_axes": [
+        "INT_ENG"
+      ],
+      "secondary_interest_axes": [
+        "INT_SCI"
+      ],
+      "activity_axes": [
+        "ACT_DES",
+        "ACT_FLD",
+        "ACT_EXP"
+      ],
+      "learning_content_sets": [
+        "LEARN_ENG"
+      ],
+      "comparison_sets": [
+        "CMP-BUILT"
+      ],
+      "comparison_targets": [
+        "CIVIL_INFRA"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_MATH",
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_MATH",
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-134-토목공학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_135",
+      "exploration_group": "ENG",
+      "interest_structure": "PRIMARY",
+      "major_name": "항공우주공학과",
+      "source_file": "JOBE/datasets/majors/major-row-135-항공우주공학과.service.json",
+      "primary_interest_axes": [
+        "INT_ENG"
+      ],
+      "secondary_interest_axes": [
+        "INT_SCI"
+      ],
+      "activity_axes": [
+        "ACT_DES",
+        "ACT_EXP",
+        "ACT_SYS"
+      ],
+      "learning_content_sets": [
+        "LEARN_ENG"
+      ],
+      "comparison_sets": [
+        "CMP-MACHINE"
+      ],
+      "comparison_targets": [
+        "AEROSPACE_SYSTEM"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_MATH",
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_MATH",
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-135-항공우주공학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_136",
+      "exploration_group": "ENG",
+      "interest_structure": "PRIMARY",
+      "major_name": "화학공학과",
+      "source_file": "JOBE/datasets/majors/major-row-136-화학공학과.service.json",
+      "primary_interest_axes": [
+        "INT_ENG"
+      ],
+      "secondary_interest_axes": [
+        "INT_SCI"
+      ],
+      "activity_axes": [
+        "ACT_EXP",
+        "ACT_DES",
+        "ACT_SYS"
+      ],
+      "learning_content_sets": [
+        "LEARN_ENG"
+      ],
+      "comparison_sets": [
+        "CMP-MATERIAL",
+        "CMP-SYSTEM-ENG"
+      ],
+      "comparison_targets": [
+        "CHEMICAL_PROCESS",
+        "TECH_PRODUCT"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_MATH",
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_MATH",
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-136-화학공학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_137",
+      "exploration_group": "ENG",
+      "interest_structure": "HYBRID",
+      "major_name": "환경공학과",
+      "source_file": "JOBE/datasets/majors/major-row-137-환경공학과.service.json",
+      "primary_interest_axes": [
+        "INT_ENG"
+      ],
+      "secondary_interest_axes": [
+        "INT_SCI"
+      ],
+      "activity_axes": [
+        "ACT_FLD",
+        "ACT_EXP",
+        "ACT_DES"
+      ],
+      "learning_content_sets": [
+        "LEARN_ENG"
+      ],
+      "comparison_sets": [
+        "CMP-ENVIRONMENT"
+      ],
+      "comparison_targets": [
+        "ENV_TECH"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_MATH",
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_MATH",
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-137-환경공학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_1001",
+      "exploration_group": "DAT",
+      "interest_structure": "PRIMARY",
+      "major_name": "소프트웨어학과",
+      "source_file": "JOBE/datasets/majors/major-row-1001-소프트웨어학과.service.json",
+      "primary_interest_axes": [
+        "INT_DAT"
+      ],
+      "secondary_interest_axes": [
+        "INT_ENG"
+      ],
+      "activity_axes": [
+        "ACT_SYS",
+        "ACT_DES",
+        "ACT_CRE"
+      ],
+      "learning_content_sets": [
+        "LEARN_INF"
+      ],
+      "comparison_sets": [
+        "CMP-DIGITAL-ENG"
+      ],
+      "comparison_targets": [
+        "AI_DATA",
+        "SOFTWARE"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_MATH"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_MATH"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-1001-소프트웨어학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_1002",
+      "exploration_group": "DAT",
+      "interest_structure": "PRIMARY",
+      "major_name": "데이터사이언스학과",
+      "source_file": "JOBE/datasets/majors/major-row-1002-데이터사이언스학과.service.json",
+      "primary_interest_axes": [
+        "INT_DAT"
+      ],
+      "secondary_interest_axes": [
+        "INT_ENG"
+      ],
+      "activity_axes": [
+        "ACT_RES",
+        "ACT_SYS",
+        "ACT_EXP"
+      ],
+      "learning_content_sets": [
+        "LEARN_INF"
+      ],
+      "comparison_sets": [
+        "CMP-DATA"
+      ],
+      "comparison_targets": [
+        "DATA_APPLICATION"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_MATH"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_MATH"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-1002-데이터사이언스학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_166",
+      "exploration_group": "SCI",
+      "interest_structure": "PRIMARY",
+      "major_name": "물리학과",
+      "source_file": "JOBE/datasets/majors/major-row-166-물리학과.service.json",
+      "primary_interest_axes": [
+        "INT_SCI"
+      ],
+      "secondary_interest_axes": [
+        "INT_DAT"
+      ],
+      "activity_axes": [
+        "ACT_EXP",
+        "ACT_RES",
+        "ACT_SYS"
+      ],
+      "learning_content_sets": [
+        "LEARN_SCI"
+      ],
+      "comparison_sets": [
+        "CMP-PHYSICAL"
+      ],
+      "comparison_targets": [
+        "PHYSICS"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_MATH",
+        "CAUTION_SCIENCE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_MATH",
+        "CAUTION_SCIENCE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-166-물리학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_167",
+      "exploration_group": "BIO",
+      "interest_structure": "PRIMARY",
+      "major_name": "미생물학과",
+      "source_file": "JOBE/datasets/majors/major-row-167-미생물학과.service.json",
+      "primary_interest_axes": [
+        "INT_BIO"
+      ],
+      "secondary_interest_axes": [
+        "INT_SCI"
+      ],
+      "activity_axes": [
+        "ACT_EXP",
+        "ACT_RES",
+        "ACT_FLD"
+      ],
+      "learning_content_sets": [
+        "LEARN_BIO"
+      ],
+      "comparison_sets": [
+        "CMP-LIFE"
+      ],
+      "comparison_targets": [
+        "MICROBIOLOGY"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-167-미생물학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_168",
+      "exploration_group": "BIO",
+      "interest_structure": "PRIMARY",
+      "major_name": "생명과학과",
+      "source_file": "JOBE/datasets/majors/major-row-168-생명과학과.service.json",
+      "primary_interest_axes": [
+        "INT_BIO"
+      ],
+      "secondary_interest_axes": [
+        "INT_SCI"
+      ],
+      "activity_axes": [
+        "ACT_EXP",
+        "ACT_RES",
+        "ACT_FLD"
+      ],
+      "learning_content_sets": [
+        "LEARN_BIO"
+      ],
+      "comparison_sets": [
+        "CMP-LIFE"
+      ],
+      "comparison_targets": [
+        "LIFE_SCIENCE"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-168-생명과학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_169",
+      "exploration_group": "BIO",
+      "interest_structure": "PRIMARY",
+      "major_name": "생물학과",
+      "source_file": "JOBE/datasets/majors/major-row-169-생물학과.service.json",
+      "primary_interest_axes": [
+        "INT_BIO"
+      ],
+      "secondary_interest_axes": [
+        "INT_SCI"
+      ],
+      "activity_axes": [
+        "ACT_EXP",
+        "ACT_FLD",
+        "ACT_RES"
+      ],
+      "learning_content_sets": [
+        "LEARN_BIO"
+      ],
+      "comparison_sets": [
+        "CMP-LIFE"
+      ],
+      "comparison_targets": [
+        "BIOLOGY"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-169-생물학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_170",
+      "exploration_group": "SCI",
+      "interest_structure": "PRIMARY",
+      "major_name": "수학과",
+      "source_file": "JOBE/datasets/majors/major-row-170-수학과.service.json",
+      "primary_interest_axes": [
+        "INT_DAT"
+      ],
+      "secondary_interest_axes": [
+        "INT_SCI"
+      ],
+      "activity_axes": [
+        "ACT_EXP",
+        "ACT_SYS",
+        "ACT_RES"
+      ],
+      "learning_content_sets": [
+        "LEARN_INF"
+      ],
+      "comparison_sets": [
+        "CMP-DATA"
+      ],
+      "comparison_targets": [
+        "MATH_THEORY"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_MATH"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_MATH"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-170-수학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_171",
+      "exploration_group": "BIO",
+      "interest_structure": "PRIMARY",
+      "major_name": "식품과학과",
+      "source_file": "JOBE/datasets/majors/major-row-171-식품과학과.service.json",
+      "primary_interest_axes": [
+        "INT_BIO"
+      ],
+      "secondary_interest_axes": [
+        "INT_SCI"
+      ],
+      "activity_axes": [
+        "ACT_EXP",
+        "ACT_DES",
+        "ACT_FLD"
+      ],
+      "learning_content_sets": [
+        "LEARN_BIO"
+      ],
+      "comparison_sets": [
+        "CMP-LIFE"
+      ],
+      "comparison_targets": [
+        "FOOD_SCIENCE"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-171-식품과학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_172",
+      "exploration_group": "SCI",
+      "interest_structure": "PRIMARY",
+      "major_name": "지구과학과",
+      "source_file": "JOBE/datasets/majors/major-row-172-지구과학과.service.json",
+      "primary_interest_axes": [
+        "INT_SCI"
+      ],
+      "secondary_interest_axes": [
+        "INT_DAT"
+      ],
+      "activity_axes": [
+        "ACT_FLD",
+        "ACT_EXP",
+        "ACT_RES"
+      ],
+      "learning_content_sets": [
+        "LEARN_SCI"
+      ],
+      "comparison_sets": [
+        "CMP-EARTH"
+      ],
+      "comparison_targets": [
+        "EARTH_SYSTEM"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_SCIENCE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_SCIENCE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-172-지구과학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_173",
+      "exploration_group": "SCI",
+      "interest_structure": "PRIMARY",
+      "major_name": "천문학과",
+      "source_file": "JOBE/datasets/majors/major-row-173-천문학과.service.json",
+      "primary_interest_axes": [
+        "INT_SCI"
+      ],
+      "secondary_interest_axes": [
+        "INT_DAT"
+      ],
+      "activity_axes": [
+        "ACT_EXP",
+        "ACT_RES",
+        "ACT_SYS"
+      ],
+      "learning_content_sets": [
+        "LEARN_SCI"
+      ],
+      "comparison_sets": [
+        "CMP-PHYSICAL"
+      ],
+      "comparison_targets": [
+        "ASTRONOMY"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_SCIENCE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_SCIENCE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-173-천문학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_174",
+      "exploration_group": "DAT",
+      "interest_structure": "PRIMARY",
+      "major_name": "통계학과",
+      "source_file": "JOBE/datasets/majors/major-row-174-통계학과.service.json",
+      "primary_interest_axes": [
+        "INT_DAT"
+      ],
+      "secondary_interest_axes": [
+        "INT_SCI"
+      ],
+      "activity_axes": [
+        "ACT_RES",
+        "ACT_EXP",
+        "ACT_SYS"
+      ],
+      "learning_content_sets": [
+        "LEARN_INF"
+      ],
+      "comparison_sets": [
+        "CMP-DATA"
+      ],
+      "comparison_targets": [
+        "STATISTICAL_INFERENCE"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_MATH"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_MATH"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-174-통계학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_175",
+      "exploration_group": "SCI",
+      "interest_structure": "PRIMARY",
+      "major_name": "해양학과",
+      "source_file": "JOBE/datasets/majors/major-row-175-해양학과.service.json",
+      "primary_interest_axes": [
+        "INT_SCI"
+      ],
+      "secondary_interest_axes": [
+        "INT_BIO"
+      ],
+      "activity_axes": [
+        "ACT_FLD",
+        "ACT_EXP",
+        "ACT_RES"
+      ],
+      "learning_content_sets": [
+        "LEARN_SCI"
+      ],
+      "comparison_sets": [
+        "CMP-EARTH"
+      ],
+      "comparison_targets": [
+        "OCEAN_SYSTEM"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_SCIENCE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_SCIENCE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-175-해양학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_176",
+      "exploration_group": "SCI",
+      "interest_structure": "PRIMARY",
+      "major_name": "화학과",
+      "source_file": "JOBE/datasets/majors/major-row-176-화학과.service.json",
+      "primary_interest_axes": [
+        "INT_SCI"
+      ],
+      "secondary_interest_axes": [
+        "INT_DAT"
+      ],
+      "activity_axes": [
+        "ACT_EXP",
+        "ACT_RES",
+        "ACT_DES"
+      ],
+      "learning_content_sets": [
+        "LEARN_SCI"
+      ],
+      "comparison_sets": [
+        "CMP-PHYSICAL"
+      ],
+      "comparison_targets": [
+        "CHEMISTRY"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_SCIENCE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_SCIENCE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-176-화학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_177",
+      "exploration_group": "SCI",
+      "interest_structure": "PRIMARY",
+      "major_name": "환경과학과",
+      "source_file": "JOBE/datasets/majors/major-row-177-환경과학과.service.json",
+      "primary_interest_axes": [
+        "INT_SCI"
+      ],
+      "secondary_interest_axes": [
+        "INT_BIO"
+      ],
+      "activity_axes": [
+        "ACT_FLD",
+        "ACT_EXP",
+        "ACT_RES"
+      ],
+      "learning_content_sets": [
+        "LEARN_SCI"
+      ],
+      "comparison_sets": [
+        "CMP-ENVIRONMENT"
+      ],
+      "comparison_targets": [
+        "ENV_SCIENCE"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_SCIENCE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_SCIENCE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-177-환경과학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_201",
+      "exploration_group": "BIO",
+      "interest_structure": "PRIMARY",
+      "major_name": "간호학과",
+      "source_file": "JOBE/datasets/majors/major-row-201-간호학과.service.json",
+      "primary_interest_axes": [
+        "INT_BIO"
+      ],
+      "secondary_interest_axes": [
+        "INT_CARE"
+      ],
+      "activity_axes": [
+        "ACT_SUP",
+        "ACT_FLD",
+        "ACT_EDU"
+      ],
+      "learning_content_sets": [
+        "LEARN_BIO"
+      ],
+      "comparison_sets": [
+        "CMP-CLINICAL",
+        "CMP-HEALTH-SYSTEM"
+      ],
+      "comparison_targets": [
+        "DIRECT_CARE",
+        "NURSING"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-201-간호학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_202",
+      "exploration_group": "BIO",
+      "interest_structure": "PRIMARY",
+      "major_name": "물리치료학과",
+      "source_file": "JOBE/datasets/majors/major-row-202-물리치료학과.service.json",
+      "primary_interest_axes": [
+        "INT_BIO"
+      ],
+      "secondary_interest_axes": [
+        "INT_CARE"
+      ],
+      "activity_axes": [
+        "ACT_SUP",
+        "ACT_FLD",
+        "ACT_EXP"
+      ],
+      "learning_content_sets": [
+        "LEARN_BIO"
+      ],
+      "comparison_sets": [
+        "CMP-REHAB"
+      ],
+      "comparison_targets": [
+        "PHYSICAL_THERAPY"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-202-물리치료학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_203",
+      "exploration_group": "BIO",
+      "interest_structure": "PRIMARY",
+      "major_name": "방사선학과",
+      "source_file": "JOBE/datasets/majors/major-row-203-방사선학과.service.json",
+      "primary_interest_axes": [
+        "INT_BIO"
+      ],
+      "secondary_interest_axes": [
+        "INT_ENG"
+      ],
+      "activity_axes": [
+        "ACT_EXP",
+        "ACT_FLD",
+        "ACT_SYS"
+      ],
+      "learning_content_sets": [
+        "LEARN_BIO"
+      ],
+      "comparison_sets": [
+        "CMP-CLINICAL-TECH"
+      ],
+      "comparison_targets": [
+        "RADIOLOGY"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-203-방사선학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_204",
+      "exploration_group": "BIO",
+      "interest_structure": "PRIMARY",
+      "major_name": "보건행정학과",
+      "source_file": "JOBE/datasets/majors/major-row-204-보건행정학과.service.json",
+      "primary_interest_axes": [
+        "INT_BIO"
+      ],
+      "secondary_interest_axes": [
+        "INT_BIZ"
+      ],
+      "activity_axes": [
+        "ACT_OPS",
+        "ACT_RES",
+        "ACT_SYS"
+      ],
+      "learning_content_sets": [
+        "LEARN_BIO"
+      ],
+      "comparison_sets": [
+        "CMP-HEALTH-SYSTEM"
+      ],
+      "comparison_targets": [
+        "HEALTH_SYSTEM"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-204-보건행정학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_205",
+      "exploration_group": "BIO",
+      "interest_structure": "PRIMARY",
+      "major_name": "약학과",
+      "source_file": "JOBE/datasets/majors/major-row-205-약학과.service.json",
+      "primary_interest_axes": [
+        "INT_BIO"
+      ],
+      "secondary_interest_axes": [
+        "INT_SCI"
+      ],
+      "activity_axes": [
+        "ACT_EXP",
+        "ACT_RES",
+        "ACT_EDU"
+      ],
+      "learning_content_sets": [
+        "LEARN_BIO"
+      ],
+      "comparison_sets": [
+        "CMP-MEDICINE"
+      ],
+      "comparison_targets": [
+        "PHARMACY"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_LONG_PREP",
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_LONG_PREP",
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-205-약학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_206",
+      "exploration_group": "BIO",
+      "interest_structure": "PRIMARY",
+      "major_name": "응급구조학과",
+      "source_file": "JOBE/datasets/majors/major-row-206-응급구조학과.service.json",
+      "primary_interest_axes": [
+        "INT_BIO"
+      ],
+      "secondary_interest_axes": [
+        "INT_CARE"
+      ],
+      "activity_axes": [
+        "ACT_FLD",
+        "ACT_SUP",
+        "ACT_OPS"
+      ],
+      "learning_content_sets": [
+        "LEARN_BIO"
+      ],
+      "comparison_sets": [
+        "CMP-CLINICAL"
+      ],
+      "comparison_targets": [
+        "EMERGENCY"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-206-응급구조학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_207",
+      "exploration_group": "BIO",
+      "interest_structure": "PRIMARY",
+      "major_name": "의학과",
+      "source_file": "JOBE/datasets/majors/major-row-207-의학과.service.json",
+      "primary_interest_axes": [
+        "INT_BIO"
+      ],
+      "secondary_interest_axes": [
+        "INT_SCI"
+      ],
+      "activity_axes": [
+        "ACT_SUP",
+        "ACT_EXP",
+        "ACT_FLD"
+      ],
+      "learning_content_sets": [
+        "LEARN_BIO"
+      ],
+      "comparison_sets": [
+        "CMP-MEDICINE"
+      ],
+      "comparison_targets": [
+        "MEDICINE"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP",
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP",
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-207-의학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_208",
+      "exploration_group": "BIO",
+      "interest_structure": "PRIMARY",
+      "major_name": "임상병리학과",
+      "source_file": "JOBE/datasets/majors/major-row-208-임상병리학과.service.json",
+      "primary_interest_axes": [
+        "INT_BIO"
+      ],
+      "secondary_interest_axes": [
+        "INT_SCI"
+      ],
+      "activity_axes": [
+        "ACT_EXP",
+        "ACT_RES",
+        "ACT_SYS"
+      ],
+      "learning_content_sets": [
+        "LEARN_BIO"
+      ],
+      "comparison_sets": [
+        "CMP-CLINICAL-TECH"
+      ],
+      "comparison_targets": [
+        "CLINICAL_LAB"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-208-임상병리학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_209",
+      "exploration_group": "BIO",
+      "interest_structure": "PRIMARY",
+      "major_name": "작업치료학과",
+      "source_file": "JOBE/datasets/majors/major-row-209-작업치료학과.service.json",
+      "primary_interest_axes": [
+        "INT_BIO"
+      ],
+      "secondary_interest_axes": [
+        "INT_CARE"
+      ],
+      "activity_axes": [
+        "ACT_SUP",
+        "ACT_FLD",
+        "ACT_DES"
+      ],
+      "learning_content_sets": [
+        "LEARN_BIO"
+      ],
+      "comparison_sets": [
+        "CMP-REHAB"
+      ],
+      "comparison_targets": [
+        "OCCUPATIONAL_THERAPY"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-209-작업치료학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_210",
+      "exploration_group": "BIO",
+      "interest_structure": "PRIMARY",
+      "major_name": "치위생학과",
+      "source_file": "JOBE/datasets/majors/major-row-210-치위생학과.service.json",
+      "primary_interest_axes": [
+        "INT_BIO"
+      ],
+      "secondary_interest_axes": [
+        "INT_CARE"
+      ],
+      "activity_axes": [
+        "ACT_SUP",
+        "ACT_FLD",
+        "ACT_EDU"
+      ],
+      "learning_content_sets": [
+        "LEARN_BIO"
+      ],
+      "comparison_sets": [
+        "CMP-CLINICAL"
+      ],
+      "comparison_targets": [
+        "DENTAL_HYGIENE"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-210-치위생학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_211",
+      "exploration_group": "BIO",
+      "interest_structure": "PRIMARY",
+      "major_name": "치의예과",
+      "source_file": "JOBE/datasets/majors/major-row-211-치의예과.service.json",
+      "primary_interest_axes": [
+        "INT_BIO"
+      ],
+      "secondary_interest_axes": [
+        "INT_SCI"
+      ],
+      "activity_axes": [
+        "ACT_SUP",
+        "ACT_EXP",
+        "ACT_DES"
+      ],
+      "learning_content_sets": [
+        "LEARN_BIO"
+      ],
+      "comparison_sets": [
+        "CMP-MEDICINE"
+      ],
+      "comparison_targets": [
+        "DENTISTRY"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP",
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP",
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-211-치의예과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_212",
+      "exploration_group": "BIO",
+      "interest_structure": "PRIMARY",
+      "major_name": "한의예과",
+      "source_file": "JOBE/datasets/majors/major-row-212-한의예과.service.json",
+      "primary_interest_axes": [
+        "INT_BIO"
+      ],
+      "secondary_interest_axes": [
+        "INT_HUM"
+      ],
+      "activity_axes": [
+        "ACT_SUP",
+        "ACT_EXP",
+        "ACT_EDU"
+      ],
+      "learning_content_sets": [
+        "LEARN_BIO"
+      ],
+      "comparison_sets": [
+        "CMP-MEDICINE"
+      ],
+      "comparison_targets": [
+        "KOREAN_MEDICINE"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP",
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_SCIENCE",
+        "CAUTION_FACE_TO_FACE",
+        "CAUTION_LONG_PREP",
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-212-한의예과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_236",
+      "exploration_group": "ART",
+      "interest_structure": "PRIMARY",
+      "major_name": "디지털디자인학과",
+      "source_file": "JOBE/datasets/majors/major-row-236-디지털디자인학과.service.json",
+      "primary_interest_axes": [
+        "INT_VISUAL"
+      ],
+      "secondary_interest_axes": [
+        "INT_MED"
+      ],
+      "activity_axes": [
+        "ACT_CRE",
+        "ACT_DES",
+        "ACT_SYS"
+      ],
+      "learning_content_sets": [
+        "LEARN_VISUAL"
+      ],
+      "comparison_sets": [
+        "CMP-DESIGN"
+      ],
+      "comparison_targets": [
+        "DIGITAL_DESIGN"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-236-디지털디자인학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_237",
+      "exploration_group": "ART",
+      "interest_structure": "PRIMARY",
+      "major_name": "무용학과",
+      "source_file": "JOBE/datasets/majors/major-row-237-무용학과.service.json",
+      "primary_interest_axes": [
+        "INT_PERFORM"
+      ],
+      "secondary_interest_axes": [
+        "INT_SPORT"
+      ],
+      "activity_axes": [
+        "ACT_PFM",
+        "ACT_PHY",
+        "ACT_CRE"
+      ],
+      "learning_content_sets": [
+        "LEARN_PERFORM"
+      ],
+      "comparison_sets": [
+        "CMP-PERFORMING"
+      ],
+      "comparison_targets": [
+        "DANCE"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-237-무용학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_238",
+      "exploration_group": "ART",
+      "interest_structure": "PRIMARY",
+      "major_name": "미술학과",
+      "source_file": "JOBE/datasets/majors/major-row-238-미술학과.service.json",
+      "primary_interest_axes": [
+        "INT_VISUAL"
+      ],
+      "secondary_interest_axes": [
+        "INT_HUM"
+      ],
+      "activity_axes": [
+        "ACT_CRE",
+        "ACT_EXP",
+        "ACT_EDU"
+      ],
+      "learning_content_sets": [
+        "LEARN_VISUAL"
+      ],
+      "comparison_sets": [
+        "CMP-FINE-ART"
+      ],
+      "comparison_targets": [
+        "FINE_ART"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-238-미술학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_239",
+      "exploration_group": "ART",
+      "interest_structure": "PRIMARY",
+      "major_name": "산업디자인학과",
+      "source_file": "JOBE/datasets/majors/major-row-239-산업디자인학과.service.json",
+      "primary_interest_axes": [
+        "INT_VISUAL"
+      ],
+      "secondary_interest_axes": [
+        "INT_ENG"
+      ],
+      "activity_axes": [
+        "ACT_DES",
+        "ACT_CRE",
+        "ACT_RES"
+      ],
+      "learning_content_sets": [
+        "LEARN_VISUAL"
+      ],
+      "comparison_sets": [
+        "CMP-DESIGN"
+      ],
+      "comparison_targets": [
+        "INDUSTRIAL_DESIGN"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-239-산업디자인학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_240",
+      "exploration_group": "SPORT",
+      "interest_structure": "HYBRID",
+      "major_name": "스포츠산업학과",
+      "source_file": "JOBE/datasets/majors/major-row-240-스포츠산업학과.service.json",
+      "primary_interest_axes": [
+        "INT_SPORT"
+      ],
+      "secondary_interest_axes": [
+        "INT_BIZ"
+      ],
+      "activity_axes": [
+        "ACT_OPS",
+        "ACT_FLD",
+        "ACT_RES"
+      ],
+      "learning_content_sets": [
+        "LEARN_SPORT"
+      ],
+      "comparison_sets": [
+        "CMP-SPORT"
+      ],
+      "comparison_targets": [
+        "SPORT_BUSINESS"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-240-스포츠산업학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_241",
+      "exploration_group": "ART",
+      "interest_structure": "PRIMARY",
+      "major_name": "시각디자인학과",
+      "source_file": "JOBE/datasets/majors/major-row-241-시각디자인학과.service.json",
+      "primary_interest_axes": [
+        "INT_VISUAL"
+      ],
+      "secondary_interest_axes": [
+        "INT_MED"
+      ],
+      "activity_axes": [
+        "ACT_CRE",
+        "ACT_DES",
+        "ACT_RES"
+      ],
+      "learning_content_sets": [
+        "LEARN_VISUAL"
+      ],
+      "comparison_sets": [
+        "CMP-DESIGN"
+      ],
+      "comparison_targets": [
+        "VISUAL_DESIGN"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-241-시각디자인학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_242",
+      "exploration_group": "ART",
+      "interest_structure": "PRIMARY",
+      "major_name": "실내디자인학과",
+      "source_file": "JOBE/datasets/majors/major-row-242-실내디자인학과.service.json",
+      "primary_interest_axes": [
+        "INT_VISUAL"
+      ],
+      "secondary_interest_axes": [
+        "INT_ENG"
+      ],
+      "activity_axes": [
+        "ACT_DES",
+        "ACT_CRE",
+        "ACT_FLD"
+      ],
+      "learning_content_sets": [
+        "LEARN_VISUAL"
+      ],
+      "comparison_sets": [
+        "CMP-DESIGN"
+      ],
+      "comparison_targets": [
+        "INTERIOR_DESIGN"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-242-실내디자인학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_243",
+      "exploration_group": "MED",
+      "interest_structure": "HYBRID",
+      "major_name": "애니메이션학과",
+      "source_file": "JOBE/datasets/majors/major-row-243-애니메이션학과.service.json",
+      "primary_interest_axes": [
+        "INT_MED"
+      ],
+      "secondary_interest_axes": [
+        "INT_VISUAL"
+      ],
+      "activity_axes": [
+        "ACT_CRE",
+        "ACT_DES",
+        "ACT_SYS"
+      ],
+      "learning_content_sets": [
+        "LEARN_MED"
+      ],
+      "comparison_sets": [
+        "CMP-CONTENT-ART"
+      ],
+      "comparison_targets": [
+        "ANIMATION"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-243-애니메이션학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_244",
+      "exploration_group": "MED",
+      "interest_structure": "PRIMARY",
+      "major_name": "연극영화학과",
+      "source_file": "JOBE/datasets/majors/major-row-244-연극영화학과.service.json",
+      "primary_interest_axes": [
+        "INT_PERFORM"
+      ],
+      "secondary_interest_axes": [
+        "INT_MED"
+      ],
+      "activity_axes": [
+        "ACT_PFM",
+        "ACT_CRE",
+        "ACT_OPS"
+      ],
+      "learning_content_sets": [
+        "LEARN_MED"
+      ],
+      "comparison_sets": [
+        "CMP-CONTENT-ART",
+        "CMP-PERFORMING"
+      ],
+      "comparison_targets": [
+        "THEATER_FILM"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-244-연극영화학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_245",
+      "exploration_group": "ART",
+      "interest_structure": "PRIMARY",
+      "major_name": "음악학과",
+      "source_file": "JOBE/datasets/majors/major-row-245-음악학과.service.json",
+      "primary_interest_axes": [
+        "INT_PERFORM"
+      ],
+      "secondary_interest_axes": [
+        "INT_HUM"
+      ],
+      "activity_axes": [
+        "ACT_PFM",
+        "ACT_CRE",
+        "ACT_EDU"
+      ],
+      "learning_content_sets": [
+        "LEARN_PERFORM"
+      ],
+      "comparison_sets": [
+        "CMP-FINE-ART"
+      ],
+      "comparison_targets": [
+        "MUSIC"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-245-음악학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_246",
+      "exploration_group": "SPORT",
+      "interest_structure": "PRIMARY",
+      "major_name": "체육학과",
+      "source_file": "JOBE/datasets/majors/major-row-246-체육학과.service.json",
+      "primary_interest_axes": [
+        "INT_SPORT"
+      ],
+      "secondary_interest_axes": [
+        "INT_BIO"
+      ],
+      "activity_axes": [
+        "ACT_PHY",
+        "ACT_EXP",
+        "ACT_EDU"
+      ],
+      "learning_content_sets": [
+        "LEARN_SPORT"
+      ],
+      "comparison_sets": [
+        "CMP-SPORT"
+      ],
+      "comparison_targets": [
+        "SPORT_SCIENCE"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-246-체육학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    },
+    {
+      "major_code": "MAJOR_ROW_247",
+      "exploration_group": "ART",
+      "interest_structure": "PRIMARY",
+      "major_name": "패션디자인학과",
+      "source_file": "JOBE/datasets/majors/major-row-247-패션디자인학과.service.json",
+      "primary_interest_axes": [
+        "INT_VISUAL"
+      ],
+      "secondary_interest_axes": [
+        "INT_BIZ"
+      ],
+      "activity_axes": [
+        "ACT_CRE",
+        "ACT_DES",
+        "ACT_RES"
+      ],
+      "learning_content_sets": [
+        "LEARN_VISUAL"
+      ],
+      "comparison_sets": [
+        "CMP-DESIGN"
+      ],
+      "comparison_targets": [
+        "FASHION_DESIGN"
+      ],
+      "proposed_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "approved_caution_tags": [
+        "CAUTION_PRACTICE"
+      ],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "caution_review_status": "APPROVED_FROM_INTERNAL_MAPPING",
+      "evidence": [
+        "확정안 4.3 전공표; 학습 연결 및 주의 태그는 구현준비 초안에서 제안",
+        "JOBE/datasets/majors/major-row-247-패션디자인학과.service.json"
+      ],
+      "review_note": "구조 매핑은 구현 기본값. 주의 태그는 추천 감점 금지; 추가 4개 태그는 별도 검토표에서 미승인"
+    }
+  ]
+}

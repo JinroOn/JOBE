@@ -2,13 +2,112 @@ services:
   mysql:
     image: mysql:8.0
     container_name: jobe-mysql
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: jobe
-    ports:
-      - "3307:3306"
+    expose:
+      - "3306"
     volumes:
       - mysql-data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  ai-postgres:
+    image: pgvector/pgvector:pg16
+    container_name: jobe-ai-postgres
+    environment:
+      POSTGRES_DB: jobe_ai
+      POSTGRES_USER: jobe_ai
+      POSTGRES_PASSWORD: root
+    expose:
+      - "5432"
+    volumes:
+      - ai-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U jobe_ai -d jobe_ai"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  ai-service:
+    build:
+      context: ./ai-service
+    container_name: jobe-ai-service
+    env_file:
+      - ./ai-service/.env
+    environment:
+      AI_DB_HOST: ai-postgres
+      AI_DB_PORT: 5432
+      AI_DB_NAME: jobe_ai
+      AI_DB_USER: jobe_ai
+      AI_DB_PASSWORD: root
+      AI_DB_ENABLE_VECTOR: "true"
+      AI_DB_HEALTHCHECK_ENABLED: "false"
+      EMBEDDING_PROVIDER: openai-compatible
+      EMBEDDING_MODEL: text-embedding-3-large
+      EMBEDDING_DIMENSION: "1536"
+      EMBEDDING_OUTPUT_DIMENSIONS: "1536"
+      AI_RAG_RETRIEVAL_ENABLED: "true"
+      AI_RAG_VECTOR_SEARCH_ENABLED: "true"
+      AI_RAG_AUTO_INGEST_ENABLED: "true"
+      AI_RAG_AUTO_INGEST_DATASET_VERSION: local-openai-large-v1
+      AI_RAG_AUTO_INGEST_DATASET_ROOT: /datasets
+    volumes:
+      - ./datasets:/datasets:ro
+    expose:
+      - "8001"
+    depends_on:
+      ai-postgres:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://localhost:8001/health', timeout=3).read()",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  app:
+    build:
+      context: .
+    container_name: jobe-api
+    env_file:
+      - ./ai-service/.env
+    environment:
+      SPRING_PROFILES_ACTIVE: docker,prod
+      EXPLORATION_ENABLED: ${EXPLORATION_ENABLED:-false}
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/jobe
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.MySQLDialect
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "true"
+      AI_SERVER_URL: http://ai-service:8001
+      AI_SERVER_READ_TIMEOUT_MS: 60000
+      JWT_SECRET: dev-secret-key-must-be-at-least-256-bits-long-for-hs256-algorithm
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      ai-service:
+        condition: service_healthy
 
 volumes:
   mysql-data:
+  ai-postgres-data:

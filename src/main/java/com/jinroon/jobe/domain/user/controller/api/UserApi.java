@@ -5,18 +5,24 @@ import com.jinroon.jobe.domain.user.dto.response.UserConsentResponse;
 import com.jinroon.jobe.domain.user.dto.response.UserFavoriteResponse;
 import com.jinroon.jobe.domain.user.dto.response.UserResponse;
 import com.jinroon.jobe.domain.user.dto.response.UserSessionResponse;
+import com.jinroon.jobe.domain.user.dto.request.EmailVerificationRequest;
+import com.jinroon.jobe.domain.user.dto.request.UserConsentRequest;
+import com.jinroon.jobe.domain.user.dto.request.UserFavoriteRequest;
+import com.jinroon.jobe.domain.user.dto.request.UserProfileUpdateRequest;
+import com.jinroon.jobe.domain.user.dto.request.UserRequest;
 import com.jinroon.jobe.global.exception.error.ErrorDto;
 import com.jinroon.jobe.global.security.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Map;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -85,6 +91,7 @@ public interface UserApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     EmailVerificationResponse getEmailVerification(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "이메일 인증 ID") @PathVariable Long verificationId
     );
 
@@ -96,11 +103,15 @@ public interface UserApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     UserResponse createUser(
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "사용자 필드값 Map", required = true)
-            @RequestBody Map<String, Object> request
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "사용자 필드값 Map", 
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.user.dto.request.UserRequest.class))
+            )
+            @Valid @RequestBody UserRequest request
     );
 
-    @Operation(summary = "내 정보 수정", description = "현재 로그인한 사용자의 정보를 수정합니다.")
+    @Operation(summary = "내 정보 수정", description = "현재 로그인한 사용자의 닉네임·프로필 이미지를 수정합니다. 그 외 필드는 바꿀 수 없습니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "수정 성공",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponse.class))),
@@ -111,8 +122,12 @@ public interface UserApi {
     })
     UserResponse updateUser(
             @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "수정할 필드값 Map", required = true)
-            @RequestBody Map<String, Object> request
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "수정할 프로필 필드",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = UserProfileUpdateRequest.class))
+            )
+            @Valid @RequestBody UserProfileUpdateRequest request
     );
 
     @Operation(summary = "회원 탈퇴", description = "현재 로그인한 사용자를 삭제합니다.")
@@ -134,8 +149,12 @@ public interface UserApi {
     })
     UserConsentResponse createConsent(
             @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "동의 정보 필드값 Map", required = true)
-            @RequestBody Map<String, Object> request
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "동의 정보 필드값 Map",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.user.dto.request.UserConsentRequest.class))
+            )
+            @Valid @RequestBody UserConsentRequest request
     );
 
     @Operation(summary = "즐겨찾기 전공 추가", description = "현재 로그인한 사용자의 즐겨찾기 전공을 추가합니다.")
@@ -151,8 +170,12 @@ public interface UserApi {
     })
     UserFavoriteResponse createFavorite(
             @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "즐겨찾기 정보 (majorId)", required = true)
-            @RequestBody Map<String, Object> request
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "즐겨찾기 정보 (majorId)",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.user.dto.request.UserFavoriteRequest.class))
+            )
+            @Valid @RequestBody UserFavoriteRequest request
     );
 
     @Operation(summary = "즐겨찾기 전공 삭제", description = "즐겨찾기 ID로 즐겨찾기를 삭제합니다.")
@@ -162,19 +185,8 @@ public interface UserApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     void deleteFavorite(
+            @Parameter(hidden = true) @AuthenticationPrincipal CustomUserDetails userDetails,
             @Parameter(description = "즐겨찾기 ID") @PathVariable Long favoriteId
-    );
-
-    @Operation(summary = "세션 생성", description = "사용자 세션 레코드를 생성합니다.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "생성 성공",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserSessionResponse.class))),
-            @ApiResponse(responseCode = "400", description = "입력값 오류",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
-    })
-    UserSessionResponse createSession(
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "세션 필드값 Map", required = true)
-            @RequestBody Map<String, Object> request
     );
 
     @Operation(summary = "이메일 인증 레코드 생성", description = "이메일 인증 레코드를 직접 생성합니다.")
@@ -185,7 +197,11 @@ public interface UserApi {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDto.class)))
     })
     EmailVerificationResponse createEmailVerification(
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "이메일 인증 필드값 Map", required = true)
-            @RequestBody Map<String, Object> request
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "이메일 인증 필드값 Map", 
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = com.jinroon.jobe.domain.user.dto.request.EmailVerificationRequest.class))
+            )
+            @Valid @RequestBody EmailVerificationRequest request
     );
 }

@@ -1,0 +1,321 @@
+{
+  "schema_version": "1.1",
+  "major_mapping_version": "MAJOR_MAPPING_V1_2_IMPLEMENTATION_CANDIDATE",
+  "content_status": "DRAFT",
+  "implementation_review_status": "PENDING",
+  "domain_review_status": "PENDING",
+  "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M205_DRAFT_V3_SCOPE_V2",
+  "provenance": {
+    "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
+    "scope": "SINGLE_MAJOR_DEV_REVIEW",
+    "parent_file_sha256": "98e0d997a7af59dfe2dab16e1156dad04933809a620b120ddd5990c8797c2e7c"
+  },
+  "activities": [
+    {
+      "activity_id": "DRAFT-M205-01",
+      "version": "0.4.2",
+      "title": "의약품 정보의 출처와 버전을 확인할 질문 쓰기",
+      "kind": "INFORMATION",
+      "major_code": "MAJOR_ROW_205",
+      "major_name": "약학과",
+      "exploration_group": "BIO",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "탐색 주제: 약학 정보와 근거 확인. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
+      "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
+      "steps": [
+        "두 과목을 읽고 정보 전달과 품질 확인의 질문을 나눈다.",
+        "가상 제품 카드 두 개가 다를 때 먼저 읽을 발행 주체와 날짜를 고른다."
+      ],
+      "artifacts": [
+        "정보 출처 확인 카드"
+      ],
+      "example_output": "어느 문서가 공식적으로 배포됐고 최근에 갱신됐는지 묻는다.",
+      "worksheet_columns": "공식 자료에서 확인한 명칭 / 내가 더 알아볼 주제 / 미확인 질문 / 확인 경로",
+      "reflection_question": "소개를 읽은 뒤 관심이 생긴 부분과 여전히 모르는 부분은 무엇인가요?",
+      "alternative": "공식 링크 없이 제공 과목명과 가상 정보만 사용한다.",
+      "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
+      "source_ids": [
+        "m205-careernet",
+        "m205-university",
+        "m205-extra"
+      ],
+      "major_source_relationship": "RELATED_NAME_NOT_EQUIVALENT",
+      "major_connection_note": "활동의 공통 주제만 참고한다. 연결된 관련 자료는 커리어넷 대학교 학과정보 약학부이다.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 의약품 정보의 출처와 버전을 확인할 질문 쓰기\n\n공식 교과자료의 의약정보학과 의약품품질과학을 참고한다.\n\n1. 두 과목을 읽고 정보 전달과 품질 확인의 질문을 나눈다.\n2. 가상 제품 카드 두 개가 다를 때 먼저 읽을 발행 주체와 날짜를 고른다.\n\n남길 결과물은 정보 출처 확인 카드입니다.\n\n쉬운 대안. 공식 링크 없이 제공 과목명과 가상 정보만 사용한다.",
+      "worksheet_markdown": "## 의약품 정보의 출처와 버전을 확인할 질문 쓰기\n\n공식 교과자료의 의약정보학과 의약품품질과학을 참고한다.\n\n| 과목 | 확인 항목 | 질문 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m205-careernet",
+          "title": "대학교 학과정보 약학부",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=341",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "의약품에 관한 지식과 약학개론",
+          "application": "활동과 직접 겹치는 주제의 배경 사례",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "약학부 안내 중 약학과와 겹치는 기초 학습 내용을 참고한다."
+        },
+        {
+          "source_id": "m205-university",
+          "title": "2024 교육과정편람",
+          "publisher": "고려대학교",
+          "url": "https://kuedu.korea.ac.kr/educa/notice/notice01.do?articleNo=801408&attachNo=308537&mode=download&totalBoardNo=&totalNoticeYn=",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "의약정보학·의약품분석학 I·의약품품질과학",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m205-extra",
+          "title": "2023 학생부전형 가이드북",
+          "publisher": "중앙대학교",
+          "url": "https://admission.cau.ac.kr/file/download.do?ofn=2023%ED%95%99%EB%85%84%EB%8F%84+%ED%95%99%EC%83%9D%EB%B6%80%EC%A0%84%ED%98%95+%EA%B0%80%EC%9D%B4%EB%93%9C%EB%B6%81_%EB%8B%A8%EB%A9%B4.pdf&sfn=guide_20220621133058_7558.pdf",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "약학연구세미나와 지역약국실습 사례",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "2023 학과 안내의 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-READ-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-READ-01",
+          "step_indexes": [
+            0
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M205-02",
+      "version": "0.4.2",
+      "title": "가상의 제품 기록에서 식별 정보 불일치 찾기",
+      "kind": "SMALL_TASK",
+      "major_code": "MAJOR_ROW_205",
+      "major_name": "약학과",
+      "exploration_group": "BIO",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 10,
+        "max": 15,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "경험할 주제: 약학 정보와 근거 확인. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
+      "scenario": "가상 기록 1은 제품 A·코드 021·개정 2, 기록 2는 제품 A·코드 012·개정 2다. 실제 의약품이나 사용법은 등장하지 않는다.",
+      "steps": [
+        "제품명, 코드, 버전을 두 열에 옮긴다.",
+        "다른 코드가 같은 제품을 가리키는지 확인해야 할 질문을 적는다."
+      ],
+      "artifacts": [
+        "제품 식별과 확인 메모"
+      ],
+      "example_output": "이름은 같지만 코드가 다르다. 공식 원본에서 식별 번호를 확인하기 전에는 같은 기록으로 묶지 않는다.",
+      "worksheet_columns": "자료 / 제품명 / 코드 / 보류 이유",
+      "reflection_question": "자료를 정확히 확인하고 설명의 범위를 지키는 일이 흥미로운가?",
+      "alternative": "가상 코드만 메모에 비교한다.",
+      "safety_boundary": "복약·조제·용량 계산·실제 약품 접촉을 하지 않음",
+      "source_ids": [
+        "m205-university",
+        "m205-extra"
+      ],
+      "major_source_relationship": "RELATED_NAME_NOT_EQUIVALENT",
+      "major_connection_note": "이 활동에서는 해당 전공의 자료를 사용한다.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 가상의 제품 기록에서 식별 정보 불일치 찾기\n\n가상 기록 1은 제품 A·코드 021·개정 2, 기록 2는 제품 A·코드 012·개정 2다. 실제 의약품이나 사용법은 등장하지 않는다.\n\n1. 제품명, 코드, 버전을 두 열에 옮긴다.\n2. 다른 코드가 같은 제품을 가리키는지 확인해야 할 질문을 적는다.\n\n남길 결과물은 제품 식별과 확인 메모입니다.\n\n쉬운 대안. 가상 코드만 메모에 비교한다.",
+      "worksheet_markdown": "## 가상의 제품 기록에서 식별 정보 불일치 찾기\n\n가상 기록 1은 제품 A·코드 021·개정 2, 기록 2는 제품 A·코드 012·개정 2다. 실제 의약품이나 사용법은 등장하지 않는다.\n\n| 자료 | 제품명 | 코드 | 보류 이유 |\n|---|---|---|---|\n| | | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m205-university",
+          "title": "2024 교육과정편람",
+          "publisher": "고려대학교",
+          "url": "https://kuedu.korea.ac.kr/educa/notice/notice01.do?articleNo=801408&attachNo=308537&mode=download&totalBoardNo=&totalNoticeYn=",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "의약정보학·의약품분석학 I·의약품품질과학",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m205-extra",
+          "title": "2023 학생부전형 가이드북",
+          "publisher": "중앙대학교",
+          "url": "https://admission.cau.ac.kr/file/download.do?ofn=2023%ED%95%99%EB%85%84%EB%8F%84+%ED%95%99%EC%83%9D%EB%B6%80%EC%A0%84%ED%98%95+%EA%B0%80%EC%9D%B4%EB%93%9C%EB%B6%81_%EB%8B%A8%EB%A9%B4.pdf&sfn=guide_20220621133058_7558.pdf",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "약학연구세미나와 지역약국실습 사례",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "2023 학과 안내의 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-PROJECT-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-PROJECT-01",
+          "step_indexes": [
+            0,
+            1
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M205-03",
+      "version": "0.4.2",
+      "title": "정정된 정보의 변경 기록 만들기",
+      "kind": "REFLECTION_AND_NEXT_STEP",
+      "major_code": "MAJOR_ROW_205",
+      "major_name": "약학과",
+      "exploration_group": "BIO",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
+      "scenario": "가상 제품 A의 기존 기록은 코드 012, 개정 번호 2다. 같은 제품의 가상 공식 원본에는 코드 021, 개정 번호 2라고 적혀 있다.",
+      "steps": [
+        "기존 기록에서 다른 값을 찾아 수정 전후 코드를 구분한다.",
+        "공식 원본을 대조 근거로 기록하고 바뀐 내용을 한 줄로 남긴다."
+      ],
+      "artifacts": [
+        "정보 변경 이력 예시"
+      ],
+      "example_output": "제품 A의 코드 012를 021로 정정했다. 가상 공식 원본의 개정 번호 2를 대조했다.",
+      "worksheet_columns": "수정 전 코드 / 수정 후 코드 / 대조 근거",
+      "reflection_question": "자료를 정확히 확인하고 설명의 범위를 지키는 일이 흥미로운가?",
+      "alternative": "수정 전 코드와 수정 후 코드만 나란히 말한다.",
+      "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
+      "source_ids": [
+        "m205-university",
+        "m205-extra"
+      ],
+      "major_source_relationship": "RELATED_NAME_NOT_EQUIVALENT",
+      "major_connection_note": "이 활동에서는 해당 전공의 자료를 사용한다.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 정정된 정보의 변경 기록 만들기\n\n가상 제품 A의 기존 기록은 코드 012, 개정 번호 2다. 같은 제품의 가상 공식 원본에는 코드 021, 개정 번호 2라고 적혀 있다.\n\n1. 기존 기록에서 다른 값을 찾아 수정 전후 코드를 구분한다.\n2. 공식 원본을 대조 근거로 기록하고 바뀐 내용을 한 줄로 남긴다.\n\n남길 결과물은 정보 변경 이력 예시입니다.\n\n쉬운 대안. 수정 전 코드와 수정 후 코드만 나란히 말한다.",
+      "worksheet_markdown": "## 정정된 정보의 변경 기록 만들기\n\n가상 제품 A의 기존 기록은 코드 012, 개정 번호 2다. 같은 제품의 가상 공식 원본에는 코드 021, 개정 번호 2라고 적혀 있다.\n\n| 수정 전 코드 | 수정 후 코드 | 대조 근거 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m205-university",
+          "title": "2024 교육과정편람",
+          "publisher": "고려대학교",
+          "url": "https://kuedu.korea.ac.kr/educa/notice/notice01.do?articleNo=801408&attachNo=308537&mode=download&totalBoardNo=&totalNoticeYn=",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "의약정보학·의약품분석학 I·의약품품질과학",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m205-extra",
+          "title": "2023 학생부전형 가이드북",
+          "publisher": "중앙대학교",
+          "url": "https://admission.cau.ac.kr/file/download.do?ofn=2023%ED%95%99%EB%85%84%EB%8F%84+%ED%95%99%EC%83%9D%EB%B6%80%EC%A0%84%ED%98%95+%EA%B0%80%EC%9D%B4%EB%93%9C%EB%B6%81_%EB%8B%A8%EB%A9%B4.pdf&sfn=guide_20220621133058_7558.pdf",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "약학연구세미나와 지역약국실습 사례",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "2023 학과 안내의 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [],
+      "preference_mapping_basis": [],
+      "revised_on": "2026-11-20"
+    }
+  ]
+}

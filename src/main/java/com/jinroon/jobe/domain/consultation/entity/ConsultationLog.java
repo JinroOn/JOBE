@@ -9,7 +9,6 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,7 +29,4 @@ public class ConsultationLog extends BaseEntitySupport {
     @Lob
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
-
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
 }

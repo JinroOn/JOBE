@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M48_20261120_ISSUE130_V1",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_48",
+  "majorName": "세무학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "세무학과는 조세 제도를 회계·법·경제 관점에서 공부한다. 커리어넷은 비교조세법, 세무회계와 세법총론을 과목으로 소개한다.",
+      "sourceIds": [
+        "m48-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "서울시립대 학과소개는 세무회계원리와 조세법총론, 미시조세론을 각각 회계·법·재정 분야 교과로 제시한다. 입학처 전공안내서에는 4학년 교과 사례로 조세정책실무가 나온다.",
+      "sourceIds": [
+        "m48-university",
+        "m48-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m48-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 세무학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=286",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2021-07-01 갱신 응답에서 확인한 세무학과는 조세 제도를 회계·법·경제 관점에서 공부한다. 커리어넷은 비교조세법, 세무회계와 세법총론을 과목으로 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m48-university",
+      "publisher": "서울시립대학교 세무학과",
+      "title": "학과소개",
+      "url": "https://www.uos.ac.kr/social/depart/taxation/introduct.do?epTicket=LOG&identified=anonymous",
+      "supports": "세무회계원리·조세법총론·미시조세론",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m48-extra",
+      "publisher": "서울시립대학교",
+      "title": "전공안내서 세무학과",
+      "url": "https://admission.uos.ac.kr/files/admission/information/%EC%8B%9C%EB%A6%BD%EB%8C%80%ED%95%99%EA%B5%90-%EC%A0%84%EA%B3%B5%EC%95%88%EB%82%B4%EC%84%9C-%EC%9B%B9%EC%9A%A9-0905-7-12.pdf",
+      "supports": "세무학과 4학년 교과과정 표의 조세정책실무 과목",
+      "limitation": "서울시립대학교 입학처가 게시한 세무학과 학부 교과 편성 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-21"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

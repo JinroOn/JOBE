@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M132_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_132",
+  "majorName": "정보통신공학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "정보통신공학과는 통신과 네트워크로 정보를 정확하게 전달하는 방법을 배운다. 커리어넷은 정보통신공학개론과 디지털논리설계를 소개한다.",
+      "sourceIds": [
+        "m132-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "인천대 2026 정보통신공학과에는 통신공학이론, 컴퓨터네트워크와 디지털통신이 있다. 동국대 2025 교과 안내도 데이터통신과 컴퓨터네트워크를 제시한다.",
+      "sourceIds": [
+        "m132-university",
+        "m132-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m132-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 정보통신공학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=490",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2020-12-02 갱신 응답에서 확인한 정보통신공학과는 통신과 네트워크로 정보를 정확하게 전달하는 방법을 배운다. 커리어넷은 정보통신공학개론과 디지털논리설계를 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m132-university",
+      "publisher": "인천대학교",
+      "title": "2026 정보통신공학과 교육과정표",
+      "url": "https://eng.inu.ac.kr/bbs/ite/373/378129/download.do",
+      "supports": "통신공학이론·컴퓨터네트워크·디지털통신",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m132-extra",
+      "publisher": "동국대학교",
+      "title": "2025 교육과정 편람",
+      "url": "https://ir.dongguk.edu/majormap/lib/2025CourseCatalog.pdf",
+      "supports": "정보통신공학과의 데이터통신·컴퓨터네트워크",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

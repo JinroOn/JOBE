@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.2",
+  "major_mapping_version": "FIXTURE_MAJOR_MAPPING_V1_0",
+  "content_status": "REVIEWED",
+  "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+  "domain_review_status": "PENDING",
+  "created_at": "2026-11-14",
+  "policy": {
+    "note": "[테스트용 가짜 데이터] 실제 문항·규칙이 아니다"
+  },
+  "majors": [
+    {
+      "major_code": "FIX_MAJOR_1",
+      "major_name": "가짜전공1",
+      "source_file": "fixture",
+      "exploration_group": "HUM",
+      "interest_structure": "PRIMARY",
+      "primary_interest_axes": [
+        "INT_A"
+      ],
+      "secondary_interest_axes": [
+        "INT_B"
+      ],
+      "activity_axes": [
+        "ACT_A",
+        "ACT_B",
+        "ACT_C"
+      ],
+      "learning_content_sets": [
+        "LEARN_A"
+      ],
+      "comparison_sets": [
+        "CMP-AB"
+      ],
+      "comparison_targets": [
+        "A"
+      ],
+      "proposed_caution_tags": [],
+      "approved_caution_tags": [],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "evidence": [
+        "[테스트용 가짜 데이터] 실제 문항·규칙이 아니다"
+      ],
+      "review_note": "[테스트용 가짜 데이터] 실제 문항·규칙이 아니다"
+    },
+    {
+      "major_code": "FIX_MAJOR_2",
+      "major_name": "가짜전공2",
+      "source_file": "fixture",
+      "exploration_group": "ENG",
+      "interest_structure": "SINGLE",
+      "primary_interest_axes": [
+        "INT_B"
+      ],
+      "secondary_interest_axes": [
+        "INT_B"
+      ],
+      "activity_axes": [
+        "ACT_A",
+        "ACT_B",
+        "ACT_C"
+      ],
+      "learning_content_sets": [
+        "LEARN_A"
+      ],
+      "comparison_sets": [
+        "CMP-AB"
+      ],
+      "comparison_targets": [
+        "A"
+      ],
+      "proposed_caution_tags": [],
+      "approved_caution_tags": [],
+      "content_status": "REVIEWED",
+      "implementation_review_status": "APPROVED_FOR_IMPLEMENTATION",
+      "domain_review_status": "PENDING",
+      "evidence": [
+        "[테스트용 가짜 데이터] 실제 문항·규칙이 아니다"
+      ],
+      "review_note": "[테스트용 가짜 데이터] 실제 문항·규칙이 아니다"
+    }
+  ]
+}

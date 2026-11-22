@@ -1,0 +1,186 @@
+{
+  "majorName": "응급구조학과",
+  "standardMajorName": "응급구조학과",
+  "category": "의약계열",
+  "description": "응급구조학과는 응급구조와 관련된 핵심 개념과 방법을 배우고, 이를 실제 사례와 문제 해결에 적용하는 전공이다. 주요 학습 내용은 응급환자관리학 및 실습, 응급구조학개론, 심폐소생술 등이며, 학생은 전공 지식을 개념 이해에 그치지 않고 분석, 실습, 사례 해석으로 연결한다. 전공 탐색 과정에서는 심폐소생술 자격증 따기, 의료봉사활동 등의 활동을 통해 자료를 다루고 현장 감각을 넓힐 수 있다. 협업윤리, 자기관리, 의사소통을 기르는 태도가 중요하며, 사람의 건강과 안전을 세심하게 다루는 일에 관심이 있는 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=10014",
+      "retrievedAt": "2026-06-04",
+      "query": "응급구조학과",
+      "matchedMajorName": "응급구조학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
+  "excelRowNumber": 206,
+  "usableForRecommendation": true,
+  "selectedWeightSource": "baseExcelWeights",
+  "weightSelectionPolicy": {
+    "reason": "여러 세션 간 데이터셋 유사성을 보장하기 위해 서비스 기준값은 엑셀 전공 행의 baseExcelWeights로 고정한다.",
+    "baseExcelAvailable": true,
+    "externalSourcesUsedForScoring": false,
+    "finalWeightsUsed": false,
+    "selectionWarnings": []
+  },
+  "serviceCompetencyScores": {
+    "mathLogicalScore": 9,
+    "problemSolvingScore": 12,
+    "infoTechUtilizationScore": 4,
+    "softwareImplementationScore": 3,
+    "systemUnderstandingScore": 8,
+    "dataAnalysisScore": 10,
+    "communicationScore": 15,
+    "collaborationScore": 20,
+    "selfManagementScore": 20
+  },
+  "serviceTendencyScores": {
+    "logicalInquiryScore": 10,
+    "practicalTechnicalScore": 3,
+    "artCreativeScore": 0,
+    "socialCooperationScore": 20,
+    "bioHealthScore": 27,
+    "educationGuidanceScore": 16,
+    "theoryAcademicScore": 8,
+    "dataAnalysisTypeScore": 9,
+    "systemOperationScore": 7
+  },
+  "coreAxes": {
+    "competencyTopAxes": [
+      {
+        "axis": "collaboration",
+        "label": "협업윤리",
+        "score": 20
+      },
+      {
+        "axis": "selfManagement",
+        "label": "자기관리",
+        "score": 20
+      },
+      {
+        "axis": "communication",
+        "label": "의사소통",
+        "score": 15
+      }
+    ],
+    "tendencyTopAxes": [
+      {
+        "axis": "bioHealth",
+        "label": "생명보건형",
+        "score": 27
+      },
+      {
+        "axis": "socialCooperation",
+        "label": "사회협력형",
+        "score": 20
+      },
+      {
+        "axis": "educationGuidance",
+        "label": "교육지도형",
+        "score": 16
+      }
+    ],
+    "competencyLowAxes": [
+      {
+        "axis": "softwareImplementation",
+        "label": "구현력",
+        "score": 3
+      },
+      {
+        "axis": "infoTechUtilization",
+        "label": "정보기술",
+        "score": 4
+      }
+    ],
+    "tendencyLowAxes": [
+      {
+        "axis": "artCreative",
+        "label": "예술창의형",
+        "score": 0
+      },
+      {
+        "axis": "practicalTechnical",
+        "label": "실용기술형",
+        "score": 3
+      }
+    ]
+  },
+  "differentiation": {
+    "focusKeywords": [
+      "응급 처치",
+      "현장 대응",
+      "환자 이송",
+      "생명 안전"
+    ],
+    "comparisonNote": "유사 전공과 비교하면 응급 처치, 현장 대응, 환자 이송을 함께 다루며 생명 안전까지 연결하는 점이 두드러진다.",
+    "bestFor": "응급 처치, 현장 대응 같은 주제에 관심이 있고 사람의 건강과 안전을 세심하게 살피고 전문 지식으로 돕는 활동에 끌리는 학생",
+    "lessCentralThanSimilarMajors": [
+      "시장 전략 수립",
+      "순수 창작 활동",
+      "공학 구조 설계"
+    ]
+  },
+  "scoringPolicy": {
+    "competencyWeight": 0.6,
+    "tendencyWeight": 0.4,
+    "useCompetencyOnlyWhenTendencyMissing": true,
+    "fitCalculationNote": "When tendency scores are missing, use competencyFit only. When both exist, finalFit = competencyFit * 0.6 + tendencyFit * 0.4."
+  },
+  "relatedOccupations": [
+    {
+      "occupationName": "공중보건연구원",
+      "relatedMajor": "응급구조학과",
+      "excelRowNumber": 224
+    },
+    {
+      "occupationName": "응급구조사",
+      "relatedMajor": "응급구조학과",
+      "excelRowNumber": 225
+    }
+  ],
+  "occupationDatasetRecommended": true,
+  "dbSeed": {
+    "major_name": "응급구조학과",
+    "category": "의약계열",
+    "req_math_logical": 9,
+    "req_problem_solving": 12,
+    "req_info_tech_utilization": 4,
+    "req_software_implementation": 3,
+    "req_system_understanding": 8,
+    "req_data_analysis": 10,
+    "req_communication": 15,
+    "req_collaboration": 20,
+    "req_self_management": 20,
+    "tendency_logical_inquiry": 10,
+    "tendency_practical_technical": 3,
+    "tendency_art_creative": 0,
+    "tendency_social_cooperation": 20,
+    "tendency_bio_health": 27,
+    "tendency_education_guidance": 16,
+    "tendency_theory_academic": 8,
+    "tendency_data_analysis_type": 9,
+    "tendency_system_operation": 7,
+    "dataset_version": "major-service-excel-v1",
+    "data_quality_status": "approved"
+  },
+  "sourceSummary": {
+    "sourceType": "excel_only",
+    "sourceFile": "docs/Intensity and competency for majors and occupations 9 axis weights.xlsx",
+    "sourceMajorDataset": "datasets/majors/major-row-206-응급구조학과.quantitative.json",
+    "externalSourcesUsedForScoring": false
+  },
+  "validation": {
+    "dataQualityStatus": "approved",
+    "validationErrors": [],
+    "reviewWarnings": []
+  },
+  "metadata": {
+    "datasetVersion": "major-service-excel-v1",
+    "createdAt": "2026-05-23T12:10:15Z",
+    "lastUpdated": "2026-05-23T12:10:15Z",
+    "dataType": "service_ready_quantitative_excel_only"
+  }
+}

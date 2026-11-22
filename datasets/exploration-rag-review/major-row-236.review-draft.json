@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M236_20261120_SCOPE_V2_ISSUE130_V1",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_236",
+  "majorName": "디지털디자인학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "디지털디자인학과는 디지털 환경에서 정보와 콘텐츠를 시각적으로 구성하는 방법을 배운다. 커리어넷은 모바일디자인과 웹콘텐츠디자인을 예로 든다.",
+      "sourceIds": [
+        "m236-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "한국공학대 미디어디자인공학전공의 2026학년도 인터페이스디자인과 모바일디자인은 사용자 요구와 화면 구성을 살펴보는 과목 사례다. 경희대 시각디자인전공의 디지털디자인·사용자경험도 이 주제와 겹치는 교과 영역이다.",
+      "sourceIds": [
+        "m236-university",
+        "m236-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m236-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 디지털디자인학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=10150",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2021-06-22 갱신 응답에서 확인한 디지털디자인학과는 디지털 환경에서 정보와 콘텐츠를 시각적으로 구성하는 방법을 배운다. 커리어넷은 모바일디자인과 웹콘텐츠디자인을 예로 든다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m236-university",
+      "publisher": "한국공학대학교 디자인공학부",
+      "title": "미디어디자인공학전공 교과목 개요",
+      "url": "https://design.tukorea.ac.kr/design/3859/subview.do",
+      "supports": "2026학년도 인터페이스디자인·모바일디자인",
+      "limitation": "한국공학대 미디어디자인공학전공의 화면 구성·사용자 요구와 직접 연결되는 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m236-extra",
+      "publisher": "경희대학교",
+      "title": "시각디자인 전공 교육과정 체계도",
+      "url": "https://vd.khu.ac.kr/upload/contents/202510/202510100513225530.pdf",
+      "supports": "디지털디자인과 사용자경험 영역",
+      "limitation": "경희대 시각디자인전공의 디지털 화면과 사용자경험에 해당하는 범위만 사용한다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제",
+    "유사 학과·세부 전공 자료에서 확인한 사례의 전공 전체 일반화, 필수 교과·이수·자격 요건 단정"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

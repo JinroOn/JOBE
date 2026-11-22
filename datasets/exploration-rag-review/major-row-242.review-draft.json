@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M242_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_242",
+  "majorName": "실내디자인학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "실내디자인학과는 이용 목적에 맞게 실내 공간, 가구와 환경을 설계한다. 커리어넷은 조명디자인 실무와 실내건축환경을 소개한다.",
+      "sourceIds": [
+        "m242-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "건국대 글로컬캠퍼스 실내디자인학과에는 주거공간디자인, 조명디자인과 업무공간종합설계가 있다. 대림대 안내는 실내공간을 계획하는 스페이스 플래닝을 소개한다.",
+      "sourceIds": [
+        "m242-university",
+        "m242-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m242-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 실내디자인학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=10024",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2022-04-12 갱신 응답에서 확인한 실내디자인학과는 이용 목적에 맞게 실내 공간, 가구와 환경을 설계한다. 커리어넷은 조명디자인 실무와 실내건축환경을 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m242-university",
+      "publisher": "건국대학교 글로컬캠퍼스 실내디자인학과",
+      "title": "개설과목 및 교과목해설",
+      "url": "https://interior.kku.ac.kr/cms/FR_CON/index.do?MENU_ID=100",
+      "supports": "주거공간디자인·조명디자인·업무공간종합설계",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m242-extra",
+      "publisher": "대림대학교",
+      "title": "실내디자인학과 학사학위과정",
+      "url": "https://www.daelim.ac.kr/cms/FrCon/index.do?MENU_ID=1990",
+      "supports": "스페이스 플래닝의 실내공간 설계",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

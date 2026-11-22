@@ -28,16 +28,12 @@ public class Session extends BaseEntitySupport {
     @Column(name = "expires_at", nullable = false)
     private LocalDateTime expiresAt;
 
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
-
     public static Session issue(Long userId, String refreshToken, String deviceInfo, LocalDateTime expiresAt) {
         Session session = new Session();
         session.userId = userId;
         session.refreshToken = refreshToken;
         session.deviceInfo = deviceInfo;
         session.expiresAt = expiresAt;
-        session.createdAt = LocalDateTime.now();
         return session;
     }
 

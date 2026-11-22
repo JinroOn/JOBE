@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M241_20261120",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_241",
+  "majorName": "시각디자인학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "시각디자인학과는 글자, 그림과 기호로 정보와 메시지를 전달하는 방법을 공부한다. 커리어넷은 타이포그라피와 시각디자인을 소개한다.",
+      "sourceIds": [
+        "m241-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "국민대 시각디자인학과는 타이포그래피, 그래픽 디자인I와 대비·강조의 시각 표현을 안내한다. 경성대 시각디자인학과 타이포그래픽스는 문자 구조와 디자인 활용을 다룬다.",
+      "sourceIds": [
+        "m241-university",
+        "m241-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m241-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 시각디자인학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=309",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2025-10-30 갱신 응답에서 확인한 시각디자인학과는 글자, 그림과 기호로 정보와 메시지를 전달하는 방법을 공부한다. 커리어넷은 타이포그라피와 시각디자인을 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m241-university",
+      "publisher": "국민대학교 시각디자인학과",
+      "title": "교육과정",
+      "url": "https://cms.kookmin.ac.kr/vcd/menu/education.do",
+      "supports": "타이포그래피·그래픽 디자인I·대비와 강조",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m241-extra",
+      "publisher": "경성대학교 시각디자인학과",
+      "title": "교과목 설명",
+      "url": "https://kscms.ks.ac.kr/vdesign/CMS/Contents/Contents.do?mCode=MN032",
+      "supports": "타이포그래픽스의 문자 구조 및 활용",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

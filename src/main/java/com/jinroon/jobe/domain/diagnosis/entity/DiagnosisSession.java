@@ -37,4 +37,42 @@ public class DiagnosisSession extends BaseEntitySupport {
 
     @Column(name = "completed_at")
     private LocalDateTime completedAt;
+
+    /** 새 진단 회차 시작. 상태·시작 시각은 서버가 정한다. */
+    public static DiagnosisSession start(Long userId, Integer currentStep, String inputSnapshot) {
+        DiagnosisSession session = new DiagnosisSession();
+        session.userId = userId;
+        session.status = DiagnosisStatus.in_progress;
+        session.currentStep = currentStep == null ? 1 : currentStep;
+        session.inputSnapshot = inputSnapshot;
+        session.startedAt = LocalDateTime.now();
+        return session;
+    }
+
+    /**
+     * 진행 중 회차의 단계·입력값·상태 변경. null이면 기존 값을 유지한다.
+     * 완료(completed) 전환은 결과 완료 API(ResultService.completeDiagnosisResultForUser)에서만 한다.
+     */
+    public void updateProgress(Integer currentStep, String inputSnapshot, DiagnosisStatus status) {
+        if (currentStep != null) {
+            this.currentStep = currentStep;
+        }
+        if (inputSnapshot != null) {
+            this.inputSnapshot = inputSnapshot;
+        }
+        if (status != null) {
+            this.status = status;
+        }
+    }
+
+    public boolean isCompleted() {
+        return status == DiagnosisStatus.completed;
+    }
+
+    public void complete(LocalDateTime completedAt) {
+        this.status = DiagnosisStatus.completed;
+        if (this.completedAt == null) {
+            this.completedAt = completedAt;
+        }
+    }
 }

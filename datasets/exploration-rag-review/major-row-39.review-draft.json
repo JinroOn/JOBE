@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M39_20261119",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-19",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_39",
+  "majorName": "경영학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "경영학과는 조직이 목표를 달성하도록 사람, 예산과 운영 방식을 관리하는 방법을 배운다. 커리어넷은 마케팅관리, 인사관리와 재무관리를 대표 과목으로 소개한다.",
+      "sourceIds": [
+        "careernet-m39"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "서울대 학부 교과목에는 마케팅사례연구와 회계정보와 경영의사결정이 있다. 연세대 수강신청 안내는 생산및운영관리에서 이름을 바꾼 오퍼레이션관리를 제시한다.",
+      "sourceIds": [
+        "m39-university-1",
+        "m39-university-2"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "careernet-m39",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 경영학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=23",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2021-06-22 갱신 응답의 조직의 관리·운영과 마케팅관리·인사관리·재무관리",
+      "limitation": "대표 학과 정보다. 학교별 교과목은 대학 공식 자료에서 확인한다.",
+      "accessedAt": "2026-11-19"
+    },
+    {
+      "sourceId": "m39-university-1",
+      "publisher": "서울대학교 경영대학",
+      "title": "학부 교과목 일람",
+      "url": "https://cba.snu.ac.kr/academics/undergraduate/curriculum/03",
+      "supports": "마케팅사례연구와 회계정보와 경영의사결정",
+      "limitation": "서울대학교 과목 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-19"
+    },
+    {
+      "sourceId": "m39-university-2",
+      "publisher": "연세대학교 경영대학",
+      "title": "2025-2학기 학부 수강신청 안내",
+      "url": "https://ysb.yonsei.ac.kr/ysb/news/notice.do?article.offset=110&articleLimit=10&articleNo=24027&mode=view&srCategoryId=21",
+      "supports": "생산및운영관리의 개편 과목명인 오퍼레이션관리",
+      "limitation": "해당 학기 과목명 안내이며 졸업 필수 여부는 인용하지 않는다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-19"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

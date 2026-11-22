@@ -1,0 +1,186 @@
+{
+  "majorName": "경영학과",
+  "standardMajorName": "경영학과",
+  "category": "사회계열",
+  "description": "경영학과는 기업과 조직이 목표를 달성하기 위해 사람, 자원, 정보, 시장을 어떻게 분석하고 운영하는지 배우는 전공이다. 학생은 인사관리, 마케팅, 재무, 회계, 생산운영, 경영전략 같은 주제를 통해 조직의 의사결정 과정과 시장 환경을 이해한다. 사례 분석, 자료 해석, 발표와 토론을 통해 문제를 진단하고 실행 가능한 대안을 제안하는 활동이 많다. 숫자와 데이터를 해석하는 능력뿐 아니라 사람과 조직을 이해하고 설득하는 의사소통 능력에 관심이 있는 학생에게 잘 맞을 수 있다.",
+  "descriptionSources": [
+    {
+      "sourceName": "커리어넷 대학교 학과정보",
+      "sourceUrl": "https://www.career.go.kr/cloud/w/major/uView?seq=23",
+      "retrievedAt": "2026-06-04",
+      "query": "경영학과",
+      "matchedMajorName": "경영학과",
+      "usedFor": [
+        "description"
+      ],
+      "matchType": "exact"
+    }
+  ],
+  "excelRowNumber": 39,
+  "usableForRecommendation": true,
+  "selectedWeightSource": "baseExcelWeights",
+  "weightSelectionPolicy": {
+    "reason": "여러 세션 간 데이터셋 유사성을 보장하기 위해 서비스 기준값은 엑셀 전공 행의 baseExcelWeights로 고정한다.",
+    "baseExcelAvailable": true,
+    "externalSourcesUsedForScoring": false,
+    "finalWeightsUsed": false,
+    "selectionWarnings": []
+  },
+  "serviceCompetencyScores": {
+    "mathLogicalScore": 8,
+    "problemSolvingScore": 14,
+    "infoTechUtilizationScore": 5,
+    "softwareImplementationScore": 2,
+    "systemUnderstandingScore": 12,
+    "dataAnalysisScore": 15,
+    "communicationScore": 20,
+    "collaborationScore": 13,
+    "selfManagementScore": 11
+  },
+  "serviceTendencyScores": {
+    "logicalInquiryScore": 12,
+    "practicalTechnicalScore": 4,
+    "artCreativeScore": 4,
+    "socialCooperationScore": 29,
+    "bioHealthScore": 1,
+    "educationGuidanceScore": 11,
+    "theoryAcademicScore": 10,
+    "dataAnalysisTypeScore": 18,
+    "systemOperationScore": 11
+  },
+  "coreAxes": {
+    "competencyTopAxes": [
+      {
+        "axis": "communicationScore",
+        "label": "의사소통",
+        "score": 20
+      },
+      {
+        "axis": "dataAnalysisScore",
+        "label": "데이터분석",
+        "score": 15
+      },
+      {
+        "axis": "problemSolvingScore",
+        "label": "문제해결",
+        "score": 14
+      }
+    ],
+    "tendencyTopAxes": [
+      {
+        "axis": "socialCooperationScore",
+        "label": "사회협력형",
+        "score": 29
+      },
+      {
+        "axis": "dataAnalysisTypeScore",
+        "label": "데이터분석형",
+        "score": 18
+      },
+      {
+        "axis": "logicalInquiryScore",
+        "label": "논리탐구형",
+        "score": 12
+      }
+    ],
+    "competencyLowAxes": [
+      {
+        "axis": "softwareImplementationScore",
+        "label": "구현력",
+        "score": 2
+      },
+      {
+        "axis": "infoTechUtilizationScore",
+        "label": "정보기술",
+        "score": 5
+      }
+    ],
+    "tendencyLowAxes": [
+      {
+        "axis": "bioHealthScore",
+        "label": "생명보건형",
+        "score": 1
+      },
+      {
+        "axis": "practicalTechnicalScore",
+        "label": "실용기술형",
+        "score": 4
+      }
+    ]
+  },
+  "differentiation": {
+    "focusKeywords": [
+      "조직 운영",
+      "마케팅",
+      "재무",
+      "경영전략"
+    ],
+    "comparisonNote": "유사 전공과 비교하면 조직 운영, 마케팅, 재무을 함께 다루며 경영전략까지 연결하는 점이 두드러진다.",
+    "bestFor": "조직 운영, 마케팅 같은 주제에 관심이 있고 사람과 조직, 사회 문제를 자료와 사례로 이해하고 현실적인 해결 방향을 고민하는 활동에 끌리는 학생",
+    "lessCentralThanSimilarMajors": [
+      "실험실 기초 연구",
+      "순수 예술 실기",
+      "공학 장치 제작"
+    ]
+  },
+  "scoringPolicy": {
+    "competencyWeight": 0.6,
+    "tendencyWeight": 0.4,
+    "useCompetencyOnlyWhenTendencyMissing": true,
+    "fitCalculationNote": "When tendency scores are missing, use competencyFit only. When both exist, finalFit = competencyFit * 0.6 + tendencyFit * 0.4."
+  },
+  "relatedOccupations": [
+    {
+      "occupationName": "금융관리자",
+      "relatedMajor": "경영학과",
+      "excelRowNumber": 54
+    },
+    {
+      "occupationName": "은행원",
+      "relatedMajor": "경영학과",
+      "excelRowNumber": 55
+    }
+  ],
+  "occupationDatasetRecommended": true,
+  "dbSeed": {
+    "major_name": "경영학과",
+    "category": "사회계열",
+    "req_math_logical": 8,
+    "req_problem_solving": 14,
+    "req_info_tech_utilization": 5,
+    "req_software_implementation": 2,
+    "req_system_understanding": 12,
+    "req_data_analysis": 15,
+    "req_communication": 20,
+    "req_collaboration": 13,
+    "req_self_management": 11,
+    "tendency_logical_inquiry": 12,
+    "tendency_practical_technical": 4,
+    "tendency_art_creative": 4,
+    "tendency_social_cooperation": 29,
+    "tendency_bio_health": 1,
+    "tendency_education_guidance": 11,
+    "tendency_theory_academic": 10,
+    "tendency_data_analysis_type": 18,
+    "tendency_system_operation": 11,
+    "dataset_version": "major-service-excel-v1",
+    "data_quality_status": "approved"
+  },
+  "sourceSummary": {
+    "sourceType": "excel_only",
+    "sourceFile": "docs/Intensity and competency for majors and occupations 9 axis weights.xlsx",
+    "sourceMajorDataset": "datasets/majors/major-row-39-경영학과.quantitative.json",
+    "externalSourcesUsedForScoring": false
+  },
+  "validation": {
+    "dataQualityStatus": "approved",
+    "validationErrors": [],
+    "reviewWarnings": []
+  },
+  "metadata": {
+    "datasetVersion": "major-service-excel-v1",
+    "createdAt": "2026-06-04",
+    "lastUpdated": "2026-06-04",
+    "dataType": "service_ready_quantitative_excel_only"
+  }
+}

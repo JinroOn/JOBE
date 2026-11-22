@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M207_20261120_SCOPE_V2_ISSUE130_V1",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_207",
+  "majorName": "의학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "커리어넷 의예과 안내는 의학 공부의 준비 단계에서 다루는 의학개론과 생명윤리를 소개한다.",
+      "sourceIds": [
+        "m207-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "연세대 전공가이드북은 의예과와 의학과를 구분하며, 의학과에서는 주요 임상 분야의 실습을 안내한다. 성균관대 의학과의 2024학년도 로드맵에는 의료윤리1과 의료윤리2가 있다.",
+      "sourceIds": [
+        "m207-university",
+        "m207-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m207-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 의예과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=413",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "의학개론과 생명윤리",
+      "limitation": "의예과로 표시해 의학 공부의 준비 단계에만 사용한다. 의학과의 임상실습은 의과대학의 학년별 자료를 근거로 한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m207-university",
+      "publisher": "연세대학교",
+      "title": "전공가이드북 의과대학",
+      "url": "https://admission.yonsei.ac.kr/seoul/admission/html/data/major/2026/yonsei_allways_251028.pdf",
+      "supports": "의예과와 의학과 과정의 구분 및 의학과 임상 실습",
+      "limitation": "연세대학교 운영 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m207-extra",
+      "publisher": "성균관대학교",
+      "title": "2024학년도 학과별 교육과정 로드맵 의과대학",
+      "url": "https://www.skku.edu/_res/skku/etc/y241028_1.pdf",
+      "supports": "의학과 의료윤리1·의료윤리2",
+      "limitation": "성균관대학교 의학과의 2024학년도 교과 편성 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제",
+    "유사 학과·세부 전공 자료에서 확인한 사례의 전공 전체 일반화, 필수 교과·이수·자격 요건 단정"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

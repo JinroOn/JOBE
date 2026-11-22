@@ -1,0 +1,349 @@
+{
+  "schema_version": "1.1",
+  "major_mapping_version": "MAJOR_MAPPING_V1_2_IMPLEMENTATION_CANDIDATE",
+  "content_status": "DRAFT",
+  "implementation_review_status": "PENDING",
+  "domain_review_status": "PENDING",
+  "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M211_DRAFT_V3_ISSUE130_V1",
+  "provenance": {
+    "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
+    "scope": "SINGLE_MAJOR_DEV_REVIEW",
+    "parent_file_sha256": "98e0d997a7af59dfe2dab16e1156dad04933809a620b120ddd5990c8797c2e7c"
+  },
+  "activities": [
+    {
+      "activity_id": "DRAFT-M211-01",
+      "version": "0.4.3",
+      "title": "치의학의 기초와 심화 교육에서 질문 고르기",
+      "kind": "INFORMATION",
+      "major_code": "MAJOR_ROW_211",
+      "major_name": "치의예과",
+      "exploration_group": "BIO",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "탐색 주제: 치의학 기초 학습과 형태 기록. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
+      "scenario": "조선대 전공 안내는 예과와 치의학과를 구분하며 치의학입문·치의학연구방법론을 교과 사례로 소개한다.",
+      "steps": [
+        "제공된 두 과목명에서 기초 학습과 연구 방법에 해당하는 주제를 각각 찾는다.",
+        "기초에서 이해하고 싶은 내용과 나중에 이어질 질문을 구분한다."
+      ],
+      "artifacts": [
+        "교육 단계별 탐색 질문"
+      ],
+      "example_output": "치의학입문에서 치아 모양을 어떻게 설명하는지 궁금하다.",
+      "worksheet_columns": "공식 자료에서 확인한 명칭 / 내가 더 알아볼 주제 / 미확인 질문 / 확인 경로",
+      "reflection_question": "소개를 읽은 뒤 관심이 생긴 부분과 여전히 모르는 부분은 무엇인가요?",
+      "alternative": "제공된 단계와 과목명만 사용한다.",
+      "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
+      "source_ids": [
+        "m211-careernet",
+        "m211-university",
+        "m211-extra"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 치의학의 기초와 심화 교육에서 질문 고르기\n\n조선대 전공 안내는 예과와 치의학과를 구분하며 치의학입문·치의학연구방법론을 교과 사례로 소개한다.\n\n1. 제공된 두 과목명에서 기초 학습과 연구 방법에 해당하는 주제를 각각 찾는다.\n2. 기초에서 이해하고 싶은 내용과 나중에 이어질 질문을 구분한다.\n\n남길 결과물은 교육 단계별 탐색 질문입니다.\n\n쉬운 대안. 제공된 단계와 과목명만 사용한다.",
+      "worksheet_markdown": "## 치의학의 기초와 심화 교육에서 질문 고르기\n\n조선대 전공 안내는 예과와 치의학과를 구분하며 치의학입문·치의학연구방법론을 교과 사례로 소개한다.\n\n| 단계 | 과목 | 질문 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m211-careernet",
+          "title": "대학교 학과정보 치의예과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=564",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2020-12-02 갱신 응답에서 확인한 치의예과는 구강과 인체를 이해하는 치의학 기초를 준비하는 과정이다. 커리어넷은 구강생화학과 치아형태학 등 치의학 관련 과목 사례를 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m211-university",
+          "title": "치의예과 전공 안내",
+          "publisher": "조선대학교 치과대학",
+          "url": "https://dentistry.chosun.ac.kr/sites/dentistry/down/009_2024_dentistry_dentistry.pdf",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "예과와 치의학과의 구분, 치의학입문·치의학연구방법론",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m211-extra",
+          "title": "입학가이드",
+          "publisher": "연세대학교 치과대학",
+          "url": "https://dentistry.yonsei.ac.kr/dentistry/admission/college/guide.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "치의예과 이후 치의학과 학습 사례",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-READ-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-READ-01",
+          "step_indexes": [
+            0
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M211-02",
+      "version": "0.4.1",
+      "title": "가상 치아 모형 그림을 관찰 기준으로 정리하기",
+      "kind": "SMALL_TASK",
+      "major_code": "MAJOR_ROW_211",
+      "major_name": "치의예과",
+      "exploration_group": "BIO",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 10,
+        "max": 15,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "경험할 주제: 치의학 기초 학습과 형태 기록. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
+      "scenario": "가상 모형은 A가 얇고 가장자리가 평평한 그림, B는 넓고 표면에 작은 돌기가 있는 그림이다.",
+      "steps": [
+        "두 모형의 폭과 표면 특징을 표에 기록한다.",
+        "관찰한 모양과 실제 쓰임을 확인할 때 필요한 자료를 나눈다."
+      ],
+      "artifacts": [
+        "모형 관찰표와 질문"
+      ],
+      "example_output": "B는 폭이 넓고 작은 돌기가 그려져 있다. 실제 치아에서 어느 위치인지 공식 모형 자료를 참고한다.",
+      "worksheet_columns": "모형 / 폭 / 표면 / 확인할 내용",
+      "reflection_question": "작은 형태를 정확히 관찰하고 기록하는 일이 흥미로운가?",
+      "alternative": "실제 구강을 검사하지 않고 창작 그림만 비교한다.",
+      "safety_boundary": "모형은 해부학적으로 검증된 치아 그림이 아니며 진단·실습 없음",
+      "source_ids": [
+        "m211-careernet",
+        "m211-university",
+        "m211-extra"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 가상 치아 모형 그림을 관찰 기준으로 정리하기\n\n가상 모형은 A가 얇고 가장자리가 평평한 그림, B는 넓고 표면에 작은 돌기가 있는 그림이다.\n\n1. 두 모형의 폭과 표면 특징을 표에 기록한다.\n2. 관찰한 모양과 실제 쓰임을 확인할 때 필요한 자료를 나눈다.\n\n남길 결과물은 모형 관찰표와 질문입니다.\n\n쉬운 대안. 실제 구강을 검사하지 않고 창작 그림만 비교한다.",
+      "worksheet_markdown": "## 가상 치아 모형 그림을 관찰 기준으로 정리하기\n\n가상 모형은 A가 얇고 가장자리가 평평한 그림, B는 넓고 표면에 작은 돌기가 있는 그림이다.\n\n| 모형 | 폭 | 표면 | 확인할 내용 |\n|---|---|---|---|\n| | | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m211-careernet",
+          "title": "대학교 학과정보 치의예과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=564",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2020-12-02 갱신 응답에서 확인한 치의예과는 구강과 인체를 이해하는 치의학 기초를 준비하는 과정이다. 커리어넷은 구강생화학과 치아형태학 등 치의학 관련 과목 사례를 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m211-university",
+          "title": "치의예과 전공 안내",
+          "publisher": "조선대학교 치과대학",
+          "url": "https://dentistry.chosun.ac.kr/sites/dentistry/down/009_2024_dentistry_dentistry.pdf",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "예과와 치의학과의 구분, 치의학입문·치의학연구방법론",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m211-extra",
+          "title": "입학가이드",
+          "publisher": "연세대학교 치과대학",
+          "url": "https://dentistry.yonsei.ac.kr/dentistry/admission/college/guide.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "치의예과 이후 치의학과 학습 사례",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-PROJECT-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-PROJECT-01",
+          "step_indexes": [
+            0,
+            1
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M211-03",
+      "version": "0.4.3",
+      "title": "모형의 관찰 관점에 따른 차이를 적기",
+      "kind": "REFLECTION_AND_NEXT_STEP",
+      "major_code": "MAJOR_ROW_211",
+      "major_name": "치의예과",
+      "exploration_group": "BIO",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
+      "scenario": "가상 그림 A는 얇고 가장자리가 평평한 모형, B는 폭이 넓고 표면에 작은 돌기가 있는 모형이다. 두 모형은 위에서 본 그림으로 제시됐다.",
+      "steps": [
+        "위에서 본 그림과 옆에서 본 그림에 각각 드러날 요소를 생각한다.",
+        "추가 시점에서 확인할 특징을 하나 적는다."
+      ],
+      "artifacts": [
+        "추가 관찰 시점과 이유"
+      ],
+      "example_output": "옆 그림을 보아 높이와 가장자리의 모양을 확인한다.",
+      "worksheet_columns": "경험한 과정 / 흥미·불편·모름 / 확인 질문 / 확인 경로 / 다음 행동",
+      "reflection_question": "작은 형태를 정확히 관찰하고 기록하는 일이 흥미로운가?",
+      "alternative": "그림 대신 글로 관찰 항목을 쓴다.",
+      "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
+      "source_ids": [
+        "m211-careernet",
+        "m211-university",
+        "m211-extra"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 모형의 관찰 관점에 따른 차이를 적기\n\n가상 그림 A는 얇고 가장자리가 평평한 모형, B는 폭이 넓고 표면에 작은 돌기가 있는 모형이다. 두 모형은 위에서 본 그림으로 제시됐다.\n\n1. 위에서 본 그림과 옆에서 본 그림에 각각 드러날 요소를 생각한다.\n2. 추가 시점에서 확인할 특징을 하나 적는다.\n\n남길 결과물은 추가 관찰 시점과 이유입니다.\n\n쉬운 대안. 그림 대신 글로 관찰 항목을 쓴다.",
+      "worksheet_markdown": "## 모형의 관찰 관점에 따른 차이를 적기\n\n가상 그림 A는 얇고 가장자리가 평평한 모형, B는 폭이 넓고 표면에 작은 돌기가 있는 모형이다. 두 모형은 위에서 본 그림으로 제시됐다.\n\n| 기존 시점 | 추가 시점 | 확인 특징 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m211-careernet",
+          "title": "대학교 학과정보 치의예과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=564",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2020-12-02 갱신 응답에서 확인한 치의예과는 구강과 인체를 이해하는 치의학 기초를 준비하는 과정이다. 커리어넷은 구강생화학과 치아형태학 등 치의학 관련 과목 사례를 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m211-university",
+          "title": "치의예과 전공 안내",
+          "publisher": "조선대학교 치과대학",
+          "url": "https://dentistry.chosun.ac.kr/sites/dentistry/down/009_2024_dentistry_dentistry.pdf",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "예과와 치의학과의 구분, 치의학입문·치의학연구방법론",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        },
+        {
+          "source_id": "m211-extra",
+          "title": "입학가이드",
+          "publisher": "연세대학교 치과대학",
+          "url": "https://dentistry.yonsei.ac.kr/dentistry/admission/college/guide.do",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "치의예과 이후 치의학과 학습 사례",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [],
+      "preference_mapping_basis": [],
+      "revised_on": "2026-11-20"
+    }
+  ]
+}

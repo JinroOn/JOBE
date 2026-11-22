@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M238_20261120_SCOPE_V2",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_238",
+  "majorName": "미술학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "미술학과는 여러 매체로 작품을 만들고 미술 이론을 공부한다. 커리어넷은 색채학, 정밀묘사, 크로키와 조소를 교과 사례로 소개한다.",
+      "sourceIds": [
+        "m238-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "국민대 미술학부 회화전공의 드로잉으로사고하기는 미술 활동 중 드로잉을 다루는 교과 사례다. 경희대 미술학부 교육과정에는 시각예술론이 있다.",
+      "sourceIds": [
+        "m238-university",
+        "m238-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m238-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 미술학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=184",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2020-12-02 갱신 응답에서 확인한 미술학과는 여러 매체로 작품을 만들고 미술 이론을 공부한다. 커리어넷은 색채학, 정밀묘사, 크로키와 조소를 교과 사례로 소개한다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m238-university",
+      "publisher": "국민대학교 미술학부",
+      "title": "회화전공 교과과정",
+      "url": "https://art.kookmin.ac.kr/finearts/painting/curriculum",
+      "supports": "드로잉으로사고하기",
+      "limitation": "국민대 미술학부 회화전공에서 드로잉을 다루는 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m238-extra",
+      "publisher": "경희대학교 미술대학",
+      "title": "미술학부 교육과정 요약표",
+      "url": "https://khuart.khu.ac.kr/khuart/cmmn/file/fileDown.do?atchFileId=1a5a0ea6454c405ea5de406db2a08b49&bbsId=&fileSn=2&menuNo=1400205",
+      "supports": "시각예술론",
+      "limitation": "해당 대학의 학부 교과 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제",
+    "유사 학과·세부 전공 자료에서 확인한 사례의 전공 전체 일반화, 필수 교과·이수·자격 요건 단정"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

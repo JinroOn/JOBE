@@ -28,6 +28,20 @@ public class UserConsent extends BaseEntitySupport {
     @Column(name = "terms_version", nullable = false, length = 20)
     private String termsVersion;
 
+    @Column(name = "marketing_agreed", nullable = false)
+    private Boolean marketingAgreed;
+
     @Column(name = "agreed_at", nullable = false)
     private LocalDateTime agreedAt;
+
+    public static UserConsent of(Long userId, Boolean termsAgreed, Boolean privacyAgreed, Boolean marketingAgreed) {
+        UserConsent consent = new UserConsent();
+        consent.userId = userId;
+        consent.termsAgreed = termsAgreed;
+        consent.privacyAgreed = privacyAgreed;
+        consent.marketingAgreed = marketingAgreed;
+        consent.termsVersion = "1.0";
+        consent.agreedAt = LocalDateTime.now();
+        return consent;
+    }
 }

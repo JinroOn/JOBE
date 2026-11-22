@@ -1,0 +1,127 @@
+{
+  "majorName": "소프트웨어학과",
+  "standardMajorName": "소프트웨어학과",
+  "category": "공학계열",
+  "excelRowNumber": 1001,
+  "usableForRecommendation": true,
+  "selectedWeightSource": "manualServiceDataset",
+  "description": "소프트웨어학과는 요구사항을 분석하고 웹, 앱, 서버, 인공지능 서비스 등 실제 소프트웨어를 설계하고 구현하는 전공이다.",
+  "sourceSummary": "소프트웨어학과는 구현력, 문제해결, 정보기술 활용을 중심으로 전공 적합도를 판단하며, 실습 프로젝트와 협업 개발 경험이 중요한 학습 맥락이다.",
+  "relatedJobs": [
+    "소프트웨어개발자",
+    "백엔드개발자",
+    "프론트엔드개발자",
+    "앱개발자",
+    "QA엔지니어",
+    "서비스기획자"
+  ],
+  "keywords": [
+    "소프트웨어",
+    "프로그래밍",
+    "서비스 구현",
+    "웹 개발",
+    "앱 개발",
+    "프로젝트"
+  ],
+  "weightSelectionPolicy": {
+    "reason": "QA DB의 소프트웨어학과 exact matching을 위해 서비스 데이터셋을 보강했다.",
+    "baseExcelAvailable": false,
+    "externalSourcesUsedForScoring": false,
+    "finalWeightsUsed": true,
+    "selectionWarnings": []
+  },
+  "serviceCompetencyScores": {
+    "mathLogicalScore": 13,
+    "problemSolvingScore": 16,
+    "infoTechUtilizationScore": 16,
+    "softwareImplementationScore": 18,
+    "systemUnderstandingScore": 13,
+    "dataAnalysisScore": 8,
+    "communicationScore": 6,
+    "collaborationScore": 8,
+    "selfManagementScore": 10
+  },
+  "serviceTendencyScores": {
+    "logicalInquiryScore": 12,
+    "practicalTechnicalScore": 27,
+    "artCreativeScore": 5,
+    "socialCooperationScore": 5,
+    "bioHealthScore": 0,
+    "educationGuidanceScore": 1,
+    "theoryAcademicScore": 7,
+    "dataAnalysisTypeScore": 15,
+    "systemOperationScore": 25
+  },
+  "coreAxes": {
+    "competencyTopAxes": [
+      {
+        "axis": "softwareImplementationScore",
+        "axisKoreanName": "구현력",
+        "score": 18
+      },
+      {
+        "axis": "problemSolvingScore",
+        "axisKoreanName": "문제해결",
+        "score": 16
+      },
+      {
+        "axis": "infoTechUtilizationScore",
+        "axisKoreanName": "정보기술",
+        "score": 16
+      }
+    ],
+    "tendencyTopAxes": [
+      {
+        "axis": "practicalTechnicalScore",
+        "axisKoreanName": "실용기술형",
+        "score": 27
+      },
+      {
+        "axis": "systemOperationScore",
+        "axisKoreanName": "시스템운용형",
+        "score": 25
+      },
+      {
+        "axis": "dataAnalysisTypeScore",
+        "axisKoreanName": "데이터분석형",
+        "score": 15
+      }
+    ],
+    "competencyLowAxes": [
+      {
+        "axis": "communicationScore",
+        "axisKoreanName": "의사소통",
+        "score": 6
+      },
+      {
+        "axis": "collaborationScore",
+        "axisKoreanName": "협업윤리",
+        "score": 8
+      }
+    ],
+    "tendencyLowAxes": [
+      {
+        "axis": "bioHealthScore",
+        "axisKoreanName": "생명보건형",
+        "score": 0
+      },
+      {
+        "axis": "educationGuidanceScore",
+        "axisKoreanName": "교육지도형",
+        "score": 1
+      }
+    ]
+  },
+  "differentiation": {
+    "focusKeywords": ["서비스 구현", "프로그래밍", "사용자 요구 분석", "협업 개발"],
+    "comparisonNote": "컴퓨터공학과가 컴퓨팅 시스템 전반과 이론 기반을 함께 다룬다면, 소프트웨어학과는 실제 서비스 구현과 응용 개발 프로젝트의 비중이 더 크다.",
+    "bestFor": "아이디어를 프로그램으로 구현하고 사용자 문제를 소프트웨어로 해결하는 활동에 끌리는 학생",
+    "lessCentralThanSimilarMajors": ["하드웨어 회로", "반도체 공정", "순수 통계 이론"]
+  },
+  "scoringPolicy": {
+    "competencyWeight": 0.6,
+    "tendencyWeight": 0.4,
+    "useCompetencyOnlyWhenTendencyMissing": true,
+    "fitCalculationNote": "When tendency scores are missing, use competencyFit only. When both exist, finalFit = competencyFit * 0.6 + tendencyFit * 0.4."
+  }
+}

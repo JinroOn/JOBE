@@ -11,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -18,7 +19,8 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@Table(name = "users")
+// init.sql의 uk_users_email과 같은 이름을 써서 ddl-auto가 중복 제약을 만들지 않게 한다.
+@Table(name = "users", uniqueConstraints = @UniqueConstraint(name = "uk_users_email", columnNames = "email"))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseEntitySupport {
 
@@ -53,14 +55,7 @@ public class User extends BaseEntitySupport {
     @Column(name = "last_login_at")
     private LocalDateTime lastLoginAt;
 
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
-
     public static User registerEmailUser(String email, String passwordHash, String nickname, String profileImageUrl) {
-        LocalDateTime now = LocalDateTime.now();
         User user = new User();
         user.email = email;
         user.passwordHash = passwordHash;
@@ -69,31 +64,55 @@ public class User extends BaseEntitySupport {
         user.role = UserRole.member;
         user.loginType = LoginType.email;
         user.status = UserStatus.active;
-        user.createdAt = now;
-        user.updatedAt = now;
         return user;
     }
 
+    /**
+     * 관리자 API(POST /api/users)용 생성. 필드를 명시적으로 받아 그 외 값은 설정하지 않는다.
+     * role·loginType·status가 없으면 일반 이메일 회원의 기본값을 쓴다.
+     */
+    public static User createByAdmin(String email, String passwordHash, String nickname, String profileImageUrl,
+                                     UserRole role, LoginType loginType, UserStatus status) {
+        User user = registerEmailUser(email, passwordHash, nickname, profileImageUrl);
+        if (role != null) {
+            user.role = role;
+        }
+        if (loginType != null) {
+            user.loginType = loginType;
+        }
+        if (status != null) {
+            user.status = status;
+        }
+        return user;
+    }
+
+    /**
+     * 본인 프로필 수정. 닉네임·프로필 이미지만 바꿀 수 있고 null이면 기존 값을 유지한다.
+     */
+    public void updateProfile(String nickname, String profileImageUrl) {
+        if (nickname != null) {
+            this.nickname = nickname;
+        }
+        if (profileImageUrl != null) {
+            this.profileImageUrl = profileImageUrl;
+        }
+    }
+
     public void recordLogin() {
-        LocalDateTime now = LocalDateTime.now();
-        this.lastLoginAt = now;
-        this.updatedAt = now;
+        this.lastLoginAt = LocalDateTime.now();
     }
 
     public void verifyEmail() {
         LocalDateTime now = LocalDateTime.now();
         this.emailVerifiedAt = now;
-        this.updatedAt = now;
     }
 
     public void changePassword(String passwordHash) {
         this.passwordHash = passwordHash;
-        this.updatedAt = LocalDateTime.now();
     }
 
     public void withdraw() {
         this.status = UserStatus.withdrawn;
-        this.updatedAt = LocalDateTime.now();
     }
 
     public boolean isActive() {

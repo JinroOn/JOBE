@@ -1,0 +1,307 @@
+{
+  "schema_version": "1.1",
+  "major_mapping_version": "MAJOR_MAPPING_V1_2_IMPLEMENTATION_CANDIDATE",
+  "content_status": "DRAFT",
+  "implementation_review_status": "PENDING",
+  "domain_review_status": "PENDING",
+  "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M247_DRAFT_V3_ISSUE130_V1",
+  "provenance": {
+    "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
+    "scope": "SINGLE_MAJOR_DEV_REVIEW",
+    "parent_file_sha256": "98e0d997a7af59dfe2dab16e1156dad04933809a620b120ddd5990c8797c2e7c"
+  },
+  "activities": [
+    {
+      "activity_id": "DRAFT-M247-01",
+      "version": "0.4.0",
+      "title": "의복 디자인에서 소재와 형태의 질문 나누기",
+      "kind": "INFORMATION",
+      "major_code": "MAJOR_ROW_247",
+      "major_name": "패션디자인학과",
+      "exploration_group": "ART",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "탐색 주제: 패션 디자인과 구성·재료 선택. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
+      "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
+      "steps": [
+        "공식 편성표에서 재료와 구성에 해당하는 과목을 읽는다.",
+        "가상 우비의 소재와 실루엣에서 각각 확인할 항목을 쓴다."
+      ],
+      "artifacts": [
+        "의복 요구와 확인 질문"
+      ],
+      "example_output": "소재에서는 물이 묻었을 때의 상태를, 구성에서는 가방을 멘 채 여유가 있는지 살핀다.",
+      "worksheet_columns": "공식 자료에서 확인한 명칭 / 내가 더 알아볼 주제 / 미확인 질문 / 확인 경로",
+      "reflection_question": "소개를 읽은 뒤 관심이 생긴 부분과 여전히 모르는 부분은 무엇인가요?",
+      "alternative": "제공 과목명과 가상 의복만 활용한다.",
+      "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
+      "source_ids": [
+        "m247-careernet",
+        "m247-university"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 의복 디자인에서 소재와 형태의 질문 나누기\n\n의복재료학과 기초의복구성을 참고한다.\n\n1. 공식 편성표에서 재료와 구성에 해당하는 과목을 읽는다.\n2. 가상 우비의 소재와 실루엣에서 각각 확인할 항목을 쓴다.\n\n남길 결과물은 의복 요구와 확인 질문입니다.\n\n쉬운 대안. 제공 과목명과 가상 의복만 활용한다.",
+      "worksheet_markdown": "## 의복 디자인에서 소재와 형태의 질문 나누기\n\n의복재료학과 기초의복구성을 참고한다.\n\n| 과목 | 관찰 대상 | 질문 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m247-careernet",
+          "title": "대학교 학과정보 패션디자인학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=10156",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2024-12-23 갱신 응답에서 확인한 패션디자인학과는 의복과 장신구의 형태를 구상하고 소재와 제작 방법을 공부한다. 커리어넷은 색채연구, 의복구성과 패션 패턴 메이킹을 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m247-university",
+          "title": "2026 학사요람 패션디자인학과 교육과정 편성표",
+          "publisher": "한남대학교",
+          "url": "https://hnu.kr/kor/about/ACollegeBulletin2026/ACollegeBulletin13.pdf",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "의복재료학·기초의복구성·패션디자인발상·패션소재의이해와활용",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-READ-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-READ-01",
+          "step_indexes": [
+            0
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M247-02",
+      "version": "0.4.1",
+      "title": "같은 가상 의복의 소재와 여유를 비교하기",
+      "kind": "SMALL_TASK",
+      "major_code": "MAJOR_ROW_247",
+      "major_name": "패션디자인학과",
+      "exploration_group": "ART",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 10,
+        "max": 15,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "경험할 주제: 패션 디자인과 구성·재료 선택. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
+      "scenario": "가상 A는 얇고 잘 접히는 소재, B는 두껍고 모양을 잘 유지하는 소재다. 이동용 겉옷을 구상한다.",
+      "steps": [
+        "가방에 넣기 쉬운 옷과 형태를 유지하는 옷의 요구를 표에 적는다.",
+        "한 경우에 맞는 소재를 고르고 팔이나 가방이 움직일 여유를 스케치한다."
+      ],
+      "artifacts": [
+        "소재 선택과 종이 형태 시안"
+      ],
+      "example_output": "쉽게 접어 들고 다니려면 A를 고른다. 가방 위로 입을 경우 등 쪽 여유를 표시한다.",
+      "worksheet_columns": "용도 / 소재 / 필요한 여유 / 이유",
+      "reflection_question": "표현과 실제 사용 조건을 함께 조정하는 일이 흥미로운가?",
+      "alternative": "바느질이나 재료 구매 없이 글과 선만 사용한다.",
+      "safety_boundary": "재봉·재단·신체 치수 수집 없이 종이 설계로 완료",
+      "source_ids": [
+        "m247-careernet",
+        "m247-university"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 같은 가상 의복의 소재와 여유를 비교하기\n\n가상 A는 얇고 잘 접히는 소재, B는 두껍고 모양을 잘 유지하는 소재다. 이동용 겉옷을 구상한다.\n\n1. 가방에 넣기 쉬운 옷과 형태를 유지하는 옷의 요구를 표에 적는다.\n2. 한 경우에 맞는 소재를 고르고 팔이나 가방이 움직일 여유를 스케치한다.\n\n남길 결과물은 소재 선택과 종이 형태 시안입니다.\n\n쉬운 대안. 바느질이나 재료 구매 없이 글과 선만 사용한다.",
+      "worksheet_markdown": "## 같은 가상 의복의 소재와 여유를 비교하기\n\n가상 A는 얇고 잘 접히는 소재, B는 두껍고 모양을 잘 유지하는 소재다. 이동용 겉옷을 구상한다.\n\n| 용도 | 소재 | 필요한 여유 | 이유 |\n|---|---|---|---|\n| | | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m247-careernet",
+          "title": "대학교 학과정보 패션디자인학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=10156",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2024-12-23 갱신 응답에서 확인한 패션디자인학과는 의복과 장신구의 형태를 구상하고 소재와 제작 방법을 공부한다. 커리어넷은 색채연구, 의복구성과 패션 패턴 메이킹을 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m247-university",
+          "title": "2026 학사요람 패션디자인학과 교육과정 편성표",
+          "publisher": "한남대학교",
+          "url": "https://hnu.kr/kor/about/ACollegeBulletin2026/ACollegeBulletin13.pdf",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "의복재료학·기초의복구성·패션디자인발상·패션소재의이해와활용",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-PROJECT-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-PROJECT-01",
+          "step_indexes": [
+            0,
+            1
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M247-03",
+      "version": "0.4.3",
+      "title": "소재 설명만으로 결정하기 어려운 점 적기",
+      "kind": "REFLECTION_AND_NEXT_STEP",
+      "major_code": "MAJOR_ROW_247",
+      "major_name": "패션디자인학과",
+      "exploration_group": "ART",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
+      "scenario": "가상 이동용 겉옷의 소재 A는 얇고 잘 접히며, B는 두껍고 모양을 잘 유지한다. 접어 들고 다니기 쉬운 것을 기준으로 A를 고른 예를 살펴본다.",
+      "steps": [
+        "편안함이나 내구성처럼 자료에 없는 특성 하나를 고른다.",
+        "어떤 관찰 자료가 있으면 소재 선택을 재검토할지 적는다."
+      ],
+      "artifacts": [
+        "다음 소재 확인 계획"
+      ],
+      "example_output": "접고 펼친 뒤 주름이 얼마나 남는지 비교 기록을 살핀다.",
+      "worksheet_columns": "경험한 과정 / 흥미·불편·모름 / 확인 질문 / 확인 경로 / 다음 행동",
+      "reflection_question": "표현과 실제 사용 조건을 함께 조정하는 일이 흥미로운가?",
+      "alternative": "제공 예시에서 질문 하나만 적는다.",
+      "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
+      "source_ids": [
+        "m247-careernet",
+        "m247-university"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 소재 설명만으로 결정하기 어려운 점 적기\n\n가상 이동용 겉옷의 소재 A는 얇고 잘 접히며, B는 두껍고 모양을 잘 유지한다. 접어 들고 다니기 쉬운 것을 기준으로 A를 고른 예를 살펴본다.\n\n1. 편안함이나 내구성처럼 자료에 없는 특성 하나를 고른다.\n2. 어떤 관찰 자료가 있으면 소재 선택을 재검토할지 적는다.\n\n남길 결과물은 다음 소재 확인 계획입니다.\n\n쉬운 대안. 제공 예시에서 질문 하나만 적는다.",
+      "worksheet_markdown": "## 소재 설명만으로 결정하기 어려운 점 적기\n\n가상 이동용 겉옷의 소재 A는 얇고 잘 접히며, B는 두껍고 모양을 잘 유지한다. 접어 들고 다니기 쉬운 것을 기준으로 A를 고른 예를 살펴본다.\n\n| 가상 용도 | 모르는 특성 | 다음 자료 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "m247-careernet",
+          "title": "대학교 학과정보 패션디자인학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=10156",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2024-12-23 갱신 응답에서 확인한 패션디자인학과는 의복과 장신구의 형태를 구상하고 소재와 제작 방법을 공부한다. 커리어넷은 색채연구, 의복구성과 패션 패턴 메이킹을 소개한다.",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다."
+        },
+        {
+          "source_id": "m247-university",
+          "title": "2026 학사요람 패션디자인학과 교육과정 편성표",
+          "publisher": "한남대학교",
+          "url": "https://hnu.kr/kor/about/ACollegeBulletin2026/ACollegeBulletin13.pdf",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "의복재료학·기초의복구성·패션디자인발상·패션소재의이해와활용",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-20",
+          "usage_scope": "해당 대학의 학부 교과 사례다."
+        }
+      ],
+      "preference_question_ids": [],
+      "preference_mapping_basis": [],
+      "revised_on": "2026-11-20"
+    }
+  ]
+}

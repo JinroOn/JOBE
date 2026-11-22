@@ -1,0 +1,349 @@
+{
+  "schema_version": "1.1",
+  "major_mapping_version": "MAJOR_MAPPING_V1_2_IMPLEMENTATION_CANDIDATE",
+  "content_status": "DRAFT",
+  "implementation_review_status": "PENDING",
+  "domain_review_status": "PENDING",
+  "preference_policy_version": "ACTIVITY_PREFERENCE_MAPPING_V1_0",
+  "version": "ACTIVITY_CATALOG_DEV_REVIEW_M166_DRAFT_V3_ISSUE130_V1",
+  "provenance": {
+    "parent_version": "ACTIVITY_CATALOG_V2_DRAFT",
+    "scope": "SINGLE_MAJOR_DEV_REVIEW",
+    "parent_file_sha256": "98e0d997a7af59dfe2dab16e1156dad04933809a620b120ddd5990c8797c2e7c"
+  },
+  "activities": [
+    {
+      "activity_id": "DRAFT-M166-01",
+      "version": "0.4.0",
+      "title": "운동을 설명하는 수업과 실험을 익히는 수업 비교하기",
+      "kind": "INFORMATION",
+      "major_code": "MAJOR_ROW_166",
+      "major_name": "물리학과",
+      "exploration_group": "SCI",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "탐색 주제: 물리량과 모형 해석. 공개 교과목 정보와 연결해 다음 질문을 만든다.",
+      "scenario": "공개 학과 정보에서 과목명만 확인한다. 강의계획서·과제 내용까지 읽었다고 쓰지 않는다.",
+      "steps": [
+        "공식 자료에서 두 과목명을 읽고 역학은 힘과 운동, 물리학실험(A-1)은 회로 측정이라는 차이를 표에 적는다.",
+        "각 수업에서 확인해 보고 싶은 질문을 적는다."
+      ],
+      "artifacts": [
+        "두 수업에서 다루는 대상과 질문을 담은 표"
+      ],
+      "example_output": "역학에서 같은 물체에 작용하는 힘이 달라지면 움직임을 어떻게 설명할까?",
+      "worksheet_columns": "공식 자료에서 확인한 명칭 / 내가 더 알아볼 주제 / 미확인 질문 / 확인 경로",
+      "reflection_question": "소개를 읽은 뒤 관심이 생긴 부분과 여전히 모르는 부분은 무엇인가요?",
+      "alternative": "공식 사이트를 열기 어렵다면 제공 과목명과 설명으로 두 대상을 비교한다.",
+      "safety_boundary": "외부 계정·원문 응답 제출 없이 수행. 출처의 취업/적성 설명이나 점수는 추천 입력으로 가져오지 않음.",
+      "source_ids": [
+        "careernet-m166",
+        "m166-university-1",
+        "m166-university-2"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 운동을 설명하는 수업과 실험을 익히는 수업 비교하기\n\n서울대의 역학과 연세대의 물리학실험(A-1) 과목명을 참고한다.\n\n1. 공식 자료에서 두 과목명을 읽고 역학은 힘과 운동, 물리학실험(A-1)은 회로 측정이라는 차이를 표에 적는다.\n2. 각 수업에서 확인해 보고 싶은 질문을 적는다.\n\n남길 결과물은 두 수업에서 다루는 대상과 질문을 담은 표입니다.\n\n쉬운 대안. 공식 사이트를 열기 어렵다면 제공 과목명과 설명으로 두 대상을 비교한다.",
+      "worksheet_markdown": "## 운동을 설명하는 수업과 실험을 익히는 수업 비교하기\n\n서울대의 역학과 연세대의 물리학실험(A-1) 과목명을 참고한다.\n\n| 과목 | 다루는 대상 | 질문 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "careernet-m166",
+          "title": "대학교 학과정보 물리학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=177",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2026-06-18 갱신 응답의 관찰과 실험으로 자연 현상을 설명한다는 학과 개요 및 역학·열물리학·양자역학",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "대표 학과 정보다. 학교별 교과목은 대학 공식 자료에서 확인한다."
+        },
+        {
+          "source_id": "m166-university-1",
+          "title": "학부 교과과정",
+          "publisher": "서울대학교 물리천문학부",
+          "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "물리학 전공 과목 사례인 역학·양자물리·열과 통계물리",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "서울대학교 물리학전공 사례다."
+        },
+        {
+          "source_id": "m166-university-2",
+          "title": "교과과정 및 교과목 모식도",
+          "publisher": "연세대학교 물리학과",
+          "url": "https://physics.yonsei.ac.kr/faculty/curriculum",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "물리학실험(A-1)과 전산물리 안내",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "연세대학교 과목 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-READ-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-READ-01",
+          "step_indexes": [
+            0
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M166-02",
+      "version": "0.4.1",
+      "title": "같은 거리라도 걸린 시간에 따라 속력이 달라지는지 살피기",
+      "kind": "SMALL_TASK",
+      "major_code": "MAJOR_ROW_166",
+      "major_name": "물리학과",
+      "exploration_group": "SCI",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 10,
+        "max": 15,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "경험할 주제: 물리량과 모형 해석. 일부 과정을 가상 자료로 경험하고 더 알아볼 점을 찾는다.",
+      "scenario": "가상 측정값 두 건이다. A는 장난감 자동차가 60cm를 3초에, B는 60cm를 5초에 이동했다.",
+      "steps": [
+        "거리와 시간을 표에 쓰고 거리÷시간으로 구간 평균 속력을 비교한다.",
+        "평균값만으로 자동차가 구간 내내 일정하게 움직였는지 판단할 수 있는지를 적는다."
+      ],
+      "artifacts": [
+        "단위와 해석 한계를 포함하는 평균 속력 표"
+      ],
+      "example_output": "A는 20cm/초, B는 12cm/초다. 중간 시점의 거리 기록이 없으므로 구간 안의 속력 변화를 알 수 없다.",
+      "worksheet_columns": "기록 / 거리 cm / 시간 초 / 평균 속력 cm/초 / 해석 한계",
+      "reflection_question": "현상을 수치와 그림으로 나타내는 일이 흥미로운가?",
+      "alternative": "나눗셈보다 먼저 같은 거리를 더 짧은 시간에 간 기록을 표시한다.",
+      "safety_boundary": "실제 낙하·충돌·레이저 등 실험 없이 제공 자료 사용",
+      "source_ids": [
+        "careernet-m166",
+        "m166-university-1",
+        "m166-university-2"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 같은 거리라도 걸린 시간에 따라 속력이 달라지는지 살피기\n\n가상 측정값 두 건이다. A는 장난감 자동차가 60cm를 3초에, B는 60cm를 5초에 이동했다.\n\n1. 거리와 시간을 표에 쓰고 거리÷시간으로 구간 평균 속력을 비교한다.\n2. 평균값만으로 자동차가 구간 내내 일정하게 움직였는지 판단할 수 있는지를 적는다.\n\n남길 결과물은 단위와 해석 한계를 포함하는 평균 속력 표입니다.\n\n쉬운 대안. 나눗셈보다 먼저 같은 거리를 더 짧은 시간에 간 기록을 표시한다.",
+      "worksheet_markdown": "## 같은 거리라도 걸린 시간에 따라 속력이 달라지는지 살피기\n\n가상 측정값 두 건이다. A는 장난감 자동차가 60cm를 3초에, B는 60cm를 5초에 이동했다.\n\n| 기록 | 거리 cm | 시간 초 | 평균 속력 cm/초 | 해석 한계 |\n|---|---|---|---|---|\n| | | | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "careernet-m166",
+          "title": "대학교 학과정보 물리학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=177",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2026-06-18 갱신 응답의 관찰과 실험으로 자연 현상을 설명한다는 학과 개요 및 역학·열물리학·양자역학",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "대표 학과 정보다. 학교별 교과목은 대학 공식 자료에서 확인한다."
+        },
+        {
+          "source_id": "m166-university-1",
+          "title": "학부 교과과정",
+          "publisher": "서울대학교 물리천문학부",
+          "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "물리학 전공 과목 사례인 역학·양자물리·열과 통계물리",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "서울대학교 물리학전공 사례다."
+        },
+        {
+          "source_id": "m166-university-2",
+          "title": "교과과정 및 교과목 모식도",
+          "publisher": "연세대학교 물리학과",
+          "url": "https://physics.yonsei.ac.kr/faculty/curriculum",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "물리학실험(A-1)과 전산물리 안내",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "연세대학교 과목 사례다."
+        }
+      ],
+      "preference_question_ids": [
+        "ACTIVITY-PROJECT-01"
+      ],
+      "preference_mapping_basis": [
+        {
+          "question_id": "ACTIVITY-PROJECT-01",
+          "step_indexes": [
+            0,
+            1
+          ],
+          "rationale": "제시 자료로 해당 활동 방법을 수행하는 단계다."
+        }
+      ],
+      "revised_on": "2026-11-20"
+    },
+    {
+      "activity_id": "DRAFT-M166-03",
+      "version": "0.4.3",
+      "title": "다음 관찰에서 한 가지를 더 기록하기",
+      "kind": "REFLECTION_AND_NEXT_STEP",
+      "major_code": "MAJOR_ROW_166",
+      "major_name": "물리학과",
+      "exploration_group": "SCI",
+      "catalog_membership": "EXAMPLE_BUNDLE_ONLY",
+      "score_effect": "NONE",
+      "changes_recommendation": false,
+      "content_status": "DRAFT",
+      "implementation_review_status": "PENDING",
+      "domain_review_status": "PENDING",
+      "allowed_use": "AUTHORING_REVIEW_ONLY",
+      "public_use_enabled": false,
+      "audience_proposal": "고등학생 대상 전공 탐색 초안. 학생 검증 전",
+      "duration_minutes_proposal": {
+        "min": 5,
+        "max": 10,
+        "measured": false
+      },
+      "requirements": {
+        "paid_tools": false,
+        "external_account": false,
+        "coding_experience": false,
+        "materials": []
+      },
+      "purpose": "한 번의 과제로 전공 결론을 내리지 않고 질문·자료·다음 행동을 정한다.",
+      "scenario": "가상 자동차는 A 기록에서 60cm를 3초에, B 기록에서 60cm를 5초에 이동했다. 중간 거리와 시각은 기록하지 않았다.",
+      "steps": [
+        "구간 안에서 속력이 바뀌는지 살피려면 어떤 추가 자료가 필요한지 정한다.",
+        "비교할 때 동일하게 유지할 조건 하나와 기록할 값을 적는다."
+      ],
+      "artifacts": [
+        "비교 조건과 새로 측정할 값을 적은 계획"
+      ],
+      "example_output": "같은 출발선에서 시작하고, 20cm와 40cm를 지날 때의 시간을 추가로 기록한다.",
+      "worksheet_columns": "경험한 과정 / 흥미·불편·모름 / 확인 질문 / 확인 경로 / 다음 행동",
+      "reflection_question": "현상을 수치와 그림으로 나타내는 일이 흥미로운가?",
+      "alternative": "직접 측정 준비가 없어도 계획만 적으면 된다.",
+      "safety_boundary": "대화 상대·답변·인터뷰 참여를 필수로 하지 않으며 활동 기록을 능력·적성 점수로 전환하지 않음.",
+      "source_ids": [
+        "careernet-m166",
+        "m166-university-1",
+        "m166-university-2"
+      ],
+      "major_source_relationship": "EXACT_NAME",
+      "major_connection_note": "명칭 일치. 단일 기관의 소개이며 모든 대학을 대표하지 않음.",
+      "major_connection_status": "AUTHOR_PROPOSAL_DOMAIN_REVIEW_PENDING",
+      "authoring_method": "AI_AUTHORED_DRAFT_WITH_PUBLIC_SOURCE_REFERENCES",
+      "created_on": "2026-11-14",
+      "human_reviewer": null,
+      "human_reviewed_at": null,
+      "student_trial": null,
+      "submission_policy": "PERSONAL_RECORD_NO_UPLOAD_REQUIRED",
+      "body_markdown": "## 다음 관찰에서 한 가지를 더 기록하기\n\n가상 자동차는 A 기록에서 60cm를 3초에, B 기록에서 60cm를 5초에 이동했다. 중간 거리와 시각은 기록하지 않았다.\n\n1. 구간 안에서 속력이 바뀌는지 살피려면 어떤 추가 자료가 필요한지 정한다.\n2. 비교할 때 동일하게 유지할 조건 하나와 기록할 값을 적는다.\n\n남길 결과물은 비교 조건과 새로 측정할 값을 적은 계획입니다.\n\n쉬운 대안. 직접 측정 준비가 없어도 계획만 적으면 된다.",
+      "worksheet_markdown": "## 다음 관찰에서 한 가지를 더 기록하기\n\n가상 자동차는 A 기록에서 60cm를 3초에, B 기록에서 60cm를 5초에 이동했다. 중간 거리와 시각은 기록하지 않았다.\n\n| 궁금한 점 | 같게 할 조건 | 기록할 값 |\n|---|---|---|\n| | | |",
+      "review_record_markdown": "공식 출처와 기존 전공별 활동을 대조해 편집한 검토 초안이다. 학생 수행 기록과 사람의 승인 판정은 검토 대기다.",
+      "sources": [
+        {
+          "source_id": "careernet-m166",
+          "title": "대학교 학과정보 물리학과",
+          "publisher": "커리어넷",
+          "url": "https://www.career.go.kr/cloud/w/major/uView?seq=177",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "2026-06-18 갱신 응답의 관찰과 실험으로 자연 현상을 설명한다는 학과 개요 및 역학·열물리학·양자역학",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "대표 학과 정보다. 학교별 교과목은 대학 공식 자료에서 확인한다."
+        },
+        {
+          "source_id": "m166-university-1",
+          "title": "학부 교과과정",
+          "publisher": "서울대학교 물리천문학부",
+          "url": "https://physics.snu.ac.kr/academics/undergraduate/curriculum",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "물리학 전공 과목 사례인 역학·양자물리·열과 통계물리",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "서울대학교 물리학전공 사례다."
+        },
+        {
+          "source_id": "m166-university-2",
+          "title": "교과과정 및 교과목 모식도",
+          "publisher": "연세대학교 물리학과",
+          "url": "https://physics.yonsei.ac.kr/faculty/curriculum",
+          "language": "ko",
+          "role": "MAJOR_CONNECTION_EVIDENCE",
+          "verified_claim": "물리학실험(A-1)과 전산물리 안내",
+          "application": "전공 소개와 과목명 사례 대조",
+          "reuse_scope": "사실을 요약하고 링크를 제공한다. 가상 과제와 결과물은 서비스가 작성했다.",
+          "checked_on": "2026-11-19",
+          "usage_scope": "연세대학교 과목 사례다."
+        }
+      ],
+      "preference_question_ids": [],
+      "preference_mapping_basis": [],
+      "revised_on": "2026-11-20"
+    }
+  ]
+}

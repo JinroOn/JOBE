@@ -17,4 +17,11 @@ public class DiagnosisEnums {
         collaboration,
         self_management
     }
+
+    public enum QuestionType {
+        objective,
+        situation,
+        preference,
+        essay
+    }
 }

@@ -1,0 +1,18 @@
+services:
+  test-mysql:
+    image: mysql:8.0.46
+    # 테스트 DB는 메모리(tmpfs)에 둔다. 바이너리 로그를 켜 두면 전체 테스트 1회에 약 1GB씩 쌓여
+    # 몇 번 만에 용량이 차고 테스트가 멈추므로 끈다(복제·시점 복구가 필요 없는 일회용 DB).
+    command: ["--skip-log-bin"]
+    environment:
+      MYSQL_ROOT_PASSWORD: jobe-test-only
+      MYSQL_DATABASE: jobe_test
+    ports:
+      - "127.0.0.1:13307:3306"
+    tmpfs:
+      - /var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$${MYSQL_ROOT_PASSWORD} --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 30

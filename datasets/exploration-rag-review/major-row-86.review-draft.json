@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M86_20261120_SCOPE_V2",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_86",
+  "majorName": "과학교육과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "과학교육과는 과학 개념과 탐구 방법을 가르치는 방법을 공부한다. 커리어넷은 공통과학교과교육론과 여러 과학 교과의 교재연구 및 지도법을 예로 든다.",
+      "sourceIds": [
+        "m86-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "단국대 과학교육과의 통합과학 교과 사례에는 통합과학교육의실제, 과학탐구의실제와 중등과학실험지도가 있다. 지구과학 탐구 지도 사례는 전북대 과학교육학부 지구과학교육전공의 지구과학탐구방법 및 프로젝트지도에서 살펴볼 수 있다.",
+      "sourceIds": [
+        "m86-university",
+        "m86-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m86-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 과학교육과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=44",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "2020-12-02 갱신 응답에서 확인한 과학교육과는 과학 개념과 탐구 방법을 가르치는 방법을 공부한다. 커리어넷은 공통과학교과교육론과 여러 과학 교과의 교재연구 및 지도법을 예로 든다.",
+      "limitation": "대표 학과 안내다. 대학별 과정과 개설 여부는 공식 교육과정에서 확인한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m86-university",
+      "publisher": "단국대학교 과학교육과",
+      "title": "졸업 체크리스트",
+      "url": "https://cms.dankook.ac.kr/web/sciedu/%EC%A1%B8%EC%97%85-%EC%B2%B4%ED%81%AC%EB%A6%AC%EC%8A%A4%ED%8A%B8",
+      "supports": "통합과학교육의실제·과학탐구의실제·중등과학실험지도",
+      "limitation": "통합과학 전공 교과목 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m86-extra",
+      "publisher": "전북대학교 과학교육학부",
+      "title": "지구과학교육전공 교과과정",
+      "url": "https://earthedu.jbnu.ac.kr/earthedu/13783/subview.do",
+      "supports": "지구과학탐구방법 및 프로젝트지도",
+      "limitation": "전북대 지구과학교육전공의 관찰·탐구 지도 사례로 사용한다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제",
+    "유사 학과·세부 전공 자료에서 확인한 사례의 전공 전체 일반화, 필수 교과·이수·자격 요건 단정"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}

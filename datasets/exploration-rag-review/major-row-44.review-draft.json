@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "EXPLORATION_RAG_REVIEW_DRAFT_V1",
+  "proposedDatasetVersion": "EXPLORATION_RAG_DEV_REVIEW_M44_20261120_SCOPE_V2",
+  "status": "PENDING_HUMAN_REVIEW",
+  "scope": "DEV",
+  "preparedBy": "Codex",
+  "preparedAt": "2026-11-20",
+  "reviewerId": null,
+  "reviewedAt": null,
+  "bindingManifest": null,
+  "generationAuthorized": false,
+  "majorCode": "MAJOR_ROW_44",
+  "majorName": "미디어커뮤니케이션학과",
+  "purpose": "공식 학과 안내와 교육과정에 근거한 전공 탐색 검토 초안.",
+  "chunks": [
+    {
+      "chunkType": "description",
+      "text": "미디어를 통해 정보가 전달되고 사회에서 해석되는 방식을 살펴본다. 커리어넷 미디어학과 자료의 미디어와 사회, 디지털미디어개론은 공통 주제의 사례다.",
+      "sourceIds": [
+        "m44-careernet"
+      ]
+    },
+    {
+      "chunkType": "major_overview",
+      "text": "성균관대 미디어커뮤니케이션학과 로드맵에는 미디어산업과데이터과학입문 및 사이버커뮤니케이션론이 있다. 미디어 데이터 분석은 고려대 미디어학부의 교과 사례에서도 살펴볼 수 있다.",
+      "sourceIds": [
+        "m44-university",
+        "m44-extra"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "m44-careernet",
+      "publisher": "커리어넷",
+      "title": "대학교 학과정보 미디어학과",
+      "url": "https://www.career.go.kr/cloud/w/major/uView?seq=181",
+      "verification": "PUBLIC_PAGE_DATA_ENDPOINT_CHECKED",
+      "supports": "미디어와 사회, 디지털미디어개론",
+      "limitation": "미디어와 사회적 소통의 공통 배경으로 사용한다.",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m44-university",
+      "publisher": "성균관대학교",
+      "title": "2024학년도 학과별 교육과정 로드맵",
+      "url": "https://www.skku.edu/_res/skku/etc/y241028_1.pdf",
+      "supports": "미디어산업과데이터과학입문·사이버커뮤니케이션론",
+      "limitation": "2024 편성 사례다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    },
+    {
+      "sourceId": "m44-extra",
+      "publisher": "고려대학교 미디어대학",
+      "title": "미디어학부 교과목 소개",
+      "url": "https://mediacom.korea.ac.kr/undergraduate/subject.html",
+      "supports": "미디어 데이터 분석 관련 교과",
+      "limitation": "고려대 미디어학부의 데이터 분석 교과 사례로 사용한다.",
+      "verification": "PUBLIC_PAGE_BODY_CHECKED",
+      "accessedAt": "2026-11-20"
+    }
+  ],
+  "excludedClaims": [
+    "개인 적성 판정, 입학·취업 보장, 대학 간 일률적 개설·이수 요건",
+    "자료에 없는 수업 방식 및 공식 과제",
+    "유사 학과·세부 전공 자료에서 확인한 사례의 전공 전체 일반화, 필수 교과·이수·자격 요건 단정"
+  ],
+  "beforeApproval": [
+    "공식 출처와 문구를 검토하고 실제 검토자·판정을 기록",
+    "수집한 문서·청크와 검토 대상 버전 및 해시를 대조"
+  ]
+}
