@@ -66,8 +66,9 @@ public class ActivityRecommendationService {
         List<Long> rootReviews = approvedRootReviews == null ? catalogApprovals(root) : approvedRootReviews;
         if(rootReviews.isEmpty())return unavailable(response,"NO_APPROVED_ACTIVITIES");
         Map<String,JsonNode> embedded=new HashMap<>();payload.path("activities").forEach(a->embedded.put(a.path("activity_id").asText(),a));
-        var rows=jdbc.queryForList("SELECT * FROM exploration_activity WHERE catalog_id=? ORDER BY activity_code",number(root,"id"));
-        if(rows.size()!=embedded.size())throw ExplorationApiException.integrity();
+        var rows = activityRows(root);
+        if (rows.size() != embedded.size() || rows.isEmpty()
+                || number(rows.get(0), "actual_count") != embedded.size()) throw ExplorationApiException.integrity();
         var activityReviews = latestReviews("""
                 JOIN exploration_activity a ON a.id = r.target_id AND a.version = r.target_version
                 WHERE r.target_type = 'ACTIVITY' AND a.catalog_id = ?
@@ -89,10 +90,9 @@ public class ActivityRecommendationService {
         }
         List<Candidate> eligible=new ArrayList<>();
         for(var row:rows) {
+            if (row.get("id") == null || !bodyMatches(row)) throw ExplorationApiException.integrity();
             JsonNode item = embedded.get(row.get("activity_code").toString());
-            // The catalog seal covers this item. Match the row body to it and hash the matched content once.
-            if (item == null || !item.equals(json.read(row.get("payload_json").toString()))
-                    || !json.hex(item).equals(row.get("content_hash"))
+            if (item == null || !json.hex(item).equals(row.get("content_hash"))
                     || !item.path("activity_id").asText().equals(row.get("activity_code"))
                     || !item.path("version").asText().equals(row.get("version"))
                     || !Objects.equals(item.path("major_code").textValue(),row.get("major_code")))throw ExplorationApiException.integrity();
@@ -125,8 +125,38 @@ public class ActivityRecommendationService {
     }
 
     private Map<String,Object> selectedCatalog() {
-        var rows = jdbc.queryForList("SELECT * FROM exploration_activity_catalog WHERE version=?", selectedVersion);
+        var rows = jdbc.queryForList("""
+                SELECT c.*, SHA2(CAST(c.payload_json AS BINARY), 256) AS body_fingerprint
+                FROM exploration_activity_catalog c WHERE c.version=?
+                """, selectedVersion);
         return rows.isEmpty() ? null : rows.get(0);
+    }
+
+    private List<Map<String, Object>> activityRows(Map<String, Object> root) {
+        long catalogId = number(root, "id");
+        // Use the same catalog body as the Java seal check, even if the database uses READ COMMITTED.
+        return jdbc.queryForList("""
+                SELECT a.id, a.activity_code, a.major_code, a.version, a.content_hash,
+                       a.content_status, a.implementation_review_status, a.domain_review_status,
+                       totals.actual_count,
+                       CAST(a.payload_json AS BINARY) = CAST(expected.body AS BINARY) AS body_matches
+                FROM exploration_activity_catalog c
+                JOIN JSON_TABLE(c.payload_json, '$.activities[*]' COLUMNS (
+                    activity_code VARCHAR(100) CHARACTER SET ascii COLLATE ascii_bin PATH '$.activity_id',
+                    body JSON PATH '$' ERROR ON ERROR
+                )) expected
+                LEFT JOIN exploration_activity a ON a.catalog_id = c.id AND a.activity_code = expected.activity_code
+                CROSS JOIN (
+                    SELECT COUNT(*) AS actual_count FROM exploration_activity WHERE catalog_id = ?
+                ) totals
+                WHERE c.id = ? AND SHA2(CAST(c.payload_json AS BINARY), 256) = ?
+                ORDER BY expected.activity_code
+                """, catalogId, catalogId, root.get("body_fingerprint"));
+    }
+
+    private boolean bodyMatches(Map<String, Object> row) {
+        Object match = row.get("body_matches");
+        return Boolean.TRUE.equals(match) || match instanceof Number number && number.intValue() == 1;
     }
 
     private List<Long> catalogApprovals(Map<String,Object> root) {

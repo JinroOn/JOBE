@@ -315,6 +315,27 @@ class ActivityRecommendationApiTest extends CompletedExplorationTestSupport {
         assertThat(activities(rid, 503).path("code").asText()).isEqualTo("CATALOG_INTEGRITY_ERROR");
         assertThat(getJson("/" + sid + "/result", owner, 503).path("code").asText()).isEqualTo("CATALOG_INTEGRITY_ERROR");
     }
+    @Test void catalogRejectsRowsAddedOrReplacedOutsideTheSealedBody() throws Exception {
+        long result = completedResult(true);
+        load(item("A", major(result, 0)));
+        approveAll();
+
+        jdbc.update("""
+                INSERT INTO exploration_activity (catalog_id, activity_code, version, major_code, content_hash,
+                       payload_json, content_status, implementation_review_status, domain_review_status)
+                SELECT catalog_id, 'EXTRA', version, major_code, content_hash, payload_json,
+                       content_status, implementation_review_status, domain_review_status
+                FROM exploration_activity WHERE catalog_id=? AND activity_code='A'
+                """, catalogId());
+        assertThat(activities(result, 503).path("code").asText()).isEqualTo("CATALOG_INTEGRITY_ERROR");
+
+        jdbc.update("DELETE FROM exploration_activity WHERE catalog_id=? AND activity_code='EXTRA'", catalogId());
+        // Replace the catalog entry without orphaning the review history tied to its row ID.
+        jdbc.update("UPDATE exploration_activity SET activity_code='REPLACEMENT' WHERE catalog_id=? AND activity_code='A'",
+                catalogId());
+        assertThat(activities(result, 503).path("code").asText()).isEqualTo("CATALOG_INTEGRITY_ERROR");
+    }
+
     @Test void mismatchedMajorMappingVersionReturnsUnavailable()throws Exception {
         long rid=completedResult(true);load(item("A",major(rid,0)));approveAll();
         // A legitimately versioned catalog for another mapping is unavailable to this old result.
