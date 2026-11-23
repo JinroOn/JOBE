@@ -21,7 +21,7 @@ Spring Boot API, 전공 탐색 진단 엔진, 데이터 카탈로그, AI 서비�
 ## 구성
 
 ```mermaid
-flowchart LR
+flowchart TB
     FE["JOFE<br/>React"] -- "REST /api" --> APP["app<br/>Spring Boot :8080"]
     APP --> MYSQL[("mysql<br/>MySQL 8")]
     APP -- "내부 토큰" --> AI["ai-service<br/>FastAPI :8001"]
